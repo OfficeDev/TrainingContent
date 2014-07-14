@@ -6,14 +6,14 @@ In this exercise you obtain trial subscriptions to Office 365 and Azure. If you 
 
 1. Sign up for an Office 365 developer subscription.
   1. Navigate to the [Office Dev Center](http://msdn.microsoft.com/en-us/library/office/fp179924(v=office.15).aspx)
-  2. Under the heading **Sign up for an Office 365 Developer Site** click **Try It Free**.
+  2. Under the heading **Sign up for an Office 365 Developer Site** click **Try It Free**.<br/>
      ![](Images/1.png?raw=true "Figure 1")
   3. Fill out the form to obtain your trial O365 subscription.
   4. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
 2. Sign up for an Azure trial subscription
   1. Navigate to the [Azure Portal](https://manage.windowsazure.com)
   2. If prompted, log in using the credentials you created for your O365 subscription.
-  3. After logging in, you should see a screen notifying you that you do not have a subscription
+  3. After logging in, you should see a screen notifying you that you do not have a subscription<br/>
      ![](Images/2.png?raw=true "Figure 2")
   4. Click Sign Up for Windows Azure.
   5. Fill out the form to obtain your free trial.
@@ -27,26 +27,26 @@ In this exercise you create a new provider-hosted app for your O365 subscription
   3. In the New Project dialog:
     1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
     2. Click **App for SharePoint 2013**.
-    3. Name the new project **AzureCloudApp** and click **OK**.
+    3. Name the new project **AzureCloudApp** and click **OK**.<br/>
        ![](Images/3.png?raw=true "Figure 3")
   4. In the New App for SharePoint wizard:
     1. Enter the address of a SharePoint site to use for testing the app (***NOTE:*** The targeted site must be based on a Developer Site template)
     2. Select **Provider-Hosted** as the hosting model.
-    3. Click **Next**.
+    3. Click **Next**.<br/>
        ![](Images/4.png?raw=true "Figure 4")
     4. Select **ASP.NET MVC Web Application**.
-    5. Click **Next**.
+    5. Click **Next**.<br/>
        ![](Images/5.png?raw=true "Figure 5")
     6. Select the option labeled **Use Windows Azure Access Control Service (for SharePoint cloud apps)**.
-    7. Click **Finish**.
+    7. Click **Finish**.<br/>
        ![](Images/6.png?raw=true "Figure 6")
     8. When prompted, log in using your O365 administrator credentials.
 2. Test your app
   1. Press F5 to begin debugging.
   2. When prompted, log in using your O365 administrator credentials.
-  3. When prompted, click **Trust it**.
+  3. When prompted, click **Trust it**.<br/>
        ![](Images/7.png?raw=true "Figure 7")
-  4. Verify that the app home page shows and that it properly welcomes you by name.
+  4. Verify that the app home page shows and that it properly welcomes you by name.<br/>
        ![](Images/8.png?raw=true "Figure 8")
  
 ## Exercise 3: Access a Database using MVC5
@@ -56,21 +56,21 @@ In this exercise, you will add additional functionality to the app to read data 
   1. Log into the [Azure Portal](https://manage.windowsazure.com) as an administrator.
   2. Click **Web Sites**.
   3. Click **New**.
-  4. Click **Custom Create**.
+  4. Click **Custom Create**.<br/>
        ![](Images/18.png?raw=true "Figure 9")
   5. Enter a URL for the application. (**NOTE:** URLs must be globally unique, so you will have to choose one not used by another.)
   6. Select **Create New Web Hosting Plan**.
   7. Select an appropriate Region.
   8. Select Create a free 20MB SQL Database.
   10. Name the database connection string **AzureCloudData**.
-  11. Click the Right Arrow.
+  11. Click the Right Arrow.<br/>
        ![](Images/19.png?raw=true "Figure 10")
   13. In the **Specify Database Settings**, name the new database **AzureCloudData**.
     1. Select **New SQL database server**.
     2. Name the administrator **AzureCloudAdmin** and enter a password.
     3. Write down the credentials for later!
     4. Pick an appropriate Region.
-    5. Click the checkmark.
+    5. Click the checkmark.<br/>
        ![](Images/20.png?raw=true "Figure 11")
 2. Upload test data to SQL Azure:
   1. In the Azure portal, click **SQL database**.
@@ -116,7 +116,7 @@ In this exercise, you will add additional functionality to the app to read data 
 3. Update the Entity Framework package in Visual Studio.
   1. Right click the **AzureCloudAppWeb** project and select **Manage NuGet Packages**.
   2. Type **Entity Framework** in the search box.
-  3. Click the **Install** button for Entity Framework version 6.
+  3. Click the **Install** button for Entity Framework version 6.<br/>
        ![](Images/9.png?raw=true "Figure 12")
   4. After the package is installed, click **Close**.
 4. Add an Entity Framework model.
@@ -125,7 +125,7 @@ In this exercise, you will add additional functionality to the app to read data 
   3. In the New Item dialog:
     1. Select **Visual C#/Data/ASP.NET Entity Data Model**.
     2. Name the new model **AzureCloudDataModel.edmx**.
-    3. Click **Add**.
+    3. Click **Add**.<br/>
          ![](Images/10.png?raw=true "Figure 13")
   4. In the Entity Data Model wizard:
     1. Click **EF Designer from Database**.
