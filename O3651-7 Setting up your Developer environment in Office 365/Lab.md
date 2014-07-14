@@ -22,7 +22,7 @@ In this exercise you obtain trial subscriptions to Office 365 and Azure. If you 
 In this exercise you create a new provider-hosted app for your O365 subscription.
 
 1. Create the new solution in Visual Studio 2013:
-  1. Launch **Visual Studio 2013** as administrator: 
+  1. Launch **Visual Studio 2013** as administrator. 
   2. In Visual Studio select **File/New/Project**.
   3. In the New Project dialog:
     1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
@@ -117,7 +117,7 @@ In this exercise, you will add additional functionality to the app to read data 
   1. Right click the **AzureCloudAppWeb** project and select **Manage NuGet Packages**.
   2. Type **Entity Framework** in the search box.
   3. Click the **Install** button for Entity Framework version 6.
-     ![](Images/9.png?raw=true "Figure 12")
+       ![](Images/9.png?raw=true "Figure 12")
   4. After the package is installed, click **Close**.
 4. Add an Entity Framework model.
   1. In the **Solution Explorer**, right-click the **Models** folder in the **AzureCloudAppWeb** project.
@@ -126,11 +126,11 @@ In this exercise, you will add additional functionality to the app to read data 
     1. Select **Visual C#/Data/ASP.NET Entity Data Model**.
     2. Name the new model **AzureCloudDataModel.edmx**.
     3. Click **Add**.
-       ![](Images/10.png?raw=true "Figure 13")
+         ![](Images/10.png?raw=true "Figure 13")
   4. In the Entity Data Model wizard:
     1. Click **EF Designer from Database**.
     2. Click **Next**.
-       ![](Images/11.png?raw=true "Figure 14")
+         ![](Images/11.png?raw=true "Figure 14")
     3. Click **New Connection**.
     4. In the Connection Properties dialog:
       1. Enter the database server information you obtained earlier into the **Server Name** field.
@@ -142,18 +142,18 @@ In this exercise, you will add additional functionality to the app to read data 
     5. Select **Yes, include the sensitive data in the connection string**.
     6. Click **Next**.
     7. Check **Tables**.
-       ![](Images/12.png?raw=true "Figure 15")
+         ![](Images/12.png?raw=true "Figure 15")
     8. Click **Finish**.
 5. Add a controller.
   1. **Build** the AzureCloudAppWeb project.
   2. Right-click the Controllers folder and select **Add/Controller**.
     1. Select **MVC5 Controller with views using Entity Framework**.
     2. Click **Add**.
-       ![](Images/14.png?raw=true "Figure 16")
+         ![](Images/14.png?raw=true "Figure 16")
     3. Select **Customer** as the Model Class. 
     4. Select **AzureCloudDataEntities** as the Data Context Class.
     5. Click **Add**.
-       ![](Images/15.png?raw=true "Figure 17")
+         ![](Images/15.png?raw=true "Figure 17")
 6. Update the App Manifest
   1. In the **AzureCloudApp** project, double-click the **AppManifest.xml** file.
   2. Update the Start Page to be **AzureCloudAppAWeb/Customers**.
