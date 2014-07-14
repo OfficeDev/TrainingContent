@@ -212,5 +212,5 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   2. Verify that data from the SQL Azure database appears in the app.
   3. Manually remove /Customers from the URL in the browser. This should navigate you to the home page where you should be welcomed validating that the app communicates with SharePoint.
 
-Congratulations! You have completed building a provider-hosted app using Office 365 and Azure.
+>  Congratulations! You have completed building a provider-hosted app using Office 365 and Azure.
 
