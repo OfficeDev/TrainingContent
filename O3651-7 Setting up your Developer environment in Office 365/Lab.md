@@ -6,14 +6,14 @@ In this exercise you obtain trial subscriptions to Office 365 and Azure. If you 
 1. Sign up for an Office 365 developer subscription.
   1. Navigate to the [Office Dev Center](http://msdn.microsoft.com/en-us/library/office/fp179924(v=office.15).aspx)
   2. Under the heading **Sign up for an Office 365 Developer Site** click **Try It Free**.
-     ![Try It Free](https://raw.githubusercontent.com/OfficeDev/TrainingContent/Dev/O3651-7%20Setting%20up%20your%20Developer%20environment%20in%20Office%20365/Images/1.png "Try It Free")
+     ![](/Images/1.png?raw=true "Figure 1")
   3. Fill out the form to obtain your trial O365 subscription.
   4. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
 2. Sign up for an Azure trial subscription
   1. Navigate to the [Azure Portal](https://manage.windowsazure.com)
   2. If prompted, log in using the credentials you created for your O365 subscription.
   3. After logging in, you should see a screen notifying you that you do not have a subscription
-     ![Sign Up for Windows Azure](https://raw.githubusercontent.com/OfficeDev/TrainingContent/Dev/O3651-7%20Setting%20up%20your%20Developer%20environment%20in%20Office%20365/Images/2.png "Sign Up for Windows Azure")
+     ![](/Images/2.png?raw=true "Figure 2")
   4. Click Sign Up for Windows Azure.
   5. Fill out the form to obtain your free trial.
 ## Exercise 2: Create a Provider-Hosted App 
