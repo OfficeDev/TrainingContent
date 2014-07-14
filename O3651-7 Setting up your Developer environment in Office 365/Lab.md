@@ -1,5 +1,6 @@
 # Setting up your Development Environment in Office 365
 In this lab, you will create a cloud development environment and build a cloud-hosted app.
+
 ## Exercise 1: Obtain Office 365 and Azure subscriptions 
 In this exercise you obtain trial subscriptions to Office 365 and Azure. If you already have these subscriptions, you can skip this exercise.
 
@@ -16,31 +17,38 @@ In this exercise you obtain trial subscriptions to Office 365 and Azure. If you 
      ![](Images/2.png?raw=true "Figure 2")
   4. Click Sign Up for Windows Azure.
   5. Fill out the form to obtain your free trial.
+
 ## Exercise 2: Create a Provider-Hosted App 
 In this exercise you create a new provider-hosted app for your O365 subscription.
+
 1. Create the new solution in Visual Studio 2013:
-  1. Launch Visual Studio 2013 as administrator: 
-    1. Windows Keyboard Key ? Right click on the Visual Studio 2013 tile and select Run as administrator.
-  2. In Visual Studio select File ? New ? Project.
+  1. Launch **Visual Studio 2013** as administrator: 
+  2. In Visual Studio select **File/New/Project**.
   3. In the New Project dialog:
-    1. Select Templates ? Visual C# ?Office/SharePoint? Apps.
-    2. Click App for SharePoint 2013.
-    3. Name the new project AzurePHA and click OK. 
+    1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
+    2. Click **App for SharePoint 2013**.
+    3. Name the new project **AzurePHA** and click **OK**.
+       ![](Images/3.png?raw=true "Figure 3")
   4. In the New App for SharePoint wizard:
     1. Enter the address of a SharePoint site to use for testing the app
-** NOTE: The targeted site must be based on a Developer Site template **
-    2. Select Provider-Hosted as the hosting model.
-    3. Click Next.
-    4. Select ASP.NET MVC Web Application.
-    5. Click Next.
-    6. Select the option labeled Use Windows Azure Access Control Service (for SharePoint cloud apps).
-    7. Click Finish.
+> NOTE: The targeted site must be based on a Developer Site template 
+    2. Select **Provider-Hosted** as the hosting model.
+    3. Click **Next**.
+       ![](Images/4.png?raw=true "Figure 4")
+    4. Select **ASP.NET MVC Web Application**.
+    5. Click **Next**.
+       ![](Images/5.png?raw=true "Figure 5")
+    6. Select the option labeled **Use Windows Azure Access Control Service (for SharePoint cloud apps)**.
+    7. Click **Finish**.
+       ![](Images/6.png?raw=true "Figure 6")
     8. When prompted, log in using your O365 administrator credentials.
 2. Test your app
   1. Press F5 to begin debugging.
   2. When prompted, log in using your O365 administrator credentials.
-  3. When prompted, click Trust it.
+  3. When prompted, click **Trust it**.
+       ![](Images/7.png?raw=true "Figure 7")
   4. Verify that the app home page shows and that it properly welcomes you by name.
+       ![](Images/8.png?raw=true "Figure 8")
  
 ## Exercise 3: Access a Database using MVC5
 In this exercise, you will add additional functionality to the app to read data from the Wingtip CRM database, which was set up in previous labs.
