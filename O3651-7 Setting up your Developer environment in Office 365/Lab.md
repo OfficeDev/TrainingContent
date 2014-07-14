@@ -64,20 +64,21 @@ In this exercise, you will add additional functionality to the app to read data 
   8. Select Create a free 20MB SQL Database.
   10. Name the database connection string **AzureCloudData**.
   11. Click the Right Arrow.
-       ![](Images/18.png?raw=true "Figure 9")
+       ![](Images/19.png?raw=true "Figure 10")
   12. In the Specify Database Settings
-  13. Name the new database **AzureCRM**.
+  13. Name the new database **AzureCloudData**.
     1. Select **New SQL database server**.
-    2. Name the administrator **AzurePHAAdmin** and enter a password.
+    2. Name the administrator **AzureCloudAdmin** and enter a password.
     3. Write down the credentials for later!
     4. Pick an appropriate Region.
-    5. Click the checkmark. 
+    5. Click the checkmark.
+       ![](Images/20.png?raw=true "Figure 11")
 2. Upload test data to SQL Azure:
   1. In the Azure portal, click **SQL database**.
-  2. Click **AzureCRM**.
+  2. Click **AzureCloudData**.
   3. Click **Run Transact SQL Queries Against Your Database**.
   4. When prompted to add a firewall rule, click **Yes**.
-  5. When prompted, select to manage the **AzureCRM** database.
+  5. When prompted, select to manage the **AzureCloudData** database.
   6. Log in to the database server using the credentials you created earlier.
   7. Paste the contents of the following script into the query window.  
      ```
