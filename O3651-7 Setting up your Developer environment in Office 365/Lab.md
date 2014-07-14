@@ -78,38 +78,38 @@ In this exercise, you will add additional functionality to the app to read data 
   5. When prompted, select to manage the **AzureCRM** database.
   6. Log in to the database server using the credentials you created earlier.
   7. Paste the contents of the following script into the query window.  
-```
-CREATE TABLE [dbo].[Customers](
- [ID] [int] IDENTITY(1,1) NOT NULL,
- [FirstName] [nvarchar](100) NOT NULL,
- [LastName] [nvarchar](100) NOT NULL,
- [Company] [nvarchar](100) NULL,
- [WorkPhone] [nvarchar](100) NULL,
- [HomePhone] [nvarchar](100) NULL,
- [EmailAddress] [nvarchar](100) NULL,
- CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ([ID] ASC))
-
-GO
-
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Quincy', 'Nelson', 'Benthic Petroleum', '1(340)608-7748', '1(340)517-3737', 'Quincy.Nelson@BenthicPetroleum.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Jude', 'Mason', 'Cyberdyne Systems', '1(203)408-0466', '1(203)411-0071', 'Jude.Mason@CyberdyneSystems.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Sid', 'Stout', 'Roxxon', '1(518)258-6571', '1(518)376-8576', 'Sid.Stout@Roxxon.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Gilberto', 'Gillespie', 'Shinra Electric Power Company', '1(270)510-1720', '1(270)755-7810', 'Gilberto.Gillespie@ShinraElectricPowerCompany.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Diane', 'Strickland', 'Izon', '1(407)413-4851', '1(407)523-5411', 'Diane.Strickland@Izon.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Jacqueline', 'Zimmerman', 'Zorg Industries', '1(844)234-0550', '1(844)764-3522', 'Jacqueline.Zimmerman@ZorgIndustries.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Naomi', 'Schroeder', 'ComTron', '1(204)355-6648', '1(204)356-2831', 'Naomi.Schroeder@ComTron.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Lynne', 'Stephens', 'Trade Federation', '1(407)787-7308', '1(407)732-1700', 'Lynne.Stephens@TradeFederation.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Luther', 'Sullivan', 'Metacortex', '1(323)755-3404', '1(323)684-7814', 'Luther.Sullivan@Metacortex.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Rose', 'Parsons', 'Hanso Foundation', '1(802)357-5583', '1(802)727-0246', 'Rose.Parsons@HansoFoundation.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Bridgette', 'Meadows', 'Brown Streak Railroad', '1(250)468-4824', '1(250)403-3653', 'Bridgette.Meadows@BrownStreakRailroad.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Merle', 'Black', 'Volée Airlines', '1(248)240-1267', '1(248)221-0302', 'Merle.Black@VoléeAirlines.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Berta', 'Wilkinson', 'Doublemeat Palace', '1(270)830-5347', '1(270)338-3401', 'Berta.Wilkinson@DoublemeatPalace.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Brandi', 'Bates', 'Duff Beer', '1(808)660-1110', '1(808)833-4310', 'Brandi.Bates@DuffBeer.com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Ana', 'Mathews', 'WarioWare, Inc.', '1(844)663-5428', '1(844)782-2117', 'Ana.Mathews@WarioWare,Inc..com') 
-INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Chet', 'Lawson', 'The Crab Shack', '1(340)843-4478', '1(340)523-1010', 'Chet.Lawson@TheCrabShack.com') 
-
-GO
-```
+     ```
+     CREATE TABLE [dbo].[Customers](
+      [ID] [int] IDENTITY(1,1) NOT NULL,
+      [FirstName] [nvarchar](100) NOT NULL,
+      [LastName] [nvarchar](100) NOT NULL,
+      [Company] [nvarchar](100) NULL,
+      [WorkPhone] [nvarchar](100) NULL,
+      [HomePhone] [nvarchar](100) NULL,
+      [EmailAddress] [nvarchar](100) NULL,
+      CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ([ID] ASC))
+     
+     GO
+     
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Gordon', 'Hee', 'Adventure Works Cycles', '1(340)555-7748', '1(340)555-3737', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Michael', 'Allen', 'Blue Yonder Airlines', '1(203)555-0466', '1(203)555-0071', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('James', 'Alvord', 'City Power and Light', '1(518)555-6571', '1(518)555-8576', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Jeff', 'Phillips', 'Coho Vineyard', '1(270)555-1720', '1(270)555-7810', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Stefen', 'Hessee', 'Contoso, Ltd', '1(407)555-4851', '1(407)555-5411', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Christian', 'Hess', 'Fabrikam, Inc', '1(844)555-0550', '1(844)555-3522', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Cassie', 'Hicks', 'Fourth Coffee', '1(204)555-6648', '1(204)555-2831', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Chris', 'Preston', 'Litware, Inc', '1(407)555-7308', '1(407)555-1700', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Diane', 'Prescott', 'Lucerne Publishing', '1(323)555-3404', '1(323)555-7814', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Michael', 'Hillsdale', 'Margie's Travel', '1(802)555-5583', '1(802)555-0246', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Ran', 'Yossi', 'Northwind Traders', '1(250)555-4824', '1(250)555-3653', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Arlene', 'Huff', 'Proseware, Inc', '1(248)555-1267', '1(248)555-0302', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Julia', 'Isla', 'School of Fine Art', '1(270)555-5347', '1(270)555-3401', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Rodrigo', 'Ready', 'Southridge Video', '1(808)555-1110', '1(808)555-4310', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Shu', 'Ito', 'Trey Research', '1(844)555-5428', '1(844)555-2117', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('David', 'Jaffe', 'Wingtip Toys', '1(340)555-4478', '1(340)555-1010', 'someone@example.com') 
+     
+     GO
+     ```
   8. Click **Run**.
 3. Update the Entity Framework package.
   1. Right click the **AzurePHAWeb** project and select **Manage NuGet Packages**.
