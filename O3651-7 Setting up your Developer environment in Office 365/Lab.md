@@ -208,6 +208,9 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   5. Click the app installer.
   6. When prompted, click Trust It.
 8. Test the App
+```
+> Comment
+```
   1. Use the tile to launch the app.
   2. Verify that data from the SQL Azure database appears in the app.
   3. Manually remove /Customers from the URL in the browser. This should navigate you to the home page where you should be welcomed validating that the app communicates with SharePoint.
