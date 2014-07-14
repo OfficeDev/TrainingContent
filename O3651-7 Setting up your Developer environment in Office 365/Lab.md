@@ -34,6 +34,7 @@ In this exercise you create a new provider-hosted app for your O365 subscription
 
 > NOTE: The targeted site must be based on a Developer Site template
 
+
     2. Select **Provider-Hosted** as the hosting model.
     3. Click **Next**.
        ![](Images/4.png?raw=true "Figure 4")
