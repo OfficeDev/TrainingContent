@@ -65,8 +65,7 @@ In this exercise, you will add additional functionality to the app to read data 
   10. Name the database connection string **AzureCloudData**.
   11. Click the Right Arrow.
        ![](Images/19.png?raw=true "Figure 10")
-  12. In the Specify Database Settings
-  13. Name the new database **AzureCloudData**.
+  13. In the **Specify Database Settings**, name the new database **AzureCloudData**.
     1. Select **New SQL database server**.
     2. Name the administrator **AzureCloudAdmin** and enter a password.
     3. Write down the credentials for later!
@@ -77,8 +76,8 @@ In this exercise, you will add additional functionality to the app to read data 
   1. In the Azure portal, click **SQL database**.
   2. Click **AzureCloudData**.
   3. Click **Run Transact SQL Queries Against Your Database**.
-  4. When prompted to add a firewall rule, click **Yes**.
-  5. When prompted, select to manage the **AzureCloudData** database.
+  4. If prompted to add a firewall rule, click **Yes**.
+  5. If prompted, select to manage the **AzureCloudData** database.
   6. Log in to the database server using the credentials you created earlier.
   7. Paste the contents of the following script into the query window.  
      ```
@@ -103,7 +102,7 @@ In this exercise, you will add additional functionality to the app to read data 
      INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Cassie', 'Hicks', 'Fourth Coffee', '1(204)555-6648', '1(204)555-2831', 'someone@example.com') 
      INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Chris', 'Preston', 'Litware, Inc', '1(407)555-7308', '1(407)555-1700', 'someone@example.com') 
      INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Diane', 'Prescott', 'Lucerne Publishing', '1(323)555-3404', '1(323)555-7814', 'someone@example.com') 
-     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Michael', 'Hillsdale', 'Margie's Travel', '1(802)555-5583', '1(802)555-0246', 'someone@example.com') 
+     INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Michael', 'Hillsdale', 'Margie Travel', '1(802)555-5583', '1(802)555-0246', 'someone@example.com') 
      INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Ran', 'Yossi', 'Northwind Traders', '1(250)555-4824', '1(250)555-3653', 'someone@example.com') 
      INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Arlene', 'Huff', 'Proseware, Inc', '1(248)555-1267', '1(248)555-0302', 'someone@example.com') 
      INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Julia', 'Isla', 'School of Fine Art', '1(270)555-5347', '1(270)555-3401', 'someone@example.com') 
@@ -114,7 +113,7 @@ In this exercise, you will add additional functionality to the app to read data 
      GO
      ```
   8. Click **Run**.
-3. Update the Entity Framework package.
+3. Update the Entity Framework package in Visual Studio.
   1. Right click the **AzurePHAWeb** project and select **Manage NuGet Packages**.
   2. Type **Entity Framework** in the search box.
   3. Click the **Install** button for Entity Framework version 6.
