@@ -62,8 +62,9 @@ In this exercise, you will add additional functionality to the app to read data 
   6. Select **Create New Web Hosting Plan**.
   7. Select an appropriate Region.
   8. Select Create a free 20MB SQL Database.
-  10. Name the database connection string **AzurePHA**.
+  10. Name the database connection string **AzureCloudData**.
   11. Click the Right Arrow.
+       ![](Images/18.png?raw=true "Figure 9")
   12. In the Specify Database Settings
   13. Name the new database **AzureCRM**.
     1. Select **New SQL database server**.
