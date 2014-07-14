@@ -117,7 +117,7 @@ In this exercise, you will add additional functionality to the app to read data 
   1. Right click the **AzureCloudAppWeb** project and select **Manage NuGet Packages**.
   2. Type **Entity Framework** in the search box.
   3. Click the **Install** button for Entity Framework version 6.
-       ![](Images/9.png?raw=true "Figure 12")
+     ![](Images/9.png?raw=true "Figure 12")
   4. After the package is installed, click **Close**.
 4. Add an Entity Framework model.
   1. In the **Solution Explorer**, right-click the **Models** folder in the **AzureCloudAppWeb** project.
@@ -147,18 +147,20 @@ In this exercise, you will add additional functionality to the app to read data 
 5. Add a controller.
   1. **Build** the AzureCloudAppWeb project.
   2. Right-click the Controllers folder and select **Add/Controller**.
-    1. Select MVC5 Controller with views using Entity Framework.
-    2. Click Add.
-    3. Select Customer as the Model Class. 
-    4. Select WingtipCRMEntities as the Data Context Class.
-    5. Click Add.
+    1. Select **MVC5 Controller with views using Entity Framework**.
+    2. Click **Add**.
+       ![](Images/14.png?raw=true "Figure 16")
+    3. Select **Customer** as the Model Class. 
+    4. Select **AzureCloudDataEntities** as the Data Context Class.
+    5. Click **Add**.
+       ![](Images/15.png?raw=true "Figure 17")
 6. Update the App Manifest
-  1. In the AzurePHA project, double-click the AppManifest.xml file.
-  2. Update the Start Page to be AzurePHAWeb/Customers.
+  1. In the **AzureCloudApp** project, double-click the **AppManifest.xml** file.
+  2. Update the Start Page to be **AzureCloudAppAWeb/Customers**.
 7. Test your app
-  1. Press F5 to begin debugging.
+  1. Press **F5** to begin debugging.
   2. When prompted, log in using your O365 administrator credentials.
-  3. When prompted, click Trust it.
+  3. When prompted, click **Trust it**.
   4. Verify that the customer data appears in the app.
 
 ## Exercise 4: Deploy the App to Production
