@@ -129,7 +129,7 @@ In this exercise, you will add additional functionality to the app to read data 
          ![](Images/10.png?raw=true "Figure 13")
   4. In the Entity Data Model wizard:
     1. Click **EF Designer from Database**.
-    2. Click **Next**.
+    2. Click **Next**.<br/>
          ![](Images/11.png?raw=true "Figure 14")
     3. Click **New Connection**.
     4. In the Connection Properties dialog:
@@ -141,18 +141,18 @@ In this exercise, you will add additional functionality to the app to read data 
       6. Click **OK**.
     5. Select **Yes, include the sensitive data in the connection string**.
     6. Click **Next**.
-    7. Check **Tables**.
+    7. Check **Tables**.<br/>
          ![](Images/12.png?raw=true "Figure 15")
     8. Click **Finish**.
 5. Add a controller.
   1. **Build** the AzureCloudAppWeb project.
   2. Right-click the Controllers folder and select **Add/Controller**.
     1. Select **MVC5 Controller with views using Entity Framework**.
-    2. Click **Add**.
+    2. Click **Add**.<br/>
          ![](Images/14.png?raw=true "Figure 16")
     3. Select **Customer** as the Model Class. 
     4. Select **AzureCloudDataEntities** as the Data Context Class.
-    5. Click **Add**.
+    5. Click **Add**.<br/>
          ![](Images/15.png?raw=true "Figure 17")
 6. Update the App Manifest
   1. In the **AzureCloudApp** project, double-click the **AppManifest.xml** file.
