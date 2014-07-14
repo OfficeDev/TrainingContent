@@ -74,7 +74,7 @@ In this exercise, you will add additional functionality to the app to read data 
        ![](Images/20.png?raw=true "Figure 11")
 2. Upload test data to SQL Azure:
   1. In the Azure portal, click **SQL database**.
-  2. Click **AzureCloudData**.
+  2. Click **AzureCloudData** and copy down your database server information.
   3. Click **Run Transact SQL Queries Against Your Database**.
   4. If prompted to add a firewall rule, click **Yes**.
   5. If prompted, select to manage the **AzureCloudData** database.
@@ -114,32 +114,38 @@ In this exercise, you will add additional functionality to the app to read data 
      ```
   8. Click **Run**.
 3. Update the Entity Framework package in Visual Studio.
-  1. Right click the **AzurePHAWeb** project and select **Manage NuGet Packages**.
+  1. Right click the **AzureCloudAppWeb** project and select **Manage NuGet Packages**.
   2. Type **Entity Framework** in the search box.
   3. Click the **Install** button for Entity Framework version 6.
-       ![](Images/9.png?raw=true "Figure 9")
+       ![](Images/9.png?raw=true "Figure 12")
   4. After the package is installed, click **Close**.
 4. Add an Entity Framework model.
-  1. In the **Solution Explorer**, right-click the **Models** folder in the **AzurePHAWeb** project.
+  1. In the **Solution Explorer**, right-click the **Models** folder in the **AzureCloudAppWeb** project.
   2. Select **Add/New Item** from the context menu.
   3. In the New Item dialog:
     1. Select **Visual C#/Data/ASP.NET Entity Data Model**.
-    2. Name the new model **WingtipCRMModel.edmx**.
+    2. Name the new model **AzureCloudDataModel.edmx**.
     3. Click **Add**.
+       ![](Images/10.png?raw=true "Figure 13")
   4. In the Entity Data Model wizard:
     1. Click **EF Designer from Database**.
     2. Click **Next**.
+       ![](Images/11.png?raw=true "Figure 14")
     3. Click **New Connection**.
     4. In the Connection Properties dialog:
-      1. Enter (local) in the Server Name field.
-      2. Enter WingtipCRM in the Database Name field.
-      3. Click Test Connection.
-      4. Click OK.
-      5. Click Next.
-      6. Check Tables.
-      7. Click Finish.
+      1. Enter the database server information you obtained earlier into the **Server Name** field.
+      2. Select **Use SQL Authentication**.
+      3. Enter the Administrator credentials for your database server.
+      4. Select **AzureCloudData** as the database.
+      5. Click **Test Connection**.
+      6. Click **OK**.
+    5. Select **Yes, include the sensitive data in the connection string**.
+    6. Click **Next**.
+    7. Check **Tables**.
+       ![](Images/12.png?raw=true "Figure 15")
+    8. Click **Finish**.
 5. Add a controller.
-  1. Build the AzurePHAWeb project.
+  1. **Build** the AzureCloudAppWeb project.
   2. Right-click the Controllers folder and select **Add/Controller**.
     1. Select MVC5 Controller with views using Entity Framework.
     2. Click Add.
