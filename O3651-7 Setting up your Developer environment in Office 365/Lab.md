@@ -228,5 +228,5 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   1. Use the tile to launch the app.
   2. Verify that data from the SQL Azure database appears in the app.
 
-** Congratulations! You have completed building a provider-hosted app using Office 365 and Azure. **
+**Congratulations! You have completed building a provider-hosted app using Office 365 and Azure.**
 
