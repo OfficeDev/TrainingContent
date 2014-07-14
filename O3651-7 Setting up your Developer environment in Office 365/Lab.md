@@ -50,23 +50,84 @@ In this exercise you create a new provider-hosted app for your O365 subscription
        ![](Images/8.png?raw=true "Figure 8")
  
 ## Exercise 3: Access a Database using MVC5
-In this exercise, you will add additional functionality to the app to read data from the Wingtip CRM database, which was set up in previous labs.
-1. Update the Entity Framework package.
-  1. Right click the AzurePHAWeb project and select Manage NuGet Packages.
-  2. Type Entity Framework in the search box.
-  3. Click the Install button for Entity Framework version 6.
-  4. After the package is installed, click Close.
-2. Add an Entity Framework model.
-  1. In the Solution Explorer, right-click the Models folder in the AzurePHAWeb project.
-  2. Select Add ? New Item from the context menu.
+In this exercise, you will add additional functionality to the app to read data from a SQL Azure database.
+
+1. Create a Web Site and SQL Azure database
+  1. Log into the [Azure Portal](https://manage.windowsazure.com) as an administrator.
+  2. Click **Web Sites**.
+  3. Click **New**.
+  4. Click **Custom Create**.
+  5. Enter a URL for the application. (**NOTE:** URLs must be globally unique, so you will have to choose one not used by another.)
+  6. Select **Create New Web Hosting Plan**.
+  7. Select an appropriate Region.
+  8. Select Create a free 20MB SQL Database.
+  10. Name the database connection string **AzurePHA**.
+  11. Click the Right Arrow.
+  12. In the Specify Database Settings
+  13. Name the new database **AzureCRM**.
+    1. Select **New SQL database server**.
+    2. Name the administrator **AzurePHAAdmin** and enter a password.
+    3. Write down the credentials for later!
+    4. Pick an appropriate Region.
+    5. Click the checkmark. 
+2. Upload test data to SQL Azure:
+  1. In the Azure portal, click **SQL database**.
+  2. Click **AzureCRM**.
+  3. Click **Run Transact SQL Queries Against Your Database**.
+  4. When prompted to add a firewall rule, click **Yes**.
+  5. When prompted, select to manage the **AzureCRM** database.
+  6. Log in to the database server using the credentials you created earlier.
+  7. Paste the contents of the following script into the query window.  
+```
+CREATE TABLE [dbo].[Customers](
+ [ID] [int] IDENTITY(1,1) NOT NULL,
+ [FirstName] [nvarchar](100) NOT NULL,
+ [LastName] [nvarchar](100) NOT NULL,
+ [Company] [nvarchar](100) NULL,
+ [WorkPhone] [nvarchar](100) NULL,
+ [HomePhone] [nvarchar](100) NULL,
+ [EmailAddress] [nvarchar](100) NULL,
+ CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ([ID] ASC))
+
+GO
+
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Quincy', 'Nelson', 'Benthic Petroleum', '1(340)608-7748', '1(340)517-3737', 'Quincy.Nelson@BenthicPetroleum.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Jude', 'Mason', 'Cyberdyne Systems', '1(203)408-0466', '1(203)411-0071', 'Jude.Mason@CyberdyneSystems.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Sid', 'Stout', 'Roxxon', '1(518)258-6571', '1(518)376-8576', 'Sid.Stout@Roxxon.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Gilberto', 'Gillespie', 'Shinra Electric Power Company', '1(270)510-1720', '1(270)755-7810', 'Gilberto.Gillespie@ShinraElectricPowerCompany.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Diane', 'Strickland', 'Izon', '1(407)413-4851', '1(407)523-5411', 'Diane.Strickland@Izon.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Jacqueline', 'Zimmerman', 'Zorg Industries', '1(844)234-0550', '1(844)764-3522', 'Jacqueline.Zimmerman@ZorgIndustries.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Naomi', 'Schroeder', 'ComTron', '1(204)355-6648', '1(204)356-2831', 'Naomi.Schroeder@ComTron.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Lynne', 'Stephens', 'Trade Federation', '1(407)787-7308', '1(407)732-1700', 'Lynne.Stephens@TradeFederation.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Luther', 'Sullivan', 'Metacortex', '1(323)755-3404', '1(323)684-7814', 'Luther.Sullivan@Metacortex.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Rose', 'Parsons', 'Hanso Foundation', '1(802)357-5583', '1(802)727-0246', 'Rose.Parsons@HansoFoundation.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Bridgette', 'Meadows', 'Brown Streak Railroad', '1(250)468-4824', '1(250)403-3653', 'Bridgette.Meadows@BrownStreakRailroad.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Merle', 'Black', 'Volée Airlines', '1(248)240-1267', '1(248)221-0302', 'Merle.Black@VoléeAirlines.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Berta', 'Wilkinson', 'Doublemeat Palace', '1(270)830-5347', '1(270)338-3401', 'Berta.Wilkinson@DoublemeatPalace.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Brandi', 'Bates', 'Duff Beer', '1(808)660-1110', '1(808)833-4310', 'Brandi.Bates@DuffBeer.com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Ana', 'Mathews', 'WarioWare, Inc.', '1(844)663-5428', '1(844)782-2117', 'Ana.Mathews@WarioWare,Inc..com') 
+INSERT INTO Customers (FirstName, LastName, Company, WorkPhone, HomePhone, EmailAddress) Values('Chet', 'Lawson', 'The Crab Shack', '1(340)843-4478', '1(340)523-1010', 'Chet.Lawson@TheCrabShack.com') 
+
+GO
+```
+  8. Click **Run**.
+3. Update the Entity Framework package.
+  1. Right click the **AzurePHAWeb** project and select **Manage NuGet Packages**.
+  2. Type **Entity Framework** in the search box.
+  3. Click the **Install** button for Entity Framework version 6.
+       ![](Images/9.png?raw=true "Figure 9")
+  4. After the package is installed, click **Close**.
+4. Add an Entity Framework model.
+  1. In the **Solution Explorer**, right-click the **Models** folder in the **AzurePHAWeb** project.
+  2. Select **Add/New Item** from the context menu.
   3. In the New Item dialog:
-    1. Select Visual C# ? Data ? ASP.NET Entity Data Model.
-    2. Name the new model WingtipCRMModel.edmx.
-    3. Click Add.
+    1. Select **Visual C#/Data/ASP.NET Entity Data Model**.
+    2. Name the new model **WingtipCRMModel.edmx**.
+    3. Click **Add**.
   4. In the Entity Data Model wizard:
-    1. Click EF Designer from Database.
-    2. Click Next.
-    3. Click New Connection.
+    1. Click **EF Designer from Database**.
+    2. Click **Next**.
+    3. Click **New Connection**.
     4. In the Connection Properties dialog:
       1. Enter (local) in the Server Name field.
       2. Enter WingtipCRM in the Database Name field.
@@ -75,18 +136,18 @@ In this exercise, you will add additional functionality to the app to read data 
       5. Click Next.
       6. Check Tables.
       7. Click Finish.
-3. Add a controller.
+5. Add a controller.
   1. Build the AzurePHAWeb project.
-  2. Right-click the Controllers folder and select Add ? Controller.
+  2. Right-click the Controllers folder and select **Add/Controller**.
     1. Select MVC5 Controller with views using Entity Framework.
     2. Click Add.
     3. Select Customer as the Model Class. 
     4. Select WingtipCRMEntities as the Data Context Class.
     5. Click Add.
-4. Update the App Manifest
+6. Update the App Manifest
   1. In the AzurePHA project, double-click the AppManifest.xml file.
   2. Update the Start Page to be AzurePHAWeb/Customers.
-5. Test your app
+7. Test your app
   1. Press F5 to begin debugging.
   2. When prompted, log in using your O365 administrator credentials.
   3. When prompted, click Trust it.
@@ -95,42 +156,7 @@ In this exercise, you will add additional functionality to the app to read data 
 ## Exercise 4: Deploy the App to Production
 In this exercise, you will deploy the database and app to the O365/Azure environment.
 
-1. Create a Web Site and SQL Azure database
-  1. Log into https://manage.windowsazure.com as an administrator.
-  2. Click Web Sites.
-  3. Click New.
-  4. Click Custom Create.
-  5. Enter a URL for the application. (**NOTE:** URLs must be globally unique, so you will have to choose one not used by another.)
-  6. Select Create New Web Hosting Plan.
-  7. Select an appropriate Region.
-  8. Select Create a free 20MB SQL Database.
-  10. Name the database connection string AzurePHA.
-  11. Click the Right Arrow.
-  12. In the Specify Database Settings
-  13. Name the new database WingtipCRM.
-    1. Select New SQL database server.
-    2. Name the administrator AzurePHAAdmin and enter a password.
-    3. Write down the credentials for later!
-    4. Pick an appropriate Region.
-    5. Click the checkmark. 
-2. Upload test data to SQL Azure:
-  1. In the Azure portal, click SQL database.
-  2. Click WingtipCRM.
-  3. Click Run Transact SQl Queries Against Your Database.
-  4. When prompted to add a firewall rule, click Yes.
-  5. When prompted, select to manage the WingtipCRM database.
-  6. Log in to the database server using the credentials you created earlier.
-  7. Paste the contents of the script CreateAzureWingtipCrmDatabase.sql into the query window.
-  8. Click Run.
-3. Update the SQL Azure connection string in the provider-hosted app.
-  1. In the Azure portal, click SQL database.
-  2. Click WingtipCRM.
-  3. Click View SQL database connection strings.
-  4. Copy the ADO.NET connection string.
-  5. Open the web.config file for the AzurePHAWeb project.
-  6. Locate the part of the connection string surrounded by encoded quotes as shown:
-  7. Carefully replace the information between the encoded quotes with the connection string you obtained from the Azure portal. Be sure to update the string with your password as appropriate.
-4. Register the app in Office 365
+1. Register the app in Office 365
   1. Log into the O365 developer site as an administrator
   2. From the developer site, navigate to /_layouts/15/appregnew.aspx.
   3. Click Generate next to Client ID.
@@ -140,17 +166,17 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   7. Enter the Redirect URI as the reference for the Customers page (e.g. https://azurepha.azurewebsites.net/Customers).
   8. Click Create.
     1. Save the Client ID and Client Secret separately for later use.
-5.  Update the provider-hosted app
+2.  Update the provider-hosted app
   1. In the AzurePHA project open the AppManifest.xml file in a text editor.
   2. Update the Client ID and App Start page to reflect the values you created earlier.
   3. Open the web.config file for the AzurePHAWeb project.
   4. Update the Client ID and Client Secret to use the generated values.
-6. Publish the remote web
+3. Publish the remote web
   1. Right click the AzurePHAWeb project and select Publish.
   2. Click Windows Azure Web Sites.
   3. When prompted, select to deploy the remote web to the existing Azure web site you created earlier.
   4. Publish the remote web.
-7. Update information in the Azure Portal	
+4. Update information in the Azure Portal	
   1. Return to the Azure Management portal.
   2. Click Web Sites.
   3. Select your Azure Web Site.
@@ -158,12 +184,12 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   5. In the App Settings section, add a ClientId and ClientSecret setting.
   6. Set the values to the values you generated earlier.
   7. Click Save.
-8. Package the SharePoint App
+5. Package the SharePoint App
   1. Right click the AzurePHA project and select Publish.
   2. Click Package the App.
   3. Enter the Start URL and Client ID for the app.
   4. Click Finish.
-9. Publish the App to the Corporate Catalog
+6. Publish the App to the Corporate Catalog
   1. Return to the O365 tenant and select Admin?SharePoint.
   2. Click Apps/App Catalog.
   3.Select Create new app catalog site.
@@ -174,14 +200,14 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   8. Click New.
   9. Browse to the app package you created earlier.
   10. Add the app package to the Apps for SharePoint library.
-10. Add the app to a SharePoint site
+7. Add the app to a SharePoint site
   1. Navigate to a site in your O365 tenancy.
   2. Click Site Contents. (**NOTE:** If you are using the Developer site, it may have an older version of the app still installed from testing. You must remove the app from the site AND remove the entry from the “Apps in Testing” list or the new app will not install.)
   3. Click Add an App.
   4. Click From Your Organization.
   5. Click the app installer.
   6. When prompted, click Trust It.
-11. Test the App
+8. Test the App
   1. Use the tile to launch the app.
   2. Verify that data from the SQL Azure database appears in the app.
   3. Manually remove /Customers from the URL in the browser. This should navigate you to the home page where you should be welcomed validating that the app communicates with SharePoint.
