@@ -168,59 +168,65 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
 
 1. Register the app in Office 365
   1. Log into the O365 developer site as an administrator
-  2. From the developer site, navigate to /_layouts/15/appregnew.aspx.
-  3. Click Generate next to Client ID.
-  4. Click Generate next to Client Secret.
-  5. Enter Azure PHA as the Title.
-  6. Enter the App Domain for the Azure web site you created earlier (e.g., azurepha.azurewebsites.net)
-  7. Enter the Redirect URI as the reference for the Customers page (e.g. https://azurepha.azurewebsites.net/Customers).
-  8. Click Create.
-    1. Save the Client ID and Client Secret separately for later use.
+  2. From the developer site, navigate to **/_layouts/15/appregnew.aspx**.
+  3. Click **Generate** next to Client ID.
+  4. Click **Generate** next to Client Secret.
+  5. Enter **Azure Cloud App** as the Title.
+  6. Enter the **App Domain** for the Azure web site you created earlier (e.g., azurecloudapp.azurewebsites.net)
+  7. Enter the **Redirect URI** as the reference for the Customers page (e.g. https://azurecloudapp.azurewebsites.net/Customers).
+  8. Click **Create.**
+    1. Save the **Client ID** and **Client Secret** separately for later use.<br/>
+         ![](Images/25.png?raw=true "Figure 18")
 2.  Update the provider-hosted app
-  1. In the AzurePHA project open the AppManifest.xml file in a text editor.
-  2. Update the Client ID and App Start page to reflect the values you created earlier.
-  3. Open the web.config file for the AzurePHAWeb project.
-  4. Update the Client ID and Client Secret to use the generated values.
+  1. In the **AzureCloudApp** project open the **AppManifest.xml** file in a text editor.
+  2. Update the **Client ID** and **App Start page** to reflect the values you created earlier.<br/>
+         ![](Images/26.png?raw=true "Figure 19")
+  3. Open the **web.config** file for the **AzureCloudAppWeb** project.
+  4. Update the **Client ID** and **Client Secret** to use the generated values.
 3. Publish the remote web
-  1. Right click the AzurePHAWeb project and select Publish.
-  2. Click Windows Azure Web Sites.
+  1. Right click the **AzureCloudAppWeb** project and select **Publish**.
+  2. Click **Windows Azure Web Sites**.
   3. When prompted, select to deploy the remote web to the existing Azure web site you created earlier.
   4. Publish the remote web.
 4. Update information in the Azure Portal	
-  1. Return to the Azure Management portal.
-  2. Click Web Sites.
+  1. Return to the [Azure Management portal](https://manage.windowsazure.com).
+  2. Click **Web Sites**.
   3. Select your Azure Web Site.
-  4. Click Configure.
-  5. In the App Settings section, add a ClientId and ClientSecret setting.
+  4. Click **Configure**.
+  5. In the **App Settings** section, add a **ClientId** and **ClientSecret** setting.
   6. Set the values to the values you generated earlier.
-  7. Click Save.
+  7. Click **Save**.<br/>
+         ![](Images/28.png?raw=true "Figure 20")
 5. Package the SharePoint App
-  1. Right click the AzurePHA project and select Publish.
-  2. Click Package the App.
-  3. Enter the Start URL and Client ID for the app.
-  4. Click Finish.
+  1. Right click the **AzureCloudApp** project and select **Publish**.
+  2. Click **Package the App**.
+  3. Enter the **Start URL** and **Client ID** for the app.
+  4. Click **Finish**.<br/>
+         ![](Images/29.png?raw=true "Figure 21")
 6. Publish the App to the Corporate Catalog
-  1. Return to the O365 tenant and select Admin?SharePoint.
-  2. Click Apps/App Catalog.
-  3.Select Create new app catalog site.
-  4. Click OK.
-  5. Fill out the required information for the new app catalog site and click OK.
+  1. Return to the O365 tenant and select **Admin/SharePoint**.<br/>
+         ![](Images/30.png?raw=true "Figure 22")
+  2. Click **Apps/App Catalog**.<br/>
+         ![](Images/31.png?raw=true "Figure 23")
+  3.Select **Create new app catalog site**.
+  4. Click **OK**.
+  5. Fill out the required information for the new app catalog site and click **OK**.
   6. Once created, navigate to the new app catalog site.
-  7. In the app catalog site, click Apps for SharePoint.
-  8. Click New.
-  9. Browse to the app package you created earlier.
-  10. Add the app package to the Apps for SharePoint library.
+  7. In the app catalog site, click **Apps for SharePoint**.
+  8. Click **New**.
+  9. **Browse** to the app package you created earlier.
+  10. **Add** the app package to the Apps for SharePoint library.
 7. Add the app to a SharePoint site
   1. Navigate to a site in your O365 tenancy.
-  2. Click Site Contents. (**NOTE:** If you are using the Developer site, it may have an older version of the app still installed from testing. You must remove the app from the site AND remove the entry from the “Apps in Testing” list or the new app will not install.)
-  3. Click Add an App.
-  4. Click From Your Organization.
+  2. Click **Site Contents**. (**NOTE:** If you are using the Developer site, it may have an older version of the app still installed from testing. You must remove the app from the site AND remove the entry from the “Apps in Testing” list or the new app will not install.)
+  3. Click **Add an App**.
+  4. Click **From Your Organization**.<br/>
+         ![](Images/32.png?raw=true "Figure 24")
   5. Click the app installer.
-  6. When prompted, click Trust It.
+  6. When prompted, click **Trust It**.
 8. Test the App
   1. Use the tile to launch the app.
   2. Verify that data from the SQL Azure database appears in the app.
-  3. Manually remove /Customers from the URL in the browser. This should navigate you to the home page where you should be welcomed validating that the app communicates with SharePoint.
 
 ** Congratulations! You have completed building a provider-hosted app using Office 365 and Azure. **
 

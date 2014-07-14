@@ -189,6 +189,7 @@
       <DependentUpon>AzureCloudDataModel.edmx</DependentUpon>
       <LastGenOutput>AzureCloudDataModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\azurecloudapp.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

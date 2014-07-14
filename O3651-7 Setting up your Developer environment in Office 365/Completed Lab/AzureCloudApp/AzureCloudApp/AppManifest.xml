@@ -7,11 +7,11 @@
      SharePointMinVersion="16.0.0.0"
 >
   <Properties>
-    <Title>AzureCloudApp</Title>
-    <StartPage>~remoteAppUrl/Customers?{StandardTokens}</StartPage>
+    <Title>Azure Cloud App</Title>
+    <StartPage>https://azurecloudapp.azurewebsites.net/Customers</StartPage>
   </Properties>
 
   <AppPrincipal>
-    <RemoteWebApplication ClientId="*" />
+    <RemoteWebApplication ClientId="8ad9065c-b8d2-4690-9775-94bc0ad326c4" />
   </AppPrincipal>
 </App>
