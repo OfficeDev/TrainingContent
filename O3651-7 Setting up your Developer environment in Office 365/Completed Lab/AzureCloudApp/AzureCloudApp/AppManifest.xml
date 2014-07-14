@@ -8,7 +8,7 @@
 >
   <Properties>
     <Title>AzureCloudApp</Title>
-    <StartPage>~remoteAppUrl/?{StandardTokens}</StartPage>
+    <StartPage>~remoteAppUrl/Customers?{StandardTokens}</StartPage>
   </Properties>
 
   <AppPrincipal>
