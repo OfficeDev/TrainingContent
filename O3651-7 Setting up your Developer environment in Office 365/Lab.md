@@ -126,11 +126,11 @@ In this exercise, you will add additional functionality to the app to read data 
     1. Select **Visual C#/Data/ASP.NET Entity Data Model**.
     2. Name the new model **AzureCloudDataModel.edmx**.
     3. Click **Add**.
-    ![](Images/10.png?raw=true "Figure 13")
+         ![](Images/14.png?raw=true "Figure 13")
   4. In the Entity Data Model wizard:
     1. Click **EF Designer from Database**.
     2. Click **Next**.
-    ![](Images/11.png?raw=true "Figure 14")
+         ![](Images/11.png?raw=true "Figure 14")
     3. Click **New Connection**.
     4. In the Connection Properties dialog:
       1. Enter the database server information you obtained earlier into the **Server Name** field.
@@ -142,7 +142,7 @@ In this exercise, you will add additional functionality to the app to read data 
     5. Select **Yes, include the sensitive data in the connection string**.
     6. Click **Next**.
     7. Check **Tables**.
-         ![](Images/12.png?raw=true "Figure 15")
+         ![](Images/14.png?raw=true "Figure 15")
     8. Click **Finish**.
 5. Add a controller.
   1. **Build** the AzureCloudAppWeb project.
