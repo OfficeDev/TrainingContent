@@ -27,7 +27,7 @@ In this exercise you create a new provider-hosted app for your O365 subscription
   3. In the New Project dialog:
     1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
     2. Click **App for SharePoint 2013**.
-    3. Name the new project **AzurePHA** and click **OK**.
+    3. Name the new project **AzureCloudApp** and click **OK**.
        ![](Images/3.png?raw=true "Figure 3")
   4. In the New App for SharePoint wizard:
     1. Enter the address of a SharePoint site to use for testing the app (***NOTE:*** The targeted site must be based on a Developer Site template)
@@ -57,6 +57,7 @@ In this exercise, you will add additional functionality to the app to read data 
   2. Click **Web Sites**.
   3. Click **New**.
   4. Click **Custom Create**.
+       ![](Images/18.png?raw=true "Figure 9")
   5. Enter a URL for the application. (**NOTE:** URLs must be globally unique, so you will have to choose one not used by another.)
   6. Select **Create New Web Hosting Plan**.
   7. Select an appropriate Region.
@@ -208,12 +209,9 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   5. Click the app installer.
   6. When prompted, click Trust It.
 8. Test the App
-```
-> Comment
-```
   1. Use the tile to launch the app.
   2. Verify that data from the SQL Azure database appears in the app.
   3. Manually remove /Customers from the URL in the browser. This should navigate you to the home page where you should be welcomed validating that the app communicates with SharePoint.
 
->  Congratulations! You have completed building a provider-hosted app using Office 365 and Azure.
+** Congratulations! You have completed building a provider-hosted app using Office 365 and Azure. **
 
