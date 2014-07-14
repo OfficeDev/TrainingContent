@@ -31,9 +31,9 @@ In this exercise you create a new provider-hosted app for your O365 subscription
        ![](Images/3.png?raw=true "Figure 3")
   4. In the New App for SharePoint wizard:
     1. Enter the address of a SharePoint site to use for testing the app
-  
->NOTE: The targeted site must be based on a Developer Site template
-  
+
+NOTE: The targeted site must be based on a Developer Site template
+
     2. Select **Provider-Hosted** as the hosting model.
     3. Click **Next**.
        ![](Images/4.png?raw=true "Figure 4")
