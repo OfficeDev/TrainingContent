@@ -22,6 +22,7 @@
     <WorkflowPartId>{4467051a-b104-46ae-abe6-ad4a78ae7498}</WorkflowPartId>
     <CspkgPartId>{e2833140-8bc4-4236-ba4c-b32b701c1e40}</CspkgPartId>
     <SqlPackagePartId>{715953e5-316c-4118-8385-f21cff6c42d1}</SqlPackagePartId>
+    <ActivePublishProfile>azurecloudapp</ActivePublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
