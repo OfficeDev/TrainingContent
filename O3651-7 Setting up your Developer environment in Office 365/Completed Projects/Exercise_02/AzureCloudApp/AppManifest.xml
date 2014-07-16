@@ -8,7 +8,7 @@
 >
   <Properties>
     <Title>Azure Cloud App</Title>
-    <StartPage>https://azurecloudapp.azurewebsites.net/Customers</StartPage>
+    <StartPage>https://azurecloudapp.azurewebsites.net</StartPage>
   </Properties>
 
   <AppPrincipal>
