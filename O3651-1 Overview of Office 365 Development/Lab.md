@@ -2,7 +2,7 @@
 In this lab, you will work with existing Office 365 apps.
 
 ## Prerequisites
-1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for O3651-7 Setting up your Developer environment in Office 365 shows you how to obtain a trial.
+1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 2. You must have Word and Excel 2013 available to complete this lab.
 3. You must have a Microsoft account to complete this lab. If you do not have one, [sign up](https://signup.live.com/signup.aspx?lic=1).
 
@@ -55,7 +55,7 @@ In this exercise, you will download, install and investigate an App for Office h
   4. Click **History**.<br/>
      ![](Images/12.png?raw=true "Figure 12")
   5. Highlight the first few paragraphs.
-  6. Click the **Plus** symbol (+) to insert the text.
+  6. Click the **Plus** symbol (+) to insert the text.<br/>
      ![](Images/13.png?raw=true "Figure 13")
 3. Close Word 2013.
 
@@ -63,12 +63,12 @@ In this exercise, you will download, install and investigate an App for Office h
 In this exercise, you will download, install and investigate an App for Office hosted by Excel.
 
 1. Sign up to access sample data.
-  1. Navigate to the [Azure data Market](https://datamarket.azure.com).
+  1. Navigate to the [Azure Data Market](https://datamarket.azure.com).
   2. Sign in with your Microsoft account.
   3. Search for **crime**.
-  4. Click **2006-2008 Crime in the United States**><br/>
+  4. Click **2006-2008 Crime in the United States**<br/>
      ![](Images/18.png?raw=true "Figure 18")
-  5. Click **Sign Up**><br/>
+  5. Click **Sign Up**<br/>
      ![](Images/19.png?raw=true "Figure 19")
   6. When complete, click **Explore this Dataset**.<br/>
      ![](Images/20.png?raw=true "Figure 20")
@@ -102,7 +102,7 @@ In this exercise, you will download, install and investigate an App for Office h
   1. In the app, click **Select Your Data**. <br/>
      ![](Images/24.png?raw=true "Figure 24")
   2. Select the cities and crime statistices.<br/>
-     ![](Images/24.png?raw=true "Figure 24")
+     ![](Images/25.png?raw=true "Figure 25")
   3. Click **Create**.
 
 **Congratulations! You have completed investigating Apps for SharePoint and Office.**
