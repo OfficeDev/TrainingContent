@@ -10,7 +10,7 @@ Before you can start this lab, you must have an Office 365 developer site. You m
 2. On your developer workstation, launch Visual Studio as administrator.
 3. Create a new project in Visual Studio 2013 by selecting the menu command **File > New > Project**.
 4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **My First SharePoint Hosted App**, a location of **C:\DevProjects** and a Solution name of **MyFirstSharePointHostedApp** and then click **OK** button.<br />
-  ![](Images/Fig01.png)
+  ![](Images/Fig01.png?raw=true "Figure 1")
 5. In the **New app for SharePoint** wizard, enter the URL for your Office 365 Developer site and
    select **SharePoint-hosted** for the app hosting model. When done, complete the wizard by clicking the **Finish** button.
 <br />![](Images/Fig02.png)
