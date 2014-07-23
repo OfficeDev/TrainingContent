@@ -2,43 +2,43 @@
 
 In this lab you will get hands-on experience working with the new SharePoint App model. Through the exercises in this lab you will learn how to create and test a SharePoint-hosted app as well as a provider-hosted app.
 
-### Prerequisites
-Before you can start this lab, you must have an Office 365 developer site. You must also have Visual Studio 2013 installed with Update 2. If you do not yet have an Office 365 developer site, you should step through the lab exercises for module 7 in which you will sign-up with Microsoft to create a new Office 365 developers site.
+**Prerequisites**: Before you can start this lab, you must have an Office 365 developer site. You must also have Visual Studio 2013 installed with Update 2. If you do not yet have an Office 365 developer site, you should step through the lab exercises for module 7 in which you will sign-up with Microsoft to create a new Office 365 developers site.
 
-## Exercise 1: Creating and debugging a SharePoint-hosted App
+## Exercise 1: Creating and Debugging a SharePoint-hosted App
 1. Using the browser, navigate to your Office 365 developer site and log on using your credentials.
 2. On your developer workstation, launch Visual Studio as administrator.
 3. Create a new project in Visual Studio 2013 by selecting the menu command **File > New > Project**.
-4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **My First SharePoint Hosted App**, a location of **C:\DevProjects** and a Solution name of **MyFirstSharePointHostedApp** and then click **OK** button.<br />
-  ![](Images/Fig01.png?raw=true "Figure 1")
-5. In the **New app for SharePoint** wizard, enter the URL for your Office 365 Developer site and
-   select **SharePoint-hosted** for the app hosting model. When done, complete the wizard by clicking the **Finish** button.
+4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **My First SharePoint Hosted App**, a location of **C:\DevProjects** and a Solution name of **MyFirstSharePointHostedApp** and then click **OK** button.
+<br />![](Images/Fig01.png)
+
+5. In the **New app for SharePoint** wizard, enter the URL for your Office 365 Developer site and select **SharePoint-hosted** for the app hosting model. When done, complete the wizard by clicking the **Finish** button.
 <br />![](Images/Fig02.png)
+
 6. Examine the default project setup for a SharePoint-Hosted app. As you can see, it is like a traditional SharePoint solution-based project because you have a Features and Packages node.
 <br />![](../Images/Fig03.png)
+
 7. Note that there are project folders named Content, Images & Pages are actually SharePoint Project Items (SPI) that are Modules and will provision their contents to the respective folders in the app web that will be generated upon installing the app.
    - **Content/App.css**: main Cascading Style Sheet used for the app.
    - **Images/AppIcon.png**: default image used for the app.
    - **Pages/Default.aspx**: default start page for the app.
    - **Scripts/App.js**: main JavaScript file which is referenced by Default.aspx.
-   - **AppManifest.xml** app manifest containing app metadata such as its Name, Product   ID, App Version Number and minimum version for the SharePoint host environment.
-8. Examine the app's start page by right-clicking **Pages/Default.aspx** file and select Open.
+   - **AppManifest.xml** app manifest containing app metadata such as its Name, Product ID, App Version Number and minimum version for the SharePoint host environment.
+8. Examine the app's start page by right-clicking **Pages/Default.aspx** file and selecting **Open**.
    - Look at the links to other JavaScript libraries inside the PlaceHolderAdditionalPageHead placeholder.
    - There are references to the jQuery library and the App.js file.
-   - There is a reference to the App.css file as well.
-9.	Using the Solution Explorer tool window, right-click the **Scripts/App.js** file and select Open.
+   - There is a reference to the App.css file as well.  
+9.	Using the Solution Explorer tool window, right-click the **Scripts/App.js** file and select **Open**.
    - This file has four functions and a few variables.
    - The ``function $(document).ready(function()){ … }`` gets a reference to the client object model (CSOM) ClientContext object and then gets a reference to the current site.
    - The ``getUserName()`` function is one that will usually be deleted from the project when you get more experience with SharePoint-Hosted apps. It uses the CSOM to get the name of the current user logged in.
    - The last two functions are used as the success and failed callback when the CSOM request completes.
-10. Now it is time to update the app homepage. Using the Solution Explorer tool window,
-right-click the **Pages/Default.aspx** file and select Open. After the existing **div**, add the following markup <br />
+10. Now it is time to update the app homepage. Using the Solution Explorer tool window, right-click the **Pages/Default.aspx** file and select Open. After the existing **div**, add the following markup <br />
 
 		<input type="button" value="Push Me" onclick="hello();" />
 		<div id="displayDiv"></div>;
 
 11. Inside **default.aspx**, locate the **PlaceHolderPageTitleInTitleArea** placeholder control and replace the content inside with the title **My Hello World App**.
-12. In this step you will update the app script file. Using the Solution Explorer tool window, right-click the **Scripts/App.js** file and select Open. Add the following function to the bottom of the file that will be called when you click the button. <br />
+12. In this step you will update the app script file. Using the Solution Explorer tool window, right-click the **Scripts/App.js** file and select **Open**. Add the following function to the bottom of the file that will be called when you click the button.
 
 		function hello() {
 		  $get("displayDiv").innerHTML = "<p>Hello, Apps!</p>";
@@ -52,7 +52,7 @@ right-click the **Pages/Default.aspx** file and select Open. After the existing 
 18.	 Once you have tested the app, close the browser to stop the debugging session and return to Visual Studio.
 19.	In Visual Studio, save all changes using **File > Save All**.
 
-## Exercise 2: Using jQuery in a SharePoint-hosted app.
+## Exercise 2: Using jQuery in a SharePoint-hosted App.
 *In this lab, you will continue working with the SharePoint-hosted app project you created in the previous lab exercise. However, you will rewrite the JavaScript code to use the jQuery library to initialize the app and create an event handler using best practice techniques.*
 
 1. Open **default.aspx** and ensure that the HTML code inside the **PlaceHolderMain** content control looks exactly like the following code listing.
@@ -75,9 +75,9 @@ right-click the **Pages/Default.aspx** file and select Open. After the existing 
 
 		<input id="cmdPushMe" type="button" value="Push Me" />
 3. Save your changes and close **default.aspx**.
-4. Open **app.js** in edit mode.
+4. Right-click on **app.js** and select **Open** to open this JavaScript file in an editor window.
 5. Delete all the code inside **app.js** except for the `'use strict';` statement at the top.
-6. Inside **app.js**, add two functions into **onPageLoad** and **onButtonClicked**.
+6. Inside **app.js**, add two new functions into **onPageLoad** and **onButtonClicked**.
 
 		'use strict';
 		
@@ -130,8 +130,6 @@ right-click the **Pages/Default.aspx** file and select Open. After the existing 
 13.	Once the app has been installed, Internet Explorer will launch and navigate to the app’s start page **default.aspx** page.
 14.	When the page loads, you should see the message **"Hello from the document ready event handler"** on the page.
 15.	Click the **Push me** button to see your text get written to the page with your custom font styles.
-<br /> ![](Images/Fig05.png)
-16.	 Once you have tested th
 <br /> ![](Images/Fig05.png)
 16.	 Once you have tested the app, close the browser to stop the debugging session and return to Visual Studio.
 17.	In Visual Studio, save all changes using **File > Save All**.
