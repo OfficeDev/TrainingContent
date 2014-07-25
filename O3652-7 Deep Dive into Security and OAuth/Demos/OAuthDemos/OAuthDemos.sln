@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePointOAuth", "SharePointOAuth\SharePointOAuth.csproj", "{D9D12187-CCDC-422C-8499-E975E463336C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePointOAuthWeb", "SharePointOAuthWeb\SharePointOAuthWeb.csproj", "{2B5251A8-BF6B-4C90-9CE1-09E0F9848331}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{068251C0-1DEF-4FD2-8DD6-CBFB021AF08B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "365OAuthWeb", "365OAuthWeb\365OAuthWeb.csproj", "{D6F77119-A949-43EA-B7C9-C24CC3BB7C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuthControllerWeb", "OAuthControllerWeb\OAuthControllerWeb.csproj", "{B2570288-7621-41B7-989F-872EB9B9FB3F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9D12187-CCDC-422C-8499-E975E463336C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D12187-CCDC-422C-8499-E975E463336C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D12187-CCDC-422C-8499-E975E463336C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D9D12187-CCDC-422C-8499-E975E463336C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D12187-CCDC-422C-8499-E975E463336C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D12187-CCDC-422C-8499-E975E463336C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2B5251A8-BF6B-4C90-9CE1-09E0F9848331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5251A8-BF6B-4C90-9CE1-09E0F9848331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5251A8-BF6B-4C90-9CE1-09E0F9848331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5251A8-BF6B-4C90-9CE1-09E0F9848331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F77119-A949-43EA-B7C9-C24CC3BB7C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F77119-A949-43EA-B7C9-C24CC3BB7C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F77119-A949-43EA-B7C9-C24CC3BB7C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F77119-A949-43EA-B7C9-C24CC3BB7C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2570288-7621-41B7-989F-872EB9B9FB3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2570288-7621-41B7-989F-872EB9B9FB3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2570288-7621-41B7-989F-872EB9B9FB3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2570288-7621-41B7-989F-872EB9B9FB3F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
