@@ -1,11 +1,11 @@
 # Deep Dive into Security and OAuth
-In this lab, you will create apps that use different approaches for OAuth security management.
+In this lab, you will create apps that use different approaches for OAuth security management and examine the process flow.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 2. You must have [Fiddler] (http://www.telerik.com/fiddler) installed.
 
-## Exercise 1: Create a Provider-Hosted App 
+## Exercise 1: OAuth in a Provider-Hosted App 
 In this exercise you create a new provider-hosted app and examine the OAuth flow.
 
 1. Create the new solution in Visual Studio 2013:
@@ -60,6 +60,111 @@ In this exercise you create a new provider-hosted app and examine the OAuth flow
   15. Look for **ProviderHostedOAuth** in the list of registered apps to confirm that the app was registered during debugging.
   16. Stop debugging.
 
+## Exercise 2: OAuth with the O365 APIs 
+In this exercise you create a new web applicvation and examine the OAuth flow.
 
-**Congratulations! You have completed **
+1. Create the new solution in Visual Studio 2013:
+  1. Launch **Visual Studio 2013** as administrator. 
+  2. In Visual Studio select **File/New/Project**.
+  3. In the New Project dialog:
+    1. Select **Templates/Visual C#/Web**.
+    2. Click **ASP.NET Web Application**.
+    3. Name the new project **OfficeOAuth** and click **OK**.<br/>
+       ![](Images/12.png?raw=true "Figure 12")
+  4. In the **New ASP.NET Project** dialog, select **Web API**.
+  5. Check **Host in the Cloud**.
+  6. Click **Change Authentication**.
+  7. In the **Change Authentication** dialog:
+    1. Click **No Authentication**.
+    2. Click **OK**.
+  8. Click **OK**.<br/>
+       ![](Images/13.png?raw=true "Figure 13")
+  9. If prompted, sign into **Windows Azure**.<br/>
+       ![](Images/14.png?raw=true "Figure 14")
+  10. When the **Configure Windows Azure Sites Settings** dialog appears, make appropriate selectgions for your project.
+  11. Click **OK**.
+2. If you do not have the **Office 365 API Tools** installed:
+  1. Click **Tools/Extensions and Updates**.
+  2. In the **Extensions and Updates" dialog, click **Online**.
+  3. Click **Visual Studio Gallery**.
+  4. Type **Office 365** in the search box.
+  5. Click **Office 365 API Tools - Preview**.
+  6. Click **Install**.
+3. Add an O365 connection
+  1. Right click the **OfficeOAuth** project and select **Add/Connected Service**.
+  2. In the **Services Manager** dialog, click **Sign In**.
+  3. Sign in with your managed account.
+  4. Click **Calendar**.
+  5. Click **Permissions**.
+  6. Check **Read user's calendar**.
+  7. Click **Apply.<br/>
+       ![](Images/15.png?raw=true "Figure 15")
+  8. Click **OK**.
+4. Update the Home Controller.
+  1. Expand the **Controllers** folder and open **HomeController.cs**.
+  2. Replace the **Index** method with the following code
+  ```
+        public async Task<ActionResult> Index()
+        {
+            IOrderedEnumerable<IEvent> events = await CalendarAPISample.GetCalendarEvents();
+            ViewBag.Events = events;
+            return View();
+        }
+  ```
+5. Update the Index View.
+  1. Expand the **Views/Home** folders and open **Index.cshtml**.
+  2. Replace all of tyhe code with the following
+  ```
+     <div style="margin:25px;">
+        <table>
+            <tr>
+              <th>Start</th>
+              <th>End</th>
+              <th>Subject</th>
+              <th>Location</th>
+            </</tr>
+            @foreach (var Event in ViewBag.Events)
+            {
+                <tr>
+                    <td>
+                        <div style="width:200px;">@Event.Start.ToString()</div>
+                    </td>
+                    <td>
+                        <div style="width:200px;">@Event.End.ToString()</div>
+                    </td>
+                    <td>
+                        <div style="width:200px;">@Event.Subject</div>
+                    </td>
+                    <td>
+                        <div style="width:200px;">@Event.Location.DisplayName</div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    ````
+6. Debug the app.
+  1. Start **Fiddler**.
+  2. Press **F5** in Visual Studio 2013 to debug the application.
+  3. When prompted, login to Office 365 with your managed account.
+  4. Verify that the application displays your calendar information.
+  5. In **Fiddler**, locate the session entry containing the query string parameter **code**. This is the Authorization Code returned from Azure Access Control Services.<br/>
+       ![](Images/16.png?raw=true "Figure 16")
+  6. Right click the session and select **Inspect in New Window**.
+  7. In the session window, click the **Web Forms** tab.
+  8. Examine the authorization code.<br/>
+       ![](Images/17.png?raw=true "Figure 17")
+  9. Close the window.
+  10. Stop debugging.
+7. Examine the Windows Azure configurtation.
+  1. Log into the [Windows Azure Portal](https://manage.windowsazure.com)
+  2. Click **Active Directory**.
+  3. Select your Azure Active Directory instance.
+  4. Click on the app entitled **OfficeOAuth.Office365App**. This entry was made for you by the Office 365 tools in Visual Studio.
+  5. Click **Configure**.
+  6. Scroll to the section entitled **Permissions to Other Applications**.
+  7. Examine the **Office 365 Exchange Online** permissions. These are the permissions you granted in Visual Studio.<br/>
+       ![](Images/18.png?raw=true "Figure 18")
+
+**Congratulations! You have completed investigation OAuth in Office 365.**
 
