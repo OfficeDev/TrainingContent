@@ -52,7 +52,7 @@ In this lab you will get hands-on experience working with the new SharePoint App
 18.	 Once you have tested the app, close the browser to stop the debugging session and return to Visual Studio.
 19.	In Visual Studio, save all changes using **File > Save All**.
 
-## Exercise 2: Using jQuery in a SharePoint-hosted App.
+## Exercise 2: Using jQuery in a SharePoint-hosted App
 *In this lab, you will continue working with the SharePoint-hosted app project you created in the previous lab exercise. However, you will rewrite the JavaScript code to use the jQuery library to initialize the app and create an event handler using best practice techniques.*
 
 1. Open **default.aspx** and ensure that the HTML code inside the **PlaceHolderMain** content control looks exactly like the following code listing.
