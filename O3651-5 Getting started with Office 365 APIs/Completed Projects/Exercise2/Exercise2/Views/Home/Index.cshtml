@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div>
+<table>
+    <thead>
+    <th>Subject</th>
+    <th>Start</th>
+    <th>End</th>
+    @foreach (var Event in ViewBag.Events)
+    {
+        <tr>
+            <td>
+                <div style="width:200px;">@Event.Subject</div>
+            </td>
+            <td>
+                <div style="width:200px;">@Event.Start</div>
+            </td>
+            <td>
+                <div style="width:200px;">@Event.End</div>
+            </td>
+        </tr>
+    }
+</table>
+</</div>
+
