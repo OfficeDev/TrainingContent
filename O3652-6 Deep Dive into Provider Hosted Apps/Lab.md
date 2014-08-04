@@ -157,7 +157,9 @@ In this exercise you use the cross-domain library to access a list in the app we
        ![](Images/08.png?raw=true "Figure 8")
 9. Open the **Elements.xml** file associated with the new list instance **DeepDiveCloudApp/Terma/Elements.xml**.
 10. Add the following XML inside the **ListInstance** element to pre-populate the list with data.
+
     ```
+
         <Data>
           <Rows>
             <Row>
@@ -177,7 +179,9 @@ In this exercise you use the cross-domain library to access a list in the app we
             </Row>
           </Rows>
         </Data>
+
     ```
+
 11. Right click the **Scripts** folder in the **DeepDiveCloudAppWeb** project and select **Add/New/JavaScript File**.
 12. Name the new file **crossdomain**.
 13. Click **OK**.
