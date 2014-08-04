@@ -42,103 +42,102 @@ In this exercise you will add the Chrome Control to the project you created in E
 6. Name the new Web Form **CrossDomain**.
 7. Click **OK**.
 8. Add a div element to the body of the page to hold the Chrome Control. The following code shows the div in context with the body.
-```
-<body>
-    <form id="form1" runat="server">
-    <div id="chrome_ctrl_placeholder"></div>
-    <div>
-    
-    </div>
-    </form>
-</body>
-```
+    ```
+    <body>
+        <form id="form1" runat="server">
+        <div id="chrome_ctrl_placeholder"></div>
+        <div> 
+        
+        </div>
+        </form>
+    </body>
+    ```
 9. Open **Default.aspx** from the **DeepDiveCloudAppWeb** project.
 10. Add a div element to the body of the page to hold the Chrome Control. The following code shows the div in context with the body.
-```
-<body>
-    <form id="form1" runat="server">
-    <div id="chrome_ctrl_placeholder"></div>
-    <div>
+    ```
+    <body>
+        <form id="form1" runat="server">
+        <div id="chrome_ctrl_placeholder"></div>
+        <div>
     
-    </div>
-    </form>
-</body>
-```
+        </div>
+        </form>
+    </body>
+    ```
 11. Right click the **Scripts** folder and select **Add/New/JavaScript File**.
 12. Name the new file **app**.
 13. Click **OK**.
 14. **Add** the following code to **app.js** to initialize the Chrome Control.
-```
-"use strict";
-
-var ChromeControl = function () {
-
-    var init = function () {
-
-        var hostWebUrl = queryString("SPHostUrl");
-        $.getScript(hostWebUrl + "/_layouts/15/SP.UI.Controls.js", render);
-
-    },
-
-    render = function () {
-        var options = {
-            "appIconUrl": "../Images/AppIcon.png",
-            "appTitle": "Deep Dive Cloud App",
-            "settingsLinks": [
-                {
-                    "linkUrl": "../Pages/CrossDomain.aspx?" + document.URL.split("?")[1],
-                    "displayName": "Cross Domain Library"
-                }
-            ]
-        };
-
-        var nav = new SP.UI.Controls.Navigation(
-                                "chrome_ctrl_placeholder",
-                                options
-                          );
-        nav.setVisible(true);
-
-    },
-
-    queryString = function (p) {
-        var params =
-            document.URL.split("?")[1].split("&");
-        var strParams = "";
-        for (var i = 0; i < params.length; i = i + 1) {
-            var singleParam = params[i].split("=");
-            if (singleParam[0] == p)
-                return decodeURIComponent(singleParam[1]);
-        }
-    }
-
-    return {
-        init: init,
-    }
-}();
-
-
-
-(function () {
+    ```
     "use strict";
 
-    jQuery(function () {
-        ChromeControl.init();
-    });
+    var ChromeControl = function () {
 
-}());
-```
+        var init = function () {
+    
+            var hostWebUrl = queryString("SPHostUrl");
+            $.getScript(hostWebUrl + "/_layouts/15/SP.UI.Controls.js", render);
+
+        },
+
+        render = function () {
+            var options = {
+                "appIconUrl": "../Images/AppIcon.png",
+                "appTitle": "Deep Dive Cloud App",
+                "settingsLinks": [
+                    {
+                        "linkUrl": "../Pages/CrossDomain.aspx?" + document.URL.split("?")[1],
+                        "displayName": "Cross Domain Library"
+                    }
+                ]
+            };
+    
+            var nav = new SP.UI.Controls.Navigation(
+                                    "chrome_ctrl_placeholder",
+                                    options
+                              );
+            nav.setVisible(true);
+
+        },
+
+        queryString = function (p) {
+            var params =
+                document.URL.split("?")[1].split("&");
+            var strParams = "";
+            for (var i = 0; i < params.length; i = i + 1) {
+                var singleParam = params[i].split("=");
+                if (singleParam[0] == p)
+                    return decodeURIComponent(singleParam[1]);
+            }
+        }
+
+        return {
+            init: init,
+        }
+    }();
+
+
+    (function () {
+        "use strict";
+
+        jQuery(function () {
+            ChromeControl.init();
+        });
+
+    }());
+    ```
 15. Open **Default.aspx** from the **DeepDiveCloudAppWeb** project.
 16. Add the following script references in the **head** section.
-```
-<script src="../Scripts/jquery-1.9.1.js"></script>
-<script src="../Scripts/app.js"></script>
-```
+    ```
+   <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/app.js"></script>
+    ```
 17. Open **CrossDomain.aspx** from the **DeepDiveCloudAppWeb** project.
 18. Add the following script references in the **head** section.
-```
-<script src="../Scripts/jquery-1.9.1.js"></script>
-<script src="../Scripts/app.js"></script>
-```
+    ```
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/app.js"></script>
+    ```
 19. Press **F5** to debug your app.
 20. Verify that the Chrome Control appears and that you can navigate between the Default.aspx and crossDomain.aspx pages.<br/>
        ![](Images/06.png?raw=true "Figure 6")
@@ -158,8 +157,8 @@ In this exercise you use the cross-domain library to access a list in the app we
        ![](Images/08.png?raw=true "Figure 8")
 9. Open the **Elements.xml** file associated with the new list instance **DeepDiveCloudApp/Terma/Elements.xml**.
 10. Add the following XML inside the **ListInstance** element to pre-populate the list with data.
-```
-   <Data>
+    ```
+    <Data>
       <Rows>
         <Row>
           <Field Name="Title">SharePoint-Hosted App</Field>
@@ -178,80 +177,80 @@ In this exercise you use the cross-domain library to access a list in the app we
         </Row>
       </Rows>
     </Data>
-```
+    ```
 11. Right click the **Scripts** folder in the **DeepDiveCloudAppWeb** project and select **Add/New/JavaScript File**.
 12. Name the new file **crossdomain**.
 13. Click **OK**.
-14. **Add** the following code to **crossdomain.js** to initialize the Chrome Control.
-```
+14. **Add** the following code to **crossdomain.js** to read the Terms list items.
+    ```
 
-(function () {
-    "use strict";
+    (function () {
+        "use strict";
 
-    jQuery(function () {
+        jQuery(function () {
+ 
+            //Get Host and App web URLS
+            var appWebUrl = "";
+            var spHostUrl = "";
+            var args = window.location.search.substring(1).split("&");
 
-        //Get Host and App web URLS
-        var appWebUrl = "";
-        var spHostUrl = "";
-        var args = window.location.search.substring(1).split("&");
+            for (var i = 0; i < args.length; i++) {
+                var n = args[i].split("=");
+                if (n[0] == "SPHostUrl")
+                    spHostUrl = decodeURIComponent(n[1]);
+            }
 
-        for (var i = 0; i < args.length; i++) {
-            var n = args[i].split("=");
-            if (n[0] == "SPHostUrl")
-                spHostUrl = decodeURIComponent(n[1]);
-        }
+            for (var i = 0; i < args.length; i++) {
+                var n = args[i].split("=");
+                if (n[0] == "SPAppWebUrl")
+                    appWebUrl = decodeURIComponent(n[1]);
+            }
 
-        for (var i = 0; i < args.length; i++) {
-            var n = args[i].split("=");
-            if (n[0] == "SPAppWebUrl")
-                appWebUrl = decodeURIComponent(n[1]);
-        }
+            //Load Libraries
+            var scriptbase = spHostUrl + "/_layouts/15/";
 
-        //Load Libraries
-        var scriptbase = spHostUrl + "/_layouts/15/";
+            jQuery.getScript(scriptbase + "SP.RequestExecutor.js", function (data) {
 
-        jQuery.getScript(scriptbase + "SP.RequestExecutor.js", function (data) {
+                //Call Host Web with REST
+                var executor = new SP.RequestExecutor(appWebUrl);
+                executor.executeAsync({
+                    url: appWebUrl + "/_api/web/lists/getbytitle('Terms')/items",
+                    method: "GET",
+                    headers: { "accept": "application/json;odata=verbose" },
+                    success: function (data) {
 
-            //Call Host Web with REST
-            var executor = new SP.RequestExecutor(appWebUrl);
-            executor.executeAsync({
-                url: appWebUrl + "/_api/web/lists/getbytitle('Terms')/items",
-                method: "GET",
-                headers: { "accept": "application/json;odata=verbose" },
-                success: function (data) {
-
-                    var results = JSON.parse(data.body).d.results;
-                    for (var i = 0; i < results.length; i++) {
-                        $("#termList").append("<li>" + results[i].Title + "</li>");
+                        var results = JSON.parse(data.body).d.results;
+                        for (var i = 0; i < results.length; i++) {
+                            $("#termList").append("<li>" + results[i].Title + "</li>");
+                        }
+                    },
+                    error: function () {
+                        alert("Error!");
                     }
-                },
-                error: function () {
-                    alert("Error!");
-                }
+                });
+
             });
 
         });
 
-    });
-
-}());
-```
+    }());
+    ```
 15. Open **CrossDomain.aspx** from the **DeepDiveCloudAppWeb** project.
 16. Add the following script reference in the **head** section.
-```
-<script src="../Scripts/crossdomain.js"></script>
-```
+    ```
+    <script src="../Scripts/crossdomain.js"></script>
+    ```
 17. Add an unordered list element to display the terms. The list element is shown in context below.
-```
-<body>
+    ```
+    <body>
     <form id="form1" runat="server">
         <div id="chrome_ctrl_placeholder"></div>
         <div>
             <ul id="termList"></ul>
         </div>
     </form>
-</body>
-```
+    </body>
+    ```
 18. Press **F5** to debug the app.
 19. Use the Chrome Control navigation element to open the **Cross-Domain Library** page.<br/>
        ![](Images/09.png?raw=true "Figure 9")
