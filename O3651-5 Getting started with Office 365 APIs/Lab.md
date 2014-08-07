@@ -34,28 +34,76 @@ In this exercise you will create a new MVC web application to utilize the O365 A
      ![](Images/03.png?raw=true "Figure 3")
 4. In the **Solution Explorer**, right click the project and select **Add/Connected Service**.
 5. In the **Services Manager** dialog
-  1. Click **Sign In**.
-  2. Click **Calendar**.
-  3. Click **Permissions**.
-  4. Check **Read User's Calendar**.
-  5. Click **Apply**.
-  6. Click **OK**.<br/>
+  1. Click **Register Your App**.
+  2. When prompted sign in with your **Organizational Account**.
+  3. Click **Calendar**.
+  4. Click **Permissions**.
+  5. Check **Read User's Calendar**.
+  6. Click **Apply**.
+  7. Click **OK**.<br/>
      ![](Images/04.png?raw=true "Figure 4")
 6. In the **Solution Explorer**, open the file **CalendarApiSample.cs**.
-  1. Examine the **GetCalendarEvents** method, which is used to retrieve events from the user's calendar.
-  2. Examine the **EnsureClientCreated** method, which is used to manage to app authorization.
+  1. **Delete** the following lines of code. These values need to be stored in session state to prevent needless round trip for authentication.
+  ```
+        // Do not make static in Web apps; store it in session or in a cookie instead
+        static string _lastLoggedInUser;
+        static DiscoveryContext _discoveryContext;
+  ```
+  2. **Replace** the code in the **EnsureClientCreated** method with the following code.
+  ```
+            DiscoveryContext _discoveryContext = System.Web.HttpContext.Current.Session["DiscoveryContext"] as DiscoveryContext;
+
+            if (_discoveryContext == null)
+            {
+                _discoveryContext = await DiscoveryContext.CreateAsync();
+                System.Web.HttpContext.Current.Session["DiscoveryContext"] = _discoveryContext;
+
+            }
+
+            var dcr = await _discoveryContext.DiscoverResourceAsync(ServiceResourceId);
+
+            System.Web.HttpContext.Current.Session["LastLoggedInUser"] = dcr.UserId;
+
+            return new ExchangeClient(ServiceEndpointUri, async () =>
+            {
+                return (await _discoveryContext.AuthenticationContext.AcquireTokenByRefreshTokenAsync(new SessionCache().Read("RefreshToken"), new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(_discoveryContext.AppIdentity.ClientId, _discoveryContext.AppIdentity.ClientSecret), ServiceResourceId)).AccessToken;
+            });
+  ```
+  3. **Replace** the code in the **SignOut** method with the following code.
+```
+            DiscoveryContext _discoveryContext = System.Web.HttpContext.Current.Session["DiscoveryContext"] as DiscoveryContext;
+
+            if (_discoveryContext == null)
+            {
+                _discoveryContext = new DiscoveryContext();
+                System.Web.HttpContext.Current.Session["DiscoveryContext"] = _discoveryContext;
+            }
+
+            _discoveryContext.ClearCache();
+
+            return _discoveryContext.GetLogoutUri<SessionCache>(postLogoutRedirect);
+
+```
 7. Open the **HomeController.cs** class.
   1. Add the following code to the top of the file
   ```
-  using Microsoft.Office365.Exchange;
   using System.Threading.Tasks;
+  using Microsoft.Office365.Exchange;
+  using Microsoft.Office365.OAuth;
   ```
   2. Modify the **Index** method to appear as follows
   ```
         public async Task<ActionResult> Index()
         {
-            IOrderedEnumerable<IEvent> events = await CalendarAPISample.GetCalendarEvents();
-            ViewBag.Events = events;
+            try
+            {
+                IOrderedEnumerable<IEvent> events = await CalendarAPISample.GetCalendarEvents();
+                ViewBag.Events = events;
+            }
+            catch (RedirectRequiredException x)
+            {
+                return Redirect(x.RedirectUri.ToString());
+            }
             return View();
         }
   ```

@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2F620B27-D9C3-43CE-B09D-A1D6D6EBDA88}</ProjectGuid>
+    <ProjectGuid>{8427B6A2-F82C-45FF-AFB3-056BE09ABEFA}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Exercise2</RootNamespace>
-    <AssemblyName>Exercise2</AssemblyName>
+    <RootNamespace>WebApplication2</RootNamespace>
+    <AssemblyName>WebApplication2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -43,31 +43,35 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
-      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.6.1-alpha\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.7.10707.1513-rc\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms">
-      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.6.1-alpha\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.7.10707.1513-rc\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OData.Client">
-      <HintPath>..\packages\Microsoft.OData.Client.6.2.0\lib\net40\Microsoft.OData.Client.dll</HintPath>
+      <HintPath>..\packages\Microsoft.OData.Client.6.3.0\lib\net40\Microsoft.OData.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OData.Core">
-      <HintPath>..\packages\Microsoft.OData.Core.6.2.0\lib\portable-net40+sl5+wp8+win8\Microsoft.OData.Core.dll</HintPath>
+      <HintPath>..\packages\Microsoft.OData.Core.6.3.0\lib\portable-net40+sl5+wp8+win8\Microsoft.OData.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OData.Edm">
-      <HintPath>..\packages\Microsoft.OData.Edm.6.2.0\lib\portable-net40+sl5+wp8+win8\Microsoft.OData.Edm.dll</HintPath>
+      <HintPath>..\packages\Microsoft.OData.Edm.6.3.0\lib\portable-net40+sl5+wp8+win8\Microsoft.OData.Edm.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office365.Exchange">
-      <HintPath>..\packages\Microsoft.Office365.Exchange.0.1.0-alpha\lib\net45\Microsoft.Office365.Exchange.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Office365.Exchange.0.1.1-alpha\lib\net40\Microsoft.Office365.Exchange.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office365.OAuth">
-      <HintPath>..\packages\Microsoft.Office365.OAuth.AspNet.0.1.0-alpha\lib\net45\Microsoft.Office365.OAuth.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Office365.OAuth.AspNet.0.1.1-alpha\lib\net45\Microsoft.Office365.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office365.OAuth.Web">
-      <HintPath>..\packages\Microsoft.Office365.OAuth.AspNet.0.1.0-alpha\lib\net45\Microsoft.Office365.OAuth.Web.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Office365.OAuth.AspNet.0.1.1-alpha\lib\net45\Microsoft.Office365.OAuth.Web.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Spatial">
-      <HintPath>..\packages\Microsoft.Spatial.6.2.0\lib\portable-net40+sl5+wp8+win8\Microsoft.Spatial.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Spatial.6.3.0\lib\portable-net40+sl5+wp8+win8\Microsoft.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -133,11 +137,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -157,11 +156,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="README">
+    <Content Include="Office365API_Readme.txt">
       <ConnectedServiceReference>Calendar</ConnectedServiceReference>
     </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -217,9 +216,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>41151</DevelopmentServerPort>
+          <DevelopmentServerPort>27747</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:40688/</IISUrl>
+          <IISUrl>http://localhost:35838/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,19 +1,30 @@
-﻿using Microsoft.Office365.Exchange;
-using System.Threading.Tasks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Web;
 using System.Web.Mvc;
 
-namespace Exercise2.Controllers
+using System.Threading.Tasks;
+using Microsoft.Office365.Exchange;
+using Microsoft.Office365.OAuth;
+
+
+namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
         public async Task<ActionResult> Index()
         {
-            IOrderedEnumerable<IEvent> events = await CalendarAPISample.GetCalendarEvents();
-            ViewBag.Events = events;
+            try
+            {
+                IOrderedEnumerable<IEvent> events = await CalendarAPISample.GetCalendarEvents();
+                ViewBag.Events = events;
+            }
+            catch (RedirectRequiredException x)
+            {
+                return Redirect(x.RedirectUri.ToString());
+            }
             return View();
         }
 
