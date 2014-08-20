@@ -202,7 +202,7 @@ In this exercise you will add a Menu Item custom action to invoke the song searc
     <script type="text/javascript" src="/_layouts/15/sp.requestexecutor.js"></script>
   ```
 2. Code the Menu Item Custom Action
-  1. Open **apppart.js* for editing.
+  1. Open **apppart.js** for editing.
   2. **Add** the following code to the bottom on the file to retrieve an artist name from a custom list selection.
   ```
   var appWebUrl = getQueryStringParameter("SPAppWebUrl");
