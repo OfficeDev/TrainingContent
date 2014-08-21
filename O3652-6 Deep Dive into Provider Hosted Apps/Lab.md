@@ -35,7 +35,7 @@ In this exercise you create a new provider-hosted app.
 In this exercise you will add the Chrome Control to the project you created in Exercise 1.
 
 1. Open **DeepDiveCloudApp.sln** in Visual Studio 2013 if not already open.
-2. Right click the **DeepDiveCloudAppWeb** project and select **Add/New Folder**.
+2. Rich click the **DeepDiveCloudAppWeb** project and select **Add/New Folder**.
 3. Name the new folder **Images**.
 4. Copy the file **AppIcon.png** from the **DeepDiveCloudApp** project into the **Images** folder.
 5. Right click the **Pages** folder in the **DeepDiveCloudAppWeb** project and select **Add/New/Web Form**.
