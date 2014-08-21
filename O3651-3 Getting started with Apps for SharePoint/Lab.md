@@ -136,7 +136,7 @@ In this lab you will get hands-on experience working with the new SharePoint App
 18.	Close the **MyHelloWorldApp** project.
 
 ## Exercise 3: Creating and Debugging a Provider-Hosted App
-*In this exercise you will create and test a simple Provider-Hosted App. This will give you opportunity to observe the basic differences between developing SharePoint-hosted apps and cloud-hosted apps using Visual Studio 2013. Note that this lab will not involve security topics such as app authentication. Instead, you will configure the app to use Internal security so that you can get the app up and running without worrying about how to configure app authenhtication.*
+*In this exercise you will create and test a simple Provider-Hosted App. This will give you opportunity to observe the basic differences between developing SharePoint-hosted apps and cloud-hosted apps using Visual Studio 2013. Note that this lab will not involve security topics such as app authentication. Instead, you will configure the app to use Internal security so that you can get the app up and running without worrying about how to configure app authentication.*
 
 1.	Launch Visual Studio 2013 as administrator if it is not already running.
 2.	In Visual Studio select **File > New > Project**.
