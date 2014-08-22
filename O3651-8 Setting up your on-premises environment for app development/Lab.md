@@ -188,4 +188,162 @@ In this lab you will configure your SharePoint 2013 development environment to s
 14. You have completed the configuration for High-trust, provider-hosted Apps.
 
 
-## Exercise 6: Connect on-premises farm with Azure ACS
+## Exercise 6: Connect on-premises farm with Windows Azure Access Control Service (ACS)
+> Prerequisites: Before starting this exercise, ensure that you have met the following prerequisites:
+
+> * An Office 365 SharePoint site. If don’t have one yet and you want to set up a development environment quickly, you can [Sign up for an Office 365 Developer Site](http://msdn.microsoft.com/en-us/library/fp179924.aspx).
+> * The 64-bit edition of [Microsoft Online Services Sign-In Assistant](http://www.microsoft.com/en-us/download/details.aspx?id=41950) installed on the computer where you installed SharePoint 2013.
+> * [Microsoft Online Services Module for Windows Powershell (64-bit)](http://go.microsoft.com/fwlink/p/?linkid=236297) installed on the computer where you installed SharePoint 2013.
+
+1. In a text editor or Windows PowerShell editor, start a new file and add the following lines to it to create a Powershell module:
+
+		function Connect-SPFarmToAAD {
+		param(
+		    [Parameter(Mandatory)][String]   $AADDomain,
+		    [Parameter(Mandatory)][String]   $SharePointOnlineUrl,
+		    #Specify this parameter if you don’t want to use the default SPWeb returned
+		    [Parameter()][String]            $SharePointWeb,
+		    [Parameter()][System.Management.Automation.PSCredential] $O365Credentials,
+		    #Use these switches if you’re replacing an existing connection to AAD.
+		    [Parameter()][Switch]            $RemoveExistingACS,
+		    [Parameter()][Switch]            $RemoveExistingSTS,
+		    [Parameter()][Switch]            $RemoveExistingSPOProxy,
+		    #Use this switch if you’re replacing the Office 365 SharePoint site.
+		    [Parameter()][Switch]            $RemoveExistingAADCredentials,
+		    #Use this switch if you don’t want to use SSL when you launch your app.
+		    [Parameter()][Switch]            $AllowOverHttp
+		)
+		    #Prompt for credentials right away.
+		    if (-not $O365Credentials) {
+		        $O365Credentials = Get-Credential -Message "Admin credentials for $AADDomain"
+		    }
+			Add-PSSnapin Microsoft.SharePoint.PowerShell
+			#Import the Microsoft Online Services Sign-In Assistant.
+			Import-Module -Name MSOnline
+			#Import the Microsoft Online Services Module for Windows Powershell.
+			Import-Module MSOnlineExtended –force -verbose 
+			#Set values for Constants.
+			New-Variable -Option Constant -Name SP_APPPRINCIPALID -Value '00000003-0000-0ff1-ce00-000000000000' | Out-Null
+			New-Variable -Option Constant -Name ACS_APPPRINCIPALID -Value '00000001-0000-0000-c000-000000000000' | Out-Null
+			New-Variable -Option Constant -Name ACS_APPPROXY_NAME -Value ACS
+			New-Variable -Option Constant -Name SPO_MANAGEMENT_APPPROXY_NAME -Value 'SPO App Management Proxy'
+			New-Variable -Option Constant -Name ACS_STS_NAME -Value ACS-STS
+			New-Variable -Option Constant -Name AAD_METADATAEP_FSTRING -Value 'https://accounts.accesscontrol.windows.net/{0}/metadata/json/1'
+			New-Variable -Option Constant -Name SP_METADATAEP_FSTRING -Value '{0}/_layouts/15/metadata/json/1'
+			#Get the default SPWeb from the on-premises farm if no $SharePointWeb parameter is specified.
+			if ([String]::IsNullOrEmpty($SharePointWeb)) {
+			    $SharePointWeb = Get-SPSite | Select-Object -First 1 | Get-SPWeb | Select-Object -First 1 | % Url
+			}
+			#Configure the realm ID for local farm so that it matches the AAD realm.
+			$ACSMetadataEndpoint = $AAD_METADATAEP_FSTRING -f $AADDomain
+			$ACSMetadata = Invoke-RestMethod -Uri $ACSMetadataEndpoint
+			$AADRealmId = $ACSMetadata.realm
+			Set-SPAuthenticationRealm -ServiceContext $SharePointWeb -Realm $AADRealmId
+	    
+			$LocalSTS = Get-SPSecurityTokenServiceConfig
+			$LocalSTS.NameIdentifier = '{0}@{1}' -f $SP_APPPRINCIPALID,$AADRealmId
+			$LocalSTS.Update()
+			#Allow connections over HTTP if the switch is specified.
+			if ($AllowOverHttp.IsPresent -and $AllowOverHttp -eq $True) {
+			    $serviceConfig = Get-SPSecurityTokenServiceConfig
+			    $serviceConfig.AllowOAuthOverHttp = $true
+			    $serviceConfig.AllowMetadataOverHttp = $true
+			    $serviceConfig.Update()
+			}
+			#Step 1: Set up the ACS proxy in the on-premises SharePoint farm. Remove the existing ACS proxy
+			#if the switch is specified.
+			if ($RemoveExistingACS.IsPresent -and $RemoveExistingACS -eq $True) {
+			    Get-SPServiceApplicationProxy | ? DisplayName -EQ $ACS_APPPROXY_NAME | Remove-SPServiceApplicationProxy -RemoveData -Confirm:$false
+			}
+			if (-not (Get-SPServiceApplicationProxy | ? DisplayName -EQ $ACS_APPPROXY_NAME)) {
+			    $AzureACSProxy = New-SPAzureAccessControlServiceApplicationProxy -Name $ACS_APPPROXY_NAME -MetadataServiceEndpointUri $ACSMetadataEndpoint -DefaultProxyGroup
+			}
+			#Remove the existing security token service if the switch is specified.
+			if ($RemoveExistingSTS.IsPresent) {
+			    Get-SPTrustedSecurityTokenIssuer | ? Name -EQ $ACS_STS_NAME | Remove-SPTrustedSecurityTokenIssuer -Confirm:$false
+			}
+			if (-not (Get-SPTrustedSecurityTokenIssuer | ? DisplayName -EQ $ACS_STS_NAME)) {
+			    $AzureACSSTS = New-SPTrustedSecurityTokenIssuer -Name $ACS_STS_NAME -IsTrustBroker -MetadataEndPoint $ACSMetadataEndpoint
+			}
+			#Update the ACS Proxy for OAuth authentication.
+			$ACSProxy = Get-SPServiceApplicationProxy | ? Name -EQ $ACS_APPPROXY_NAME
+			$ACSProxy.DiscoveryConfiguration.SecurityTokenServiceName = $ACS_APPPRINCIPALID
+			$ACSProxy.Update()
+			#Retrieve the local STS signing key from JSON metadata.
+			$SPMetadata = Invoke-RestMethod -Uri ($SP_METADATAEP_FSTRING -f $SharePointWeb)
+			$SPSigningKey = $SPMetadata.keys | ? usage -EQ "Signing" | % keyValue
+			$CertValue = $SPSigningKey.value
+			    
+			#Connect to Office 365.
+			Connect-MsolService -Credential $O365Credentials
+			#Remove existing connection to an Office 365 SharePoint site if the switch is specified.
+			if ($RemoveExistingAADCredentials.IsPresent -and $RemoveExistingAADCredentials -eq $true) {
+			    $msolserviceprincipal = Get-MsolServicePrincipal -AppPrincipalId $SP_APPPRINCIPALID
+			    [Guid[]] $ExistingKeyIds = Get-MsolServicePrincipalCredential -ObjectId $msolserviceprincipal.ObjectId -ReturnKeyValues $false | % {if ($_.Type -ne "Other") {$_.KeyId}}
+			    Remove-MsolServicePrincipalCredential -AppPrincipalId $SP_APPPRINCIPALID -KeyIds $ExistingKeyIds
+			}
+			#Step 2: Upload the local STS signing certificate
+			New-MsolServicePrincipalCredential -AppPrincipalId $SP_APPPRINCIPALID -Type Asymmetric -Value $CertValue -Usage Verify
+			#Step 3: Add the service principal name of the local web application, if necessary.
+			$indexHostName = $SharePointWeb.IndexOf('://') + 3
+			$HostName = $SharePointWeb.Substring($indexHostName)
+			$NewSPN = '{0}/{1}' -f $SP_APPPRINCIPALID, $HostName
+			$SPAppPrincipal = Get-MsolServicePrincipal -AppPrincipalId $SP_APPPRINCIPALID
+			if ($SPAppPrincipal.ServicePrincipalNames -notcontains $NewSPN) {
+			    $SPAppPrincipal.ServicePrincipalNames.Add($NewSPN)
+			    Set-MsolServicePrincipal -AppPrincipalId $SPAppPrincipal.AppPrincipalId -ServicePrincipalNames $SPAppPrincipal.ServicePrincipalNames
+			}
+			#Remove the existing SharePoint Online proxy if the switch is specified.
+			if ($RemoveExistingSPOProxy.IsPresent -and $RemoveExistingSPOProxy -eq $True) {
+			    Get-SPServiceApplicationProxy | ? DisplayName -EQ $SPO_MANAGEMENT_APPPROXY_NAME | Remove-SPServiceApplicationProxy -RemoveData -Confirm:$false
+			}
+			#Step 4: Add the SharePoint Online proxy
+			if (-not (Get-SPServiceApplicationProxy | ? DisplayName -EQ $SPO_MANAGEMENT_APPPROXY_NAME)) {
+			    $spoproxy = New-SPOnlineApplicationPrincipalManagementServiceApplicationProxy -Name $SPO_MANAGEMENT_APPPROXY_NAME -OnlineTenantUri $SharePointOnlineUrl -DefaultProxyGroup
+			}  
+		}
+
+2. Save the file with the name **SP-ACS.psm1** in the folder **C:\Windows\System32\WindowsPowerShell\v1.0\Modules\SP-ACS**. If you do not have permission to that location, the file can be saved in the alternative location of **C:\users\username\documents\windowspowershell\modules\SP-ACS**, where username is the farm administrator who will be performing the connection to ACS. 
+
+	*The file has to be saved as ANSI format, not UTF-8. PowerShell may give syntax errors when it loads a file with a non-ANSI format. Windows Notepad and PowerShell Editor will default to saving it as ANSI.*
+
+3. Open **SharePoint 2013 Management Shell** as Administrator.
+4. Run the following command:
+
+		Connect-SPFarmToAAD -AADDomain wtofficedevtraining.onmicrosoft.com -SharePointOnlineUrl https://wtofficedevtraining.sharepoint.com -SharePointWeb http://wingtipserver -AllowOverHttp
+	
+	**Note:** The URL specified for the -AADDomain parameter should match the Office 365 site mentioned in the prerequisites and the URL specified for the -SharePointWeb parameter must be the URL of the on-premises SharePoint web application in which you will be installing apps.
+
+5. The script will prompt for the administrator credentials of the Office 365 Site. Enter the user account with the *.onmicrosoft.com domain.
+<br />![](Images/Fig16.png)
+
+6. The script will configure Office 365 and Azure ACS to issue app authentication tokens and will configure the on-premises farm to accept tokens issued by ACS.
+
+## Exercise 7: Verify Azure ACS-authenticated Apps
+
+1. Using the browser, navigate to your on-premises developer site.
+2. On your developer workstation, launch Visual Studio as administrator.
+3. Create a new project in Visual Studio 2013 by selecting the menu command **File > New > Project**.
+4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **Test ACS Auth App**, a location of **C:\DevProjects** and a Solution name of **Test ACS Auth App** and then click **OK** button.
+<br />![](Images/Fig18.png)
+
+5.	Next, you will see the **New app for SharePoint wizard** which begins by prompting you with the **Specify the App for SharePoint Settings** page. Enter the URL to your on-premises developer site, configure the app's hosting model to be **Provider-hosted** and click **Next**.
+<br /> ![](Images/Fig09.png)
+
+6. On the **Specify the web project type** page, select the **ASP.NET Web Forms Application** setting and click **Next**.
+<br /> ![](Images/Fig10.png)
+
+7.	On the **Configure authentication settings** page, accept the default settings and click **Finish**.
+<br /> ![](Images/Fig17.png)
+
+8.	Build and Test the Project by pressing **[F5]** or **Debug > Start Debugging**.
+9.	The installation process for an app will take a moment to complete. If you watch the lower-left corner of Visual Studio, it will tell you what it is currently doing. If you want more information, click the Output tab at the bottom of Visual Studio to see a log of what is going on. If the Output tab isn’t present, select the window from the menu in Visual Studio 2013 using the menu command **View > Output**.
+10.	Once the app has been installed, Visual Studio may display a Security Alert. Click **Yes** to trust the self-signed certificate on the machine and unblock the app for debugging. 
+<br />![](Images/Fig12.png)
+11.	Windows may display a Security Alert if Visual Studio installs the self-signed certificate. Click **Yes**
+<br />![](Images/Fig13.png)
+12.	Internet Explorer will launch and navigate to the app’s start page **default.aspx** page. You may be prompted to trust the app. If so, click **Trust it**
+<br />![](Images/Fig19.png)
+13. The app home page will display, which simply displays the name of the developer site.
+<br />![](Images/Fig15.png)
+14. You have completed the configuration for connecting an on-premises farm to ACS.
