@@ -1,5 +1,5 @@
 # Application Lifecycle Management
-In this lab, implement continouous integration for a Provider-Hosted app deployed to Windows Azure and Office 365.
+In this lab, you will implement continouous integration for a Provider-Hosted app deployed to Windows Azure and Office 365.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
@@ -9,7 +9,7 @@ In this lab, implement continouous integration for a Provider-Hosted app deploye
 In this exercise you create a new provider-hosted app under source control.
 
 1. Sign up for Visual Studio Online
-  1. Sign in to Visual Studio Online [http://go.microsoft.com/fwlink/?LinkId=307137] with your **Microsoft Account**.
+  1. Sign in to Visual Studio Online (http://go.microsoft.com/fwlink/?LinkId=307137) with your **Microsoft Account**.
   2. If you are new to Visual Studio Online, you will have to fill out some additional information.
 2. Connect to Team Foundation Server
   1. Start **Visual Studio 2013**.
@@ -17,7 +17,7 @@ In this exercise you create a new provider-hosted app under source control.
       ![](Images/01.png?raw=true "Figure 1")
   3. Click **Team/Connect to Team Foundation Server** from the main menu in Visual Studio 2013.
   4. Click **Team Explorer**.
-  5. Click **Select Team Projects** to open the **Connect to team Foundation Server** dialog.<br/>
+  5. Click **Select Team Projects** to open the **Connect to Team Foundation Server** dialog.<br/>
       ![](Images/02.png?raw=true "Figure 2")
   6. Select your Team Foundation Server instance.
   7. Click **Connect**.<br/>
@@ -119,7 +119,7 @@ In this exercise, you will perform the initial deployment of the app to the O365
   6. When prompted, click **Trust It**.
 
 ## Exercise 3: Configure Continuous Integration
-In this exercise, utilize Visual Studio Online to automatically deploy the app when code is updated.
+In this exercise, you will utilize Visual Studio Online to automatically deploy the app when code is updated.
 
 1. In **Visual Studio 2013**, check in the code.
   1. Right click the **LifecycleApp** solution and select **Check In...**.
@@ -148,7 +148,7 @@ In this exercise, utilize Visual Studio Online to automatically deploy the app w
          ![](Images/15.png?raw=true "Figure 15")
   4. Select **Visual Studio Online**.
   5. Click the **Next** arrow.<br/>
-         ![](Images/15.png?raw=true "Figure 16")
+         ![](Images/16.png?raw=true "Figure 16")
   6. Fill in the information for your instance of **Visual Studio Online** and click **Authorize Now**.
   7. When prompted, click **Accept**.
   8. Select to deploy **Lifecycle App Project** and click the **checkmark**.<br/>
@@ -190,7 +190,7 @@ In this exercise, utilize Visual Studio Online to automatically deploy the app w
   2. Launch the app and verify the UI changes were successfully deployed to Windows Azure.<br/>
          ![](Images/25.png?raw=true "Figure 25")
 
-
+Congratulations! You have completed implementing Continuous Integration.
 
 
 
