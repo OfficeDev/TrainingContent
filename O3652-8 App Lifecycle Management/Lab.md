@@ -190,6 +190,43 @@ In this exercise, you will utilize Visual Studio Online to automatically deploy 
   2. Launch the app and verify the UI changes were successfully deployed to Windows Azure.<br/>
          ![](Images/25.png?raw=true "Figure 25")
 
+## Exercise 4: Build Validation Testing
+In this exercise, you will use Microsoft Test Manager to create a test plan for the app.
+
+1. Add a new Test Plan
+  1. In **Visual Studio 2013**, click **Team Explorer**.
+  2. Click **Web Portal** to open Visual Studio Online.
+  3. Click **Test**.<br/>
+          ![](Images/26.png?raw=true "Figure 26")
+  4. Select to create a new **Test Plan**.<br/>
+          ![](Images/27.png?raw=true "Figure 27")
+  5. Name the new Test Plan **Build Validation**.
+  6. Click **Create**.<br/>
+          ![](Images/28.png?raw=true "Figure 28")
+2. Create a Test case
+  1. Select to create a new **Test Case**.<br/>
+          ![](Images/29.png?raw=true "Figure 29")
+  2. Name the test **Launch Test**.
+  3. Add steps to the test so it appears as shown.
+  4. Click **Save**.<br/>
+          ![](Images/30.png?raw=true "Figure 30")
+  5. Close the dialog.
+  6. Click **Open Test Plan using Microsoft Test Manager**.<br/>
+          ![](Images/31.png?raw=true "Figure 31")
+  7. In **Microsoft Test Manager**, mark the testing suite as **In Progress**.<br/>
+          ![](Images/32.png?raw=true "Figure 32")
+  8. Click **Test**.
+          ![](Images/33.png?raw=true "Figure 33")
+  9. Right click the **Launch Test** and select **Run**.<br/>
+          ![](Images/34.png?raw=true "Figure 34")
+  10. Check **Create Action Recording**.
+  11. Click **Start Test**.
+  12. Follow the steps in the test to record the test case.
+  13. Click **End Test** when you are finished.
+  14. When finished, click **Save and Close**.<br/>
+          ![](Images/35.png?raw=true "Figure 35")
+
+
 Congratulations! You have completed implementing Continuous Integration.
 
 
