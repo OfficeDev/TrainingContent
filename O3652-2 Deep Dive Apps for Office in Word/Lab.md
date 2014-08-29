@@ -316,17 +316,17 @@ In this lab you will get hands-on experience developing an App for Office which 
 
 11. You have now finished exercise 2 and it is time to move on to exercise 3.
 
-## Exercise 3: Writing Content to a Word document using Office Open XML
-*In this exercise you will continue working on the Visual Studio solution for the ContentWriter app you worked on in the previous exercise. You will extend the app's capabilities by adding JavaScript code to insert content into the active Word document.*
+## Exercise 3: Writing Content to a Word Document using Office Open XML
+*In this exercise you will continue working on the Visual Studio solution for the ContentWriter app you worked on in the previous exercise. You will extend the app's capabilities by adding JavaScript code to insert content into the active Word document using Open Office XML.*
 
-1. Find XML files.
+1. Look inside the folder for this lab and locate the child folder named **Starter Files**. You should see that this folder contains four XML files as shown in the following screenshot.
 <br/>![](Images/Fig11.png)
 
-
-2. Add XML files in Visual Studio project.
+2. Add the four XML files into the Visual Studio project into the same folder as the HTML start page named **Home.html**.
 <br/>![](Images/Fig12.png)
 
-3. Open **Home.html** and add the following select element.
+3. Quickly open and review the XML content inside each of these four XML files. This will give you better idea of what Open Office XML looks like when targeting Microsoft Word. 
+4. Open **Home.html** and locate the button element with the id of **addContentOfficeOpenXml**. Directly under this button, add a new HTML **select** element as shown in the following code listing.
 
 		<div>
 		  <button id="addContentOfficeOpenXml">Office Open XML</button>
@@ -337,7 +337,9 @@ In this lab you will get hands-on experience developing an App for Office which 
 		    <option value="OpenXmlTable.xml">Table</option>
 		  </select>
 		</div>
-4. Implement **onAddContentOfficeOpenXml**.
+4. Save and close **Home.html**.
+5. Return to the code editor window with **Home.js**. 
+6. Implement the **onAddContentOfficeOpenXml** function to obtain the currently selected file name from the select element and then to execute an HTTP GET request using the jQuery **$.ajax** function to retrieve the associated XML file. In the success callback function, call **setSelectedDataAsync** to write the XML content to the current Word document using the **ooxml** coercion type as shown in the following code listing.
 
 		function onAddContentOfficeOpenXml() {
 
@@ -353,14 +355,16 @@ In this lab you will get hands-on experience developing an App for Office which 
 			});
 
 		}
-5. Test your work by starting a debug session and clicking the **Office Open XML** button when the select element has the default select of Paragraph.
+7. Test your work by starting a debug session and clicking the **Office Open XML** button when the select element has the default selected value of **Paragraph**. You should see that the Open Office XML content has been used to created a formatted paragraph.
 <br/>![](Images/Fig13.png)
 
-6. Change the value of the dropdown select element to Picture and click the **Office Open XML** button.
+8. Change the value of the select element to **Picture** and click the **Office Open XML** button. You should see that the Open Office XML content has been used to insert a image into the document.
 <br/>![](Images/Fig14.png)
 
-7. Change the value of the dropdown select element to Chart and click the **Office Open XML** button.
+9. Change the value of the select element to **Chart** and click the **Office Open XML** button. You should see that the Open Office XML content has been used to created a simple bar chart.
 <br/>![](Images/Fig15.png)
 
-8. Change the value of the dropdown select element to Tableand click the **Office Open XML** button.
+10. Change the value of the select element to **Table** and click the **Office Open XML** button. You should see that the Open Office XML content has been used to created a formatted table.
 <br/>![](Images/Fig16.png)
+
+11. You have now completed this lab
