@@ -261,3 +261,6 @@ Uncheck **Compose Form** for both **Email** and **Appointment** and then click *
 		    $("#results").append(displayTable);
 		}
 14. Save your changes to **Home.js** and refresh the app which has been activated within the appointment. Now it should display properly as shown in the following screenshot.
+<br/>![](Images/Fig17.png)
+
+15. You have now completed this lab.
