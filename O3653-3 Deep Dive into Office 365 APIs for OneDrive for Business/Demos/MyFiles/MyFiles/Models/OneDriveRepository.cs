@@ -17,8 +17,8 @@ namespace Files.Models
     public class OneDriveRepository : IFileRepository
     {
 
-        const string OneDriveRoot = "https://shillier-my.sharepoint.com/personal/scot_scothillier_net";
-        const string SharePointServiceRoot = "https://shillier-my.sharepoint.com";
+        const string OneDriveRoot = "https://[tenant]-my.sharepoint.com/personal/[user name]";
+        const string SharePointServiceRoot = "https://[tenant]-my.sharepoint.com";
         public async Task<MyFile> UploadFile(Stream filestream, string filename)
         {
             StringBuilder requestUri = new StringBuilder(OneDriveRoot)
