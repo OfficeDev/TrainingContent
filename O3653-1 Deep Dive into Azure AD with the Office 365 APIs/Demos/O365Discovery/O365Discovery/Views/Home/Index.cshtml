@@ -1,0 +1,22 @@
+﻿@model O365Discovery.Models.DiscoveryViewModel
+
+@{
+	ViewBag.Title = "O365 Discovery Service";
+}
+
+<div class="jumbotron">
+	<h1>Office 365 Discovery Service - Step by Step</h1>
+	<p class="lead">You use Discovery Service to find endpoints for services that you access in our Office 365 APIs Preview application. In this article, you’ll find reference information for the Discover Service APIs.</p>
+	<p><a href="http://msdn.microsoft.com/en-us/library/office/dn776441(v=office.15).aspx" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		@Html.Partial("_ProcessFlow",Model)
+	</div>
+	<div class="col-md-6">
+		<h2>Step thru the process</h2>
+		<p>Click the button below to start the process. You will be re-directed to the Office 365 API Discovery url, which will use the provided email address to determine the account type (Microsoft Account or Organizational Account) and the available capabilities.</p>
+		<p>@Html.ActionLink("1. First Sign-in", "FirstSignIn", null, new { @class = "btn btn-default" })</p>
+	</div>
+</div>

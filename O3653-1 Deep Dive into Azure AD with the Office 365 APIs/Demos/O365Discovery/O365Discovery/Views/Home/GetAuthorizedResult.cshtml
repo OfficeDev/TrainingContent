@@ -1,0 +1,18 @@
+﻿@model O365Discovery.Models.DiscoveryViewModel
+
+@{
+	ViewBag.Title = "First Sign-In Result";
+}
+
+<div class="row">
+	<div class="col-md-6">
+		@Html.Partial("_ProcessFlow", Model)
+	</div>
+	<div class="col-md-6">
+		@Html.Partial("_GetAuthorizedDetails", Model.GetAuthorizedResult)
+
+		<p>@Html.ActionLink("Discovery", "Discovery", null, new { @class = "btn btn-default" })</p>
+
+	</div>
+</div>
+
