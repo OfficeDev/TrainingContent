@@ -179,7 +179,7 @@ In this lab you will get hands-on experience developing an App for Office which 
 
 12.	Now that you have integrated the test document into your project, it is time to move ahead to the next exercise where you will write code to bind to name ranges in the workbook.
 
-## Exercise 3: Adding Bindings Between an App and a Excel Spreadsheet
+## Exercise 3: Adding Bindings Between an App and a Excel Workbook
 *In this exercise you will write code to create bindings on named ranges within the the Excel workbook named TestDoc.xlsx. You will also create event handlers so that the app responds to the user when updating the app user interface.*
 
 1. The workbook **TestDoc.xlsx** contains several cells that have already been defined as named ranges. Review the following list which shows the names of the Excel named ranges that you will be programming against in this exercise.
