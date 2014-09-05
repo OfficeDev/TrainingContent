@@ -228,7 +228,7 @@ In this lab you will get hands-on experience developing an App for Office which 
 
 30. You have now successfully run and tested the app and its JavaScript logic using the Visual Studio debugger. Close Microsoft Word to stop the debugging session and return to Visual Studio.
 
-## Exercise 2: Writing Content Using Coercion Types
+## Exercise 2: Writing Content to a Word Document Using Coercion Types
 *In this exercise you will continue working on the Visual Studio solution for the ContentWriter app you created in the previous exercise. You will add additional JavaScript code to insert content into the current Word document in a variety of formats.*
  
 1. In Visual Studio, make sure you have the **ContentWriter** project open.
