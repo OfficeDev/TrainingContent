@@ -41,7 +41,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
     9. Click **OK**.<br/>
        ![](Images/05.png?raw=true "Figure 5")
 
-## Exercise 2: Read the Task List
+## Exercise 2: Use Azure AD Access Token to call SharePoint REST API
 In this exercise, you will create a respository object for wrapping CRUD operations associated with the Tasks list and use the repository to read the list.
 
 1. In the **Solution Explorer**, right click the **Models** folder and select **Add/Class**.
