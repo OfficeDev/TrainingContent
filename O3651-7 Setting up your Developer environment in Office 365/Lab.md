@@ -10,7 +10,12 @@ In this exercise you obtain trial subscriptions to Office 365 and Azure. If you 
      ![](Images/1.png?raw=true "Figure 1")
   3. Fill out the form to obtain your trial O365 subscription.
   4. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
-2. Sign up for an Azure trial subscription
+2. Enable Yammer for Social Expereince
+  1. Log into [subscription].sharepoint.com
+  2. Click **Admin/SharePoint**.
+  3. Click **Settings**.
+  4. Change the Enterprise Social Collaboration setting to **Yammer**.
+3. Sign up for an Azure trial subscription
   1. Navigate to the [Azure Portal](https://manage.windowsazure.com)
   2. If prompted, log in using the credentials you created for your O365 subscription.
   3. After logging in, you should see a screen notifying you that you do not have a subscription<br/>
