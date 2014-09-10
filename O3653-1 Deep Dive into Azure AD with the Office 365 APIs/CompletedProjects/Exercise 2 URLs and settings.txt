@@ -1,4 +1,4 @@
-https://login.windows.net/common/oauth2/authorize?resource=Microsoft.SharePoint&redirect_uri=http://authflowdemo.com/&response_type=code&client_id=e2f1107f-ff54-4455-9773-9bb155b200e9
+https://login.windows.net/common/oauth2/authorize?resource=Microsoft.SharePoint&redirect_uri=http://authflowdemo.com/&response_type=code&client_id=[CLIENT-ID]
 
 https://login.windows.net/common/oauth2/token
 Content-Type: application/x-www-form-urlencoded
