@@ -526,7 +526,7 @@ In this exercise, you will create an application that uses the OpenGraph protoco
   8. Review the request to see the activity data.<br/>
        ![](Images/26.png?raw=true "Figure 26")
   9. Log into https://www.yammer.com
-  10. Examine your **Recent Activity** to see the new activity post.
+  10. Examine your **Recent Activity** to see the new activity post.<br/>
        ![](Images/27.png?raw=true "Figure 27")
   11. Hover over the activity and open it from the link in the corresponding flyout.
 
