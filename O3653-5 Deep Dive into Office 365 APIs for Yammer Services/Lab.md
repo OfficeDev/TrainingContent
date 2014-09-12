@@ -89,7 +89,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
 3. Build the authentication code.
   1. In the **Solution Explorer**, double click **Default.aspx** to open the file.
   2. **Replace** the code in the **BodyContent** placeholder with the following:
-  ```
+  ```HTML
     <div style="margin: 50px">
         <div class="row">
             <div class="col-md-12">
@@ -102,7 +102,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
   4. Name the new file **App.js**.
   5. Click **OK**.
   6. **Add** the following code to support the Yammer login button.
-  ```
+  ```javascript
   yam.connect.loginButton("#yammer-login", function (response) {
 
       if (response.authResponse) {
@@ -117,7 +117,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
   ```
   7. In the **Solution Explorer**, right click the **Site.Master**.
   8. **Add** the following script references just before the closing **head** tag.
-  ```
+  ```javascript
     <script type="text/javascript" data-app-id="YOUR CLIENT ID" src="https://c64.assets-yammer.com/assets/platform_js_sdk.js"></script>
     <script src="Scripts/App.js"></script>
 
@@ -132,7 +132,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
 5. Build the Search Code
   1. In the **Solution Explorer**, double click **Default.aspx** to open the file.
   2. **Add** the following code inside the main div in the **BodyContent** placeholder:
-  ```
+  ```HTML
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-2">
@@ -148,7 +148,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
 
   ```
   3. **Add** the following code to the **App.js** file to perform search:
-  ```
+  ```javascript
   jQuery(function () {
 
     $("#searchButton").click(function () {
@@ -216,7 +216,7 @@ In this exercise, you will create an application that uses the OpenGraph protoco
   7. In the **Solution Explorer**, click the **YammerOGApp** project and note the value of the **URL** in the **Properties** window. Save this value for later when you register a new app with Yammer.
   8. Right click the **References** node and select **Add Reference**.
   9. Add references to the following assemblies:
-  ```
+  ```C#
   System.Runtime.Serialization
   System.Net.Http
   ```
@@ -235,7 +235,7 @@ In this exercise, you will create an application that uses the OpenGraph protoco
        ![](Images/23.png?raw=true "Figure 23")
   3. In the **Solution Explorer**, open **Default.aspx.cs** for editing.
   4. **Add** the following **using** statements at the top of the file:
-  ```
+  ```C#
   using System.Text;
   using System.Xml;
   using System.Xml.Linq;
@@ -244,14 +244,14 @@ In this exercise, you will create an application that uses the OpenGraph protoco
   using System.Net.Http.Headers;
   ```
   5. **Add** the following constants to the top of the class file.
-  ```
+  ```C#
         public const string ClientId = "YOUR APP CLIENT ID";
         public const string RedirectUri = "YOUR APP REDIRECT URI";
         public const string ClientSecret = "YOUR APP SECRET";
 
   ```
   6. **Add** the following helper functions
-  ```
+  ```C#
         private static XElement Json2Xml(string json)
         {
             using (XmlDictionaryReader reader = JsonReaderWriterFactory.CreateJsonReader(
@@ -279,7 +279,7 @@ In this exercise, you will create an application that uses the OpenGraph protoco
         }
   ```
   7. **Replace** the **Page_Load** method with the following code to retrieve an access token when the application starts.
-  ```
+  ```C#
         protected async void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -329,7 +329,7 @@ In this exercise, you will create an application that uses the OpenGraph protoco
 4. Code the creation of a new activity.
   1. In the **Solution Explorer**, open **Default.aspx** for editing.
   2. **Replace** all of the content in the **BodyContent** with the following code:
-  ```
+  ```HTML
     <div style="margin: 50px">
         <div class="form-horizontal">
             <div class="form-group">
@@ -374,13 +374,13 @@ In this exercise, you will create an application that uses the OpenGraph protoco
   3. Right click the **YammerOGApp** project and select **Add/Class**.
   4. Name the new class **ActivityEnvelope.cs**.
   5. **Add** the following **using** statements to the top of the file
-  ```
+  ```C#
   using System.IO;
   using System.Runtime.Serialization;
   using System.Runtime.Serialization.Json;
   ```
   6. **Replace** the class definition with the following code that defines the appropriate JSON message for adding an activity using the OpenGraph protocol.
-  ```
+  ```C#
     [DataContract]
     public class ActivityEnvelope
     {
@@ -481,7 +481,7 @@ In this exercise, you will create an application that uses the OpenGraph protoco
   ```
   7. In the **Solution Explorer**, open **Default.aspx.cs** for editing.
   8. **Add** the following code to post the new activity
-  ```
+  ```C#
         protected async void createActivity_Click(object sender, EventArgs e)
         {
             string accessToken = GetFromCache("AccessToken").ToString();
