@@ -130,7 +130,7 @@ In this exercise, you will utilize Visual Studio Online to automatically deploy 
   2. Update the app title to be **Lifecycle Demonstration App**.
   3. In the ""LifecycleAppWeb** project, open **Index.cshtml** from the **Views/Home** folder.
   4. **Replace** all of the code with the following:
-  ```
+  ```HTML
 
   @{
       ViewBag.Title = "Home Page";

@@ -54,7 +54,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 3. Click **Add**.<br/>
        ![](Images/07.png?raw=true "Figure 7")
 4. **Add** the following references to the top of the **FileRepository** class.
-  ```
+  ```C#
 
   using Microsoft.Office365.OAuth;
   using Microsoft.Office365.SharePoint;
@@ -63,7 +63,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 5. **Add** the following helper functions to manage session state variables.
-  ```
+  ```C#
 
   private void SaveInCache(string name, object value)
   {
@@ -82,7 +82,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 6. **Add** the following code to discover the "MyFiles" capability and return a SharePointClient.
-  ```
+  ```C#
 
         private async Task<SharePointClient> EnsureClientCreated()
         {
@@ -113,7 +113,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 7. **Add** the following code to read a page of files.
-  ```
+  ```C#
 
         public async Task<IEnumerable<IFileSystemItem>> GetMyFiles(int pageIndex, int pageSize)
         {
@@ -126,7 +126,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 8. **Add** the following code to upload a file.
-  ```
+  ```C#
 
         public async Task<IFile> UploadFile(Stream filestream, string filename)
         {
@@ -137,7 +137,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 9. **Add** the following code to delete a file.
-  ```
+  ```C#
 
         public async Task DeleteFile(string id)
         {
@@ -152,15 +152,15 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 In this exercise, you will code the MVC application to allow navigating the OneDrive for Business file collection.
 
 1. In the **Solution Explorer**, expand the **Controllers** folder and open the **HomeController.cs** file.
-2. **Add** the following refernces to the top of the file.
-  ```
+2. **Add** the following references to the top of the file.
+  ```C#
 
   using Microsoft.Office365.OAuth;
   using System.Threading.Tasks;
 
   ```
 3. **Replace** the **Index** method with the following code to read files.
-  ```
+  ```C#
 
         public async Task<ActionResult> Index(int? pageIndex, int? pageSize)
         {
@@ -194,7 +194,7 @@ In this exercise, you will code the MVC application to allow navigating the OneD
   ```
 4. In the **Solution Explorer**, expand the **Views/Home** folder and open the **Index.cshtml** file.
 5. **Replace** all of the code in the file with the following:
-  ```
+  ```HTML
 
   <div class="row" style="margin-top:50px;">
     <div class="col-sm-12">
@@ -253,7 +253,7 @@ In this exercise, you will code the MVC application to allow navigating the OneD
        ![](Images/08.png?raw=true "Figure 8")
 11. Stop debugging.
 12. In the **HomeController.cs** file, **add** the following code to upload and delete files.
-  ```
+  ```C#
 
         public async Task<ActionResult> Upload()
         {
@@ -288,7 +288,7 @@ In this exercise, you will code the MVC application to allow navigating the OneD
 
   ```
 13. In the **Index.cshtml** file, **add** the following code under the comment **Place delete control here**.
-  ```
+  ```C#
 
     Dictionary<string, object> attributes1 = new Dictionary<string, object>();
     attributes1.Add("class", "btn btn-warning");
@@ -299,7 +299,7 @@ In this exercise, you will code the MVC application to allow navigating the OneD
 
   ```
 14. **Add** the following code under the comment **Place Paging controls here**
-  ```
+  ```C#
 
     Dictionary<string, object> attributes2 = new Dictionary<string, object>();
     attributes2.Add("class", "btn btn-default");
@@ -316,7 +316,7 @@ In this exercise, you will code the MVC application to allow navigating the OneD
 
   ```
 15. **Add** the following code to the bottom of the file to create an upload control.
-  ```
+  ```HTML
 
   <div class="row" style="margin-top:50px;">
     <div class="col-sm-12">

@@ -44,13 +44,13 @@ In this exercise you will create a new MVC web application to utilize the O365 A
      ![](Images/04.png?raw=true "Figure 4")
 6. In the **Solution Explorer**, open the file **CalendarApiSample.cs**.
   1. **Delete** the following lines of code. These values need to be stored in session state to prevent needless round trip for authentication.
-  ```
+  ```C#
         // Do not make static in Web apps; store it in session or in a cookie instead
         static string _lastLoggedInUser;
         static DiscoveryContext _discoveryContext;
   ```
   2. **Replace** the code in the **EnsureClientCreated** method with the following code.
-  ```
+  ```C#
             DiscoveryContext _discoveryContext = System.Web.HttpContext.Current.Session["DiscoveryContext"] as DiscoveryContext;
 
             if (_discoveryContext == null)
@@ -70,7 +70,7 @@ In this exercise you will create a new MVC web application to utilize the O365 A
             });
   ```
   3. **Replace** the code in the **SignOut** method with the following code.
-```
+```C#
             DiscoveryContext _discoveryContext = System.Web.HttpContext.Current.Session["DiscoveryContext"] as DiscoveryContext;
 
             if (_discoveryContext == null)
@@ -86,13 +86,13 @@ In this exercise you will create a new MVC web application to utilize the O365 A
 ```
 7. Open the **HomeController.cs** class.
   1. Add the following code to the top of the file
-  ```
+  ```C#
   using System.Threading.Tasks;
   using Microsoft.Office365.Exchange;
   using Microsoft.Office365.OAuth;
   ```
   2. Modify the **Index** method to appear as follows
-  ```
+  ```C#
         public async Task<ActionResult> Index()
         {
             try
@@ -109,7 +109,7 @@ In this exercise you will create a new MVC web application to utilize the O365 A
   ```
   3. Right click within the **Index** method and select **Go To View**.
   4. Replace the contents of the view with the following code
-  ```
+  ```HTML
     @{
         ViewBag.Title = "Home Page";
     }

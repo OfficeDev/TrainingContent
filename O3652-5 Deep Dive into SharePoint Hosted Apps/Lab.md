@@ -30,7 +30,7 @@ In this exercise you will create a basic SharePoint-Hosted app that you can enha
   1. Open the **app.js** file located in the **scripts** folder.
   2. Delete all of the JavaScript code in the file.
   3. Add the following code to the **app.js** file.
-  ```
+  ```javascript
   (function () {
       "use strict";
 
@@ -70,7 +70,7 @@ In this exercise you will add an app part to your project for displaying song ti
   5. Click **Finish**</br>
        ![](Images/05.png?raw=true "Figure 5")
   6. In the **Element.xml** file that describes the Client web part, **replace** the **ClientWebPart** element with the following code.
-  ```
+  ```xml
   <ClientWebPart 
     Name="MusicPart" 
     Title="Music App Part" 
@@ -99,13 +99,13 @@ In this exercise you will add an app part to your project for displaying song ti
 2. Prepare the App Part user interface
   1. Open **MusicPart.aspx** for editing.
   2. **Add** the following HTML to the **body** element for displaying information in the app part.
-  ```
+  ```HTML
     <div>
         <ul id="songList"></ul>
     </div>
   ```
   3. **Add** the following script reference to the **head** section to include functionality for the app part.
-  ```
+  ```javascript
   <script type="text/javascript" src="../Scripts/apppart.js"></script>
   ```
 3. Code the App Part.
@@ -115,7 +115,7 @@ In this exercise you will add an app part to your project for displaying song ti
   4. Click **Add**.<br/>
        ![](Images/06.png?raw=true "Figure 6")
   5. *Add** the following code to **apppart.js** to call the MusicBrainz service and display songs for the designated artist.
-  ```
+  ```javascript
   (function () {
       "use strict";
 
@@ -198,13 +198,13 @@ In this exercise you will add a Menu Item custom action to invoke the song searc
        ![](Images/11.png?raw=true "Figure 11")
   6. Open **MusicPart.aspx** for editing.
   7. **Add** the following script reference to the **head** section just before the **apppart.js** reference.
-  ```
+  ```javascript
     <script type="text/javascript" src="/_layouts/15/sp.requestexecutor.js"></script>
   ```
 2. Code the Menu Item Custom Action
   1. Open **apppart.js** for editing.
   2. **Add** the following code to the bottom on the file to retrieve an artist name from a custom list selection.
-  ```
+  ```javascript
   var appWebUrl = getQueryStringParameter("SPAppWebUrl");
   var hostWebUrl = getQueryStringParameter("SPHostUrl");
   var listId = getQueryStringParameter("SPListId");
@@ -231,7 +231,7 @@ In this exercise you will add a Menu Item custom action to invoke the song searc
   }
   ```
   3. Enclose the call to MusicBranz in a **timeout** function as a simple way to ensure the artist name is retrieved from the list before the call is made. The following code shows how this is done
-  ```
+  ```javascript
         setTimeout(function () {
 
             var ctx = SP.ClientContext.get_current();

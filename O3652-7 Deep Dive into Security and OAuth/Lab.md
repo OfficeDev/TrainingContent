@@ -103,7 +103,7 @@ In this exercise you create a new web applicvation and examine the OAuth flow.
 4. Update the Home Controller.
   1. Expand the **Controllers** folder and open **HomeController.cs**.
   2. Replace the **Index** method with the following code
-  ```
+  ```C#
         public async Task<ActionResult> Index()
         {
             IOrderedEnumerable<IEvent> events = await CalendarAPISample.GetCalendarEvents();
@@ -114,7 +114,7 @@ In this exercise you create a new web applicvation and examine the OAuth flow.
 5. Update the Index View.
   1. Expand the **Views/Home** folders and open **Index.cshtml**.
   2. Replace all of tyhe code with the following
-  ```
+  ```HTML
      <div style="margin:25px;">
         <table>
             <tr>

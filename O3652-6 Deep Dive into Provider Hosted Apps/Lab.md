@@ -42,7 +42,7 @@ In this exercise you will add the Chrome Control to the project you created in E
 6. Name the new Web Form **CrossDomain**.
 7. Click **OK**.
 8. Add a div element to the body of the page to hold the Chrome Control. The following code shows the div in context with the body.
-    ```
+    ```HTML
     <body>
         <form id="form1" runat="server">
         <div id="chrome_ctrl_placeholder"></div>
@@ -54,7 +54,7 @@ In this exercise you will add the Chrome Control to the project you created in E
     ```
 9. Open **Default.aspx** from the **DeepDiveCloudAppWeb** project.
 10. Add a div element to the body of the page to hold the Chrome Control. The following code shows the div in context with the body.
-    ```
+    ```HTML
     <body>
         <form id="form1" runat="server">
         <div id="chrome_ctrl_placeholder"></div>
@@ -68,7 +68,7 @@ In this exercise you will add the Chrome Control to the project you created in E
 12. Name the new file **app**.
 13. Click **OK**.
 14. **Add** the following code to **app.js** to initialize the Chrome Control.
-    ```
+    ```javascript
     "use strict";
 
     var ChromeControl = function () {
@@ -128,13 +128,13 @@ In this exercise you will add the Chrome Control to the project you created in E
     ```
 15. Open **Default.aspx** from the **DeepDiveCloudAppWeb** project.
 16. Add the following script references in the **head** section.
-    ```
-   <script src="../Scripts/jquery-1.9.1.js"></script>
+    ```javascript
+    <script src="../Scripts/jquery-1.9.1.js"></script>
     <script src="../Scripts/app.js"></script>
     ```
 17. Open **CrossDomain.aspx** from the **DeepDiveCloudAppWeb** project.
 18. Add the following script references in the **head** section.
-    ```
+    ```javascript
     <script src="../Scripts/jquery-1.9.1.js"></script>
     <script src="../Scripts/app.js"></script>
     ```
@@ -158,7 +158,7 @@ In this exercise you use the cross-domain library to access a list in the app we
 9. Open the **Elements.xml** file associated with the new list instance **DeepDiveCloudApp/Terma/Elements.xml**.
 10. Add the following XML inside the **ListInstance** element to pre-populate the list with data.
 
-    ```
+    ```xml
 
         <Data>
           <Rows>
@@ -186,7 +186,7 @@ In this exercise you use the cross-domain library to access a list in the app we
 12. Name the new file **crossdomain**.
 13. Click **OK**.
 14. **Add** the following code to **crossdomain.js** to read the Terms list items.
-    ```
+    ```javascript
 
     (function () {
         "use strict";
@@ -241,11 +241,11 @@ In this exercise you use the cross-domain library to access a list in the app we
     ```
 15. Open **CrossDomain.aspx** from the **DeepDiveCloudAppWeb** project.
 16. Add the following script reference in the **head** section.
-    ```
+    ```javascript
     <script src="../Scripts/crossdomain.js"></script>
     ```
 17. Add an unordered list element to display the terms. The list element is shown in context below.
-    ```
+    ```HTML
     <body>
     <form id="form1" runat="server">
         <div id="chrome_ctrl_placeholder"></div>

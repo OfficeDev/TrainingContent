@@ -48,7 +48,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 2. In the **Add New Item** dialog, name the new class **Task.cs**.
 3. Click **Add**.
 4. **Add** the following properties to hold data for an individual task.
-  ```
+  ```C#
         public string Id { get; set; }
         public string Title { get; set; }
 
@@ -63,7 +63,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 6. In the **Add New Item** dialog, name the new class **TaskRepository.cs**.
 7. Click **Add**.
 8. **Add** the following references to the top of the **TaskRepository** class.
-  ```
+  ```C#
 
   using Microsoft.Office365.OAuth;
   using Microsoft.Office365.SharePoint;
@@ -75,7 +75,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 9. **Add** the following constants to the class being sure to modify them for your tenant.
-  ```
+  ```C#
 
   const string ServiceResourceId = "https://[tenant].sharepoint.com";
   static readonly Uri ServiceEndpointUri = new Uri("https://[tenant].sharepoint.com/_api/");
@@ -85,7 +85,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 10. **Add** the following helper functions to manage session state variables.
-  ```
+  ```C#
 
   private void SaveInCache(string name, object value)
   {
@@ -104,7 +104,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 11. **Add** the following code to return an access token you can use with the REST API.
-  ```
+  ```C#
 
         private async Task<string> GetAccessToken()
         {
@@ -130,7 +130,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 12. **Add** the following code to read a page of Tasks.
-  ```
+  ```C#
 
         public async Task<List<Task>> GetTasks(int pageIndex, int pageSize)
         {
@@ -170,7 +170,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 14. In the **Add New Item** dialog, name the new class **TaskViewModel.cs**.
 15. Click **Add**.
 16. **Add** the following code to hold data for the view.
-  ```
+  ```C#
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public List<Task> Tasks { get; set; }
@@ -178,7 +178,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
   ```
 17. In the **Solution Explorer**, expand the **Controllers** folder and open the **HomeController.cs** file.
 18. **Add** the following refernces to the top of the file.
-  ```
+  ```C#
 
   using Microsoft.Office365.OAuth;
   using System.Threading.Tasks;
@@ -186,7 +186,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 
   ```
 19. **Replace** the **Index** method with the following code to read files.
-  ```
+  ```C#
 
         public async Task<ActionResult> Index(int? pageIndex, int? pageSize, string taskId)
         {
@@ -234,7 +234,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
   ```
 20. In the **Solution Explorer**, expand the **Views/Home** folder and open **Index.cshtml**.
 21. **Replace** the entire file with the following code.
-  ```
+  ```HTML
   @model TasksWeb.Models.TaskViewModel
   
   @{
@@ -333,7 +333,7 @@ In this exercise, you will create a respository object for wrapping CRUD operati
 In this exercise, you will finish developing the CRUD operations for the task list.
 
 1. **Add** the following code to the **TaskRepository** class to view individual task items.
-  ```
+  ```C#
         public async Task<Task> GetTask(string Id)
         {
             StringBuilder requestUri = new StringBuilder(ServiceResourceId)
@@ -365,7 +365,7 @@ In this exercise, you will finish developing the CRUD operations for the task li
 
   ```
 2. Add the following code to the **HomeController.cs** file to handle viewing an item.
-  ```
+  ```C#
         public async Task<ActionResult> View(string taskId)
         {
             TaskRepository repository = new TaskRepository();
@@ -392,7 +392,7 @@ In this exercise, you will finish developing the CRUD operations for the task li
 4. Press **F5** to debug and verify that you can see the task details for an individual item.<br/>
        ![](Images/08.png?raw=true "Figure 8")
 5. **Add** the following code to the **TaskRepository.cs** file to create new tasks.
-  ```
+  ```C#
 
        public async Task<Task> CreateTask(Task task)
         {
@@ -435,7 +435,7 @@ In this exercise, you will finish developing the CRUD operations for the task li
 
   ```
 6. Add the following code to the **HomeController.cs** file to handle creating an item.
-  ```
+  ```C#
         public async Task<ActionResult> Create(TasksWeb.Models.Task task)
         {
             TaskRepository repository = new TaskRepository();
@@ -460,7 +460,7 @@ In this exercise, you will finish developing the CRUD operations for the task li
 8. Press **F5** to debug and verify that you can add new task items.<br/>
        ![](Images/10.png?raw=true "Figure 10")
 9. **Add** the following code to the **TaskRepository.cs** file to edit a task.
-  ```
+  ```C#
         public async System.Threading.Tasks.Task UpdateTask(Task task)
         {
             StringBuilder requestUri = new StringBuilder(ServiceResourceId)
@@ -494,7 +494,7 @@ In this exercise, you will finish developing the CRUD operations for the task li
 
   ```
 10. **Add** the following code to the **HomeController.cs** file to handle editing an updating task items.
-  ```
+  ```C#
         public async Task<ActionResult> Edit(string Id, TasksWeb.Models.Task task)
         {
             TaskRepository repository = new TaskRepository();
@@ -520,7 +520,7 @@ In this exercise, you will finish developing the CRUD operations for the task li
 12. Press **F5** to debug and verify that you can add edit task items from the **Details** page.<br/>
        ![](Images/12.png?raw=true "Figure 12")
 13. **Add** the following code to the **TaskRepository.cs** file to delete a task.
-  ```
+  ```C#
         public async System.Threading.Tasks.Task DeleteTask(string Id)
         {
             StringBuilder requestUri = new StringBuilder(ServiceResourceId)
