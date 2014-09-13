@@ -5,138 +5,133 @@ using System.Web;
 
 using Microsoft.Office365.OAuth;
 using Microsoft.Office365.Exchange;
+using Microsoft.Office365.Exchange.Extensions;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace ExchangeClientDemo.Models {
-    public class MyMessagesRespository {
+	public class MyMessagesRespository {
 
-        public async Task<List<MyMessage>> GetMessages() {
+		public async Task<List<MyMessage>> GetMessages() {
 
-            var client = await EnsureClientCreated();
+			var client = await EnsureClientCreated();
 
-            var messagesResults = await (from i in client.Me.Inbox.Messages
-                                        orderby i.DateTimeSent descending
-                                        select i).ExecuteAsync();
+			IReadOnlyQueryableSet<IMessage> messagesQuery = from message in client.Me.Inbox.Messages
+																											orderby message.DateTimeSent descending
+																											select message;
 
-            var messages = messagesResults.CurrentPage.OrderBy(e => e.DateTimeReceived);
+			IPagedCollection<IMessage> messagesResults = await (messagesQuery).ExecuteAsync();
+			IReadOnlyList<IMessage> messages = messagesResults.CurrentPage;
 
-            var messageList = new List<MyMessage>();
+			List<MyMessage> messageList = new List<MyMessage>();
 
-            foreach (var message in messages) {
-                MyMessage myMessage = new MyMessage();
-                myMessage.Id = message.Id;
-                myMessage.ConversationId = message.ConversationId;                
-                myMessage.Subject = message.Subject;
-                myMessage.DateTimeReceived = message.DateTimeReceived;
-                myMessage.From = message.From.Name;
+			foreach (IMessage message in messages) {
+				MyMessage myMessage = new MyMessage();
+				myMessage.Id = message.Id;
+				myMessage.Subject = message.Subject;
+				myMessage.DateTimeReceived = message.DateTimeReceived;
+				myMessage.From = message.From.Name;
+				myMessage.HasAttachments = message.HasAttachments;
 
-                List<string> toRecipients = new List<string>();
-                foreach (var toRecipient in message.ToRecipients) {
-                    toRecipients.Add(toRecipient.Name);
-                }
-                myMessage.ToRecipients = toRecipients;
+				myMessage.ToRecipients = new List<string>();
+				foreach (var toRecipient in message.ToRecipients) {
+					myMessage.ToRecipients.Add(toRecipient.Name);
+				}
 
-                myMessage.HasAttachments = message.HasAttachments;
-                
-                messageList.Add(myMessage);
-            }
+				messageList.Add(myMessage);
+			}
+			return messageList;
+		}
 
-            return messageList;
+		public async Task<MyMessage> GetMessage(string id) {
+			var client = await EnsureClientCreated();
+			var existingMessage = await client.Me.Messages.GetById(id).ExecuteAsync();
 
-        }
+			MyMessage newMessage = new MyMessage();
+			newMessage.Id = existingMessage.Id;
+			newMessage.ConversationId = existingMessage.ConversationId;
+			newMessage.Subject = existingMessage.Subject;
+			newMessage.DateTimeSent = existingMessage.DateTimeSent;
+			newMessage.DateTimeReceived = existingMessage.DateTimeReceived;
+			newMessage.From = existingMessage.From.Name;
 
-        public async Task<MyMessage> GetMessage(string id) {
-            var client = await EnsureClientCreated();
-            var existingMessage = await client.Me.Messages.GetById(id).ExecuteAsync();
+			List<string> toRecipients = new List<string>();
+			foreach (var toRecipient in existingMessage.ToRecipients) {
+				toRecipients.Add(toRecipient.Name);
+			}
+			newMessage.ToRecipients = toRecipients;
 
-            MyMessage newMessage = new MyMessage();
-            newMessage.Id = existingMessage.Id;
-            newMessage.ConversationId = existingMessage.ConversationId;
-            newMessage.Subject = existingMessage.Subject;
-            newMessage.DateTimeSent = existingMessage.DateTimeSent;
-            newMessage.DateTimeReceived = existingMessage.DateTimeReceived;
-            newMessage.From = existingMessage.From.Name;
-
-            List<string> toRecipients = new List<string>();
-            foreach (var toRecipient in existingMessage.ToRecipients) {
-                toRecipients.Add(toRecipient.Name);
-            }
-            newMessage.ToRecipients = toRecipients;
-
-            newMessage.HasAttachments = existingMessage.HasAttachments;
+			newMessage.HasAttachments = existingMessage.HasAttachments;
 
 
-            if (existingMessage.Body.Content != null) { 
-                newMessage.Body = existingMessage.Body.Content;
-            }
+			if (existingMessage.Body.Content != null) {
+				newMessage.Body = existingMessage.Body.Content;
+			}
 
-            return newMessage;
-        }
+			return newMessage;
+		}
 
-        public async Task DeleteMessage(string id) {
-            var client = await EnsureClientCreated();
-            var myMessage = await client.Me.Messages.GetById(id).ExecuteAsync();
-            await myMessage.DeleteAsync();
-        }
+		public async Task DeleteMessage(string id) {
+			var client = await EnsureClientCreated();
+			var myMessage = await client.Me.Messages.GetById(id).ExecuteAsync();
+			await myMessage.DeleteAsync();
+		}
 
-        public async Task SendMessage(ExchangeClientDemo.Models.MyMessage myMessage) {
-            var client = await EnsureClientCreated();
+		public async Task SendMessage(ExchangeClientDemo.Models.MyMessage myMessage) {
 
+			var client = await EnsureClientCreated();
 
-            var newMessage = new Microsoft.Office365.Exchange.Message {
-                Subject = myMessage.Subject,
-                From = new Recipient() { Address = myMessage.From },
-                ToRecipients = new List<Recipient>(){
-                    new Recipient {
-                        Address = myMessage.ToRecipients[0],
-                        Name = "Teddy P"}
-                },
-                Body = new ItemBody() { Content = myMessage.Body },               
-            };
-            
-            await newMessage.SendAsync();
-            
-        }
+			var newMessage = new Microsoft.Office365.Exchange.Message();
+			newMessage.Subject = myMessage.Subject;
+			newMessage.ToRecipients.Add( new Recipient {	Address = myMessage.From,	Name = "Teddy P"});
+			newMessage.Body = new ItemBody {
+				ContentType = BodyType.Text,
+				Content = myMessage.Body
+			};
 
+			await client.Me.Messages.AddMessageAsync(newMessage);
 
+			//await newMessage.SendAsync();
 
-        private async Task<ExchangeClient> EnsureClientCreated() {
+		}
 
-            DiscoveryContext disco = GetFromCache("DiscoveryContext") as DiscoveryContext;
+		private async Task<ExchangeClient> EnsureClientCreated() {
 
-            if (disco == null) {
-                disco = await DiscoveryContext.CreateAsync();
-                SaveInCache("DiscoveryContext", disco);
-            }
+			DiscoveryContext disco = GetFromCache("DiscoveryContext") as DiscoveryContext;
 
-            string ServiceResourceId = "https://outlook.office365.com";
-            Uri ServiceEndpointUri = new Uri("https://outlook.office365.com/ews/odata");
+			if (disco == null) {
+				disco = await DiscoveryContext.CreateAsync();
+				SaveInCache("DiscoveryContext", disco);
+			}
 
-            var dcr = await disco.DiscoverResourceAsync(ServiceResourceId);
+			string ServiceResourceId = "https://outlook.office365.com";
+			Uri ServiceEndpointUri = new Uri("https://outlook.office365.com/ews/odata");
 
-            SaveInCache("LastLoggedInUser", dcr.UserId);
+			var dcr = await disco.DiscoverResourceAsync(ServiceResourceId);
 
-            return new ExchangeClient(ServiceEndpointUri, async () => {
-                return (await disco.AuthenticationContext.AcquireTokenByRefreshTokenAsync(
-                    new SessionCache().Read("RefreshToken"),
-                    new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(
-                        disco.AppIdentity.ClientId,
-                        disco.AppIdentity.ClientSecret),
-                        ServiceResourceId)).AccessToken;
-            });
+			SaveInCache("LastLoggedInUser", dcr.UserId);
 
-        }
-        private void SaveInCache(string name, object value) {
-            System.Web.HttpContext.Current.Session[name] = value;
-        }
+			return new ExchangeClient(ServiceEndpointUri, async () => {
+				return (await disco.AuthenticationContext.AcquireTokenByRefreshTokenAsync(
+						new SessionCache().Read("RefreshToken"),
+						new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(
+								disco.AppIdentity.ClientId,
+								disco.AppIdentity.ClientSecret),
+								ServiceResourceId)).AccessToken;
+			});
 
-        private object GetFromCache(string name) {
-            return System.Web.HttpContext.Current.Session[name];
-        }
+		}
 
-        private void RemoveFromCache(string name) {
-            System.Web.HttpContext.Current.Session.Remove(name);
-        }
-    }
+		private void SaveInCache(string name, object value) {
+			System.Web.HttpContext.Current.Session[name] = value;
+		}
+
+		private object GetFromCache(string name) {
+			return System.Web.HttpContext.Current.Session[name];
+		}
+
+		private void RemoveFromCache(string name) {
+			System.Web.HttpContext.Current.Session.Remove(name);
+		}
+	}
 }
