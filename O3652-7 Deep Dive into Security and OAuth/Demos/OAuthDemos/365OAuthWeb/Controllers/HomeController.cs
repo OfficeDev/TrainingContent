@@ -15,11 +15,17 @@ namespace _365OAuthWeb.Controllers
 {
     public class HomeController : Controller
     {
-        string SharePointServiceRoot = "https://shillier.sharepoint.com";
         public async Task<ActionResult> Index()
         {
-            IEnumerable<IContact> contacts = await ContactsAPISample.GetContacts();
-            ViewBag.Contacts = contacts;
+            try
+            {
+                IEnumerable<IContact> contacts = await ContactsAPISample.GetContacts();
+                ViewBag.Contacts = contacts;
+            }
+            catch (RedirectRequiredException x)
+            {
+                return Redirect(x.RedirectUri.ToString());
+            }
             return View();
         }
 

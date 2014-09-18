@@ -40,7 +40,7 @@ namespace OAuthControllerWeb.Controllers
 
             //Search Query Uri
             StringBuilder requestUri = new StringBuilder(resourceId)
-                .Append("/_api/web/lists/getbytitle('Contacts')/items");
+                .Append("/O3652-7/_api/web/lists/getbytitle('Contacts')/items");
 
             //Execute Query
             HttpClient client = new HttpClient();
