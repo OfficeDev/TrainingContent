@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+//*********************************************************
+// Copyright (c) Microsoft Corporation
+// All rights reserved. 
+//
+// Licensed under the Apache License, Version 2.0 (the ""License""); 
+// you may not use this file except in compliance with the License. 
+// You may obtain a copy of the License at 
+// http://www.apache.org/licenses/LICENSE-2.0 
+//
+// THIS CODE IS PROVIDED ON AN  *AS IS* BASIS, WITHOUT 
+// WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS 
+// OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED 
+// WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR 
+// PURPOSE, MERCHANTABLITY OR NON-INFRINGEMENT. 
+//
+// See the Apache Version 2.0 License for specific language 
+// governing permissions and limitations under the License.
+//*********************************************************
+-->
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="34465PaulSchaeflein.CreatePagesSampleODT2" Publisher="CN=27BA7DC2-EFE0-47CF-AFA9-FD39E538E416" Version="1.1.0.0" />
+  <Properties>
+    <DisplayName>Create_Pages_Sample_ODT2</DisplayName>
+    <PublisherDisplayName>Paul Schaeflein</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="OneNoteCloudCreatePagesSample.App">
+      <m2:VisualElements DisplayName="Create_Pages_Sample_ODT2" Description="Samples of how to use OneNote Cloud to create pages." BackgroundColor="#464646" ForegroundText="light" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png">
+        <m2:DefaultTile>
+          <m2:ShowNameOnTiles>
+            <m2:ShowOn Tile="square150x150Logo" />
+          </m2:ShowNameOnTiles>
+        </m2:DefaultTile>
+        <m2:SplashScreen Image="Assets\SplashScreen.png" />
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>
