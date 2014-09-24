@@ -1,0 +1,7 @@
+Look for:
+
+		@*[[ OneNote Button ]]*@
+
+Replace with
+
+		@Html.ActionLink("Archive in OneNote", "Index", "OneNote", new { id = Model.Id }, new { @class = "btn btn-default" })
