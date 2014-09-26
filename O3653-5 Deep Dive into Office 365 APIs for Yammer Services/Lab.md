@@ -27,24 +27,32 @@ In this exercise, you will add Yammer code, web parts amd apps to your SharePoin
   5. Click **Insert**.
   6. Verify the Yammer feed displays.
 3. Use the Yammer web part.
-  1. CLick **Insert/App Part**.<br/>
+  1. Click **Site Contents**.
+  2. Click **Add an App**.
+  3. Click **SharePoint Store**.
+  4. Type **Yammer App for SharePoint** in the search box and search the available apps.
+  5. Click on the **Yammer App for SharePoint** app.
+  6. Click **Add It**.
+  7. Click **Trust It**.
+  8. Go to the home page of your SharePoint site.
+  9. CLick **Insert/App Part**.<br/>
        ![](Images/06.png?raw=true "Figure 6")
-  2. Select the **Yammer Feed** app part.
-  3. Click **Add**.<br/>
+  10. Select the **Yammer Feed** app part.
+  11. Click **Add**.<br/>
        ![](Images/07.png?raw=true "Figure 7")
-  4. Click **Home Feed**. <br/>
+  12. Click **Home Feed**. <br/>
        ![](Images/08.png?raw=true "Figure 8")
-  5. Enter your **network** name.
-  6. Click  **Save**.<br/>
+  13. Enter your **network** name.
+  14. Click  **Save**.<br/>
        ![](Images/09.png?raw=true "Figure 9")
-  7. Save the changes to the home page.
+  15. Save the changes to the home page.
 4. Use the Social Nucleus app.
   1. Click **Site Contents**.
   2. Click **Add an App**.
   3. Click **SharePoint Store**.
   4. Type **Nucleus** in the search box and search the available apps.<br/>
        ![](Images/10.png?raw=true "Figure 10")
-  5. Click on the **Social Nucleaus** app.
+  5. Click on the **Social Nucleus** app.
   6. Click **Add It**.<br/>
        ![](Images/11.png?raw=true "Figure 11")
   7. Click **Trust It**.<br/>
