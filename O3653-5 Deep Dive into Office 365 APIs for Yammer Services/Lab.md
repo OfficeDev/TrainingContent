@@ -132,7 +132,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
   ```
 4. Test the login functionality.
 
-> This is a note
+> NOTE: Internet Explorer places Yammer.com URLs in the Intranet zone by default. This can cause log in failures is your app is in a different zone. For this exercise, either place Yammer.com in the Trusted zone or use a browser, like Chrome, that does not have security zones.
 
   1. Press **F5** to debug your application.
   2. When the application starts, click **Login with Yammer**.
