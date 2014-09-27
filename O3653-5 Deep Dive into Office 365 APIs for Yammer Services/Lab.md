@@ -131,6 +131,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
 
   ```
 4. Test the login functionality.
+  > This is a note
   1. Press **F5** to debug your application.
   2. When the application starts, click **Login with Yammer**.
   3. Click **Allow**.<br/>
@@ -166,7 +167,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
             if (response.authResponse) {
 
                 yam.platform.request({
-                    url: "https://www.yammer.com/api/v1/search.json",
+                    url: "https://api.yammer.com/api/v1/search.json",
                     method: "GET",
                     data: {
                         "search": $("#searchText").val(),
