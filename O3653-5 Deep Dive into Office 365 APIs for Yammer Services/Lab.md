@@ -92,9 +92,9 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
   5. Copy the **Client ID** and save it for later use.
   6. Click **Basic Info**.
   7. Enter the URL of the **YammerSDKApp** you saved earlier into the **Redirect URI** field.
+  8. Also, enter the URL of the **YammerSDKApp** you saved earlier into the **JavaScript Origins** field.
   8. Click **Save**.<br/>
-       ![](Images/15a.png?raw=true "Figure 15a")
-3. Build the authentication code.
+ 3. Build the authentication code.
   1. In the **Solution Explorer**, double click **Default.aspx** to open the file.
   2. **Replace** the code in the **BodyContent** placeholder with the following:
   ```HTML
@@ -132,7 +132,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
   ```
 4. Test the login functionality.
 
-> NOTE: Internet Explorer places Yammer.com URLs in the Intranet zone by default. This can cause log in failures is your app is in a different zone. For this exercise, either place Yammer.com in the Trusted zone or use a browser, like Chrome, that does not have security zones.
+> NOTE: Internet Explorer places Yammer.com URLs in the Intranet zone by default. This can cause log in failures if your app is in a different zone. For this exercise, either place Yammer.com in the Trusted zone or use a browser, like Chrome, that does not have security zones.
 
   1. Press **F5** to debug your application.
   2. When the application starts, click **Login with Yammer**.
