@@ -131,7 +131,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
 
   ```
 4. Test the login functionality.
-  > This is a note
+> This is a note<br/>
   1. Press **F5** to debug your application.
   2. When the application starts, click **Login with Yammer**.
   3. Click **Allow**.<br/>
