@@ -1,0 +1,184 @@
+﻿<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
+    
+    <Page
+    x:Name="pageRoot"
+    x:Class="Office365StarterProject.Views.MyFiles"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Office365Starter"
+    xmlns:common="using:Office365Starter.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <!--
+        This grid acts as a root panel for the page that defines four rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains the sample summary
+        * Row 2 contains the core input and output for the MyFiles operations
+        * Row 3 provides status information on select operations
+    -->
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Name="aGrid">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Back button and page title -->
+        <Grid Grid.Row="0" Background="{StaticResource SampleHeaderBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="74"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Grid.Column="0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        AutomationProperties.Name="Back"
+                        AutomationProperties.AutomationId="BackButton"
+                        AutomationProperties.ItemType="Navigation Button" Height="41" Width="41" RenderTransformOrigin="0.514,-0.508"/>
+            <Grid Grid.Column="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Text="Office 365 Files API" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Style="{StaticResource HeaderTextBlockStyle}"
+                       />
+                <Image Grid.Column="2" Source="../Assets/MyFilesIcon.png" Height="100" Margin="60,0,0,0"/>
+            </Grid>                   
+        </Grid>
+
+        <!-- Sample summary -->
+        <TextBlock Grid.Row="1"        
+                   HorizontalAlignment="Center"
+                   TextWrapping="Wrap"
+                    
+                   Style="{StaticResource BaseTextBlockStyle}" Margin="10"
+                   >
+                To get started, select the <Bold>Get file and folder list</Bold> button. This will retrieve your files and folders in your default documents <LineBreak />
+             library. Learn about the REST APIs calls made in this application by reading <Bold><Hyperlink NavigateUri="http://msdn.microsoft.com/en-us/library/office/dn605900(v=office.15).aspx" Foreground="{StaticResource HyperLinkBrush}"  >Files REST API in Office 365 APIs</Hyperlink></Bold>.
+               
+        </TextBlock>
+
+        <!-- Core input and output -->
+        <Grid Grid.Row="2" DataContext="{Binding FilesViewModel}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>             
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                <TextBlock  HorizontalAlignment="Left"  Text="Actions" VerticalAlignment="Top" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,0,20" />
+                <Button 
+                    Content="Get file and folder list" 
+                    Margin="0,5,0,0" 
+                    Command="{Binding Path=ReadFileandFoldersCommand}" 
+                    Width="205"/>
+                <Button 
+                    Content="Create demo.txt" 
+                    Margin="0,5,0,0" 
+                    Command="{Binding Path=CreateNewFileCommand}" 
+                    Width="205"/>
+                <Button 
+                    Content="Upload file" Margin="0,5,0,0" 
+                    Command="{Binding Path=UploadFileCommand}" 
+                    Width="205"/>
+                <Button 
+                    Content="Delete file or folder" 
+                    Margin="0,5,0,0" 
+                    Command="{Binding Path=DeleteFileOrFolderCommand}"
+                    CommandParameter="{Binding Path=SelectedFile}"
+                    Width="205"/>
+                <Button 
+                    Content="Read text file" 
+                    Margin="0,5,0,0" 
+                    Command="{Binding Path=ReadTextFileCommand}" 
+                    CommandParameter="{Binding Path=SelectedFile}"
+                    Width="205"/>
+                <Button 
+                    Content="Update text file" Margin="0,5,0,0" 
+                    Command="{Binding Path=UpdateFileCommand}" 
+                    CommandParameter="{Binding Path=SelectedFile}"
+                    Width="205"/>
+                <Button 
+                    Content="Download file" 
+                    Margin="0,5,0,0" 
+                    Command="{Binding Path=DownloadFileCommand}" 
+                    CommandParameter="{Binding Path=SelectedFile}"
+                    Width="205"/>        
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="3">
+                <TextBlock  HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Files and Folders" VerticalAlignment="Top" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,0,20" />
+                <ListBox  x:Name="docList" HorizontalAlignment="Left"  Width="400" Height="400"  
+                          SelectedItem="{Binding Path=SelectedFile, Mode=TwoWay}"
+                          DisplayMemberPath="DisplayName" ItemsSource="{Binding Path=DirectoryItems}" ScrollViewer.VerticalScrollMode="Enabled"  />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="5">
+                <TextBlock HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Text file contents" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,0,20"  />
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible"  VerticalAlignment="Top" Width="400" x:Name="input" Text= "{Binding Path = FileText}" TextChanged="input_TextChanged" Height="400" FontFamily="Calibri Light"  />
+            </StackPanel>
+            
+        </Grid>
+
+        <!-- Status text -->
+        <TextBlock Grid.Row="3" Name="OperationResult" DataContext="{Binding LoggingViewModel}"
+                     Text="{Binding Path=Information}"
+                     VerticalAlignment="Top" Margin="10,10,10,0" Style="{ThemeResource SubheaderTextBlockStyle}" HorizontalAlignment="Center" />
+
+
+
+    </Grid>
+</Page>
+<!--
+ 
+O365-APIs-Start-Windows, https://github.com/OfficeDev/O365-APIs-Start-Windows
+
+Copyright (c) Microsoft Corporation
+All rights reserved. 
+
+MIT License:
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+//""Software""), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+-->
