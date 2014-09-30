@@ -27,6 +27,13 @@ In this exercise, you will configure the starter project to connect to your Offi
 5. In **Solution Explorer**, delete the files **CalendarApiSample.cs** and **MyFilesApiSample.cs** from the **HubApp2.Windows** project. These files are added as part of the Connected Service, but are not necessary for this application.
 6. In **Solution Explorer**, right-click on the **HubApp2.Shared** project and choose **Add/New Folder**. Name the folder **O365Helpers**.
 
+add files to DataModel folder;
+ O365DataGroup
+ o365dataitem
+ o365datasource
 
-
+add o365helpers folder
+  
+change section page - load state method
+					- item click
 change item page - load state method
