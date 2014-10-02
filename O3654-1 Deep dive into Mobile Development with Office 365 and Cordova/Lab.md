@@ -205,7 +205,7 @@ In this exercise, you will make use of the Connected Service you added in the pr
 ![](Images/Fig17.png)
 
  
-Congratulations! You have completed working with the the Exchange Client APIs.
+Congratulations! You have completed a simple hybrid app project using the Cordova platform and the Office 365 APIs.
 
 
 
