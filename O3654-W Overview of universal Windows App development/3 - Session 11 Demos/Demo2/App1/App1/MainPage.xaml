@@ -1,0 +1,32 @@
+﻿<Page 
+    x:Class="App1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid 
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Margin="6,40,6,0">
+            <StackPanel Margin="0,0,0,0">
+                <TextBlock Text="Existing Fences" FontSize="32"/>
+                <ListBox x:Name="listFences" Height="48"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBox x:Name="txtIdentifier" Header="Identifier" Text="MS Bldg10"/>
+                <TextBox x:Name="txtLatitude" Header="Latitude" Text="47.6386"/>
+                <TextBox x:Name="txtLongitude" Header="Longitude" Text="-122.1279"/>
+                <Button Content="Add 0.5km Geofence" Click="OnAddGeofence"/>
+            </StackPanel>
+            <StackPanel x:Name="stackRegister">
+                <Button Content="Register Background Task" Click="OnRegisterBackgroundTask"/>
+            </StackPanel>
+            <StackPanel x:Name="stackNotifications" Visibility="Collapsed">
+                <TextBlock Text="Fence Notifications" FontSize="32"/>
+                <ListBox x:Name="listNotifications" Height="148"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

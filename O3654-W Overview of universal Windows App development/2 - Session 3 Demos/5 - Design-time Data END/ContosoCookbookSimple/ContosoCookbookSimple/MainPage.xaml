@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="ContosoCookbookSimple.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ContosoCookbookSimple"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:ContosoCookbookSimple.DataModel"
+    mc:Ignorable="d"
+    d:DataContext="{Binding Source={d:DesignInstance Type=data:SampleDataItem, IsDesignTimeCreatable=True}}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="about" Click="AppBarButton_Click"/>
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="List" Label="ingredients">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <Grid Height="400">
+                            <ListBox x:Name="IngredientsListBox" ItemsSource="{Binding Ingredients}" />
+                        </Grid>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="10,0,0,30">
+            <TextBlock TextWrapping="Wrap" Text="CONTOSO COOKBOOK" Style="{StaticResource TitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding ShortTitle}"
+                       Style="{StaticResource HeaderTextBlockStyle}" Margin="0,10,0,0"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="109*"/>
+                <RowDefinition Height="155*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Image Source="{Binding ImagePath}" Stretch="UniformToFill"/>
+            <ScrollViewer Grid.Row="1" Margin="0,10,0,0">
+                <TextBlock x:Name="InstructionsTextBlock" TextWrapping="Wrap" 
+                           Style="{StaticResource BodyTextBlockStyle}"
+                           Text="{Binding Directions}"/>
+            </ScrollViewer>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBlock Text="Prep time:" Style="{StaticResource BodyTextBlockStyle}"
+                           Foreground="{StaticResource PhoneAccentBrush}"/>
+                <TextBlock x:Name="PrepTimeTextBlock" Text="{Binding PrepTime}" Style="{StaticResource BodyTextBlockStyle}" Margin="10,0,0,10"/>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Page>
