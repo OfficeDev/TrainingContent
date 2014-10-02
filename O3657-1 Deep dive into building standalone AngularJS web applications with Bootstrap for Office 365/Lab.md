@@ -9,12 +9,12 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 2. On your developer workstation, launch Visual Studio as administrator.
 3. Create a new project in Visual Studio 2013 by selecting the menu command **File > New > Project**.
 4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **AngularCRM**, a location of **C:\DevProjects** and a Solution name of **AngularCRM** and then click the **OK** button.  
-<br />![](Images/Fig01.png)
+![](Images/Fig01.png)
 
 5. In the **New app for SharePoint** wizard, enter the URL for your Office 365 Developer site and select **SharePoint-hosted** for the app hosting model. When done, complete the wizard by clicking the **Finish** button.  
-<br />![](Images/Fig02.png)  
+![](Images/Fig02.png)  
 6. Examine the default project setup for a SharePoint-Hosted app. As you can see, it is like a traditional SharePoint solution-based project because you have a Features and Packages node. Note that there are project folders named **Content**, **Images** & **Pages** are actually SharePoint Project Items (SPI) that are Modules and will provision their contents to the respective folders in the app web when the app is installed.  
-<br />![](../Images/Fig03.png)    
+![](../Images/Fig03.png)    
 7. Right-click on the **AngularCRM** project in the solution Explorer and select **Manage NuGet Packages** to display the **Manage NuGet Packages** dialog. 
 8. First, install the NuGet package for **Bootstrap**.   
 <br />![](../Images/Fig04.png)    
