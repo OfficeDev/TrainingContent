@@ -1,10 +1,10 @@
 # Creating a Hybrid App using Cordova and the Office 365 APIs
-In this lab, you will create a Hybrid app using Visual Studio and the Cordova platform. You will also go through the process of adding a Connected Service so that your app can program using the Office 365 APIs..
+In this lab, you will create a Hybrid app using Visual Studio and the Cordova platform. You will also go through the process of adding a Connected Service so that you can program your app using the Office 365 APIs.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange inbox within an Office 365 developer tenancy.
 2. You must have the Office 365 API Tools version 1.1.728 installed in Visual Studio 2013.
-3. You must install the prerequisite software for Windows Phone and Cordova development with Visual Studio which is outlined in the following article: [http://msdn.microsoft.com/en-us/library/dn757054.aspx](http://msdn.microsoft.com/en-us/library/dn757054.aspx). 
+3. You must install the prerequisite software for Windows Phone and Cordova development which is outlined in the following article: [http://msdn.microsoft.com/en-us/library/dn757054.aspx](http://msdn.microsoft.com/en-us/library/dn757054.aspx). 
 
 ## Lab Setup: Setting up your Exchange account with Sample Contacts for Testing
 1. Using the browser, navigate to https://outlook.office365.com/owa and log into your OWA mailbox.
@@ -58,13 +58,13 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 		<script src="scripts/platformOverrides.js"></script>
 		<script src="scripts/jquery-2.1.1.js"></script>
 		<script src="scripts/index.js"></script>
-12. Directly under the **&lt;body&gt;** begin tag, remove the **&lt;p&gt;** element with the text *Hello, your application is ready!* and replace it with the following HTML. 
+12. Directly under the **&lt;body&gt;** begin tag, remove the **&lt;p&gt;** element with the text **Hello, your application is ready!** and replace it with the following HTML. 
 		
 		<h2>My Cordova App</h2>
 		<button type="button" id="cmdGetContacts">Get Contacts</button>
 		
 		<div id="status"></div> 
-13. When you are done, the contents of **index.js** should match the following code listing.
+13. When you are done, the contents of **index.html** should match the following code listing.
 		
 		<!DOCTYPE html>
 		<html>
@@ -109,8 +109,8 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 15. Now it's time to test out the app in the Visual Studio debugger. However, you must think about what target platform you'd like to use. Begin by selected **Android** in the **Solutions Platform** drop down and then selecting **Ripple - Nexus (Galaxy)** as the selected Android emulator.    
 ![](Images/Fig07.png)
 16. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
-17. Click the Get Contacts button and make sure you see the "hello world" message.
-![](Images/Fig08.png)
+17. Click the **Get Contacts** button and make sure you see the "hello world" message.
+![](Images/Fig08.png)  
 18. After you have played with the app in the Ripple emulator, close the Chrome browser. Return to Visual Studio and terminate the debugging session.
 19. Now try debugging with a Windows Phone emulator. Select **Windows Phone** in the Platform Solutions drop down and select **Emulator WGVA** in the emulator drop down.
 ![](Images/Fig09.png)
