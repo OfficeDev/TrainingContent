@@ -17,17 +17,17 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 ![](../Images/Fig03.png)    
 7. Right-click on the **AngularCRM** project in the solution Explorer and select **Manage NuGet Packages** to display the **Manage NuGet Packages** dialog. 
 8. First, install the NuGet package for **Bootstrap**.   
-<br />![](../Images/Fig04.png)    
+![](../Images/Fig04.png)    
 9. Next, install the NuGet package for **AngularJS Core**.  
-<br />![](../Images/Fig05.png)    
+![](../Images/Fig05.png)    
 10. Finally, install the NuGet package for **AngularJS Route**.  
-<br />![](../Images/Fig06.png)
+![](../Images/Fig06.png)
 11. Close the the **Manage NuGet Packages** dialog.
 12. Your app will not be using anything from the **Pages** folder. Therefore, you should delete the **Pages** folder from your project by right-clicking on it in the solution Explorer and selecting the **Delete** command.
 13. In the solution Explorer, right-click on the top-level node of the **AngularCRMWeb** project and select the **Add > New Folder** command to create a new top-level folder. Name this folder **App**.
 14. Add a new HTML file named **start.html** into the **App** folder.
 15. Add a new JavaScript file named **App.js** into the **App** folder.  
-<br />![](../Images/Fig07.png)
+![](../Images/Fig07.png)
 16. Open **start.html** in an editor windows and modify the head section to match the following code listing.
 
 		<head>
@@ -91,7 +91,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		</body>
 20. Save and close **start.html**.
 21.	Open up **AppManifest.xml** in the designer and update the app's **Start page** setting to point to **start.html**. Also, update the **Title** to something more readable such as **Angular CRM App**.  
-<br />![](../Images/Fig08.png)
+![](../Images/Fig08.png)
 22. Save and close **AppManifest.xml**.
 23. Open **App.js** in an editor window and update its contents to match the following code listing.
 		
@@ -101,9 +101,9 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		    $("#content-box").text("Hello World");
 		});
 24. It's now time to test the app. Press **{F5}** to begin a new debugging sessions. Once the app has been installed, Visual Studio will start up Internet Explorer and redirect you to the app's start page. You should see the app's navbar and a test message of "Hello World" as shown in the following screenshot.  
-<br />![](../Images/Fig09.png)
+![](../Images/Fig09.png)
 25.	Your app will need to read query string parameters. Therefore, you will create a simple jQuery extension to add a few helper functions. Begin by creating a new JavaScript file into the **App** folder named **jquery-extensions.js**.  
-<br />![](../Images/Fig10.png)
+![](../Images/Fig10.png)
 26.	Add the following code to  **jquery-extensions.js** to extend the jQuery library with two helper methods named **getQueryStringValues** and **getQueryStringValue**.
 	
 		$.extend({
@@ -177,7 +177,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 1. Open the **AngularCRM** project in Visual Studio if it is not already open.
 2. Create a new folder named **views** inside the **App** folder.
 3. Create five new HTML files inside the **views** folder named **about.html**, **edit.html**, **home.html**, **new.html** and **view.html**.  
-<br />![](../Images/Fig11.png)
+![](../Images/Fig11.png)
 4. Update the contents of **home.html** to match the following listing and save your changes.
 
 		<h3>Customer List</h3>
@@ -195,7 +195,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		<h3 ng-bind="title"></h3>		
 		<p ng-bind="description"></p>
 9. Create a new JavaScript file named **controllers.js** in the **App** folder.  
-<br />![](../Images/Fig12.png)
+![](../Images/Fig12.png)
 10. Copy and paste the following code into **controllers.js** to provide a controller starting point for each of the views.
 		
 		'use strict';
@@ -329,7 +329,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 22.	Save your changes to **start.html**.
 23. Test the routing scheme of the app by pressing **{F5}** to begin a new debugging sessions. Once the app has been installed, Visual Studio will start up Internet Explorer and redirect you to the app's start page. At this point, you should be able to click on the navbar links titled **Home**, **Add Customer** and **About** to navigate between these three views.
 24. Click on the **About** link to navigate to the app's **About** page. You should be able to verify that the **about** view is properly displaying the values of the **title** property and the **description** property that were written to the **$scope** variable by **aboutController**.   
-<br />![](../Images/Fig13.png)
+![](../Images/Fig13.png)
 25. You have now successfully set up the routing scheme for the app. Close the Internet explorer to terminate the debugging session and return to Visual studio.
 
 ## Exercise 3: Extending the AngularCRM Project with a Custom Service
@@ -337,14 +337,14 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 
 1. Open the **AngularCRM** project in Visual Studio if it is not already open.
 2. Create a new top-level folder named **Lists** at the root of the **AngularCRM** project.  
-<br />![](../Images/Fig14.png) 
+![](../Images/Fig14.png) 
 3. Right-click on the **Lists** folder and select **Add > New Item**.
 4. In the **Add New Item** dialog, click the **Office/SharePoint** group on the left and then select the **List** template. Enter a name of **Customers** and click **Add**.  
-<br />![](../Images/Fig15.png) 
+![](../Images/Fig15.png) 
 5. In the **SharePoint Custimization Wizard** dialog, enter a list display name of **Customers**. Select the option **Create a list instance based on an existing list template** and set the list template type to **Contacts**.  
-<br />![](../Images/Fig16.png)
+![](../Images/Fig16.png)
 6. Click the **Finish** button in the **SharePoint Custimization Wizard** to create the new project item for the list.  Inside the **Lists** folder, you should be able to see a **Customers** folder which contains an element manifest named **elements.xml**.  
-<br />![](../Images/Fig17.png)
+![](../Images/Fig17.png)
 7. In this step you will modify the **elements.xml** so that the **Customers** list will be created with a pre-populated set of customer items.
 	1.  Using Windows Explorer, look inside the **Starter Files** folder for this lab and locate the file named **Customers_Elements.xml.txt**.
 	2.  Open **Customers_Elements.xml.txt** in NOTEPAD and copy all it contents into the Windows clipboard.
@@ -353,10 +353,10 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 	5.  Paste in the contents of the clipboard.
 	6.  Save your changes to **elements.xml**.
 8. Look at the XML content inside **elements.xml** and examine how it uses a **Data** element with an inner **Rows** element to pre-populate the **Customers** list with a set of sample customer items to assist in your testing and debugging.  
-<br />![](../Images/Fig18.png)
+![](../Images/Fig18.png)
 9. Save and close **elements.xml**.
 10. In the **Apps** folder, create a new JavaScript file named **services.js**.  
-<br />![](../Images/Fig19.png)
+![](../Images/Fig19.png)
 11. Open **start.html** and add a script link for **services.js** just after the script link to **controllers.js**.
 
 		<script src="App.js"></script>
@@ -455,7 +455,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		    </tbody>
 		</table>
 21. Test your work by pressing **{F5}** to begin a debugging session. The app should initialize the start page using the view defined in **Home.html** which should display a table of customers as shown in the following screenshot.  
-<br />![](../Images/Fig20.png)
+![](../Images/Fig20.png)
 22. Close Internet Explorer to terminate your debugging session and return to Visual Studio.
 23. Now it is time to implement the remaining functionality needed for the service. Begin by opening **services.js** and positioning your cursor just below the **getCustomers** function you added earlier.
 24. Add the following function implementation to the service for the **getCustomer** function.
