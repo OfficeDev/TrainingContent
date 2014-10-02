@@ -1,9 +1,10 @@
-# Office 365 APIs for Calendar, Mail, and Contacts
-In this lab, you will use the Exchange client of the Office 365 APIs to program against Office 365 contacts as part of an ASP.NET MVC5 application.
+# Creating a Hybrid App using Cordova and the Office 365 APIs
+In this lab, you will create a Hybrid app using Visual Studio and the Cordova platform. You will also go through the process of adding a Connected Service so that your app can program using the Office 365 APIs..
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange inbox within an Office 365 developer tenancy.
 2. You must have the Office 365 API Tools version 1.1.728 installed in Visual Studio 2013.
+3. You must install the prerequisite software for Windows Phone and Cordova development with Visual Studio which is outlined in the following article: [http://msdn.microsoft.com/en-us/library/dn757054.aspx](http://msdn.microsoft.com/en-us/library/dn757054.aspx). 
 
 ## Lab Setup: Setting up your Exchange account with Sample Contacts for Testing
 1. Using the browser, navigate to https://outlook.office365.com/owa and log into your OWA mailbox.
@@ -11,291 +12,199 @@ In this lab, you will use the Exchange client of the Office 365 APIs to program 
 3. Make sure there are a few contacts for testing. If you have no contacts or less then 10 contacts, use OWA to enter a few sample contacts so you have at least 10.
 4. Once you have verified that you have a set of contacts for testing, you can move on to the next exercise where you will create and test your first app that programs against this contacts list.
 
-## Exercise 1: Create an ASP.NET MVC5 Application
-In this exercise, you will create the ASP.NET MVC5 application and register it with Azure active Directory.
+## Exercise 1: Create New Cordova App in Visual Studio
+In this exercise, you will create a new Visual Studio project for a Cordova app.
 
 1. Launch **Visual Studio 2013** as administrator. 
 2. In Visual Studio select **File/New/Project**.
-3. In the **New Project** dialog, select **Templates/Visual C#/Web** and click **ASP.NET Web Application**. Name the new project **Office365Contacts** and then click **OK**.  
-       ![](Images/01.png)  
-4. In the **New ASP.NET Project** dialog, click **MVC** and then click **Change Authentication**.
-5. Select **No Authentication** and click **OK**.
-![](Images/02.png)
-6. Once the **New ASP.NET Project** dialog appears like the following screenshot, click **OK**. 
-![](Images/03.png)
+3. In the **New Project** dialog, select **Templates > JavaScript > Multi-device Hybrid App** and click **Blank App (Apache Cordova)**. Name the new project **CordovaLab** and then click **OK**.    
+![](Images/Fig01.png)  
+4. Inspect the high-level structure of the new project that has just been created.
+5. Note that the HTML page at the root of the project named **Index.html** contains the user interface that will be used when the app is launched. You should also understand that the JavaScript file in the **scripts** folder named **index.js** provides the JavaScript code which executes as the app is being initialized.  
+![](Images/Fig02.png)  
+6. Take a quick look at the **merges** folder. Notice it contains a child folder for each platform where you can add files and scripts that should only be added to specific platforms such as Android, iOS, Windows 8 or Windows Phone 8.  
+![](Images/Fig03.png)  
+7. Right-click on the top-level project node for the **CordovaLab** project and select **Manage Nuget Packages...**.   
+![](Images/Fig04.png)  
+8. Install the Nuget Package for **jQuery**.     
+![](Images/Fig05.png)
+9. You should now see script files for the jQuery library along side **index.js** in the **scripts** folder.   
+![](Images/Fig06.png)  
+10. Open the HTML file named **index.html**. Inspect the code that was added by Visual studio which should match the following code listing.
 
-7. In the **Solution Explorer**, right click the **Office365Contacts** project and select **Add/Connected Service**.
-	2. In the **Services Manager** dialog:
-    1. Click **Register Your App**.
-    2. When prompted, login with your **Organizational Account**.
-    3. Click **Contacts**.
-    4. Click **Permissions**.
-    5. Check **Have full access to users' contacts**.
-    6. Click **Apply**.<br/>
-       ![](Images/04.png)
-    8. Click **Mail**.
-    9. Click **Permissions**.
-    10. Check **Send mail as a user**.
-    11. Check **Read and Write access to users' mail**.    
-    12. Click **Apply**.<br/>
-       ![](Images/05.png)
-    13. Click **OK**.<br/>
-       ![](Images/06.png)
-
-## Exercise 2: Code the Files API
-In this exercise, you will create a respository object for wrapping CRUD operations associated with the Contacts API.
-
-1. In the **Solution Explorer**, locate the **Models** folder in the **Office365Contacts** project.
-2. Right-click the **Models** folder and select **Add/Class**.
-3. In the **Add New Item** dialog, name the new class **MyContact** and click **Add** to create the new source file for the class.  
-<br/>![](Images/07.png)
-4. At the top of the course file **MyContact.cs**, add the following using statement just after the using statements that are already there.
-
-		using System.ComponentModel;
-5. Implement the new class **MyContact** using the following class defintion.
+		<!DOCTYPE html>
+		<html>
+		<head>
+		  <meta charset="utf-8" />
+		  <title>CordovaLab</title>
 		
-		public class MyContact {
-		    public string Id { get; set; }
-		    [DisplayName("First Name")]
-		    public string GivenName { get; set; }
-		    [DisplayName("Last Name")]
-		    public string Surname { get; set; }
-		    [DisplayName("Company")]
-		    public string CompanyName { get; set; }
-		    [DisplayName("Work Phone")]
-		    public string BusinessPhone1 { get; set; }
-		    [DisplayName("Home Phone")]
-		    public string HomePhone1 { get; set; }
-		    [DisplayName("Email Address")]
-		    public string EmailAddress1 { get; set; }
+		  <!-- CordovaLab references -->
+		  <link href="css/index.css" rel="stylesheet" />
+		</head>
+		<body>
+		  <p>Hello, your application is ready!</p>
 		
+		  <!-- Cordova reference, this is added to your app when it's built. -->
+		  <script src="cordova.js"></script>
+		  <script src="scripts/platformOverrides.js"></script>
+		
+		  <script src="scripts/index.js"></script>
+		</body>
+		</html>
+11. Add a script link for the jQuery library in between the script links for **platformOverrides.js** and **index.js**.
+
+		<!-- Cordova reference, this is added to your app when it's built. -->
+		<script src="cordova.js"></script>
+		<script src="scripts/platformOverrides.js"></script>
+		<script src="scripts/jquery-2.1.1.js"></script>
+		<script src="scripts/index.js"></script>
+12. Directly under the **&lt;body&gt;** begin tag, remove the **&lt;p&gt;** element with the text *Hello, your application is ready!* and replace it with the following HTML. 
+		
+		<h2>My Cordova App</h2>
+		<button type="button" id="cmdGetContacts">Get Contacts</button>
+		
+		<div id="status"></div> 
+13. When you are done, the contents of **index.js** should match the following code listing.
+		
+		<!DOCTYPE html>
+		<html>
+		<head>
+		  <meta charset="utf-8" />
+		  <title>CordovaLab</title>
+		
+		  <!-- CordovaLab references -->
+		  <link href="css/index.css" rel="stylesheet" />
+		</head>
+		<body>
+		
+		  <h2>My Cordova App</h2>
+		  <button type="button" id="cmdGetContacts">Get Contacts</button>
+		
+		  <div id="status"></div>
+		
+		  <!-- Cordova reference, this is added to your app when it's built. -->
+		  <script src="cordova.js"></script>
+		  <script src="scripts/platformOverrides.js"></script>
+		  <script src="scripts/jquery-2.1.1.js"></script>
+		  <script src="scripts/index.js"></script>
+		</body>
+		</html>
+14. Open **index.js** in a code editor window and update its content to match the following code listing. This code will register an event handler to execute on the **click** event of the button with the id of **cmdGetContacts**. When this button is clicked, the event handler named **onGetContacts** will add a "hello world" message into the **&lt;div&gt;** element with the id of **status**.
+		
+		(function () {
+		  "use strict";
+		
+		  document.addEventListener('deviceready', onDeviceReady.bind(this), false);
+		
+		  function onDeviceReady() {
+		    // app start up code goes here
+		    $("#cmdGetContacts").click(onGetContacts);
+		  };
+		
+		  function onGetContacts() {
+		    $("#status").text("Hello World!");
+		  }
+		
+		})();
+15. Now it's time to test out the app in the Visual Studio debugger. However, you must think about what target platform you'd like to use. Begin by selected **Android** in the **Solutions Platform** drop down and then selecting **Ripple - Nexus (Galaxy)** as the selected Android emulator.    
+![](Images/Fig07.png)
+16. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
+17. Click the Get Contacts button and make sure you see the "hello world" message.
+![](Images/Fig08.png)
+18. After you have played with the app in the Ripple emulator, close the Chrome browser. Return to Visual Studio and terminate the debugging session.
+19. Now try debugging with a Windows Phone emulator. Select **Windows Phone** in the Platform Solutions drop down and select **Emulator WGVA** in the emulator drop down.
+![](Images/Fig09.png)
+20. Press **{F5}** to start a debugging session with the Windows Phone emulator. after a bit, you should be able to see the app running in Windows Phone emulator.  
+![](Images/Fig10.png)
+21. After you have tested the app, terminate the debugging session and return to Visual Studio.
+
+
+## Exercise 2: Adding a Connected Service to a Cordova App
+In this exercise, you will add a Connected Service to the project in order to make it possible to program against the Office 365 APIs.
+
+
+1. In the **Solution Explorer**, right click the **CordovaLab** project and select **Add/Connected Service**.    
+![](Images/Fig11.png)
+2. In the **Services Manager** dialog, click **Register Your App**.
+3. When prompted, login with your **Organizational Account**. After you have logged in, you should be able to see services for which you can configure permission requests.  
+![](Images/Fig12.png)
+4. Select **Contacts** and then click **Permissions**.
+5. Check both check boxes and then click **Apply**.  
+![](Images/Fig13.png)
+6. Click **OK** to save your changes and dismiss the **Services Manager** dialog.
+7. Take a moment to see what effect adding the Connected Service has had on your project. Begin by looking the the JavaScript library files such as **o365adal.js**, **o365discovery.js** and **exchange.js** that have been added to your project at the path of **services/office365/scripts**.  
+![](Images/Fig14.png)
+8. Locate the file named **settings.js** which is located in the folder at the path of **services/office365/settings**.
+9. Open **settings.js** and examine what's inside. As you can see that are values specific to your application as well as code which automatically adds links to other Office 365 API library files such as **o365adal.js**, **o365discovery.js** and **exchange.js**.  
+		
+		var O365Auth;
+		(function (O365Auth) {
+		    (function (Settings) {
+		        Settings.clientId = '295a3096-7931-4f4d-8bd1-dbfe73a7e65d';
+		        Settings.authUri = 'https://login.windows.net/common/';
+		        Settings.redirectUri = 'http://localhost:4400/services/office365/redirectTarget.html';
+		    })(O365Auth.Settings || (O365Auth.Settings = {}));
+		    var Settings = O365Auth.Settings;
+		})(O365Auth || (O365Auth = {}));
+		
+		var O365Libraries = [
+		    'services/office365/scripts/InAppBrowserOverride.js',
+		    'services/office365/scripts/utility.js',
+		    'services/office365/scripts/o365adal.js',
+		    'services/office365/scripts/o365discovery.js',
+		    'services/office365/scripts/aadgraph.js',
+		    'services/office365/scripts/exchange.js',
+		    'services/office365/scripts/sharepoint.js'
+		];
+		
+		O365Libraries.forEach(function (path, index, array) {
+		    var scriptTag = document.createElement('script');
+		    scriptTag.setAttribute('src', path);
+		    document.head.appendChild(scriptTag).parentNode.removeChild(scriptTag);
+		});
+
+
+10. Open **Index.html** and add a script link to **settings.js** just before the script link to **index.js**.
+		
+		<script src="cordova.js"></script>
+		<script src="scripts/platformOverrides.js"></script>
+		<script src="scripts/jquery-2.1.1.js"></script>
+		<script src="services/office365/settings/settings.js"></script>
+		<script src="scripts/index.js"></script>
+11. You have now added support for programming your app against the Office 365 APIs which you will begin the the next exercise.
+
+## Exercise 3: Progeamming a Cordova App using the Office 365 APIs
+In this exercise, you will make use of the Connected Service you added in the previous exercise by writing code against the JavaScript libraries of the Office 365 APIs.
+
+1. Open **index.js** and update the **onGetContacts** function to match the following code listing.
+		
+		function onGetContacts() {
+		  var authContext = new O365Auth.Context();
+		  authContext.getIdToken("https://outlook.office365.com/").then(function(token) {
+		    var accessTokenFn= token.getAccessTokenFn('https://outlook.office365.com');
+		    var client = new Exchange.Client('https://outlook.office365.com/ews/odata', accessTokenFn);
+		    client.me.contacts.getContacts().fetch().then(onContactsReceived);
+		  })
 		}
-6. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyContactsRepository** and click **Add** to create the new source file for the class.    
-<br/>![](Images/08.png)
-7. **Add** the following using statements to the top of the **MyContactsRepository** class.
+2. Create a new function named **onContactsReceived** directly after **onGetContacts**. Implement this method to match the following code listing.
 		
-		using Microsoft.Office365.OAuth;
-		using Microsoft.Office365.Exchange;
-		using System.IO;
-		using System.Threading.Tasks;
-8. **Add** the following helper functions to the **MyContactsRepository** class to manage session state variables.
-
-		private void SaveInCache(string name, object value){
-		  System.Web.HttpContext.Current.Session[name] = value;
+		function onContactsReceived(contacts) {
+		  for (var i = 0; i < contacts.currentPage.length; i++) {
+		    var currentContact = contacts.currentPage[i];
+		    var currentContactName = currentContact.surname + ", " + currentContact.givenName;
+		    var contactDiv = $("<div>").text(currentContactName);
+		    $("#status").append(contactDiv);
+		  }
 		}
-		
-		private object GetFromCache(string name){
-		  return System.Web.HttpContext.Current.Session[name];
-		}
-		
-		private void RemoveFromCache(string name){
-		  System.Web.HttpContext.Current.Session.Remove(name);
-		}
-6. **Add** a function named **EnsureClientCreated** to the **MyContactsRepository** class with the following implementation to create and return an **ExchangeClient** object.
-		
-		private async Task<ExchangeClient> EnsureClientCreated() {
-		
-		    DiscoveryContext disco = GetFromCache("DiscoveryContext") as DiscoveryContext;
-		
-		    if (disco == null) {
-		        disco = await DiscoveryContext.CreateAsync();
-		        SaveInCache("DiscoveryContext", disco);
-		    }
-		
-		    string ServiceResourceId = "https://outlook.office365.com";
-		    Uri ServiceEndpointUri = new Uri("https://outlook.office365.com/ews/odata");
-		
-		    var dcr = await disco.DiscoverResourceAsync(ServiceResourceId);
-		
-		    SaveInCache("LastLoggedInUser", dcr.UserId);
-		
-		    return new ExchangeClient(ServiceEndpointUri, async () => {
-		        return (await disco.AuthenticationContext.AcquireTokenByRefreshTokenAsync(
-		            new SessionCache().Read("RefreshToken"),
-		            new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(
-		                disco.AppIdentity.ClientId,
-		                disco.AppIdentity.ClientSecret),
-		                ServiceResourceId)).AccessToken;
-		    });	
-		}
+3. Now begin a debugging session using Windows Phone. Press the **{F5}** key to begin a debugging session.
+4. After the app has started, press the **Get Contacts** button. You should then see a prompt to Sing In. Sign into Office 365 using your organizational account.    
+![](Images/Fig15.png)  
+5. Once you are signed in, you will be prompted as to whether you trust the app. Click **OK** to continue.  
+![](Images/Fig16.png)
+6. After you have trusted the app, you code should run and display a list off contacts from your Office 365 account.
+![](Images/Fig17.png)
 
-7. **Add** a function named **GetContactCount** to the **MyContactsRepository** class to retrieve a count of contacts.
-
-		public async Task<int> GetContactCount() {
-		    var client = await EnsureClientCreated();
-		    var contactsResults = await client.Me.Contacts.ExecuteAsync();
-		    return contactsResults.CurrentPage.Count;
-		}
-8. **Add** a function named **GetContacts** to the **MyContactsRepository** class to retrieve and return a list of **MyContact** objects.
-		
-		public async Task<List<MyContact>> GetContacts(int pageIndex, int pageSize) {
-		
-		    var client = await EnsureClientCreated();
-		    var contactsResults = await client.Me.Contacts.ExecuteAsync();
-		
-		    var myContactsList = new List<MyContact>();
-		
-		    foreach (var contact in contactsResults.CurrentPage.OrderBy(e => e.Surname).Skip(pageIndex * pageSize).Take(pageSize)) {
-		        myContactsList.Add(new MyContact {
-		            Id = contact.Id,
-		            GivenName = contact.GivenName,
-		            Surname = contact.Surname,
-		            CompanyName = contact.CompanyName,
-		            EmailAddress1 = contact.EmailAddress1,
-		            BusinessPhone1 = contact.BusinessPhone1,
-		            HomePhone1 = contact.HomePhone1
-		        });
-		    }
-		    return myContactsList;
-		}
-8. Add a **DeleteContact** function  to the **MyContactsRepository** class to delete a contact.
-
-		public async Task DeleteContact(string id) {
-		    var client = await EnsureClientCreated();
-		    var contact = await client.Me.Contacts.GetById(id).ExecuteAsync();
-		    await contact.DeleteAsync();
-		}
-9. Add a **AddContact** function  to the **MyContactsRepository** class to create a new contact.
-
-		public async Task AddContact(MyContact myContact) {
-		    var client = await EnsureClientCreated();
-		    var newContact = new Microsoft.Office365.Exchange.Contact {
-		        GivenName = myContact.GivenName,
-		        Surname = myContact.Surname,
-		        CompanyName = myContact.CompanyName,
-		        EmailAddress1 = myContact.EmailAddress1,
-		        BusinessPhone1 = myContact.BusinessPhone1,
-		        HomePhone1 = myContact.HomePhone1
-		    };
-		    await client.Me.Contacts.AddContactAsync(newContact);
-		}
-
-## Exercise 3: Code the MVC Application
-In this exercise, you will code the **Home** controller of the MVC application to display contacts as well as adding behavior for adding and deleting contacts.
-
-1. In the **Solution Explorer**, expand the **Controllers** folder and open the **HomeController.cs** file.
-2. **Add** the following using statements to the top of the file.
-
-		using Microsoft.Office365.OAuth;
-		using System.Threading.Tasks;
-		using Office365Contacts.Models;
-3. **Replace** the **Index** method with the following code to read files.
-		
-		public async Task<ActionResult> Index(int? pageNumber) {
-		
-		    int pageSize = 8;
-		    int pageIndex = (pageNumber != null) ? (int)pageNumber - 1 : 0;
-		
-		    ViewBag.pageIndex = pageIndex;
-		    ViewBag.pageSize = pageSize;
-		
-		    List<MyContact> contacts = null;
-		    try {
-		        MyContactsRepository repository = new MyContactsRepository();
-		        ViewBag.contactCount = await repository.GetContactCount();
-		        contacts = await repository.GetContacts(pageIndex, pageSize);
-		    }
-		    catch (RedirectRequiredException x) {
-		        return Redirect(x.RedirectUri.ToString());
-		    }
-		    return View(contacts);
-		}
-4. In the **Solution Explorer**, expand the **Views/Home** folder and open the **Index.cshtml** file.
-5. Delete all existing content from **Index.cshtml** and replace it with the following code.
-		
-		@model IEnumerable<Office365Contacts.Models.MyContact>
-		
-		@{ ViewBag.Title = "My Contacts"; }
-		
-		<h2>My Contacts</h2>
-		
-		<p>@Html.ActionLink("Create New", "Create")</p>
-		
-		<table id="contactsTable" class="table table-striped table-bordered">
-		    <tr>
-		        <th>@Html.DisplayNameFor(model => model.GivenName)</th>
-		        <th>@Html.DisplayNameFor(model => model.Surname)</th>
-		        <th>@Html.DisplayNameFor(model => model.CompanyName)</th>
-		        <th>@Html.DisplayNameFor(model => model.BusinessPhone1)</th>
-		        <th>@Html.DisplayNameFor(model => model.HomePhone1)</th>
-		        <th>@Html.DisplayNameFor(model => model.EmailAddress1)</th>
-		        <th></th>
-		    </tr>
-		    @foreach (var item in Model) {
-		        <tr>
-		            <td>@Html.DisplayFor(modelItem => item.GivenName)</td>
-		            <td>@Html.DisplayFor(modelItem => item.Surname)</td>
-		            <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
-		            <td>@Html.DisplayFor(modelItem => item.BusinessPhone1)</td>
-		            <td>@Html.DisplayFor(modelItem => item.HomePhone1)</td>
-		            <td>@Html.DisplayFor(modelItem => item.EmailAddress1)</td>
-		            <td>@Html.ActionLink("Delete", "Delete", new { id = item.Id })</td>
-		        </tr>
-		    }
-		</table>
-6. Enter the following code into **Index.cshtml** at the bottom under the table element you created in the previous step. Note that this code is being added at the bottom of the page to support paging.
-
-		<div class="row">
-		    <h4>Paging Control</h4>
-		    <div class="btn btn-group-sm">
-		        @{
-		            int pageIndex = ViewBag.pageIndex;
-		            int pageSize = ViewBag.pageSize;
-		            int contactCount = ViewBag.contactCount;
-		
-		            int pageCount = (int)System.Math.Ceiling((double)contactCount / (double)pageSize);
-		
-		            for (int i = 1; i <= pageCount; i++) {
-		                Dictionary<string, object> attributes = new Dictionary<string, object>();
-		                attributes.Add("class", "btn btn-default");
-		                RouteValueDictionary routeValues = new RouteValueDictionary();
-		                routeValues.Add("pageNumber", i.ToString());
-		                @Html.ActionLink("Page " + i.ToString(), "Index", "Home", routeValues, attributes);
-		            }
-		        }
-		    </div>
-		</div>
-7. In **Visual Studio**, hit **F5** to begin debugging.
-8. When prompted, log in with your **Organizational Account**.
-9. Once the application has initialized and displayed its home page, you should be able to verify that your application displays contacts from your Office 365 account.  
-<br/>![](Images/09.png)
-10. Try using the paging controls at the bottom of the page. As long as you have nine or more contacts, you should have at least two pages. Test the paging buttons to verify that they can be used to navigate from page to page.
-11. Close the browser window, terminate the debugging session and return to Visual Studio.
-12. In the **HomeController.cs** file, add an action method named **Delete** using the following code to delete a contact.
-
-        public async Task<ActionResult> Delete(string id) {
-            MyContactsRepository repository = new MyContactsRepository();
-            if (id != null) {
-                await repository.DeleteContact(id);
-            }
-            return Redirect("/");
-        }
-
-
-13. In the **HomeController.cs** file, add an action method named **Createusing the following code to create a new contact.
-
-		 public async Task<ActionResult> Create(MyContact myContact) {
-		    if (Request.HttpMethod == "POST") {
-		        MyContactsRepository repository = new MyContactsRepository();
-		        await repository.AddContact(myContact);
-		        return Redirect("/");
-		    }
-		    else {
-		        return View(myContact);
-		    }
-		}
-14. Now you must create a new MVC view for the **Create** action method. You can accomplish this right-clicking on the white space inside the the **Create** action method in the **HomeController.cs** and selecting **Add View**.
-15. In the **Add View** dialog, select **Create** as the **Template** and select **MyContact** as the model class. When the **Add View** dialog matches the following screenshot, click add to generate the view.  
-<br/>![](Images/10.png)
-16, Take a moment to look through the code that has been added into the new view file **Create.cshtml**. Note there is no need to modify anything because it should provide the needed behavior without any changes.
-17. Press **F5** to begin a debugging session. When prompted, log in using your Office 365 credentials and then wait for the home page to appear.
-18. Test the delete functionality of the app by clicking on the **Delete** link for a contact in the table of contacts.
-19. Test the create functionality of the app by clicking the **Create New** link on the home page and navigating to the **Create** page. Fill in the input controls with a sample contact and click **Create**.  
-<br/>![](Images/11.png)
-20. After clicking **Create**, you should be able to verify that the contact was properly created.  
-<br/>![](Images/12.png)
-
-
+ 
 Congratulations! You have completed working with the the Exchange Client APIs.
 
 
