@@ -120,7 +120,7 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 
 
 ## Exercise 2: Adding a Connected Service to a Cordova App
-In this exercise, you will add a Connected Service to the project in order to make it possible to program against the Office 365 APIs.
+In this exercise, you will add a Connected Service to the project in order to program against the Office 365 APIs.
 
 
 1. In the **Solution Explorer**, right click the **CordovaLab** project and select **Add/Connected Service**.    
@@ -133,7 +133,7 @@ In this exercise, you will add a Connected Service to the project in order to ma
 ![](Images/Fig13.png)
 6. Click **OK** to save your changes and dismiss the **Services Manager** dialog.
 7. Take a moment to see what effect adding the Connected Service has had on your project. Begin by looking the the JavaScript library files such as **o365adal.js**, **o365discovery.js** and **exchange.js** that have been added to your project at the path of **services/office365/scripts**.  
-![](Images/Fig14.png)
+![](Images/Fig14.png)  
 8. Locate the file named **settings.js** which is located in the folder at the path of **services/office365/settings**.
 9. Open **settings.js** and examine what's inside. As you can see that are values specific to your application as well as code which automatically adds links to other Office 365 API library files such as **o365adal.js**, **o365discovery.js** and **exchange.js**.  
 		
@@ -173,7 +173,7 @@ In this exercise, you will add a Connected Service to the project in order to ma
 		<script src="scripts/index.js"></script>
 11. You have now added support for programming your app against the Office 365 APIs which you will begin the the next exercise.
 
-## Exercise 3: Progeamming a Cordova App using the Office 365 APIs
+## Exercise 3: Programming the App using the Office 365 APIs
 In this exercise, you will make use of the Connected Service you added in the previous exercise by writing code against the JavaScript libraries of the Office 365 APIs.
 
 1. Open **index.js** and update the **onGetContacts** function to match the following code listing.
