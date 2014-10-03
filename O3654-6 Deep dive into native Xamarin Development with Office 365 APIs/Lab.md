@@ -318,12 +318,12 @@ In this final exercise, you will make use of the Connected Service you added in 
 		  }
 		}
 
-3. xx
+3. Return to the code editor window for **MainActivity.cs**. Modify the code which registers the delegate as the button's event handler by adding the **async** keyword just before the **delegate** keyword.
 		
 		button.Click += async delegate {
 		  // event handler code
 		}
-4. xx
+4. Replace the existing event handler code using the code shown in the following listing.
 		
 		Button button = FindViewById<Button>(Resource.Id.cmdGetContacts);
 		button.Click += async delegate {
@@ -333,11 +333,11 @@ In this final exercise, you will make use of the Connected Service you added in 
 		  myContactsAdapter.AddAll(myContacts);
 		  myContactsAdapter.NotifyDataSetChanged();             
 		};
-5. Test.
+5. Now it's time to test your work by pressing the **{F5}** key to start a debugging session in the Android emulator. Wait until the app has initialized and then click the **Get Contacts** button. After a few second, you should be prompted to sign into Office 365 with your organization account credentials.
 ![](Images/Fig21.png) 
-6. Next
+6. Once you have signed in using your credentials, you should be prompted with a page that shows you the requested permissions and asks you to confirm that you trust the app. Click **OK** to continue. 
 ![](Images/Fig22.png)
-7. xx
+7. At this point, you should see a set of contacts from Office 365 account.
 ![](Images/Fig23.png)
 Congratulations! You have completed a simple hybrid app project using Xamarin and the Office 365 APIs.
 
