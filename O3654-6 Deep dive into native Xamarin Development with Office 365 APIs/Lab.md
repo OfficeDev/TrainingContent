@@ -233,7 +233,7 @@ In this exercise, you will work with the Activity-based UI model that is the fou
 		    }
 		  }
 		}
-17. Test out your work by pressing **{F5}** and starting a debugging session with the Android emulator. You should be able to click the **Get Contacts** button and see the three sample contacts that were added to the adapter in **MainActivity.cs**.
+17. Test out your work by pressing **{F5}** and starting a debugging session with the Android emulator. You should be able to click the **Get Contacts** button and see the three sample contacts that were added to the adapter in **MainActivity.cs**.  
 ![](Images/Fig16.png)
 18. Close the Android emulator, return to Visual Studio and make sure the debugging session has been terminated.
 
@@ -244,7 +244,7 @@ In this exercise, you will add a Connected Service to the project in order to pr
 1. In the **Solution Explorer**, right click the **XamarinLab** project and select **Add/Connected Service**.    
 ![](Images/Fig17.png)
 2. In the **Services Manager** dialog, click **Register Your App**.
-3. When prompted, login with your **Organizational Account**. After you have logged in, you should be able to see services for which you can configure permission requests.  
+3. When prompted, login with your **Organizational Account**. After you have logged in, you should be able to see services for which you can configure permission requests.    
 ![](Images/Fig18.png)
 4. Select **Contacts** and then click **Permissions**.
 5. Check both check boxes and then click **Apply**.  
@@ -252,14 +252,14 @@ In this exercise, you will add a Connected Service to the project in order to pr
 6. Click **OK** to save your changes and dismiss the **Services Manager** dialog.
 7. Inspect the Office 365 API assembly references that were automatically been added to your project when you added the Connected Service.  
 ![](Images/Fig20.png)
-8. You will also notice a C# file named **ContactsApiSample.cs** has been added to your project. Open that file and inspect the C# inside to get an idea of how to program against the Office 365 APIs to authenticate and retrieve Office 365 contacts.
+8. You will also notice a C# file named **ContactsApiSample.cs** has been added to your project. Open that file and inspect the C# code inside to get an idea of how to program against the Office 365 APIs to authenticate and retrieve Office 365 contacts.
 9. When you are done, close **ContactsApiSample.cs** and move on to the next exercise.
 
 ## Exercise 4: Programming the App using the Office 365 APIs
-In this exercise, you will make use of the Connected Service you added in the previous exercise by writing code against the .NET libraries of the Office 365 APIs.
+In this final exercise, you will make use of the Connected Service you added in the previous exercise by writing code against the .NET libraries of the Office 365 APIs.
 
-1. Create new class named **Office365Service**.
-2. Copy-and-paste this code.
+1. In Solution Explorer, right-click on the **XamarinLab** project node and click **Add > Class**. Name the new class **Office365Service** and click **OK**.
+2. Copy-and-paste the following code listing to provide the impelementation for the **Office365Service** class.
 
 		using System;
 		using System.Collections.Generic;
