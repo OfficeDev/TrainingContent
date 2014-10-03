@@ -21,9 +21,7 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 2. In Visual Studio select **File/New/Project**.
 3. In the **New Project** dialog, select **Templates > Visual C# > Android** and click **Blank App (Android)**. Name the project **XamarinLab** and click **OK**.    
 ![](Images/Fig01.png)  
-4. Inspect the high-level structure of the new project that has just been created.
-5. Note that the source file at the root of the project named **MainActivity.cs** 
-6. contains the code which initializes the user interface. You should also understand that the source file in the **Resources/layouts** folder named **Main.axml** provides a layout of controls that is used by the app's user interface.  
+4. Inspect the high-level structure of the new project that has just been created. Note that the source file at the root of the project named **MainActivity.cs** contains the code which initializes the app's user interface. You should also understand that the source file in the **Resources/layouts** folder named **Main.axml** provides a layout of controls that is used by the app's user interface.  
 ![](Images/Fig02.png)  
 6. Right-click on the **XamarinLab** project and select Properties to display the project property dialog. On the **Application** tab, you should see that are three settings named (1) **Compile using Android version**, (2) **Minimum Android to target**, and (3) **Target Android version**. Configure each of these three settings with a value of **API Level 19 (Xamarin.Android v4.4 support)**.  
 ![](Images/Fig03.png)  
