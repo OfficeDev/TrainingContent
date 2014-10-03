@@ -95,7 +95,7 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 20. Close the Android emulator, return to Visual Studio and make sure the debugging session has been terminated.
 
 ## Exercise 2: Creating an Android Adapter Class
-In this exercise, you will work with the Activity-based UI model that is the foundation of Android development platform. More specifically, you will create a new adapter class which uses an Android layout as an item template which can be used to display a collection of items such as contacts.
+In this exercise, you will work with the Activity-based UI model that is the foundation of Android development platform. More specifically, you will create a new adapter class which uses an Android layout as an item template. You will then use this item template to display a collection of contact items.
 
 1. In the Solution Explorer, expand the project node to show **Resources/layouts**.
 2. Right-click and the **layouts** node and select **Add > New Item**. In the **Add New Item** dialog, select the **Android Layout** item template and give it a name of **ContactListItem.axml**. Click **OK** to add the new layout into the **layouts** folder.
@@ -128,8 +128,8 @@ In this exercise, you will work with the Activity-based UI model that is the fou
 		        android:singleLine="true"
 		        android:ellipsize="marquee" />
 		</RelativeLayout>
-4. Save and close **ContactListItem.axml**.
-5. In the Solution Explorer, Create a new top-level folder for the project named **Model**.  
+4. Save and close the Android layout **ContactListItem.axml**.
+5. In the Solution Explorer, create a new top-level folder named **Model**.    
 ![](Images/Fig13.png)  
 6. Right-click the **Model** folder and add a class named **MyContacts**.  
 ![](Images/Fig14.png)  
