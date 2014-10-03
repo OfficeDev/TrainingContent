@@ -23,22 +23,22 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 ![](Images/Fig01.png)  
 4. Inspect the high-level structure of the new project that has just been created. Note that the source file at the root of the project named **MainActivity.cs** contains the code which initializes the app's user interface. You should also understand that the source file in the **Resources/layouts** folder named **Main.axml** provides a layout of controls that is used by the app's user interface.  
 ![](Images/Fig02.png)  
-6. Right-click on the **XamarinLab** project and select Properties to display the project property dialog. On the **Application** tab, you should see that are three settings named (1) **Compile using Android version**, (2) **Minimum Android to target**, and (3) **Target Android version**. Configure each of these three settings with a value of **API Level 19 (Xamarin.Android v4.4 support)**.  
+5. Right-click on the **XamarinLab** project and select Properties to display the project property dialog. On the **Application** tab, you should see that are three settings named (1) **Compile using Android version**, (2) **Minimum Android to target**, and (3) **Target Android version**. Configure each of these three settings with a value of **API Level 19 (Xamarin.Android v4.4 support)**.  
 ![](Images/Fig03.png)  
-7. Navigate to the **Android Manifest** tab and update the **Application name** from **XamarinLab** to **Xamarin Lab**.   
+6. Navigate to the **Android Manifest** tab and update the **Application name** from **XamarinLab** to **Xamarin Lab**.   
 ![](Images/Fig04.png)  
-8. Navigate to the **Android Option** tab and take a quikc look at the default settings. There is no need to actually change anything.  
+7. Navigate to the **Android Option** tab and take a quick look at the default settings. There is no need to actually change anything.  
 ![](Images/Fig05.png)
-9. Save your changes and close the project properties dialog.
-10. Locate the Android layout file named **Main.axml** in the **Resources/layouts** folder. 
-11. Double-click on **Main.axml** to open it in the Xamarin Android layout designer.  
+8. Save your changes and close the project properties dialog.
+9. Locate the Android layout file named **Main.axml** in the **Resources/layouts** folder. 
+10. Double-click on **Main.axml** to open it in the Xamarin Android layout designer.  
 ![](Images/Fig06.png)  
-12. select the button in the layout designer and .    
+11. Select the button in the layout designer and then display the Visual Studio property sheet so you can view the button's properties. using the property sheet, update the **id** property of the button to **@+id/cmdGetContacts** and also update the **text** property to **Get Contacts** as shown in the following screenshot.     
 ![](Images/Fig07.png)
-13. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
-14. Click the **Get Contacts** button and make sure you see the "hello world" message.
+12. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
+13. Click the **Get Contacts** button and make sure you see the "hello world" message.
 ![](Images/Fig08.png)  
-15. The final AXML code should look like this.
+14. Switch over to code view in the Android layout designer. The final AXML code that has been generated should match the AXML in the following code listing.
 		
 		<?xml version="1.0" encoding="utf-8"?>
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -57,10 +57,10 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 		        android:layout_height="wrap_content"
 		        android:id="@+id/txtStatus" />
 		</LinearLayout>
-16. Open **MainActivity.cs** on a code editor.
-17. Note that the **MainActivty** class is defined with the **Activity** attribute. Update the **Label** parameter of the **Activity** attribute from **XamarinLab** to **Xamarin Lab**.
+16. Save and close **Main.axml**.
+17. Open **MainActivity.cs** on a code editor and take note that the **MainActivty** class is defined with the **Activity** attribute. Update the **Label** parameter of the **Activity** attribute from **XamarinLab** to **Xamarin Lab**.
 ![](Images/Fig09.png)
-17. Update the code in **MainActivity.cs** to match the following code listing.
+17. Update the code in **MainActivity** class to match the following code listing.
 		
 		using System;
 		using Android.App;
@@ -88,7 +88,7 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 		    }
 		  }
 		}
-18. Now it's time to test out your work. Press **{F5}** to start a debugging session with the Android emulator. after a bit, you should be able to see the app running in Windows Phone emulator.  
+18. Now it's time to test out your work. Press **{F5}** to start a debugging session with the Android emulator. After a bit, you should be able to see the app running in Android emulator.  You should see the **Hello World** message on the screen.
 ![](Images/Fig10.png)
 19. When you click the **Get Contacts** button you should see the message **Hello from C#**.
 ![](Images/Fig11.png)
