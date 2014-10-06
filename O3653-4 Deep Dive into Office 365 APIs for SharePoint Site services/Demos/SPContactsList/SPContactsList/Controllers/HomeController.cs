@@ -3,6 +3,7 @@ using SPContactsList.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +17,31 @@ namespace SPContactsList.Controllers
         public HomeController(ContactRepository repository)
         {
             _repository = repository;
+        }
+
+        public async Task<ActionResult> OAuth()
+        {
+
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(ContactRepository.AccessTokenRequesrUrl);
+
+            string auth_code = Request.QueryString["code"];
+
+            var content = new FormUrlEncodedContent(new[] {
+                new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                new KeyValuePair<string, string>("resource", ContactRepository.ServiceResourceId),
+                new KeyValuePair<string, string>("redirect_uri", ContactRepository.DebugSiteRedirectUrl),
+                new KeyValuePair<string, string>("client_id", ContactRepository.ClientId),
+                new KeyValuePair<string, string>("client_secret", ContactRepository.ClientSecret),
+                new KeyValuePair<string, string>("code", auth_code)
+            });
+
+            var result = await client.PostAsync(ContactRepository.AccessTokenRequesrUrl, content);
+            JsonWebToken jwt = JsonWebToken.Deserialize(result.Content.ReadAsStringAsync().Result);
+
+            System.Web.HttpContext.Current.Session["AccessToken"] = jwt.access_token;
+
+            return Redirect("/");
         }
         public async Task<ActionResult> Index(int? pageIndex, int? pageSize, string contactId)
         {

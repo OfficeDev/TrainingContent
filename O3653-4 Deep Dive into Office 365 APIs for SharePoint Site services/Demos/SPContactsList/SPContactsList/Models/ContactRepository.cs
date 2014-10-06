@@ -1,4 +1,5 @@
-﻿using Microsoft.Office365.OAuth;
+﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Office365.OAuth;
 using Microsoft.Office365.SharePoint;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Xml.Linq;
 
 namespace SPContactsList.Models
 {
+
     public interface IContactRepository
     {
         Task<List<Contact>> GetContacts(int pageIndex, int pageSize);
@@ -22,8 +24,34 @@ namespace SPContactsList.Models
     }
     public class ContactRepository : IContactRepository
     {
-        const string ServiceResourceId = "https://[tenant].sharepoint.com";
-        static readonly Uri ServiceEndpointUri = new Uri("https://[tenant].sharepoint.com/_api/");
+        public const string ServiceResourceId = "https://msacademy1.sharepoint.com";
+        static readonly Uri ServiceEndpointUri = new Uri("https://msacademy1.sharepoint.com/_api/");
+
+        public const string ClientId = "54e72042-e357-437b-b8ee-73b57fcf405a";
+
+        public const string ClientSecret = "W7pjlFs0Xf9C1P5i+s7HUlZG2WtW7xCl91i3M7EITHA=";
+        public static readonly string ClientSecretEncoded = HttpUtility.UrlEncode(ClientSecret);
+
+        public const string DebugSiteUrl = "http://localhost:46717/";
+        public const string DebugSiteRedirectUrl = "http://localhost:46717/Home/OAuth/";
+
+        public const string AADAuthUrl = "https://login.windows.net/common/oauth2/authorize" +
+                                          "?resource=" + ServiceResourceId +
+                                          "&client_id=" + ClientId +
+                                          "&redirect_uri=" + DebugSiteRedirectUrl +
+                                          "&response_type=code";
+
+        public const string AccessTokenRequesrUrl = "https://login.windows.net/common/oauth2/token" +
+                                             "";
+
+        public static string AccessTokenRequestBody = "grant_type=authorization_code" +
+                                                       "&resource=" + ServiceResourceId +
+                                                       "&redirect_uri=" + DebugSiteRedirectUrl +
+                                                       "&client_id=" + ClientId +
+                                                       "&client_secret=" + ClientSecretEncoded +
+                                                       "&code=";
+
+        
 
         public async Task<List<Contact>> GetContacts(int pageIndex, int pageSize)
         {
@@ -34,7 +62,7 @@ namespace SPContactsList.Models
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri.ToString());
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAccessToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
             HttpResponseMessage response = await client.SendAsync(request);
             string responseString = await response.Content.ReadAsStringAsync();
 
@@ -70,7 +98,7 @@ namespace SPContactsList.Models
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri.ToString());
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAccessToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
             HttpResponseMessage response = await client.SendAsync(request);
             string responseString = await response.Content.ReadAsStringAsync();
 
@@ -107,7 +135,7 @@ namespace SPContactsList.Models
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri.ToString());
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAccessToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
             request.Content = requestContent;
             HttpResponseMessage response = await client.SendAsync(request);
             string responseString = await response.Content.ReadAsStringAsync();
@@ -125,7 +153,7 @@ namespace SPContactsList.Models
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, requestUri.ToString());
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAccessToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
             request.Headers.Add("IF-MATCH", "*");
             HttpResponseMessage response = await client.SendAsync(request);
         }
@@ -145,7 +173,7 @@ namespace SPContactsList.Models
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri.ToString());
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAccessToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
             request.Content = requestContent;
             request.Headers.Add("IF-MATCH", "*");
             request.Headers.Add("X-Http-Method", "PATCH"); 
@@ -153,26 +181,21 @@ namespace SPContactsList.Models
 
         }
 
-        private async Task<string> GetAccessToken()
+        private string GetAccessToken()
         {
-            DiscoveryContext disco = GetFromCache("DiscoveryContext") as DiscoveryContext;
+            string accessToken = null;
 
-            if (disco == null)
+            try
             {
-                disco = await DiscoveryContext.CreateAsync();
-                SaveInCache("DiscoveryContext", disco);
+                accessToken = GetFromCache("AccessToken").ToString();
+            }
+            catch
+            {
+                throw new RedirectRequiredException(new Uri(AADAuthUrl));
             }
 
-            var dcr = await disco.DiscoverResourceAsync(ServiceResourceId);
+            return accessToken;
 
-            SaveInCache("LastLoggedInUser", dcr.UserId);
-
-            return (await disco.AuthenticationContext.AcquireTokenByRefreshTokenAsync(
-                new SessionCache().Read("RefreshToken"),
-                new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(
-                    disco.AppIdentity.ClientId,
-                    disco.AppIdentity.ClientSecret),
-                    ServiceResourceId)).AccessToken;
         }
         private void SaveInCache(string name, object value)
         {

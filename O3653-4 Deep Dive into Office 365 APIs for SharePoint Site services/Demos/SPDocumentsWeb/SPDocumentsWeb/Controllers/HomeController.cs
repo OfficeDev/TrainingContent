@@ -7,11 +7,20 @@ using System.Linq;
 
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Http;
+using SPDocumentsWeb.Models;
 
 namespace SPDocumentsWeb.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult OAuth()
+        {
+            System.Web.HttpContext.Current.Session["AuthCode"] = Request.QueryString["code"];
+            return Redirect("/");
+        }
+
+
         public async Task<ActionResult> Index(int? pageIndex, int? pageSize)
         {
 
