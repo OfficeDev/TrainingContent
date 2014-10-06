@@ -1,0 +1,76 @@
+﻿@model AuthFlowDemo.JsonWebToken
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Access Token as a JSON Web Token</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.token_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.token_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expires_in)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expires_in)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expires_on)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expires_on)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.not_before)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.not_before)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.resource)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.resource)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pwd_exp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pwd_exp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pwd_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pwd_url)
+        </dd>
+
+      <dt>
+        @Html.DisplayNameFor(model => model.access_token)
+      </dt>
+
+      <dd style="font-size:0.8em;line-break:loose;word-break:break-all;background-color:#ddd;border: #AAA 1px solid; padding: 4px;margin-top:8px;">
+        @Html.DisplayFor(model => model.access_token)
+      </dd>
+
+    </dl>
+</div>
