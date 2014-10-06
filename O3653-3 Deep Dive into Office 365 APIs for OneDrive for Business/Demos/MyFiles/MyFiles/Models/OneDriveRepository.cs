@@ -17,8 +17,35 @@ namespace Files.Models
     public class OneDriveRepository : IFileRepository
     {
 
-        const string OneDriveRoot = "https://[tenant]-my.sharepoint.com/personal/[user name]";
-        const string SharePointServiceRoot = "https://[tenant]-my.sharepoint.com";
+        const string OneDriveRoot = "https://msacademy1-my.sharepoint.com/personal/scot_msacademy1_onmicrosoft_com";
+        const string SharePointServiceRoot = "https://msacademy1-my.sharepoint.com";
+
+        public const string ClientId = "0b700747-cf8c-44e7-aac5-f3b4d2d9aa94";
+
+        public const string ClientSecret = "TjuyUMcMUlOPf4mNML1a82EBQ8GU3v0c+cxWC8iWrR4=";
+        public static readonly string ClientSecretEncoded = HttpUtility.UrlEncode(ClientSecret);
+
+        public const string DebugSiteUrl = "http://localhost:44781/";
+        public const string DebugSiteRedirectUrl = "http://localhost:44781/Home/OAuth/";
+
+        public const string AADAuthUrl = "https://login.windows.net/common/oauth2/authorize" +
+                                          "?resource=" + SharePointServiceRoot +
+                                          "&client_id=" + ClientId +
+                                          "&redirect_uri=" + DebugSiteRedirectUrl +
+                                          "&response_type=code";
+
+        public const string AccessTokenRequesrUrl = "https://login.windows.net/common/oauth2/token" +
+                                             "";
+
+        public static string AccessTokenRequestBody = "grant_type=authorization_code" +
+                                                       "&resource=" + SharePointServiceRoot +
+                                                       "&redirect_uri=" + DebugSiteRedirectUrl +
+                                                       "&client_id=" + ClientId +
+                                                       "&client_secret=" + ClientSecretEncoded +
+                                                       "&code=";
+
+
+
         public async Task<MyFile> UploadFile(Stream filestream, string filename)
         {
             StringBuilder requestUri = new StringBuilder(OneDriveRoot)
@@ -55,8 +82,6 @@ namespace Files.Models
 
         public async Task<List<MyFile>> GetMyFiles(int pageIndex, int pageSize)
         {
-            //REST APIs do not support skip or orderby
-            //So pull everything
             StringBuilder requestUri = new StringBuilder(OneDriveRoot)
                 .Append("/_api/Files")
                 .Append("?$select=Id,Name,Url,TimeCreated,TimeLastModified");
@@ -93,20 +118,17 @@ namespace Files.Models
 
         public async Task<bool> RenameFile(string id, string filename)
         {
-            //StringBuilder requestUri = new StringBuilder(OneDriveRoot)
-            //    .Append("/_api/Files(")
-            //    .Append(id)
-            //    .Append(")");
+            StringBuilder requestUri = new StringBuilder(OneDriveRoot)
+                .Append("/_api/Files(")
+                .Append(id)
+                .Append(")");
 
-            //HttpClient client = new HttpClient();
-            //HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri.ToString());
-            //request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAccessToken());
-            //HttpResponseMessage response = await client.SendAsync(request);
-            //return true;
-
-            //Patching not supported
-            throw new NotImplementedException();
+            HttpClient client = new HttpClient();
+            HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri.ToString());
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetAccessToken());
+            HttpResponseMessage response = await client.SendAsync(request);
+            return true;
 
         }
 
@@ -132,19 +154,46 @@ namespace Files.Models
 
         private async Task<string> GetAccessToken()
         {
-            DiscoveryContext disco = await DiscoveryContext.CreateAsync();
-            ResourceDiscoveryResult rdr = await disco.DiscoverResourceAsync(SharePointServiceRoot);
+            string accessToken = null;
+            try
+            {
+                accessToken = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            }
+            catch
+            {
+                accessToken = null;
+            }
 
-            string clientId = disco.AppIdentity.ClientId;
-            string clientSecret = disco.AppIdentity.ClientSecret;
-            string refreshToken = new SessionCache().Read("RefreshToken");
-            ClientCredential creds = new ClientCredential(clientId, clientSecret);
+            if (accessToken == null)
+            {
+                try
+                {
+                    var client = new HttpClient();
+                    client.BaseAddress = new Uri(AccessTokenRequesrUrl);
 
-            AuthenticationResult authResult =
-                await disco.AuthenticationContext.AcquireTokenByRefreshTokenAsync(
-                refreshToken, creds, SharePointServiceRoot);
+                    var content = new FormUrlEncodedContent(new[] {
+                        new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                        new KeyValuePair<string, string>("resource", SharePointServiceRoot),
+                        new KeyValuePair<string, string>("redirect_uri", DebugSiteRedirectUrl),
+                        new KeyValuePair<string, string>("client_id", ClientId),
+                        new KeyValuePair<string, string>("client_secret", ClientSecret),
+                        new KeyValuePair<string, string>("code", System.Web.HttpContext.Current.Session["AuthCode"].ToString())
+                    });
 
-            return authResult.AccessToken;
+                    var result = await client.PostAsync(AccessTokenRequesrUrl, content);
+                    JsonWebToken jwt = JsonWebToken.Deserialize(result.Content.ReadAsStringAsync().Result);
+                    accessToken = jwt.access_token;
+                    System.Web.HttpContext.Current.Session["AccessToken"] = accessToken;
+                    ;
+                }
+                catch
+                {
+                    throw new RedirectRequiredException(new Uri(AADAuthUrl));
+                }
+
+            }
+            return accessToken;
+
         }
         private void SaveInCache(string name, object value)
         {

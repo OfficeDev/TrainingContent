@@ -5,15 +5,19 @@ using Files.Models;
 
 namespace Files
 {
-    public static class UnityConfig
-    {
-        public static void RegisterComponents()
-        {
+	public static class UnityConfig
+	{
+		public static void RegisterComponents()
+		{
 			var container = new UnityContainer();
-            
-            container.RegisterType<IFileRepository, FileRepository>();
-            //container.RegisterType<IFileRepository, OneDriveRepository>();
-            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
-        }
-    }
+			
+#if MYFILES
+			container.RegisterType<IFileRepository, FileRepository>();
+#endif
+#if ONEDRIVE
+			container.RegisterType<IFileRepository, OneDriveRepository>();
+#endif
+			DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+		}
+	}
 }

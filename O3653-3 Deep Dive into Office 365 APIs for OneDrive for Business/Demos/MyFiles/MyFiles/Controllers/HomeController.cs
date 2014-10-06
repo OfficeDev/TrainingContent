@@ -19,7 +19,12 @@ namespace Files.Controllers
         {
             _repository = repository;
         }
-        public async Task<ActionResult> Index(int? pageIndex, int? pageSize)
+        public ActionResult OAuth()
+        {
+            System.Web.HttpContext.Current.Session["AuthCode"] = Request.QueryString["code"];
+            return Redirect("/");
+        }
+        public async Task<ActionResult> Index(int? pageIndex, int? pageSize, string code)
         {
 
             FileViewModel model = new FileViewModel();

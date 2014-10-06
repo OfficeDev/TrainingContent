@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFiles", "MyFiles\MyFiles.csproj", "{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}"
 EndProject
@@ -15,11 +15,17 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		MyFiles|Any CPU = MyFiles|Any CPU
+		OneDrive|Any CPU = OneDrive|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.MyFiles|Any CPU.ActiveCfg = MyFiles Resource|Any CPU
+		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.MyFiles|Any CPU.Build.0 = MyFiles Resource|Any CPU
+		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.OneDrive|Any CPU.ActiveCfg = OneDrive for Business|Any CPU
+		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.OneDrive|Any CPU.Build.0 = OneDrive for Business|Any CPU
 		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F43EFA2-CA8E-4830-B4A6-DB733EC6D55F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

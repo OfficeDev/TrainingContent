@@ -1,4 +1,5 @@
-﻿using Microsoft.Office365.OAuth;
+﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Office365.OAuth;
 using Microsoft.Office365.SharePoint;
 using System;
 using System.Collections.Generic;
@@ -60,14 +61,11 @@ namespace Files.Models
 
         public async Task<bool> RenameFile(string id, string filename)
         {
-            //var client = await EnsureClientCreated();
-            //IFileSystemItem fileSystemItem = await client.Files.GetByIdAsync(id);
-            //fileSystemItem.Name = filename;
-            //await fileSystemItem.UpdateAsync();
-            //return true;
-
-            //Patching not supported
-            throw new NotImplementedException();
+            var client = await EnsureClientCreated();
+            IFileSystemItem fileSystemItem = await client.Files.GetByIdAsync(id);
+            fileSystemItem.Name = filename;
+            await fileSystemItem.UpdateAsync();
+            return true;
 
         }
 
@@ -96,12 +94,16 @@ namespace Files.Models
 
             return new SharePointClient(ServiceEndpointUri, async () =>
             {
-                return (await disco.AuthenticationContext.AcquireTokenByRefreshTokenAsync(
-                    new SessionCache().Read("RefreshToken"),
-                    new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(
-                        disco.AppIdentity.ClientId,
-                        disco.AppIdentity.ClientSecret),
-                        ServiceResourceId)).AccessToken;
+
+                Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential creds =
+                new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(
+                    disco.AppIdentity.ClientId, disco.AppIdentity.ClientSecret);
+
+                return (await disco.AuthenticationContext.AcquireTokenSilentAsync(
+                    ServiceResourceId,
+                    creds,
+                    new UserIdentifier(dcr.UserId, UserIdentifierType.UniqueId))).AccessToken;
+
             });
         }
 
