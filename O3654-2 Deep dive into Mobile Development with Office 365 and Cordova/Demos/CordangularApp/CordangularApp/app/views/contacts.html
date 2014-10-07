@@ -1,0 +1,20 @@
+﻿<h2>Contacts</h2>
+
+<p>
+  <a href="#/" >Back</a>
+</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td>First Name</td>
+      <td>Last Name</td>
+    </tr>
+  </thead>
+  <tbody ng-repeat="contact in contacts">
+    <tr>
+      <td>{{contact.firstName}}</td>
+      <td>{{contact.lastName}}</td>
+    </tr>
+  </tbody>
+</table>
