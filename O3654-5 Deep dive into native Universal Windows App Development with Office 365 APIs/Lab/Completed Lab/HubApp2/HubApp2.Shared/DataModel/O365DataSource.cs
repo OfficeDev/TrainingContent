@@ -1,0 +1,109 @@
+﻿#if WINDOWS_APP
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HubApp2.Data
+{
+	public sealed class O365DataSource
+	{
+		private static O365DataSource _dataSource = new O365DataSource();
+
+		private ObservableCollection<O365DataGroup> _groups = new ObservableCollection<O365DataGroup>();
+		public ObservableCollection<O365DataGroup> Groups
+		{
+			get { return this._groups; }
+		}
+
+		public static async Task<IEnumerable<O365DataGroup>> GetGroupsAsync()
+		{
+			await O365Helpers.AuthenticationHelper.EnsureDiscoveryContextAsync();
+			_dataSource.GetO365DataGroups();
+
+			await Task.WhenAll(_dataSource.Groups.Select(g => _dataSource.GetGroupItemsAsync(g)));
+
+			return _dataSource.Groups;
+		}
+
+		private void GetO365DataGroups()
+		{
+			if (this._groups.Count != 0)
+			{
+				return;
+			}
+
+			Groups.Add(new O365DataGroup("calendar", "Calendar", "Calendar events", "Assets/event.png",
+																		"Events from your Office 365 Calendar"));
+			Groups.Add(new O365DataGroup("contacts", "Contacts", "Contacts from the \"People\" page.", "Assets/contact.png",
+																		"Contacts from your Office 365 \"My Contacts\""));
+			Groups.Add(new O365DataGroup("mail", "Mail", "Messages from your Inbox", "Assets/mail.png",
+																		"Messages from your Office 365 Inbox."));
+			Groups.Add(new O365DataGroup("files", "Files", "Files from your OneDrive for business", "Assets/files.png",
+																		"Files from your OneDrive for Business"));
+
+
+			return;
+		}
+
+		private async Task GetGroupItemsAsync(O365DataGroup group)
+		{
+			switch (group.UniqueId)
+			{
+				case "calendar":
+					var ops = new O365Helpers.CalendarOperations();
+					var events = await ops.GetCalendarEvents();
+					foreach (ViewModels.EventViewModel item in events)
+					{
+						group.Items.Add(new O365DataItem(item.Id, item.Subject, item.LocationName, "Assets/event.png", item.DisplayString, item.BodyContent));
+					}
+
+					break;
+
+				case "contacts":
+					break;
+				case "mail":
+					break;
+				case "files":
+					var fileOps = new O365Helpers.FileOperations();
+					var files = await fileOps.GetMyFilesAsync();
+					foreach (var item in files)
+					{
+						ViewModels.FileSystemItemViewModel vm = new ViewModels.FileSystemItemViewModel(item);
+						string lastModified = String.Format("Last modified by {0} on {1:d}",
+																		vm.FileSystemItem.LastModifiedBy,
+																		vm.FileSystemItem.TimeLastModified);
+						group.Items.Add(new O365DataItem(vm.FileSystemItem.Id, vm.Name, lastModified, "Assets/file.png", vm.DisplayName, String.Empty));
+					}
+					break;
+				default:
+					break;
+			}
+
+		}
+
+		public static async Task<O365DataGroup> GetGroupAsync(string UniqueId)
+		{
+			return _dataSource.Groups.FirstOrDefault(g => g.UniqueId.Equals(UniqueId));
+		}
+
+		public static async Task<O365DataItem> GetItemAsync(string uniqueId)
+		{
+			O365DataItem result = null;
+
+			foreach (O365DataGroup group in _dataSource.Groups)
+			{
+				result = group.Items.FirstOrDefault(i => i.UniqueId.Equals(uniqueId));
+				if (result !=null)
+				{
+					break;
+				}
+			}
+			return result;
+		}
+	}
+}
+
+#endif

@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentWriter", "ContentWriter\ContentWriter.csproj", "{E02E5417-AC5F-492A-9C75-FF51486F1999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentWriterWeb", "ContentWriterWeb\ContentWriterWeb.csproj", "{AC17399A-C6F6-43C0-86E8-5CECB098AD3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E02E5417-AC5F-492A-9C75-FF51486F1999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E02E5417-AC5F-492A-9C75-FF51486F1999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E02E5417-AC5F-492A-9C75-FF51486F1999}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E02E5417-AC5F-492A-9C75-FF51486F1999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E02E5417-AC5F-492A-9C75-FF51486F1999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E02E5417-AC5F-492A-9C75-FF51486F1999}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{AC17399A-C6F6-43C0-86E8-5CECB098AD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC17399A-C6F6-43C0-86E8-5CECB098AD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC17399A-C6F6-43C0-86E8-5CECB098AD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC17399A-C6F6-43C0-86E8-5CECB098AD3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="2324e72d-b4ee-47ff-b29d-6292575d4121" 
+        solutionId="2324e72d-b4ee-47ff-b29d-6292575d4121" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="ContactProfile"
+        sharePointProductVersion="15.0">
+  <features>
+        <featureReference itemId="b7948c63-9546-4c40-8457-d873f54cd98f" />
+  </features>
+</package>

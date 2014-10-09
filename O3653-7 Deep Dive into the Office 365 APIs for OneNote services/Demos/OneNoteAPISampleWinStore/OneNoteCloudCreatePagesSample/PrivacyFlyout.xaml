@@ -1,0 +1,42 @@
+﻿<!--
+//*********************************************************
+// Copyright (c) Microsoft Corporation
+// All rights reserved. 
+//
+// Licensed under the Apache License, Version 2.0 (the ""License""); 
+// you may not use this file except in compliance with the License. 
+// You may obtain a copy of the License at 
+// http://www.apache.org/licenses/LICENSE-2.0 
+//
+// THIS CODE IS PROVIDED ON AN  *AS IS* BASIS, WITHOUT 
+// WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS 
+// OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED 
+// WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR 
+// PURPOSE, MERCHANTABLITY OR NON-INFRINGEMENT. 
+//
+// See the Apache Version 2.0 License for specific language 
+// governing permissions and limitations under the License.
+//*********************************************************
+-->
+    <common:SettingsFlyout
+    x:Class="OneNoteCloudCreatePagesSample.PrivacyFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:common="using:OneNoteCloudCreatePagesSample.Common"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    HeaderText="Privacy">
+   <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StackPanel>
+            <TextBlock Style="{StaticResource SubheaderTextStyle}" Text="Privacy statement" />
+            <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0,0,0,25" TextWrapping="Wrap">
+                <TextBlock.Text>
+                    Your privacy statement here. You need to define a privacy statement to use Windows Live authentication.
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+    </StackPanel>
+</common:SettingsFlyout>

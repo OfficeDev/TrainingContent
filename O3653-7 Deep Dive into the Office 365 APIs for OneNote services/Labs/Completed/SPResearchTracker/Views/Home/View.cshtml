@@ -1,0 +1,29 @@
+﻿@model SPResearchTracker.Models.ProjectDetailViewModel
+
+@{
+    ViewBag.Title = "Project Details";
+}
+
+<h2>Project Details</h2>
+<hr />
+<div>
+
+	@Html.Partial("_Project", Model.Project)
+
+	<hr />
+	<h4>References</h4>
+	<div class="row" style="margin-top:50px;">
+		<div class="col-sm-12">
+			@{
+				Dictionary<string, object> attributes4 = new Dictionary<string, object>();
+				attributes4.Add("class", "btn btn-default");
+				@Html.ActionLink("New Reference", "Create", "References", new { projectId = Model.Project.Id }, new { @class = "btn btn-default" });
+			}
+		</div>
+	</div>
+
+	@Html.Partial("_References", Model.References)
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

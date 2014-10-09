@@ -79,7 +79,7 @@ In this exercise, you will download, install and investigate an App for Office h
   2. In the **Get External Data** group, click **From Web**.<br/>
      ![](Images/22.png?raw=true "Figure 22")
   3. Enter the following URL  and click **GO**. When prompted for a user name and password, use your **Primary Account Key** for both.
-     ```
+     ```javascript
      https://api.datamarket.azure.com/data.gov/Crimes/v1/CityCrime
      ```
   4. Click **Import**. When prompted for a user name and password, use your **Primary Account Key** for both.

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
+     Name="WelcomeClientWebPart"
+     ProductID="{a23c7156-468a-4dcd-b8af-61e0181da253}"
+     Version="1.0.0.0"
+     SharePointMinVersion="15.0.0.0"
+>
+  <Properties>
+    <Title>Welcome Client Web Part</Title>
+    <StartPage>~appWebUrl/Pages/Default.aspx?{StandardTokens}</StartPage>
+  </Properties>
+
+  <AppPrincipal>
+    <Internal />
+  </AppPrincipal>
+
+  <AppPermissionRequests>
+    <AppPermissionRequest Scope="http://sharepoint/social/tenant" Right="Read" />
+  </AppPermissionRequests>
+
+</App>
