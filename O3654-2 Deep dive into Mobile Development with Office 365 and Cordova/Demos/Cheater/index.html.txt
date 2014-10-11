@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>GeoLocator</title>
+
+  <!-- GeoLocator references -->
+  <link href="Content/bootstrap.css" rel="stylesheet" />
+  <link href="css/index.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="containter">
+
+    <h1>Current Position</h1>
+    <div id="position_display">
+      <div><span>Latitude: </span><span id='lat'></span></div>
+      <div><span>Longitude: </span><span id='long'></span></div>
+    </div>
+    <button id='showMap' type="button">Show Map</button>
+    <hr />
+
+    <div id='mapCanvas'>
+    </div>
+
+  </div>
+  <!-- Cordova reference, this is added to your app when it's built. -->
+  <script src="cordova.js"></script>
+  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script src="scripts/jquery-2.1.1.js"></script>
+  <script src="scripts/bootstrap.js"></script>
+  <script src="scripts/platformOverrides.js"></script>
+  <script src="scripts/index.js"></script>
+
+</body>
+</html>

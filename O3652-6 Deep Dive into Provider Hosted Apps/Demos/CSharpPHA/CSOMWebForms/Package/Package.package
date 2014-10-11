@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="32249826-cfcf-4f1a-aeb6-f579c215df87" solutionId="32249826-cfcf-4f1a-aeb6-f579c215df87" resetWebServer="false" sharePointProductVersion="16.0" name="CSOMWebForms" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <features>
+    <featureReference itemId="35c80e0e-8086-470a-86ae-4e373aebf5d9" />
+  </features>
+</package>

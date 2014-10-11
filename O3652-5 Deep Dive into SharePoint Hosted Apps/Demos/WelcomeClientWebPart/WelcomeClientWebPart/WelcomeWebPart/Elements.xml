@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <ClientWebPart 
+    Name="WelcomeAppPart" 
+    Title="Welcome App Part" 
+    Description="A web part to welcome users" 
+    DefaultWidth="300" 
+    DefaultHeight="200">
+
+    <Content 
+      Type="html" 
+      Src="~appWebUrl/Pages/Welcome.aspx?{StandardTokens}&amp;ShowImage=_ShowImage_" />
+
+    <Properties>
+      <Property 
+        Name="ShowImage" 
+        Type="boolean" 
+        WebBrowsable="true" 
+        WebDisplayName="Show Image" 
+        WebDescription ="Determines whether the user's picture is displayed" 
+        WebCategory="Configuration" 
+        DefaultValue="true" 
+        RequiresDesignerPermission="true" 
+        PersonalizableIsSensitive="false" 
+        PersonalizationScope="shared"/>
+    </Properties>
+
+  </ClientWebPart>
+</Elements>
