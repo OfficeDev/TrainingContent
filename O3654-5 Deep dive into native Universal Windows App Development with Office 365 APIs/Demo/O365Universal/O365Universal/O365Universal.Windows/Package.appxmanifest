@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="6dc839b9-7103-4a6c-980a-834b9d05d649" Publisher="CN=ridize" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>O365Universal.Windows</DisplayName>
+    <PublisherDisplayName>ridize</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="O365Universal.Windows.App">
+      <m2:VisualElements DisplayName="OneDrive Images" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="O365Universal.Windows" ForegroundText="light" BackgroundColor="#094AB1">
+        <m2:SplashScreen Image="Assets\SplashScreen.png" />
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="enterpriseAuthentication" />
+  </Capabilities>
+</Package>

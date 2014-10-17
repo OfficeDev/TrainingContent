@@ -1,0 +1,15 @@
+﻿<Application
+    x:Class="O365Universal.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:O365Universal">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///StandardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <x:String x:Key="ida:ClientID">7696014e-ddf7-4593-8d43-c57fcd729d5d</x:String>
+            <x:String x:Key="ida:AuthorizationUri">https://login.windows.net</x:String>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
