@@ -117,4 +117,201 @@ In this exercise you will create a custom solution that extends the Search Cente
   3. Verify that you see appropriate results for the query.
       ![](Images/23.png?raw=true "Figure 23")
 
+## Exercise 1: Build an Employee Directory app 
+In this exercise you will create a SharePoint app that uses the Search service.
+
+1. Create the App Project
+  1. Start **Visual Studio 2013**.
+  2. Select **File/New/Project** from the main menu.
+  3. In the **New Project** dialog:
+    1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
+    2. Select **App for SharePoint**.
+    3. Name the new project **Employee Directory**.
+    4. Click **OK**.<br/>
+      ![](Images/24.png?raw=true "Figure 24")
+  4. In the **New App for SharePoint** wizard:
+    1. Enter the URL of your tenancy.
+    2. Select **Provider-Hosted**.
+    3. Click **Next**.
+      ![](Images/25.png?raw=true "Figure 25")  
+    4. Select **ASP.NET MVC Web Application**.
+    5. Click **Finish**.
+  5. When prompted, enter your **Organizational Account** credentials.
+
+2. Code the App Project
+  1. In the **Solution Explorer**, double-click **AppManifest.xml**.
+  2. Click the **Permissions** tab.
+  3. Select **Search** in the **Scope** drop-down list.
+  4. Select **QueryAsUserIgnoreAppPrincipal** in the **Permission** drop-down list.
+      ![](Images/26.png?raw=true "Figure 26") 
+
+3. Code the Web Project
+  1. In the **Solution Explorer**, right click the **Models** folder and select **Add/Existing Content**.
+  2. Navigate to the **Lab Files** folder and add the **Person.cs** file to the project.
+  3. In the **Solution Explorer**, expand the **Controllers** folder and open **HomeController.cs** for editing.
+  4. **Add** the following statements to the top of the code file:
+
+  ```C#
+  using System.Text;
+  using System.Net.Http;
+  using System.Net.Http.Headers;
+  using System.Xml.Linq;
+  using System.Threading.Tasks;
+  using EmployeeDirectoryWeb.Models;
+
+  ```
+
+  5. **Replace** the entire **Index** method with the following code:
+
+  ```C#
+
+        public async Task<ActionResult> Index(string startLetter)
+        {
+            List<Person> people = new List<Person>();
+
+            if (startLetter != null)
+            {
+                var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext);
+
+                string accessToken = spContext.UserAccessTokenForSPHost;
+
+                StringBuilder requestUri = new StringBuilder()
+                .Append(spContext.SPHostUrl)
+                .Append("/_api/search/query?querytext='LastName:")
+                .Append(startLetter)
+                .Append("*'&selectproperties='LastName,FirstName,WorkEmail,WorkPhone'&sourceid='B09A7990-05EA-4AF9-81EF-EDFAB16C4E31'&sortlist='FirstName:ascending'");
+
+                HttpClient client = new HttpClient();
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri.ToString());
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseString = await response.Content.ReadAsStringAsync();
+
+                XElement root = XElement.Parse(responseString);
+
+                XNamespace d = "http://schemas.microsoft.com/ado/2007/08/dataservices";
+
+                foreach (XElement row in root.Descendants(d + "Rows").First().Elements(d + "element"))
+                {
+                    Person person = new Person();
+
+                    foreach (XElement cell in row.Descendants(d + "Cells").First().Elements(d + "element"))
+                    {
+                        if (cell.Elements(d + "Key").First().Value == "FirstName")
+                        {
+                            person.FirstName = cell.Elements(d + "Value").First().Value;
+                        }
+                        if (cell.Elements(d + "Key").First().Value == "LastName")
+                        {
+                            person.LastName = cell.Elements(d + "Value").First().Value;
+                        }
+                        if (cell.Elements(d + "Key").First().Value == "WorkPhone")
+                        {
+                            person.WorkPhone = cell.Elements(d + "Value").First().Value;
+                        }
+                        if (cell.Elements(d + "Key").First().Value == "WorkEmail")
+                        {
+                            person.WorkEmail = cell.Elements(d + "Value").First().Value;
+                        }
+                    }
+
+                    people.Add(person);
+                }
+
+            }
+
+            return View(people);
+
+        }
+
+  ```
+6. In the **Solution Explorer**, expand the **Views** folder and then the **Home** folder.
+7. Open **Index.cshtml** for editing.
+8. **Replace** the entire contents of the file with the following view definition:
+
+  ```C#
+
+  @model IEnumerable<EmployeeDirectoryWeb.Models.Person>
+
+  @{
+      ViewBag.Title = "Employees";
+  }
+
+  <h2>Employees</h2>
+
+  <p>
+    @Html.ActionLink("A", "Index", new { startLetter = "A"})
+    @Html.ActionLink("B", "Index", new { startLetter = "B" })
+    @Html.ActionLink("C", "Index", new { startLetter = "C" })
+    @Html.ActionLink("D", "Index", new { startLetter = "D" })
+    @Html.ActionLink("E", "Index", new { startLetter = "E" })
+    @Html.ActionLink("F", "Index", new { startLetter = "F" })
+    @Html.ActionLink("G", "Index", new { startLetter = "G" })
+    @Html.ActionLink("H", "Index", new { startLetter = "H" })
+    @Html.ActionLink("I", "Index", new { startLetter = "I" })
+    @Html.ActionLink("J", "Index", new { startLetter = "J" })
+    @Html.ActionLink("K", "Index", new { startLetter = "K" })
+    @Html.ActionLink("L", "Index", new { startLetter = "L" })
+    @Html.ActionLink("M", "Index", new { startLetter = "M" })
+    @Html.ActionLink("N", "Index", new { startLetter = "N" })
+    @Html.ActionLink("O", "Index", new { startLetter = "O" })
+    @Html.ActionLink("P", "Index", new { startLetter = "P" })
+    @Html.ActionLink("Q", "Index", new { startLetter = "Q" })
+    @Html.ActionLink("R", "Index", new { startLetter = "R" })
+    @Html.ActionLink("S", "Index", new { startLetter = "S" })
+    @Html.ActionLink("T", "Index", new { startLetter = "T" })
+    @Html.ActionLink("U", "Index", new { startLetter = "U" })
+    @Html.ActionLink("V", "Index", new { startLetter = "V" })
+    @Html.ActionLink("W", "Index", new { startLetter = "W" })
+    @Html.ActionLink("X", "Index", new { startLetter = "X" })
+    @Html.ActionLink("Y", "Index", new { startLetter = "Y" })
+    @Html.ActionLink("Z", "Index", new { startLetter = "Z" })
+  </p>
+  <table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkPhone)
+        </th>
+        <th></th>
+    </tr>
+
+  @foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkPhone)
+        </td>
+    </tr>
+  }
+
+  </table>
+
+  ```
+
+4. Test the Project
+  1. Press **F5** to start debugging the project.
+  2. When prompted, enter your **Organizational Account** credentials.
+  3. When the app appears, click some letters and verify that you get proper results.
+
+Congratulations! You have finished creating solutions with SharePoint search. 
+
 
