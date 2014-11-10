@@ -47,7 +47,7 @@
         <div id="_#= $htmlEncode(itemId) =#_" name="Item" data-displaytemplate="TaskItem" class="ms-srch-item" onmouseover="_#= ctx.currentItem_ShowHoverPanelCallback =#_" onmouseout="_#= ctx.currentItem_HideHoverPanelCallback =#_">
             <h3>
                 <img src="/_layouts/images/icon_tasklist.gif" alt="Task" style="padding-right:10px;border:0px" />
-                <a title="Open task" style="cursor:pointer" href="#" onclick="javascript:var domain=window.location.protocol + '//' + window.location.host;var title='_#=ctx.CurrentItem.Title=#_';var path='_#=ctx.CurrentItem.Path=#_';if(path.indexOf(domain)===0){SP.SOD.executeFunc('sp.ui.dialog.js', null, function () { SP.UI.ModalDialog.showModalDialog({width: 600, height: 338, allowMaximize: true, title: title, url: path, dialogReturnValueCallback: function (dialogResult, returnValue) { alert('NOTE: Changes to tasks are effective immediately, but will not appear in search results for a few minutes.');SP.UI.ModalDialog.RefreshPage(SP.UI.DialogResult.OK); }});});}else{var response=confirm('This task is in another domain so it cannot be displayed here due to security restrictions in the browser. Do you want to leave this page to view the task?');if(response===true){window.location.href=path;}}">_#=ctx.CurrentItem.Title=#_</a><br />
+                <span>_#=ctx.CurrentItem.Title=#_</span><br />
                 <span>Assigned To: _#=ctx.CurrentItem.AssignedTo=#_</span><br />
                 <span style="_#=getDueDateStyle()=#_">Due Date: _#=getFormattedDate()=#_</span>
             </h3>

@@ -117,7 +117,7 @@ In this exercise you will create a custom solution that extends the Search Cente
   3. Verify that you see appropriate results for the query.
       ![](Images/23.png?raw=true "Figure 23")
 
-## Exercise 1: Build an Employee Directory app 
+## Exercise 2: Build an Employee Directory app 
 In this exercise you will create a SharePoint app that uses the Search service.
 
 1. Create the App Project
