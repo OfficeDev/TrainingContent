@@ -15,37 +15,49 @@ In this lab, you will use the Exchange client of the Office 365 APIs to program 
 In this exercise, you will create the ASP.NET MVC5 application and register it with Azure active Directory.
 
 1. Launch **Visual Studio 2013** as administrator. 
+
 1. In Visual Studio select **File/New/Project**.
+
 1. In the **New Project** dialog, select **Templates/Visual C#/Web** and click **ASP.NET Web Application**. Name the new project **Office365Contacts** and then click **OK**.  
-       ![](Images/01.png)  
+
+  ![](Images/01.png)  
+
 1. In the **New ASP.NET Project** dialog, click **MVC** and then click **Change Authentication**.
+
 1. Select **No Authentication** and click **OK**.
-![](Images/02.png)
+
+  ![](Images/02.png)
+
 1. Once the **New ASP.NET Project** dialog appears like the following screenshot, click **OK**. 
-![](Images/03.png)
+
+  ![](Images/03.png)
 
 1. In the **Solution Explorer**, right click the **Office365Contacts** project and select **Add/Connected Service**.
   1. In the **Services Manager** dialog:
     1. Click **Register Your App**.
     1. When prompted, login with your **Organizational Account**.
     1. Click **Users and Groups**.
-      1. Click **Permissions**.
+      1. Click **Permissions**.      
       1. Check **Enable sign-on and read users' profiles**.
       1. Click **Apply**.
-      ![](Images/UserAndGroupPermissions.png)
+
+        ![](Images/UserAndGroupPermissions.png)
     1. Click **Contacts**.
       1. Click **Permissions**.
       1. Check **Have full access to users' contacts**.
       1. Click **Apply**.
-      ![](Images/04.png)
+
+        ![](Images/04.png)
     1. Click **Mail**.
       1. Click **Permissions**.
       1. Check **Send mail as a user**.
       1. Check **Read and Write access to users' mail**.    
       1. Click **Apply**.
-       ![](Images/05.png)
-    1. Click **OK**.<br/>
-       ![](Images/06.png)
+
+        ![](Images/05.png)
+    1. Click **OK**.
+
+        ![](Images/06.png)
 
 1. Obtain and store the Azure AD tenant ID in the `web.config`.
   1. Browse to the [Azure Management Portal](https://manage.windowsazure.com) and sign in with your **Organizational Account**.
