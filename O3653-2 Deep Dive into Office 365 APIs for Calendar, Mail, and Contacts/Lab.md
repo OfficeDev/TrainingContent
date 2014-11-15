@@ -2,7 +2,7 @@
 In this lab, you will use the Exchange client of the Office 365 APIs to program against Office 365 contacts as part of an ASP.NET MVC5 application.
 
 ## Prerequisites
-1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange inbox within an Office 365 developer tenancy.
+1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange mailbox within an Office 365 developer tenancy.
 1. You must have the Office 365 API Tools version 1.2.41027.2 installed in Visual Studio 2013.
 
 ## Lab Setup: Setting up your Exchange account with Sample Contacts for Testing
@@ -41,20 +41,13 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
       1. Check **Enable sign-on and read users' profiles**.
       1. Click **Apply**.
 
-        ![](Images/UserAndGroupPermissions.png)
+        ![](Images/05.png)
     1. Click **Contacts**.
       1. Click **Permissions**.
       1. Check **Have full access to users' contacts**.
       1. Click **Apply**.
 
         ![](Images/04.png)
-    1. Click **Mail**.
-      1. Click **Permissions**.
-      1. Check **Send mail as a user**.
-      1. Check **Read and Write access to users' mail**.    
-      1. Click **Apply**.
-
-        ![](Images/05.png)
     1. Click **OK**.
 
         ![](Images/06.png)
@@ -673,6 +666,13 @@ In this exercise, you will code the **Home** controller of the MVC application t
       AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
       ````
 
+    Then add the following two `using` statements after the existing `using` statements at the top of the file:
+
+      ````c#
+      using System.IdentityModel.Claims;
+      using System.Web.Helpers;
+      ````
+
 1. In **Visual Studio**, hit **F5** to begin debugging.
 
 1. When prompted, log in with your **Organizational Account**.
@@ -688,6 +688,3 @@ In this exercise, you will code the **Home** controller of the MVC application t
   ![](Images/12.png)
 
 Congratulations! You have completed working with the the Exchange Client APIs.
-
-
-
