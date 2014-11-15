@@ -537,7 +537,7 @@ In this exercise, you will code the MVC application to allow navigating the OneD
 1. When prompted, log in with your **Organizational Account**.
 1. Verify that your application displays files from the OneDrive for Business library.
 
-![](Images/08.png?raw=true "Figure 8")
+  ![](Images/08.png?raw=true "Figure 8")
 
 1. Stop debugging.
 1. In the **HomeController.cs** file, **add** the following code to upload and delete files.
