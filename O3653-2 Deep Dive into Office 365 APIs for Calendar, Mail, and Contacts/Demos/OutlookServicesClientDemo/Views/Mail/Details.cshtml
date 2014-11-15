@@ -1,0 +1,77 @@
+﻿@model OutlookServicesClientDemo.Models.MyMessage
+
+@{
+  ViewBag.Title = "Message Details";
+}
+
+<h2>Message Details</h2>
+
+<div>
+  <dl class="dl-horizontal">
+    <dt>
+      @Html.DisplayNameFor(model => model.Subject)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Subject)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.FromName)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.FromEmailAddress)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.ToRecipients)
+    </dt>
+    <dd>
+      @{
+        string recipients = string.Empty;
+        foreach (var recipient in Model.ToRecipients) {
+          recipients += recipient + "; ";
+        }
+        @Html.Raw(recipients);
+      }
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.DateTimeSent)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.DateTimeSent)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.DateTimeReceived)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.DateTimeReceived)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.HasAttachments)
+    </dt>
+
+    <dd>
+      if (item.HasAttachments == true) { @Html.Raw("Yes"); }
+      else { @Html.Raw("No"); }
+    </dd>
+
+  </dl>
+
+  <h4>Message Body</h4>
+  <hr />
+  <div style="overflow-y: auto; max-height: 300px;">
+    @Html.Raw(HttpUtility.HtmlDecode(Model.Body));
+  </div>
+  <hr />
+
+  <div>
+    @Html.ActionLink("Back to Messages", "Index")
+  </div>
+</div>
