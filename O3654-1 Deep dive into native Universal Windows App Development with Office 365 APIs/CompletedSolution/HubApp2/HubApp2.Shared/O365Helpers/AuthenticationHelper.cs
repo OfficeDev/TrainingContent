@@ -1,20 +1,20 @@
 ﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
 
 #if WINDOWS_APP
-using Microsoft.Azure.ActiveDirectory.GraphClient;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Office365.Discovery;
-using Microsoft.Office365.OAuth;
-using Microsoft.Office365.OutlookServices;
 using Microsoft.Office365.SharePoint.CoreServices;
-using System;
+using Microsoft.Azure.ActiveDirectory.GraphClient;
+using Microsoft.Office365.Discovery;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Security.Authentication.Web;
+using System;
+using System.Threading.Tasks;
+using Microsoft.Office365.SharePoint;
+using Microsoft.Office365.OutlookServices;
+using Microsoft.Office365.OAuth;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace HubApp2.O365Helpers
-{
-    /// <summary>
+namespace HubApp2.O365Helpers {
+  /// <summary>
     /// Provides clients for the different service endpoints.
     /// </summary>
     internal static class AuthenticationHelper

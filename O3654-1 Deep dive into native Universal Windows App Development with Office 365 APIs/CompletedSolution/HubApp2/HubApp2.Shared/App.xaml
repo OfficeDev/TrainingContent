@@ -1,0 +1,11 @@
+﻿<Application
+    x:Class="HubApp2.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HubApp2">
+  <Application.Resources>
+    <x:String x:Key="ida:ClientID">db52e0f1-a543-45b5-8f32-15c6502f4ba9</x:String>
+    <x:String x:Key="tenantId">c24e6842-5db7-45ee-8afc-af300fb3e1cd</x:String>
+    <x:String x:Key="ida:AuthorizationUri">https://login.windows.net</x:String>
+  </Application.Resources>
+</Application>
