@@ -103,9 +103,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CalendarApiSample.cs">
-      <ConnectedServiceReference>Calendar</ConnectedServiceReference>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,29 +119,56 @@
     <Content Include="Assets\StoreLogo.scale-100.png" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.7.10707.1513-rc\lib\netcore45\Microsoft.IdentityModel.Clients.ActiveDirectory.winmd</HintPath>
+    <Reference Include="Microsoft.Azure.ActiveDirectory.GraphClient">
+      <HintPath>..\..\packages\Microsoft.Azure.ActiveDirectory.GraphClient.2.0.0\lib\portable-net40+wp8+win8+MonoAndroid10+MonoTouch10+WindowsPhoneApp81\Microsoft.Azure.ActiveDirectory.GraphClient.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.OData.Client.Portable">
-      <HintPath>..\..\packages\Microsoft.OData.Client.6.3.0\lib\portable-net45+sl5+wp8+win8\Microsoft.OData.Client.Portable.dll</HintPath>
+    <Reference Include="Microsoft.Data.Edm">
+      <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.3\lib\portable-net45+wp8+win8+wpa\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData">
+      <HintPath>..\..\packages\Microsoft.Data.OData.5.6.3\lib\portable-net45+wp8+win8+wpa\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client">
+      <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.6.3\lib\portable-net45+wp8+win8+wpa\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.12.111071459\lib\netcore45\Microsoft.IdentityModel.Clients.ActiveDirectory.winmd</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.OData.Client">
+      <HintPath>..\..\packages\Microsoft.OData.Client.6.8.1\lib\portable-net45+wp8+win8+wpa\Microsoft.OData.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OData.Core">
-      <HintPath>..\..\packages\Microsoft.OData.Core.6.3.0\lib\portable-net40+sl5+wp8+win8\Microsoft.OData.Core.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.OData.Core.6.8.1\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OData.Edm">
-      <HintPath>..\..\packages\Microsoft.OData.Edm.6.3.0\lib\portable-net40+sl5+wp8+win8\Microsoft.OData.Edm.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.OData.Edm.6.8.1\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office365.Discovery">
+      <HintPath>..\..\packages\Microsoft.Office365.Discovery.1.0.22\lib\portable-net40+sl5+wp8+win8+MonoAndroid10+MonoTouch10+WindowsPhoneApp81\Microsoft.Office365.Discovery.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office365.Exchange.Portable">
       <HintPath>..\..\packages\Microsoft.Office365.Exchange.0.1.1-alpha\lib\portable-net40+sl5+wp8+win8+MonoAndroid10+MonoTouch10+WindowsPhoneApp81\Microsoft.Office365.Exchange.Portable.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office365.OAuth">
-      <HintPath>..\..\packages\Microsoft.Office365.OAuth.Windows.0.1.1-alpha\lib\win81\Microsoft.Office365.OAuth.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Office365.OAuth.Windows.1.0.22\lib\win81\Microsoft.Office365.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office365.OAuth.WindowsStore">
-      <HintPath>..\..\packages\Microsoft.Office365.OAuth.Windows.0.1.1-alpha\lib\win81\Microsoft.Office365.OAuth.WindowsStore.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Office365.OAuth.Windows.1.0.22\lib\win81\Microsoft.Office365.OAuth.WindowsStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office365.OutlookServices.Portable">
+      <HintPath>..\..\packages\Microsoft.Office365.OutlookServices.1.0.22\lib\portable-net40+sl5+wp8+win8+MonoAndroid10+MonoTouch10+WindowsPhoneApp81\Microsoft.Office365.OutlookServices.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office365.SharePoint.Portable">
+      <HintPath>..\..\packages\Microsoft.Office365.SharePoint.1.0.22\lib\portable-net40+sl5+wp8+win8+MonoAndroid10+MonoTouch10+WindowsPhoneApp81\Microsoft.Office365.SharePoint.Portable.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Spatial">
-      <HintPath>..\..\packages\Microsoft.Spatial.6.3.0\lib\portable-net40+sl5+wp8+win8\Microsoft.Spatial.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Spatial.6.8.1\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\netcore45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial">
+      <HintPath>..\..\packages\System.Spatial.5.6.3\lib\portable-net45+wp8+win8+wpa\System.Spatial.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
