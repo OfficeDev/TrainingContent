@@ -415,7 +415,6 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     var client = await EnsureClientCreated();
 
     File newFile = new File {
-      Type = "File",
       Name = filename
     };
 

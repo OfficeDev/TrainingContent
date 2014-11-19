@@ -32,7 +32,6 @@ namespace OneDriveWeb.Models {
       var client = await EnsureClientCreated();
 
       File newFile = new File {
-        Type = "File",
         Name = filename        
       };
 
