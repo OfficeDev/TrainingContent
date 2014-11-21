@@ -3,7 +3,7 @@ Office 365 Development Training Content
 
 This GitHub repo houses all of the training content for Office 365 Development training courses. 
 
-You are welcome to use this content as you wish to train your internal developers or present at User Groups or Conferences. There are [speaker notes](/speakernotes.md) here to help you set up your development environment.
+You are welcome to use this content as you wish to train your internal developers or present at User Groups or Conferences. There are [speaker notes](/SpeakerNotes.md) here to help you set up your development environment.
 
 For more information on Office 365 Development visit http://dev.office.com/.
 
