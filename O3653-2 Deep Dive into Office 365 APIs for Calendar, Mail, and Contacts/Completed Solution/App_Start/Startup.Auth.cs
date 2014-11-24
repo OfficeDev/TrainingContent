@@ -6,32 +6,22 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
+using Office365Contacts.Utils;
 using Owin;
 using System.Configuration;
 using System.Threading.Tasks;
 
 namespace Office365Contacts {
   public partial class Startup {
-    private static string CLIENT_ID = ConfigurationManager.AppSettings["ida:ClientID"];
-    private static string CLIENT_SECRET = ConfigurationManager.AppSettings["ida:Password"];
-    private static string TENANT_ID = ConfigurationManager.AppSettings["tenantId"];
-    private static string GRAPH_RESOURCE_ID = "https://graph.windows.net";
-    public void ConfigureAuth(IAppBuilder app)
-    {
-      // create the authority for user login by concatenating the 
-      //  URI added by O365 API tools in web.config 
-      //  & user's tenant ID provided in the claims when the logged in
-      var tenantAuthority = string.Format("{0}/{1}",
-        ConfigurationManager.AppSettings["ida:AuthorizationUri"],
-        TENANT_ID);
-
+    public void ConfigureAuth(IAppBuilder app) {
+      // configure the authentication type & settings
       app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
       app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
-
+      // configure the OWIN OpenId Connect options
       app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions {
-        ClientId = CLIENT_ID,
-        Authority = tenantAuthority,
+        ClientId = SettingsHelper.ClientId,
+        Authority = SettingsHelper.AzureADAuthority,
         Notifications = new OpenIdConnectAuthenticationNotifications() {
           // when an auth code is received...
           AuthorizationCodeReceived = (context) => {
@@ -39,27 +29,33 @@ namespace Office365Contacts {
             string code = context.Code;
 
             // create the app credentials & get reference to the user
-            ClientCredential creds = new ClientCredential(CLIENT_ID, CLIENT_SECRET);
+            ClientCredential creds = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
             string userObjectId = context.AuthenticationTicket.Identity.FindFirst(System.IdentityModel.Claims.ClaimTypes.NameIdentifier).Value;
 
             // use the OpenID Connect code to obtain access token & refresh token...
-            //  save those in a persistent store... for now, use the simplistic NaiveSessionCache
-            //  NOTE: read up on the links in the NaieveSessionCache... should not be used in production
-            Utils.NaiveSessionCache sampleCache = new Utils.NaiveSessionCache(userObjectId);
-            AuthenticationContext authContext = new AuthenticationContext(tenantAuthority, sampleCache);
+            //  save those in a persistent store...
+            EFADALTokenCache sampleCache = new EFADALTokenCache(userObjectId);
+            AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureADAuthority, sampleCache);
 
             // obtain access token for the AzureAD graph
             Uri redirectUri = new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Path));
-            AuthenticationResult authResult = authContext.AcquireTokenByAuthorizationCode(
-              code, redirectUri, creds, GRAPH_RESOURCE_ID);
+            AuthenticationResult authResult = authContext.AcquireTokenByAuthorizationCode(code, redirectUri, creds, SettingsHelper.AzureAdGraphResourceId);
 
             // successful auth
             return Task.FromResult(0);
+          },
+          AuthenticationFailed = (context) =>
+          {
+            context.HandleResponse();
+            return Task.FromResult(0);
           }
-
+        },
+        TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters
+        {
+          ValidateIssuer = false
         }
       });
-
     }
+
   }
 }

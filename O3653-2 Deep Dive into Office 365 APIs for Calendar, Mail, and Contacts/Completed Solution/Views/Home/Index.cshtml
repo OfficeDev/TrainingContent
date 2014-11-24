@@ -1,51 +1,31 @@
-﻿@model IEnumerable<Office365Contacts.Models.MyContact>
+﻿@{
+  ViewBag.Title = "Home Page";
+}
 
-@{ ViewBag.Title = "My Contacts"; }
-
-<h2>My Contacts</h2>
-
-<p>@Html.ActionLink("Create New", "Create")</p>
-
-<table id="contactsTable" class="table table-striped table-bordered">
-  <tr>
-    <th>@Html.DisplayNameFor(model => model.GivenName)</th>
-    <th>@Html.DisplayNameFor(model => model.Surname)</th>
-    <th>@Html.DisplayNameFor(model => model.CompanyName)</th>
-    <th>@Html.DisplayNameFor(model => model.BusinessPhone)</th>
-    <th>@Html.DisplayNameFor(model => model.HomePhone)</th>
-    <th>@Html.DisplayNameFor(model => model.EmailAddress)</th>
-    <th></th>
-  </tr>
-  @foreach (var item in Model) {
-    <tr>
-      <td>@Html.DisplayFor(modelItem => item.GivenName)</td>
-      <td>@Html.DisplayFor(modelItem => item.Surname)</td>
-      <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
-      <td>@Html.DisplayFor(modelItem => item.BusinessPhone)</td>
-      <td>@Html.DisplayFor(modelItem => item.HomePhone)</td>
-      <td>@Html.DisplayFor(modelItem => item.EmailAddress)</td>
-      <td>@Html.ActionLink("Delete", "Delete", new { id = item.Id })</td>
-    </tr>
-  }
-</table>
+<div class="jumbotron">
+  <h1>ASP.NET</h1>
+  <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+  <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
 
 <div class="row">
-  <h4>Paging Control</h4>
-  <div class="btn btn-group-sm">
-    @{
-      int pageIndex = ViewBag.pageIndex;
-      int pageSize = ViewBag.pageSize;
-      int contactCount = ViewBag.contactCount;
-
-      int pageCount = (int)System.Math.Ceiling((double)contactCount / (double)pageSize);
-
-      for (int i = 1; i <= pageCount; i++) {
-        Dictionary<string, object> attributes = new Dictionary<string, object>();
-        attributes.Add("class", "btn btn-default");
-        RouteValueDictionary routeValues = new RouteValueDictionary();
-        routeValues.Add("pageNumber", i.ToString());
-        @Html.ActionLink("Page " + i.ToString(), "Index", "Home", routeValues, attributes);
-      }
-    }
+  <div class="col-md-4">
+    <h2>Getting started</h2>
+    <p>
+      ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+      enables a clean separation of concerns and gives you full control over markup
+      for enjoyable, agile development.
+    </p>
+    <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+  </div>
+  <div class="col-md-4">
+    <h2>Get more libraries</h2>
+    <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+    <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+  </div>
+  <div class="col-md-4">
+    <h2>Web Hosting</h2>
+    <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+    <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
   </div>
 </div>
