@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.microsoft.researchtracker.ViewProjectActivity" >
+
+    <item android:id="@+id/action_edit"
+          android:title="@string/action_edit"
+          android:icon="@drawable/ic_action_content_edit"
+          android:orderInCategory="100"
+          android:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_new"
+          android:title="@string/action_new"
+          android:icon="@drawable/ic_action_content_new"
+          android:orderInCategory="200"
+          android:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_refresh"
+        android:title="@string/action_refresh"
+        android:icon="@drawable/ic_action_navigation_refresh"
+        android:orderInCategory="300"
+        android:showAsAction="never" />
+3
+
+    <item android:id="@+id/action_delete"
+          android:title="@string/action_delete"
+          android:orderInCategory="400"
+          android:showAsAction="ifRoom"
+          android:icon="@drawable/ic_action_content_discard" />
+</menu>
