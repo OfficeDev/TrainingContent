@@ -18,8 +18,8 @@ namespace Win8ServiceDiscovery
 
 
         // App registration for Organizational account (Office 365 account)
-        public string OrganizationalAccountClientId = "<ENTER YOUR CLIENT ID FOR ORGANIZATIONAL ACCOUNT>";
-        public string OrganizationalAccountRedirectUri = "<ENTER THE REDIRECT URI FOR THE AZURE AD APP>";
+				public string OrganizationalAccountClientId = "565a2a92-746c-4044-9839-4ee10015feb4";
+				public string OrganizationalAccountRedirectUri = "http://wtofficedevtraining.onmicrosoft.com/DiscoveryWin8";
                
     }
 }

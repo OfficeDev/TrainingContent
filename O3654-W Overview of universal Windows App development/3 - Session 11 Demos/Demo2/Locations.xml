@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<WindowsPhoneEmulator xmlns="http://schemas.microsoft.com/WindowsPhoneEmulator/2009/08/SensorData">
-    <SensorData>
-        <Header version="1" mapmode="2" speedmode="2" profiletype="Urban" simulatorseed="562674963" />
-        <GpsData latitude="47.6396568043767" longitude="-122.129993061113" />
-        <GpsData latitude="47.6385264280303" longitude="-122.129228067289" />
-        <GpsData latitude="47.6385716435537" longitude="-122.127953077583" />
-    </SensorData>
-</WindowsPhoneEmulator>

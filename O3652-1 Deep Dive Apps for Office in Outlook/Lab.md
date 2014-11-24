@@ -1,4 +1,4 @@
-Setting Up Your Exchange Mailbox for Development# Deep Dive into Apps for Office in Outlook
+Setting Up Your Exchnage Mailbox for Development# Deep Dive into Apps for Office in Outlook
 
 In this lab you will get hands-on experience developing Mail Apps which target Microsoft Outlook and OWA.
 
