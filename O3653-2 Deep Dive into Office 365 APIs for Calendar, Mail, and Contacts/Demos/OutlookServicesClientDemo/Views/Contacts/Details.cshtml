@@ -1,0 +1,66 @@
+﻿@model OutlookServicesClientDemo.Models.MyContact
+
+@{
+  ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+  <h4>Contact</h4>
+  <hr />
+  <dl class="dl-horizontal">
+    <dt>
+      @Html.DisplayNameFor(model => model.GivenName)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.GivenName)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.Surname)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.Surname)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.CompanyName)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.CompanyName)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.BusinessPhone)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.BusinessPhone)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.HomePhone)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.HomePhone)
+    </dd>
+
+    <dt>
+      @Html.DisplayNameFor(model => model.EmailAddress)
+    </dt>
+
+    <dd>
+      @Html.DisplayFor(model => model.EmailAddress)
+    </dd>
+
+  </dl>
+</div>
+<p>
+  @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+  @Html.ActionLink("Back to List", "Index")
+</p>
