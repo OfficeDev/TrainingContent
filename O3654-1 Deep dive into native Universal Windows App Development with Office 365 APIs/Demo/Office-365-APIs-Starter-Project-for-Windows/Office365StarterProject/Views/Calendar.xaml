@@ -1,0 +1,249 @@
+﻿<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
+    
+    <Page
+    x:Name="pageRoot"
+    x:Class="Office365StarterProject.Views.Calendar"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Office365Starter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:common="using:Office365StarterProject.Common"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+
+    <!--
+        This grid acts as a root panel for the page that defines four rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains a progress bar and the sample summary
+        * Row 2 contains the core input and output for the calendar operations
+        * Row 3 provides status information on select operations
+    -->
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Name="aGrid" >
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid Grid.Row="0" Background="{StaticResource SampleHeaderBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="74"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Grid.Column="0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        AutomationProperties.Name="Back"
+                        AutomationProperties.AutomationId="BackButton"
+                        AutomationProperties.ItemType="Navigation Button" Height="41" Width="41" RenderTransformOrigin="0.514,-0.508"/>
+            <Grid Grid.Column="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Text="Office 365 Calendar API" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Style="{StaticResource HeaderTextBlockStyle}"
+                       />
+                <Image Grid.Column="2" Source="../Assets/CalendarIcon.png" Height="100" Margin="60,0,0,0"/>
+            </Grid>
+        </Grid>
+
+        <!-- Progress bar and the sample summary -->
+        <ProgressBar Name="LoadCalendarProgress"  Width="900" DataContext="{Binding CalendarViewModel}"
+                     Visibility="{Binding Path=LoadingCalendarEvents, Converter={StaticResource BooleanToVisibilityConverter}}"
+                     Grid.Row="1" VerticalAlignment="Top" Margin="0,10,0,1"  IsIndeterminate="True"/>
+        
+        <TextBlock Grid.Row="1"        
+                   HorizontalAlignment="Center"
+                   TextWrapping="Wrap"
+                   Style="{StaticResource BaseTextBlockStyle}" Margin="10"
+                   >
+                To get started, select the <Bold>Get calendar events</Bold> button to retrieve the first page of calendar events. <LineBreak/> Learn more about the REST API calls made in this application by reading 
+                <Bold><Hyperlink NavigateUri="http://msdn.microsoft.com/office/office365/api/calendar-rest-operations" Foreground="{StaticResource HyperLinkBrush}"  >Calendar REST operations</Hyperlink></Bold>.
+        </TextBlock>
+
+        <!--Core input and output for the calendar operations-->
+        <Grid Grid.Row="2" DataContext="{Binding CalendarViewModel}" Margin="0,5,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel  Grid.Column="1" Grid.Row="1" >
+                <TextBlock  HorizontalAlignment="Left"  Text="Actions" VerticalAlignment="Top" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,0,20" />
+                <Button 
+                Content="Get calendar events" 
+                Margin="-1,5,0,0" 
+                Command="{Binding Path=GetCalendarEventsCommand}" 
+                CommandParameter="Read" Width="185"/>
+                <Button 
+                Content="Create event " 
+                Margin="0,5,0,0" 
+                Width="185"
+                Command="{Binding Path=NewEventCommand}"/>
+                <Button 
+                Content="Update event" Margin="0,5,0,0" 
+                Width="185"
+                    Command="{Binding Path=SelectedItem.SaveChangesCommand,ElementName=CalendarEventList}"/>
+                <Button 
+                    Content="Delete event" 
+                    Margin="0,5,0,0" 
+                    Width="185"
+                    Command="{Binding Path=DeleteEventCommand}"
+                />
+
+            </StackPanel>
+            <StackPanel Grid.Column="3" Grid.Row="1" >
+                <TextBlock  HorizontalAlignment="Left"  Text="Calendar events" VerticalAlignment="Top" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="10,0,0,20" />
+                <ListBox 
+                Name="CalendarEventList" 
+                ItemsSource="{Binding Path=Events}" 
+                Margin="10,10,1,10" 
+                Width="500" 
+                HorizontalAlignment="Left" 
+                Height="445"
+                ScrollViewer.VerticalScrollMode="Enabled"
+
+                SelectedItem="{Binding Path=SelectedEvent, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=DisplayString}" Style="{StaticResource BodyTextBlockStyle}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Column="5" Grid.Row="1" Margin="0,0,-18,0" Name="EventEntryPanel">
+                <TextBlock  HorizontalAlignment="Left"  Text="Event details" VerticalAlignment="Top" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="10,0,0,20" />
+                <TextBox
+                    PlaceholderText="Subject" 
+                    HorizontalAlignment="Left" 
+                    Name="EventName" 
+                    Text="{Binding Path=SelectedItem.Subject, ElementName=CalendarEventList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="300" Margin="10,10,1,10"
+                    />
+                <TextBox 
+                    PlaceholderText="Location" 
+                    HorizontalAlignment="Left" 
+                    Name="Location" 
+                    Text="{Binding Path=SelectedItem.LocationName, ElementName=CalendarEventList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                    Width="300" 
+                    Margin="10,1,1,10"
+                    />
+                <TextBox 
+                    PlaceholderText="Attendees" 
+                    HorizontalAlignment="Left" 
+                    Name="Attendees" 
+                    Text="{Binding Path=SelectedItem.Attendees, ElementName=CalendarEventList,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="300" 
+                    Margin="10,1,1,10"
+                    />
+                <DatePicker 
+                    Name="startDatePicker" 
+                    Header="Start date"
+                    DayFormat="{}{day.integer}" 
+                    MonthFormat="{}{month.abbreviated(3)}" 
+                    YearFormat="{}{year.abbreviated(4)}" 
+                    Margin="10,1,0,10" 
+                    Width="298" Date="{Binding Path=SelectedItem.Start, ElementName=CalendarEventList, Mode=TwoWay}" 
+                    YearVisible="True"
+                />
+                <TimePicker
+                Name="startTimePicker"
+                Header="Start time"
+                ClockIdentifier="12HourClock"
+                Margin="10,5,0,10"
+                Time="{Binding Path=SelectedItem.StartTime, ElementName=CalendarEventList, Mode=TwoWay}"/>
+                <DatePicker 
+                Name="endDatePicker" 
+                Header="End date"
+                DayFormat="{}{day.integer}" 
+                MonthFormat="{}{month.abbreviated(3)}" 
+                YearFormat="{}{year.abbreviated(4)}" 
+                Margin="10,1,0,10" 
+                Width="298" Date="{Binding Path=SelectedItem.End,ElementName=CalendarEventList, Mode=TwoWay}" 
+                YearVisible="True"
+                />
+                <TimePicker
+                Name="endTimePicker"
+                Header="End time"
+                ClockIdentifier="12HourClock"
+                Margin="10,5,0,10"
+                Time="{Binding Path=SelectedItem.EndTime, ElementName=CalendarEventList, Mode=TwoWay}"/>
+                <TextBox 
+                    PlaceholderText="Body content" 
+                    HorizontalAlignment="Left" 
+                    Name="BodyContent" 
+                    Text="{Binding Path=SelectedItem.BodyContent,ElementName=CalendarEventList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="298" 
+                    Margin="10,1,0,10"
+                    />
+                <Button 
+                        HorizontalAlignment="Center"
+                        Content="Undo" 
+                        Width="148" 
+                        Margin="10,5,0,0" 
+                        Command="{Binding Path=CancelEventChangesCommand}" 
+                    />
+            </StackPanel>
+        </Grid>
+        <!-- Status text -->
+        <TextBlock Name="OperationResult" DataContext="{Binding Path=LoggingViewModel}"
+                     Text="{Binding Path=Information}"
+                     VerticalAlignment="Top" Margin="0,10,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" Grid.Row="3" HorizontalAlignment="Center" FontSize="20">
+        </TextBlock>
+    </Grid>
+</Page>
+<!--
+O365-APIs-Start-Windows, https://github.com/OfficeDev/O365-APIs-Start-Windows
+
+Copyright (c) Microsoft Corporation
+All rights reserved. 
+MIT License:
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+""Software""), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.    
+  
+-->

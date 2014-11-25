@@ -3,5 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:O365UniApp">
+    <Application.Resources>
+        <x:String x:Key="ida:ClientID">76527b03-1d7a-472d-8a92-d34034727b5c</x:String>
+    
+        <x:String x:Key="ida:AuthorizationUri">https://login.windows.net</x:String>
+    </Application.Resources>
 
 </Application>
