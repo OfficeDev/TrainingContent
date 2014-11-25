@@ -1,0 +1,30 @@
+﻿<h3>Customer List</h3>
+
+<table class="table table-striped table-hover table-responsive ">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Work Phone</td>
+            <td>Home Phone</td>
+            <td>Email Address</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </thead>
+    <tbody ng-repeat="customer in customers">
+        <tr>
+            <td>{{customer.Id}}</td>
+            <td>{{customer.FirstName}}</td>
+            <td>{{customer.Title}}</td>
+            <td>{{customer.WorkPhone}}</td>
+            <td>{{customer.HomePhone}}</td>
+            <td>{{customer.Email}}</td>
+            <td><a href="#/view/{{customer.Id}}" class="btn-mini">View</a></td>
+            <td><a href="#/edit/{{customer.Id}}" class="btn-mini">Edit</a></td>
+            <td><a href="#" data-ng-click="deleteCustomer(customer.Id)" class="btn-mini">Delete</a></td>
+        </tr>
+    </tbody>
+</table>

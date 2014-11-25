@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Shortcut>jsNavHelperSaveStateBody</Shortcut>
+      <Title>JumpStart NavigationHelper SaveState Body</Title>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp"><![CDATA[            e.PageState.Clear();
+
+            e.PageState["Value1TextBox"] = Value1TextBox.Text;
+            e.PageState["Value2TextBox"] = Value2TextBox.Text;
+            if (RadioButton1.IsChecked.HasValue)
+            {
+                e.PageState["RadioButton1Value"] = RadioButton1.IsChecked.Value ? 1 : 0;
+            }
+            if (RadioButton2.IsChecked.HasValue)
+            {
+                e.PageState["RadioButton2Value"] = RadioButton2.IsChecked.Value ? 1 : 0;
+            }
+            if (RadioButton3.IsChecked.HasValue)
+            {
+                e.PageState["RadioButton3Value"] = RadioButton3.IsChecked.Value ? 1 : 0;
+            }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
