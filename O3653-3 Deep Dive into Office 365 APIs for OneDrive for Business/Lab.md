@@ -3,198 +3,484 @@ In this lab, you will use the Office 365 APIs for OneDrive for Business as part 
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-2. You must have the Office 365 API Tools version 1.1.728 installed in Visual Studio 2013.
+1. You must have the Office 365 API Tools version 1.2.41027.2 installed in Visual Studio 2013.
 
 ## Exercise 1: Create an ASP.NET MVC5 Application
 In this exercise, you will create the ASP.NET MVC5 application and register it with Azure active Directory.
 
 1. Create the new solution in Visual Studio 2013:
   1. Launch **Visual Studio 2013** as administrator. 
-  2. In Visual Studio select **File/New/Project**.
-  3. In the **New Project** dialog:
+  1. In Visual Studio select **File/New/Project**.
+  1. In the **New Project** dialog:
     1. Select **Templates/Visual C#/Web**.
-    2. Click **ASP.NET Web Application**.
-    3. Name the new project **OneDriveWeb**.
-    4. Click **OK**.<br/>
+    1. Click **ASP.NET Web Application**.
+    1. Name the new project **OneDriveWeb**.
+    1. Click **OK**.
+
        ![](Images/01.png?raw=true "Figure 1")
-  4. In the **New ASP.NET Project** dialog:
+
+  1. In the **New ASP.NET Project** dialog:
     1. Click **MVC**.
-    2. Click **Change Authentication**.
-    3. Select **No Authentication**.
-    4. Click **OK**.<br/>
+    1. Click **Change Authentication**.
+    1. Select **No Authentication**.
+    1. Click **OK**.
+
        ![](Images/02.png?raw=true "Figure 2")
-    5. Click **OK**.<br/>
+
+    1. Click **OK**.
+
        ![](Images/03.png?raw=true "Figure 3")
-2. Connect the OneDrive for Business service:
+
+1. Connect the OneDrive for Business service:
   1. In the **Solution Explorer**, right click the **OneDriveWeb** project and select **Add/Connected Service**.
-  2. In the **Services Manager** dialog:
+  1. In the **Services Manager** dialog:
     1. Click **Register Your App**.
-    2. When prompted, login with your **Organizational Account**.
-    3. Click **My Files**.
-    4. Click **Permissions**.
-    5. Check **Edit or Delete User's Files**.
-    6. Check **Read User's Files**.
-    7. Click **Apply**.<br/>
-       ![](Images/04.png?raw=true "Figure 4")
-    8. Click **Sites**.
-    9. Click **Permissions**.
-    10. Check **Create or Delete items and lists in all site collections**.
-    11. Check **Edit or Delete items in all site collections**.
-    12. Check **Read items in all site collections**.
-    13. Click **Apply**.<br/>
-       ![](Images/05.png?raw=true "Figure 5")
-    14. Click **OK**.<br/>
+    1. When prompted, login with your **Organizational Account**.
+    1. Click **Users and Groups**.
+      1. Click **Permissions**.      
+      1. Check **Enable sign-on and read users' profiles**.
+      1. Click **Apply**.
+
+       ![](Images/UsersAndGroups.png)
+    1. Click **My Files**.
+      1. Click **Permissions**.
+      1. Check **Edit or Delete User's Files**.
+      1. Check **Read User's Files**.
+      1. Click **Apply**.
+
+         ![](Images/04.png?raw=true "Figure 4")
+    1. Click **Sites**.
+      1. Click **Permissions**.
+      1. Check **Create or Delete items and lists in all site collections**.
+      1. Check **Edit or Delete items in all site collections**.
+      1. Check **Read items in all site collections**.
+      1. Click **Apply**.
+
+         ![](Images/05.png?raw=true "Figure 5")
+    1. Click **OK**.
+
        ![](Images/06.png?raw=true "Figure 6")
+1. Obtain and store the Azure AD tenant ID in the `web.config`.
+  1. Browse to the [Azure Management Portal](https://manage.windowsazure.com) and sign in with your **Organizational Account**.
+  2. In the left-hand navigation, click **Active Directory**.
+  3. Select the directory you share with your Office 365 subscription.
+  4. In the URL, find the first GUID and copy it to the clipboard. This is your **directory tenant ID**.
+    > The URL will look like the following with the **BOLD** part being the GUID you are looking for: `https://manage.windowsazure.com/[..]#Workspaces/ActiveDirectoryExtension/Directory/[YOU WANT THIS GUID: ######-####-####-####-############]/users`
+  5. Open the `web.config` file in the project.
+  6. Add the following node to the `<appSettings>` section, setting the value equal to the **directory tenant ID** you acquired in the previous step:
 
-## Exercise 2: Code the Files API
-In this exercise, you will create a respository object for wrapping CRUD operations associated with the Files API.
+    ````xml
+    <add key="tenantId" value="######-####-####-####-############"/>
+    ````
 
-1. In the **Solution Explorer**, right click the **OneDriveWeb** project and select **Add/Class**.
-2. In the **Add New Item** dialog, name the new class **FileRepository.cs**.
-3. Click **Add**.<br/>
-       ![](Images/07.png?raw=true "Figure 7")
-4. **Add** the following references to the top of the **FileRepository** class.
-  ```C#
+## Exercise 2: Configure the Project to use OWIN for Azure AD Authentication
+1. Add the NuGet OWIN packages to enable OWIN OpenID Connect authentication on the application:
+  1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
+  1. First restore all missing packages by clicking the **Restore** button in the top-right corner of the window.
+  1. After that completes, enter each line below in the console, one at a time, pressing **ENTER** after each one. NuGet will install the package and all dependent packages:
 
+    ````powershell
+    PM> Install-Package -Id Microsoft.Owin.Host.SystemWeb
+    PM> Install-Package -Id Microsoft.Owin.Security.Cookies
+    PM> Install-Package -Id Microsoft.Owin.Security.OpenIdConnect
+    ````
+
+1. Add a temp token cache. Notice the comments in the code as this is not intended to be used in production as it is exactly what it's name implies: naive.
+  1. Right-click the project and select **Add/New Folder**.
+  1. Name the folder **Utils**.
+  1. Right-click the **Utils** folder and select **Add/Class**.
+  1. Name the class **NaiveSessionCache**.
+  1. Replace the code in the **NaiveSessionCache.cs** file with the following code (this file is also found in the [Lab Files](Lab Files) folder):
+
+    ````c#
+    // Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
+    using Microsoft.IdentityModel.Clients.ActiveDirectory;
+    using System.Threading;
+    using System.Web;
+
+    namespace OneDriveWeb.Utils {
+      /// <summary>
+      /// A basic token cache using current session
+      /// ADAL will automatically save tokens in the cache whenever you obtain them.  
+      /// More details here: http://www.cloudidentity.com/blog/2014/07/09/the-new-token-cache-in-adal-v2/
+      /// !!! NOTE: DO NOT USE THIS IN PRODUCTION. A MORE PERSISTENT CACHE SUCH AS A DATABASE IS RECOMMENDED FOR PRODUCTION USE !!!!
+      /// </summary>
+      public class NaiveSessionCache : TokenCache {
+        private static ReaderWriterLockSlim SessionLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+        string UserObjectId = string.Empty;
+        string CacheId = string.Empty;
+
+        public NaiveSessionCache(string userId) {
+          UserObjectId = userId;
+          CacheId = UserObjectId + "_TokenCache";
+
+          this.AfterAccess = AfterAccessNotification;
+          this.BeforeAccess = BeforeAccessNotification;
+          Load();
+        }
+
+        public void Load() {
+          SessionLock.EnterReadLock();
+          this.Deserialize((byte[])HttpContext.Current.Session[CacheId]);
+          SessionLock.ExitReadLock();
+        }
+
+        public void Persist() {
+          SessionLock.EnterWriteLock();
+
+          // Optimistically set HasStateChanged to false. We need to do it early to avoid losing changes made by a concurrent thread.
+          this.HasStateChanged = false;
+
+          // Reflect changes in the persistent store
+          HttpContext.Current.Session[CacheId] = this.Serialize();
+          SessionLock.ExitWriteLock();
+        }
+
+        public override void DeleteItem(TokenCacheItem item) {
+          base.DeleteItem(item);
+          Persist();
+        }
+
+        // Empties the persistent store.
+        public override void Clear() {
+          base.Clear();
+          System.Web.HttpContext.Current.Session.Remove(CacheId);
+        }
+
+        // Triggered right before ADAL needs to access the cache.
+        // Reload the cache from the persistent store in case it changed since the last access.
+        void BeforeAccessNotification(TokenCacheNotificationArgs args) {
+          Load();
+        }
+
+        // Triggered right after ADAL accessed the cache.
+        void AfterAccessNotification(TokenCacheNotificationArgs args) {
+          // if the access operation resulted in a cache update
+          if (this.HasStateChanged) {
+            Persist();
+          }
+        }
+      }
+    }
+    //*********************************************************  
+    //  
+    //O365 APIs Starter Project for ASPNET MVC, https://github.com/OfficeDev/Office-365-APIs-Starter-Project-for-ASPNETMVC
+    // 
+    //Copyright (c) Microsoft Corporation 
+    //All rights reserved.  
+    // 
+    //MIT License: 
+    // 
+    //Permission is hereby granted, free of charge, to any person obtaining 
+    //a copy of this software and associated documentation files (the 
+    //""Software""), to deal in the Software without restriction, including 
+    //without limitation the rights to use, copy, modify, merge, publish, 
+    //distribute, sublicense, and/or sell copies of the Software, and to 
+    //permit persons to whom the Software is furnished to do so, subject to 
+    //the following conditions: 
+    // 
+    //The above copyright notice and this permission notice shall be 
+    //included in all copies or substantial portions of the Software. 
+    // 
+    //THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, 
+    //EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+    //MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
+    //NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
+    //LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+    //OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+    //WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+    //  
+    //********************************************************* 
+    ````
+
+1. Configure the app to run startup code when the OWIN libraries startup:
+  1. Right-click the project and select **Add/Class**.
+  1. Name the class **Startup.cs**.
+  1. Add the following `using` statements after the existing `using` statements:
+
+    ````c#
+    using Owin;
+    using Microsoft.Owin;
+    ````
+
+  1. Add the following assembly directive to call the `Startup.Configuration()` method when OWIN starts up. Note that you will only point to the class:
+
+    ````c#
+    [assembly:OwinStartup(typeof(Exercise2.Startup))]
+    ````
+
+  1. Update the signature of the `Startup` class to be a partial class as you will create another in the next step. Do this by adding the `partial` keyword after the `public` statement so it looks like the following:
+
+    ````c#
+    public partial class Startup {}
+    ````
+
+  1. Add the following `Confguration()` to the `Startup` class. This calls a method you will create in a moment:
+
+    ````c#
+    public void Configuration(IAppBuilder app)
+    {
+      ConfigureAuth(app);
+    }
+    ````
+
+  1. Save your changes.
+1. Create an authentication process when a user hits the website:
+  1. Right-click the **App_Start** folder and select **Add/Class**.
+  1. Name the class **Startup.Auth.cs**.
+  1. When the file opens make the following two changes:
+    1. Modify the namespace to just be `Exercise2`.
+    1. Modify the class declaration to be a `partial` class named `Startup` so it looks like the following:
+
+      ````c#
+      public partial class Startup {}
+      ````
+
+  1. Add the following `using` statements after the existing `using` statements:
+
+    ````c#
+    using Microsoft.IdentityModel.Clients.ActiveDirectory;
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.Cookies;
+    using Microsoft.Owin.Security.OpenIdConnect;
+    using Owin;
+    using System.Configuration;
+    using System.Threading.Tasks;
+    ````
+
+  1. Add the following variables and constants to the class for later use:
+
+    ````c#
+    private static string CLIENT_ID = ConfigurationManager.AppSettings["ida:ClientID"];
+    private static string CLIENT_SECRET = ConfigurationManager.AppSettings["ida:Password"];
+    private static string TENANT_ID = ConfigurationManager.AppSettings["tenantId"];
+    private static string GRAPH_RESOURCE_ID = "https://graph.windows.net";
+    ````
+
+  1. Add the following method to the `Startup` class:
+
+    ````c#
+    public void ConfigureAuth(IAppBuilder app) {}
+    ````
+
+  1. Create a variable to store the tenant authority for later use when logging in:
+
+    ````c#
+    // create the authority for user login by concatenating the 
+    //  URI added by O365 API tools in web.config 
+    //  & user's tenant ID provided in the claims when the logged in
+    var tenantAuthority = string.Format("{0}/{1}",
+      ConfigurationManager.AppSettings["ida:AuthorizationUri"],
+      TENANT_ID);
+    ````
+
+  1. Configure the authentication type and settings for the app:
+
+    ````c#
+    app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
+    app.UseCookieAuthentication(new CookieAuthenticationOptions());
+    ````
+
+  1. Now configure the OWIN authentication process, force the user to go through the login process and collect the result returned from Azure AD:
+
+    ````c#
+    app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions {
+      ClientId = CLIENT_ID,
+      Authority = tenantAuthority,
+      Notifications = new OpenIdConnectAuthenticationNotifications() {
+        // when an auth code is received...
+        AuthorizationCodeReceived = (context) => {
+          // get the OpenID Connect code passed from Azure AD on successful auth
+          string code = context.Code;
+
+          // create the app credentials & get reference to the user
+          ClientCredential creds = new ClientCredential(CLIENT_ID, CLIENT_SECRET);
+          string userObjectId = context.AuthenticationTicket.Identity.FindFirst(System.IdentityModel.Claims.ClaimTypes.NameIdentifier).Value;
+
+          // use the OpenID Connect code to obtain access token & refresh token...
+          //  save those in a persistent store... for now, use the simplistic NaiveSessionCache
+          //  NOTE: read up on the links in the NaieveSessionCache... should not be used in production
+          Utils.NaiveSessionCache sampleCache = new Utils.NaiveSessionCache(userObjectId);
+          AuthenticationContext authContext = new AuthenticationContext(tenantAuthority, sampleCache);
+
+          // obtain access token for the AzureAD graph
+          Uri redirectUri = new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Path));
+          AuthenticationResult authResult = authContext.AcquireTokenByAuthorizationCode(
+            code, redirectUri, creds, GRAPH_RESOURCE_ID);
+
+          // successful auth
+          return Task.FromResult(0);
+        }
+
+      }
+    });
+    ````
+
+  1. Save your changes.
+
+## Exercise 3: Code the Files API
+In this exercise, you will create a repository object for wrapping CRUD operations associated with the Files API.
+
+1. In the **Solution Explorer**, locate the **Models** folder in the **OneDriveWeb** project.
+2. Right-click the **Models** folder and select **Add/Class**.
+1. In the **Add New Item** dialog, name the new class **FileRepository.cs**.
+1. Click **Add**.
+  ![](Images/07.png?raw=true "Figure 7")
+
+1. **Add** the following references to the top of the `FileRepository` class.
+
+  ````c#
+  using Microsoft.IdentityModel.Clients.ActiveDirectory;
+  using Microsoft.Office365.Discovery;
   using Microsoft.Office365.OAuth;
   using Microsoft.Office365.SharePoint;
-  using System.IO;
+  using Microsoft.Office365.SharePoint.CoreServices;
+  using Microsoft.Office365.SharePoint.FileServices;
+  using OneDriveWeb.Utils;
+  using System.Configuration;
+  using System.Security.Claims;
   using System.Threading.Tasks;
+  ````
 
-  ```
-5. **Add** the following helper functions to manage session state variables.
-  ```C#
+1. **Add** the following `using` statements to the top of the `FileRepository` class.
 
-  private void SaveInCache(string name, object value)
-  {
-      System.Web.HttpContext.Current.Session[name] = value;
+  ````c#
+  private static string CLIENT_ID = ConfigurationManager.AppSettings["ida:ClientID"];
+  private static string CLIENT_SECRET = ConfigurationManager.AppSettings["ida:Password"];
+  private static string TENANT_ID = ConfigurationManager.AppSettings["tenantId"];
+  const string DISCOVERY_ENDPOINT = "https://api.office.com/discovery/v1.0/me/";
+  const string DISCOVERY_RESOURCE = "https://api.office.com/discovery/";
+  ````
+
+1. **Add** a method named `EnsureClientCreated()` to the `FileRepository` class with the following implementation to create and return an **SharePointClient** object.
+    
+  ````c#
+  private async Task<SharePointClient> EnsureClientCreated() {
+    // fetch from stuff user claims
+    var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+    var userObjectId =
+      ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+
+    // create the authority by concatenating the URI added by O365 API tools in web.config 
+    //  & user's tenant ID provided in the claims when the logged in
+    var tenantAuthority = string.Format("{0}/{1}",
+      ConfigurationManager.AppSettings["ida:AuthorizationUri"],
+      TENANT_ID);
+
+    // discover contact endpoint
+    var clientCredential = new ClientCredential(CLIENT_ID, CLIENT_SECRET);
+    var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
+
+    // create auth context
+    AuthenticationContext authContext = new AuthenticationContext(tenantAuthority, new Utils.NaiveSessionCache(signInUserId));
+
+    // create O365 discovery client 
+    DiscoveryClient discoveryClient = new DiscoveryClient(new Uri(DISCOVERY_ENDPOINT),
+      async () => {
+        var authResult = await authContext.AcquireTokenSilentAsync(DISCOVERY_RESOURCE, clientCredential, userIdentifier);
+
+        return authResult.AccessToken;
+      });
+
+    // query discovery service for endpoint for 'calendar' endpoint
+    CapabilityDiscoveryResult dcr = await discoveryClient.DiscoverCapabilityAsync("MyFiles");
+
+    // create an OutlookServicesclient
+    return new SharePointClient(dcr.ServiceEndpointUri,
+      async () => {
+        var authResult =
+          await
+            authContext.AcquireTokenSilentAsync(dcr.ServiceResourceId, clientCredential, userIdentifier);
+        return authResult.AccessToken;
+      });
   }
+  ````
 
-  private object GetFromCache(string name)
+1. **Add** the following code to read a page of files.
+
+  ````c#
+  public async Task<IEnumerable<IITem>> GetMyFiles(int pageIndex, int pageSize)
   {
-      return System.Web.HttpContext.Current.Session[name];
+      var client = await EnsureClientCreated();
+
+      var filesResults = await client.Files.ExecuteAsync();
+      return filesResults.CurrentPage.OrderBy(e => e.Name).Skip(pageIndex * pageSize).Take(pageSize);
   }
+  ````
 
-  private void RemoveFromCache(string name)
-  {
-      System.Web.HttpContext.Current.Session.Remove(name);
+1. **Add** the following code to upload a file.
+
+  ````c#
+  public async Task<File> UploadFile(System.IO.Stream filestream, string filename){
+    var client = await EnsureClientCreated();
+
+    File newFile = new File {
+      Name = filename
+    };
+
+    // create the entry for the file
+    await client.Files.AddItemAsync(newFile);
+    // upload the file
+    await client.Files.GetById(newFile.Id).ToFile().UploadAsync(filestream);
+
+    return newFile;
   }
+  ````
 
-  ```
-6. **Add** the following code to discover the "MyFiles" capability and return a SharePointClient.
-  ```C#
+1. **Add** the following code to delete a file.
 
-        private async Task<SharePointClient> EnsureClientCreated()
-        {
-            DiscoveryContext disco = GetFromCache("DiscoveryContext") as DiscoveryContext;
+  ````c#
+  public async Task DeleteFile(string id) {
+    var client = await EnsureClientCreated();
 
-            if (disco == null)
-            {
-                disco = await DiscoveryContext.CreateAsync();
-                SaveInCache("DiscoveryContext", disco);
-            }
+    IFile file = await client.Files.GetById(id).ToFile().ExecuteAsync();
+    await file.DeleteAsync();
+  }
+  ````
 
-            var dcr = await disco.DiscoverCapabilityAsync("MyFiles");
-
-            var ServiceResourceId = dcr.ServiceResourceId;
-            var ServiceEndpointUri = dcr.ServiceEndpointUri;
-            SaveInCache("LastLoggedInUser", dcr.UserId);
-
-            return new SharePointClient(ServiceEndpointUri, async () =>
-            {
-                return (await disco.AuthenticationContext.AcquireTokenByRefreshTokenAsync(
-                    new SessionCache().Read("RefreshToken"),
-                    new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(
-                        disco.AppIdentity.ClientId,
-                        disco.AppIdentity.ClientSecret),
-                        ServiceResourceId)).AccessToken;
-            });
-        }
-
-  ```
-7. **Add** the following code to read a page of files.
-  ```C#
-
-        public async Task<IEnumerable<IFileSystemItem>> GetMyFiles(int pageIndex, int pageSize)
-        {
-            var client = await EnsureClientCreated();
-
-            var filesResults = await client.Files.ExecuteAsync();
-            return filesResults.CurrentPage.OrderBy(e => e.Name).Skip(pageIndex * pageSize).Take(pageSize);
-
-        }
-
-  ```
-8. **Add** the following code to upload a file.
-  ```C#
-
-        public async Task<IFile> UploadFile(Stream filestream, string filename)
-        {
-            var client = await EnsureClientCreated();
-            return await client.Files.AddAsync(filename, true, filestream);
-           
-        }
-
-  ```
-9. **Add** the following code to delete a file.
-  ```C#
-
-        public async Task DeleteFile(string id)
-        {
-            var client = await EnsureClientCreated();
-            IFileSystemItem fileSystemItem = await client.Files.GetByIdAsync(id);
-            await fileSystemItem.DeleteAsync();
-        }
-
-  ```
-
-## Exercise 3: Code the MVC Application
+## Exercise 4: Code the MVC Application
 In this exercise, you will code the MVC application to allow navigating the OneDrive for Business file collection.
 
 1. In the **Solution Explorer**, expand the **Controllers** folder and open the **HomeController.cs** file.
-2. **Add** the following references to the top of the file.
-  ```C#
+1. **Add** the following references to the top of the file.
 
-  using Microsoft.Office365.OAuth;
+  ````c#
+  using OneDriveWeb.Models;
   using System.Threading.Tasks;
+  ````
 
-  ```
-3. **Replace** the **Index** method with the following code to read files.
-  ```C#
+1. **Replace** the **Index** method with the following code to read files.
 
-        public async Task<ActionResult> Index(int? pageIndex, int? pageSize)
-        {
+  ````c#
+  [Authorize]
+  public async Task<ActionResult> Index(int? pageIndex, int? pageSize) {
+    
+    FileRepository repository = new FileRepository();
 
-            FileRepository repository = new FileRepository();
+    // setup paging defaults if not provided
+    pageIndex = pageIndex ?? 0;
+    pageSize = pageSize ?? 10;
 
-            if (pageIndex == null)
-            {
-                pageIndex = 0;
-            }
+    // setup paging for the IU
+    ViewBag.PageIndex = (int) pageIndex;
+    ViewBag.PageSize = (int) pageSize;
 
-            if (pageSize == null)
-            {
-                pageSize = 10;
-            }
+    var myFiles = await repository.GetMyFiles((int) pageIndex, (int) pageSize);
+    var results = myFiles.OrderBy(f => f.Name);
 
-            try
-            {
-                ViewBag.PageIndex = (int)pageIndex;
-                ViewBag.PageSize = (int)pageSize;
-                ViewBag.Files = await repository.GetMyFiles((int)pageIndex, (int)pageSize);
-            }
-            catch (RedirectRequiredException x)
-            {
-                return Redirect(x.RedirectUri.ToString());
-            }
+    return View(results);
+  }
+  ````
 
-            return View();
-        }
+1. In the **Solution Explorer**, expand the **Views/Home** folder and open the **Index.cshtml** file.
+1. **Replace** all of the code in the file with the following:
 
-  ```
-4. In the **Solution Explorer**, expand the **Views/Home** folder and open the **Index.cshtml** file.
-5. **Replace** all of the code in the file with the following:
-  ```HTML
+  ````asp
+  @model IEnumerable<Microsoft.Office365.SharePoint.FileServices.IItem>
+
+  @{ ViewBag.Title = "My Files"; }
+
+  <h2>My Files</h2>
 
   <div class="row" style="margin-top:50px;">
     <div class="col-sm-12">
@@ -210,7 +496,7 @@ In this exercise, you will code the MVC application to allow navigating the OneD
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var file in ViewBag.Files)
+                    @foreach (var file in Model)
                     {
                         <tr>
                             <td>
@@ -222,13 +508,13 @@ In this exercise, you will code the MVC application to allow navigating the OneD
                                 @file.Id
                             </td>
                             <td>
-                                <a href="@file.Url">@file.Name</a>
+                                <a href="@file.WebUrl">@file.Name</a>
                             </td>
                             <td>
-                                @file.TimeCreated
+                                @file.DateTimeCreated
                             </td>
                             <td>
-                                @file.TimeLastModified
+                                @file.DateTimeLastModified
                             </td>
                         </tr>
                     }
@@ -242,82 +528,83 @@ In this exercise, you will code the MVC application to allow navigating the OneD
         </div>
     </div>
   </div>
+  ````
 
+1. Open a browser and navigate to `https://[tenant].onedrive.com`.
+1. Make sure that you have some test files available in the library.
+1. In **Visual Studio**, hit **F5** to begin debugging.
+1. When prompted, log in with your **Organizational Account**.
+1. Verify that your application displays files from the OneDrive for Business library.
 
-  ```
-6. Open a browser and navigate to https://[tenant].onedrive.com.
-7. Make sure that you have some test files available in the library.
-8. In **Visual Studio**, hit **F5** to begin debugging.
-9. When prompted, log in with your **Organizational Account**.
-10. Verify that your application displays files from the OneDrive for Business library.<br/>
-       ![](Images/08.png?raw=true "Figure 8")
-11. Stop debugging.
-12. In the **HomeController.cs** file, **add** the following code to upload and delete files.
-  ```C#
+  ![](Images/08.png?raw=true "Figure 8")
 
-        public async Task<ActionResult> Upload()
-        {
+1. Stop debugging.
+1. In the **HomeController.cs** file, **add** the following code to upload and delete files.
 
-            FileRepository repository = new FileRepository();
+  ````c#
+  public async Task<ActionResult> Upload()
+  {
 
-            foreach (string key in Request.Files)
-            {
-                if (Request.Files[key] != null && Request.Files[key].ContentLength > 0)
-                {
-                    var file = await repository.UploadFile(
-                        Request.Files[key].InputStream,
-                        Request.Files[key].FileName.Split('\\')[Request.Files[key].FileName.Split('\\').Length - 1]);
-                }
-            }
+      FileRepository repository = new FileRepository();
 
-            return Redirect("/");
-        }
+      foreach (string key in Request.Files)
+      {
+          if (Request.Files[key] != null && Request.Files[key].ContentLength > 0)
+          {
+              var file = await repository.UploadFile(
+                  Request.Files[key].InputStream,
+                  Request.Files[key].FileName.Split('\\')[Request.Files[key].FileName.Split('\\').Length - 1]);
+          }
+      }
 
-        public async Task<ActionResult> Delete(string name)
-        {
-            FileRepository repository = new FileRepository();
+      return Redirect("/");
+  }
 
-            if (name != null)
-            {
-                await repository.DeleteFile(name);
-            }
+  public async Task<ActionResult> Delete(string name)
+  {
+      FileRepository repository = new FileRepository();
 
-            return Redirect("/");
+      if (name != null)
+      {
+          await repository.DeleteFile(name);
+      }
 
-        }
+      return Redirect("/");
 
-  ```
-13. In the **Index.cshtml** file, **add** the following code under the comment **Place delete control here**.
-  ```C#
+  }
+  ````
 
-    Dictionary<string, object> attributes1 = new Dictionary<string, object>();
-    attributes1.Add("class", "btn btn-warning");
+1. In the **Index.cshtml** file, **add** the following code under the comment `Place delete control here`.
 
-    RouteValueDictionary routeValues1 = new RouteValueDictionary();
-    routeValues1.Add("name", file.Id);
-    @Html.ActionLink("X", "Delete", "Home", routeValues1, attributes1);
+  ````c#
+  Dictionary<string, object> attributes1 = new Dictionary<string, object>();
+  attributes1.Add("class", "btn btn-warning");
 
-  ```
-14. **Add** the following code under the comment **Place Paging controls here**
-  ```C#
+  RouteValueDictionary routeValues1 = new RouteValueDictionary();
+  routeValues1.Add("name", file.Id);
+  @Html.ActionLink("X", "Delete", "Home", routeValues1, attributes1);
+  ````
 
-    Dictionary<string, object> attributes2 = new Dictionary<string, object>();
-    attributes2.Add("class", "btn btn-default");
+1. **Add** the following code under the comment `Place Paging controls here`:
 
-    RouteValueDictionary routeValues2 = new RouteValueDictionary();
-    routeValues2.Add("pageIndex", (ViewBag.PageIndex == 0 ? 0 : ViewBag.PageIndex - 1).ToString());
-    routeValues2.Add("pageSize", ViewBag.PageSize.ToString());
-    @Html.ActionLink("Prev", "Index", "Home", routeValues2, attributes2);
+  ````c#
+  Dictionary<string, object> attributes2 = new Dictionary<string, object>();
+  attributes2.Add("class", "btn btn-default");
 
-    RouteValueDictionary routeValues3 = new RouteValueDictionary();
-    routeValues3.Add("pageIndex", (ViewBag.PageIndex + 1).ToString());
-    routeValues3.Add("pageSize", ViewBag.PageSize.ToString());
-    @Html.ActionLink("Next", "Index", "Home", routeValues3, attributes2);
+  RouteValueDictionary routeValues2 = new RouteValueDictionary();
+  routeValues2.Add("pageIndex", (ViewBag.PageIndex == 0 ? 0 : ViewBag.PageIndex - 1).ToString());
+  routeValues2.Add("pageSize", ViewBag.PageSize.ToString());
+  @Html.ActionLink("Prev", "Index", "Home", routeValues2, attributes2);
 
-  ```
-15. **Add** the following code to the bottom of the file to create an upload control.
-  ```HTML
+  RouteValueDictionary routeValues3 = new RouteValueDictionary();
+  routeValues3.Add("pageIndex", (ViewBag.PageIndex + 1).ToString());
+  routeValues3.Add("pageSize", ViewBag.PageSize.ToString());
+  @Html.ActionLink("Next", "Index", "Home", routeValues3, attributes2);
+  ````
 
+1. **Add** the following code to the bottom of the **Index.cshtml** file to create an upload control.
+
+  ````asp
   <div class="row" style="margin-top:50px;">
     <div class="col-sm-12">
         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -327,13 +614,9 @@ In this exercise, you will code the MVC application to allow navigating the OneD
         }
     </div>
   </div>
+  ````
 
-  ```
-16. Press **F5** to begin debugging.
-17. Test the paging, upload, and delete functionality of the application.
-
+1. Press **F5** to begin debugging.
+1. Test the paging, upload, and delete functionality of the application.
 
 Congratulations! You have completed working with the OneDrive for Business APIs.
-
-
-
