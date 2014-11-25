@@ -3,41 +3,75 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Windows.Security.Authentication.Web;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Office365.Discovery;
 using Microsoft.Office365.OAuth;
-using Microsoft.Office365.Exchange;
+using Microsoft.Office365.OutlookServices;
+using O365UniApp;
 
 public class MyEventsRepository {
-
-  const string ServiceResourceId = "https://outlook.office365.com";
-  static readonly Uri ServiceEndpointUri = new Uri("https://outlook.office365.com/ews/odata");
+  private static readonly string ClientID = App.Current.Resources["ida:ClientID"].ToString();
+  private static Uri ReturnUri = WebAuthenticationBroker.GetCurrentApplicationCallbackUri();
+  private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
+  private static readonly Uri DiscoveryServiceEndpointUri = new Uri("https://api.office.com/discovery/v1.0/me/");
+  private const string DiscoveryResourceId = "https://api.office.com/discovery/";
 
   static string _lastLoggedInUser;
   static DiscoveryContext _discoveryContext;
 
-  public static async Task<ExchangeClient> EnsureClientCreated() {
+  public static AuthenticationContext AuthenticationContext { get; set; }
 
-    if (_discoveryContext == null) {
-      _discoveryContext = await DiscoveryContext.CreateAsync();
+  /// <summary>
+  /// Checks that an OutlookServicesClient object is available. 
+  /// </summary>
+  /// <returns>The OutlookServicesClient object. </returns>
+  public static async Task<OutlookServicesClient> EnsureClientCreated() {
+    AuthenticationContext = new AuthenticationContext(CommonAuthority);
+
+    if (AuthenticationContext.TokenCache.ReadItems().Count() > 0) {
+      // Bind the AuthenticationContext to the authority that sourced the token in the cache 
+      // this is needed for the cache to work when asking for a token from that authority 
+      // (the common endpoint never triggers cache hits) 
+      string cachedAuthority = AuthenticationContext.TokenCache.ReadItems().First().Authority;
+      AuthenticationContext = new AuthenticationContext(cachedAuthority);
+
     }
 
-    ResourceDiscoveryResult dcr = await _discoveryContext.DiscoverResourceAsync(ServiceResourceId);
+    // Create a DiscoveryClient using the discovery endpoint Uri.  
+    DiscoveryClient discovery = new DiscoveryClient(DiscoveryServiceEndpointUri,
+        async () => await AcquireTokenAsync(AuthenticationContext, DiscoveryResourceId));
 
-    _lastLoggedInUser = dcr.UserId;
+    // Now get the capability that you are interested in.
+    var result = await discovery.DiscoverCapabilityAsync("Mail");
 
-    ExchangeClient client;
-    client = new ExchangeClient(ServiceEndpointUri, async () => {
-      AuthenticationContext authContext = _discoveryContext.AuthenticationContext;
-      string clientId = _discoveryContext.AppIdentity.ClientId;
-      var userIdentifier = new UserIdentifier(dcr.UserId, UserIdentifierType.UniqueId);
-      AuthenticationResult authResult = await authContext.AcquireTokenSilentAsync(ServiceResourceId, 
-                                                                                  clientId, 
-                                                                                  userIdentifier);
-      return authResult.AccessToken;
-    });
+    var client = new OutlookServicesClient(
+        result.ServiceEndpointUri,
+        async () => await AcquireTokenAsync(AuthenticationContext, result.ServiceResourceId));
 
     return client;
+  }
+
+  // Get an access token for the given context and resourceId. An attempt is first made to 
+  // acquire the token silently. If that fails, then we try to acquire the token by prompting the user.
+  private static async Task<string> AcquireTokenAsync(AuthenticationContext context, string resourceId) {
+    string accessToken = null;
+
+    try {
+      // First, we are going to try to get the access token silently using the resourceId that was passed in
+      // and the clientId of the application...
+      accessToken = (await context.AcquireTokenSilentAsync(resourceId, ClientID)).AccessToken;
+    } catch (Exception) {
+      // We were unable to acquire the AccessToken silently. So, we'll try again with full
+      // prompting. 
+      accessToken = null;
+
+    }
+
+    if (accessToken == "" || accessToken == null)
+      accessToken = (await context.AcquireTokenAsync(resourceId, ClientID, ReturnUri)).AccessToken;
+
+    return accessToken;
   }
 
   public static async Task<IOrderedEnumerable<IEvent>> GetCalendarEvents() {
@@ -63,7 +97,7 @@ public class MyEventsRepository {
 
     var calendarEvents = await GetCalendarEvents();
 
-    foreach(var calendarEvent in calendarEvents){
+    foreach (var calendarEvent in calendarEvents) {
 
       eventsCollection.Add(new MyEvent {
         Subject = calendarEvent.Subject,

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Author>Andy Wigley</Author>
+      <Shortcut>JSflickrlogic</Shortcut>
+      <Title>JumpStartFlickrMainPageLogic</Title>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>Windows.UI.Notifications</Namespace>
+        </Import>
+        <Import>
+          <Namespace>Windows.Data.Xml.Dom</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp"><![CDATA[        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            string searchTerm = (string)e.Parameter;
+
+            if (string.IsNullOrEmpty(searchTerm.Trim()))
+            {
+                searchTerm = "flowers";
+            }
+            SearchFlickr(searchTerm);
+        }
+
+        async void SearchFlickr(string searchTerm)
+        {
+            List<FlickrPhotoResult> results = await FlickrSearcher.SearchAsync(searchTerm);
+
+            this.DataContext = results;
+
+            UpdateTile(results.Take(5));
+            SendToast(results.First());
+        }
+
+        void UpdateTile(IEnumerable<FlickrPhotoResult> results)
+        {
+            TileUpdater tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
+
+            tileUpdater.EnableNotificationQueue(true);
+
+            foreach (FlickrPhotoResult result in results)
+            {
+                XmlDocument xmlTileContent = TileUpdateManager.GetTemplateContent(
+                  TileTemplateType.TileWide310x150ImageAndText01);
+
+                TemplateUtility.CompleteTemplate(
+                  xmlTileContent,
+                  new string[] { result.Title },
+                  new string[] { result.ImageUrl });
+
+                TileNotification notification = new TileNotification(xmlTileContent);
+
+                tileUpdater.Update(notification);
+
+            }
+        }
+        void SendToast(FlickrPhotoResult flickrPhotoResult)
+        {
+            ToastNotifier toastNotifier = ToastNotificationManager.CreateToastNotifier();
+
+            XmlDocument xmlToastContent = ToastNotificationManager.GetTemplateContent(
+              ToastTemplateType.ToastImageAndText01);
+
+            TemplateUtility.CompleteTemplate(
+              xmlToastContent,
+              new string[] { flickrPhotoResult.Title },
+              new string[] { flickrPhotoResult.ImageUrl },
+              "ms-winsoundevent:Notification.Mail");
+
+            // TODO: change delivery time
+            ScheduledToastNotification toastNotification = new ScheduledToastNotification(xmlToastContent,
+              (new DateTimeOffset(DateTime.Now) + TimeSpan.FromSeconds(10)));
+
+            // TODO: change identifier
+            toastNotification.Id = "Fred";
+
+            toastNotifier.AddToSchedule(toastNotification);
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

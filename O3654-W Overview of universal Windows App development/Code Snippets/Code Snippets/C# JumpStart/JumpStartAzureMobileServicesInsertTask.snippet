@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>JumpStartAzureMobileServicesInsertTask</Title>
+      <Author>Microsoft Corp.</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>jsAMSInsertTask</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp"><![CDATA[        private async System.Threading.Tasks.Task InsertTaskItem()
+        {
+            IMobileServiceTable<TaskItem> TaskItemTable = App.JumpStartDemoClient.GetTable<TaskItem>();
+
+            TaskItem t = new TaskItem();
+            t.Title = titleTextBox.Text;
+            t.Description = descriptionTextBox.Text;
+            t.DueDate = dueDatePicker.Date.ToString();
+            t.AssignedTo = assignedToTextBox.Text;
+
+            try
+            {
+                await TaskItemTable.InsertAsync(t);
+            }
+            catch (Exception)
+            {
+                // TODO: Insert error handling code
+            }
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
