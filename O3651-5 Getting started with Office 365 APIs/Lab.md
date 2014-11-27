@@ -55,6 +55,7 @@ In this exercise you will create a new MVC web application to utilize the O365 A
     1. Click **Register Your App**.
     1. When prompted sign in with your **Organizational Account**.
     1. Click **App Properties**.
+    1. Make a note of the name of the application as you will need this in the next exercise.
     1. Verify the option **Single Organization** is selected.
     1. Make sure there is only a single URL listed in the **Redirect URIs** and it is the HTTPS URL of the web project.
     1. Click **Apply**.
@@ -69,13 +70,21 @@ In this exercise you will create a new MVC web application to utilize the O365 A
 
      ![](Images/04.png)
 
+## Exercise 3: Configure Web Application to use Azure AD and OWIN
+In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Office 365 APIs.
+
 1. Obtain and store the Azure AD tenant ID in the `web.config`.
   1. Browse to the [Azure Management Portal](https://manage.windowsazure.com) and sign in with your **Organizational Account**.
   1. In the left-hand navigation, click **Active Directory**.
   1. Select the directory you share with your Office 365 subscription.
-  1. In the URL, find the first GUID and copy it to the clipboard. This is your **directory tenant ID**.
+  1. Select the application you created for this lab. This is the name of the application in the **App Properties** dialog when you were adding the **Connected Service** in the last exercise.
+  1. Select the **Quick Start** page for the in the top navigation... that's the left-most menu item that looks like a lightning bolt in a cloud:
 
-    > The URL will look like the following with the **hashtags** part being the GUID you are looking for: `https://manage.windowsazure.com/[..]#Workspaces/ActiveDirectoryExtension/Directory/######-####-####-####-############/users`
+    ![](Images/AppQuickStart.png)
+ 
+  1. On the Quick Start page, expand the **Get Started** / **Enable Users to Sign On**. Locate the field **Federation Metadata Document URL**. Within that field value you will see a GUID immediately after the `login.windows.net` part of the URL. Copy just the GUID value to the clipboard.
+
+    ![](Images/TenantId.png)
 
   1. Open the `web.config` file in the project.
   1. Add the following node to the `<appSettings>` section, setting the value equal to the **directory tenant ID** you acquired in the previous step:
@@ -95,9 +104,6 @@ In this exercise you will create a new MVC web application to utilize the O365 A
     PM> Install-Package -Id Microsoft.Owin.Security.Cookies
     PM> Install-Package -Id Microsoft.Owin.Security.OpenIdConnect
     ````
-
-## Exercise 3: Configure Web Application to use Azure AD and OWIN
-In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Office 365 APIs.
 
 1. Add a new model that will be used by our persistent token cache:
   1. Right-click **Models** folder in the project and select **Add/Class**.
