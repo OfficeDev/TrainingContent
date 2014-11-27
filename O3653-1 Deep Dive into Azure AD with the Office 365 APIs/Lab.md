@@ -4,8 +4,8 @@ In this lab you will configure your Azure Active Directory (Azure AD) tenant to 
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-1. You must have the Office 365 API Tools version 1.2.41027.2 installed in Visual Studio 2013.
-1. You must have the TelerikFiddler application installed. Fiddler can be downloaded from [http://www.telerik.com/fiddler](http://www.telerik.com/fiddler) 
+1. You must have the Office 365 API Tools version 1.3.41104.1 installed in Visual Studio 2013.
+1. You must have **Telerik Fiddler** installed. Fiddler can be downloaded from [http://www.telerik.com/fiddler](http://www.telerik.com/fiddler) 
 
 ## Exercise 1: Register an application in Azure AD 
 *Consuming O365 APIs requires all requests to be authorized, both the current user and the application. Azure AD Provides the authentication for the app and user.*
