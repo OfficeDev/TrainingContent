@@ -123,7 +123,7 @@ In this lab you will get hands-on experience working with the new SharePoint App
 		function onButtonClicked() {
 			$("#displayDiv")
 				.text("Hello Apps")
-				.css( "margin": "16px", "color": "green", "font-size": "32px" });
+				.css({ "margin": "16px", "color": "green", "font-size": "32px" });
 		}
 11.	Save all changes by executing the **File > Save All** menu command.
 12.	Build and Test the Project by pressing **[F5]** or **Debug > Start Debugging**.
