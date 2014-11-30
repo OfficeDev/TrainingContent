@@ -12,1164 +12,887 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var MS;
-(function (MS) {
-    (function (Extensions) {
-        var ObservableBase = (function () {
-            function ObservableBase() {
-                this._changedListeners = [];
-            }
-            Object.defineProperty(ObservableBase.prototype, "changed", {
-                get: function () {
-                    return this._changed;
-                },
-                set: function (value) {
+var Microsoft;
+(function (Microsoft) {
+    (function (CoreServices) {
+        (function (Extensions) {
+            var ObservableBase = (function () {
+                function ObservableBase() {
+                    this._changedListeners = [];
+                }
+                Object.defineProperty(ObservableBase.prototype, "changed", {
+                    get: function () {
+                        return this._changed;
+                    },
+                    set: function (value) {
+                        var _this = this;
+                        this._changed = value;
+                        this._changedListeners.forEach((function (value, index, array) {
+                            try  {
+                                value(_this);
+                            } catch (e) {
+                            }
+                        }).bind(this));
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+
+                ObservableBase.prototype.addChangedListener = function (eventFn) {
+                    this._changedListeners.push(eventFn);
+                };
+
+                ObservableBase.prototype.removeChangedListener = function (eventFn) {
+                    var index = this._changedListeners.indexOf(eventFn);
+                    if (index >= 0) {
+                        this._changedListeners.splice(index, 1);
+                    }
+                };
+                return ObservableBase;
+            })();
+            Extensions.ObservableBase = ObservableBase;
+
+            var ObservableCollection = (function (_super) {
+                __extends(ObservableCollection, _super);
+                function ObservableCollection() {
+                    var items = [];
+                    for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                        items[_i] = arguments[_i + 0];
+                    }
                     var _this = this;
-                    this._changed = value;
-                    this._changedListeners.forEach((function (value, index, array) {
+                    _super.call(this);
+                    this._changedListener = (function (changed) {
+                        _this.changed = true;
+                    }).bind(this);
+                    this._array = items;
+                }
+                ObservableCollection.prototype.item = function (n) {
+                    return this._array[n];
+                };
+
+                /**
+                * Removes the last element from an array and returns it.
+                */
+                ObservableCollection.prototype.pop = function () {
+                    this.changed = true;
+                    var result = this._array.pop();
+                    result.removeChangedListener(this._changedListener);
+                    return result;
+                };
+
+                /**
+                * Removes the first element from an array and returns it.
+                */
+                ObservableCollection.prototype.shift = function () {
+                    this.changed = true;
+                    var result = this._array.shift();
+                    result.removeChangedListener(this._changedListener);
+                    return result;
+                };
+
+                /**
+                * Appends new elements to an array, and returns the new length of the array.
+                * @param items New elements of the Array.
+                */
+                ObservableCollection.prototype.push = function () {
+                    var _this = this;
+                    var items = [];
+                    for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                        items[_i] = arguments[_i + 0];
+                    }
+                    items.forEach((function (value, index, array) {
                         try  {
-                            value(_this);
+                            value.addChangedListener(_this._changedListener);
+                            _this._array.push(value);
                         } catch (e) {
                         }
                     }).bind(this));
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            ObservableBase.prototype.addChangedListener = function (eventFn) {
-                this._changedListeners.push(eventFn);
-            };
-
-            ObservableBase.prototype.removeChangedListener = function (eventFn) {
-                var index = this._changedListeners.indexOf(eventFn);
-                if (index >= 0) {
-                    this._changedListeners.splice(index, 1);
-                }
-            };
-            return ObservableBase;
-        })();
-        Extensions.ObservableBase = ObservableBase;
-
-        var ObservableCollection = (function (_super) {
-            __extends(ObservableCollection, _super);
-            function ObservableCollection() {
-                var items = [];
-                for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                    items[_i] = arguments[_i + 0];
-                }
-                var _this = this;
-                _super.call(this);
-                this._changedListener = (function (changed) {
-                    _this.changed = true;
-                }).bind(this);
-                this._array = items;
-            }
-            ObservableCollection.prototype.item = function (n) {
-                return this._array[n];
-            };
-
-            /**
-            * Removes the last element from an array and returns it.
-            */
-            ObservableCollection.prototype.pop = function () {
-                this.changed = true;
-                var result = this._array.pop();
-                result.removeChangedListener(this._changedListener);
-                return result;
-            };
-
-            /**
-            * Removes the first element from an array and returns it.
-            */
-            ObservableCollection.prototype.shift = function () {
-                this.changed = true;
-                var result = this._array.shift();
-                result.removeChangedListener(this._changedListener);
-                return result;
-            };
-
-            /**
-            * Appends new elements to an array, and returns the new length of the array.
-            * @param items New elements of the Array.
-            */
-            ObservableCollection.prototype.push = function () {
-                var _this = this;
-                var items = [];
-                for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                    items[_i] = arguments[_i + 0];
-                }
-                items.forEach((function (value, index, array) {
-                    try  {
-                        value.addChangedListener(_this._changedListener);
-                        _this._array.push(value);
-                    } catch (e) {
-                    }
-                }).bind(this));
-                this.changed = true;
-                return this._array.length;
-            };
-
-            /**
-            * Removes elements from an array, returning the deleted elements.
-            * @param start The zero-based location in the array from which to start removing elements.
-            * @param deleteCount The number of elements to remove.
-            * @param items Elements to insert into the array in place of the deleted elements.
-            */
-            ObservableCollection.prototype.splice = function (start, deleteCount) {
-                var _this = this;
-                var result = this._array.splice(start, deleteCount);
-                result.forEach((function (value, index, array) {
-                    try  {
-                        value.removeChangedListener(_this._changedListener);
-                    } catch (e) {
-                    }
-                }).bind(this));
-                this.changed = true;
-                return result;
-            };
-
-            /**
-            * Inserts new elements at the start of an array.
-            * @param items  Elements to insert at the start of the Array.
-            */
-            ObservableCollection.prototype.unshift = function () {
-                var items = [];
-                for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                    items[_i] = arguments[_i + 0];
-                }
-                for (var index = items.length - 1; index >= 0; index--) {
-                    try  {
-                        items[index].addChangedListener(this._changedListener);
-                        this._array.unshift(items[index]);
-                    } catch (e) {
-                    }
-                }
-                this.changed = true;
-                return this._array.length;
-            };
-
-            /**
-            * Performs the specified action for each element in an array.
-            * @param callbackfn  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array.
-            * @param thisArg  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-            */
-            ObservableCollection.prototype.forEach = function (callbackfn, thisArg) {
-                this._array.forEach(callbackfn, thisArg);
-            };
-
-            /**
-            * Calls a defined callback function on each element of an array, and returns an array that contains the results.
-            * @param callbackfn A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
-            * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-            */
-            ObservableCollection.prototype.map = function (callbackfn, thisArg) {
-                return this._array.map(callbackfn, thisArg);
-            };
-
-            /**
-            * Returns the elements of an array that meet the condition specified in a callback function.
-            * @param callbackfn A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array.
-            * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
-            */
-            ObservableCollection.prototype.filter = function (callbackfn, thisArg) {
-                return this._array.filter(callbackfn, thisArg);
-            };
-
-            /**
-            * Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
-            * @param callbackfn A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array.
-            * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
-            */
-            ObservableCollection.prototype.reduce = function (callbackfn, initialValue) {
-                return this._array.reduce(callbackfn, initialValue);
-            };
-
-            /**
-            * Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
-            * @param callbackfn A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array.
-            * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
-            */
-            ObservableCollection.prototype.reduceRight = function (callbackfn, initialValue) {
-                return this._array.reduceRight(callbackfn, initialValue);
-            };
-
-            Object.defineProperty(ObservableCollection.prototype, "length", {
-                /**
-                * Gets or sets the length of the array. This is a number one higher than the highest element defined in an array.
-                */
-                get: function () {
+                    this.changed = true;
                     return this._array.length;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return ObservableCollection;
-        })(ObservableBase);
-        Extensions.ObservableCollection = ObservableCollection;
-
-        var Request = (function () {
-            function Request(requestUri) {
-                this.requestUri = requestUri;
-                this.headers = {};
-                this.disableCache = false;
-            }
-            return Request;
-        })();
-        Extensions.Request = Request;
-
-        var DataContext = (function () {
-            function DataContext(serviceRootUri, extraQueryParameters, getAccessTokenFn) {
-                this._noCache = Date.now();
-                this.serviceRootUri = serviceRootUri;
-                this.extraQueryParameters = extraQueryParameters;
-                this._getAccessTokenFn = getAccessTokenFn;
-            }
-            Object.defineProperty(DataContext.prototype, "serviceRootUri", {
-                get: function () {
-                    return this._serviceRootUri;
-                },
-                set: function (value) {
-                    if (value.lastIndexOf("/") === value.length - 1) {
-                        value = value.substring(0, value.length - 1);
-                    }
-
-                    this._serviceRootUri = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(DataContext.prototype, "extraQueryParameters", {
-                get: function () {
-                    return this._extraQueryParameters;
-                },
-                set: function (value) {
-                    this._extraQueryParameters = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(DataContext.prototype, "disableCache", {
-                get: function () {
-                    return this._disableCache;
-                },
-                set: function (value) {
-                    this._disableCache = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(DataContext.prototype, "disableCacheOverride", {
-                get: function () {
-                    return this._disableCacheOverride;
-                },
-                set: function (value) {
-                    this._disableCacheOverride = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            DataContext.prototype.ajax = function (request) {
-                var deferred = new Microsoft.Utility.Deferred();
-
-                var xhr = new XMLHttpRequest();
-
-                if (!request.method) {
-                    request.method = 'GET';
-                }
-
-                xhr.open(request.method.toUpperCase(), request.requestUri, true);
-
-                if (request.headers) {
-                    for (name in request.headers) {
-                        xhr.setRequestHeader(name, request.headers[name]);
-                    }
-                }
-
-                xhr.onreadystatechange = function (e) {
-                    if (xhr.readyState == 4) {
-                        if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-                            deferred.resolve(xhr.responseText);
-                        } else {
-                            deferred.reject(xhr);
-                        }
-                    } else {
-                        deferred.notify(xhr.readyState);
-                    }
                 };
 
-                if (request.data) {
-                    if (typeof request.data === 'string') {
-                        xhr.send(request.data);
-                    } else {
-                        xhr.send(JSON.stringify(request.data));
+                /**
+                * Removes elements from an array, returning the deleted elements.
+                * @param start The zero-based location in the array from which to start removing elements.
+                * @param deleteCount The number of elements to remove.
+                * @param items Elements to insert into the array in place of the deleted elements.
+                */
+                ObservableCollection.prototype.splice = function (start, deleteCount) {
+                    var _this = this;
+                    var result = this._array.splice(start, deleteCount);
+                    result.forEach((function (value, index, array) {
+                        try  {
+                            value.removeChangedListener(_this._changedListener);
+                        } catch (e) {
+                        }
+                    }).bind(this));
+                    this.changed = true;
+                    return result;
+                };
+
+                /**
+                * Inserts new elements at the start of an array.
+                * @param items  Elements to insert at the start of the Array.
+                */
+                ObservableCollection.prototype.unshift = function () {
+                    var items = [];
+                    for (var _i = 0; _i < (arguments.length - 0); _i++) {
+                        items[_i] = arguments[_i + 0];
                     }
-                } else {
-                    xhr.send();
+                    for (var index = items.length - 1; index >= 0; index--) {
+                        try  {
+                            items[index].addChangedListener(this._changedListener);
+                            this._array.unshift(items[index]);
+                        } catch (e) {
+                        }
+                    }
+                    this.changed = true;
+                    return this._array.length;
+                };
+
+                /**
+                * Performs the specified action for each element in an array.
+                * @param callbackfn  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array.
+                * @param thisArg  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+                */
+                ObservableCollection.prototype.forEach = function (callbackfn, thisArg) {
+                    this._array.forEach(callbackfn, thisArg);
+                };
+
+                /**
+                * Calls a defined callback function on each element of an array, and returns an array that contains the results.
+                * @param callbackfn A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
+                * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+                */
+                ObservableCollection.prototype.map = function (callbackfn, thisArg) {
+                    return this._array.map(callbackfn, thisArg);
+                };
+
+                /**
+                * Returns the elements of an array that meet the condition specified in a callback function.
+                * @param callbackfn A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array.
+                * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
+                */
+                ObservableCollection.prototype.filter = function (callbackfn, thisArg) {
+                    return this._array.filter(callbackfn, thisArg);
+                };
+
+                /**
+                * Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+                * @param callbackfn A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array.
+                * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
+                */
+                ObservableCollection.prototype.reduce = function (callbackfn, initialValue) {
+                    return this._array.reduce(callbackfn, initialValue);
+                };
+
+                /**
+                * Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+                * @param callbackfn A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array.
+                * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
+                */
+                ObservableCollection.prototype.reduceRight = function (callbackfn, initialValue) {
+                    return this._array.reduceRight(callbackfn, initialValue);
+                };
+
+                Object.defineProperty(ObservableCollection.prototype, "length", {
+                    /**
+                    * Gets or sets the length of the array. This is a number one higher than the highest element defined in an array.
+                    */
+                    get: function () {
+                        return this._array.length;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                return ObservableCollection;
+            })(ObservableBase);
+            Extensions.ObservableCollection = ObservableCollection;
+
+            var Request = (function () {
+                function Request(requestUri) {
+                    this.requestUri = requestUri;
+                    this.headers = {};
+                    this.disableCache = false;
                 }
+                return Request;
+            })();
+            Extensions.Request = Request;
 
-                return deferred;
-            };
-
-            DataContext.prototype.read = function (path) {
-                return this.request(new Request(this.serviceRootUri + ((this.serviceRootUri.lastIndexOf('/') != this.serviceRootUri.length - 1) ? '/' : '') + path));
-            };
-
-            DataContext.prototype.readUrl = function (url) {
-                return this.request(new Request(url));
-            };
-
-            DataContext.prototype.request = function (request) {
-                var _this = this;
-                var deferred;
-
-                this.augmentRequest(request);
-
-                if (this._getAccessTokenFn) {
-                    deferred = new Microsoft.Utility.Deferred();
-
-                    this._getAccessTokenFn().then((function (token) {
-                        request.headers["X-ClientService-ClientTag"] = 'Office 365 API Tools, 1.1.0512';
-                        request.headers["Authorization"] = 'Bearer ' + token;
-                        _this.ajax(request).then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
-                    }).bind(this), deferred.reject.bind(deferred));
-                } else {
-                    deferred = this.ajax(request);
+            var DataContext = (function () {
+                function DataContext(serviceRootUri, extraQueryParameters, getAccessTokenFn) {
+                    this._noCache = Date.now();
+                    this.serviceRootUri = serviceRootUri;
+                    this.extraQueryParameters = extraQueryParameters;
+                    this._getAccessTokenFn = getAccessTokenFn;
                 }
+                Object.defineProperty(DataContext.prototype, "serviceRootUri", {
+                    get: function () {
+                        return this._serviceRootUri;
+                    },
+                    set: function (value) {
+                        if (value.lastIndexOf("/") === value.length - 1) {
+                            value = value.substring(0, value.length - 1);
+                        }
 
-                return deferred;
-            };
-
-            DataContext.prototype.augmentRequest = function (request) {
-                if (!request.headers) {
-                    request.headers = {};
-                }
-
-                if (!request.headers['Accept']) {
-                    request.headers['Accept'] = 'application/json;odata=verbose';
-                }
-
-                if (!request.headers['Content-Type']) {
-                    request.headers['Content-Type'] = 'application/json';
-                }
-
-                if (this.extraQueryParameters) {
-                    request.requestUri += (request.requestUri.indexOf('?') >= 0 ? '&' : '?') + this.extraQueryParameters;
-                }
-
-                if ((!this._disableCacheOverride && request.disableCache) || (this._disableCacheOverride && this._disableCache)) {
-                    request.requestUri += (request.requestUri.indexOf('?') >= 0 ? '&' : '?') + '_=' + this._noCache++;
-                }
-            };
-            return DataContext;
-        })();
-        Extensions.DataContext = DataContext;
-
-        var PagedCollection = (function () {
-            function PagedCollection(context, path, resultFn, data) {
-                this._context = context;
-                this._path = path;
-                this._resultFn = resultFn;
-                this._data = data;
-            }
-            Object.defineProperty(PagedCollection.prototype, "path", {
-                get: function () {
-                    return this._path;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(PagedCollection.prototype, "context", {
-                get: function () {
-                    return this._context;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(PagedCollection.prototype, "currentPage", {
-                get: function () {
-                    return this._data;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            PagedCollection.prototype.getNextPage = function () {
-                var _this = this;
-                var deferred = new Microsoft.Utility.Deferred();
-
-                if (this.path == null) {
-                    deferred.resolve(null);
-                    return deferred;
-                }
-
-                var request = new Request(this.path);
-
-                request.disableCache = true;
-
-                this.context.request(request).then((function (data) {
-                    var parsedData = JSON.parse(data), nextLink = (parsedData['odata.nextLink'] === undefined) ? ((parsedData['@odata.nextLink'] === undefined) ? ((parsedData['__next'] === undefined) ? null : parsedData['__next']) : parsedData['@odata.nextLink']) : parsedData['odata.nextLink'];
-
-                    deferred.resolve(new PagedCollection(_this.context, nextLink, _this._resultFn, _this._resultFn(_this.context, parsedData)));
-                }).bind(this), deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-            return PagedCollection;
-        })();
-        Extensions.PagedCollection = PagedCollection;
-
-        var CollectionQuery = (function () {
-            function CollectionQuery(context, path, resultFn) {
-                this._context = context;
-                this._path = path;
-                this._resultFn = resultFn;
-            }
-            Object.defineProperty(CollectionQuery.prototype, "path", {
-                get: function () {
-                    return this._path;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(CollectionQuery.prototype, "context", {
-                get: function () {
-                    return this._context;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            CollectionQuery.prototype.filter = function (filter) {
-                this.addQuery("$filter=" + filter);
-                return this;
-            };
-
-            CollectionQuery.prototype.select = function (selection) {
-                if (typeof selection === 'string') {
-                    this.addQuery("$select=" + selection);
-                } else if (Array.isArray(selection)) {
-                    this.addQuery("$select=" + selection.join(','));
-                } else {
-                    throw new Microsoft.Utility.Exception('\'select\' argument must be string or string[].');
-                }
-                return this;
-            };
-
-            CollectionQuery.prototype.expand = function (expand) {
-                if (typeof expand === 'string') {
-                    this.addQuery("$expand=" + expand);
-                } else if (Array.isArray(expand)) {
-                    this.addQuery("$expand=" + expand.join(','));
-                } else {
-                    throw new Microsoft.Utility.Exception('\'expand\' argument must be string or string[].');
-                }
-                return this;
-            };
-
-            CollectionQuery.prototype.orderBy = function (orderBy) {
-                if (typeof orderBy === 'string') {
-                    this.addQuery("$orderby=" + orderBy);
-                } else if (Array.isArray(orderBy)) {
-                    this.addQuery("$orderby=" + orderBy.join(','));
-                } else {
-                    throw new Microsoft.Utility.Exception('\'orderBy\' argument must be string or string[].');
-                }
-                return this;
-            };
-
-            CollectionQuery.prototype.top = function (top) {
-                this.addQuery("$top=" + top);
-                return this;
-            };
-
-            CollectionQuery.prototype.skip = function (skip) {
-                this.addQuery("$skip=" + skip);
-                return this;
-            };
-
-            CollectionQuery.prototype.addQuery = function (query) {
-                this._query = (this._query ? this._query + "&" : "") + query;
-                return this;
-            };
-
-            Object.defineProperty(CollectionQuery.prototype, "query", {
-                get: function () {
-                    return this._query;
-                },
-                set: function (value) {
-                    this._query = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
+                        this._serviceRootUri = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
 
 
-            CollectionQuery.prototype.fetch = function () {
-                var path = this.path + (this._query ? (this.path.indexOf('?') < 0 ? '?' : '&') + this._query : "");
+                Object.defineProperty(DataContext.prototype, "extraQueryParameters", {
+                    get: function () {
+                        return this._extraQueryParameters;
+                    },
+                    set: function (value) {
+                        this._extraQueryParameters = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
 
-                return new Extensions.PagedCollection(this.context, path, this._resultFn).getNextPage();
-            };
 
-            CollectionQuery.prototype.fetchAll = function (maxItems) {
-                var path = this.path + (this._query ? (this.path.indexOf('?') < 0 ? '?' : '&') + this._query : ""), pagedItems = new Extensions.PagedCollection(this.context, path, this._resultFn), accumulator = [], deferred = new Microsoft.Utility.Deferred(), recursive = function (nextPagedItems) {
-                    if (!nextPagedItems) {
-                        deferred.resolve(accumulator);
+                Object.defineProperty(DataContext.prototype, "disableCache", {
+                    get: function () {
+                        return this._disableCache;
+                    },
+                    set: function (value) {
+                        this._disableCache = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+
+                Object.defineProperty(DataContext.prototype, "disableCacheOverride", {
+                    get: function () {
+                        return this._disableCacheOverride;
+                    },
+                    set: function (value) {
+                        this._disableCacheOverride = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+
+                DataContext.prototype.ajax = function (request) {
+                    var deferred = new Microsoft.Utility.Deferred();
+
+                    var xhr = new XMLHttpRequest();
+
+                    if (!request.method) {
+                        request.method = 'GET';
+                    }
+
+                    xhr.open(request.method.toUpperCase(), request.requestUri, true);
+
+                    if (request.headers) {
+                        for (name in request.headers) {
+                            xhr.setRequestHeader(name, request.headers[name]);
+                        }
+                    }
+
+                    xhr.onreadystatechange = function (e) {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
+                                deferred.resolve(xhr.responseText);
+                            } else {
+                                deferred.reject(xhr);
+                            }
+                        } else {
+                            deferred.notify(xhr.readyState);
+                        }
+                    };
+
+                    if (request.data) {
+                        if (typeof request.data === 'string') {
+                            xhr.send(request.data);
+                        } else {
+                            xhr.send(JSON.stringify(request.data));
+                        }
                     } else {
-                        accumulator = accumulator.concat(nextPagedItems.currentPage);
+                        xhr.send();
+                    }
 
-                        if (accumulator.length > maxItems) {
-                            accumulator = accumulator.splice(maxItems);
+                    return deferred;
+                };
+
+                DataContext.prototype.read = function (path) {
+                    return this.request(new Request(this.serviceRootUri + ((this.serviceRootUri.lastIndexOf('/') != this.serviceRootUri.length - 1) ? '/' : '') + path));
+                };
+
+                DataContext.prototype.readUrl = function (url) {
+                    return this.request(new Request(url));
+                };
+
+                DataContext.prototype.request = function (request) {
+                    var _this = this;
+                    var deferred;
+
+                    this.augmentRequest(request);
+
+                    if (this._getAccessTokenFn) {
+                        deferred = new Microsoft.Utility.Deferred();
+
+                        this._getAccessTokenFn().then((function (token) {
+                            request.headers["X-ClientService-ClientTag"] = 'Office 365 API Tools, 1.1.0512';
+                            request.headers["Authorization"] = 'Bearer ' + token;
+                            _this.ajax(request).then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
+                        }).bind(this), deferred.reject.bind(deferred));
+                    } else {
+                        deferred = this.ajax(request);
+                    }
+
+                    return deferred;
+                };
+
+                DataContext.prototype.augmentRequest = function (request) {
+                    if (!request.headers) {
+                        request.headers = {};
+                    }
+
+                    if (!request.headers['Accept']) {
+                        request.headers['Accept'] = 'application/json';
+                    }
+
+                    if (!request.headers['Content-Type']) {
+                        request.headers['Content-Type'] = 'application/json';
+                    }
+
+                    if (this.extraQueryParameters) {
+                        request.requestUri += (request.requestUri.indexOf('?') >= 0 ? '&' : '?') + this.extraQueryParameters;
+                    }
+
+                    if ((!this._disableCacheOverride && request.disableCache) || (this._disableCacheOverride && this._disableCache)) {
+                        request.requestUri += (request.requestUri.indexOf('?') >= 0 ? '&' : '?') + '_=' + this._noCache++;
+                    }
+                };
+                return DataContext;
+            })();
+            Extensions.DataContext = DataContext;
+
+            var PagedCollection = (function () {
+                function PagedCollection(context, path, resultFn, data) {
+                    this._context = context;
+                    this._path = path;
+                    this._resultFn = resultFn;
+                    this._data = data;
+                }
+                Object.defineProperty(PagedCollection.prototype, "path", {
+                    get: function () {
+                        return this._path;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(PagedCollection.prototype, "context", {
+                    get: function () {
+                        return this._context;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(PagedCollection.prototype, "currentPage", {
+                    get: function () {
+                        return this._data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                PagedCollection.prototype.getNextPage = function () {
+                    var _this = this;
+                    var deferred = new Microsoft.Utility.Deferred();
+
+                    if (this.path == null) {
+                        deferred.resolve(null);
+                        return deferred;
+                    }
+
+                    var request = new Request(this.path);
+
+                    request.disableCache = true;
+
+                    this.context.request(request).then((function (data) {
+                        var parsedData = JSON.parse(data), nextLink = (parsedData['odata.nextLink'] === undefined) ? ((parsedData['@odata.nextLink'] === undefined) ? ((parsedData['__next'] === undefined) ? null : parsedData['__next']) : parsedData['@odata.nextLink']) : parsedData['odata.nextLink'];
+
+                        deferred.resolve(new PagedCollection(_this.context, nextLink, _this._resultFn, _this._resultFn(_this.context, parsedData)));
+                    }).bind(this), deferred.reject.bind(deferred));
+
+                    return deferred;
+                };
+                return PagedCollection;
+            })();
+            Extensions.PagedCollection = PagedCollection;
+
+            var CollectionQuery = (function () {
+                function CollectionQuery(context, path, resultFn) {
+                    this._context = context;
+                    this._path = path;
+                    this._resultFn = resultFn;
+                }
+                Object.defineProperty(CollectionQuery.prototype, "path", {
+                    get: function () {
+                        return this._path;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(CollectionQuery.prototype, "context", {
+                    get: function () {
+                        return this._context;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                CollectionQuery.prototype.filter = function (filter) {
+                    this.addQuery("$filter=" + filter);
+                    return this;
+                };
+
+                CollectionQuery.prototype.select = function (selection) {
+                    if (typeof selection === 'string') {
+                        this.addQuery("$select=" + selection);
+                    } else if (Array.isArray(selection)) {
+                        this.addQuery("$select=" + selection.join(','));
+                    } else {
+                        throw new Microsoft.Utility.Exception('\'select\' argument must be string or string[].');
+                    }
+                    return this;
+                };
+
+                CollectionQuery.prototype.expand = function (expand) {
+                    if (typeof expand === 'string') {
+                        this.addQuery("$expand=" + expand);
+                    } else if (Array.isArray(expand)) {
+                        this.addQuery("$expand=" + expand.join(','));
+                    } else {
+                        throw new Microsoft.Utility.Exception('\'expand\' argument must be string or string[].');
+                    }
+                    return this;
+                };
+
+                CollectionQuery.prototype.orderBy = function (orderBy) {
+                    if (typeof orderBy === 'string') {
+                        this.addQuery("$orderby=" + orderBy);
+                    } else if (Array.isArray(orderBy)) {
+                        this.addQuery("$orderby=" + orderBy.join(','));
+                    } else {
+                        throw new Microsoft.Utility.Exception('\'orderBy\' argument must be string or string[].');
+                    }
+                    return this;
+                };
+
+                CollectionQuery.prototype.top = function (top) {
+                    this.addQuery("$top=" + top);
+                    return this;
+                };
+
+                CollectionQuery.prototype.skip = function (skip) {
+                    this.addQuery("$skip=" + skip);
+                    return this;
+                };
+
+                CollectionQuery.prototype.addQuery = function (query) {
+                    this._query = (this._query ? this._query + "&" : "") + query;
+                    return this;
+                };
+
+                Object.defineProperty(CollectionQuery.prototype, "query", {
+                    get: function () {
+                        return this._query;
+                    },
+                    set: function (value) {
+                        this._query = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+
+                CollectionQuery.prototype.fetch = function () {
+                    var path = this.path + (this._query ? (this.path.indexOf('?') < 0 ? '?' : '&') + this._query : "");
+
+                    return new Microsoft.CoreServices.Extensions.PagedCollection(this.context, path, this._resultFn).getNextPage();
+                };
+
+                CollectionQuery.prototype.fetchAll = function (maxItems) {
+                    var path = this.path + (this._query ? (this.path.indexOf('?') < 0 ? '?' : '&') + this._query : ""), pagedItems = new Microsoft.CoreServices.Extensions.PagedCollection(this.context, path, this._resultFn), accumulator = [], deferred = new Microsoft.Utility.Deferred(), recursive = function (nextPagedItems) {
+                        if (!nextPagedItems) {
                             deferred.resolve(accumulator);
                         } else {
-                            nextPagedItems.getNextPage().then(function (nextPage) {
-                                return recursive(nextPage);
-                            }, deferred.reject.bind(deferred));
-                        }
-                    }
-                };
+                            accumulator = accumulator.concat(nextPagedItems.currentPage);
 
-                pagedItems.getNextPage().then(function (nextPage) {
-                    return recursive(nextPage);
+                            if (accumulator.length > maxItems) {
+                                accumulator = accumulator.splice(maxItems);
+                                deferred.resolve(accumulator);
+                            } else {
+                                nextPagedItems.getNextPage().then(function (nextPage) {
+                                    return recursive(nextPage);
+                                }, deferred.reject.bind(deferred));
+                            }
+                        }
+                    };
+
+                    pagedItems.getNextPage().then(function (nextPage) {
+                        return recursive(nextPage);
+                    }, deferred.reject.bind(deferred));
+
+                    return deferred;
+                };
+                return CollectionQuery;
+            })();
+            Extensions.CollectionQuery = CollectionQuery;
+
+            var QueryableSet = (function () {
+                function QueryableSet(context, path, entity) {
+                    this._context = context;
+                    this._path = path;
+                    this._entity = entity;
+                }
+                Object.defineProperty(QueryableSet.prototype, "context", {
+                    get: function () {
+                        return this._context;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(QueryableSet.prototype, "entity", {
+                    get: function () {
+                        return this._entity;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(QueryableSet.prototype, "path", {
+                    get: function () {
+                        return this._path;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                QueryableSet.prototype.getPath = function (prop) {
+                    return this._path + '/' + prop;
+                };
+                return QueryableSet;
+            })();
+            Extensions.QueryableSet = QueryableSet;
+
+            var RestShallowObjectFetcher = (function () {
+                function RestShallowObjectFetcher(context, path) {
+                    this._path = path;
+                    this._context = context;
+                }
+                Object.defineProperty(RestShallowObjectFetcher.prototype, "context", {
+                    get: function () {
+                        return this._context;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(RestShallowObjectFetcher.prototype, "path", {
+                    get: function () {
+                        return this._path;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                RestShallowObjectFetcher.prototype.getPath = function (prop) {
+                    return this._path + '/' + prop;
+                };
+                return RestShallowObjectFetcher;
+            })();
+            Extensions.RestShallowObjectFetcher = RestShallowObjectFetcher;
+
+            var ComplexTypeBase = (function (_super) {
+                __extends(ComplexTypeBase, _super);
+                function ComplexTypeBase() {
+                    _super.call(this);
+                }
+                return ComplexTypeBase;
+            })(ObservableBase);
+            Extensions.ComplexTypeBase = ComplexTypeBase;
+
+            var EntityBase = (function (_super) {
+                __extends(EntityBase, _super);
+                function EntityBase(context, path) {
+                    _super.call(this);
+                    this._path = path;
+                    this._context = context;
+                }
+                Object.defineProperty(EntityBase.prototype, "context", {
+                    get: function () {
+                        return this._context;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                Object.defineProperty(EntityBase.prototype, "path", {
+                    get: function () {
+                        return this._path;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+                EntityBase.prototype.getPath = function (prop) {
+                    return this._path + '/' + prop;
+                };
+                return EntityBase;
+            })(ObservableBase);
+            Extensions.EntityBase = EntityBase;
+
+            /*
+            std
+            */
+            function isUndefined(v) {
+                return typeof v === 'undefined';
+            }
+            Extensions.isUndefined = isUndefined;
+        })(CoreServices.Extensions || (CoreServices.Extensions = {}));
+        var Extensions = CoreServices.Extensions;
+    })(Microsoft.CoreServices || (Microsoft.CoreServices = {}));
+    var CoreServices = Microsoft.CoreServices;
+})(Microsoft || (Microsoft = {}));
+
+var Microsoft;
+(function (Microsoft) {
+    (function (CoreServices) {
+        /// <summary>
+        /// There are no comments for EntityContainer in the schema.
+        /// </summary>
+        var SharePointClient = (function () {
+            function SharePointClient(serviceRootUri, getAccessTokenFn) {
+                this._context = new Microsoft.CoreServices.Extensions.DataContext(serviceRootUri, undefined, getAccessTokenFn);
+            }
+            Object.defineProperty(SharePointClient.prototype, "context", {
+                get: function () {
+                    return this._context;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            SharePointClient.prototype.getPath = function (prop) {
+                return this.context.serviceRootUri + '/' + prop;
+            };
+
+            Object.defineProperty(SharePointClient.prototype, "files", {
+                get: function () {
+                    if (this._files === undefined) {
+                        this._files = new Microsoft.FileServices.Items(this.context, this.getPath('files'));
+                    }
+                    return this._files;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            /// <summary>
+            /// There are no comments for files in the schema.
+            /// </summary>
+            SharePointClient.prototype.addTofiles = function (item) {
+                this.files.addItem(item);
+            };
+
+            Object.defineProperty(SharePointClient.prototype, "drive", {
+                get: function () {
+                    if (this._drive === undefined) {
+                        this._drive = new Microsoft.FileServices.DriveFetcher(this.context, this.getPath("drive"));
+                    }
+                    return this._drive;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(SharePointClient.prototype, "me", {
+                get: function () {
+                    if (this._me === undefined) {
+                        this._me = new CurrentUserRequestContextFetcher(this.context, this.getPath("me"));
+                    }
+                    return this._me;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return SharePointClient;
+        })();
+        CoreServices.SharePointClient = SharePointClient;
+
+        /// <summary>
+        /// There are no comments for CurrentUserRequestContext in the schema.
+        /// </summary>
+        var CurrentUserRequestContextFetcher = (function (_super) {
+            __extends(CurrentUserRequestContextFetcher, _super);
+            function CurrentUserRequestContextFetcher(context, path) {
+                _super.call(this, context, path);
+            }
+            Object.defineProperty(CurrentUserRequestContextFetcher.prototype, "drive", {
+                /// <summary>
+                /// There are no comments for Query Property drive in the schema.
+                /// </summary>
+                get: function () {
+                    if (this._drive === undefined) {
+                        this._drive = new Microsoft.FileServices.DriveFetcher(this.context, this.getPath("drive"));
+                    }
+                    return this._drive;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            CurrentUserRequestContextFetcher.prototype.update_drive = function (value) {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("$links/drive"));
+
+                request.method = 'PUT';
+                request.data = JSON.stringify({ url: value.path });
+
+                this.context.request(request).then(function (data) {
+                    deferred.resolve(null);
                 }, deferred.reject.bind(deferred));
 
                 return deferred;
             };
-            return CollectionQuery;
-        })();
-        Extensions.CollectionQuery = CollectionQuery;
 
-        var QueryableSet = (function () {
-            function QueryableSet(context, path, entity) {
-                this._context = context;
-                this._path = path;
-                this._entity = entity;
-            }
-            Object.defineProperty(QueryableSet.prototype, "context", {
+            Object.defineProperty(CurrentUserRequestContextFetcher.prototype, "files", {
                 get: function () {
-                    return this._context;
+                    if (this._files === undefined) {
+                        this._files = new Microsoft.FileServices.Items(this.context, this.getPath('files'));
+                    }
+                    return this._files;
                 },
                 enumerable: true,
                 configurable: true
             });
 
-            Object.defineProperty(QueryableSet.prototype, "entity", {
-                get: function () {
-                    return this._entity;
-                },
-                enumerable: true,
-                configurable: true
-            });
+            CurrentUserRequestContextFetcher.prototype.fetch = function () {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred();
 
-            Object.defineProperty(QueryableSet.prototype, "path", {
-                get: function () {
-                    return this._path;
-                },
-                enumerable: true,
-                configurable: true
-            });
+                this.context.readUrl(this.path).then((function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(CurrentUserRequestContext.parseCurrentUserRequestContext(_this.context, parsedData['@odata.id'], parsedData));
+                }).bind(this), deferred.reject.bind(deferred));
 
-            QueryableSet.prototype.getPath = function (prop) {
-                return this._path + '/' + prop;
+                return deferred;
             };
-            return QueryableSet;
-        })();
-        Extensions.QueryableSet = QueryableSet;
+            return CurrentUserRequestContextFetcher;
+        })(CoreServices.Extensions.RestShallowObjectFetcher);
+        CoreServices.CurrentUserRequestContextFetcher = CurrentUserRequestContextFetcher;
 
-        var RestShallowObjectFetcher = (function () {
-            function RestShallowObjectFetcher(context, path) {
-                this._path = path;
-                this._context = context;
-            }
-            Object.defineProperty(RestShallowObjectFetcher.prototype, "context", {
-                get: function () {
-                    return this._context;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(RestShallowObjectFetcher.prototype, "path", {
-                get: function () {
-                    return this._path;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            RestShallowObjectFetcher.prototype.getPath = function (prop) {
-                return this._path + '/' + prop;
-            };
-            return RestShallowObjectFetcher;
-        })();
-        Extensions.RestShallowObjectFetcher = RestShallowObjectFetcher;
-
-        var ComplexTypeBase = (function (_super) {
-            __extends(ComplexTypeBase, _super);
-            function ComplexTypeBase() {
-                _super.call(this);
-            }
-            return ComplexTypeBase;
-        })(ObservableBase);
-        Extensions.ComplexTypeBase = ComplexTypeBase;
-
-        var EntityBase = (function (_super) {
-            __extends(EntityBase, _super);
-            function EntityBase(context, path) {
-                _super.call(this);
-                this._path = path;
-                this._context = context;
-            }
-            Object.defineProperty(EntityBase.prototype, "context", {
-                get: function () {
-                    return this._context;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(EntityBase.prototype, "path", {
-                get: function () {
-                    return this._path;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            EntityBase.prototype.getPath = function (prop) {
-                return this._path + '/' + prop;
-            };
-            return EntityBase;
-        })(ObservableBase);
-        Extensions.EntityBase = EntityBase;
-
-        /*
-        std
-        */
-        function isUndefined(v) {
-            return typeof v === 'undefined';
-        }
-        Extensions.isUndefined = isUndefined;
-    })(MS.Extensions || (MS.Extensions = {}));
-    var Extensions = MS.Extensions;
-})(MS || (MS = {}));
-
-var MS;
-(function (MS) {
-    /// <summary>
-    /// There are no comments for ApiData in the schema.
-    /// </summary>
-    var SharePointClient = (function () {
-        function SharePointClient(serviceRootUri, getAccessTokenFn) {
-            this._context = new MS.Extensions.DataContext(serviceRootUri, undefined, getAccessTokenFn);
-        }
-        Object.defineProperty(SharePointClient.prototype, "context", {
-            get: function () {
-                return this._context;
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        SharePointClient.prototype.getPath = function (prop) {
-            return this.context.serviceRootUri + '/' + prop;
-        };
-
-        Object.defineProperty(SharePointClient.prototype, "files", {
-            get: function () {
-                if (this._Files === undefined) {
-                    this._Files = new MS.FileServices.FileSystemItems(this.context, this.getPath('Files'));
-                }
-                return this._Files;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return SharePointClient;
-    })();
-    MS.SharePointClient = SharePointClient;
-})(MS || (MS = {}));
-
-var MS;
-(function (MS) {
-    (function (FileServices) {
         /// <summary>
-        /// There are no comments for UserInformation in the schema.
+        /// There are no comments for CurrentUserRequestContext in the schema.
         /// </summary>
-        var UserInformation = (function (_super) {
-            __extends(UserInformation, _super);
-            function UserInformation(data) {
-                _super.call(this);
-                this._odataType = 'MS.FileServices.UserInformation';
-                this._IdChanged = false;
-                this._NameChanged = false;
-                this._PuidChanged = false;
+        var CurrentUserRequestContext = (function (_super) {
+            __extends(CurrentUserRequestContext, _super);
+            function CurrentUserRequestContext(context, path, data) {
+                _super.call(this, context, path);
+                this._odataType = 'Microsoft.CoreServices.CurrentUserRequestContext';
+                this._idChanged = false;
 
                 if (!data) {
                     return;
                 }
 
-                this._Id = data.Id;
-                this._Name = data.Name;
-                this._Puid = data.Puid;
+                this._id = data.id;
             }
-            Object.defineProperty(UserInformation.prototype, "id", {
+            Object.defineProperty(CurrentUserRequestContext.prototype, "id", {
                 /// <summary>
-                /// There are no comments for Property Id in the schema.
+                /// There are no comments for Property id in the schema.
                 /// </summary>
                 get: function () {
-                    return this._Id;
+                    return this._id;
                 },
                 set: function (value) {
-                    if (value !== this._Id) {
-                        this._IdChanged = true;
+                    if (value !== this._id) {
+                        this._idChanged = true;
                         this.changed = true;
                     }
-                    this._Id = value;
+                    this._id = value;
                 },
                 enumerable: true,
                 configurable: true
             });
 
 
-            Object.defineProperty(UserInformation.prototype, "idChanged", {
+            Object.defineProperty(CurrentUserRequestContext.prototype, "idChanged", {
                 get: function () {
-                    return this._IdChanged;
+                    return this._idChanged;
                 },
                 enumerable: true,
                 configurable: true
             });
 
-            Object.defineProperty(UserInformation.prototype, "name", {
+            Object.defineProperty(CurrentUserRequestContext.prototype, "drive", {
                 /// <summary>
-                /// There are no comments for Property Name in the schema.
+                /// There are no comments for Query Property drive in the schema.
                 /// </summary>
                 get: function () {
-                    return this._Name;
-                },
-                set: function (value) {
-                    if (value !== this._Name) {
-                        this._NameChanged = true;
-                        this.changed = true;
+                    if (this._drive === undefined) {
+                        this._drive = new Microsoft.FileServices.DriveFetcher(this.context, this.getPath("drive"));
                     }
-                    this._Name = value;
+                    return this._drive;
                 },
                 enumerable: true,
                 configurable: true
             });
 
+            CurrentUserRequestContext.prototype.update_drive = function (value) {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("$links/drive"));
 
-            Object.defineProperty(UserInformation.prototype, "nameChanged", {
-                get: function () {
-                    return this._NameChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
+                request.method = 'PUT';
+                request.data = JSON.stringify({ url: value.path });
 
-            Object.defineProperty(UserInformation.prototype, "puid", {
-                /// <summary>
-                /// There are no comments for Property Puid in the schema.
-                /// </summary>
-                get: function () {
-                    return this._Puid;
-                },
-                set: function (value) {
-                    if (value !== this._Puid) {
-                        this._PuidChanged = true;
-                        this.changed = true;
-                    }
-                    this._Puid = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
+                this.context.request(request).then(function (data) {
+                    deferred.resolve(null);
+                }, deferred.reject.bind(deferred));
 
-
-            Object.defineProperty(UserInformation.prototype, "puidChanged", {
-                get: function () {
-                    return this._PuidChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            UserInformation.parseUserInformation = function (data) {
-                if (!data)
-                    return null;
-
-                return new UserInformation(data);
+                return deferred;
             };
 
-            UserInformation.parseUserInformations = function (data) {
-                var results = new MS.Extensions.ObservableCollection();
-
-                if (data) {
-                    for (var i = 0; i < data.length; ++i) {
-                        results.push(UserInformation.parseUserInformation(data[i]));
+            Object.defineProperty(CurrentUserRequestContext.prototype, "files", {
+                get: function () {
+                    if (this._files === undefined) {
+                        this._files = new Microsoft.FileServices.Items(this.context, this.getPath('files'));
                     }
-                }
+                    return this._files;
+                },
+                enumerable: true,
+                configurable: true
+            });
 
-                results.changed = false;
-
-                return results;
-            };
-
-            UserInformation.prototype.getRequestBody = function () {
-                return {
-                    Id: (this.idChanged && this.id) ? this.id : undefined,
-                    Name: (this.nameChanged && this.name) ? this.name : undefined,
-                    Puid: (this.puidChanged && this.puid) ? this.puid : undefined,
-                    '__metadata': { type: this._odataType }
-                };
-            };
-            return UserInformation;
-        })(MS.Extensions.ComplexTypeBase);
-        FileServices.UserInformation = UserInformation;
-
-        /// <summary>
-        /// There are no comments for FileSystemItem in the schema.
-        /// </summary>
-        var FileSystemItemFetcher = (function (_super) {
-            __extends(FileSystemItemFetcher, _super);
-            function FileSystemItemFetcher(context, path) {
-                _super.call(this, context, path);
-            }
-            return FileSystemItemFetcher;
-        })(MS.Extensions.RestShallowObjectFetcher);
-        FileServices.FileSystemItemFetcher = FileSystemItemFetcher;
-
-        /// <summary>
-        /// There are no comments for FileSystemItem in the schema.
-        /// </summary>
-        var FileSystemItem = (function (_super) {
-            __extends(FileSystemItem, _super);
-            function FileSystemItem(context, path, data) {
+            CurrentUserRequestContext.prototype.update = function () {
                 var _this = this;
-                _super.call(this, context, path);
-                this._odataType = 'MS.FileServices.FileSystemItem';
-                this._CreatedByChanged = false;
-                this._CreatedByChangedListener = (function (value) {
-                    _this._CreatedByChanged = true;
-                    _this.changed = true;
-                }).bind(this);
-                this._ETagChanged = false;
-                this._IdChanged = false;
-                this._LastModifiedByChanged = false;
-                this._LastModifiedByChangedListener = (function (value) {
-                    _this._LastModifiedByChanged = true;
-                    _this.changed = true;
-                }).bind(this);
-                this._NameChanged = false;
-                this._SizeChanged = false;
-                this._TimeCreatedChanged = false;
-                this._TimeLastModifiedChanged = false;
-                this._UrlChanged = false;
-
-                if (!data) {
-                    return;
-                }
-
-                this._CreatedBy = UserInformation.parseUserInformation(data.CreatedBy);
-                if (this._CreatedBy) {
-                    this._CreatedBy.addChangedListener(this._CreatedByChangedListener);
-                }
-                this._ETag = data.ETag;
-                this._Id = data.Id;
-                this._LastModifiedBy = UserInformation.parseUserInformation(data.LastModifiedBy);
-                if (this._LastModifiedBy) {
-                    this._LastModifiedBy.addChangedListener(this._LastModifiedByChangedListener);
-                }
-                this._Name = data.Name;
-                this._Size = data.Size;
-                this._TimeCreated = (data.TimeCreated !== null) ? new Date(data.TimeCreated) : null;
-                this._TimeLastModified = (data.TimeLastModified !== null) ? new Date(data.TimeLastModified) : null;
-                this._Url = data.Url;
-            }
-            Object.defineProperty(FileSystemItem.prototype, "createdBy", {
-                /// <summary>
-                /// There are no comments for Property CreatedBy in the schema.
-                /// </summary>
-                get: function () {
-                    return this._CreatedBy;
-                },
-                set: function (value) {
-                    if (this._CreatedBy) {
-                        this._CreatedBy.removeChangedListener(this._CreatedByChangedListener);
-                    }
-                    if (value !== this._CreatedBy) {
-                        this._CreatedByChanged = true;
-                        this.changed = true;
-                    }
-                    if (this._CreatedBy) {
-                        this._CreatedBy.addChangedListener(this._CreatedByChangedListener);
-                    }
-                    this._CreatedBy = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "createdByChanged", {
-                get: function () {
-                    return this._CreatedByChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "eTag", {
-                /// <summary>
-                /// There are no comments for Property ETag in the schema.
-                /// </summary>
-                get: function () {
-                    return this._ETag;
-                },
-                set: function (value) {
-                    if (value !== this._ETag) {
-                        this._ETagChanged = true;
-                        this.changed = true;
-                    }
-                    this._ETag = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "eTagChanged", {
-                get: function () {
-                    return this._ETagChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "id", {
-                /// <summary>
-                /// There are no comments for Property Id in the schema.
-                /// </summary>
-                get: function () {
-                    return this._Id;
-                },
-                set: function (value) {
-                    if (value !== this._Id) {
-                        this._IdChanged = true;
-                        this.changed = true;
-                    }
-                    this._Id = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "idChanged", {
-                get: function () {
-                    return this._IdChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "lastModifiedBy", {
-                /// <summary>
-                /// There are no comments for Property LastModifiedBy in the schema.
-                /// </summary>
-                get: function () {
-                    return this._LastModifiedBy;
-                },
-                set: function (value) {
-                    if (this._LastModifiedBy) {
-                        this._LastModifiedBy.removeChangedListener(this._LastModifiedByChangedListener);
-                    }
-                    if (value !== this._LastModifiedBy) {
-                        this._LastModifiedByChanged = true;
-                        this.changed = true;
-                    }
-                    if (this._LastModifiedBy) {
-                        this._LastModifiedBy.addChangedListener(this._LastModifiedByChangedListener);
-                    }
-                    this._LastModifiedBy = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "lastModifiedByChanged", {
-                get: function () {
-                    return this._LastModifiedByChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "name", {
-                /// <summary>
-                /// There are no comments for Property Name in the schema.
-                /// </summary>
-                get: function () {
-                    return this._Name;
-                },
-                set: function (value) {
-                    if (value !== this._Name) {
-                        this._NameChanged = true;
-                        this.changed = true;
-                    }
-                    this._Name = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "nameChanged", {
-                get: function () {
-                    return this._NameChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "size", {
-                /// <summary>
-                /// There are no comments for Property Size in the schema.
-                /// </summary>
-                get: function () {
-                    return this._Size;
-                },
-                set: function (value) {
-                    if (value !== this._Size) {
-                        this._SizeChanged = true;
-                        this.changed = true;
-                    }
-                    this._Size = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "sizeChanged", {
-                get: function () {
-                    return this._SizeChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "timeCreated", {
-                /// <summary>
-                /// There are no comments for Property TimeCreated in the schema.
-                /// </summary>
-                get: function () {
-                    return this._TimeCreated;
-                },
-                set: function (value) {
-                    if (value !== this._TimeCreated) {
-                        this._TimeCreatedChanged = true;
-                        this.changed = true;
-                    }
-                    this._TimeCreated = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "timeCreatedChanged", {
-                get: function () {
-                    return this._TimeCreatedChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "timeLastModified", {
-                /// <summary>
-                /// There are no comments for Property TimeLastModified in the schema.
-                /// </summary>
-                get: function () {
-                    return this._TimeLastModified;
-                },
-                set: function (value) {
-                    if (value !== this._TimeLastModified) {
-                        this._TimeLastModifiedChanged = true;
-                        this.changed = true;
-                    }
-                    this._TimeLastModified = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "timeLastModifiedChanged", {
-                get: function () {
-                    return this._TimeLastModifiedChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            Object.defineProperty(FileSystemItem.prototype, "url", {
-                /// <summary>
-                /// There are no comments for Property Url in the schema.
-                /// </summary>
-                get: function () {
-                    return this._Url;
-                },
-                set: function (value) {
-                    if (value !== this._Url) {
-                        this._UrlChanged = true;
-                        this.changed = true;
-                    }
-                    this._Url = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileSystemItem.prototype, "urlChanged", {
-                get: function () {
-                    return this._UrlChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            FileSystemItem.prototype.update = function () {
-                var _this = this;
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
 
                 request.method = 'PATCH';
                 request.data = JSON.stringify(this.getRequestBody());
 
                 this.context.request(request).then(function (data) {
-                    var parsedData = JSON.parse(data), path = parsedData.d['__metadata']['id'];
-                    deferred.resolve(FileSystemItem.parseFileSystemItem(_this.context, path, parsedData));
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(CurrentUserRequestContext.parseCurrentUserRequestContext(_this.context, parsedData['@odata.id'], parsedData));
                 }, deferred.reject.bind(deferred));
 
                 return deferred;
             };
 
-            FileSystemItem.prototype.delete = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
+            CurrentUserRequestContext.prototype.delete = function () {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
 
                 request.method = 'DELETE';
 
@@ -1180,49 +903,1240 @@ var MS;
                 return deferred;
             };
 
-            FileSystemItem.parseFileSystemItem = function (context, path, data) {
+            CurrentUserRequestContext.parseCurrentUserRequestContext = function (context, path, data) {
                 if (!data)
                     return null;
 
-                if (data['__metadata'] && data['__metadata']['type']) {
-                    if (data['__metadata']['type'] === 'MS.FileServices.File')
-                        return new File(context, path, data);
-                    if (data['__metadata']['type'] === 'MS.FileServices.Folder')
-                        return new Folder(context, path, data);
-                }
-
-                return new FileSystemItem(context, path, data);
+                return new CurrentUserRequestContext(context, path, data);
             };
 
-            FileSystemItem.parseFileSystemItems = function (context, pathFn, data) {
+            CurrentUserRequestContext.parseCurrentUserRequestContexts = function (context, pathFn, data) {
                 var results = [];
 
                 if (data) {
                     for (var i = 0; i < data.length; ++i) {
-                        results.push(FileSystemItem.parseFileSystemItem(context, pathFn(data[i]), data[i]));
+                        results.push(CurrentUserRequestContext.parseCurrentUserRequestContext(context, pathFn(data[i]), data[i]));
                     }
                 }
 
                 return results;
             };
 
-            FileSystemItem.prototype.getRequestBody = function () {
+            CurrentUserRequestContext.prototype.getRequestBody = function () {
                 return {
-                    CreatedBy: (this.createdByChanged && this.createdBy) ? this.createdBy.getRequestBody() : undefined,
-                    ETag: (this.eTagChanged && this.eTag) ? this.eTag : undefined,
-                    Id: (this.idChanged && this.id) ? this.id : undefined,
-                    LastModifiedBy: (this.lastModifiedByChanged && this.lastModifiedBy) ? this.lastModifiedBy.getRequestBody() : undefined,
-                    Name: (this.nameChanged && this.name) ? this.name : undefined,
-                    Size: (this.sizeChanged && this.size) ? this.size : undefined,
-                    TimeCreated: (this.timeCreatedChanged && this.timeCreated) ? this.timeCreated.toString() : undefined,
-                    TimeLastModified: (this.timeLastModifiedChanged && this.timeLastModified) ? this.timeLastModified.toString() : undefined,
-                    Url: (this.urlChanged && this.url) ? this.url : undefined,
-                    '__metadata': { type: this._odataType }
+                    id: (this.idChanged && this.id) ? this.id : undefined,
+                    '@odata.type': this._odataType
                 };
             };
-            return FileSystemItem;
-        })(MS.Extensions.EntityBase);
-        FileServices.FileSystemItem = FileSystemItem;
+            return CurrentUserRequestContext;
+        })(CoreServices.Extensions.EntityBase);
+        CoreServices.CurrentUserRequestContext = CurrentUserRequestContext;
+    })(Microsoft.CoreServices || (Microsoft.CoreServices = {}));
+    var CoreServices = Microsoft.CoreServices;
+})(Microsoft || (Microsoft = {}));
+
+var Microsoft;
+(function (Microsoft) {
+    (function (FileServices) {
+        /// <summary>
+        /// There are no comments for DriveQuota in the schema.
+        /// </summary>
+        var DriveQuota = (function (_super) {
+            __extends(DriveQuota, _super);
+            function DriveQuota(data) {
+                _super.call(this);
+                this._odataType = 'Microsoft.FileServices.DriveQuota';
+                this._deletedChanged = false;
+                this._remainingChanged = false;
+                this._stateChanged = false;
+                this._totalChanged = false;
+
+                if (!data) {
+                    return;
+                }
+
+                this._deleted = data.deleted;
+                this._remaining = data.remaining;
+                this._state = data.state;
+                this._total = data.total;
+            }
+            Object.defineProperty(DriveQuota.prototype, "deleted", {
+                /// <summary>
+                /// There are no comments for Property deleted in the schema.
+                /// </summary>
+                get: function () {
+                    return this._deleted;
+                },
+                set: function (value) {
+                    if (value !== this._deleted) {
+                        this._deletedChanged = true;
+                        this.changed = true;
+                    }
+                    this._deleted = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(DriveQuota.prototype, "deletedChanged", {
+                get: function () {
+                    return this._deletedChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(DriveQuota.prototype, "remaining", {
+                /// <summary>
+                /// There are no comments for Property remaining in the schema.
+                /// </summary>
+                get: function () {
+                    return this._remaining;
+                },
+                set: function (value) {
+                    if (value !== this._remaining) {
+                        this._remainingChanged = true;
+                        this.changed = true;
+                    }
+                    this._remaining = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(DriveQuota.prototype, "remainingChanged", {
+                get: function () {
+                    return this._remainingChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(DriveQuota.prototype, "state", {
+                /// <summary>
+                /// There are no comments for Property state in the schema.
+                /// </summary>
+                get: function () {
+                    return this._state;
+                },
+                set: function (value) {
+                    if (value !== this._state) {
+                        this._stateChanged = true;
+                        this.changed = true;
+                    }
+                    this._state = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(DriveQuota.prototype, "stateChanged", {
+                get: function () {
+                    return this._stateChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(DriveQuota.prototype, "total", {
+                /// <summary>
+                /// There are no comments for Property total in the schema.
+                /// </summary>
+                get: function () {
+                    return this._total;
+                },
+                set: function (value) {
+                    if (value !== this._total) {
+                        this._totalChanged = true;
+                        this.changed = true;
+                    }
+                    this._total = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(DriveQuota.prototype, "totalChanged", {
+                get: function () {
+                    return this._totalChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            DriveQuota.parseDriveQuota = function (data) {
+                if (!data)
+                    return null;
+
+                return new DriveQuota(data);
+            };
+
+            DriveQuota.parseDriveQuotas = function (data) {
+                var results = new Microsoft.CoreServices.Extensions.ObservableCollection();
+
+                if (data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        results.push(DriveQuota.parseDriveQuota(data[i]));
+                    }
+                }
+
+                results.changed = false;
+
+                return results;
+            };
+
+            DriveQuota.prototype.getRequestBody = function () {
+                return {
+                    deleted: (this.deletedChanged && this.deleted) ? this.deleted : undefined,
+                    remaining: (this.remainingChanged && this.remaining) ? this.remaining : undefined,
+                    state: (this.stateChanged && this.state) ? this.state : undefined,
+                    total: (this.totalChanged && this.total) ? this.total : undefined,
+                    '@odata.type': this._odataType
+                };
+            };
+            return DriveQuota;
+        })(Microsoft.CoreServices.Extensions.ComplexTypeBase);
+        FileServices.DriveQuota = DriveQuota;
+
+        /// <summary>
+        /// There are no comments for IdentitySet in the schema.
+        /// </summary>
+        var IdentitySet = (function (_super) {
+            __extends(IdentitySet, _super);
+            function IdentitySet(data) {
+                var _this = this;
+                _super.call(this);
+                this._odataType = 'Microsoft.FileServices.IdentitySet';
+                this._applicationChanged = false;
+                this._applicationChangedListener = (function (value) {
+                    _this._applicationChanged = true;
+                    _this.changed = true;
+                }).bind(this);
+                this._userChanged = false;
+                this._userChangedListener = (function (value) {
+                    _this._userChanged = true;
+                    _this.changed = true;
+                }).bind(this);
+
+                if (!data) {
+                    return;
+                }
+
+                this._application = Identity.parseIdentity(data.application);
+                if (this._application) {
+                    this._application.addChangedListener(this._applicationChangedListener);
+                }
+                this._user = Identity.parseIdentity(data.user);
+                if (this._user) {
+                    this._user.addChangedListener(this._userChangedListener);
+                }
+            }
+            Object.defineProperty(IdentitySet.prototype, "application", {
+                /// <summary>
+                /// There are no comments for Property application in the schema.
+                /// </summary>
+                get: function () {
+                    return this._application;
+                },
+                set: function (value) {
+                    if (this._application) {
+                        this._application.removeChangedListener(this._applicationChangedListener);
+                    }
+                    if (value !== this._application) {
+                        this._applicationChanged = true;
+                        this.changed = true;
+                    }
+                    if (this._application) {
+                        this._application.addChangedListener(this._applicationChangedListener);
+                    }
+                    this._application = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(IdentitySet.prototype, "applicationChanged", {
+                get: function () {
+                    return this._applicationChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(IdentitySet.prototype, "user", {
+                /// <summary>
+                /// There are no comments for Property user in the schema.
+                /// </summary>
+                get: function () {
+                    return this._user;
+                },
+                set: function (value) {
+                    if (this._user) {
+                        this._user.removeChangedListener(this._userChangedListener);
+                    }
+                    if (value !== this._user) {
+                        this._userChanged = true;
+                        this.changed = true;
+                    }
+                    if (this._user) {
+                        this._user.addChangedListener(this._userChangedListener);
+                    }
+                    this._user = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(IdentitySet.prototype, "userChanged", {
+                get: function () {
+                    return this._userChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            IdentitySet.parseIdentitySet = function (data) {
+                if (!data)
+                    return null;
+
+                return new IdentitySet(data);
+            };
+
+            IdentitySet.parseIdentitySets = function (data) {
+                var results = new Microsoft.CoreServices.Extensions.ObservableCollection();
+
+                if (data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        results.push(IdentitySet.parseIdentitySet(data[i]));
+                    }
+                }
+
+                results.changed = false;
+
+                return results;
+            };
+
+            IdentitySet.prototype.getRequestBody = function () {
+                return {
+                    application: (this.applicationChanged && this.application) ? this.application.getRequestBody() : undefined,
+                    user: (this.userChanged && this.user) ? this.user.getRequestBody() : undefined,
+                    '@odata.type': this._odataType
+                };
+            };
+            return IdentitySet;
+        })(Microsoft.CoreServices.Extensions.ComplexTypeBase);
+        FileServices.IdentitySet = IdentitySet;
+
+        /// <summary>
+        /// There are no comments for Identity in the schema.
+        /// </summary>
+        var Identity = (function (_super) {
+            __extends(Identity, _super);
+            function Identity(data) {
+                _super.call(this);
+                this._odataType = 'Microsoft.FileServices.Identity';
+                this._idChanged = false;
+                this._displayNameChanged = false;
+
+                if (!data) {
+                    return;
+                }
+
+                this._id = data.id;
+                this._displayName = data.displayName;
+            }
+            Object.defineProperty(Identity.prototype, "id", {
+                /// <summary>
+                /// There are no comments for Property id in the schema.
+                /// </summary>
+                get: function () {
+                    return this._id;
+                },
+                set: function (value) {
+                    if (value !== this._id) {
+                        this._idChanged = true;
+                        this.changed = true;
+                    }
+                    this._id = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Identity.prototype, "idChanged", {
+                get: function () {
+                    return this._idChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Identity.prototype, "displayName", {
+                /// <summary>
+                /// There are no comments for Property displayName in the schema.
+                /// </summary>
+                get: function () {
+                    return this._displayName;
+                },
+                set: function (value) {
+                    if (value !== this._displayName) {
+                        this._displayNameChanged = true;
+                        this.changed = true;
+                    }
+                    this._displayName = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Identity.prototype, "displayNameChanged", {
+                get: function () {
+                    return this._displayNameChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Identity.parseIdentity = function (data) {
+                if (!data)
+                    return null;
+
+                return new Identity(data);
+            };
+
+            Identity.parseIdentities = function (data) {
+                var results = new Microsoft.CoreServices.Extensions.ObservableCollection();
+
+                if (data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        results.push(Identity.parseIdentity(data[i]));
+                    }
+                }
+
+                results.changed = false;
+
+                return results;
+            };
+
+            Identity.prototype.getRequestBody = function () {
+                return {
+                    id: (this.idChanged && this.id) ? this.id : undefined,
+                    displayName: (this.displayNameChanged && this.displayName) ? this.displayName : undefined,
+                    '@odata.type': this._odataType
+                };
+            };
+            return Identity;
+        })(Microsoft.CoreServices.Extensions.ComplexTypeBase);
+        FileServices.Identity = Identity;
+
+        /// <summary>
+        /// There are no comments for ItemReference in the schema.
+        /// </summary>
+        var ItemReference = (function (_super) {
+            __extends(ItemReference, _super);
+            function ItemReference(data) {
+                _super.call(this);
+                this._odataType = 'Microsoft.FileServices.ItemReference';
+                this._driveIdChanged = false;
+                this._idChanged = false;
+                this._pathChanged = false;
+
+                if (!data) {
+                    return;
+                }
+
+                this._driveId = data.driveId;
+                this._id = data.id;
+                this._path = data.path;
+            }
+            Object.defineProperty(ItemReference.prototype, "driveId", {
+                /// <summary>
+                /// There are no comments for Property driveId in the schema.
+                /// </summary>
+                get: function () {
+                    return this._driveId;
+                },
+                set: function (value) {
+                    if (value !== this._driveId) {
+                        this._driveIdChanged = true;
+                        this.changed = true;
+                    }
+                    this._driveId = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(ItemReference.prototype, "driveIdChanged", {
+                get: function () {
+                    return this._driveIdChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(ItemReference.prototype, "id", {
+                /// <summary>
+                /// There are no comments for Property id in the schema.
+                /// </summary>
+                get: function () {
+                    return this._id;
+                },
+                set: function (value) {
+                    if (value !== this._id) {
+                        this._idChanged = true;
+                        this.changed = true;
+                    }
+                    this._id = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(ItemReference.prototype, "idChanged", {
+                get: function () {
+                    return this._idChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(ItemReference.prototype, "path", {
+                /// <summary>
+                /// There are no comments for Property path in the schema.
+                /// </summary>
+                get: function () {
+                    return this._path;
+                },
+                set: function (value) {
+                    if (value !== this._path) {
+                        this._pathChanged = true;
+                        this.changed = true;
+                    }
+                    this._path = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(ItemReference.prototype, "pathChanged", {
+                get: function () {
+                    return this._pathChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            ItemReference.parseItemReference = function (data) {
+                if (!data)
+                    return null;
+
+                return new ItemReference(data);
+            };
+
+            ItemReference.parseItemReferences = function (data) {
+                var results = new Microsoft.CoreServices.Extensions.ObservableCollection();
+
+                if (data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        results.push(ItemReference.parseItemReference(data[i]));
+                    }
+                }
+
+                results.changed = false;
+
+                return results;
+            };
+
+            ItemReference.prototype.getRequestBody = function () {
+                return {
+                    driveId: (this.driveIdChanged && this.driveId) ? this.driveId : undefined,
+                    id: (this.idChanged && this.id) ? this.id : undefined,
+                    path: (this.pathChanged && this.path) ? this.path : undefined,
+                    '@odata.type': this._odataType
+                };
+            };
+            return ItemReference;
+        })(Microsoft.CoreServices.Extensions.ComplexTypeBase);
+        FileServices.ItemReference = ItemReference;
+
+        /// <summary>
+        /// There are no comments for Drive in the schema.
+        /// </summary>
+        var DriveFetcher = (function (_super) {
+            __extends(DriveFetcher, _super);
+            function DriveFetcher(context, path) {
+                _super.call(this, context, path);
+            }
+            DriveFetcher.prototype.fetch = function () {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred();
+
+                this.context.readUrl(this.path).then((function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(Drive.parseDrive(_this.context, parsedData['@odata.id'], parsedData));
+                }).bind(this), deferred.reject.bind(deferred));
+
+                return deferred;
+            };
+            return DriveFetcher;
+        })(Microsoft.CoreServices.Extensions.RestShallowObjectFetcher);
+        FileServices.DriveFetcher = DriveFetcher;
+
+        /// <summary>
+        /// There are no comments for Drive in the schema.
+        /// </summary>
+        var Drive = (function (_super) {
+            __extends(Drive, _super);
+            function Drive(context, path, data) {
+                var _this = this;
+                _super.call(this, context, path);
+                this._odataType = 'Microsoft.FileServices.Drive';
+                this._idChanged = false;
+                this._ownerChanged = false;
+                this._ownerChangedListener = (function (value) {
+                    _this._ownerChanged = true;
+                    _this.changed = true;
+                }).bind(this);
+                this._quotaChanged = false;
+                this._quotaChangedListener = (function (value) {
+                    _this._quotaChanged = true;
+                    _this.changed = true;
+                }).bind(this);
+
+                if (!data) {
+                    return;
+                }
+
+                this._id = data.id;
+                this._owner = Identity.parseIdentity(data.owner);
+                if (this._owner) {
+                    this._owner.addChangedListener(this._ownerChangedListener);
+                }
+                this._quota = DriveQuota.parseDriveQuota(data.quota);
+                if (this._quota) {
+                    this._quota.addChangedListener(this._quotaChangedListener);
+                }
+            }
+            Object.defineProperty(Drive.prototype, "id", {
+                /// <summary>
+                /// There are no comments for Property id in the schema.
+                /// </summary>
+                get: function () {
+                    return this._id;
+                },
+                set: function (value) {
+                    if (value !== this._id) {
+                        this._idChanged = true;
+                        this.changed = true;
+                    }
+                    this._id = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Drive.prototype, "idChanged", {
+                get: function () {
+                    return this._idChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Drive.prototype, "owner", {
+                /// <summary>
+                /// There are no comments for Property owner in the schema.
+                /// </summary>
+                get: function () {
+                    return this._owner;
+                },
+                set: function (value) {
+                    if (this._owner) {
+                        this._owner.removeChangedListener(this._ownerChangedListener);
+                    }
+                    if (value !== this._owner) {
+                        this._ownerChanged = true;
+                        this.changed = true;
+                    }
+                    if (this._owner) {
+                        this._owner.addChangedListener(this._ownerChangedListener);
+                    }
+                    this._owner = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Drive.prototype, "ownerChanged", {
+                get: function () {
+                    return this._ownerChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Drive.prototype, "quota", {
+                /// <summary>
+                /// There are no comments for Property quota in the schema.
+                /// </summary>
+                get: function () {
+                    return this._quota;
+                },
+                set: function (value) {
+                    if (this._quota) {
+                        this._quota.removeChangedListener(this._quotaChangedListener);
+                    }
+                    if (value !== this._quota) {
+                        this._quotaChanged = true;
+                        this.changed = true;
+                    }
+                    if (this._quota) {
+                        this._quota.addChangedListener(this._quotaChangedListener);
+                    }
+                    this._quota = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Drive.prototype, "quotaChanged", {
+                get: function () {
+                    return this._quotaChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Drive.prototype.update = function () {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
+
+                request.method = 'PATCH';
+                request.data = JSON.stringify(this.getRequestBody());
+
+                this.context.request(request).then(function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(Drive.parseDrive(_this.context, parsedData['@odata.id'], parsedData));
+                }, deferred.reject.bind(deferred));
+
+                return deferred;
+            };
+
+            Drive.prototype.delete = function () {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
+
+                request.method = 'DELETE';
+
+                this.context.request(request).then(function (data) {
+                    deferred.resolve(null);
+                }, deferred.reject.bind(deferred));
+
+                return deferred;
+            };
+
+            Drive.parseDrive = function (context, path, data) {
+                if (!data)
+                    return null;
+
+                return new Drive(context, path, data);
+            };
+
+            Drive.parseDrives = function (context, pathFn, data) {
+                var results = [];
+
+                if (data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        results.push(Drive.parseDrive(context, pathFn(data[i]), data[i]));
+                    }
+                }
+
+                return results;
+            };
+
+            Drive.prototype.getRequestBody = function () {
+                return {
+                    id: (this.idChanged && this.id) ? this.id : undefined,
+                    owner: (this.ownerChanged && this.owner) ? this.owner.getRequestBody() : undefined,
+                    quota: (this.quotaChanged && this.quota) ? this.quota.getRequestBody() : undefined,
+                    '@odata.type': this._odataType
+                };
+            };
+            return Drive;
+        })(Microsoft.CoreServices.Extensions.EntityBase);
+        FileServices.Drive = Drive;
+
+        /// <summary>
+        /// There are no comments for Item in the schema.
+        /// </summary>
+        var ItemFetcher = (function (_super) {
+            __extends(ItemFetcher, _super);
+            function ItemFetcher(context, path) {
+                _super.call(this, context, path);
+            }
+            return ItemFetcher;
+        })(Microsoft.CoreServices.Extensions.RestShallowObjectFetcher);
+        FileServices.ItemFetcher = ItemFetcher;
+
+        /// <summary>
+        /// There are no comments for Item in the schema.
+        /// </summary>
+        var Item = (function (_super) {
+            __extends(Item, _super);
+            function Item(context, path, data) {
+                var _this = this;
+                _super.call(this, context, path);
+                this._odataType = 'Microsoft.FileServices.Item';
+                this._createdByChanged = false;
+                this._createdByChangedListener = (function (value) {
+                    _this._createdByChanged = true;
+                    _this.changed = true;
+                }).bind(this);
+                this._eTagChanged = false;
+                this._idChanged = false;
+                this._lastModifiedByChanged = false;
+                this._lastModifiedByChangedListener = (function (value) {
+                    _this._lastModifiedByChanged = true;
+                    _this.changed = true;
+                }).bind(this);
+                this._nameChanged = false;
+                this._parentReferenceChanged = false;
+                this._parentReferenceChangedListener = (function (value) {
+                    _this._parentReferenceChanged = true;
+                    _this.changed = true;
+                }).bind(this);
+                this._sizeChanged = false;
+                this._dateTimeCreatedChanged = false;
+                this._dateTimeLastModifiedChanged = false;
+                this._typeChanged = false;
+                this._webUrlChanged = false;
+
+                if (!data) {
+                    return;
+                }
+
+                this._createdBy = IdentitySet.parseIdentitySet(data.createdBy);
+                if (this._createdBy) {
+                    this._createdBy.addChangedListener(this._createdByChangedListener);
+                }
+                this._eTag = data.eTag;
+                this._id = data.id;
+                this._lastModifiedBy = IdentitySet.parseIdentitySet(data.lastModifiedBy);
+                if (this._lastModifiedBy) {
+                    this._lastModifiedBy.addChangedListener(this._lastModifiedByChangedListener);
+                }
+                this._name = data.name;
+                this._parentReference = ItemReference.parseItemReference(data.parentReference);
+                if (this._parentReference) {
+                    this._parentReference.addChangedListener(this._parentReferenceChangedListener);
+                }
+                this._size = data.size;
+                this._dateTimeCreated = (data.dateTimeCreated !== null) ? new Date(data.dateTimeCreated) : null;
+                this._dateTimeLastModified = (data.dateTimeLastModified !== null) ? new Date(data.dateTimeLastModified) : null;
+                this._type = data.type;
+                this._webUrl = data.webUrl;
+            }
+            Object.defineProperty(Item.prototype, "createdBy", {
+                /// <summary>
+                /// There are no comments for Property createdBy in the schema.
+                /// </summary>
+                get: function () {
+                    return this._createdBy;
+                },
+                set: function (value) {
+                    if (this._createdBy) {
+                        this._createdBy.removeChangedListener(this._createdByChangedListener);
+                    }
+                    if (value !== this._createdBy) {
+                        this._createdByChanged = true;
+                        this.changed = true;
+                    }
+                    if (this._createdBy) {
+                        this._createdBy.addChangedListener(this._createdByChangedListener);
+                    }
+                    this._createdBy = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "createdByChanged", {
+                get: function () {
+                    return this._createdByChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "eTag", {
+                /// <summary>
+                /// There are no comments for Property eTag in the schema.
+                /// </summary>
+                get: function () {
+                    return this._eTag;
+                },
+                set: function (value) {
+                    if (value !== this._eTag) {
+                        this._eTagChanged = true;
+                        this.changed = true;
+                    }
+                    this._eTag = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "eTagChanged", {
+                get: function () {
+                    return this._eTagChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "id", {
+                /// <summary>
+                /// There are no comments for Property id in the schema.
+                /// </summary>
+                get: function () {
+                    return this._id;
+                },
+                set: function (value) {
+                    if (value !== this._id) {
+                        this._idChanged = true;
+                        this.changed = true;
+                    }
+                    this._id = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "idChanged", {
+                get: function () {
+                    return this._idChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "lastModifiedBy", {
+                /// <summary>
+                /// There are no comments for Property lastModifiedBy in the schema.
+                /// </summary>
+                get: function () {
+                    return this._lastModifiedBy;
+                },
+                set: function (value) {
+                    if (this._lastModifiedBy) {
+                        this._lastModifiedBy.removeChangedListener(this._lastModifiedByChangedListener);
+                    }
+                    if (value !== this._lastModifiedBy) {
+                        this._lastModifiedByChanged = true;
+                        this.changed = true;
+                    }
+                    if (this._lastModifiedBy) {
+                        this._lastModifiedBy.addChangedListener(this._lastModifiedByChangedListener);
+                    }
+                    this._lastModifiedBy = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "lastModifiedByChanged", {
+                get: function () {
+                    return this._lastModifiedByChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "name", {
+                /// <summary>
+                /// There are no comments for Property name in the schema.
+                /// </summary>
+                get: function () {
+                    return this._name;
+                },
+                set: function (value) {
+                    if (value !== this._name) {
+                        this._nameChanged = true;
+                        this.changed = true;
+                    }
+                    this._name = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "nameChanged", {
+                get: function () {
+                    return this._nameChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "parentReference", {
+                /// <summary>
+                /// There are no comments for Property parentReference in the schema.
+                /// </summary>
+                get: function () {
+                    return this._parentReference;
+                },
+                set: function (value) {
+                    if (this._parentReference) {
+                        this._parentReference.removeChangedListener(this._parentReferenceChangedListener);
+                    }
+                    if (value !== this._parentReference) {
+                        this._parentReferenceChanged = true;
+                        this.changed = true;
+                    }
+                    if (this._parentReference) {
+                        this._parentReference.addChangedListener(this._parentReferenceChangedListener);
+                    }
+                    this._parentReference = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "parentReferenceChanged", {
+                get: function () {
+                    return this._parentReferenceChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "size", {
+                /// <summary>
+                /// There are no comments for Property size in the schema.
+                /// </summary>
+                get: function () {
+                    return this._size;
+                },
+                set: function (value) {
+                    if (value !== this._size) {
+                        this._sizeChanged = true;
+                        this.changed = true;
+                    }
+                    this._size = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "sizeChanged", {
+                get: function () {
+                    return this._sizeChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "dateTimeCreated", {
+                /// <summary>
+                /// There are no comments for Property dateTimeCreated in the schema.
+                /// </summary>
+                get: function () {
+                    return this._dateTimeCreated;
+                },
+                set: function (value) {
+                    if (value !== this._dateTimeCreated) {
+                        this._dateTimeCreatedChanged = true;
+                        this.changed = true;
+                    }
+                    this._dateTimeCreated = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "dateTimeCreatedChanged", {
+                get: function () {
+                    return this._dateTimeCreatedChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "dateTimeLastModified", {
+                /// <summary>
+                /// There are no comments for Property dateTimeLastModified in the schema.
+                /// </summary>
+                get: function () {
+                    return this._dateTimeLastModified;
+                },
+                set: function (value) {
+                    if (value !== this._dateTimeLastModified) {
+                        this._dateTimeLastModifiedChanged = true;
+                        this.changed = true;
+                    }
+                    this._dateTimeLastModified = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "dateTimeLastModifiedChanged", {
+                get: function () {
+                    return this._dateTimeLastModifiedChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "type", {
+                /// <summary>
+                /// There are no comments for Property type in the schema.
+                /// </summary>
+                get: function () {
+                    return this._type;
+                },
+                set: function (value) {
+                    if (value !== this._type) {
+                        this._typeChanged = true;
+                        this.changed = true;
+                    }
+                    this._type = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "typeChanged", {
+                get: function () {
+                    return this._typeChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Object.defineProperty(Item.prototype, "webUrl", {
+                /// <summary>
+                /// There are no comments for Property webUrl in the schema.
+                /// </summary>
+                get: function () {
+                    return this._webUrl;
+                },
+                set: function (value) {
+                    if (value !== this._webUrl) {
+                        this._webUrlChanged = true;
+                        this.changed = true;
+                    }
+                    this._webUrl = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(Item.prototype, "webUrlChanged", {
+                get: function () {
+                    return this._webUrlChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            Item.prototype.update = function () {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
+
+                request.method = 'PATCH';
+                request.data = JSON.stringify(this.getRequestBody());
+
+                this.context.request(request).then(function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(Item.parseItem(_this.context, parsedData['@odata.id'], parsedData));
+                }, deferred.reject.bind(deferred));
+
+                return deferred;
+            };
+
+            Item.prototype.delete = function () {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
+
+                request.method = 'DELETE';
+
+                this.context.request(request).then(function (data) {
+                    deferred.resolve(null);
+                }, deferred.reject.bind(deferred));
+
+                return deferred;
+            };
+
+            Item.parseItem = function (context, path, data) {
+                if (!data)
+                    return null;
+
+                if (data['@odata.type']) {
+                    if (data['@odata.type'] === 'Microsoft.FileServices.File')
+                        return new File(context, path, data);
+                    if (data['@odata.type'] === 'Microsoft.FileServices.Folder')
+                        return new Folder(context, path, data);
+                }
+
+                return new Item(context, path, data);
+            };
+
+            Item.parseItems = function (context, pathFn, data) {
+                var results = [];
+
+                if (data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        results.push(Item.parseItem(context, pathFn(data[i]), data[i]));
+                    }
+                }
+
+                return results;
+            };
+
+            Item.prototype.getRequestBody = function () {
+                return {
+                    createdBy: (this.createdByChanged && this.createdBy) ? this.createdBy.getRequestBody() : undefined,
+                    eTag: (this.eTagChanged && this.eTag) ? this.eTag : undefined,
+                    id: (this.idChanged && this.id) ? this.id : undefined,
+                    lastModifiedBy: (this.lastModifiedByChanged && this.lastModifiedBy) ? this.lastModifiedBy.getRequestBody() : undefined,
+                    name: (this.nameChanged && this.name) ? this.name : undefined,
+                    parentReference: (this.parentReferenceChanged && this.parentReference) ? this.parentReference.getRequestBody() : undefined,
+                    size: (this.sizeChanged && this.size) ? this.size : undefined,
+                    dateTimeCreated: (this.dateTimeCreatedChanged && this.dateTimeCreated) ? this.dateTimeCreated.toString() : undefined,
+                    dateTimeLastModified: (this.dateTimeLastModifiedChanged && this.dateTimeLastModified) ? this.dateTimeLastModified.toString() : undefined,
+                    type: (this.typeChanged && this.type) ? this.type : undefined,
+                    webUrl: (this.webUrlChanged && this.webUrl) ? this.webUrl : undefined,
+                    '@odata.type': this._odataType
+                };
+            };
+            return Item;
+        })(Microsoft.CoreServices.Extensions.EntityBase);
+        FileServices.Item = Item;
 
         /// <summary>
         /// There are no comments for File in the schema.
@@ -1237,14 +2151,14 @@ var MS;
                 var deferred = new Microsoft.Utility.Deferred();
 
                 this.context.readUrl(this.path).then((function (data) {
-                    var parsedData = JSON.parse(data), path = parsedData.d['__metadata']['id'];
-                    deferred.resolve(File.parseFile(_this.context, path, parsedData));
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(File.parseFile(_this.context, parsedData['@odata.id'], parsedData));
                 }).bind(this), deferred.reject.bind(deferred));
 
                 return deferred;
             };
-            FileFetcher.prototype.download = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("Download"));
+            FileFetcher.prototype.content = function () {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("content"));
 
                 request.method = 'GET';
 
@@ -1255,49 +2169,26 @@ var MS;
                 return deferred;
             };
 
-            FileFetcher.prototype.copyTo = function (target, overwrite) {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("CopyTo"));
+            FileFetcher.prototype.copy = function (destFolderId, destFolderPath, newName) {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("copy"));
 
                 request.method = 'POST';
-                request.data = JSON.stringify({ "target": target, "overwrite": overwrite });
+                request.data = JSON.stringify({ "destFolderId": destFolderId, "destFolderPath": destFolderPath, "newName": newName });
 
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
+                this.context.request(request).then((function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(File.parseFile(_this.context, parsedData['@odata.id'], parsedData));
+                }).bind(this), deferred.reject.bind(deferred));
 
                 return deferred;
             };
 
-            FileFetcher.prototype.deleteObject = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("DeleteObject"));
+            FileFetcher.prototype.uploadContent = function (contentStream) {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("uploadContent"));
 
                 request.method = 'POST';
-
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-
-            FileFetcher.prototype.moveTo = function (target, overwrite) {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("MoveTo"));
-
-                request.method = 'POST';
-                request.data = JSON.stringify({ "target": target, "overwrite": overwrite });
-
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-
-            FileFetcher.prototype.upload = function (stream) {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("Upload"));
-
-                request.method = 'POST';
-                request.data = stream;
+                request.data = JSON.stringify({ "contentStream": contentStream });
 
                 this.context.request(request).then(function (data) {
                     deferred.resolve(null);
@@ -1306,7 +2197,7 @@ var MS;
                 return deferred;
             };
             return FileFetcher;
-        })(FileSystemItemFetcher);
+        })(ItemFetcher);
         FileServices.FileFetcher = FileFetcher;
 
         /// <summary>
@@ -1316,14 +2207,44 @@ var MS;
             __extends(File, _super);
             function File(context, path, data) {
                 _super.call(this, context, path, data);
-                this._odataType = 'MS.FileServices.File';
+                this._odataType = 'Microsoft.FileServices.File';
+                this._contentUrlChanged = false;
 
                 if (!data) {
                     return;
                 }
+
+                this._contentUrl = data.contentUrl;
             }
-            File.prototype.download = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("Download"));
+            Object.defineProperty(File.prototype, "contentUrl", {
+                /// <summary>
+                /// There are no comments for Property contentUrl in the schema.
+                /// </summary>
+                get: function () {
+                    return this._contentUrl;
+                },
+                set: function (value) {
+                    if (value !== this._contentUrl) {
+                        this._contentUrlChanged = true;
+                        this.changed = true;
+                    }
+                    this._contentUrl = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+
+            Object.defineProperty(File.prototype, "contentUrlChanged", {
+                get: function () {
+                    return this._contentUrlChanged;
+                },
+                enumerable: true,
+                configurable: true
+            });
+
+            File.prototype.content = function () {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("content"));
 
                 request.method = 'GET';
 
@@ -1334,49 +2255,26 @@ var MS;
                 return deferred;
             };
 
-            File.prototype.copyTo = function (target, overwrite) {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("CopyTo"));
+            File.prototype.copy = function (destFolderId, destFolderPath, newName) {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("copy"));
 
                 request.method = 'POST';
-                request.data = JSON.stringify({ "target": target, "overwrite": overwrite });
+                request.data = JSON.stringify({ "destFolderId": destFolderId, "destFolderPath": destFolderPath, "newName": newName });
 
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
+                this.context.request(request).then((function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(File.parseFile(_this.context, parsedData['@odata.id'], parsedData));
+                }).bind(this), deferred.reject.bind(deferred));
 
                 return deferred;
             };
 
-            File.prototype.deleteObject = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("DeleteObject"));
+            File.prototype.uploadContent = function (contentStream) {
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("uploadContent"));
 
                 request.method = 'POST';
-
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-
-            File.prototype.moveTo = function (target, overwrite) {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("MoveTo"));
-
-                request.method = 'POST';
-                request.data = JSON.stringify({ "target": target, "overwrite": overwrite });
-
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-
-            File.prototype.upload = function (stream) {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("Upload"));
-
-                request.method = 'POST';
-                request.data = stream;
+                request.data = JSON.stringify({ "contentStream": contentStream });
 
                 this.context.request(request).then(function (data) {
                     deferred.resolve(null);
@@ -1387,21 +2285,21 @@ var MS;
 
             File.prototype.update = function () {
                 var _this = this;
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
 
                 request.method = 'PATCH';
                 request.data = JSON.stringify(this.getRequestBody());
 
                 this.context.request(request).then(function (data) {
-                    var parsedData = JSON.parse(data), path = parsedData.d['__metadata']['id'];
-                    deferred.resolve(File.parseFile(_this.context, path, parsedData));
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(File.parseFile(_this.context, parsedData['@odata.id'], parsedData));
                 }, deferred.reject.bind(deferred));
 
                 return deferred;
             };
 
             File.prototype.delete = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
 
                 request.method = 'DELETE';
 
@@ -1433,143 +2331,24 @@ var MS;
 
             File.prototype.getRequestBody = function () {
                 return {
-                    CreatedBy: (this.createdByChanged && this.createdBy) ? this.createdBy.getRequestBody() : undefined,
-                    ETag: (this.eTagChanged && this.eTag) ? this.eTag : undefined,
-                    Id: (this.idChanged && this.id) ? this.id : undefined,
-                    LastModifiedBy: (this.lastModifiedByChanged && this.lastModifiedBy) ? this.lastModifiedBy.getRequestBody() : undefined,
-                    Name: (this.nameChanged && this.name) ? this.name : undefined,
-                    Size: (this.sizeChanged && this.size) ? this.size : undefined,
-                    TimeCreated: (this.timeCreatedChanged && this.timeCreated) ? this.timeCreated.toString() : undefined,
-                    TimeLastModified: (this.timeLastModifiedChanged && this.timeLastModified) ? this.timeLastModified.toString() : undefined,
-                    Url: (this.urlChanged && this.url) ? this.url : undefined,
-                    '__metadata': { type: this._odataType }
+                    contentUrl: (this.contentUrlChanged && this.contentUrl) ? this.contentUrl : undefined,
+                    createdBy: (this.createdByChanged && this.createdBy) ? this.createdBy.getRequestBody() : undefined,
+                    eTag: (this.eTagChanged && this.eTag) ? this.eTag : undefined,
+                    id: (this.idChanged && this.id) ? this.id : undefined,
+                    lastModifiedBy: (this.lastModifiedByChanged && this.lastModifiedBy) ? this.lastModifiedBy.getRequestBody() : undefined,
+                    name: (this.nameChanged && this.name) ? this.name : undefined,
+                    parentReference: (this.parentReferenceChanged && this.parentReference) ? this.parentReference.getRequestBody() : undefined,
+                    size: (this.sizeChanged && this.size) ? this.size : undefined,
+                    dateTimeCreated: (this.dateTimeCreatedChanged && this.dateTimeCreated) ? this.dateTimeCreated.toString() : undefined,
+                    dateTimeLastModified: (this.dateTimeLastModifiedChanged && this.dateTimeLastModified) ? this.dateTimeLastModified.toString() : undefined,
+                    type: (this.typeChanged && this.type) ? this.type : undefined,
+                    webUrl: (this.webUrlChanged && this.webUrl) ? this.webUrl : undefined,
+                    '@odata.type': this._odataType
                 };
             };
             return File;
-        })(FileSystemItem);
+        })(Item);
         FileServices.File = File;
-
-        /// <summary>
-        /// There are no comments for FileService in the schema.
-        /// </summary>
-        var FileServiceFetcher = (function (_super) {
-            __extends(FileServiceFetcher, _super);
-            function FileServiceFetcher(context, path) {
-                _super.call(this, context, path);
-            }
-            FileServiceFetcher.prototype.fetch = function () {
-                var _this = this;
-                var deferred = new Microsoft.Utility.Deferred();
-
-                this.context.readUrl(this.path).then((function (data) {
-                    var parsedData = JSON.parse(data), path = parsedData.d['__metadata']['id'];
-                    deferred.resolve(FileService.parseFileService(_this.context, path, parsedData));
-                }).bind(this), deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-            return FileServiceFetcher;
-        })(MS.Extensions.RestShallowObjectFetcher);
-        FileServices.FileServiceFetcher = FileServiceFetcher;
-
-        /// <summary>
-        /// There are no comments for FileService in the schema.
-        /// </summary>
-        var FileService = (function (_super) {
-            __extends(FileService, _super);
-            function FileService(context, path, data) {
-                _super.call(this, context, path);
-                this._odataType = 'MS.FileServices.FileService';
-                this._Id4a81de82eeb94d6080ea5bf63e27023aChanged = false;
-
-                if (!data) {
-                    return;
-                }
-
-                this._Id4a81de82eeb94d6080ea5bf63e27023a = data.Id4a81de82eeb94d6080ea5bf63e27023a;
-            }
-            Object.defineProperty(FileService.prototype, "id4a81de82eeb94d6080ea5bf63e27023a", {
-                /// <summary>
-                /// There are no comments for Property Id4a81de82eeb94d6080ea5bf63e27023a in the schema.
-                /// </summary>
-                get: function () {
-                    return this._Id4a81de82eeb94d6080ea5bf63e27023a;
-                },
-                set: function (value) {
-                    if (value !== this._Id4a81de82eeb94d6080ea5bf63e27023a) {
-                        this._Id4a81de82eeb94d6080ea5bf63e27023aChanged = true;
-                        this.changed = true;
-                    }
-                    this._Id4a81de82eeb94d6080ea5bf63e27023a = value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-
-            Object.defineProperty(FileService.prototype, "id4a81de82eeb94d6080ea5bf63e27023aChanged", {
-                get: function () {
-                    return this._Id4a81de82eeb94d6080ea5bf63e27023aChanged;
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            FileService.prototype.update = function () {
-                var _this = this;
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
-
-                request.method = 'PATCH';
-                request.data = JSON.stringify(this.getRequestBody());
-
-                this.context.request(request).then(function (data) {
-                    var parsedData = JSON.parse(data), path = parsedData.d['__metadata']['id'];
-                    deferred.resolve(FileService.parseFileService(_this.context, path, parsedData));
-                }, deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-
-            FileService.prototype.delete = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
-
-                request.method = 'DELETE';
-
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-
-            FileService.parseFileService = function (context, path, data) {
-                if (!data)
-                    return null;
-
-                return new FileService(context, path, data);
-            };
-
-            FileService.parseFileServices = function (context, pathFn, data) {
-                var results = [];
-
-                if (data) {
-                    for (var i = 0; i < data.length; ++i) {
-                        results.push(FileService.parseFileService(context, pathFn(data[i]), data[i]));
-                    }
-                }
-
-                return results;
-            };
-
-            FileService.prototype.getRequestBody = function () {
-                return {
-                    Id4a81de82eeb94d6080ea5bf63e27023a: (this.id4a81de82eeb94d6080ea5bf63e27023aChanged && this.id4a81de82eeb94d6080ea5bf63e27023a) ? this.id4a81de82eeb94d6080ea5bf63e27023a : undefined,
-                    '__metadata': { type: this._odataType }
-                };
-            };
-            return FileService;
-        })(MS.Extensions.EntityBase);
-        FileServices.FileService = FileService;
 
         /// <summary>
         /// There are no comments for Folder in the schema.
@@ -1580,14 +2359,11 @@ var MS;
                 _super.call(this, context, path);
             }
             Object.defineProperty(FolderFetcher.prototype, "children", {
-                /// <summary>
-                /// There are no comments for Query Property Children in the schema.
-                /// </summary>
                 get: function () {
-                    if (this._Children === undefined) {
-                        this._Children = new FileSystemItems(this.context, this.getPath("Children"));
+                    if (this._children === undefined) {
+                        this._children = new Microsoft.FileServices.Items(this.context, this.getPath('children'));
                     }
-                    return this._Children;
+                    return this._children;
                 },
                 enumerable: true,
                 configurable: true
@@ -1598,26 +2374,29 @@ var MS;
                 var deferred = new Microsoft.Utility.Deferred();
 
                 this.context.readUrl(this.path).then((function (data) {
-                    var parsedData = JSON.parse(data), path = parsedData.d['__metadata']['id'];
-                    deferred.resolve(Folder.parseFolder(_this.context, path, parsedData));
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(Folder.parseFolder(_this.context, parsedData['@odata.id'], parsedData));
                 }).bind(this), deferred.reject.bind(deferred));
 
                 return deferred;
             };
 
-            FolderFetcher.prototype.deleteObject = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("DeleteObject"));
+            FolderFetcher.prototype.copy = function (destFolderId, destFolderPath, newName) {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("copy"));
 
                 request.method = 'POST';
+                request.data = JSON.stringify({ "destFolderId": destFolderId, "destFolderPath": destFolderPath, "newName": newName });
 
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
+                this.context.request(request).then((function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(Folder.parseFolder(_this.context, parsedData['@odata.id'], parsedData));
+                }).bind(this), deferred.reject.bind(deferred));
 
                 return deferred;
             };
             return FolderFetcher;
-        })(FileSystemItemFetcher);
+        })(ItemFetcher);
         FileServices.FolderFetcher = FolderFetcher;
 
         /// <summary>
@@ -1627,85 +2406,85 @@ var MS;
             __extends(Folder, _super);
             function Folder(context, path, data) {
                 _super.call(this, context, path, data);
-                this._odataType = 'MS.FileServices.Folder';
-                this._ChildrenCountChanged = false;
+                this._odataType = 'Microsoft.FileServices.Folder';
+                this._childCountChanged = false;
 
                 if (!data) {
                     return;
                 }
 
-                this._ChildrenCount = data.ChildrenCount;
+                this._childCount = data.childCount;
             }
-            Object.defineProperty(Folder.prototype, "childrenCount", {
+            Object.defineProperty(Folder.prototype, "childCount", {
                 /// <summary>
-                /// There are no comments for Property ChildrenCount in the schema.
+                /// There are no comments for Property childCount in the schema.
                 /// </summary>
                 get: function () {
-                    return this._ChildrenCount;
+                    return this._childCount;
                 },
                 set: function (value) {
-                    if (value !== this._ChildrenCount) {
-                        this._ChildrenCountChanged = true;
+                    if (value !== this._childCount) {
+                        this._childCountChanged = true;
                         this.changed = true;
                     }
-                    this._ChildrenCount = value;
+                    this._childCount = value;
                 },
                 enumerable: true,
                 configurable: true
             });
 
 
-            Object.defineProperty(Folder.prototype, "childrenCountChanged", {
+            Object.defineProperty(Folder.prototype, "childCountChanged", {
                 get: function () {
-                    return this._ChildrenCountChanged;
+                    return this._childCountChanged;
                 },
                 enumerable: true,
                 configurable: true
             });
 
             Object.defineProperty(Folder.prototype, "children", {
-                /// <summary>
-                /// There are no comments for Query Property Children in the schema.
-                /// </summary>
                 get: function () {
-                    if (this._Children === undefined) {
-                        this._Children = new FileSystemItems(this.context, this.getPath("Children"));
+                    if (this._children === undefined) {
+                        this._children = new Microsoft.FileServices.Items(this.context, this.getPath('children'));
                     }
-                    return this._Children;
+                    return this._children;
                 },
                 enumerable: true,
                 configurable: true
             });
 
-            Folder.prototype.deleteObject = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("DeleteObject"));
+            Folder.prototype.copy = function (destFolderId, destFolderPath, newName) {
+                var _this = this;
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("copy"));
 
                 request.method = 'POST';
+                request.data = JSON.stringify({ "destFolderId": destFolderId, "destFolderPath": destFolderPath, "newName": newName });
 
-                this.context.request(request).then(function (data) {
-                    deferred.resolve(null);
-                }, deferred.reject.bind(deferred));
+                this.context.request(request).then((function (data) {
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(Folder.parseFolder(_this.context, parsedData['@odata.id'], parsedData));
+                }).bind(this), deferred.reject.bind(deferred));
 
                 return deferred;
             };
 
             Folder.prototype.update = function () {
                 var _this = this;
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
 
                 request.method = 'PATCH';
                 request.data = JSON.stringify(this.getRequestBody());
 
                 this.context.request(request).then(function (data) {
-                    var parsedData = JSON.parse(data), path = parsedData.d['__metadata']['id'];
-                    deferred.resolve(Folder.parseFolder(_this.context, path, parsedData));
+                    var parsedData = JSON.parse(data);
+                    deferred.resolve(Folder.parseFolder(_this.context, parsedData['@odata.id'], parsedData));
                 }, deferred.reject.bind(deferred));
 
                 return deferred;
             };
 
             Folder.prototype.delete = function () {
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.path);
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.path);
 
                 request.method = 'DELETE';
 
@@ -1737,58 +2516,59 @@ var MS;
 
             Folder.prototype.getRequestBody = function () {
                 return {
-                    ChildrenCount: (this.childrenCountChanged && this.childrenCount) ? this.childrenCount : undefined,
-                    CreatedBy: (this.createdByChanged && this.createdBy) ? this.createdBy.getRequestBody() : undefined,
-                    ETag: (this.eTagChanged && this.eTag) ? this.eTag : undefined,
-                    Id: (this.idChanged && this.id) ? this.id : undefined,
-                    LastModifiedBy: (this.lastModifiedByChanged && this.lastModifiedBy) ? this.lastModifiedBy.getRequestBody() : undefined,
-                    Name: (this.nameChanged && this.name) ? this.name : undefined,
-                    Size: (this.sizeChanged && this.size) ? this.size : undefined,
-                    TimeCreated: (this.timeCreatedChanged && this.timeCreated) ? this.timeCreated.toString() : undefined,
-                    TimeLastModified: (this.timeLastModifiedChanged && this.timeLastModified) ? this.timeLastModified.toString() : undefined,
-                    Url: (this.urlChanged && this.url) ? this.url : undefined,
-                    '__metadata': { type: this._odataType }
+                    childCount: (this.childCountChanged && this.childCount) ? this.childCount : undefined,
+                    createdBy: (this.createdByChanged && this.createdBy) ? this.createdBy.getRequestBody() : undefined,
+                    eTag: (this.eTagChanged && this.eTag) ? this.eTag : undefined,
+                    id: (this.idChanged && this.id) ? this.id : undefined,
+                    lastModifiedBy: (this.lastModifiedByChanged && this.lastModifiedBy) ? this.lastModifiedBy.getRequestBody() : undefined,
+                    name: (this.nameChanged && this.name) ? this.name : undefined,
+                    parentReference: (this.parentReferenceChanged && this.parentReference) ? this.parentReference.getRequestBody() : undefined,
+                    size: (this.sizeChanged && this.size) ? this.size : undefined,
+                    dateTimeCreated: (this.dateTimeCreatedChanged && this.dateTimeCreated) ? this.dateTimeCreated.toString() : undefined,
+                    dateTimeLastModified: (this.dateTimeLastModifiedChanged && this.dateTimeLastModified) ? this.dateTimeLastModified.toString() : undefined,
+                    type: (this.typeChanged && this.type) ? this.type : undefined,
+                    webUrl: (this.webUrlChanged && this.webUrl) ? this.webUrl : undefined,
+                    '@odata.type': this._odataType
                 };
             };
             return Folder;
-        })(FileSystemItem);
+        })(Item);
         FileServices.Folder = Folder;
-        var FileSystemItems = (function (_super) {
-            __extends(FileSystemItems, _super);
-            function FileSystemItems(context, path, entity) {
+        var Items = (function (_super) {
+            __extends(Items, _super);
+            function Items(context, path, entity) {
                 _super.call(this, context, path, entity);
 
                 this._parseCollectionFn = function (context, data) {
                     var pathFn = function (data) {
-                        //return this.context.serviceRootUri + '/fileSystemItems' + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name : "Id", type : "Edm.String", value : data.d.Id }]);
-                        return data['__metadata']['id'];
+                        return data['@odata.id'];
                     };
-                    return FileSystemItem.parseFileSystemItems(context, pathFn, data.d.results);
+                    return Item.parseItems(context, pathFn, data.value);
                 };
             }
-            FileSystemItems.prototype.getFileSystemItem = function (Id) {
-                var path = this.path + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name: "Id", type: "Edm.String", value: Id }]);
-                var fetcher = new FileSystemItemFetcher(this.context, path);
+            Items.prototype.getItem = function (id) {
+                var path = this.path + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name: "id", type: "Edm.String", value: id }]);
+                var fetcher = new ItemFetcher(this.context, path);
                 return fetcher;
             };
 
-            FileSystemItems.prototype.getFileSystemItems = function () {
-                return new MS.Extensions.CollectionQuery(this.context, this.path, this._parseCollectionFn);
+            Items.prototype.getItems = function () {
+                return new Microsoft.CoreServices.Extensions.CollectionQuery(this.context, this.path, this._parseCollectionFn);
             };
 
-            FileSystemItems.prototype.addFileSystemItem = function (item) {
+            Items.prototype.addItem = function (item) {
                 var _this = this;
                 var deferred = new Microsoft.Utility.Deferred();
 
                 if (this.entity == null) {
-                    var request = new MS.Extensions.Request(this.path);
+                    var request = new Microsoft.CoreServices.Extensions.Request(this.path);
 
                     request.method = 'POST';
                     request.data = JSON.stringify(item.getRequestBody());
 
                     this.context.request(request).then((function (data) {
-                        var parsedData = JSON.parse(data), objectPath = parsedData.d['__metadata']['id'];
-                        deferred.resolve(FileSystemItem.parseFileSystemItem(_this.context, objectPath, parsedData.d));
+                        var parsedData = JSON.parse(data);
+                        deferred.resolve(Item.parseItem(_this.context, parsedData['@odata.id'], parsedData));
                     }).bind(this), deferred.reject.bind(deferred));
                 } else {
                     //UNDONE this.context.AddLink(_entity, _path, item);
@@ -1796,62 +2576,44 @@ var MS;
 
                 return deferred;
             };
-            FileSystemItems.prototype.asFiles = function () {
+            Items.prototype.asFiles = function () {
                 var parseCollectionFn = (function (context, data) {
                     var pathFn = function (data) {
-                        //return this.context.serviceRootUri + '/files' + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name : "Id", type : "Edm.String", value : data.Id }]);
-                        return data['__metadata']['id'];
+                        return data['@odata.id'];
                     };
-                    return File.parseFiles(context, pathFn, data.d.results);
+                    return File.parseFiles(context, pathFn, data.value);
                 }).bind(this);
-                return new MS.Extensions.CollectionQuery(this.context, this.path + '/$/MS.FileServices.File()', parseCollectionFn);
+                return new Microsoft.CoreServices.Extensions.CollectionQuery(this.context, this.path + '/$/Microsoft.FileServices.File()', parseCollectionFn);
             };
-            FileSystemItems.prototype.asFolders = function () {
+            Items.prototype.asFolders = function () {
                 var parseCollectionFn = (function (context, data) {
                     var pathFn = function (data) {
-                        //return this.context.serviceRootUri + '/folders' + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name : "Id", type : "Edm.String", value : data.Id }]);
-                        return data['__metadata']['id'];
+                        return data['@odata.id'];
                     };
-                    return Folder.parseFolders(context, pathFn, data.d.results);
+                    return Folder.parseFolders(context, pathFn, data.value);
                 }).bind(this);
-                return new MS.Extensions.CollectionQuery(this.context, this.path + '/$/MS.FileServices.Folder()', parseCollectionFn);
+                return new Microsoft.CoreServices.Extensions.CollectionQuery(this.context, this.path + '/$/Microsoft.FileServices.Folder()', parseCollectionFn);
             };
-            FileSystemItems.prototype.add = function (name, overwrite, content) {
+            Items.prototype.getByPath = function (path) {
                 var _this = this;
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("Add"));
+                var deferred = new Microsoft.Utility.Deferred(), request = new Microsoft.CoreServices.Extensions.Request(this.getPath("getByPath"));
 
                 request.method = 'GET';
 
                 this.context.request(request).then((function (data) {
                     var parsedData = JSON.parse(data);
 
-                    //var path = this.context.serviceRootUri + '/files' + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name : "Id", type : "Edm.String", value : parsedData.d.Id }]);
+                    //var path = this.context.serviceRootUri + '/items' + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name : "id", type : "Edm.String", value : parsedData.d.id }]);
                     var path = data.d['__metadata']['id'];
-                    deferred.resolve(File.parseFile(_this.context, path, parsedData.d));
+                    deferred.resolve(Item.parseItem(_this.context, path, parsedData.d));
                 }).bind(this), deferred.reject.bind(deferred));
 
                 return deferred;
             };
-            FileSystemItems.prototype.getById = function (id) {
-                var _this = this;
-                var deferred = new Microsoft.Utility.Deferred(), request = new MS.Extensions.Request(this.getPath("GetById"));
-
-                request.method = 'GET';
-
-                this.context.request(request).then((function (data) {
-                    var parsedData = JSON.parse(data);
-
-                    //var path = this.context.serviceRootUri + '/fileSystemItems' + Microsoft.Utility.EncodingHelpers.getKeyExpression([{ name : "Id", type : "Edm.String", value : parsedData.d.Id }]);
-                    var path = data.d['__metadata']['id'];
-                    deferred.resolve(FileSystemItem.parseFileSystemItem(_this.context, path, parsedData.d));
-                }).bind(this), deferred.reject.bind(deferred));
-
-                return deferred;
-            };
-            return FileSystemItems;
-        })(MS.Extensions.QueryableSet);
-        FileServices.FileSystemItems = FileSystemItems;
-    })(MS.FileServices || (MS.FileServices = {}));
-    var FileServices = MS.FileServices;
-})(MS || (MS = {}));
+            return Items;
+        })(Microsoft.CoreServices.Extensions.QueryableSet);
+        FileServices.Items = Items;
+    })(Microsoft.FileServices || (Microsoft.FileServices = {}));
+    var FileServices = Microsoft.FileServices;
+})(Microsoft || (Microsoft = {}));
 //# sourceMappingURL=sharepoint.js.map

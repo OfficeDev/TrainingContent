@@ -51,20 +51,13 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 		  <script src="scripts/index.js"></script>
 		</body>
 		</html>
-11. Add a script link for the jQuery library in between the script links for **platformOverrides.js** and **index.js**.
-
-		<!-- Cordova reference, this is added to your app when it's built. -->
-		<script src="cordova.js"></script>
-		<script src="scripts/platformOverrides.js"></script>
-		<script src="scripts/jquery-2.1.1.js"></script>
-		<script src="scripts/index.js"></script>
-12. Directly under the **&lt;body&gt;** begin tag, remove the **&lt;p&gt;** element with the text **Hello, your application is ready!** and replace it with the following HTML. 
+11. Directly under the **&lt;body&gt;** begin tag, remove the **&lt;p&gt;** element with the text **Hello, your application is ready!** and replace it with the following HTML. 
 		
 		<h2>My Cordova App</h2>
-		<button type="button" id="cmdGetContacts">Get Contacts</button>
+		<button type="button" id="btnGetContacts">Get Contacts</button>
 		
 		<div id="status"></div> 
-13. When you are done, the contents of **index.html** should match the following code listing.
+12. When you are done, the contents of **index.html** should match the following code listing.
 		
 		<!DOCTYPE html>
 		<html>
@@ -78,7 +71,7 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 		<body>
 		
 		  <h2>My Cordova App</h2>
-		  <button type="button" id="cmdGetContacts">Get Contacts</button>
+		  <button type="button" id="btnGetContacts">Get Contacts</button>
 		
 		  <div id="status"></div>
 		
@@ -89,7 +82,7 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 		  <script src="scripts/index.js"></script>
 		</body>
 		</html>
-14. Open **index.js** in a code editor window and update its content to match the following code listing. This code will register an event handler to execute on the **click** event of the button with the id of **cmdGetContacts**. When this button is clicked, the event handler named **onGetContacts** will add a "hello world" message into the **&lt;div&gt;** element with the id of **status**.
+13. Open **index.js** in a code editor window and update its content to match the following code listing. This code will register an event handler to execute on the **click** event of the button with the id of **btnGetContacts**. When this button is clicked, the event handler named **onGetContacts** will add a "hello world" message into the **&lt;div&gt;** element with the id of **status**.
 		
 		(function () {
 		  "use strict";
@@ -98,25 +91,25 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 		
 		  function onDeviceReady() {
 		    // app start up code goes here
-		    $("#cmdGetContacts").click(onGetContacts);
+		    $("#btnGetContacts").click(onGetContacts);
 		  };
 		
 		  function onGetContacts() {
 		    $("#status").text("Hello World!");
-		  }
+		  };
 		
 		})();
-15. Now it's time to test out the app in the Visual Studio debugger. However, you must think about what target platform you'd like to use. Begin by selected **Android** in the **Solutions Platform** drop down and then selecting **Ripple - Nexus (Galaxy)** as the selected Android emulator.    
+14. Now it's time to test out the app in the Visual Studio debugger. However, you must think about what target platform you'd like to use. Begin by selected **Android** in the **Solutions Platform** drop down and then selecting **Ripple - Nexus (Galaxy)** as the selected Android emulator.    
 ![](Images/Fig07.png)
-16. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
-17. Click the **Get Contacts** button and make sure you see the "hello world" message.
+15. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
+16. Click the **Get Contacts** button and make sure you see the "hello world" message.
 ![](Images/Fig08.png)  
-18. After you have played with the app in the Ripple emulator, close the Chrome browser. Return to Visual Studio and terminate the debugging session.
-19. Now try debugging with a Windows Phone emulator. Select **Windows Phone** in the Platform Solutions drop down and select **Emulator WGVA** in the emulator drop down.
+17. After you have played with the app in the Ripple emulator, close the Chrome browser. Return to Visual Studio and terminate the debugging session.
+18. Now try debugging with a Windows Phone emulator. Select **Windows Phone** in the Platform Solutions drop down and select **Emulator WGVA** in the emulator drop down.
 ![](Images/Fig09.png)
-20. Press **{F5}** to start a debugging session with the Windows Phone emulator. after a bit, you should be able to see the app running in Windows Phone emulator.  
+19. Press **{F5}** to start a debugging session with the Windows Phone emulator. after a bit, you should be able to see the app running in Windows Phone emulator.  
 ![](Images/Fig10.png)
-21. After you have tested the app, terminate the debugging session and return to Visual Studio.
+20. After you have tested the app, terminate the debugging session and return to Visual Studio.
 
 
 ## Exercise 2: Adding a Connected Service to a Cordova App
@@ -132,31 +125,35 @@ In this exercise, you will add a Connected Service to the project in order to pr
 5. Check both check boxes and then click **Apply**.  
 ![](Images/Fig13.png)
 6. Click **OK** to save your changes and dismiss the **Services Manager** dialog.
-7. Take a moment to see what effect adding the Connected Service has had on your project. Begin by looking the the JavaScript library files such as **o365adal.js**, **o365discovery.js** and **exchange.js** that have been added to your project at the path of **services/office365/scripts**.  
+7. Take a moment to see what effect adding the Connected Service has had on your project. Begin by looking the the JavaScript library files such as **o365auth.js**, **o365discovery.js** and **exchange.js** that have been added to your project at the path of **services/office365/scripts**.  
 ![](Images/Fig14.png)  
 8. Locate the file named **settings.js** which is located in the folder at the path of **services/office365/settings**.
-9. Open **settings.js** and examine what's inside. As you can see that are values specific to your application as well as code which automatically adds links to other Office 365 API library files such as **o365adal.js**, **o365discovery.js** and **exchange.js**.  
-		
+9. Open **settings.js** and examine what's inside. As you can see that are values specific to your application. This script file will need to be referenced in the index.html page.  
+			
 		var O365Auth;
 		(function (O365Auth) {
 		    (function (Settings) {
-		        Settings.clientId = '295a3096-7931-4f4d-8bd1-dbfe73a7e65d';
+		        Settings.clientId = '534990cf-099e-447e-aab9-6888fca3b2ba';
 		        Settings.authUri = 'https://login.windows.net/common/';
 		        Settings.redirectUri = 'http://localhost:4400/services/office365/redirectTarget.html';
 		    })(O365Auth.Settings || (O365Auth.Settings = {}));
 		    var Settings = O365Auth.Settings;
 		})(O365Auth || (O365Auth = {}));
-		
+
+
+10. Now open **o365loader.js** located at the path of **services/office365/scripts**. This script file dynamically adds reference to all the other Office 365 API scripts, and thus cleaner in app pages (one script reference instead of 8).
+
 		var O365Libraries = [
+		    'services/office365/settings/settings.js',
 		    'services/office365/scripts/InAppBrowserOverride.js',
 		    'services/office365/scripts/utility.js',
-		    'services/office365/scripts/o365adal.js',
+		    'services/office365/scripts/o365auth.js',
 		    'services/office365/scripts/o365discovery.js',
 		    'services/office365/scripts/aadgraph.js',
 		    'services/office365/scripts/exchange.js',
 		    'services/office365/scripts/sharepoint.js'
 		];
-		
+
 		O365Libraries.forEach(function (path, index, array) {
 		    var scriptTag = document.createElement('script');
 		    scriptTag.setAttribute('src', path);
@@ -164,12 +161,13 @@ In this exercise, you will add a Connected Service to the project in order to pr
 		});
 
 
-10. Open **Index.html** and add a script link to **settings.js** just before the script link to **index.js**.
+11. Open **Index.html** and add a script link to  both **settings.js** and **o365loader.js** just before the script link to **index.js**.
 		
 		<script src="cordova.js"></script>
 		<script src="scripts/platformOverrides.js"></script>
 		<script src="scripts/jquery-2.1.1.js"></script>
 		<script src="services/office365/settings/settings.js"></script>
+		<script src="services/office365/scripts/o365loader.js"></script>
 		<script src="scripts/index.js"></script>
 11. You have now added support for programming your app against the Office 365 APIs which you will begin the the next exercise.
 
@@ -179,23 +177,29 @@ In this exercise, you will make use of the Connected Service you added in the pr
 1. Open **index.js** and update the **onGetContacts** function to match the following code listing.
 		
 		function onGetContacts() {
-		  var authContext = new O365Auth.Context();
-		  authContext.getIdToken("https://outlook.office365.com/").then(function(token) {
-		    var accessTokenFn= token.getAccessTokenFn('https://outlook.office365.com');
-		    var client = new Exchange.Client('https://outlook.office365.com/ews/odata', accessTokenFn);
-		    client.me.contacts.getContacts().fetch().then(onContactsReceived);
-		  })
-		}
+		    //authenticate to Office 365
+		    var authContext = new O365Auth.Context();
+		    authContext.getIdToken('https://outlook.office365.com/').then(function (token) {
+		        //get access token for exchange
+		        var accessTokenFn = token.getAccessTokenFn('https://outlook.office365.com');
+		
+		        //create exchange client and query contacts
+		        var client = new Microsoft.OutlookServices.Client('https://outlook.office365.com/ews/odata', accessTokenFn);
+		        client.me.contacts.getContacts().fetch().then(onContactsReceived);
+		    });
+		};
 2. Create a new function named **onContactsReceived** directly after **onGetContacts**. Implement this method to match the following code listing.
 		
 		function onContactsReceived(contacts) {
-		  for (var i = 0; i < contacts.currentPage.length; i++) {
-		    var currentContact = contacts.currentPage[i];
-		    var currentContactName = currentContact.surname + ", " + currentContact.givenName;
-		    var contactDiv = $("<div>").text(currentContactName);
-		    $("#status").append(contactDiv);
-		  }
-		}
+		    for (var i = 0; i < contacts.currentPage.length; i++) {
+		        var currentContact = contacts.currentPage[i];
+		        var currentContactName =
+		            currentContact.surname + ', ' + currentContact.givenName;
+		        var contactDiv = $('<div>').text(currentContactName);
+		        $('#status').append(contactDiv);
+		        $('#btnGetContacts').hide();
+		    }
+		};
 3. Now begin a debugging session using Windows Phone. Press the **{F5}** key to begin a debugging session.
 4. After the app has started, press the **Get Contacts** button. You should then see a prompt to Sing In. Sign into Office 365 using your organizational account.    
 ![](Images/Fig15.png)  

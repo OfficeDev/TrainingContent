@@ -1,4 +1,4 @@
-﻿declare module Microsoft.Utility {
+declare module Microsoft.Utility {
     module EncodingHelpers {
         interface Literal {
             value: any;
