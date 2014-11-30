@@ -167,19 +167,16 @@
     <Content Include="scripts\jquery-2.1.1.min.map" />
     <Content Include="scripts\jquery-ui-1.11.1.js" />
     <Content Include="scripts\jquery-ui.min-1.11.1.js" />
-    <Content Include="services\office365\Office365API_Readme.txt">
-      <ConnectedServiceReference>Calendar</ConnectedServiceReference>
-    </Content>
     <Content Include="services\office365\redirectTarget.html">
       <ConnectedServiceReference>Calendar</ConnectedServiceReference>
     </Content>
-    <Content Include="services\office365\scripts\aadgraph.js" />
     <Content Include="services\office365\scripts\exchange.js" />
     <Content Include="services\office365\scripts\InAppBrowserOverride.js">
       <ConnectedServiceReference>Calendar</ConnectedServiceReference>
     </Content>
-    <Content Include="services\office365\scripts\o365adal.js" />
+    <Content Include="services\office365\scripts\o365auth.js" />
     <Content Include="services\office365\scripts\o365discovery.js" />
+    <Content Include="services\office365\scripts\o365loader.js" />
     <Content Include="services\office365\scripts\sharepoint.js" />
     <Content Include="services\office365\scripts\utility.js" />
     <Content Include="services\office365\settings\settings.js" />
@@ -249,9 +246,8 @@
     <Content Include="res\screens\wp8\screen-portrait.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="services\office365\scripts\typings\aadgraph.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\exchange.d.ts" />
-    <TypeScriptCompile Include="services\office365\scripts\typings\o365adal.d.ts" />
+    <TypeScriptCompile Include="services\office365\scripts\typings\o365auth.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\o365discovery.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\sharepoint.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\utility.d.ts" />

@@ -101,19 +101,16 @@
     <Content Include="merges\windows8\services\office365\scripts\InAppBrowserOverride.js">
       <ConnectedServiceReference>Sites</ConnectedServiceReference>
     </Content>
-    <Content Include="services\office365\Office365API_Readme.txt">
-      <ConnectedServiceReference>Sites</ConnectedServiceReference>
-    </Content>
     <Content Include="services\office365\redirectTarget.html">
       <ConnectedServiceReference>Sites</ConnectedServiceReference>
     </Content>
-    <Content Include="services\office365\scripts\aadgraph.js" />
     <Content Include="services\office365\scripts\exchange.js" />
     <Content Include="services\office365\scripts\InAppBrowserOverride.js">
       <ConnectedServiceReference>Sites</ConnectedServiceReference>
     </Content>
-    <Content Include="services\office365\scripts\o365adal.js" />
+    <Content Include="services\office365\scripts\o365auth.js" />
     <Content Include="services\office365\scripts\o365discovery.js" />
+    <Content Include="services\office365\scripts\o365loader.js" />
     <Content Include="services\office365\scripts\sharepoint.js" />
     <Content Include="services\office365\scripts\utility.js" />
     <Content Include="services\office365\settings\settings.js" />

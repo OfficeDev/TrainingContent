@@ -2,25 +2,9 @@
 var O365Auth;
 (function (O365Auth) {
     (function (Settings) {
-        Settings.clientId = '295a3096-7931-4f4d-8bd1-dbfe73a7e65d';
+        Settings.clientId = '534990cf-099e-447e-aab9-6888fca3b2ba';
         Settings.authUri = 'https://login.windows.net/common/';
         Settings.redirectUri = 'http://localhost:4400/services/office365/redirectTarget.html';
     })(O365Auth.Settings || (O365Auth.Settings = {}));
     var Settings = O365Auth.Settings;
 })(O365Auth || (O365Auth = {}));
-
-var O365Libraries = [
-    'services/office365/scripts/InAppBrowserOverride.js',
-    'services/office365/scripts/utility.js',
-    'services/office365/scripts/o365adal.js',
-    'services/office365/scripts/o365discovery.js',
-    'services/office365/scripts/aadgraph.js',
-    'services/office365/scripts/exchange.js',
-    'services/office365/scripts/sharepoint.js'
-];
-
-O365Libraries.forEach(function (path, index, array) {
-    var scriptTag = document.createElement('script');
-    scriptTag.setAttribute('src', path);
-    document.head.appendChild(scriptTag).parentNode.removeChild(scriptTag);
-});

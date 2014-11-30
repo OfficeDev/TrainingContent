@@ -1,5 +1,7 @@
 ﻿declare module O365Auth.Settings {
-    var clientId: string;
-    var authUri: string;
-    var redirectUri: string;
+    export var authUri;
+    export var redirectUri;
+    export var clientId;
 }
+
+ 
