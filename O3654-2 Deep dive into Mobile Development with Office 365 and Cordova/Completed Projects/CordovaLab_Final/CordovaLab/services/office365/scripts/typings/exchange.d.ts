@@ -1,4 +1,4 @@
-﻿declare module Exchange.Extensions {
+﻿declare module Microsoft.OutlookServices.Extensions {
     interface Observable {
         changed: boolean;
         addChangedListener(eventFn: (changed: any) => void): any;
@@ -94,15 +94,15 @@
         private _noCache;
         private _disableCache;
         private _disableCacheOverride;
-        constructor(serviceRootUri: string, extraQueryParameters?: string, getAccessTokenFn?: () => Microsoft.Utility.IPromise<string>);
+        constructor(serviceRootUri: string, extraQueryParameters?: string, getAccessTokenFn?: () => Utility.IPromise<string>);
         public serviceRootUri : string;
         public extraQueryParameters : string;
         public disableCache : boolean;
         public disableCacheOverride : boolean;
         private ajax(request);
-        public read(path: string): Microsoft.Utility.IPromise<string>;
-        public readUrl(url: string): Microsoft.Utility.IPromise<string>;
-        public request(request: Request): Microsoft.Utility.IPromise<string>;
+        public read(path: string): Utility.IPromise<string>;
+        public readUrl(url: string): Utility.IPromise<string>;
+        public request(request: Request): Utility.IPromise<string>;
         private augmentRequest(request);
     }
     class PagedCollection<T> {
@@ -114,7 +114,7 @@
         public path : string;
         public context : DataContext;
         public currentPage : T[];
-        public getNextPage(): Microsoft.Utility.IPromise<PagedCollection<T>>;
+        public getNextPage(): Utility.IPromise<PagedCollection<T>>;
     }
     class CollectionQuery<T> {
         private _path;
@@ -132,8 +132,8 @@
         public skip(skip: number): CollectionQuery<T>;
         public addQuery(query: string): CollectionQuery<T>;
         public query : string;
-        public fetch(): Microsoft.Utility.IPromise<PagedCollection<T>>;
-        public fetchAll(maxItems: number): Microsoft.Utility.IPromise<T[]>;
+        public fetch(): Utility.IPromise<PagedCollection<T>>;
+        public fetchAll(maxItems: number): Utility.IPromise<T[]>;
     }
     class QueryableSet<T> {
         private _context;
@@ -166,26 +166,27 @@
     }
     function isUndefined(v: any): boolean;
 }
-declare module Exchange {
+declare module Microsoft.OutlookServices {
     class Client {
         private _context;
         public context : Extensions.DataContext;
         private getPath(prop);
-        constructor(serviceRootUri: string, getAccessTokenFn: () => Microsoft.Utility.IPromise<string>);
+        constructor(serviceRootUri: string, getAccessTokenFn: () => Utility.IPromise<string>);
         public users : Users;
         private _Users;
+        public addToUsers(user: User): void;
         public me : UserFetcher;
         private _Me;
     }
-    interface IRecipients {
-        value: IRecipient[];
+    interface IEmailAddresses {
+        value: IEmailAddress[];
     }
-    interface IRecipient {
+    interface IEmailAddress {
         Name: string;
         Address: string;
     }
-    class Recipient extends Extensions.ComplexTypeBase {
-        constructor(data?: IRecipient);
+    class EmailAddress extends Extensions.ComplexTypeBase {
+        constructor(data?: IEmailAddress);
         public _odataType: string;
         public name : string;
         private _Name;
@@ -195,6 +196,24 @@ declare module Exchange {
         private _Address;
         public addressChanged : boolean;
         private _AddressChanged;
+        static parseEmailAddress(data: IEmailAddress): EmailAddress;
+        static parseEmailAddresses(data: IEmailAddress[]): Extensions.ObservableCollection<EmailAddress>;
+        public getRequestBody(): IEmailAddress;
+    }
+    interface IRecipients {
+        value: IRecipient[];
+    }
+    interface IRecipient {
+        EmailAddress: IEmailAddress;
+    }
+    class Recipient extends Extensions.ComplexTypeBase {
+        constructor(data?: IRecipient);
+        public _odataType: string;
+        public emailAddress : EmailAddress;
+        private _EmailAddress;
+        public emailAddressChanged : boolean;
+        private _EmailAddressChanged;
+        private _EmailAddressChangedListener;
         static parseRecipient(data: IRecipient): Recipient;
         static parseRecipients(data: IRecipient[]): Extensions.ObservableCollection<Recipient>;
         public getRequestBody(): IRecipient;
@@ -264,11 +283,11 @@ declare module Exchange {
     interface IResponseStatuses {
         value: IResponseStatus[];
     }
-    interface IResponseStatus extends IRecipient {
+    interface IResponseStatus {
         Response: string;
         Time: string;
     }
-    class ResponseStatus extends Recipient {
+    class ResponseStatus extends Extensions.ComplexTypeBase {
         constructor(data?: IResponseStatus);
         public _odataType: string;
         public response : ResponseType;
@@ -283,6 +302,43 @@ declare module Exchange {
         static parseResponseStatuses(data: IResponseStatus[]): Extensions.ObservableCollection<ResponseStatus>;
         public getRequestBody(): IResponseStatus;
     }
+    interface IPhysicalAddresses {
+        value: IPhysicalAddress[];
+    }
+    interface IPhysicalAddress {
+        Street: string;
+        City: string;
+        State: string;
+        CountryOrRegion: string;
+        PostalCode: string;
+    }
+    class PhysicalAddress extends Extensions.ComplexTypeBase {
+        constructor(data?: IPhysicalAddress);
+        public _odataType: string;
+        public street : string;
+        private _Street;
+        public streetChanged : boolean;
+        private _StreetChanged;
+        public city : string;
+        private _City;
+        public cityChanged : boolean;
+        private _CityChanged;
+        public state : string;
+        private _State;
+        public stateChanged : boolean;
+        private _StateChanged;
+        public countryOrRegion : string;
+        private _CountryOrRegion;
+        public countryOrRegionChanged : boolean;
+        private _CountryOrRegionChanged;
+        public postalCode : string;
+        private _PostalCode;
+        public postalCodeChanged : boolean;
+        private _PostalCodeChanged;
+        static parsePhysicalAddress(data: IPhysicalAddress): PhysicalAddress;
+        static parsePhysicalAddresses(data: IPhysicalAddress[]): Extensions.ObservableCollection<PhysicalAddress>;
+        public getRequestBody(): IPhysicalAddress;
+    }
     interface IRecurrencePatterns {
         value: IRecurrencePattern[];
     }
@@ -291,7 +347,7 @@ declare module Exchange {
         Interval: number;
         DayOfMonth: number;
         Month: number;
-        DaysOfWeek: System.DayOfWeek[];
+        DaysOfWeek: DayOfWeek[];
         FirstDayOfWeek: string;
         Index: string;
     }
@@ -314,11 +370,11 @@ declare module Exchange {
         private _Month;
         public monthChanged : boolean;
         private _MonthChanged;
-        public daysOfWeek : System.DayOfWeek[];
+        public daysOfWeek : DayOfWeek[];
         private _DaysOfWeek;
         public daysOfWeekChanged : boolean;
         private _DaysOfWeekChanged;
-        public firstDayOfWeek : System.DayOfWeek;
+        public firstDayOfWeek : DayOfWeek;
         private _FirstDayOfWeek;
         public firstDayOfWeekChanged : boolean;
         private _FirstDayOfWeekChanged;
@@ -402,8 +458,8 @@ declare module Exchange {
         private _Id;
         public idChanged : boolean;
         private _IdChanged;
-        public update(): Microsoft.Utility.IPromise<Entity>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public update(): Utility.IPromise<Entity>;
+        public delete(): Utility.IPromise<void>;
         static parseEntity(context: Extensions.DataContext, path: string, data: IEntity): Entity;
         static parseEntities(context: Extensions.DataContext, pathFn: (data: IEntity) => string, data: IEntity[]): Entity[];
         public getRequestBody(): IEntity;
@@ -415,34 +471,25 @@ declare module Exchange {
         public messages : Messages;
         private _Messages;
         public rootFolder : FolderFetcher;
-        public update_rootFolder(value: Folder): Microsoft.Utility.IPromise<void>;
+        public update_rootFolder(value: Folder): Utility.IPromise<void>;
         private _RootFolder;
-        public inbox : FolderFetcher;
-        public update_inbox(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _Inbox;
-        public drafts : FolderFetcher;
-        public update_drafts(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _Drafts;
-        public sentItems : FolderFetcher;
-        public update_sentItems(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _SentItems;
-        public deletedItems : FolderFetcher;
-        public update_deletedItems(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _DeletedItems;
         public calendars : Calendars;
         private _Calendars;
         public calendar : CalendarFetcher;
-        public update_calendar(value: Calendar): Microsoft.Utility.IPromise<void>;
+        public update_calendar(value: Calendar): Utility.IPromise<void>;
         private _Calendar;
         public calendarGroups : CalendarGroups;
         private _CalendarGroups;
         public events : Events;
         private _Events;
+        public calendarView : Events;
+        private _CalendarView;
         public contacts : Contacts;
         private _Contacts;
         public contactFolders : ContactFolders;
         private _ContactFolders;
-        public fetch(): Microsoft.Utility.IPromise<User>;
+        public fetch(): Utility.IPromise<User>;
+        public sendMail(Message: IMessage, SaveToSentItems: boolean): Utility.IPromise<void>;
     }
     interface IUsers {
         value: IUser[];
@@ -472,35 +519,26 @@ declare module Exchange {
         public messages : Messages;
         private _Messages;
         public rootFolder : FolderFetcher;
-        public update_rootFolder(value: Folder): Microsoft.Utility.IPromise<void>;
+        public update_rootFolder(value: Folder): Utility.IPromise<void>;
         private _RootFolder;
-        public inbox : FolderFetcher;
-        public update_inbox(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _Inbox;
-        public drafts : FolderFetcher;
-        public update_drafts(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _Drafts;
-        public sentItems : FolderFetcher;
-        public update_sentItems(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _SentItems;
-        public deletedItems : FolderFetcher;
-        public update_deletedItems(value: Folder): Microsoft.Utility.IPromise<void>;
-        private _DeletedItems;
         public calendars : Calendars;
         private _Calendars;
         public calendar : CalendarFetcher;
-        public update_calendar(value: Calendar): Microsoft.Utility.IPromise<void>;
+        public update_calendar(value: Calendar): Utility.IPromise<void>;
         private _Calendar;
         public calendarGroups : CalendarGroups;
         private _CalendarGroups;
         public events : Events;
         private _Events;
+        public calendarView : Events;
+        private _CalendarView;
         public contacts : Contacts;
         private _Contacts;
         public contactFolders : ContactFolders;
         private _ContactFolders;
-        public update(): Microsoft.Utility.IPromise<User>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public sendMail(Message: IMessage, SaveToSentItems: boolean): Utility.IPromise<void>;
+        public update(): Utility.IPromise<User>;
+        public delete(): Utility.IPromise<void>;
         static parseUser(context: Extensions.DataContext, path: string, data: IUser): User;
         static parseUsers(context: Extensions.DataContext, pathFn: (data: IUser) => string, data: IUser[]): User[];
         public getRequestBody(): IUser;
@@ -511,9 +549,9 @@ declare module Exchange {
         private _ChildFolders;
         public messages : Messages;
         private _Messages;
-        public fetch(): Microsoft.Utility.IPromise<Folder>;
-        public copy(DestinationId: string): Microsoft.Utility.IPromise<Folder>;
-        public move(DestinationId: string): Microsoft.Utility.IPromise<Folder>;
+        public fetch(): Utility.IPromise<Folder>;
+        public copy(DestinationId: string): Utility.IPromise<Folder>;
+        public move(DestinationId: string): Utility.IPromise<Folder>;
     }
     interface IFolders {
         value: IFolder[];
@@ -521,10 +559,7 @@ declare module Exchange {
     interface IFolder extends IEntity {
         ParentFolderId: string;
         DisplayName: string;
-        ClassName: string;
-        TotalCount: number;
         ChildFolderCount: number;
-        UnreadItemCount: number;
     }
     class Folder extends Entity {
         constructor(context?: Extensions.DataContext, path?: string, data?: IFolder);
@@ -537,51 +572,33 @@ declare module Exchange {
         private _DisplayName;
         public displayNameChanged : boolean;
         private _DisplayNameChanged;
-        public className : string;
-        private _ClassName;
-        public classNameChanged : boolean;
-        private _ClassNameChanged;
-        public totalCount : number;
-        private _TotalCount;
-        public totalCountChanged : boolean;
-        private _TotalCountChanged;
         public childFolderCount : number;
         private _ChildFolderCount;
         public childFolderCountChanged : boolean;
         private _ChildFolderCountChanged;
-        public unreadItemCount : number;
-        private _UnreadItemCount;
-        public unreadItemCountChanged : boolean;
-        private _UnreadItemCountChanged;
         public childFolders : Folders;
         private _ChildFolders;
         public messages : Messages;
         private _Messages;
-        public copy(DestinationId: string): Microsoft.Utility.IPromise<Folder>;
-        public move(DestinationId: string): Microsoft.Utility.IPromise<Folder>;
-        public update(): Microsoft.Utility.IPromise<Folder>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public copy(DestinationId: string): Utility.IPromise<Folder>;
+        public move(DestinationId: string): Utility.IPromise<Folder>;
+        public update(): Utility.IPromise<Folder>;
+        public delete(): Utility.IPromise<void>;
         static parseFolder(context: Extensions.DataContext, path: string, data: IFolder): Folder;
         static parseFolders(context: Extensions.DataContext, pathFn: (data: IFolder) => string, data: IFolder[]): Folder[];
         public getRequestBody(): IFolder;
     }
     class ItemFetcher extends EntityFetcher {
         constructor(context: Extensions.DataContext, path: string);
-        public attachments : Attachments;
-        private _Attachments;
     }
     interface IItems {
         value: IItem[];
     }
     interface IItem extends IEntity {
         ChangeKey: string;
-        ClassName: string;
-        Subject: string;
-        Body: IItemBody;
-        BodyPreview: string;
-        Importance: string;
         Categories: string[];
-        HasAttachments: boolean;
+        DateTimeCreated: string;
+        DateTimeLastModified: string;
     }
     class Item extends Entity {
         constructor(context?: Extensions.DataContext, path?: string, data?: IItem);
@@ -590,10 +607,67 @@ declare module Exchange {
         private _ChangeKey;
         public changeKeyChanged : boolean;
         private _ChangeKeyChanged;
-        public className : string;
-        private _ClassName;
-        public classNameChanged : boolean;
-        private _ClassNameChanged;
+        public categories : string[];
+        private _Categories;
+        public categoriesChanged : boolean;
+        private _CategoriesChanged;
+        public dateTimeCreated : Date;
+        private _DateTimeCreated;
+        public dateTimeCreatedChanged : boolean;
+        private _DateTimeCreatedChanged;
+        public dateTimeLastModified : Date;
+        private _DateTimeLastModified;
+        public dateTimeLastModifiedChanged : boolean;
+        private _DateTimeLastModifiedChanged;
+        public update(): Utility.IPromise<Item>;
+        public delete(): Utility.IPromise<void>;
+        static parseItem(context: Extensions.DataContext, path: string, data: IItem): Item;
+        static parseItems(context: Extensions.DataContext, pathFn: (data: IItem) => string, data: IItem[]): Item[];
+        public getRequestBody(): IItem;
+    }
+    class MessageFetcher extends ItemFetcher {
+        constructor(context: Extensions.DataContext, path: string);
+        public attachments : Attachments;
+        private _Attachments;
+        public fetch(): Utility.IPromise<Message>;
+        public copy(DestinationId: string): Utility.IPromise<Message>;
+        public move(DestinationId: string): Utility.IPromise<Message>;
+        public createReply(): Utility.IPromise<Message>;
+        public createReplyAll(): Utility.IPromise<Message>;
+        public createForward(): Utility.IPromise<Message>;
+        public reply(Comment: string): Utility.IPromise<void>;
+        public replyAll(Comment: string): Utility.IPromise<void>;
+        public forward(Comment: string, ToRecipients: Recipient[]): Utility.IPromise<void>;
+        public send(): Utility.IPromise<void>;
+    }
+    interface IMessages {
+        value: IMessage[];
+    }
+    interface IMessage extends IItem {
+        Subject: string;
+        Body: IItemBody;
+        BodyPreview: string;
+        Importance: string;
+        HasAttachments: boolean;
+        ParentFolderId: string;
+        From: IRecipient;
+        Sender: IRecipient;
+        ToRecipients: IRecipient[];
+        CcRecipients: IRecipient[];
+        BccRecipients: IRecipient[];
+        ReplyTo: IRecipient[];
+        ConversationId: string;
+        UniqueBody: IItemBody;
+        DateTimeReceived: string;
+        DateTimeSent: string;
+        IsDeliveryReceiptRequested: boolean;
+        IsReadReceiptRequested: boolean;
+        IsDraft: boolean;
+        IsRead: boolean;
+    }
+    class Message extends Item {
+        constructor(context?: Extensions.DataContext, path?: string, data?: IMessage);
+        public _odataType: string;
         public subject : string;
         private _Subject;
         public subjectChanged : boolean;
@@ -611,62 +685,10 @@ declare module Exchange {
         private _Importance;
         public importanceChanged : boolean;
         private _ImportanceChanged;
-        public categories : string[];
-        private _Categories;
-        public categoriesChanged : boolean;
-        private _CategoriesChanged;
         public hasAttachments : boolean;
         private _HasAttachments;
         public hasAttachmentsChanged : boolean;
         private _HasAttachmentsChanged;
-        public attachments : Attachments;
-        private _Attachments;
-        public update(): Microsoft.Utility.IPromise<Item>;
-        public delete(): Microsoft.Utility.IPromise<void>;
-        static parseItem(context: Extensions.DataContext, path: string, data: IItem): Item;
-        static parseItems(context: Extensions.DataContext, pathFn: (data: IItem) => string, data: IItem[]): Item[];
-        public getRequestBody(): IItem;
-    }
-    class MessageFetcher extends ItemFetcher {
-        constructor(context: Extensions.DataContext, path: string);
-        public fetch(): Microsoft.Utility.IPromise<Message>;
-        public copy(DestinationId: string): Microsoft.Utility.IPromise<Message>;
-        public move(DestinationId: string): Microsoft.Utility.IPromise<Message>;
-        public createReply(): Microsoft.Utility.IPromise<Message>;
-        public createReplyAll(): Microsoft.Utility.IPromise<Message>;
-        public createForward(): Microsoft.Utility.IPromise<Message>;
-        public reply(Comment: string): Microsoft.Utility.IPromise<void>;
-        public replyAll(Comment: string): Microsoft.Utility.IPromise<void>;
-        public forward(Comment: string, ToRecipients: Recipient[]): Microsoft.Utility.IPromise<void>;
-        public send(): Microsoft.Utility.IPromise<void>;
-    }
-    interface IMessages {
-        value: IMessage[];
-    }
-    interface IMessage extends IItem {
-        ParentFolderId: string;
-        From: IRecipient;
-        Sender: IRecipient;
-        ToRecipients: IRecipient[];
-        CcRecipients: IRecipient[];
-        BccRecipients: IRecipient[];
-        ReplyTo: IRecipient[];
-        ConversationId: string;
-        UniqueBody: IItemBody;
-        DateTimeReceived: string;
-        DateTimeSent: string;
-        IsDeliveryReceiptRequested: boolean;
-        IsReadReceiptRequested: boolean;
-        IsDraft: boolean;
-        IsRead: boolean;
-        EventId: string;
-        MeetingMessageType: string;
-        DateTimeCreated: string;
-        LastModifiedTime: string;
-    }
-    class Message extends Item {
-        constructor(context?: Extensions.DataContext, path?: string, data?: IMessage);
-        public _odataType: string;
         public parentFolderId : string;
         private _ParentFolderId;
         public parentFolderIdChanged : boolean;
@@ -734,33 +756,19 @@ declare module Exchange {
         private _IsRead;
         public isReadChanged : boolean;
         private _IsReadChanged;
-        public eventId : string;
-        private _EventId;
-        public eventIdChanged : boolean;
-        private _EventIdChanged;
-        public meetingMessageType : MeetingMessageType;
-        private _MeetingMessageType;
-        public meetingMessageTypeChanged : boolean;
-        private _MeetingMessageTypeChanged;
-        public dateTimeCreated : Date;
-        private _DateTimeCreated;
-        public dateTimeCreatedChanged : boolean;
-        private _DateTimeCreatedChanged;
-        public lastModifiedTime : Date;
-        private _LastModifiedTime;
-        public lastModifiedTimeChanged : boolean;
-        private _LastModifiedTimeChanged;
-        public copy(DestinationId: string): Microsoft.Utility.IPromise<Message>;
-        public move(DestinationId: string): Microsoft.Utility.IPromise<Message>;
-        public createReply(): Microsoft.Utility.IPromise<Message>;
-        public createReplyAll(): Microsoft.Utility.IPromise<Message>;
-        public createForward(): Microsoft.Utility.IPromise<Message>;
-        public reply(Comment: string): Microsoft.Utility.IPromise<void>;
-        public replyAll(Comment: string): Microsoft.Utility.IPromise<void>;
-        public forward(Comment: string, ToRecipients: Recipient[]): Microsoft.Utility.IPromise<void>;
-        public send(): Microsoft.Utility.IPromise<void>;
-        public update(): Microsoft.Utility.IPromise<Message>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public attachments : Attachments;
+        private _Attachments;
+        public copy(DestinationId: string): Utility.IPromise<Message>;
+        public move(DestinationId: string): Utility.IPromise<Message>;
+        public createReply(): Utility.IPromise<Message>;
+        public createReplyAll(): Utility.IPromise<Message>;
+        public createForward(): Utility.IPromise<Message>;
+        public reply(Comment: string): Utility.IPromise<void>;
+        public replyAll(Comment: string): Utility.IPromise<void>;
+        public forward(Comment: string, ToRecipients: Recipient[]): Utility.IPromise<void>;
+        public send(): Utility.IPromise<void>;
+        public update(): Utility.IPromise<Message>;
+        public delete(): Utility.IPromise<void>;
         static parseMessage(context: Extensions.DataContext, path: string, data: IMessage): Message;
         static parseMessages(context: Extensions.DataContext, pathFn: (data: IMessage) => string, data: IMessage[]): Message[];
         public getRequestBody(): IMessage;
@@ -776,7 +784,7 @@ declare module Exchange {
         ContentType: string;
         Size: number;
         IsInline: boolean;
-        LastModifiedTime: string;
+        DateTimeLastModified: string;
     }
     class Attachment extends Entity {
         constructor(context?: Extensions.DataContext, path?: string, data?: IAttachment);
@@ -797,19 +805,19 @@ declare module Exchange {
         private _IsInline;
         public isInlineChanged : boolean;
         private _IsInlineChanged;
-        public lastModifiedTime : Date;
-        private _LastModifiedTime;
-        public lastModifiedTimeChanged : boolean;
-        private _LastModifiedTimeChanged;
-        public update(): Microsoft.Utility.IPromise<Attachment>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public dateTimeLastModified : Date;
+        private _DateTimeLastModified;
+        public dateTimeLastModifiedChanged : boolean;
+        private _DateTimeLastModifiedChanged;
+        public update(): Utility.IPromise<Attachment>;
+        public delete(): Utility.IPromise<void>;
         static parseAttachment(context: Extensions.DataContext, path: string, data: IAttachment): Attachment;
         static parseAttachments(context: Extensions.DataContext, pathFn: (data: IAttachment) => string, data: IAttachment[]): Attachment[];
         public getRequestBody(): IAttachment;
     }
     class FileAttachmentFetcher extends AttachmentFetcher {
         constructor(context: Extensions.DataContext, path: string);
-        public fetch(): Microsoft.Utility.IPromise<FileAttachment>;
+        public fetch(): Utility.IPromise<FileAttachment>;
     }
     interface IFileAttachments {
         value: IFileAttachment[];
@@ -839,8 +847,8 @@ declare module Exchange {
         private _ContentBytes;
         public contentBytesChanged : boolean;
         private _ContentBytesChanged;
-        public update(): Microsoft.Utility.IPromise<FileAttachment>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public update(): Utility.IPromise<FileAttachment>;
+        public delete(): Utility.IPromise<void>;
         static parseFileAttachment(context: Extensions.DataContext, path: string, data: IFileAttachment): FileAttachment;
         static parseFileAttachments(context: Extensions.DataContext, pathFn: (data: IFileAttachment) => string, data: IFileAttachment[]): FileAttachment[];
         public getRequestBody(): IFileAttachment;
@@ -848,9 +856,9 @@ declare module Exchange {
     class ItemAttachmentFetcher extends AttachmentFetcher {
         constructor(context: Extensions.DataContext, path: string);
         public item : ItemFetcher;
-        public update_item(value: Item): Microsoft.Utility.IPromise<void>;
+        public update_item(value: Item): Utility.IPromise<void>;
         private _Item;
-        public fetch(): Microsoft.Utility.IPromise<ItemAttachment>;
+        public fetch(): Utility.IPromise<ItemAttachment>;
     }
     interface IItemAttachments {
         value: IItemAttachment[];
@@ -861,19 +869,21 @@ declare module Exchange {
         constructor(context?: Extensions.DataContext, path?: string, data?: IItemAttachment);
         public _odataType: string;
         public item : ItemFetcher;
-        public update_item(value: Item): Microsoft.Utility.IPromise<void>;
+        public update_item(value: Item): Utility.IPromise<void>;
         private _Item;
-        public update(): Microsoft.Utility.IPromise<ItemAttachment>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public update(): Utility.IPromise<ItemAttachment>;
+        public delete(): Utility.IPromise<void>;
         static parseItemAttachment(context: Extensions.DataContext, path: string, data: IItemAttachment): ItemAttachment;
         static parseItemAttachments(context: Extensions.DataContext, pathFn: (data: IItemAttachment) => string, data: IItemAttachment[]): ItemAttachment[];
         public getRequestBody(): IItemAttachment;
     }
     class CalendarFetcher extends EntityFetcher {
         constructor(context: Extensions.DataContext, path: string);
+        public calendarView : Events;
+        private _CalendarView;
         public events : Events;
         private _Events;
-        public fetch(): Microsoft.Utility.IPromise<Calendar>;
+        public fetch(): Utility.IPromise<Calendar>;
     }
     interface ICalendars {
         value: ICalendar[];
@@ -893,10 +903,12 @@ declare module Exchange {
         private _ChangeKey;
         public changeKeyChanged : boolean;
         private _ChangeKeyChanged;
+        public calendarView : Events;
+        private _CalendarView;
         public events : Events;
         private _Events;
-        public update(): Microsoft.Utility.IPromise<Calendar>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public update(): Utility.IPromise<Calendar>;
+        public delete(): Utility.IPromise<void>;
         static parseCalendar(context: Extensions.DataContext, path: string, data: ICalendar): Calendar;
         static parseCalendars(context: Extensions.DataContext, pathFn: (data: ICalendar) => string, data: ICalendar[]): Calendar[];
         public getRequestBody(): ICalendar;
@@ -905,7 +917,7 @@ declare module Exchange {
         constructor(context: Extensions.DataContext, path: string);
         public calendars : Calendars;
         private _Calendars;
-        public fetch(): Microsoft.Utility.IPromise<CalendarGroup>;
+        public fetch(): Utility.IPromise<CalendarGroup>;
     }
     interface ICalendarGroups {
         value: ICalendarGroup[];
@@ -932,26 +944,35 @@ declare module Exchange {
         private _ClassIdChanged;
         public calendars : Calendars;
         private _Calendars;
-        public update(): Microsoft.Utility.IPromise<CalendarGroup>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public update(): Utility.IPromise<CalendarGroup>;
+        public delete(): Utility.IPromise<void>;
         static parseCalendarGroup(context: Extensions.DataContext, path: string, data: ICalendarGroup): CalendarGroup;
         static parseCalendarGroups(context: Extensions.DataContext, pathFn: (data: ICalendarGroup) => string, data: ICalendarGroup[]): CalendarGroup[];
         public getRequestBody(): ICalendarGroup;
     }
     class EventFetcher extends ItemFetcher {
         constructor(context: Extensions.DataContext, path: string);
+        public attachments : Attachments;
+        private _Attachments;
         public calendar : CalendarFetcher;
-        public update_calendar(value: Calendar): Microsoft.Utility.IPromise<void>;
+        public update_calendar(value: Calendar): Utility.IPromise<void>;
         private _Calendar;
-        public fetch(): Microsoft.Utility.IPromise<Event>;
-        public accept(Comment: string): Microsoft.Utility.IPromise<void>;
-        public decline(Comment: string): Microsoft.Utility.IPromise<void>;
-        public tentativelyAccept(Comment: string): Microsoft.Utility.IPromise<void>;
+        public instances : Events;
+        private _Instances;
+        public fetch(): Utility.IPromise<Event>;
+        public accept(Comment: string): Utility.IPromise<void>;
+        public decline(Comment: string): Utility.IPromise<void>;
+        public tentativelyAccept(Comment: string): Utility.IPromise<void>;
     }
     interface IEvents {
         value: IEvent[];
     }
     interface IEvent extends IItem {
+        Subject: string;
+        Body: IItemBody;
+        BodyPreview: string;
+        Importance: string;
+        HasAttachments: boolean;
         Start: string;
         End: string;
         Location: ILocation;
@@ -961,13 +982,35 @@ declare module Exchange {
         IsOrganizer: boolean;
         ResponseRequested: boolean;
         Type: string;
-        SeriesId: string;
+        SeriesMasterId: string;
         Attendees: IAttendee[];
         Recurrence: IPatternedRecurrence;
+        Organizer: IRecipient;
     }
     class Event extends Item {
         constructor(context?: Extensions.DataContext, path?: string, data?: IEvent);
         public _odataType: string;
+        public subject : string;
+        private _Subject;
+        public subjectChanged : boolean;
+        private _SubjectChanged;
+        public body : ItemBody;
+        private _Body;
+        public bodyChanged : boolean;
+        private _BodyChanged;
+        private _BodyChangedListener;
+        public bodyPreview : string;
+        private _BodyPreview;
+        public bodyPreviewChanged : boolean;
+        private _BodyPreviewChanged;
+        public importance : Importance;
+        private _Importance;
+        public importanceChanged : boolean;
+        private _ImportanceChanged;
+        public hasAttachments : boolean;
+        private _HasAttachments;
+        public hasAttachmentsChanged : boolean;
+        private _HasAttachmentsChanged;
         public start : Date;
         private _Start;
         public startChanged : boolean;
@@ -1005,10 +1048,10 @@ declare module Exchange {
         private _Type;
         public typeChanged : boolean;
         private _TypeChanged;
-        public seriesId : string;
-        private _SeriesId;
-        public seriesIdChanged : boolean;
-        private _SeriesIdChanged;
+        public seriesMasterId : string;
+        private _SeriesMasterId;
+        public seriesMasterIdChanged : boolean;
+        private _SeriesMasterIdChanged;
         public attendees : Extensions.ObservableCollection<Attendee>;
         private _Attendees;
         public attendeesChanged : boolean;
@@ -1019,21 +1062,30 @@ declare module Exchange {
         public recurrenceChanged : boolean;
         private _RecurrenceChanged;
         private _RecurrenceChangedListener;
+        public organizer : Recipient;
+        private _Organizer;
+        public organizerChanged : boolean;
+        private _OrganizerChanged;
+        private _OrganizerChangedListener;
+        public attachments : Attachments;
+        private _Attachments;
         public calendar : CalendarFetcher;
-        public update_calendar(value: Calendar): Microsoft.Utility.IPromise<void>;
+        public update_calendar(value: Calendar): Utility.IPromise<void>;
         private _Calendar;
-        public accept(Comment: string): Microsoft.Utility.IPromise<void>;
-        public decline(Comment: string): Microsoft.Utility.IPromise<void>;
-        public tentativelyAccept(Comment: string): Microsoft.Utility.IPromise<void>;
-        public update(): Microsoft.Utility.IPromise<Event>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public instances : Events;
+        private _Instances;
+        public accept(Comment: string): Utility.IPromise<void>;
+        public decline(Comment: string): Utility.IPromise<void>;
+        public tentativelyAccept(Comment: string): Utility.IPromise<void>;
+        public update(): Utility.IPromise<Event>;
+        public delete(): Utility.IPromise<void>;
         static parseEvent(context: Extensions.DataContext, path: string, data: IEvent): Event;
         static parseEvents(context: Extensions.DataContext, pathFn: (data: IEvent) => string, data: IEvent[]): Event[];
         public getRequestBody(): IEvent;
     }
     class ContactFetcher extends ItemFetcher {
         constructor(context: Extensions.DataContext, path: string);
-        public fetch(): Microsoft.Utility.IPromise<Contact>;
+        public fetch(): Utility.IPromise<Contact>;
     }
     interface IContacts {
         value: IContact[];
@@ -1050,12 +1102,8 @@ declare module Exchange {
         Surname: string;
         Title: string;
         Generation: string;
-        EmailAddress1: string;
-        EmailAddress2: string;
-        EmailAddress3: string;
-        ImAddress1: string;
-        ImAddress2: string;
-        ImAddress3: string;
+        EmailAddresses: IEmailAddress[];
+        ImAddresses: string[];
         JobTitle: string;
         CompanyName: string;
         Department: string;
@@ -1064,14 +1112,15 @@ declare module Exchange {
         BusinessHomePage: string;
         AssistantName: string;
         Manager: string;
-        HomePhone1: string;
-        HomePhone2: string;
-        BusinessPhone1: string;
-        BusinessPhone2: string;
+        HomePhones: string[];
+        BusinessPhones: string[];
         MobilePhone1: string;
-        OtherPhone: string;
-        DateTimeCreated: string;
-        LastModifiedTime: string;
+        HomeAddress: IPhysicalAddress;
+        BusinessAddress: IPhysicalAddress;
+        OtherAddress: IPhysicalAddress;
+        YomiCompanyName: string;
+        YomiGivenName: string;
+        YomiSurname: string;
     }
     class Contact extends Item {
         constructor(context?: Extensions.DataContext, path?: string, data?: IContact);
@@ -1120,30 +1169,15 @@ declare module Exchange {
         private _Generation;
         public generationChanged : boolean;
         private _GenerationChanged;
-        public emailAddress1 : string;
-        private _EmailAddress1;
-        public emailAddress1Changed : boolean;
-        private _EmailAddress1Changed;
-        public emailAddress2 : string;
-        private _EmailAddress2;
-        public emailAddress2Changed : boolean;
-        private _EmailAddress2Changed;
-        public emailAddress3 : string;
-        private _EmailAddress3;
-        public emailAddress3Changed : boolean;
-        private _EmailAddress3Changed;
-        public imAddress1 : string;
-        private _ImAddress1;
-        public imAddress1Changed : boolean;
-        private _ImAddress1Changed;
-        public imAddress2 : string;
-        private _ImAddress2;
-        public imAddress2Changed : boolean;
-        private _ImAddress2Changed;
-        public imAddress3 : string;
-        private _ImAddress3;
-        public imAddress3Changed : boolean;
-        private _ImAddress3Changed;
+        public emailAddresses : Extensions.ObservableCollection<EmailAddress>;
+        private _EmailAddresses;
+        public emailAddressesChanged : boolean;
+        private _EmailAddressesChanged;
+        private _EmailAddressesChangedListener;
+        public imAddresses : string[];
+        private _ImAddresses;
+        public imAddressesChanged : boolean;
+        private _ImAddressesChanged;
         public jobTitle : string;
         private _JobTitle;
         public jobTitleChanged : boolean;
@@ -1176,40 +1210,47 @@ declare module Exchange {
         private _Manager;
         public managerChanged : boolean;
         private _ManagerChanged;
-        public homePhone1 : string;
-        private _HomePhone1;
-        public homePhone1Changed : boolean;
-        private _HomePhone1Changed;
-        public homePhone2 : string;
-        private _HomePhone2;
-        public homePhone2Changed : boolean;
-        private _HomePhone2Changed;
-        public businessPhone1 : string;
-        private _BusinessPhone1;
-        public businessPhone1Changed : boolean;
-        private _BusinessPhone1Changed;
-        public businessPhone2 : string;
-        private _BusinessPhone2;
-        public businessPhone2Changed : boolean;
-        private _BusinessPhone2Changed;
+        public homePhones : string[];
+        private _HomePhones;
+        public homePhonesChanged : boolean;
+        private _HomePhonesChanged;
+        public businessPhones : string[];
+        private _BusinessPhones;
+        public businessPhonesChanged : boolean;
+        private _BusinessPhonesChanged;
         public mobilePhone1 : string;
         private _MobilePhone1;
         public mobilePhone1Changed : boolean;
         private _MobilePhone1Changed;
-        public otherPhone : string;
-        private _OtherPhone;
-        public otherPhoneChanged : boolean;
-        private _OtherPhoneChanged;
-        public dateTimeCreated : Date;
-        private _DateTimeCreated;
-        public dateTimeCreatedChanged : boolean;
-        private _DateTimeCreatedChanged;
-        public lastModifiedTime : Date;
-        private _LastModifiedTime;
-        public lastModifiedTimeChanged : boolean;
-        private _LastModifiedTimeChanged;
-        public update(): Microsoft.Utility.IPromise<Contact>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public homeAddress : PhysicalAddress;
+        private _HomeAddress;
+        public homeAddressChanged : boolean;
+        private _HomeAddressChanged;
+        private _HomeAddressChangedListener;
+        public businessAddress : PhysicalAddress;
+        private _BusinessAddress;
+        public businessAddressChanged : boolean;
+        private _BusinessAddressChanged;
+        private _BusinessAddressChangedListener;
+        public otherAddress : PhysicalAddress;
+        private _OtherAddress;
+        public otherAddressChanged : boolean;
+        private _OtherAddressChanged;
+        private _OtherAddressChangedListener;
+        public yomiCompanyName : string;
+        private _YomiCompanyName;
+        public yomiCompanyNameChanged : boolean;
+        private _YomiCompanyNameChanged;
+        public yomiGivenName : string;
+        private _YomiGivenName;
+        public yomiGivenNameChanged : boolean;
+        private _YomiGivenNameChanged;
+        public yomiSurname : string;
+        private _YomiSurname;
+        public yomiSurnameChanged : boolean;
+        private _YomiSurnameChanged;
+        public update(): Utility.IPromise<Contact>;
+        public delete(): Utility.IPromise<void>;
         static parseContact(context: Extensions.DataContext, path: string, data: IContact): Contact;
         static parseContacts(context: Extensions.DataContext, pathFn: (data: IContact) => string, data: IContact[]): Contact[];
         public getRequestBody(): IContact;
@@ -1220,7 +1261,7 @@ declare module Exchange {
         private _Contacts;
         public childFolders : ContactFolders;
         private _ChildFolders;
-        public fetch(): Microsoft.Utility.IPromise<ContactFolder>;
+        public fetch(): Utility.IPromise<ContactFolder>;
     }
     interface IContactFolders {
         value: IContactFolder[];
@@ -1244,19 +1285,28 @@ declare module Exchange {
         private _Contacts;
         public childFolders : ContactFolders;
         private _ChildFolders;
-        public update(): Microsoft.Utility.IPromise<ContactFolder>;
-        public delete(): Microsoft.Utility.IPromise<void>;
+        public update(): Utility.IPromise<ContactFolder>;
+        public delete(): Utility.IPromise<void>;
         static parseContactFolder(context: Extensions.DataContext, path: string, data: IContactFolder): ContactFolder;
         static parseContactFolders(context: Extensions.DataContext, pathFn: (data: IContactFolder) => string, data: IContactFolder[]): ContactFolder[];
         public getRequestBody(): IContactFolder;
+    }
+    enum DayOfWeek {
+        Sunday = 0,
+        Monday = 1,
+        Tuesday = 2,
+        Wednesday = 3,
+        Thursday = 4,
+        Friday = 5,
+        Saturday = 6,
     }
     enum BodyType {
         Text = 0,
         HTML = 1,
     }
     enum Importance {
-        Normal = 0,
-        Low = 1,
+        Low = 0,
+        Normal = 1,
         High = 2,
     }
     enum AttendeeType {
@@ -1279,12 +1329,12 @@ declare module Exchange {
         SeriesMaster = 3,
     }
     enum FreeBusyStatus {
-        Unknown = 0,
-        Free = 1,
-        Tentative = 2,
-        Busy = 3,
-        Oof = 4,
-        WorkingElsewhere = 5,
+        Free = 0,
+        Tentative = 1,
+        Busy = 2,
+        Oof = 3,
+        WorkingElsewhere = 4,
+        Unknown = -1,
     }
     enum MeetingMessageType {
         None = 0,
@@ -1319,75 +1369,64 @@ declare module Exchange {
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getUser(Id: any): UserFetcher;
         public getUsers(): Extensions.CollectionQuery<User>;
-        public addUser(item: User): Microsoft.Utility.IPromise<User>;
+        public addUser(item: User): Utility.IPromise<User>;
     }
     class Folders extends Extensions.QueryableSet<IFolder> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getFolder(Id: any): FolderFetcher;
         public getFolders(): Extensions.CollectionQuery<Folder>;
-        public addFolder(item: Folder): Microsoft.Utility.IPromise<Folder>;
+        public addFolder(item: Folder): Utility.IPromise<Folder>;
     }
     class Messages extends Extensions.QueryableSet<IMessage> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getMessage(Id: any): MessageFetcher;
         public getMessages(): Extensions.CollectionQuery<Message>;
-        public addMessage(item: Message): Microsoft.Utility.IPromise<Message>;
+        public addMessage(item: Message): Utility.IPromise<Message>;
     }
     class Calendars extends Extensions.QueryableSet<ICalendar> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getCalendar(Id: any): CalendarFetcher;
         public getCalendars(): Extensions.CollectionQuery<Calendar>;
-        public addCalendar(item: Calendar): Microsoft.Utility.IPromise<Calendar>;
+        public addCalendar(item: Calendar): Utility.IPromise<Calendar>;
     }
     class CalendarGroups extends Extensions.QueryableSet<ICalendarGroup> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getCalendarGroup(Id: any): CalendarGroupFetcher;
         public getCalendarGroups(): Extensions.CollectionQuery<CalendarGroup>;
-        public addCalendarGroup(item: CalendarGroup): Microsoft.Utility.IPromise<CalendarGroup>;
+        public addCalendarGroup(item: CalendarGroup): Utility.IPromise<CalendarGroup>;
     }
     class Events extends Extensions.QueryableSet<IEvent> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getEvent(Id: any): EventFetcher;
         public getEvents(): Extensions.CollectionQuery<Event>;
-        public addEvent(item: Event): Microsoft.Utility.IPromise<Event>;
+        public addEvent(item: Event): Utility.IPromise<Event>;
     }
     class Contacts extends Extensions.QueryableSet<IContact> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getContact(Id: any): ContactFetcher;
         public getContacts(): Extensions.CollectionQuery<Contact>;
-        public addContact(item: Contact): Microsoft.Utility.IPromise<Contact>;
+        public addContact(item: Contact): Utility.IPromise<Contact>;
     }
     class ContactFolders extends Extensions.QueryableSet<IContactFolder> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getContactFolder(Id: any): ContactFolderFetcher;
         public getContactFolders(): Extensions.CollectionQuery<ContactFolder>;
-        public addContactFolder(item: ContactFolder): Microsoft.Utility.IPromise<ContactFolder>;
+        public addContactFolder(item: ContactFolder): Utility.IPromise<ContactFolder>;
     }
     class Attachments extends Extensions.QueryableSet<IAttachment> {
         private _parseCollectionFn;
         constructor(context: Extensions.DataContext, path: string, entity?: any);
         public getAttachment(Id: any): AttachmentFetcher;
         public getAttachments(): Extensions.CollectionQuery<Attachment>;
-        public addAttachment(item: Attachment): Microsoft.Utility.IPromise<Attachment>;
+        public addAttachment(item: Attachment): Utility.IPromise<Attachment>;
         public asFileAttachments(): Extensions.CollectionQuery<FileAttachment>;
         public asItemAttachments(): Extensions.CollectionQuery<ItemAttachment>;
-    }
-}
-declare module System {
-    enum DayOfWeek {
-        Sunday = 0,
-        Monday = 1,
-        Tuesday = 2,
-        Wednesday = 3,
-        Thursday = 4,
-        Friday = 5,
-        Saturday = 6,
     }
 }
