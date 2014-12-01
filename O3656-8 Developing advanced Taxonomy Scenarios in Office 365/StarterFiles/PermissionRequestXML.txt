@@ -1,0 +1,4 @@
+<AppPermissionRequests AllowAppOnlyPolicy="true">
+  <AppPermissionRequest Scope="http://sharepoint/taxonomy" Right="Write" />
+  <AppPermissionRequest Scope="http://sharepoint/content/sitecollection" Right="FullControl" />
+</AppPermissionRequests>
