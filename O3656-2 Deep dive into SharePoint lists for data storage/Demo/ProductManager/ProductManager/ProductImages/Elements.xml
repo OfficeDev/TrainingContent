@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  
+  <ListInstance 
+    Title="Product Images"
+    OnQuickLaunch="TRUE"
+    TemplateType="109"
+    FeatureId="00bfea71-52d4-45b3-b544-b1c71b620109"
+    Url="ProductImages"
+    Description="Images for Wingtip Products">
+  </ListInstance>
+  
+</Elements>
