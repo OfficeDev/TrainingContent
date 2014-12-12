@@ -1,0 +1,63 @@
+﻿body {
+  padding: 0px;
+  margin: 0px;
+  background-color: orange;
+}
+
+#page_width {
+  width: 960px;
+  margin: auto;
+  background-color: white;
+  border: 1px solid black;
+}
+
+
+#nav_bar {
+  padding: 4px;
+  background-color: black;
+}
+
+  #nav_bar a {
+    font-size: 12px;
+    text-decoration: none;
+    color:white;
+  }
+
+
+#page_header {
+  height: 72px;
+}
+
+#site_logo {
+  float: left;
+  background-image: url("img/AppIcon.gif");
+  width: 75px;
+  height: 75px;
+}
+
+#site_title {
+  margin: 0px;
+  margin-top: 12px;
+  float: left;
+  font-size: 40px;
+  color: #000;
+}
+
+#toolbar {
+  margin: 0px;
+  padding: 6px;
+  background-color: #CCC;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+#content_box {
+  margin: 16px;
+  padding: 8px;
+  background-color: #EEE;
+  border: 1px solid #CCC;
+  border-radius: 8px;
+  min-height: 480px;
+  font-size: 1.35em;
+  color: darkblue;
+}
