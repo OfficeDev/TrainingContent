@@ -24,7 +24,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
   1. Give the list a name of **SalesLeads** and click **Add**.
   1. On the **SharePoint Customization Wizard** page, set the name of the list to **Sales Leads**, select a **customizable list template** and pick **Default (Custom List)**.
 
-    ![](Images/O2.png)
+    ![](Images/02.png)
 
   1. Click **Finish**.
   1. After Visual Studio creates the list, it will open the list designer.
@@ -38,7 +38,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
     1. Add **Country/Region** (type = Single Line of Text).
     1. Add **Business Phone** (type = Single Line of Text).
 
-    ![](Images/O3.png)
+    ![](Images/03.png)
 
 1. Because this app will test a workflow using a SharePoint list, simplify the startup experience of the app by changing the start page.
   1. Open the `AppManifest.xml` file.
@@ -49,7 +49,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
   1. Click **Add**.
   1. In the **SharePoint Customization Wizard**, set the name to **Update Contact From Service** and set it to a **List Workflow**, then click **Next**.
 
-    ![](Images/O4.png)
+    ![](Images/04.png)
 
   1. On the next page in the wizard, do the following:
     1. Check the box for **Would you like Visual Studio to automatically associate the workflow**. 
@@ -65,7 +65,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
       > This is a good practice to follow as you will see that most workflows contain multiple nested sequences. Just above the design surface where it says *workflow* is a breadcrumb-like navigation that will fill up the more nested you are in the workflow. If it said *Sequence* multiple times, it would provide zero value. Therefore starting with *ROOT* is clear that this is the top-most part of the workflow.
   1. Now add some variables that will be used throughout the workflow. At the bottom of the designer, click the **Variables** tab to bring up a new pane to create variables.
 
-    ![](Images/O5.png)
+    ![](Images/05.png)
 
   1. Add the following variables with the specified data types and default values:
     1. **PersonName** (string)
@@ -77,13 +77,13 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
     1. **PersonID** (string), Default = **"-1"**
     1. **WebServiceUri** (string), Default = **"http://services.odata.org/V3/OData/OData.svc" **
 
-    ![](Images/O6.png)
+    ![](Images/06.png)
 
 1. Add the first sequence (step) to the workflow to retrieve the name of the person entered into the list item that you will search for in the remote web service:
   1. Using the **Toolbox**, drag a **Sequence** activity to the design surface and place it into the existing **Root** sequence.
   1. Rename the new sequence to **Get Person Name from ListItem** using the technique you used to rename the default sequence.
 
-    ![](Images/O7.png)
+    ![](Images/07.png)
 
   1. Using the **Toolbox**, drag a **LookupSPListItem** activity into the sequence you just created.
   1. Select the **LookupSPListItem** activity and using the **Properties** tool window, set the following values:
@@ -99,11 +99,11 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
       1. Set the **Entity Type** to **List Item of SalesLeads**.
       1. Select the property **Name** and assign it to the **PersonName** variable as shown in the following figure:
 
-        ![](Images/O8.png)
+        ![](Images/08.png)
 
   At this point your workflow should look like he following figure:
 
-    ![](Images/O9.png)
+    ![](Images/09.png)
 
 1. Add a second sequence that will query the web service for a matching name entered in the list item.
   1. Add a new **Sequence** activity immediately after the existing **Get Person Name from List Item** activity.
