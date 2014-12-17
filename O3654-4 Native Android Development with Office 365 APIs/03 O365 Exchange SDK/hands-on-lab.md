@@ -132,17 +132,21 @@ configure it.
 
     ```groovy
     // Base OData stuff
-    compile 'com.microsoft.services:odata-engine-interfaces:(,1.0)'
-    compile 'com.microsoft.services:odata-engine-java-impl:(,1.0)'
-    compile 'com.microsoft.services:odata-engine-helpers:(,1.0)'
-    compile 'com.microsoft.services:odata-engine-android-impl:(,1.0)@aar'
-    // Service libraries
-    compile 'com.microsoft.services:outlook-services:(,1.0)'
+    compile 'com.microsoft.services:odata-engine-core:0.11.0'
+    compile 'com.microsoft.services:odata-engine-android-impl:0.11.0@aar'
+
+    // Outlook SDK
+    compile 'com.microsoft.services:outlook-services:0.11.0'
     ```
+
+    This adds a dependency on version `0.11.0` of the Outlook part of the O365 
+    SDK for Android.
 
     E.g.
     
     ![](img/0034_update_app_gradle_file.png)
+
+    [semver]: http://semver.org/
 
 04. Click **Sync Now**.
     
@@ -160,28 +164,18 @@ configure it.
 07. Add the following code to the end of the `onCreate` function.
 
     ```java
-    //Configure the depencency resolver
-    mDependencyResolver = new DefaultDependencyResolver();
-    mDependencyResolver.setCredentialsFactory(new CredentialsFactory() {
-        @Override
-        public Credentials getCredentials() {
-            return new Credentials() {
-                /**
-                 * Adds the access token to each request made by the client
-                 */
-                public void prepareRequest(Request request) {
-                    request.addHeader("Authorization", "Bearer " + mAccessToken);
-                }
-            };
-        }
-    });
+        //Configure the depencency resolver
+        mDependencyResolver = new DefaultDependencyResolver(mAccessToken);
 
-    //Create the client
-    mOutlookClient = new OutlookClient(
-        "https://outlook.office365.com/api/v1.0",
-        mDependencyResolver
-    );
+        //Create the client
+        mOutlookClient = new OutlookClient(
+            "https://outlook.office365.com/api/v1.0",
+            mDependencyResolver
+        );
     ```
+
+    The variable `mAccessToken` is obtained by `LaunchActivity` using the Active
+    Directory Authentication Library
 
     The first argument to the `OutlookClient` is the URL for your O365 Exchange
     endpoint. Generally, this will be "https://outlook.office365.com/api/v1.0".

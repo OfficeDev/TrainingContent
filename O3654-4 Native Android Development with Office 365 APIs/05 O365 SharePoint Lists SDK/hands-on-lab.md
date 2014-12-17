@@ -87,9 +87,12 @@ reference to the O365 SharePoint Lists SDK.
 02. Locate the `dependencies` section and add the following lines:
     
     ```groovy
-    // O365 SharePoint Lists SDK
-    compile group: 'com.microsoft.services', name: 'list-services', version: '(,1.0)'
+    // SharePoint Lists SDK
+    compile 'com.microsoft.services:list-services:0.11.0'
     ```
+
+    Note that the Lists SDK does not have a dependency on the "OData Engine"
+    libraries which the other libraries in the O365 SDK for Android do.
 
     E.g.
 
@@ -152,9 +155,9 @@ class using the O365 SharePoint Lists SDK.
 ###Task 1 - Configuring the data source class with an Access Token 
 
 Before we do anything we must sort out authentication with the SharePoint Lists
-API and construct an instance of `SharepointListsClient`.
+API and construct an instance of `com.microsoft.sharepointservices.ListClient`.
 
-`SharepointListsClient` provides programmatic access to the SharePoint Lists
+`ListClient` provides programmatic access to the SharePoint Lists
 API, and is part of the Lists SDK.
 
 
@@ -167,24 +170,24 @@ API, and is part of the Lists SDK.
 02. Replace the empty constructor at the top of the file with the following code:
 
     ```java
-    private final SharepointListsClient mClient;
+    private final ListClient mClient;
  
-    public ResearchDataSource(SharepointListsClient client) {
+    public ResearchDataSource(ListClient client) {
         mClient = client;
     }
     ```
 
 
 03. Next add **import** statements at the top of the file for any missing
-    types. In this case you will need to add one for `SharepointListsClient`:
+    types. In this case you will need to add one for `ListClient`:
 
     ```java
-    import com.microsoft.listservices.SharepointListsClient;
+    import com.microsoft.sharepointservices.ListClient;
     ```
 
-    You can use Android Studio's "Import Class" function to do this
-    automatically by placing the cursor on a missing type, pressing
-    **Alt + Enter** and selecting **Import Class**
+    You can use Android Studio's "Import Class" function to do this automatically 
+    by placing the cursor on a missing type, pressing **Alt + Enter** and
+    selecting **Import Class**
 
     ![](img/0035_import_missing_types.png)
 
@@ -199,7 +202,7 @@ API, and is part of the Lists SDK.
     ```java
     String accessToken = mAuthManager.getAccessToken();
 
-    SharepointListsClient client = new SharepointListsClient(
+    ListClient client = new ListClient(
         Constants.SHAREPOINT_URL,
         Constants.SHAREPOINT_SITE_PATH,
         new OAuthCredentials(accessToken)
@@ -209,7 +212,7 @@ API, and is part of the Lists SDK.
     ```
 
     This code retrieves an Access Token from the `AuthManager` and uses it to
-    construct an instance of `SharepointListsClient`. The other arguments are
+    construct an instance of `ListClient`. The other arguments are
     constants you configured earlier in the lab.
 
     The `AuthManager` class handles authentication for this application
@@ -244,7 +247,7 @@ one function to source it's data. `ResearchDataSource.getResearchProjects()`.
     The **import** statement for the `Query` class is:
 
     ```java
-    import com.microsoft.listservices.Query;
+    import com.microsoft.sharepointservices.Query;
     ```
 
     The `Query` class provides a simple programmatic interface for building the
@@ -400,7 +403,7 @@ The `QueryOperations` class gives access to some of these functions in a static
 context, which can make building complex nested expressions fairly concise:
 
 ```java
-import static com.microsoft.listservices.QueryOperations.*;
+import static com.microsoft.sharepointservices.QueryOperations.*;
 
 //$filter=Age gt 31 and (concat(FirstName, LastName) eq 'JohnSmith')
 Query query3 = field("Age").gt().val(31).and(

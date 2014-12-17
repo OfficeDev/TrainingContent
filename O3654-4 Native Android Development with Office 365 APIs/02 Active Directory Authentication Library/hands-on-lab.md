@@ -107,9 +107,9 @@ Android Studio, Eclipse and even Visual Studio with Xamarin for Android.
 
 02. Add the following line to the `dependencies` section:
 
-        compile 'com.microsoft.aad:adal:1.0.3'
+        compile 'com.microsoft.aad:adal:1.0.5'
 
-    This is a reference to [ADAL v1.0.3 in the Maven repository](http://mvnrepository.com/artifact/com.microsoft.aad/adal/1.0.3).
+    This is a reference to [ADAL v1.0.5 in the Maven repository](http://mvnrepository.com/artifact/com.microsoft.aad/adal/1.0.5).
 
 03. Android Studio will prompt you to perform a Gradle sync - click **Sync Now** to do so.
 
@@ -273,7 +273,7 @@ Now that we've got the library, let's add some code to authenticate a user.
     }
     ```
 
-10. Ok - we're ready to try it out. Launch the application on the emulator.
+10. Ok - we're ready to try it out. Launch the application in the emulator.
 
 11. When the app has launched, tap **Get Access Token** to start the auth process.
 
@@ -330,7 +330,7 @@ To authenticate the user without prompting them for credentials, we use the `acq
     ```
 
     In order to support "silent" authentication, we must cache the User's Id when they authenticate successfully.
-    The User Id is not sensitive information and can be cached without encryption.
+    The User Id is not sensitive information and can be stored without encryption.
 
 03. Add the following code to the end of the `onCreate` function:
 
@@ -382,7 +382,7 @@ To authenticate the user without prompting them for credentials, we use the `acq
     
     ![](img/0070_error_no_cached_user_id.png)
 
-    This fails because we haven't authenticated yet - there are no user Ids or refresh tokens cached yet.
+    This fails because we haven't authenticated yet and do not have a user Id.
 
 07. Tap **Get Access Token** and sign in to acquire a refresh token.
 
@@ -392,7 +392,7 @@ To authenticate the user without prompting them for credentials, we use the `acq
 
 The access token will expire in a few hours, but the refresh token will remain valid for a very long time.
 
-We do also need to store the User Id somewhere - currently we're storing it as a member variable on our activty,
+We do need to store the User Id somewhere - currently we're storing it as a member variable on our activty,
 but this will not serve for a real-world application. Instead we could store it in a database or using the
 [Shared Preferences](http://developer.android.com/reference/android/content/SharedPreferences.html) service.
 

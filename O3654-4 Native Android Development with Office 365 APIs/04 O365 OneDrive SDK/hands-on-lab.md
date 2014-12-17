@@ -125,13 +125,11 @@ configure it.
 
     ```groovy
     // Base OData stuff
-    compile group: 'com.microsoft.services', name: 'odata-engine-interfaces', version: '(,1.0)'
-    compile group: 'com.microsoft.services', name: 'odata-engine-java-impl', version: '(,1.0)'
-    compile group: 'com.microsoft.services', name: 'odata-engine-helpers', version: '(,1.0)'
-    compile group: 'com.microsoft.services', name: 'odata-engine-android-impl', version: '(,1.0)', ext: 'aar'
+    compile 'com.microsoft.services:odata-engine-core:0.11.0'
+    compile 'com.microsoft.services:odata-engine-android-impl:0.11.0@aar'
 
-    //File services
-    compile group: 'com.microsoft.services', name: 'file-services', version: '(,1.0)'
+    // Outlook SDK
+    compile 'com.microsoft.services:file-services:0.11.0'
     ```
 
 04. Click **Sync Now**.
@@ -151,24 +149,14 @@ configure it.
 
     ```java
     //Configure the depencency resolver
-    mDependencyResolver = new DefaultDependencyResolver();
-    mDependencyResolver.setCredentialsFactory(new CredentialsFactory() {
-        @Override
-        public Credentials getCredentials() {
-            return new Credentials() {
-                /**
-                 * Adds the access token to each request made by the client
-                 */
-                public void prepareRequest(Request request) {
-                    request.addHeader("Authorization", "Bearer " + mAccessToken);
-                }
-            };
-        }
-    });
+    mDependencyResolver = new DefaultDependencyResolver(mAccessToken);
 
     //Create the client
     mSharePointClient = new SharePointClient(Constants.API_ENDPOINT, mDependencyResolver);
     ```
+
+    The variable `mAccessToken` is obtained by `LaunchActivity` using the Active
+    Directory Authentication Library
 
     The first argument to the `SharePointClient` is the URL for your SharePoint
     instance. Generally, this will be something like "https://mytenancy-my.sharepoint.com/api/v1.0/me".
