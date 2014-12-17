@@ -1,6 +1,6 @@
 package com.microsoft.researchtracker.utils;
 
-import com.microsoft.listservices.SPListItem;
+import com.microsoft.sharepointservices.SPListItem;
 
 import org.json.JSONObject;
 

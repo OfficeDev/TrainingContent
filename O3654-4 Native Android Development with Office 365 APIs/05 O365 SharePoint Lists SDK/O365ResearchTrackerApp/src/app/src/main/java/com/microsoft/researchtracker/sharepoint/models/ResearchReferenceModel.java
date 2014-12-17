@@ -1,6 +1,6 @@
 package com.microsoft.researchtracker.sharepoint.models;
 
-import com.microsoft.listservices.SPListItem;
+import com.microsoft.sharepointservices.SPListItem;
 import com.microsoft.researchtracker.utils.SPListItemWrapper;
 
 import org.json.JSONObject;

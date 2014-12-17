@@ -21,5 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.microsoft.aad:adal:1.0.3'
+
+    //Active Directory Authentication Library
+    compile 'com.microsoft.aad:adal:1.0.+'
 }
