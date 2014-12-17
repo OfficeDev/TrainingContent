@@ -174,6 +174,9 @@ configure it.
         );
     ```
 
+    The variable `mAccessToken` is obtained by `LaunchActivity` using the Active
+    Directory Authentication Library
+
     The first argument to the `OutlookClient` is the URL for your O365 Exchange
     endpoint. Generally, this will be "https://outlook.office365.com/api/v1.0".
     The "api/v1.0" path component is required.
