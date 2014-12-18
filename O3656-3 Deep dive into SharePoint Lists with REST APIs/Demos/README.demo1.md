@@ -9,6 +9,12 @@ Next, open Fiddler and use the existing authenticated session to demonstrate how
 - $filter
 - $orderby
 
+Demonstrate the differences in the payloads (XML vs. JSON).
+
+Demonstrate the `$metadata` endpoint.
+
+Demonstrate how responses show relationships between other entities.
+
 ## Demo Completed Lab Solutions
 
 Use the **Completed Solution** from the lab exercise 1 & 2 in this demo: **RestClientSide** & **RestServerSide**.
