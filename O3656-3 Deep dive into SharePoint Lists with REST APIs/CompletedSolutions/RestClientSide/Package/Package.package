@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="64dc292a-41da-4db3-8c0b-ea85535d2cac" 
+        solutionId="64dc292a-41da-4db3-8c0b-ea85535d2cac" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="RestClientSide"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="925273e8-e688-42f9-a339-f88bdfe99466" />
+  </features>
+</package>
