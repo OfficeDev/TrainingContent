@@ -29,7 +29,7 @@ namespace RestServerSideWeb.Models {
 
       HttpResponseMessage response = await client.SendAsync(request);
       string responseString = await response.Content.ReadAsStringAsync();
-      var spJsonResponse = JsonConvert.DeserializeObject<SpCheifExecutiveJsonCollection>(responseString);
+      var spJsonResponse = JsonConvert.DeserializeObject<SpChiefExecutiveJsonCollection>(responseString);
 
       var ceoList = new List<SpChiefExecutive>();
       foreach (var item in spJsonResponse.Data.Results) {
@@ -48,7 +48,7 @@ namespace RestServerSideWeb.Models {
     public async Task AppointNewCeo() {
 
       // update the current ceo to have end date on tenure
-      //await UpdateCurrentCeo();
+      await UpdateCurrentCeo();
 
       // appoint a new ceo
       await AddNewCeo();
@@ -84,13 +84,13 @@ namespace RestServerSideWeb.Models {
         .Append("(" + currentCeo.Id + ")");
 
       // updated ceo
-      var newCeoJson = new SpCheifExecutiveJson {
+      var existingCeoJson = new SpChiefExecutiveJson {
         Metadata = new JsonMetadata { Type = "SP.Data.CeoListListItem" },
         TenureEndYear = "2014"
       };
 
       StringContent requestContent = new StringContent(JsonConvert.SerializeObject(
-        newCeoJson,
+        existingCeoJson,
         Formatting.None,
         new JsonSerializerSettings {
           NullValueHandling = NullValueHandling.Ignore
@@ -113,7 +113,7 @@ namespace RestServerSideWeb.Models {
         .Append("_api/web/lists/getbytitle('CeoList')/items");
 
       // updated ceo
-      var newCeoJson = new SpCheifExecutiveJson {
+      var newCeoJson = new SpChiefExecutiveJson {
         Metadata = new JsonMetadata { Type = "SP.Data.CeoListListItem" },
         Title = "Satya Nadella",
         TenureStartYear = "2014",

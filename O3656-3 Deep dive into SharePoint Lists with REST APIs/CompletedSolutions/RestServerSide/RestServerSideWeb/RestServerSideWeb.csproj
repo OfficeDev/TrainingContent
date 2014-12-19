@@ -134,7 +134,7 @@
     </Compile>
     <Compile Include="Models\SpChiefExecutiveRepository.cs" />
     <Compile Include="Models\SpChiefExecutiveViewModel.cs" />
-    <Compile Include="Models\SpCheifExecutiveJson.cs" />
+    <Compile Include="Models\SpChiefExecutiveJson.cs" />
     <Compile Include="Models\SpChiefExecutive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePointContext.cs" />
