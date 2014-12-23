@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <BdcModel Path="External Content Types\BDCMetadata.bdcm" />
+</Elements>
