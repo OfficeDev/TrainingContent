@@ -406,23 +406,23 @@ Congratulations! You've created a project that uses JavaScript and client-side t
   1. Next, add the following code to the file, replacing the default class it created:
   
     ````c#
-    public class SpCheifExecutiveJsonCollection {
+    public class SpChiefExecutiveJsonCollection {
       [JsonProperty(PropertyName = "d")]
       public DataCollectionResponse Data { get; set; }
     }
 
-    public class SpCheifExecutiveJsonSingle
+    public class SpChiefExecutiveJsonSingle
     {
       [JsonProperty(PropertyName = "d")]
-      public SpCheifExecutiveJson Data { get; set; }
+      public SpChiefExecutiveJson Data { get; set; }
     }
 
     public class DataCollectionResponse {
       [JsonProperty(PropertyName = "results")]
-      public SpCheifExecutiveJson[] Results { get; set; }
+      public SpChiefExecutiveJson[] Results { get; set; }
     }
 
-    public class SpCheifExecutiveJson {
+    public class SpChiefExecutiveJson {
       [JsonProperty(PropertyName = "__metadata")]
       public JsonMetadata Metadata { get; set; }
       public int Id { get; set; }
@@ -494,7 +494,7 @@ Congratulations! You've created a project that uses JavaScript and client-side t
 
         HttpResponseMessage response = await client.SendAsync(request);
         string responseString = await response.Content.ReadAsStringAsync();
-        var spJsonResponse = JsonConvert.DeserializeObject<SpCheifExecutiveJsonCollection>(responseString);
+        var spJsonResponse = JsonConvert.DeserializeObject<SpChiefExecutiveJsonCollection>(responseString);
 
         var ceoList = new List<SpChiefExecutive>();
         foreach (var item in spJsonResponse.Data.Results) {
@@ -530,7 +530,7 @@ Congratulations! You've created a project that uses JavaScript and client-side t
           .Append("(" + currentCeo.Id + ")");
 
         // updated ceo
-        var existingCeoJson = new SpCheifExecutiveJson {
+        var existingCeoJson = new SpChiefExecutiveJson {
           Metadata = new JsonMetadata { Type = "SP.Data.CeoListListItem" },
           TenureEndYear = "2014"
         };
@@ -562,7 +562,7 @@ Congratulations! You've created a project that uses JavaScript and client-side t
         .Append("_api/web/lists/getbytitle('CeoList')/items");
 
       // updated ceo
-      var newCeoJson = new SpCheifExecutiveJson {
+      var newCeoJson = new SpChiefExecutiveJson {
         Metadata = new JsonMetadata { Type = "SP.Data.CeoListListItem" },
         Title = "Satya Nadella",
         TenureStartYear = "2014",
