@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  
+  <!-- Parent ContentType: Item (0x01) -->
+  <ContentType 
+    ID="0x01008E27CA55E2874DEE9FFAB2F77A73E9F2" 
+    Name="Product" 
+    Group="Wingtip Content Types" 
+    Description="My Content Type" 
+    Inherits="TRUE" 
+    Version="0">
+    
+    <FieldRefs>
+      <FieldRef ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" Name="LinkTitle" DisplayName="Product" Sealed="TRUE" />
+      <FieldRef ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" Name="LinkTitleNoMenu" DisplayName="Product" Sealed="TRUE" />
+      <FieldRef ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" DisplayName="Product" Sealed="TRUE" />
+      <FieldRef ID="{11e6b032-2d81-4068-9766-75bb26271e31}" Name="ProductCode" />
+      <FieldRef ID="{11e6b032-2d81-4068-9766-75bb26271e32}" Name="ProductDescription" />
+      <FieldRef ID="{11e6b032-2d81-4068-9766-75bb26271e33}" Name="ProductListPrice" />
+      <FieldRef ID="{11e6b032-2d81-4068-9766-75bb26271e34}" Name="ProductColor" />
+      <FieldRef ID="{11e6b032-2d81-4068-9766-75bb26271e35}" Name="ProductCategory" />
+      <FieldRef ID="{11e6b032-2d81-4068-9766-75bb26271e36}" Name="ProductImageUrl" />
+    </FieldRefs>
+
+  </ContentType>
+</Elements>

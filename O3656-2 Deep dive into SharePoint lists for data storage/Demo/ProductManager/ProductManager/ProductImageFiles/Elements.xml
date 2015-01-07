@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  
+  <Module Name="ProductImageFiles" Path="ProductImageFiles" Url="ProductImages" List="109" >
+    <File Path="WP0001.jpg" Url="WP0001.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0002.jpg" Url="WP0002.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0003.jpg" Url="WP0003.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0004.jpg" Url="WP0004.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0005.jpg" Url="WP0005.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0006.jpg" Url="WP0006.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0007.jpg" Url="WP0007.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0008.jpg" Url="WP0008.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0009.jpg" Url="WP0009.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0010.jpg" Url="WP0010.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0011.jpg" Url="WP0011.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0012.jpg" Url="WP0012.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0013.jpg" Url="WP0013.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0014.jpg" Url="WP0014.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0015.jpg" Url="WP0015.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0016.jpg" Url="WP0016.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0017.jpg" Url="WP0017.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0018.jpg" Url="WP0018.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0019.jpg" Url="WP0019.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0020.jpg" Url="WP0020.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0021.jpg" Url="WP0021.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0022.jpg" Url="WP0022.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0023.jpg" Url="WP0023.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0024.jpg" Url="WP0024.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0025.jpg" Url="WP0025.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0026.jpg" Url="WP0026.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0027.jpg" Url="WP0027.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0028.jpg" Url="WP0028.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0029.jpg" Url="WP0029.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0030.jpg" Url="WP0030.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0031.jpg" Url="WP0031.jpg" ReplaceContent="TRUE" />
+    <File Path="WP0032.jpg" Url="WP0032.jpg" ReplaceContent="TRUE" />
+  </Module>
+  
+</Elements>

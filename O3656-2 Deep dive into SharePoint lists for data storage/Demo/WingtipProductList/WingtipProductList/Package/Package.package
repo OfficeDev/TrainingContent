@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="df1eeccd-867c-4246-a0b9-b10fee34ea1a" 
+        solutionId="df1eeccd-867c-4246-a0b9-b10fee34ea1a" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="WingtipProductList"
+        sharePointProductVersion="15.0">
+</package>
