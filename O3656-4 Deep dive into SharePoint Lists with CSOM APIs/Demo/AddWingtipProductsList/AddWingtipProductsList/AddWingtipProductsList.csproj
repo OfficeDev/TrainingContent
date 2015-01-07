@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FCDC315D-58CB-4338-B9A7-97468FE581BD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AddWingtipProductsList</RootNamespace>
+    <AssemblyName>AddWingtipProductsList</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SharePoint.Client, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SharePoint.Client.Runtime, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SharePoint.Client.Taxonomy, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WingtipContentGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="WingtipResources\ProductImages\WP0001" />
+    <None Include="WingtipResources\ProductImages\WP0002" />
+    <None Include="WingtipResources\ProductImages\WP0003" />
+    <None Include="WingtipResources\ProductImages\WP0004" />
+    <None Include="WingtipResources\ProductImages\WP0005" />
+    <None Include="WingtipResources\ProductImages\WP0006" />
+    <None Include="WingtipResources\ProductImages\WP0007" />
+    <None Include="WingtipResources\ProductImages\WP0008" />
+    <None Include="WingtipResources\ProductImages\WP0009" />
+    <None Include="WingtipResources\ProductImages\WP0010" />
+    <None Include="WingtipResources\ProductImages\WP0011" />
+    <None Include="WingtipResources\ProductImages\WP0012" />
+    <None Include="WingtipResources\ProductImages\WP0013" />
+    <None Include="WingtipResources\ProductImages\WP0014" />
+    <None Include="WingtipResources\ProductImages\WP0015" />
+    <None Include="WingtipResources\ProductImages\WP0016" />
+    <None Include="WingtipResources\ProductImages\WP0017" />
+    <None Include="WingtipResources\ProductImages\WP0018" />
+    <None Include="WingtipResources\ProductImages\WP0019" />
+    <None Include="WingtipResources\ProductImages\WP0020" />
+    <None Include="WingtipResources\ProductImages\WP0021" />
+    <None Include="WingtipResources\ProductImages\WP0022" />
+    <None Include="WingtipResources\ProductImages\WP0023" />
+    <None Include="WingtipResources\ProductImages\WP0024" />
+    <None Include="WingtipResources\ProductImages\WP0025" />
+    <None Include="WingtipResources\ProductImages\WP0026" />
+    <None Include="WingtipResources\ProductImages\WP0027" />
+    <None Include="WingtipResources\ProductImages\WP0028" />
+    <None Include="WingtipResources\ProductImages\WP0029" />
+    <None Include="WingtipResources\ProductImages\WP0030" />
+    <None Include="WingtipResources\ProductImages\WP0031" />
+    <None Include="WingtipResources\ProductImages\WP0032" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
