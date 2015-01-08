@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="VerificationAgent" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="OvaHttps_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://verificationservice.officeapps.live.com/ova/verificationagent.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://verificationservice.officeapps.live.com/ova/verificationagent.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Microsoft.OfficeMarketplace.ServicePlatform.Common.Fault" />
+      <xsd:import schemaLocation="https://verificationservice.officeapps.live.com/ova/verificationagent.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://verificationservice.officeapps.live.com/ova/verificationagent.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Microsoft.OfficeMarketplace.ServicePlatform.VerificationAgent.Service.Contract" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IVerificationService_VerifyEntitlementToken_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyEntitlementToken" />
+  </wsdl:message>
+  <wsdl:message name="IVerificationService_VerifyEntitlementToken_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyEntitlementTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="IVerificationService_VerifyEntitlementToken_ServiceUnavailableFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/Microsoft.OfficeMarketplace.ServicePlatform.Common.Fault" name="detail" element="q1:ServiceUnavailableFault" />
+  </wsdl:message>
+  <wsdl:message name="IVerificationService_VerifyEntitlementToken_ServiceInternalErrorFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/Microsoft.OfficeMarketplace.ServicePlatform.Common.Fault" name="detail" element="q2:ServiceInternalErrorFault" />
+  </wsdl:message>
+  <wsdl:message name="IVerificationService_VerifyEntitlementTokenRest_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyEntitlementTokenRest" />
+  </wsdl:message>
+  <wsdl:message name="IVerificationService_VerifyEntitlementTokenRest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyEntitlementTokenRestResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IVerificationService">
+    <wsdl:operation name="VerifyEntitlementToken">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/VerifyEntitlementToken" message="tns:IVerificationService_VerifyEntitlementToken_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/VerifyEntitlementTokenResponse" message="tns:IVerificationService_VerifyEntitlementToken_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IVerificationService/VerifyEntitlementTokenServiceUnavailableFaultFault" name="ServiceUnavailableFaultFault" message="tns:IVerificationService_VerifyEntitlementToken_ServiceUnavailableFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IVerificationService/VerifyEntitlementTokenServiceInternalErrorFaultFault" name="ServiceInternalErrorFaultFault" message="tns:IVerificationService_VerifyEntitlementToken_ServiceInternalErrorFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifyEntitlementTokenRest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/VerifyEntitlementTokenRest" message="tns:IVerificationService_VerifyEntitlementTokenRest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/VerifyEntitlementTokenRestResponse" message="tns:IVerificationService_VerifyEntitlementTokenRest_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OvaHttps" type="tns:IVerificationService">
+    <wsp:PolicyReference URI="#OvaHttps_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="VerifyEntitlementToken">
+      <soap:operation soapAction="http://tempuri.org/IVerificationService/VerifyEntitlementToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceUnavailableFaultFault">
+        <soap:fault use="literal" name="ServiceUnavailableFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ServiceInternalErrorFaultFault">
+        <soap:fault use="literal" name="ServiceInternalErrorFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyEntitlementTokenRest">
+      <soap:operation soapAction="http://tempuri.org/IVerificationService/VerifyEntitlementTokenRest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VerificationAgent">
+    <wsdl:port name="OvaHttps" binding="tns:OvaHttps">
+      <soap:address location="https://verificationservice.officeapps.live.com/ova/verificationagent.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
