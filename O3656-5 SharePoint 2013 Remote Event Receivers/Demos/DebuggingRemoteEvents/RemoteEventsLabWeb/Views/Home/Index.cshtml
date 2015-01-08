@@ -1,0 +1,14 @@
+﻿@{ ViewBag.Title = "Home Page"; }
+
+<h4>Lists in Host Web</h4>
+
+@{
+  @Html.Raw("<ul>");
+  foreach (var list in ViewBag.UserLists) {
+    string html = "<li><a href='" + list.Key + "' >" + 
+                  list.Value + 
+                  "</a></li>";
+  @Html.Raw(html);
+  }
+  @Html.Raw("</ul>");
+}
