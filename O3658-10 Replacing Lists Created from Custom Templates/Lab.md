@@ -97,6 +97,7 @@ In this section we will establish a common pattern of interatction for this lab 
       }
   }
   ```
+
   * Here you can see the ClientContext is used to fetch all the Lists in the current Web and ensure that these client side List objects have some key Properties set by using the Include lambda.
   * Lists have use the **BaseTemplate** of **10003** are then found, these are the list created from the List Template we inspected earlier with the Type attribute set to 10003. These lists are added to the collection upon which to operate. 
   * *Note:* This pattern of interaction exists as you cannot modify the contents of a collection while iterating over it without causing an exception.
@@ -154,6 +155,7 @@ In this section we will establish a common pattern of interatction for this lab 
       clientContext.ExecuteQuery();
   }
   ```
+
   * This method ensures that the basic versioning settings are consistent between the two lists. This could be enhanced to duplicate additional settings.
 8. Now add the **SetContentTypes** method:
   ```csharp
@@ -205,6 +207,7 @@ In this section we will establish a common pattern of interatction for this lab 
       clientContext.ExecuteQuery();
   }
   ```
+
   * Here the strategy of finding Content Types which are present on one list but not the other is used to work out if a Content Type needs to be addded to or removed from a list. 
 9. Now the new library is configured and ready to accept any content from the existing library.
 
@@ -256,6 +259,7 @@ Although this section is not required for the purposes of migrating the ContosoL
       newList.Update();
   }
   ```
+
   * The views which only exist on the original list are found and used to build **ViewCreationInformation** objects which are then used to create the new views on the new list. 
   * This method makes use of the helper method **GetViewType** which is already in Program.cs. 
   ```csharp
@@ -305,12 +309,12 @@ Although this section is not required for the purposes of migrating the ContosoL
       clientContext.ExecuteQuery();
   }
   ```
+
   * This method again follows the pattern of building up a todo list, and then performing the operation needed, in this case a call to **DeleteObject()** is used to remove the no longer required view.
 
 ### Migrate the existing content to the new list. ###
 
 1. With the new library configured with the apropriate set of content types, views and options the existing content is now to be migrated. Add the following implementation to the **MigrateContent** method:
-
   ```csharp
   private static void MigrateContent(ClientContext clientContext, List listToBeReplaced, List newList)
   {
@@ -336,6 +340,7 @@ Although this section is not required for the purposes of migrating the ContosoL
       clientContext.ExecuteQuery();
   }
   ```
+
   * This method loads all the files in the root directory of the original list, calculates their new Url and uses the **File.CopyTo** method.
   * An alternative implementation is to use the **MoveTo** method as shown here commented out.
   * This implementation does not cater for nested folder structure within the source library, additional work will be required if you need this feature.
