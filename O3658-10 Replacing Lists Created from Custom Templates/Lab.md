@@ -118,7 +118,7 @@ In this section we will establish a common pattern of interatction for this lab 
   }
   ```
   * This simply sets out the chain of operations needed to replace an existing list which could contain content.
-6. Add the implementation to the empty declaration for **CreateReplacementList**:
+6. Add the implementation to the empty declaration for the **CreateReplacementList** method:
   ```csharp
   private static List CreateReplacementList(ClientContext clientContext, ListCollection lists,List listToBeReplaced)
   {
