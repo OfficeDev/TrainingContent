@@ -9,7 +9,7 @@ During this lab, you will work in your own environment with your own Office365 t
 
 To complete the labs in this course you need to install or configure the following items. 
 
-* Access to an Office365 tenant with an existing developer site. (The [pre-requisite lab]("../O3658-0 Requesting Office365 Trial Tenant/Lab.md") provides directions to complete this task.)
+* Access to an Office365 tenant with an existing developer site. (The [pre-requisite lab](../O3658-0 Requesting Office365 Trial Tenant/Lab.md) provides directions to complete this task.)
 * Visual Studio 2013 Ultimate with Azure SDK v2.5 
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
