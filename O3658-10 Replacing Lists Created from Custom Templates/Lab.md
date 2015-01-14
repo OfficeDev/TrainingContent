@@ -351,4 +351,4 @@ Although this section is not required for the purposes of migrating the ContosoL
 4. Click on the **Contoso Library App** tile.
 
   ![Contoso Library App Tile](Images/ListReplacementContosoLibraryAppTile.png)
-5. The new Contoso Library should now show with any of the content which was present in the origianl library.
+5. The new Contoso Library should now show with any of the content which was present in the original library.
