@@ -69,8 +69,7 @@ In this section we will establish a common pattern of interatction for this lab 
 3. Open **Program.cs**
 
 4. Paste in the following code to create the first stage of execution in the **Main** method:
-
-```csharp
+  ```csharp
   static void Main(string[] args)
   {
       using (var clientContext = new ClientContext("http://w15-sp/sites/ftclab"))
@@ -97,15 +96,12 @@ In this section we will establish a common pattern of interatction for this lab 
           }
       }
   }
-```
-
+  ```
   * Here you can see the ClientContext is used to fetch all the Lists in the current Web and ensure that these client side List objects have some key Properties set by using the Include lambda.
   * Lists have use the **BaseTemplate** of **10003** are then found, these are the list created from the List Template we inspected earlier with the Type attribute set to 10003. These lists are added to the collection upon which to operate. 
   * *Note:* This pattern of interaction exists as you cannot modify the contents of a collection while iterating over it without causing an exception.
-
 5. Now add the **ReplaceList** method:
-
-```csharp
+  ```csharp
   private static void ReplaceList(ClientContext clientContext, ListCollection listCollection, List listToBeReplaced)
   {
       var newList = CreateReplacementList(clientContext, listCollection, listToBeReplaced);
@@ -120,13 +116,10 @@ In this section we will establish a common pattern of interatction for this lab 
 
       MigrateContent(clientContext, listToBeReplaced, newList);
   }
-```
-
+  ```
   * This simply sets out the chain of operations needed to replace an existing list which could contain content.
-
 6. Add the implementation to the empty declaration for **CreateReplacementList**:
-
-```csharp
+  ```csharp
   private static List CreateReplacementList(ClientContext clientContext, ListCollection lists,List listToBeReplaced)
   {
       var creationInformation = new ListCreationInformation
@@ -138,14 +131,11 @@ In this section we will establish a common pattern of interatction for this lab 
       clientContext.ExecuteQuery();
       return newList;
   }
-```
-
+  ```
   * This creates a new Document Library with a title based upon the exising library.
   * If you were to be replacing a list template which were based on say, a calendar list, you would need to set the TemplateType apropriately here.
-
 7. With the new base library created it needs the same basic settings as the library it is to replace, paste in implementation for the **SetListSettings** method:
-
-```csharp
+  ```csharp
   private static void SetListSettings(ClientContext clientContext, List listToBeReplaced, List newList)
   {
       clientContext.Load(listToBeReplaced, 
@@ -161,13 +151,10 @@ In this section we will establish a common pattern of interatction for this lab 
       newList.Update();
       clientContext.ExecuteQuery();
   }
-```
-
+  ```
   * This method ensures that the basic versioning settings are consistent between the two lists. This could be enhanced to duplicate additional settings.
-
 8. Now add the **SetContentTypes** method:
-
-```csharp
+  ```csharp
   private static void SetContentTypes(ClientContext clientContext, List listToBeReplaced, List newList)
   {
       clientContext.Load(listToBeReplaced,
@@ -215,10 +202,8 @@ In this section we will establish a common pattern of interatction for this lab 
       newList.Update();
       clientContext.ExecuteQuery();
   }
-```
-
+  ```
   * Here the strategy of finding Content Types which are present on one list but not the other is used to work out if a Content Type needs to be addded to or removed from a list. 
-
 9. Now the new library is configured and ready to accept any content from the existing library.
 
 ### Configure views on the new list. ###
@@ -226,8 +211,7 @@ In this section we will establish a common pattern of interatction for this lab 
 Although this section is not required for the purposes of migrating the ContosoLibrary as it was implemented in the template it is worth considering that SharePoint Lists are tools of business and often will have views added, removed or altered after their inital creation. This section exists to ensure that this real world scenario is catered for.
 
 1. Add the body to the **AddViews** method:
-
-```csharp
+  ```csharp
   private static void AddViews(ClientContext clientContext, List listToBeReplaced, List newList)
   {
       ViewCollection views = listToBeReplaced.Views;
@@ -269,12 +253,10 @@ Although this section is not required for the purposes of migrating the ContosoL
       }
       newList.Update();
   }
-```
-
+  ```
   * The views which only exist on the original list are found and used to build **ViewCreationInformation** objects which are then used to create the new views on the new list. 
   * This method makes use of the helper method **GetViewType** which is already in Program.cs. 
-
-```csharp
+  ```csharp
   private static ViewType GetViewType(string viewType)
   {
       switch (viewType)
@@ -295,12 +277,9 @@ Although this section is not required for the purposes of migrating the ContosoL
               return ViewType.None;
       }
   }
-
-```
-
+  ```
 2. Now that any additional views have been added to the new list, it's time to remove any default views which are not on the original list. Add the implemenation to **RemoveViews**:
-
-```csharp
+  ```csharp
   private static void RemoveViews(ClientContext clientContext, List listToBeReplaced, List newList)
   {
       //Update the list of views
@@ -323,15 +302,14 @@ Although this section is not required for the purposes of migrating the ContosoL
       newList.Update();
       clientContext.ExecuteQuery();
   }
-```
-
+  ```
   * This method again follows the pattern of building up a todo list, and then performing the operation needed, in this case a call to **DeleteObject()** is used to remove the no longer required view.
 
 ### Migrate the existing content to the new list. ###
 
 1. With the new library configured with the apropriate set of content types, views and options the existing content is now to be migrated. Add the following implementation to the **MigrateContent** method:
 
-```csharp
+  ```csharp
   private static void MigrateContent(ClientContext clientContext, List listToBeReplaced, List newList)
   {
       ListItemCollection items = listToBeReplaced.GetItems(CamlQuery.CreateAllItemsQuery());
@@ -355,20 +333,15 @@ Although this section is not required for the purposes of migrating the ContosoL
       }
       clientContext.ExecuteQuery();
   }
-```
-
+  ```
   * This method loads all the files in the root directory of the original list, calculates their new Url and uses the **File.CopyTo** method.
   * An alternative implementation is to use the **MoveTo** method as shown here commented out.
   * This implementation does not cater for nested folder structure within the source library, additional work will be required if you need this feature.
-
 2. With the code in the console application now complete press **F5** or choose **Debug – Start Debugging** to run the console application and replace the ContosoLibrary.
- 
 3. Once the console application has completed execution switch back to **Internet Explorer** and in the left hand navigation click on Site Contents.
-
 
   ![Contoso Library Tile](Images/ListReplacementLeftHandNavigation.png)
 4. Click on the **Contoso Library App** tile.
 
   ![Contoso Library App Tile](Images/ListReplacementContosoLibraryAppTile.png)
-
 5. The new Contoso Library should now show with any of the content which was present in the origianl library.
