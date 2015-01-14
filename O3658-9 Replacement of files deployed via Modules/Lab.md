@@ -78,7 +78,7 @@ After completing the exercises in this lab, you will be able to:
 ```csharp
   static void Main(string[] args)
   {
-      using (var clientContext = new ClientContext("http://wp-15/sites/ftclab"))
+      using (var clientContext = new ClientContext("http://w15-sp/sites/ftclab"))
       {
           XDocument settings = XDocument.Load("settings.xml");
 
