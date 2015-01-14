@@ -13,7 +13,7 @@ To complete the labs in this course you need to install or configure the followi
 * Visual Studio 2013 Ultimate with Azure SDK v2.5 
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
-* Download the [Demos](Demos/) folder. Note the location of these files. You will need these files to complete the labs.
+* Download the [O3658-1 Demo](Demos/O3658-1 Demo.zip) zip file and extract it. Note the location of these files. You will need these files to complete the labs.
 
 ##Lab Overview
 
@@ -34,7 +34,7 @@ After completing the exercises in this lab, you will be able to:
 
 1. Start **Visual Studio 2013.**
 2. Click **File | Open | Project/Solution**.
-3. Browse to **Demos/ModifyPages** folder and open the existing solution named **ModifyPages.sln**.
+3. Browse to **O3658-1 Demos/ModifyPages** folder and open the existing solution named **ModifyPages.sln**.
   
   *	Note: The exact folder location is dependent on the folder that you copied the files to on your computer.
 
