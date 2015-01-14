@@ -101,9 +101,9 @@ In this section we will establish a common pattern of interatction for this lab 
   * Here you can see the ClientContext is used to fetch all the Lists in the current Web and ensure that these client side List objects have some key Properties set by using the Include lambda.
   * Lists have use the **BaseTemplate** of **10003** are then found, these are the list created from the List Template we inspected earlier with the Type attribute set to 10003. These lists are added to the collection upon which to operate. 
 
-|Note
-|:------
-|This pattern of interaction exists as you cannot modify the contents of a collection while iterating over it without causing an exception.
+  |Note
+  |:------
+  |This pattern of interaction exists as you cannot modify the contents of a collection while iterating over it without causing an exception.
 
 5. Now add the **ReplaceList** method:
 ```csharp
