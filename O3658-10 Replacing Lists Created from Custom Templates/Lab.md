@@ -117,6 +117,7 @@ In this section we will establish a common pattern of interatction for this lab 
       MigrateContent(clientContext, listToBeReplaced, newList);
   }
   ```
+
   * This simply sets out the chain of operations needed to replace an existing list which could contain content.
 6. Add the implementation to the empty declaration for the **CreateReplacementList** method:
   ```csharp
@@ -132,6 +133,7 @@ In this section we will establish a common pattern of interatction for this lab 
       return newList;
   }
   ```
+
   * This creates a new Document Library with a title based upon the exising library.
   * If you were to be replacing a list template which were based on say, a calendar list, you would need to set the TemplateType apropriately here.
 7. With the new base library created it needs the same basic settings as the library it is to replace, paste in implementation for the **SetListSettings** method:
