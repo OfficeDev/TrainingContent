@@ -603,10 +603,10 @@ This div, which you should delete, represents the content area that your Page La
 ### Set the Publishing Site to Use the new master page. ###
 
 In this task you will configure the Publishing site to use the new master page you have created.
-1. Go to the Design Manager and choose __7. Publish and Apply Design__.
+1. Go to the Design Manager and choose __7. Publish and Apply Design__.  
 2. Click the link to __Assign master pages to your site based on device channel__.  
-3. Use the gear icon in the top-right corner of the page to jump to the __Site Settings__ page.
-4. Under the __Look and Feel__ grouping, select __Master Page__.
+3. Use the gear icon in the top-right corner of the page to jump to the __Site Settings__ page.  
+4. Under the __Look and Feel__ grouping, select __Master Page__.  
 5. Change the __Site Master Page__ for __Default__ to __ContosoMasterDesign__ and set __Windows Phone__ to __Seattle__. Click __OK__.  
 ![Master Page Settings](Images/masterpagesettings.png)  
 6. Go back to the homepage of the site to see how your master page is now being used as the site master page.
