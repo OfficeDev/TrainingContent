@@ -70,7 +70,7 @@ After completing the exercises in this lab, you will be able to:
   ![Default.aspx.cs](Images/ModifyUserExpericenceSolutionPages.png)
   2. Include the following piece of code to the **btnSubmit_Click** method.
   
-  ```csharp
+    ```csharp
   	protected void btnSubmit_Click(object sender, EventArgs e)
   	{
   		var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
@@ -81,11 +81,11 @@ After completing the exercises in this lab, you will be able to:
   			lblStatus.Text = string.Format("Second level navigation injection has been applied to the <a href='{0}'>host web</a>.", spContext.SPHostUrl.ToString());
   		}
   	}
-  ```
+    ```
   3. As you can see from the added code, we are calling an additional **AddJSLink** method, so let’s add that one below the button click.
     * We are accessing the user custom action collection of the host web and adding the reference to our custom existing JS file called **scenario1.js**. This way the JavaScript file is executed as part of each page call in host web.
   
-  ```csharp
+    ```csharp
   	public void AddJsLink(ClientContext ctx, Web web)
   	{
   		string scenarioUrl = String.Format("{0}://{1}:{2}/Scripts", this.Request.Url.Scheme,
@@ -127,7 +127,7 @@ After completing the exercises in this lab, you will be able to:
   		ctx.Load(web, s => s.UserCustomActions);
   		ctx.ExecuteQuery();
   	}
-  ```
+    ```
   4. Move to Solution Explorer and double click the **scenario1.js** located in the **Scripts** folder.
     * This file existed in the starting solution so we do not need to write the needed JavaScript to it.
   
@@ -135,15 +135,15 @@ After completing the exercises in this lab, you will be able to:
   5. Notice the following definitions on top of the JavaScript file.
     * These are used to ensure that JavaScript is executed even though MDS (Minimal Download Strategy) has been enabled on the used site. All out of the box team sites have this setting enabled.
   
-  ```javascript
+    ```javascript
   // Register script for MDS if possible
   RegisterModuleInit("scenario1.js", RemoteManager_Inject); //MDS registration
   RemoteManager_Inject(); //non MDS run
-  ```
+    ```
   6. The interesting parts of the script are the following functions called **RemoteManager_Inject** and **injectLinks**.
     * This function is the one which is called during each page execution. We are demonstrating loading jQuery dynamically to the memory and then calling the **injectLinks** function.
   
-  ```javascript
+    ```javascript
   	function RemoteManager_Inject() {
   
   		var jQuery = "https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.2.min.js";
@@ -153,10 +153,10 @@ After completing the exercises in this lab, you will be able to:
   			injectLinks();
   		});
   	}
-  ```
+    ```
     * The **injectLinks** function makes use of HTML5 Local Storage to cache the additional navigation that is to be injected into the site. At present the implementation of **buildNavigation** simply provides static navigation items to be injected, this could be wired up to leverage a Navigation Term Set or another data source in practice.
     
-  ```javascript
+    ```javascript
   	function injectLinks() {
   		//assigning another alias to jQuery prevents issues if another script is using the $ variable.
   		var $s = jQuery.noConflict();
@@ -192,7 +192,7 @@ After completing the exercises in this lab, you will be able to:
   			}
   		});
   	}
-  ```
+    ```
   7. Press **F5** or choose **Debug – Start Debugging** to ensure that application is properly deployed.
     * Log in to the site and test the functionality.
   8. Click the **Inject second level navigation** button, which will execute the JavaScript injection code to the host web.
@@ -206,7 +206,7 @@ After completing the exercises in this lab, you will be able to:
   11. Let us also implement the cleaning up operation for the page. Open **default.aspx.cs** one more time and locate **btnRemove_Click** method. Update the method as follows.
     * Notice that we are calling an additional method called **DeleteJSLink** for actual cleaning.
   
-  ```csharp
+    ```csharp
   	protected void btnRemove_Click(object sender, EventArgs e)
   	{
   		var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
@@ -217,11 +217,11 @@ After completing the exercises in this lab, you will be able to:
   			lblStatus.Text = string.Format("Second level navigation injection has been removed from the <a href='{0}'>host web</a>.", spContext.SPHostUrl.ToString());
   		}
   	}
-  ```
+    ```
   12. Add the new **DeleteJSLink** method after the button click as follows.
     * We are looping through the **UserCustomActions** collection and removing the customization.
     
-  ```csharp
+    ```csharp
   	public void DeleteJsLink(ClientContext ctx, Web web)
   	{
   		var existingActions = web.UserCustomActions;
@@ -238,7 +238,7 @@ After completing the exercises in this lab, you will be able to:
   			}
   		}
   	}
-  ```
+    ```
   13. Press **F5** or choose **Debug – Start Debugging** to ensure that the application is properly deployed.
   
     * Log in to the site and test the functionality.
@@ -294,7 +294,7 @@ After completing the exercises in this lab, you will be able to:
 
   ![Default.aspx.cs](Images/AppScriptPartSolutionPages.png)
   2. Include the following piece of code to the **btnScenario_Click** method.  
-  ```csharp
+    ```csharp
   	protected void btnScenario_Click(object sender, EventArgs e)
   	{
   		var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
@@ -346,7 +346,7 @@ After completing the exercises in this lab, you will be able to:
   		    
   		}
   	}
-  ```
+    ```
     * This code reads the **scenario2.webpart** file from the app website, uploads it to the Web Part Gallery in the host web and sets the group on the newly uploaded web part to "App Script Part".
   3. Open the **scenario2.webpart** file from the **Solution Explorer**
 
@@ -366,14 +366,14 @@ After completing the exercises in this lab, you will be able to:
   6. Notice the following definitions on top of the JavaScript file.
     * These are used to ensure that JavaScript is executed even though MDS (Minimal Download Strategy) has been enabled on the used site. All out of the box team sites have this setting enabled.
   
-  ```javascript
+    ```javascript
   	RegisterModuleInit("scenario2.js", sharePointReady); //MDS registration
   	SP.SOD.executeFunc('sp.js', 'SP.ClientContext', sharePointReady);
-  ```
+    ```
   7. The interesting parts of the script is the function called **sharePointReady**.
     * This function is the one which is called during each page execution. It adds a script element to the page head referencing **SP.UserProfiles.js** and once the referenced script is loaded gets some property values from the current user, these are then used in an HTML string which is injected into the **UserProfileAboutMe** div which the script editor web part instance contains.
   
-  ```javascript
+    ```javascript
   	function sharePointReady() {
   	  var clientContext = SP.ClientContext.get_current();
   
@@ -406,7 +406,7 @@ After completing the exercises in this lab, you will be able to:
   	      }));  
   	    }, 'SP.UserProfiles.js');  
   	  }  
-  ```
+    ```
   8. Press **F5** or choose **Debug – Start Debugging** to ensure that application is properly deployed.
     * Log in to the site and test the functionality.  
   9. Click the **Inject second level navigation** button, which will execute the JavaScript injection code to the host web.
