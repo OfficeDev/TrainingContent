@@ -577,23 +577,23 @@ __{global nav goes here}__
 7. Go back to the master page preview and refresh the page. You should now see the live search box being added to the page:
 8. Lastly, move the __ContentPlaceholderMain__ control into the area where the rendered content should appear.
   1. In Notepad, find the following HTML comment in the master page:
-```html
+  ```html
 <!--end title area-->
-```
+  ```
 
-  2. Immediately following that title you will see a __<DIV>__ followed by a __<TABLE>__. The __<TABLE>__ contains the static content used in the designer generated master page. Delete this entire table (it starts around line 135 and goes to around line 287).
+  2. Immediately following that title you will see a ``<DIV>`` followed by a ``<TABLE>``. The ``<TABLE>`` contains the static content used in the designer generated master page. Delete this entire table (it starts around line 135 and goes to around line 287).
   3. Jump to the bottom of the master page source. You should a block of HTML that starts with the following markup:
-```html
+  ```html
 <div name="ContentPlaceHolderMain">
-```
+  ```
 
-  4. Select the entire __<DIV>__ and its contents and paste it where the __<TABLE>__ was that you just removed.
-  5. Finally, look for HTML within the __<DIV>__ you just moved that starts with this:
-```
+  4. Select the entire ``<DIV>`` and its contents and paste it where the ``<TABLE>`` was that you just removed.
+  5. Finally, look for HTML within the ``<DIV>`` you just moved that starts with this:
+  ```html
 <div class="DefaultContentBlock" style="border:medium black solid; background:yellow; color:black; margin:20px; padding:10px;">
 This div, which you should delete, represents the content area that your Page Layouts and pages will fill. Design your Master Page around this content placeholder.
 </div>
-```
+  ```
 
   6. Delete the markup listed above. This was added by SharePoint to highlight where your dynamic content should appear.
   7. Save your changes.
