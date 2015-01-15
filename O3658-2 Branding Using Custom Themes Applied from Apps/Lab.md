@@ -122,14 +122,16 @@ In this task we will add the needed code to modify the host web theme settings f
 
   * This will ensure that the referenced SharePoint client CSOM can be easily accessed.
 
-    ```csharp
-        using Microsoft.SharePoint.Client;
-        using System.Web.Hosting;
-    ```
+  ```csharp
+    using Microsoft.SharePoint.Client;
+    using System.Web.Hosting;
+  ```
 
-3. Update the __btnSetThemeForHost_Click__ method as follows for controlling the host web theming settings.  
+3. Update the __btnSetThemeForHost_Click__ method as follows for controlling the host web theming settings.
+
   * Notice that this code is calling the __SetThemeBasedOnName__ method, which we have not yet added.  
-```c#
+
+  ```c#
 protected void btnSetThemeForHost_Click(object sender, EventArgs e)
 {
     var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
@@ -144,10 +146,10 @@ protected void btnSetThemeForHost_Click(object sender, EventArgs e)
         }
     }
 }
-```
+  ```
 
 4. Add following __SetThemeBasedOnName__ method below the button click.
-```c#
+  ```c#
 public void SetThemeBasedOnName(Web web, string themeName)
 {
     // Let's get instance to the composite look gallery
@@ -208,16 +210,16 @@ public void SetThemeBasedOnName(Web web, string themeName)
         web.Context.ExecuteQuery();
     }
 }
-```
+  ```
 
 5. Also add the following __MakeAsRelativeUrl__ helper function below the just added method.
-```c#
+  ```c#
 private string MakeAsRelativeUrl(string urlToProcess)
 {
     Uri uri = new Uri(urlToProcess);
     return uri.AbsolutePath;
 }
-```
+  ```
 
 6. Press __F5__ or choose __Debug | Start Debugging__ to see the latest changes.
 7. Choose __Green__ from the theme option drop down and click __Deploy a custom theme__ for starting the host web modification.
@@ -243,7 +245,7 @@ In this task we will add the needed code to deploy our custom theme to the host 
 8.  Move to the __Solution Explorer__, expand the __Pages__ folder, expand the __Default.aspx__ file, and open the default.aspx.cs to add the needed code to deploy the custom theme to the host web.
 9.  Update the __btnDeployTheme_Click__ method as follows.
 Notice that the code is using an additional method called __DeployContosoThemeToWeb__ to actually add the custom theme to host web.
-```c#
+  ```c#
 protected void btnDeployTheme_Click(object sender, EventArgs e)
 {
     var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
@@ -266,11 +268,11 @@ protected void btnDeployTheme_Click(object sender, EventArgs e)
         }
     }
 }
-```
+  ```
 
 10. Add the following __DeployContosoThemeToWeb__ method below the method which we updated on the previous step.  
 Notice that this method uses two additional helper methods, which will be added in following steps.
-```c#
+  ```c#
 public void DeployContosoThemeToWeb(Web web, string themeName, string colorFilePath, string fontFilePath, string backgroundImagePath, string masterPageName)
 {
     Web rootWeb;
@@ -290,11 +292,11 @@ public void DeployContosoThemeToWeb(Web web, string themeName, string colorFileP
     // Let's also add entry to the Theme catalog. This is not actually required, but provides visibility for the theme option, if manually changed
     AddNewThemeOptionToSite(cc, rootWeb, themeName, colorFilePath, fontFilePath, backgroundImagePath, masterPageName);
 }
-```
+  ```
 
 11. Add the following __DeployFileToThemeFolderSite__ method just below the previously added method.  
 This is taking care of deploying the custom files to host web, which are then used to create the theme definition.
-```c#
+  ```c#
 private void DeployFileToThemeFolderSite(Web web, string sourceAddress)
 {
     // Get the path to the file which we are about to deploy
@@ -327,10 +329,10 @@ private void DeployFileToThemeFolderSite(Web web, string sourceAddress)
     web.Context.Load(uploadFile);
     web.Context.ExecuteQuery();
 }
-```
+  ```
 
 12. We are still missing the __AddNewThemeOptionToSite__ method, which was used by previously added method, so add following below the just added method.
-```c#
+  ```c#
 private void AddNewThemeOptionToSite(Web web, string themeName, string colorFilePath, string fontFilePath, string backGroundPath, string masterPageName)
 {
     // Let's get instance to the composite look gallery
@@ -378,10 +380,10 @@ private void AddNewThemeOptionToSite(Web web, string themeName, string colorFile
         web.Context.ExecuteQuery();
     }
 }
-```
+  ```
 
 13. Also add the following helper methods to the code file.
-```c#
+  ```c#
 private bool ThemeEntryExists(Web web, List themeList, string themeName)
  {
 
@@ -418,7 +420,7 @@ private bool ThemeEntryExists(Web web, List themeList, string themeName)
          return baseUrl;
      return string.Format("{0}/{1}", baseUrl.TrimEnd(new char[] { '/', '\\' }), relativeUrl.TrimStart(new char[] { '/', '\\' }));
  }
-```
+  ```
 
 14. Press __F5__ or choose __Debug | Start Debugging__ to see the latest changes.
 15. Click the __Deploy a custom theme__ button on the app page.
