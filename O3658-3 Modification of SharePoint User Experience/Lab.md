@@ -67,9 +67,8 @@ After completing the exercises in this lab, you will be able to:
 
 1. Move to **Solution View** and double-click the **Default.aspx.cs** file to see the starting point for adding the needed code. This file can be found under **Pages – Default.aspx**
 
-![Default.aspx.cs](Images/ModifyUserExpericenceSolutionPages.png)
+  ![Default.aspx.cs](Images/ModifyUserExpericenceSolutionPages.png)
 2. Include the following piece of code to the **btnSubmit_Click** method.
-
   ```csharp
 	protected void btnSubmit_Click(object sender, EventArgs e)
 	{
@@ -83,8 +82,8 @@ After completing the exercises in this lab, you will be able to:
 	}
   ```
 3. As you can see from the added code, we are calling an additional **AddJSLink** method, so let’s add that one below the button click.
-  * We are accessing the user custom action collection of the host web and adding the reference to our custom existing JS file called **scenario1.js**. This way the JavaScript file is executed as part of each page call in host web.
 
+  * We are accessing the user custom action collection of the host web and adding the reference to our custom existing JS file called **scenario1.js**. This way the JavaScript file is executed as part of each page call in host web.
   ```csharp
 	public void AddJsLink(ClientContext ctx, Web web)
 	{
