@@ -76,7 +76,7 @@ This will change the layout based on seattle.master.
 Using this __Color Slots__ functionality, you can define specific colors for each of the site elements which are supported to be themed. In the following picture, we have expanded the Bucket 1 grouping to show the specific settings.  
 ![Color Palette Tool](Images/colortool9.png)  
 11. Click __File | Save__ to save the created theme file to be used in following step.
-12. Save the theme file to the __O3658-2 Demos/DeployCustomTheme__ folder, so that you can easily find it in following step. Name the file __custom.spcolor__. 
+12. Save the theme file to the __O3658-2 Demos/DeployCustomTheme__ folder, so that you can easily find it in following step. Name the file __custom.spcolor__.  
 ![Color Palette Tool](Images/colortool10.png)  
 
 Now we have created the needed theme file for the following task.
