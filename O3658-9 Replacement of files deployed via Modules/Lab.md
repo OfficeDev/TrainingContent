@@ -2,6 +2,7 @@
   
 ## Lab Environment ##
 During this lab, you will work in the provided virtual machine. The following prerequisites have been completed and are provided should you wish to undertake this lab in your own environment.
+
 ### Before You Begin ###
 To complete the labs in this course you need to install or configure the following items.
   - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisoned using the **WebTemplate**. (Directions to complete this task can be found in the **Student\Contoso.Intranet** folder.)
@@ -14,14 +15,16 @@ To complete the labs in this course you need to install or configure the followi
     ![54403-Student folder](Images/StudentCodeSourceTree.png)
   
 ## Lab Overview ##
+
 ### Abstract ###
-In this lab you will learn how to replace existing master pages and page layouts which have been deployed to an On-Premises SharePoint Server via Modules in a Full Trust Solution. This will involve deploying new files to replace those deployed via Modules and updating the existing usages of these files to remove the dependancy on the files which were deployed via decalarative means. 
+In this lab you will learn how to replace existing master pages and page layouts which have been deployed to an On-Premises SharePoint Server via Modules in a Full Trust Solution. This will involve deploying new files to replace those deployed via Modules and updating the existing usages of these files to remove the dependancy on the files which were deployed via decalarative means.
+
 ### Learning Objectives ###
 After completing the exercises in this lab, you will be able to:
   - Upload new master pages to a SharePoint site via CSOM
     + Update the master pages for a given SharePoint site
   - Upload new page layouts to a SharePoint site via CSOM
-    + Update existing page instances to use the new page laouts
+    + Update existing page instances to use the new page layouts
     + Set the available and default page layouts for a SharePoint WCM site
   
 **Estimated time to complete this lab: *40 minutes*.**
@@ -32,52 +35,65 @@ After completing the exercises in this lab, you will be able to:
 ### Examine the initial state of the site and modules for replacement. ###
   
 1. Start **Visual Studio 2013.**
+
 2. Click **File | Open Project.** 
   
   ![Open Project](Images/FileMenu.png)
-3. Move to the **Contoso.Intranet/Contoso.Intranet** folder and open the existing solution named  **Contoso.Intranet.sln**.
+
+3. Move to the **Contoso.Intranet** folder and open the existing solution named  **Contoso.Intranet.sln**.
+
 4. In the **Solution Explorer** expand the **SP** folder then the **Modules** folder.
 
-  ![Modules](Images/ModuleReplacementModules.png)
+  ![Modules](Images/ModuleReplacementContosoSpModulesFolder.png)
+
 5. Examine the **Elements.xml** file and the **contoso.master** file in the **MOMasterPage** Module.
-  * Note that the contoso.master master page makes use of a custom user control which is not supported in Office 365. Our replacement masterpage will not contain this control
+  * Note that the contoso.master master page makes use of a custom user control which is not supported in Office 365. Our replacement masterpage will not contain this control.
   
 6. Examine the **Elements.xml** file and the **ContosoWelcomeLinks.aspx** file in the **MOPageLayouts** Module.
-  * Note that the ContosoWelcomeLinks.aspx master page layout makes use of a custom user control which is not supported in Office 365. Our replacement page layout will not contain this control 
+  * Note that the ContosoWelcomeLinks.aspx master page layout makes use of a custom user control which is not supported in Office 365. Our replacement page layout will not contain this control.
 
 7. It should also be noted that both of these files set the Content Type of the deployed file declaratively. 
-8. Open **Internet Explorer** and navigate to **http://wp-15/sites/ftclab**
-  * You should see a home page which uses the custom master page and page layouts shown above:
+
+8. Open **Internet Explorer** and navigate to **http://w15-sp/sites/ftclab**
+  * You should see a home page which uses the custom master page and page layouts shown above: 
 
   ![Home Page with Full Trust Master Page and Page Layout](Images/ModuleReplacementHomePageOriginal.png)
+
 9. Switch back to **Visual Studio 2013**
+
 10. Click **File | Close Solution** to close the current soltion.
 
   ![Close Solution](Images/FileMenuClose.png)
 
+
 ### Upload the new Master Page. ###
 
 1. Click **File | Open Project.** 
+
 2. Move to the **Module9/ModuleReplacement** folder and open the existing solution named  **ModuleReplacement.sln**.
   * Note: The actual folder location is dependent on where you copied the files to in your local computer. 
   
   ![Open Solution Explorer](Images/ModuleReplacementOpenSolution.png)
+
 3. Open the **settings.xml** file **ModifyUserExperience** project.
-  * Here you can see an xml file defining which files we will upload, the files they are to replace and additional information that is needed to upload the page layouts successfully.
+  * Here you can see a xml file defining which files we will upload, the files they are to replace and additional information that is needed to upload the page layouts successfully.
   
   ![ModifyUserExperience Project](Images/ModuleReplacementSettings.png)
+
 4. Open the **MasterPageGalleryFiles.cs** file
   * Here you can see two business objects we will use to hold data about the files to be uploaded.
   
   ![Project Properties](Images/ModuleReplacementMasterPageGalleryFile.png)
+
 5. Open **Program.cs**.
 
   ![AppManifest](Images/ModuleReplacementProgram.png)
-  * Paste the following code into the **Main** method.
 
-```csharp
+  * Paste the following code into the **Main** method:  
+
+  ```csharp
   static void Main(string[] args)
-  {
+  { 
       using (var clientContext = new ClientContext("http://w15-sp/sites/ftclab"))
       {
           XDocument settings = XDocument.Load("settings.xml");
@@ -103,12 +119,12 @@ After completing the exercises in this lab, you will be able to:
           UploadAndSetMasterPages(web, folder, clientContext, settings, masterPageContentType.StringId);
       }
   }
-```
-  * As you can see, we load the master page gallery and its root folder and Content Types, we then query the content types to find the master page content type so that we can set this correctly for the master pages that will be uploaded
+  ```
+  * As you can see, we load the master page gallery and its root folder and Content Types, we then query the content types to find the master page content type so that we can set this correctly for the master pages that will be uploaded. 
 
   * We also gather some additional information about the web in which we are working, then a call is made to the **UploadAndSetMasterPages** method, so let's add that now:
   
-```csharp
+  ```csharp
   private static void UploadAndSetMasterPages(Web web, Folder folder, ClientContext clientContext, XDocument settings, string contentTypeId)
   {
       IList<MasterPageGalleryFile> masterPages = (from m in settings.Descendants("masterPage")
@@ -133,7 +149,7 @@ After completing the exercises in this lab, you will be able to:
   {
       using (var fileReadingStream = System.IO.File.OpenRead(masterPage.File))
       {
-          //ensure that the masterpage is checked out if this is needed
+          //Ensure that the masterpage is checked out if this is needed
           PublishingHelper.CheckOutFile(web, masterPage.File, folder.ServerRelativeUrl);
 
           //Use the FileCreationInformation to upload the new file
@@ -142,6 +158,7 @@ After completing the exercises in this lab, you will be able to:
           fileInfo.Overwrite = true;
           fileInfo.Url = masterPage.File;
           File file = folder.Files.Add(fileInfo);
+
           //Get the list item associated with the newly uploaded file
           ListItem item = file.ListItemAllFields;
           clientContext.Load(file.ListItemAllFields);
@@ -156,8 +173,10 @@ After completing the exercises in this lab, you will be able to:
           item["MasterPageDescription"] = "Master Page Uploaded using CSOM";
           item.Update();
           clientContext.ExecuteQuery();
+
           //Check-in, publish and approve and the new masterpage file if needed
           PublishingHelper.CheckInPublishAndApproveFile(file);
+
           //Update the references to the replaced masterpage if needed
           if (web.MasterUrl.EndsWith("/" + masterPage.Replaces))
           {
@@ -173,6 +192,7 @@ After completing the exercises in this lab, you will be able to:
   }
 ```
 7. Press **F5** or choose **Debug – Start Debugging** to run the console application and deploy the new master page.
+
 8. Once the console application has completed execution switch back to **Internet Explorer** and refresh the page.
   * You should now see that the page renders using the Contoso App Master Page and that the custom user control which was visible in the upper right of the page is no longer in use.
 
@@ -186,7 +206,7 @@ After completing the exercises in this lab, you will be able to:
 
 2. Move to **Solution View** and open the **Program.cs** file as we need to add more functionality to the console application.
 
-3. Edit the **Main** method and add the following lines at the end of the method inside the **using** statement
+3. Edit the **Main** method and add the following lines at the end of the method inside the **using** statement:
 
   ```csharp
   //Get the list contentTypeId for the PageLayouts upload the layout pages we know about
@@ -211,7 +231,9 @@ After completing the exercises in this lab, you will be able to:
                                        ContentTypeId = contentTypeId,
                                        AssociatedContentTypeName = (string)m.Attribute("associatedContentTypeName"),
                                        DefaultLayout = m.Attribute("defaultLayout") != null && (bool)m.Attribute("defaultLayout")
-                                   }).ToList();                                   
+                                   }).ToList();
+
+      // Update the content type association
       foreach (LayoutFile pageLayout in pageLayouts)
       {
           ContentType associatedContentType =
@@ -274,25 +296,41 @@ After completing the exercises in this lab, you will be able to:
   * As you can see these methods change the XML stored in the **__PageLayouts** and **__DefaultPageLayout** Properties for the Web.
 
 7. Press **F5** or choose **Debug – Start Debugging** to run the console application and deploy the new page layouts.
+
 8. Once the console application has completed execution switch back to **Internet Explorer** and click on **Site Settings** under the gear in the upper right.
 
-  ![Site Settings](Image/ModuleReplacementSiteSettingsLink.png)
+  ![Site Settings](Images/ModuleReplacementSiteSettingsLink.png)
+
 9. Under **Web Designer Galleries** click **Master pages and page layouts**
 
+  ![Master pages and page layouts](Images/ModuleReplacementMasterPagesAndPageLayoutsLink.png)
+
   * You should now see the **ContosoWelcomeLinksApp.aspx** page in the Master Page Gallery.
+
+  ![Site Settings](Images/ModuleReplacementContosoWelcomeLinksAppMaster.png)
+
 10. Navigate **Back** in the browser
+
 11. Under **Look and Feel** click **Page layouts and site templates**
+
+  ![Page layouts and site templates](Images/ModuleReplacementPageLayoutsAndSiteTemplatesLink.png)
+
   * In the Page Layouts section you will see that the Contoso Welcome Links App page layout is available for use within this site.
 
   ![Page Layouts](Images/ModuleReplacementPageLayoutsSettings.png)
+
 12. Click on the **FTC Lab** link in the upper left of the screen
+
   * Note that the home page is not yet using the newly uploaded page layout.
+
 
 ### Update existing pages to use the new layouts. ###
 
 1. Switch back to **Visual Studio 2013**
+
 2. Open the **Program.cs** file.
-3. Locate the **UploadPageLayoutsAndUpdateReferences** method, add the following method call as the last line of this method
+
+3. Locate the **UploadPageLayoutsAndUpdateReferences** method, add the following method call as the last line of this method:
 
   ```csharp
   UpdatePages(web, clientContext, pageLayouts);
@@ -319,17 +357,20 @@ After completing the exercises in this lab, you will be able to:
               {
                   //Check out the page so we can update the page layout being used
                   PublishingHelper.CheckOutFile(web, item);
+
                   //Update the pageLayout reference
                   pageLayout.Url = pageLayout.Url.Replace(matchingLayout.Replaces, matchingLayout.File);
                   item["PublishingPageLayout"] = pageLayout;
                   item.Update();
                   File file = item.File;
+
                   //Grab the file and other attributes so that we can check in etc.
                   clientContext.Load(file,
                       f => f.Level,
                       f => f.CheckOutType);
                   clientContext.ExecuteQuery();
-                  //Check-in etc.
+
+                  //Check-in 
                   PublishingHelper.CheckInPublishAndApproveFile(file);
               }
           }
@@ -339,7 +380,9 @@ After completing the exercises in this lab, you will be able to:
   * This method iterates over all the items in the Pages library and updates the Url property of the PublishingPageLayout field to point at the new page layout where apropriate.
 
 5. Press **F5** or choose **Debug – Start Debugging** to run the console application and update the page layouts being used by existing page instances.
+
 6. Once the console application has completed execution switch back to **Internet Explorer** and refresh the page.
 
   * You should now see the home page using the new page layout
+  
   ![Home page using new master page and page layout](Images/ModuleReplacementHomePageComplete.png)
