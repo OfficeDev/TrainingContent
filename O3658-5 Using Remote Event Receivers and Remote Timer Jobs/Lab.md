@@ -78,6 +78,7 @@ Notice that we will implement the most functionality in an event receiver, so th
     private const string ReceiverName = "ItemAddedEvent";
     private const string ListName = "Remote Event Receiver Lab";
   ```
+
 4. Add the below methods to the AppEventReceiver class
   ```csharp
     private void HandleAppInstalled(SPRemoteEventProperties properties)
@@ -147,11 +148,13 @@ Notice that we will implement the most functionality in an event receiver, so th
         }
     }
   ```
+
 5. Add the following using statements to the AppEventReceiver class
   ```csharp
     using System.ServiceModel;
     using System.ServiceModel.Channels;
   ```
+  
 6.  Replace the ProcessEvent method in the AppEventReceiver class by below code
   ```csharp
     public SPRemoteEventResult ProcessEvent(SPRemoteEventProperties properties)
