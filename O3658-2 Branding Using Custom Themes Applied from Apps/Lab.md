@@ -88,7 +88,7 @@ In this task we will take the theme file you just created with the background im
 2.  Click __File | Open Project__.  
 ![Open Project](Images/openproject.png)  
 3.  Move to the __O3658-2 Demos/DeployCustomTheme__ folder and open the existing solution named __DeployCustomTheme.sln__.  
-Notice that the actual folder location is dependent on where you copied the files to in your local computer.
+  * Notice that the actual folder location is dependent on where you copied the files to in your local computer.  
 4. Provide your tenant login information when the __Connect to SharePoint__ dialog is prompted.  
 ![Account Login](Images/accountlogin.png)  
 5. Ensure that the __Site URL__ property is correct for the app project by first activating the __DeployCustomTheme__ project in the solution explorer.  
@@ -97,17 +97,17 @@ Notice that the actual folder location is dependent on where you copied the file
 ![Site URL](Images/siteurl.png)  
 7. Open __AppManifest.xml__ from the App project in the __Solution Explorer__.  
 ![App Manifest](Images/manifest.png)  
-8. Move to the __Permissions__ tab.
+8. Move to the __Permissions__ tab.  
 9. Adjust the permission to require __FullControl__ for __Web__ scope, so that we are able to manipulate the host web where the app is installed.  
 ![App Permissions](Images/permission.png)  
-10. Press __F5__ or choose __Debug | Start Debugging__ to ensure that the application can be properly deployed.
+10. Press __F5__ or choose __Debug | Start Debugging__ to ensure that the application can be properly deployed.  
 11. Log in to your test tenant by providing the right user ID and password, if required.  
 ![Log In](Images/login.png)  
-Note: If you have any challenges to logging in to your corporate tenant, follow guidance from this support article: [http://support.microsoft.com/kb/2507767](http://support.microsoft.com/kb/2507767).
+  * Note: If you have any challenges to logging in to your corporate tenant, follow guidance from this support article: [http://support.microsoft.com/kb/2507767](http://support.microsoft.com/kb/2507767).  
 12. Click __Trust It__, when the trust notification for the oAuth permissions is shown.  
 ![Trust It](Images/trustit.png)  
 13. You should now see the initial design for the app as follows.  
-Notice that we will implement the actual functionality as an app part, so there will not be any actual code in the default.aspx file.  
+  * Notice that we will implement the actual functionality as an app part, so there will not be any actual code in the default.aspx file.  
 ![App Page](Images/apppage.png)  
 14. Move back to the __Visual Studio__ side and press __Shift+F5__ or choose __Stop Debugging__ from the __Debug__ menu.
 
@@ -118,11 +118,11 @@ In this task we will add the needed code to modify the host web theme settings f
 1. Move to the __Solution Explorer__, expand the __Pages__ folder, expand the __Default.aspx__ file, and open __default.aspx.cs__ to add the needed code for actual button clicks.  
 ![App Page](Images/apppage2.png)  
 2. First add the required __using__ statements to the top of the code page as follows.  
-This will ensure that the referenced SharePoint client CSOM can be easily accessed.
-```c#
-using Microsoft.SharePoint.Client;
-using System.Web.Hosting;
-```
+  * This will ensure that the referenced SharePoint client CSOM can be easily accessed.
+    ```c#
+    using Microsoft.SharePoint.Client;
+    using System.Web.Hosting;
+    ```
 
 3. Update the __btnSetThemeForHost_Click__ method as follows for controlling the host web theming settings.  
 Notice that this code is calling the __SetThemeBasedOnName__ method, which we have not yet added.
