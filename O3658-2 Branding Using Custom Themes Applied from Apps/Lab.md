@@ -581,7 +581,7 @@ __{global nav goes here}__
 <!--end title area-->
   ```
 
-  2. Immediately following that title you will see a ``<DIV>`` followed by a ``<TABLE>``. The ``<TABLE>`` contains the static content used in the designer generated master page. Delete this entire table (it starts around line 135 and goes to around line 287).
+  2. Immediately following that title you will see a `<DIV>` followed by a ``<TABLE>``. The ``<TABLE>`` contains the static content used in the designer generated master page. Delete this entire table (it starts around line 135 and goes to around line 287).
   3. Jump to the bottom of the master page source. You should a block of HTML that starts with the following markup:
   ```html
 <div name="ContentPlaceHolderMain">
