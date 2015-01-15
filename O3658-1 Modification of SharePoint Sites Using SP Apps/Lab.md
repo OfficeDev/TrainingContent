@@ -10,10 +10,11 @@ During this lab, you will work in your own environment with your own Office365 t
 To complete the labs in this course you need to install or configure the following items. 
 
 * Access to an Office365 tenant with an existing developer site. (The [pre-requisite lab](../O3658-0 Requesting Office365 Trial Tenant/Lab.md) provides directions to complete this task.)
-* Visual Studio 2013 Ultimate with Azure SDK v2.5 
+* Visual Studio 2013 Ultimate with Azure SDK v2.5
+* Ensure you have configured a local NuGet package repository: [](http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore)
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
-* Download the [O3658-1 Demo](Demos/O3658-1 Demos.zip) zip file and extract it. Note the location of these files. You will need these files to complete the labs.
+* Download the [O3658-1 Demos.zip](Demos/O3658-1 Demos.zip) zip file by following the link and clicking on **Raw**, then extract it. Note the location of these files. You will need these files to complete the labs.
 
 ##Lab Overview
 
@@ -182,7 +183,7 @@ After completing the exercises in this lab, you will be able to:
 2. Click **File | Open Project.**
 
   ![Open Project](Images/OpenProject.png)
-3. Move to the **Demos/JavaScriptInjection** folder and open the existing solution named  **JavaScriptInjection.sln**
+3. Move to the **O3658-1 Demos/JavaScriptInjection** folder and open the existing solution named  **JavaScriptInjection.sln**
 
   * Note: The actual folder location is dependent on where you copied the files to in your local computer.
 
