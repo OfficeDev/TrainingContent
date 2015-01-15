@@ -191,7 +191,7 @@ After completing the exercises in this lab, you will be able to:
 
 ### Add some break points and debug your program. ###
 
-1. Now the needed code has been added. You should move the cursor to the appropriate locations in the code and use ** F9 ** to add some break points to the code, so that you can more easily track what is actually happening when the code is executed.
+1. Now the needed code has been added. You should move the cursor to the appropriate locations in the code and use **F9** to add some break points to the code, so that you can more easily track what is actually happening when the code is executed.
 
 2. Press **F5** or choose **Debug – Start debugging**.
 
@@ -282,7 +282,7 @@ After completing this exercise, you will understand how to:
 
     ![Configuration HTML](Images/17.png)
 
-8.	Press ** F5 ** or choose ** Debug – Start Debugging ** to ensure that application can be properly deployed.
+8.	Press **F5** or choose **Debug – Start Debugging** to ensure that application can be properly deployed.
 
 9.	Log in to your test tenant by providing the right user ID and password, if required.
 
@@ -335,7 +335,7 @@ After completing this exercise, you will understand how to:
     using Microsoft.SharePoint.Client.UserProfiles;
     ```
 
-8.	We can place the needed automation code directly to the ** Page_Load ** method, so that it’s executed each time. Add following code elements to the method.
+8.	We can place the needed automation code directly to the **Page_Load** method, so that it’s executed each time. Add following code elements to the method.
 
     a.	We are using social CSOM or user profile CSOM to access a particular user’s my site dynamically, so that we are able to modify it automatically without end user actions.
     
@@ -440,7 +440,7 @@ After completing this exercise, you will understand how to:
         }
     }
     ```
-10.	**SetThemeBasedOnName** method is dependently on MakeAsRelativeUrl helper method, so place following code below it.
+10.	**SetThemeBasedOnName** method depends on **MakeAsRelativeUrl** helper method, so place following code below it.
    
     ```csharp
     private string MakeAsRelativeUrl(string urlToProcess)
@@ -478,6 +478,6 @@ After completing this exercise, you will understand how to:
 
     ![Configuration HTML](Images/28.png)
 
-Note: In actual production implementation you would not execute the theme setting during each call. It’s recommended to store the version of the customizations to the property bag of the OneDrive for Business site, so that you can ignore applying customizations if the site is already in right version.
+    * Note: In actual production implementation you would not execute the theme setting during each call. It’s recommended to store the version of the customizations to the property bag of the OneDrive for Business site, so that you can ignore applying customizations if the site is already in right version.
 
 
