@@ -2,6 +2,7 @@
   
 ## Lab Environment ##
 During this lab, you will work in the provided virtual machine. The following prerequisites have been completed and are provided should you wish to undertake this lab in your own environment.
+
 ### Before You Begin ###
 To complete the labs in this course you need to install or configure the following items.
   - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisioned using the **WTContosoPublishing Web Template**. (Directions to complete this task can be found in the **Student\Contoso.Intranet** folder.)
@@ -13,16 +14,19 @@ To complete the labs in this course you need to install or configure the followi
   - Download and unzip the Student folder. Note the unzipped location of these files. You will need these files to complete the labs.  The following graphic shows the unzipped file structure.  
     ![54403-Student folder](Images/StudentCodeSourceTree.png)
   
+
 ## Lab Overview ##
+
 ### Abstract ###
-In this lab you will learn how to detect existing lists and libraries, which have been created from a custom list template deployed into an On-Premises SharePoint Server in a Full Trust Solution. This will involve creating new lists to replace those, configuring them apropriately then transfering the exising content from the original list. 
+In this lab you will learn how to detect existing lists and libraries, which have been created from a custom list template deployed into an On-Premises SharePoint Server in a Full Trust Solution. This will involve creating new lists to replace those, configuring them appropriately then transferring the existing content from the original list. 
+
 ### Learning Objectives ###
 After completing the exercises in this lab, you will be able to:
   - Find lists created from a given template via CSOM
   - Create and configure lists via CSOM
   - Add and remove views from lists via CSOM
   - Move files between libraries via CSOM
-  
+   
 **Estimated time to complete this lab: *40 minutes*.**
   
   
@@ -31,42 +35,56 @@ After completing the exercises in this lab, you will be able to:
 ### Examine the initial state of the site and library for replacement. ###
   
 0. Start **Visual Studio 2013.**
+
 0. Click **File | Open Project.** 
   
   ![Open Project](Images/FileMenu.png)
-0. Move to the **Contoso.Intranet/Contoso.Intranet** folder and open the existing solution named  **Contoso.Intranet.sln**.
+
+0. Move to the **Contoso.Intranet** folder and open the existing solution named  **Contoso.Intranet.sln**.
+
 0. In the **Solution Explorer** expand the **SP** folder then the **ListTemplate** folder and double click on the **LTContosoLibrary** item.
 
-  ![Modules](Images/ListReplacementLTContosoLibrary.png)
-0. Examine the **Elements.xml** file which had been opened. 
-  * Note that the **Type** attibute is set to 10003, this is the identifier for this custom list template.
-  
-0. You will also see that there is an declarative instance declared here, this is used to create the instance which you will be replacing.
+  ![LTContosoLibrary](Images/ListReplacementLTContosoLibrary.png)
 
-0. Open **Internet Explorer** and navigate to **http://wp-15/sites/ftclab**
+0. Examine the **Elements.xml** file which had been opened. 
+  * Note that the **Type** attribute is set to 10003, this is the identifier for this custom list template.
+
+  ![Type Attribute 10003](Images/ListReplacementTypeAttribute.png) 
+  
+0. You will also see that there is a declarative instance declared here, this is used to create the instance which you will be replacing.
+
+0. Open **Internet Explorer** and navigate to **http://w15-sp/sites/ftclab**
 
 0. In the left hand navigation click on **Site Contents** 
 
   ![Contoso Library Tile](Images/ListReplacementLeftHandNavigation.png)
+
 0. Click on the **Contoso Library** tile.
 
   ![Contoso Library Tile](Images/ListReplacementContosoLibraryTile.png)
-0. If there is no content in the library add a document or two. Take a couple of minutes to examine the settings of the libary and if you wish to make a new view or modify the existing one.
 
-9. Switch back to **Visual Studio 2013**
-10. Click **File | Close Solution** to close the current soltion.
+0. If there is no content in the library add a document or two. Take a couple of minutes to examine the settings of the library and if you wish to make a new view or modify the existing one.
+
+  ![Contoso Library](Images/ListReplacementContosoLibraryView.png)
+
+0. Switch back to **Visual Studio 2013**
+
+0. Click **File | Close Solution** to close the current solution.
 
   ![Close Solution](Images/FileMenuClose.png)
 
+
 ### Find the lists for replacement and configure basic settings needed.
 
-In this section we will establish a common pattern of interatction for this lab where we itterate over a collection and create a second collection of 'action items' 
+In this section we will establish a common pattern of interaction for this lab where we iterate over a collection and create a second collection of 'action items'. 
 
 1. Click **File | Open Project.** 
 
 2. Move to the **Module10/Core.ListTemplateReplacement** folder and open the existing solution named  **Core.ListTemplateReplacement.sln**.
 
 3. Open **Program.cs**
+
+  ![Program.cs](Images/ListReplacementProgramFile.png)
 
 4. Paste in the following code to create the first stage of execution in the **Main** method:
   ```csharp
@@ -98,8 +116,8 @@ In this section we will establish a common pattern of interatction for this lab 
   }
   ```
 
-  * Here you can see the ClientContext is used to fetch all the Lists in the current Web and ensure that these client side List objects have some key Properties set by using the Include lambda.
-  * Lists have use the **BaseTemplate** of **10003** are then found, these are the list created from the List Template we inspected earlier with the Type attribute set to 10003. These lists are added to the collection upon which to operate. 
+  * Here you can see the ClientContext is used to fetch all the Lists in the current Web and ensure that these client side list objects have some key properties set by using the Include lambda.
+  * Lists using the **BaseTemplate** of **10003** are then found, these are the lists created from the List Template we inspected earlier with the Type attribute set to 10003. These lists are added to the collection upon which to operate. 
   * *Note:* This pattern of interaction exists as you cannot modify the contents of a collection while iterating over it without causing an exception.
 5. Now add the **ReplaceList** method:
   ```csharp
@@ -120,6 +138,7 @@ In this section we will establish a common pattern of interatction for this lab 
   ```
 
   * This simply sets out the chain of operations needed to replace an existing list which could contain content.
+
 6. Add the implementation to the empty declaration for the **CreateReplacementList** method:
   ```csharp
   private static List CreateReplacementList(ClientContext clientContext, ListCollection lists,List listToBeReplaced)
@@ -135,8 +154,9 @@ In this section we will establish a common pattern of interatction for this lab 
   }
   ```
 
-  * This creates a new Document Library with a title based upon the exising library.
-  * If you were to be replacing a list template which were based on say, a calendar list, you would need to set the TemplateType apropriately here.
+  * This creates a new Document Library with a title based upon the existing library.
+  * If you were to be replacing a list template which were based on say, a calendar list, you would need to set the TemplateType appropriately here.
+
 7. With the new base library created it needs the same basic settings as the library it is to replace, paste in implementation for the **SetListSettings** method:
   ```csharp
   private static void SetListSettings(ClientContext clientContext, List listToBeReplaced, List newList)
@@ -157,6 +177,7 @@ In this section we will establish a common pattern of interatction for this lab 
   ```
 
   * This method ensures that the basic versioning settings are consistent between the two lists. This could be enhanced to duplicate additional settings.
+
 8. Now add the **SetContentTypes** method:
   ```csharp
   private static void SetContentTypes(ClientContext clientContext, List listToBeReplaced, List newList)
@@ -208,12 +229,14 @@ In this section we will establish a common pattern of interatction for this lab 
   }
   ```
 
-  * Here the strategy of finding Content Types which are present on one list but not the other is used to work out if a Content Type needs to be addded to or removed from a list. 
+  * Here the strategy of finding Content Types which are present on one list but not the other is used to work out if a Content Type needs to be added to or removed from a list. 
+
 9. Now the new library is configured and ready to accept any content from the existing library.
+
 
 ### Configure views on the new list. ###
 
-Although this section is not required for the purposes of migrating the ContosoLibrary as it was implemented in the template it is worth considering that SharePoint Lists are tools of business and often will have views added, removed or altered after their inital creation. This section exists to ensure that this real world scenario is catered for.
+Although this section is not required for the purposes of migrating the ContosoLibrary as it was implemented in the template it is worth considering that SharePoint Lists are tools of business and often will have views added, removed or altered after their initial creation. This section exists to ensure that this real world scenario is catered for.
 
 1. Add the body to the **AddViews** method:
   ```csharp
@@ -230,26 +253,23 @@ Although this section is not required for the purposes of migrating the ContosoL
                               view => view.ViewFields,
                               view => view.ViewType));
       clientContext.ExecuteQuery();
-
+ 
       //Build a list of views which only exist on the source list
       var viewsToCreate = new List<ViewCreationInformation>();
       foreach (View view in listToBeReplaced.Views)
       {
-          if (!ListContainsViewByTitle(newList, view.Title, clientContext))
-          {
-              var createInfo = new ViewCreationInformation
-              {
-                  Paged = view.Paged,
-                  PersonalView = view.PersonalView,
-                  Query = view.ViewQuery,
-                  Title = view.Title,
-                  RowLimit = view.RowLimit,
-                  SetAsDefaultView = view.DefaultView,
-                  ViewFields = view.ViewFields.ToArray(),
-                  ViewTypeKind = GetViewType(view.ViewType),
-              };
-              viewsToCreate.Add(createInfo);
-          }
+        var createInfo = new ViewCreationInformation
+        {
+            Paged = view.Paged,
+            PersonalView = view.PersonalView,
+            Query = view.ViewQuery,
+            Title = view.Title,
+            RowLimit = view.RowLimit,
+            SetAsDefaultView = view.DefaultView,
+            ViewFields = view.ViewFields.ToArray(),
+            ViewTypeKind = GetViewType(view.ViewType),
+        };
+        viewsToCreate.Add(createInfo);
       }
       //Create the list that we need to
       foreach (ViewCreationInformation newView in viewsToCreate)
@@ -284,7 +304,7 @@ Although this section is not required for the purposes of migrating the ContosoL
       }
   }
   ```
-2. Now that any additional views have been added to the new list, it's time to remove any default views which are not on the original list. Add the implemenation to **RemoveViews**:
+2. Now that any additional views have been added to the new list, it's time to remove any default views which are not on the original list. Add the implementation to **RemoveViews**:
   ```csharp
   private static void RemoveViews(ClientContext clientContext, List listToBeReplaced, List newList)
   {
@@ -312,9 +332,10 @@ Although this section is not required for the purposes of migrating the ContosoL
 
   * This method again follows the pattern of building up a todo list, and then performing the operation needed, in this case a call to **DeleteObject()** is used to remove the no longer required view.
 
+
 ### Migrate the existing content to the new list. ###
 
-1. With the new library configured with the apropriate set of content types, views and options the existing content is now to be migrated. Add the following implementation to the **MigrateContent** method:
+1. With the new library configured with the appropriate set of content types, views and options the existing content is now to be migrated. Add the following implementation to the **MigrateContent** method:
   ```csharp
   private static void MigrateContent(ClientContext clientContext, List listToBeReplaced, List newList)
   {
@@ -340,15 +361,19 @@ Although this section is not required for the purposes of migrating the ContosoL
       clientContext.ExecuteQuery();
   }
   ```
-
+ 
   * This method loads all the files in the root directory of the original list, calculates their new Url and uses the **File.CopyTo** method.
   * An alternative implementation is to use the **MoveTo** method as shown here commented out.
   * This implementation does not cater for nested folder structure within the source library, additional work will be required if you need this feature.
+
 2. With the code in the console application now complete press **F5** or choose **Debug – Start Debugging** to run the console application and replace the ContosoLibrary.
-3. Once the console application has completed execution switch back to **Internet Explorer** and in the left hand navigation click on Site Contents.
+
+3. Once the console application has completed execution switch back to **Internet Explorer** and in the left hand navigation click on Site Contents:
 
   ![Contoso Library Tile](Images/ListReplacementLeftHandNavigation.png)
-4. Click on the **Contoso Library App** tile.
+
+4. Click on the **Contoso Library App** tile:
 
   ![Contoso Library App Tile](Images/ListReplacementContosoLibraryAppTile.png)
-5. The new Contoso Library should now show with any of the content which was present in the original library.
+
+5. The new ContosoLibraryApp should now show with any of the content which was present in the original library.
