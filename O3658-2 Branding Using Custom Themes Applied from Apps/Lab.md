@@ -121,6 +121,7 @@ In this task we will add the needed code to modify the host web theme settings f
 2. First add the required __using__ statements to the top of the code page as follows.
 
   * This will ensure that the referenced SharePoint client CSOM can be easily accessed.
+
     ```csharp
         using Microsoft.SharePoint.Client;
         using System.Web.Hosting;
