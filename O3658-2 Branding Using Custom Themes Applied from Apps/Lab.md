@@ -34,10 +34,9 @@ After completing the exercises in this lab, you will be able to:
 ### Acquire and install theme develop software. ###
 
 In this task you will install the required application to your computer to start creating custom themes for your Office365 sites. If you have already installed the SharePoint Color Palette Tool, you can move to the following task.
-1. Open your __browser__ and move to following address to install the SharePoint Color Palette Tool.  
-[http://www.microsoft.com/en-us/download/details.aspx?id=38182](http://www.microsoft.com/en-us/download/details.aspx?id=38182)
 
-  ![Color Palette Tool](Images/colortool.png)  
+1. Open your __browser__ and move to following address to install the SharePoint Color Palette Tool. [http://www.microsoft.com/en-us/download/details.aspx?id=38182](http://www.microsoft.com/en-us/download/details.aspx?id=38182)
+![Color Palette Tool](Images/colortool.png)  
 2. Click __Download__ button.
 3. Click __Run__ when the browser asks What do you want to do with the __SharePointColorPaletteTool_Setup.msi__ file?
 4. Click __Next__ to move forward with the installation.
