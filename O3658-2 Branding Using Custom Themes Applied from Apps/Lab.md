@@ -118,11 +118,12 @@ In this task we will add the needed code to modify the host web theme settings f
 
 1. Move to the __Solution Explorer__, expand the __Pages__ folder, expand the __Default.aspx__ file, and open __default.aspx.cs__ to add the needed code for actual button clicks.  
 ![App Page](Images/apppage2.png)  
-2. First add the required __using__ statements to the top of the code page as follows.  
+2. First add the required __using__ statements to the top of the code page as follows.
+
   * This will ensure that the referenced SharePoint client CSOM can be easily accessed.
     ```csharp
-    using Microsoft.SharePoint.Client;
-    using System.Web.Hosting;
+        using Microsoft.SharePoint.Client;
+        using System.Web.Hosting;
     ```
 
 3. Update the __btnSetThemeForHost_Click__ method as follows for controlling the host web theming settings.  
