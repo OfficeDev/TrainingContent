@@ -475,22 +475,22 @@ In this task you will upload the raw non-SharePoint design assets to the SharePo
 ### Manage Device Channels. ###
 
 By default, SharePoint Online is configured to use mobile views. You can create a new Windows Phone project in Visual Studio and run the project to start the emulator. Once the emulator starts, you can open the browser and navigate to your Office365 site.
-1.  Open __Visual Studio__.
+1.  Open __Visual Studio__.  
 2.  Choose __File | New Project__.  
 ![New Project](Images/newproject.png)  
 3. Choose __Window Phone App__ as the template and give project a random name.  
 ![New Phone Project](Images/newphoneproj.png)  
-4. Click __OK__.
-5. Click __F5__ or choose __Debug | Start debugging__.
-6. Click __OK__ for possible Internet access and permission requests.
-7. Click the __Windows__ button in the emulator to move to the start page and start __Internet Explorer__.
+4. Click __OK__.  
+5. Click __F5__ or choose __Debug | Start debugging__.  
+6. Click __OK__ for possible Internet access and permission requests.  
+7. Click the __Windows__ button in the emulator to move to the start page and start __Internet Explorer__.  
 8.  Move to address [https://yourtenant.sharepoint.com](https://yourtenant.sharepoint.com) using the browser emulator browser and see the difference.  
 Notice that you can just as well use your own mobile phone to directly access the Office365 in the cloud to see the difference.  
 ![Phone Screenshot](Images/phone1.png)
 ![Phone Screenshot](Images/phone2.png)
 ![Phone Screenshot](Images/phone3.png)  
 __IMPORTANT: The emulator does not recognize keyboard input, so you will have to use the mouse to type. If you are presenting this as a demo, consider using a webcam and use the camera app in Windows 8 to demonstrate.__
-9.  Go back to the Design Manager and click __2. Manage Device Channels__.
+9.  Go back to the Design Manager and click __2. Manage Device Channels__.  
 10. Click __Create a channel__. Use the following values:
 
 * Name - __Windows Phone__
@@ -499,7 +499,7 @@ __IMPORTANT: The emulator does not recognize keyboard input, so you will have to
 * Active - __Checked__  
 
 ![Device Channel](Images/devicechanel.png)  
-11. Click __Save__ to save your work.
+11. Click __Save__ to save your work.  
 12. You could now try to go to step 6 to publish and apply design and associate your device channel with a specific master page. However, SharePoint Online is configured by default to use the __Mobile Browser View__ feature.  
 ![Warning](Images/warning.png)  
 13. To test the Design Manager with device channels, can go to __Site Settings__ and disable the site feature.
@@ -520,10 +520,10 @@ __IMPORTANT: The emulator does not recognize keyboard input, so you will have to
     2. __Document Version History__: No Versioning
     3. __Require Checkout__: No
 2.  Map the Master Page Gallery location as a network drive from step 3 in the Design Manager:
-  1. Copy the URL (https://YourTenant.SharePoint.com/sites/Developer/_catalogs/masterpage) to the clipboard.
->   2. Open __Windows Explorer__ (Start > All Programs > Accessories > Windows Explorer).
+  1. Copy the URL (https://YourTenant.SharePoint.com/sites/Developer/_catalogs/masterpage) to the clipboard.  
+  2. Open __Windows Explorer__ (Start > All Programs > Accessories > Windows Explorer).
   3. Click __Computer__ in the left-hand panel and then click the __Map Network Drive__ label:  
-![Computer](Images/computer.png)  
+  ![Computer](Images/computer.png)  
   4. In the __Map Network Drive__ dialog, click the link __Connect to a Web site that you can use to store your documents and pictures__.
   5. In the __Add Network Location__ dialog, click __Next__. 
   6. Click __Choose a custom network location__ and click __Next__.
@@ -538,9 +538,9 @@ __IMPORTANT: The URL from step 3 in Design Manager includes _catalogs/masterpage
 ### Convert the HTML Master Page to a SharePoint Master Page. ###
 
 In this task you will convert one of the files you uploaded in the previous step to a SharePoint master page.
-1.  In the __Design Manager__, click on step 4: __Edit Master Pages__.
-2.  The __Design Manager: Edit Master Pages__ page will show all master pages in the Master Page Gallery. You need to convert your HTML file that was previously uploaded to a SharePoint master page. Click the __Convert an existing HTML master page__ link.
-3.  Select the __ContosoMasterDesign.html__ file and click __Insert__. Make sure you select the row and don’t click on the actual file link as clicking the link will take you to that file.
+1.  In the __Design Manager__, click on step 4: __Edit Master Pages__.  
+2.  The __Design Manager: Edit Master Pages__ page will show all master pages in the Master Page Gallery. You need to convert your HTML file that was previously uploaded to a SharePoint master page. Click the __Convert an existing HTML master page__ link.  
+3.  Select the __ContosoMasterDesign.html__ file and click __Insert__. Make sure you select the row and don’t click on the actual file link as clicking the link will take you to that file.  
 4.  Accept and click through any a prompts you receive and refresh the page until you see the __ContosoMasterDesign__ show up on the page with a status of __Conversion successful__.  
 ![Edit Master Page](Images/editmaster.png)  
 5. Click the __Conversion successful__ link for the __ContosoMasterDesign__ to open the preview page.  
@@ -550,11 +550,11 @@ In this task you will convert one of the files you uploaded in the previous step
 
 In this task you will customize and preview the changes to your master page in a tool that knows nothing about SharePoint: Notepad.
 
-1.  Open __Notepad (Start -> All Programs -> Accessories -> Notepad)__ and open the __ContosoMasterPage.html__ file from the mapped network drive. Ensure you don’t open the *.master version of this file… only the *.html version.
+1.  Open __Notepad (Start -> All Programs -> Accessories -> Notepad)__ and open the __ContosoMasterPage.html__ file from the mapped network drive. Ensure you don’t open the *.master version of this file… only the *.html version.  
 2.  Jump to line __120__ (using the __CTRL+G__ shortcut) and add the following code and save your changes:
-```
-<h1>Hello World</h1>
-```
+  ```
+  <h1>Hello World</h1>
+  ```
 
 3.  Go back to the browser that has the preview open and refresh the page to see the changes immediately take effect:  
 ![Notepad Preview](Images/notepad.png)  
