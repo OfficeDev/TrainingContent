@@ -112,6 +112,7 @@
   <ItemGroup>
     <Content Include="merges\windows8\services\office365\scripts\InAppBrowserOverride.js" />
     <Content Include="services\office365\redirectTarget.html" />
+    <Content Include="services\office365\scripts\aadgraph.js" />
     <Content Include="services\office365\scripts\exchange.js" />
     <Content Include="services\office365\scripts\InAppBrowserOverride.js" />
     <Content Include="services\office365\scripts\o365auth.js" />
@@ -198,6 +199,7 @@
     <Content Include="res\screens\wp8\screen-portrait.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="services\office365\scripts\typings\aadgraph.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\exchange.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\o365auth.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\o365discovery.d.ts" />
