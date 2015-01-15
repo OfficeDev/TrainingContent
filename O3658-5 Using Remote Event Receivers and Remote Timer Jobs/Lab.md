@@ -154,7 +154,7 @@ Notice that we will implement the most functionality in an event receiver, so th
     using System.ServiceModel;
     using System.ServiceModel.Channels;
   ```
-  
+
 6.  Replace the ProcessEvent method in the AppEventReceiver class by below code
   ```csharp
     public SPRemoteEventResult ProcessEvent(SPRemoteEventProperties properties)
@@ -368,6 +368,7 @@ That ends this exercise. In this lab we created a list in the host web and progr
         return false;
     }
   ```
+  
 6. Run the console application Press **F5** or choose **Debug - Start Debugging**.  
 This console application will create a list if the list is not exsiting and add an item to that list.
 7. Click **Back to Site** in the top left corner to verify that the list has been created.  
