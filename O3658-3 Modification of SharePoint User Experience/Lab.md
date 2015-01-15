@@ -294,7 +294,6 @@ After completing the exercises in this lab, you will be able to:
 
   ![Default.aspx.cs](Images/AppScriptPartSolutionPages.png)
   2. Include the following piece of code to the **btnScenario_Click** method.  
-
   ```csharp
   	protected void btnScenario_Click(object sender, EventArgs e)
   	{
