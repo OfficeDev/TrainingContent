@@ -84,11 +84,12 @@ Now we have created the needed theme file for the following task.
 ###Write the needed code to apply the theme to the host web from the provider hosted app.###
 
 In this task we will take the theme file you just created with the background image and we will deploy and apply new theme to host web from provider hosted app.
-1.  Start __Visual Studio 2013__.
+1.  Start __Visual Studio 2013__.  
 2.  Click __File | Open Project__.  
 ![Open Project](Images/openproject.png)  
 3.  Move to the __O3658-2 Demos/DeployCustomTheme__ folder and open the existing solution named __DeployCustomTheme.sln__.  
   * Notice that the actual folder location is dependent on where you copied the files to in your local computer.  
+
 4. Provide your tenant login information when the __Connect to SharePoint__ dialog is prompted.  
 ![Account Login](Images/accountlogin.png)  
 5. Ensure that the __Site URL__ property is correct for the app project by first activating the __DeployCustomTheme__ project in the solution explorer.  
@@ -125,7 +126,7 @@ In this task we will add the needed code to modify the host web theme settings f
     ```
 
 3. Update the __btnSetThemeForHost_Click__ method as follows for controlling the host web theming settings.  
-Notice that this code is calling the __SetThemeBasedOnName__ method, which we have not yet added.
+  * Notice that this code is calling the __SetThemeBasedOnName__ method, which we have not yet added.  
 ```c#
 protected void btnSetThemeForHost_Click(object sender, EventArgs e)
 {
