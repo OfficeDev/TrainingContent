@@ -168,6 +168,7 @@ In this task we will add the needed references and implement the search operatio
     }
    ```
 18. Add also ResolveAdditionalFilter helper method as follows. Review the just added code. Notice that we access the user profile. Check if the user profile property called AboutMe has specific value. This drives the search keyword query.
+
   ```csharp
     private string ResolveAdditionalFilter(string aboutMeValue)
     {
