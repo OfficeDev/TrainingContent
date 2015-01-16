@@ -14,7 +14,7 @@ The required prerequisite for this course are:
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
 * Download and install the latest version of the SharePoint online client SDK from following link - http://aka.ms/spocsom
-* Download the [O3658-2 Demos.zip](Demos/O3658-2 Demos.zip) zip file by following the link and clicking on **Raw**, then extract it. Note the location of these files. You will need these files to complete the labs.
+* Download the [O3658-2 Demos.zip](Demos/O3658-2 Demo.zip) zip file by following the link and clicking on **Raw**, then extract it. Note the location of these files. You will need these files to complete the labs.
 
 ## Lab Overview ##
 ### Abstract ###
@@ -236,7 +236,7 @@ In this task we will add the needed code to deploy our custom theme to the host 
 ![Web Project](Images/webproject.png)  
 2.  Name folder __Resources__.
 3.  Right click the __Resources__ folder and choose __Add - Existing Item__.
-4.  Move to the __O3658-2 Demos\DeployCustomTheme__ folder and choose both __custom.spcolor__ and __custombg.jpg__ using the __Ctrl__ button on the keyboard and clicking the files one-by-one.
+4.  Move to the __O3658-2 Demos\DeployCustomTheme__ folder and choose __custom.spcolor__ and __custombg.jpg__ using the __Ctrl__ button on the keyboard and clicking the files one-by-one.
 5.  Activate __custom.spcolor__ in the Solution Explorer to view its properties.  
 ![SP Color](Images/spcolor.png)  
 6.  Set the __Copy to Output Directory__ as __Copy always__.  
@@ -275,7 +275,7 @@ Notice that this method uses two additional helper methods, which will be added 
   ```c#
 public void DeployContosoThemeToWeb(Web web, string themeName, string colorFilePath, string fontFilePath, string backgroundImagePath, string masterPageName)
 {
-    Web rootWeb;
+    Web rootWeb = web;
     // Deploy files one by one to proper location
     if (!string.IsNullOrEmpty(colorFilePath))
     {
@@ -290,7 +290,7 @@ public void DeployContosoThemeToWeb(Web web, string themeName, string colorFileP
         DeployFileToThemeFolderSite(web, backgroundImagePath);
     }
     // Let's also add entry to the Theme catalog. This is not actually required, but provides visibility for the theme option, if manually changed
-    AddNewThemeOptionToSite(cc, rootWeb, themeName, colorFilePath, fontFilePath, backgroundImagePath, masterPageName);
+    AddNewThemeOptionToSite(rootWeb, themeName, colorFilePath, fontFilePath, backgroundImagePath, masterPageName);
 }
   ```
 
@@ -520,7 +520,7 @@ __IMPORTANT: The emulator does not recognize keyboard input, so you will have to
     2. __Document Version History__: No Versioning
     3. __Require Checkout__: No
 2.  Map the Master Page Gallery location as a network drive from step 3 in the Design Manager:
-  1. Copy the URL (https://YourTenant.SharePoint.com/sites/Developer/_catalogs/masterpage) to the clipboard.  
+  1. Copy the URL (https://YourTenant.SharePoint.com/sites/dev/_catalogs/masterpage) to the clipboard.  
   2. Open __Windows Explorer__ (Start > All Programs > Accessories > Windows Explorer).
   3. Click __Computer__ in the left-hand panel and then click the __Map Network Drive__ label:  
   ![Computer](Images/computer.png)  
