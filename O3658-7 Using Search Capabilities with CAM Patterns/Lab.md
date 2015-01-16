@@ -145,9 +145,10 @@ In this task we will add the needed references and implement the search operatio
 15. Move back to Visual Studio side and press __Shift+F5__ or choose __Stop Debugging__ from the __Debug__ menu.
 16. Open the __default.aspx.cs__ file again, and include the personalized search option to it.
 17. Update the __btnPersonalizedSearch_Click__ method as follows. We will be doing alternative search query based on user property values. This kind of pattern could be used to filter for example news or documents in the search results. Alternatively you could target different URLs based on the property values. In this case demonstration is pretty simple, but the pattern is extremely powerful.
-  ```csharp
-    protected void btnPersonalizedSearch_Click(object sender, EventArgs e)
-    {
+
+   ```csharp
+   protected void btnPersonalizedSearch_Click(object sender, EventArgs e)
+   {
         var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
         using (var clientContext = spContext.CreateUserClientContextForSPHost())
         {
@@ -165,7 +166,7 @@ In this task we will add the needed references and implement the search operatio
             lblStatus2.Text = FormatResults(results);
         }
     }
-  ```
+   ```
 18. Add also ResolveAdditionalFilter helper method as follows. Review the just added code. Notice that we access the user profile. Check if the user profile property called AboutMe has specific value. This drives the search keyword query.
   ```csharp
     private string ResolveAdditionalFilter(string aboutMeValue)
