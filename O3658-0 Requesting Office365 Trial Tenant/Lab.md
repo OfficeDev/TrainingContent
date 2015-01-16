@@ -33,7 +33,7 @@ After completing the exercises in this lab, you will be able to:
 3.  Fill out the form with your personal information accordingly (phone number, email address , company name etc.) and click the ** next ** button below the form to move to next step. 
     ![Configuration HTML](Images/1.png)
 
-4.  Choose your username and password and click the ** Next ** button below tthen move to next step. 
+4.  Choose your username and password and click the ** Next ** button below then move to next step. 
     ![Configuration HTML](Images/1.1.png)
 
 5.  Enter your mobile phone number, click **Text me**
@@ -59,7 +59,7 @@ After completing the exercises in this lab, you will be able to:
   a.  Title – **Developer**
   b.  Web Site Address – **http://[yourtenant].sharepoint.com/sites/dev**
   c.  Template Selection – **Developer Site**
-  d.  Administrator – You admin account which was provisioned during the tenant provisioning
+  d.  Administrator – Your admin account which was provisioned during the tenant provisioning
   e.  Storage Quota – **200 MB**
     ![Configuration HTML](Images/5.png)
  
