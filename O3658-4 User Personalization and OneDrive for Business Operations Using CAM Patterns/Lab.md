@@ -7,7 +7,7 @@ To complete the labs in this course you need to install or configure the followi
 
 * Access to an Office365 tenant with an existing developer site. (The [pre-requisite lab](../O3658-0 Requesting Office365 Trial Tenant/Lab.md) provides directions to complete this task.)
 * Visual Studio 2013 Ultimate with Azure SDK v2.5
-* Ensure you have configured a local NuGet package repository: [](http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore)
+* Ensure you have configured a [local NuGet package repository](http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore) 
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
 * Download and install the latest version of the SharePoint online client SDK from following link - http://aka.ms/spocsom
@@ -25,7 +25,7 @@ After completing the exercises in this lab, you will be able to:
 -	Connect to the cloud user profile store from on-premises.
 -	Modify user profile properties of profiles in the cloud
 
-** Estimated time to complete this lab: 15 minutes **
+**Estimated time to complete this lab: *15 minutes*.**
 
 ### Open the pre-created structure and add references to the required assemblies ###
 
