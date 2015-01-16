@@ -14,7 +14,7 @@ The required prerequisite for this course are:
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
 * Download and install the latest version of the SharePoint online client SDK from following link - http://aka.ms/spocsom
-* Download the [O3658-2 Demos.zip](Demos/O3658-2 Demo.zip) zip file by following the link and clicking on **Raw**, then extract it. Note the location of these files. You will need these files to complete the labs.
+* Download the [O3658-2 Demos.zip](Demos/O3658-2 Demos.zip) zip file by following the link and clicking on **Raw**, then extract it. Note the location of these files. You will need these files to complete the labs.
 
 ## Lab Overview ##
 ### Abstract ###
@@ -57,7 +57,7 @@ This will change the layout based on seattle.master.
 ![Color Palette Tool](Images/colortool3.png)  
 3. In the __Background Image__ section, click __Change__.  
 ![Color Palette Tool](Images/colortool4.png)  
-4. Browse to the location where you have stored the student folder and choose custombg.jpg under __O3658-2 Demos/DeployCustomTheme__ folder and click __Open__ to proceed.
+4. Browse to the location where you have stored the student folder and choose custombg.jpg under __O3658-2 Demos/DeployCustomTheme/DeployCustomTheme/__ folder and click __Open__ to proceed.
 5.  Click the __Color Button__ located just next to __Recolor__ button.  
 ![Color Palette Tool](Images/colortool5.png)  
 6.  Set __Red__, __Green__, and __Blue__ values as follows.
@@ -236,7 +236,7 @@ In this task we will add the needed code to deploy our custom theme to the host 
 ![Web Project](Images/webproject.png)  
 2.  Name folder __Resources__.
 3.  Right click the __Resources__ folder and choose __Add - Existing Item__.
-4.  Move to the __O3658-2 Demos\DeployCustomTheme__ folder and choose __custom.spcolor__ and __custombg.jpg__ using the __Ctrl__ button on the keyboard and clicking the files one-by-one.
+4.  Move to the __O3658-2 Demos\DeployCustomTheme\DeployCustomTheme__ folder and choose both __custom.spcolor__ and __custombg.jpg__ using the __Ctrl__ button on the keyboard and clicking the files one-by-one.
 5.  Activate __custom.spcolor__ in the Solution Explorer to view its properties.  
 ![SP Color](Images/spcolor.png)  
 6.  Set the __Copy to Output Directory__ as __Copy always__.  
