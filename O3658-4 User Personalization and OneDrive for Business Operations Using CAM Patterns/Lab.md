@@ -25,7 +25,7 @@ After completing the exercises in this lab, you will be able to:
 -	Connect to the cloud user profile store from on-premises.
 -	Modify user profile properties of profiles in the cloud
 
-** Estimated time to complete this lab: 15 minutes **
+**Estimated time to complete this lab: *15 minutes*.**
 
 ### Open the pre-created structure and add references to the required assemblies ###
 
