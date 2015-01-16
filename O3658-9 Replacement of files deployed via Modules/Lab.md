@@ -17,7 +17,7 @@ To complete the labs in this course you need to install or configure the followi
 ## Lab Overview ##
 
 ### Abstract ###
-In this lab you will learn how to replace existing master pages and page layouts which have been deployed to an On-Premises SharePoint Server via Modules in a Full Trust Solution. This will involve deploying new files to replace those deployed via Modules and updating the existing usages of these files to remove the dependancy on the files which were deployed via decalarative means.
+In this lab you will learn how to replace existing master pages and page layouts which have been deployed to an On-Premises SharePoint Server via Modules in a Full Trust Solution. This will involve deploying new files to replace those deployed via Modules and updating the existing usages of these files to remove the dependency on the files which were deployed via declarative means.
 
 ### Learning Objectives ###
 After completing the exercises in this lab, you will be able to:
@@ -47,7 +47,7 @@ After completing the exercises in this lab, you will be able to:
   ![Modules](Images/ModuleReplacementContosoSpModulesFolder.png)
 
 5. Examine the **Elements.xml** file and the **contoso.master** file in the **MOMasterPage** Module.
-  * Note that the contoso.master master page makes use of a custom user control which is not supported in Office 365. Our replacement masterpage will not contain this control.
+  * Note that the contoso.master master page makes use of a custom user control which is not supported in Office 365. Our replacement master page will not contain this control.
   
 6. Examine the **Elements.xml** file and the **ContosoWelcomeLinks.aspx** file in the **MOPageLayouts** Module.
   * Note that the ContosoWelcomeLinks.aspx master page layout makes use of a custom user control which is not supported in Office 365. Our replacement page layout will not contain this control.
@@ -61,7 +61,7 @@ After completing the exercises in this lab, you will be able to:
 
 9. Switch back to **Visual Studio 2013**
 
-10. Click **File | Close Solution** to close the current soltion.
+10. Click **File | Close Solution** to close the current solution.
 
   ![Close Solution](Images/FileMenuClose.png)
 
@@ -377,7 +377,7 @@ After completing the exercises in this lab, you will be able to:
       }
   }
 ```
-  * This method iterates over all the items in the Pages library and updates the Url property of the PublishingPageLayout field to point at the new page layout where apropriate.
+  * This method iterates over all the items in the Pages library and updates the Url property of the PublishingPageLayout field to point at the new page layout where appropriate.
 
 5. Press **F5** or choose **Debug – Start Debugging** to run the console application and update the page layouts being used by existing page instances.
 
