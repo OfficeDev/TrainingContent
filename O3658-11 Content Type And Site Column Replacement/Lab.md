@@ -1,24 +1,19 @@
 # Module 11 — Content Type and Site columns replacements #
 
+
 ## Lab Environment ##
-
-During this lab, you will work in your own environment with your own SharePoint On-Premises VM. The following prerequisites should be completed or be available before you start the lab.
-
+During this lab, you will work in the provided virtual machine. The following prerequisites have been completed and are provided should you wish to undertake this lab in your own environment.
 
 ### Before You Begin ###
-
 To complete the labs in this course you need to install or configure the following items.
+  - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisoned using the **WebTemplate**. (Directions to complete this task can be found in the **Student\Contoso.Intranet** folder.)
+    + You should be logged in as an administrator of the site collection to ensure that you have all the necessary permissions for this lab  
 
-- Access to a SharePoint 2013 On-Premises server with an existing team site based on Contoso.Intranet example
+  - Visual Studio 2013 Ultimate Update 3 with Azure SDK v2.5, available via the web platform installer.  
 
-- Visual Studio 2013 Ultimate
-
-- Download and unzip the 54403-Student folder. Note the unzipped location of these files. You will need these files to complete the labs.  The following graphic shows the unzipped file structure.
-
-  ![54403-Student folder](Images/StudentCodeSourceTree.png)
-
-
-
+  - Ensure you have configured a local NuGet package repository: http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore    
+  - Download and unzip the Student folder. Note the unzipped location of these files. You will need these files to complete the labs.  The following graphic shows the unzipped file structure.  
+    ![54403-Student folder](Images/StudentCodeSourceTree.png)
 
 
 
@@ -88,86 +83,86 @@ After completing the exercises in this lab, you will be able to:
             // Now replace the old with the new content type
             ReplaceContentType(clientContext, web);
         }
-                    
+
     }
     ```
 
 0. Include the following piece of code to the **CreateContentType** method. This will check first if the content type is already available; if not the content type will be created.
 
-  ```csharp
-private static void CreateContentType(ClientContext cc, Web web)
-{ 
-        // The new content type will be created with this ID
-        const string contentTypeId = "0x0101009189AB5D3D2647B580F011DA2F356FB2";
+    ```csharp
+    private static void CreateContentType(ClientContext cc, Web web)
+    {
+        // The new content type will be created with this name
+        const string contentTypeName = "ContosoDocumentByCSOM";
 
         // Check if the content type does not exist yet
-        var ct = web.ContentTypes.GetById(contentTypeId);
-        cc.Load(ct);
-        cc.ExecuteQuery();
+        var contentType = GetContentTypeByName(cc, web, contentTypeName);
 
         // Content type exists already, no further action required
-        if(ct!=null) return;
+        if (contentType != null) return;
 
         // Create a Content Type Information object
         ContentTypeCreationInformation newCt = new ContentTypeCreationInformation();
         // Set the name for the content type
         newCt.Name = "ContosoDocumentByCSOM";
         //Inherit from oob document - 0x0101 and assign 
-        newCt.Id = contentTypeId;
+        newCt.Id = "0x0101009189AB5D3D2647B580F011DA2F356FB2";
         // Set content type to be avaialble from specific group
         newCt.Group = "Contoso Content Types";
         // Create the content type
         ContentType myContentType = web.ContentTypes.Add(newCt);
         cc.ExecuteQuery();
-}
+    }
 ```
 
 0. Include the following piece of code to the **CreateSiteColumn** method. This will check first if the site column "ContosoStringCSOM" exists already; if not the site column will be created.
 
-  ```C#
-private static void CreateSiteColumn(ClientContext cc, Web web)
-{
+    ```csharp
+    private static void CreateSiteColumn(ClientContext cc, Web web)
+    {
         // The new field name
         const string fieldName = "ContosoStringCSOM";
 
         // Load the list of site columns
-        FieldCollection fields = web.Fields;            
+        FieldCollection fields = web.Fields;
         cc.Load(fields);
         cc.ExecuteQuery();
 
         // Check existing fields
-        var fieldExists = web.Fields.Any(f => f.InternalName == fieldName);
+        var fieldExists = fields.Any(f => f.InternalName == fieldName);
 
         // Site column exists already, no further action required
         if (fieldExists) return;
 
         // Otherwise create the new field
         string FieldAsXML = @"<Field ID='{CB8E24F6-E1EE-4482-877B-19A51B4BE319}' 
-                                        Name='"+fieldName+@"' 
-                                        DisplayName='Contoso String by CSOM' 
-                                        Type='Text' 
-                                        Hidden='False' 
-                                        Group='Contoso Site Columns' 
-                                        Description='Contoso Text Field' />";
+                                    Name='" + fieldName + @"' 
+                                    DisplayName='Contoso String by CSOM' 
+                                    Type='Text' 
+                                    Hidden='False' 
+                                    Group='Contoso Site Columns' 
+                                    Description='Contoso Text Field' />";
         Field fld = fields.AddFieldAsXml(FieldAsXML, true, AddFieldOptions.DefaultValue);
         cc.ExecuteQuery();
-}
+    }
 ```
 
 0. Include the following piece of code to the **AddSiteColumnToContentType** method. This will check first if there is a connection between the created content type and site column; if not this connection will be created.
 
-  ```C#
-private static void AddSiteColumnToContentType(ClientContext cc, Web web)
-{
-        // The new content type will be created with this ID
-        const string contentTypeId = "0x0101009189AB5D3D2647B580F011DA2F356FB2";
+    ```csharp
+    private static void AddSiteColumnToContentType(ClientContext cc, Web web)
+    {
+        // The new content type will be created with this name
+        const string contentTypeName = "ContosoDocumentByCSOM";
         // The new field name
         const string fieldName = "ContosoStringCSOM";
 
         // Try to load the new content type
-        ContentType myContentType = web.ContentTypes.GetById(contentTypeId);
-        cc.Load(myContentType);
-        cc.Load(myContentType.FieldLinks);            
+        var contentType = GetContentTypeByName(cc, web, contentTypeName);
+        if (contentType == null) return; // not found
+
+        // Load field links to content type
+        cc.Load(contentType.FieldLinks);
         cc.ExecuteQuery();
 
         // Try to load the new field
@@ -176,7 +171,7 @@ private static void AddSiteColumnToContentType(ClientContext cc, Web web)
         cc.ExecuteQuery();
 
         // Try to load the content type/site column connection
-        var hasFieldConnected = myContentType.FieldLinks.Any(f => f.Name == fieldName);
+        var hasFieldConnected = contentType.FieldLinks.Any(f => f.Name == fieldName);
 
         // Reference exists already, no further action required
         if (hasFieldConnected) return;
@@ -184,29 +179,26 @@ private static void AddSiteColumnToContentType(ClientContext cc, Web web)
         // Reference does not exist yet - create the connection
         FieldLinkCreationInformation link = new FieldLinkCreationInformation();
         link.Field = fld;
-        myContentType.FieldLinks.Add(link);
-        myContentType.Update(true);
+        contentType.FieldLinks.Add(link);
+        contentType.Update(true);
         cc.ExecuteQuery();
-
-}
+    }
 ```
 
 0. Include the following piece of code to the **ReplaceContentType** method. This will check all items in the specified library for assignments to the old content type (Contoso Document) and will replace those with the new content type (ContosoDocumentByCSOM).
 
-  ```C#
-private static void ReplaceContentType(ClientContext cc, Web web)
-{
+    ```csharp
+    private static void ReplaceContentType(ClientContext cc, Web web)
+    {
         // The old content type (0x010100C32DDAB6381C44868DCD5ADC4A5307D6001D104C6E9F5EA74FBDFDC3C018A02D56)
         const string oldContentTypeId = "0x010100C32DDAB6381C44868DCD5ADC4A5307D6";
-        // The new content type
-        const string newContentTypeId = "0x0101009189AB5D3D2647B580F011DA2F356FB2";
         // The new content type name
         const string newContentTypeName = "ContosoDocumentByCSOM";
         // The library where the content type should be replaced
         const string libraryName = "ContosoLibrary";
 
         // Get content type and list
-        ContentType newContentType = web.ContentTypes.GetById(newContentTypeId);
+        ContentType newContentType = GetContentTypeByName(cc, web, newContentTypeName);
         List list = web.Lists.GetByTitle(libraryName);
 
         // Load all data required
@@ -239,22 +231,36 @@ private static void ReplaceContentType(ClientContext cc, Web web)
 
             // This item is not assigned to the old content type - skip to next one
             if (!isOldContentTypeAssigned) continue;
-            
+
             // Update to new content type
-            listItem["ContentTypeId"] = newContentTypeId;
+            listItem["ContentTypeId"] = newContentType.StringId; // newContentTypeId;
             listItem.Update();
         }
 
         // Submit all changes
         cc.ExecuteQuery();
-
-}
+    }
 ```
+
+0. Add a little helper method to get a content type by name:
+
+    ```csharp
+    private static ContentType GetContentTypeByName(ClientContext cc, Web web, string name)
+    {
+        ContentTypeCollection contentTypes = web.ContentTypes;
+        cc.Load(contentTypes);
+        cc.ExecuteQuery();
+        return contentTypes.FirstOrDefault(o => o.Name == name);
+    }
+```        
 
 0. Press **F5** or choose **Debug – Start Debugging** to run the console application and create the content type and site column and replace the old one.
 
+0. Navigate to the Contoso Library and open the view for the ContosoDocument, it should have the new content type assigned now: 
 
-0. Log in to the site and test if the new content type, the new site column and the content type replacement of the documents stored in the library has been successful. If required add a document to the library, assign it to the old content type and run the program again to test if the content type replacement works.
+    ![Open Solution Explorer](Images/ReplaceContentTypesContentTypeAssigned.png)
+
+    * If required add a document to the library, assign it to the old content type and run the program again to test if the content type replacement works.
 
 
 Note |
