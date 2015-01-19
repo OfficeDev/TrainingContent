@@ -6,14 +6,14 @@ During this lab, you will work in the provided virtual machine. The following pr
 
 ### Before You Begin ###
 To complete the labs in this course you need to install or configure the following items.
-  - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisoned using the **WebTemplate**. (Directions to complete this task can be found in the **Student\Contoso.Intranet** folder.)
+  - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisioned using the **WTContosoPublishing Web Template**. (The PowerShell for site creation is available in the [Patterns & Practice reference materials](https://github.com/OfficeDev/PnP/tree/master/Reference%20Material/Contoso.Intranet) .)
     + You should be logged in as an administrator of the site collection to ensure that you have all the necessary permissions for this lab  
 
   - Visual Studio 2013 Ultimate Update 3 with Azure SDK v2.5, available via the web platform installer.  
 
   - Ensure you have configured a local NuGet package repository: http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore    
   - Download and unzip the Student folder. Note the unzipped location of these files. You will need these files to complete the labs.  The following graphic shows the unzipped file structure.  
-    ![54403-Student folder](Images/StudentCodeSourceTree.png)
+    ![Student folder](Images/StudentCodeSourceTree.png)
 
 
 
@@ -185,7 +185,7 @@ After completing the exercises in this lab, you will be able to:
     }
 ```
 
-0. Include the following piece of code to the **ReplaceContentType** method. This will check all items in the specified library for assignments to the old content type (Contoso Document) and will replace those with the new content type (ContosoDocumentByCSOM).
+0. Include the following piece of code to the **ReplaceContentType** method. This will check all items in the all libraries for assignments to the old content type (Contoso Document) and will replace those with the new content type (ContosoDocumentByCSOM).
 
     ```csharp
     private static void ReplaceContentType(ClientContext cc, Web web)
@@ -194,51 +194,57 @@ After completing the exercises in this lab, you will be able to:
         const string oldContentTypeId = "0x010100C32DDAB6381C44868DCD5ADC4A5307D6";
         // The new content type name
         const string newContentTypeName = "ContosoDocumentByCSOM";
-        // The library where the content type should be replaced
-        const string libraryName = "ContosoLibrary";
 
         // Get content type and list
         ContentType newContentType = GetContentTypeByName(cc, web, newContentTypeName);
-        List list = web.Lists.GetByTitle(libraryName);
-
+        ListCollection lists = web.Lists;
         // Load all data required
         cc.Load(newContentType);
-        cc.Load(list);
-        cc.Load(list.ContentTypes);
+        cc.Load(lists,
+                l => l.Include(list => list.ContentTypes));
         cc.ExecuteQuery();
-
-        // Check if the new content type is already attached to the library
-        var listHasContentTypeAttached = list.ContentTypes.Any(c => c.Name == newContentTypeName);
-        if (!listHasContentTypeAttached)
+        var listsWithContentType = new List<List>();
+        foreach (List list in lists)
         {
-            // Attach content type to list
-            list.ContentTypes.AddExistingContentType(newContentType);
+            bool hasOldContentType = list.ContentTypes.Any(c => c.StringId.StartsWith(oldContentTypeId));
+            if (hasOldContentType)
+            {
+                listsWithContentType.Add(list);
+            }
+        }
+        foreach (List list in listsWithContentType)
+        {
+            // Check if the new content type is already attached to the library
+            var listHasContentTypeAttached = list.ContentTypes.Any(c => c.Name == newContentTypeName);
+            if (!listHasContentTypeAttached)
+            {
+                // Attach content type to list
+                list.ContentTypes.AddExistingContentType(newContentType);
+                cc.ExecuteQuery();
+            }
+            // Lost all list items
+            CamlQuery query = CamlQuery.CreateAllItemsQuery();
+            ListItemCollection items = list.GetItems(query);
+            cc.Load(items);
+            cc.ExecuteQuery();
+
+            // For each list item check if it is set to the old content type, update to new one if required
+            foreach (ListItem listItem in items)
+            {
+                // Currently assigned content type to this item
+                var currentContentTypeId = listItem["ContentTypeId"] + "";
+                var isOldContentTypeAssigned = currentContentTypeId.StartsWith(oldContentTypeId);
+
+                // This item is not assigned to the old content type - skip to next one
+                if (!isOldContentTypeAssigned) continue;
+
+                // Update to new content type
+                listItem["ContentTypeId"] = newContentType.StringId; // newContentTypeId;
+                listItem.Update();
+            }
+            // Submit all changes
             cc.ExecuteQuery();
         }
-
-        // Lost all list items
-        CamlQuery query = CamlQuery.CreateAllItemsQuery();
-        ListItemCollection items = list.GetItems(query);
-        cc.Load(items);
-        cc.ExecuteQuery();
-
-        // For each list item check if it is set to the old content type, update to new one if required
-        foreach (ListItem listItem in items)
-        {
-            // Currently assigned content type to this item
-            var currentContentTypeId = listItem["ContentTypeId"] + "";
-            var isOldContentTypeAssigned = currentContentTypeId.StartsWith(oldContentTypeId);
-
-            // This item is not assigned to the old content type - skip to next one
-            if (!isOldContentTypeAssigned) continue;
-
-            // Update to new content type
-            listItem["ContentTypeId"] = newContentType.StringId; // newContentTypeId;
-            listItem.Update();
-        }
-
-        // Submit all changes
-        cc.ExecuteQuery();
     }
 ```
 

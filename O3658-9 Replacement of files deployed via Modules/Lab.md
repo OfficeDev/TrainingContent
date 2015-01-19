@@ -5,14 +5,14 @@ During this lab, you will work in the provided virtual machine. The following pr
 
 ### Before You Begin ###
 To complete the labs in this course you need to install or configure the following items.
-  - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisoned using the **WebTemplate**. (Directions to complete this task can be found in the **Student\Contoso.Intranet** folder.)
-    + You should be logged in as an administrator of the site collection to ensure that you have all the necessary permissions for this lab  
+  - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisioned using the **WTContosoPublishing Web Template**. (The PowerShell for site creation is available in the [Patterns & Practice reference materials](https://github.com/OfficeDev/PnP/tree/master/Reference%20Material/Contoso.Intranet) .)
+    + You should be logged in as an administrator of the site collection to ensure that you have all the necessary permissions for this lab    
 
   - Visual Studio 2013 Ultimate Update 3 with Azure SDK v2.5, available via the web platform installer.  
 
   - Ensure you have configured a local NuGet package repository: http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore    
   - Download and unzip the Student folder. Note the unzipped location of these files. You will need these files to complete the labs.  The following graphic shows the unzipped file structure.  
-    ![54403-Student folder](Images/StudentCodeSourceTree.png)
+    ![Student folder](Images/StudentCodeSourceTree.png)
   
 ## Lab Overview ##
 

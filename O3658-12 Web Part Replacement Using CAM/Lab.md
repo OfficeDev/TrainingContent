@@ -9,7 +9,8 @@ During this lab, you will work in your own environment with your own SharePoint 
 
 To complete the labs in this course you need to install or configure the following items.
  
-- Access to an SharePoint 2013 On-Premises server with an existing publishing site based on Contoso.Intranet example
+- Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisioned using the **WTContosoPublishing Web Template**. (The PowerShell for site creation is available in the [Patterns & Practice reference materials](https://github.com/OfficeDev/PnP/tree/master/Reference%20Material/Contoso.Intranet) .)
+  + You should be logged in as an administrator of the site collection to ensure that you have all the necessary permissions for this lab  
 
 - The server needs to be configured for App development. The sample code expects a **self-signed certificate** at ``C:\Certs\HighTrustSampleCert.cer`` with a **password** of ``password`` which has the corresponding certificate file installed as a Trusted Security Token Issuer with the **IssueId** of ``11111111-1111-1111-1111-111111111111`` as per the [MSDN Article](http://msdn.microsoft.com/library/office/fp179901(v=office.15)#Cert2) 
 
@@ -17,7 +18,7 @@ To complete the labs in this course you need to install or configure the followi
 
 - Download and unzip the 54403-Student folder. Note the unzipped location of these files. You will need these files to complete the labs.  The following graphic shows the unzipped file structure.
 
-  ![54403-Student folder](Images/StudentCodeSourceTree.png)
+  ![Student folder](Images/StudentCodeSourceTree.png)
 
 
 
