@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0365_CSOM_Demo", "0365_CSOM_Demo\0365_CSOM_Demo.csproj", "{D0FDC529-271A-44F3-95C2-C0EDBE149FD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0365_CSOM_DemoWeb", "0365_CSOM_DemoWeb\0365_CSOM_DemoWeb.csproj", "{D765C062-4CF9-4B57-B26A-E9034618980D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0FDC529-271A-44F3-95C2-C0EDBE149FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0FDC529-271A-44F3-95C2-C0EDBE149FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0FDC529-271A-44F3-95C2-C0EDBE149FD6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D0FDC529-271A-44F3-95C2-C0EDBE149FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0FDC529-271A-44F3-95C2-C0EDBE149FD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0FDC529-271A-44F3-95C2-C0EDBE149FD6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D765C062-4CF9-4B57-B26A-E9034618980D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D765C062-4CF9-4B57-B26A-E9034618980D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D765C062-4CF9-4B57-B26A-E9034618980D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D765C062-4CF9-4B57-B26A-E9034618980D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

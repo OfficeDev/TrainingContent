@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="AutoCompleteTextViewAppTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+      <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>
+      <item name="android:background">@drawable/apptheme_edit_text_holo_light</item>
+  </style>
+
+  <style name="ButtonAppTheme" parent="android:Widget.Holo.Light.Button">
+      <item name="android:background">@drawable/apptheme_btn_default_holo_light</item>
+      <item name="android:textColor">@color/apptheme_btn_default_holo_light_foreground</item>
+  </style>
+
+  <style name="ImageButtonAppTheme" parent="android:Widget.Holo.Light.ImageButton">
+      <item name="android:background">@drawable/apptheme_btn_default_holo_light</item>
+      <item name="android:textColor">@color/apptheme_btn_default_holo_light_foreground</item>
+  </style>
+
+  <style name="ActionBarAppTheme" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+      <item name="android:background">@color/apptheme_actionbar_color</item>
+  </style>
+
+</resources>

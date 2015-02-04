@@ -1,0 +1,15 @@
+﻿@{ ViewBag.Title = "Get Lists 2"; }
+
+<h3>Get Lists 2</h3>
+
+<ul>
+  @{
+    foreach (var prop in ViewBag.lists) {
+      <li>
+        <a href="@Html.Raw(prop.Key)">
+          @Html.Raw(prop.Value)
+        </a>
+      </li>
+    }
+  }
+</ul>

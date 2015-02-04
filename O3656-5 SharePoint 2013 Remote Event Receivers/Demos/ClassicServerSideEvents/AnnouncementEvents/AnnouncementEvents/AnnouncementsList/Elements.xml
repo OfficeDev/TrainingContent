@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+
+  <ListInstance 
+    Title="Announcements" 
+    TemplateType="104" 
+    FeatureId="00bfea71-d1ce-42de-9c63-a44004ce0104" 
+    Url="Lists/Announcements" 
+    Description="Demo Announcements List Instance"
+    OnQuickLaunch="TRUE">   
+  </ListInstance>
+  
+  
+</Elements>

@@ -1,0 +1,72 @@
+﻿body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: #DDD;
+}
+
+#page_width {
+  background-color: #FFF;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding-bottom: 16px;
+}
+
+#top_nav {
+  background-color: #000;
+}
+
+  #top_nav a:link, #top_nav a:visited, #top_nav a:active, #top_nav a:hover {
+    text-decoration: none;
+    color: #FFF;
+    padding: 2px;
+    padding-left: 6px;
+    font-size: 0.7em;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+  }
+
+#page_header {
+  background-color: #003300;
+  font-size: 1.25em;
+  font-family: 'Arial Rounded MT', 'Arial', 'sans-serif';
+}
+
+#page_title {
+  color: #FFFFFF;
+  margin: 12px;
+}
+
+#main_nav{
+  background-color: #777;
+    border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+  #main_nav a:link, #main_nav a:visited, #main_nav a:active, #main_nav a:hover {
+    text-decoration: none;
+    color: #FFF;
+    padding: 2px;
+    padding-left: 4px;
+    font-size: 0.85em;
+    font-family: Arial, sans-serif;
+  }
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+  white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+  max-width: 280px;
+}

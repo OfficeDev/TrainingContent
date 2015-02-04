@@ -105,7 +105,7 @@ In this lab you will get hands-on experience working with the new SharePoint App
 		}
 9. Implement the **cmdPushMe** function to write the text message **"Hello Apps"** into the div element with the **id** of **displayDiv** and to use the jQuery `css` method to style thediv element with a margin div of 16px, a font color of green and a font-size of 32px.
 		
-		function cmdPushMe() {
+		function onButtonClicked() {
 			$("#displayDiv")
 				.text("Hello Apps")
 				.css({ "margin": "16px", "color": "green", "font-size": "32px" });
@@ -123,7 +123,7 @@ In this lab you will get hands-on experience working with the new SharePoint App
 		function onButtonClicked() {
 			$("#displayDiv")
 				.text("Hello Apps")
-				.css( "margin": "16px", "color": "green", "font-size": "32px" });
+				.css({ "margin": "16px", "color": "green", "font-size": "32px" });
 		}
 11.	Save all changes by executing the **File > Save All** menu command.
 12.	Build and Test the Project by pressing **[F5]** or **Debug > Start Debugging**.

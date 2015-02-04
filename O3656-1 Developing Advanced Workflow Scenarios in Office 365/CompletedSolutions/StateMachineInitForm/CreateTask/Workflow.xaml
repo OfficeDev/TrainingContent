@@ -1,0 +1,428 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="StateMachineInitForm.Create_Task.Workflow"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:msdad="clr-namespace:Microsoft.SharePoint.DesignTime.Activities.Design;assembly=Microsoft.SharePoint.DesignTime.Activities.16.0.Design"
+ xmlns:p="http://schemas.microsoft.com/workflow/2012/07/xaml/activities"
+ xmlns:p1="wf://workflow.windows.net/$Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="InitFormFieldValue" Type="InArgument(x:String)" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>StateMachineInitForm.Create_Task.Workflow_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>Microsoft.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.Activities.Design</AssemblyReference>
+      <AssemblyReference>Microsoft.SharePoint.DesignTime.Activities.16.0</AssemblyReference>
+      <AssemblyReference>Microsoft.SharePoint.DesignTime.Activities.16.0.Design</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>StateMachineInitForm</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <StateMachine DisplayName="ROOT" sap2010:WorkflowViewState.IdRef="StateMachine_1">
+    <StateMachine.InitialState>
+      <State x:Name="__ReferenceID0" DisplayName="Initial State" sap2010:WorkflowViewState.IdRef="State_1">
+        <State.Entry>
+          <Sequence DisplayName="ENTRY" sap2010:WorkflowViewState.IdRef="Sequence_1">
+            <p:SetUserStatus Description="Collecting Init Values" sap2010:WorkflowViewState.IdRef="SetUserStatus_1" />
+            <Parallel sap2010:WorkflowViewState.IdRef="Parallel_1">
+              <Sequence DisplayName="Get List Item Creator" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="p:DynamicValue" Name="ListItemPropertiesResponse" />
+                </Sequence.Variables>
+                <p1:WriteToHistory DisplayName="LOG - Get CreatedBy User" sap2010:WorkflowViewState.IdRef="WriteToHistory_1" Message="Obtaining the ID of the user who created the list item." />
+                <p1:LookupSPListItem ItemGuid="{x:Null}" Properties="{x:Null}" sap2010:WorkflowViewState.IdRef="LookupSPListItem_1">
+                  <p1:LookupSPListItem.ItemId>
+                    <InArgument x:TypeArguments="x:Int32">
+                      <p:ExpressionContainerValue x:TypeArguments="x:Int32">
+                        <p1:GetCurrentItemId />
+                      </p:ExpressionContainerValue>
+                    </InArgument>
+                  </p1:LookupSPListItem.ItemId>
+                  <p1:LookupSPListItem.ListId>
+                    <InArgument x:TypeArguments="s:Guid">
+                      <p:ExpressionContainerValue x:TypeArguments="s:Guid">
+                        <p1:GetCurrentListId />
+                      </p:ExpressionContainerValue>
+                    </InArgument>
+                  </p1:LookupSPListItem.ListId>
+                  <p1:LookupSPListItem.Result>
+                    <OutArgument x:TypeArguments="p:DynamicValue">
+                      <mca:CSharpReference x:TypeArguments="p:DynamicValue">ListItemPropertiesResponse</mca:CSharpReference>
+                    </OutArgument>
+                  </p1:LookupSPListItem.Result>
+                </p1:LookupSPListItem>
+                <p:GetODataProperties DisplayName="GetDynamicValueProperties" sap2010:WorkflowViewState.IdRef="GetODataProperties_1">
+                  <p:GetODataProperties.Source>
+                    <InArgument x:TypeArguments="p:DynamicValue">
+                      <mca:CSharpValue x:TypeArguments="p:DynamicValue">ListItemPropertiesResponse</mca:CSharpValue>
+                    </InArgument>
+                  </p:GetODataProperties.Source>
+                  <scg:Dictionary x:TypeArguments="x:String, OutArgument">
+                    <OutArgument x:TypeArguments="x:String" x:Key="AuthorId">
+                      <mca:CSharpReference x:TypeArguments="x:String">ListItemCreatedById</mca:CSharpReference>
+                    </OutArgument>
+                  </scg:Dictionary>
+                </p:GetODataProperties>
+              </Sequence>
+              <Sequence DisplayName="Update List Item w/ Init Form" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <p1:WriteToHistory DisplayName="LOG - Update List Item Value" sap2010:WorkflowViewState.IdRef="WriteToHistory_2">
+                  <p1:WriteToHistory.Message>
+                    <InArgument x:TypeArguments="x:String">
+                      <mca:CSharpValue x:TypeArguments="x:String">"Updating the list item with the value collected from the init form: " + InitFormFieldValue</mca:CSharpValue>
+                    </InArgument>
+                  </p1:WriteToHistory.Message>
+                </p1:WriteToHistory>
+                <p1:UpdateListItem ItemGuid="{x:Null}" ListItemProperties="{x:Null}" DisplayName="Update List Item with Init Form Field" sap2010:WorkflowViewState.IdRef="UpdateListItem_1">
+                  <p1:UpdateListItem.ItemId>
+                    <InArgument x:TypeArguments="x:Int32">
+                      <p:ExpressionContainerValue x:TypeArguments="x:Int32">
+                        <p1:GetCurrentItemId />
+                      </p:ExpressionContainerValue>
+                    </InArgument>
+                  </p1:UpdateListItem.ItemId>
+                  <p1:UpdateListItem.ListId>
+                    <InArgument x:TypeArguments="s:Guid">
+                      <p:ExpressionContainerValue x:TypeArguments="s:Guid">
+                        <p1:GetCurrentListId />
+                      </p:ExpressionContainerValue>
+                    </InArgument>
+                  </p1:UpdateListItem.ListId>
+                  <p1:UpdateListItem.ListItemPropertiesDynamicValue>
+                    <InArgument x:TypeArguments="p:DynamicValue">
+                      <p:SetDynamicValueProperties>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument">
+                          <InArgument x:TypeArguments="x:String" x:Key="InitFormFieldValue">
+                            <mca:CSharpValue x:TypeArguments="x:String">InitFormFieldValue</mca:CSharpValue>
+                          </InArgument>
+                        </scg:Dictionary>
+                      </p:SetDynamicValueProperties>
+                    </InArgument>
+                  </p1:UpdateListItem.ListItemPropertiesDynamicValue>
+                </p1:UpdateListItem>
+              </Sequence>
+            </Parallel>
+          </Sequence>
+        </State.Entry>
+        <State.Transitions>
+          <Transition DisplayName="Assign Task" sap2010:WorkflowViewState.IdRef="Transition_3">
+            <Transition.To>
+              <State x:Name="__ReferenceID1" DisplayName="Create Task" sap2010:WorkflowViewState.IdRef="State_4">
+                <State.Entry>
+                  <Sequence DisplayName="ENTRY" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                    <p:SetUserStatus Description="Assigning Task to Workflow Initiator" sap2010:WorkflowViewState.IdRef="SetUserStatus_2" />
+                    <p1:WriteToHistory DisplayName="LOG" sap2010:WorkflowViewState.IdRef="WriteToHistory_3">
+                      <p1:WriteToHistory.Message>
+                        <InArgument x:TypeArguments="x:String">
+                          <mca:CSharpValue x:TypeArguments="x:String">"Creating &amp; assinging task to list item creator (ID=" +ListItemCreatedById +")"</mca:CSharpValue>
+                        </InArgument>
+                      </p1:WriteToHistory.Message>
+                    </p1:WriteToHistory>
+                    <p1:SingleTask DueDate="{x:Null}" TaskId="{x:Null}" TaskItemId="{x:Null}" AssignmentEmailBody="&lt;html&gt;&lt;body style='font-size:11pt;font-family:Segoe UI Light,sans-serif;color:#444444;'&gt;&lt;div&gt;&lt;span style='font-size:13.5pt'&gt;You have a new task.&lt;/span&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;" AssignmentEmailSubject="Task Assigned" Body="Please complete this task." CancelationEmailBody="&lt;html&gt;&lt;body style='font-size:11pt;font-family:Segoe UI Light,sans-serif;color:#444444;'&gt;&lt;div&gt;&lt;span style='font-size:13.5pt'&gt;One of your tasks was canceled and deleted. You do not need to take any further action on that task.&lt;/span&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;" CancelationEmailSubject="Task Canceled" CompletedStatus="Completed" ContentTypeId="0x0108003365C4474CAE8C42BCE396314E88E51F" DefaultTaskOutcome="0" sap2010:WorkflowViewState.IdRef="SingleTask_1" OutcomeFieldName="TaskOutcome" OverdueEmailBody="&lt;html&gt;&lt;body style='font-size:11pt;font-family:Segoe UI Light,sans-serif;color:#444444;'&gt;&lt;div&gt;&lt;span style='font-size:13.5pt'&gt;You have an &lt;/span&gt;&lt;span style='font-size:13.5pt;color:#ff3b3b;'&gt;overdue&lt;/span&gt;&lt;span style='font-size:13.5pt'&gt; task.&lt;/span&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;" OverdueEmailSubject="Task Overdue" OverdueReminderRepeat="1" OverdueRepeatTimes="1" PreserveIncompleteTasks="False" SendReminderEmail="True" Title="Workflow task" WaitForTaskCompletion="True" WaiveAssignmentEmail="False" WaiveCancelationEmail="False">
+                      <p1:SingleTask.AssignedTo>
+                        <InArgument x:TypeArguments="x:String">
+                          <mca:CSharpValue x:TypeArguments="x:String">ListItemCreatedById</mca:CSharpValue>
+                        </InArgument>
+                      </p1:SingleTask.AssignedTo>
+                      <p1:SingleTask.Outcome>
+                        <OutArgument x:TypeArguments="x:Int32">
+                          <mca:CSharpReference x:TypeArguments="x:Int32">TaskOutcome</mca:CSharpReference>
+                        </OutArgument>
+                      </p1:SingleTask.Outcome>
+                      <p1:SingleTask.RelatedContentLinkListId>
+                        <InArgument x:TypeArguments="s:Guid">
+                          <p:ExpressionContainerValue x:TypeArguments="s:Guid">
+                            <p1:GetCurrentListId />
+                          </p:ExpressionContainerValue>
+                        </InArgument>
+                      </p1:SingleTask.RelatedContentLinkListId>
+                      <p1:SingleTask.RelatedContentLinkListItemId>
+                        <InArgument x:TypeArguments="s:Guid">
+                          <p:ExpressionContainerValue x:TypeArguments="s:Guid">
+                            <p1:GetCurrentItemGuid />
+                          </p:ExpressionContainerValue>
+                        </InArgument>
+                      </p1:SingleTask.RelatedContentLinkListItemId>
+                      <p1:SingleTask.RelatedContentLinkListItemIntegerId>
+                        <InArgument x:TypeArguments="x:Int32">
+                          <p:ExpressionContainerValue x:TypeArguments="x:Int32">
+                            <p1:GetCurrentItemId />
+                          </p:ExpressionContainerValue>
+                        </InArgument>
+                      </p1:SingleTask.RelatedContentLinkListItemIntegerId>
+                    </p1:SingleTask>
+                  </Sequence>
+                </State.Entry>
+                <State.Transitions>
+                  <Transition DisplayName="Task Completed" sap2010:WorkflowViewState.IdRef="Transition_2">
+                    <Transition.To>
+                      <State x:Name="__ReferenceID2" DisplayName="Update List Item with Completed Task" sap2010:WorkflowViewState.IdRef="State_3">
+                        <State.Entry>
+                          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_5">
+                            <p:SetUserStatus Description="Updating List Item" sap2010:WorkflowViewState.IdRef="SetUserStatus_4" />
+                            <p1:WriteToHistory DisplayName="LOG" sap2010:WorkflowViewState.IdRef="WriteToHistory_4" Message="Updating list item with completed task outcome" />
+                            <p1:UpdateListItem ItemGuid="{x:Null}" ListItemProperties="{x:Null}" sap2010:WorkflowViewState.IdRef="UpdateListItem_2">
+                              <p1:UpdateListItem.ItemId>
+                                <InArgument x:TypeArguments="x:Int32">
+                                  <p:ExpressionContainerValue x:TypeArguments="x:Int32">
+                                    <p1:GetCurrentItemId />
+                                  </p:ExpressionContainerValue>
+                                </InArgument>
+                              </p1:UpdateListItem.ItemId>
+                              <p1:UpdateListItem.ListId>
+                                <InArgument x:TypeArguments="s:Guid">
+                                  <p:ExpressionContainerValue x:TypeArguments="s:Guid">
+                                    <p1:GetCurrentListId />
+                                  </p:ExpressionContainerValue>
+                                </InArgument>
+                              </p1:UpdateListItem.ListId>
+                              <p1:UpdateListItem.ListItemPropertiesDynamicValue>
+                                <InArgument x:TypeArguments="p:DynamicValue">
+                                  <p:SetDynamicValueProperties>
+                                    <scg:Dictionary x:TypeArguments="x:String, InArgument">
+                                      <InArgument x:TypeArguments="x:Int32" x:Key="TaskOutcome1">
+                                        <mca:CSharpValue x:TypeArguments="x:Int32">TaskOutcome</mca:CSharpValue>
+                                      </InArgument>
+                                    </scg:Dictionary>
+                                  </p:SetDynamicValueProperties>
+                                </InArgument>
+                              </p1:UpdateListItem.ListItemPropertiesDynamicValue>
+                            </p1:UpdateListItem>
+                          </Sequence>
+                        </State.Entry>
+                        <State.Transitions>
+                          <Transition DisplayName="Workflow Complete" sap2010:WorkflowViewState.IdRef="Transition_1">
+                            <Transition.To>
+                              <State x:Name="__ReferenceID3" DisplayName="FinalState" sap2010:WorkflowViewState.IdRef="State_2" IsFinal="True">
+                                <State.Entry>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                    <p:SetUserStatus Description="Workflow Complete" sap2010:WorkflowViewState.IdRef="SetUserStatus_5" />
+                                    <p1:WriteToHistory sap2010:WorkflowViewState.IdRef="WriteToHistory_5" Message="Workflow Complete" />
+                                  </Sequence>
+                                </State.Entry>
+                              </State>
+                            </Transition.To>
+                          </Transition>
+                        </State.Transitions>
+                      </State>
+                    </Transition.To>
+                  </Transition>
+                </State.Transitions>
+              </State>
+            </Transition.To>
+          </Transition>
+        </State.Transitions>
+      </State>
+    </StateMachine.InitialState>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID2</x:Reference>
+    <x:Reference>__ReferenceID3</x:Reference>
+    <StateMachine.Variables>
+      <Variable x:TypeArguments="x:String" Name="ListItemCreatedById" />
+      <Variable x:TypeArguments="x:Int32" Name="TaskOutcome" />
+    </StateMachine.Variables>
+    <sads:DebugSymbol.Symbol>dzhEOlxTY3JhdGNoXFN0YXRlTWFjaGluZUluaXRGb3JtXENyZWF0ZVRhc2tcV29ya2Zsb3cueGFtbFEyA/4BEgIBATQH8wEPAgFDigEP7wEXAgEZuwEX6wEfAgEJ4AEf5wEnAgECNguFARYCAUaMARO2AR4CARy9ARvbASYCAQziASPlAS4CAQQ3DTd3AgFsOA2EARgCAUeNARWNAY0BAgFBjgEVlAEpAgE8lQEVtQElAgEdvgEdvgGDAQIBF78BHb8BsAECARXAAR3aATECAQ3jASXjAYoBAgEH5AEl5AGJAQIBBTcqN0ICAW05D18aAgFWYA+DARoCAUiNATKNAVgCAUKRARuRAawBAgE9lQFzlQHQAgIBO5UBsQeVAb4HAgE6lQH2CpUB+QoCATmVAa8DlQHcBQIBOJUB+wuVAYIMAgE3ogEbpAE4AgE2lQHtBpUB8AYCATWVAZkMlQGgDAIBNJUBkguVAZkLAgEzlQH9ApUBmQMCATKdARudAWsCAS6VAZUGlQGgBgIBLZUBrAuVAbILAgEsqQEbqwE4AgErlQG6CpUByAoCASqwARuyATgCASmVAbkLlQHICwIBKJUB0AeVAaUKAgEnlQGvBpUB2QYCASaYARuYAWwCASKVAd8LlQHlCwIBIZUB6AKVAfcCAgEglQH1BZUBhAYCAR+VAd8KlQHiCgIBHr4BOr4BTgIBGL8Bfb8BrQECARbRASPXAUECARDKASPMAUACAQ/DASPFAUACAQ7jAULjAVUCAQjkAXPkAYYBAgEGPRE9wgECAWo+EVInAgFiUxFeKAIBV2ERZyUCAVFoEYIBJQIBSaMBHaMBNAMBNgGqAR2qATYDASsBsQEdsQE0AwEpAdQBKdQBcQIBEcsBJcsBPAMBDwHEASXEATwDAQ4BPYYBPb8BAgFrSBdKNAIBaU8XT30CAWRBF0M0AgFjVhdWdQIBXVsXW3ACAVhkF2SwAQIBUnkXfzUCAUxyF3Q0AgFLaxdtNAIBSkkZSTADAWkBQhlCMAMBYwF8HXxtAgFNcxlzMAMBSwFsGWwwAwFKAQ==</sads:DebugSymbol.Symbol>
+  </StateMachine>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="SetUserStatus_1" sap:VirtualizedContainerService.HintSize="645,22" />
+      <sap2010:ViewStateData Id="WriteToHistory_1" sap:VirtualizedContainerService.HintSize="247,68" />
+      <sap2010:ViewStateData Id="LookupSPListItem_1" sap:VirtualizedContainerService.HintSize="247,89">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <scg:Dictionary x:TypeArguments="x:String, msdad:ViewStateNameValue" x:Key="SPLocalizedDisplayNames">
+              <msdad:ViewStateNameValue x:Key="ListId" DisplayName="(current list)" Value="$CurrentListId" />
+              <msdad:ViewStateNameValue x:Key="ItemId" DisplayName="(current item)" Value="$CurrentItemId" />
+            </scg:Dictionary>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="GetODataProperties_1" sap:VirtualizedContainerService.HintSize="247,92">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:String x:Key="Properties.SelectedEntityType">Lists/TriggerList</x:String>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="269,453">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteToHistory_2" sap:VirtualizedContainerService.HintSize="200,68" />
+      <sap2010:ViewStateData Id="UpdateListItem_1" sap:VirtualizedContainerService.HintSize="200,68">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <scg:Dictionary x:TypeArguments="x:String, msdad:ViewStateNameValue" x:Key="SPLocalizedDisplayNames">
+              <msdad:ViewStateNameValue x:Key="ListId" DisplayName="(current list)" Value="$CurrentListId" />
+              <msdad:ViewStateNameValue x:Key="ItemId" DisplayName="(current item)" Value="$CurrentItemId" />
+            </scg:Dictionary>
+            <x:String x:Key="ListItemPropertiesDynamicValue.SelectedEntityType">Lists/TriggerList</x:String>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="222,453">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Parallel_1" sap:VirtualizedContainerService.HintSize="645,499" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="667,685">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SetUserStatus_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WriteToHistory_3" sap:VirtualizedContainerService.HintSize="200,68" />
+      <sap2010:ViewStateData Id="SingleTask_1" sap:VirtualizedContainerService.HintSize="200,89" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="222,383">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SetUserStatus_4" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WriteToHistory_4" sap:VirtualizedContainerService.HintSize="200,68" />
+      <sap2010:ViewStateData Id="UpdateListItem_2" sap:VirtualizedContainerService.HintSize="200,68">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <scg:Dictionary x:TypeArguments="x:String, msdad:ViewStateNameValue" x:Key="SPLocalizedDisplayNames">
+              <msdad:ViewStateNameValue x:Key="ListId" DisplayName="(current list)" Value="$CurrentListId" />
+              <msdad:ViewStateNameValue x:Key="ItemId" DisplayName="(current item)" Value="$CurrentItemId" />
+            </scg:Dictionary>
+            <x:String x:Key="ListItemPropertiesDynamicValue.SelectedEntityType">Lists/TriggerList</x:String>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="222,362">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SetUserStatus_5" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WriteToHistory_5" sap:VirtualizedContainerService.HintSize="200,68" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="222,254">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_2" sap:VirtualizedContainerService.HintSize="326,367">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,499.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">319.8,423.5 319.8,453.5 305.7,453.5 305.7,499.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">55</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">42</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_3" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">240,362.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_2" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">214,286.05 302.7,286.05 302.7,362.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">40</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">42</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_4" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">100,252.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_3">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">282.9,190.5 282.9,220.5 174.1,220.5 174.1,252.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">27</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">50</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_1" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,129.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine_1" sap:VirtualizedContainerService.HintSize="614,636">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <x:Double x:Key="StateContainerWidth">600</x:Double>
+            <x:Double x:Key="StateContainerHeight">600</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">327,77.5 327,107.5 294.3,107.5 294.3,129.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachineInitForm.Create_Task.Workflow_1" sap:VirtualizedContainerService.HintSize="654,716" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

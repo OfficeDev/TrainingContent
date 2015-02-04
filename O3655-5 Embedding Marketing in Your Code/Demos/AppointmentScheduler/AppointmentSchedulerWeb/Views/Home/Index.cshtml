@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h2>Welcome @ViewBag.UserName!</h2>
+    <p class="lead">
+        <b>Contoso Appointment Scheduler App</b><br/>
+        This sample show how to add license management to your SharePoint apps.
+    </p>
+    <p><a href="http://msdn.microsoft.com/en-us/library/office/jj164035(v=office.15).aspx" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Create Test Licenses</h2>
+        <p>Before running the app, you must generate a test license. The test license simulates a license from the SharePoint store.</p>
+        <p>Start by generating a test license for a 30-day trial to see how the app behaves.</p>
+        <p><a class="btn btn-default" href="/Home/TestLicense">Try it out &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Sample App</h2>
+        <p>After creating a test license, you can try out the Contoso Appointment Scheduler app.</p>
+        <p>If you are using a trial license, then some functionality will be limited, some personal information will be gathered, and demo data can be generated.</p>
+        <p><a class="btn btn-default" href="/Scheduler/Index">Try it out &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>License Management</h2>
+        <p>License you create can be managed in SharePoint.</p>
+        <p>@GetLicenseManagementLink()</p>
+    </div>
+</div>
+@helper GetLicenseManagementLink()
+{
+    System.Text.StringBuilder builder = new System.Text.StringBuilder(SharePointContextProvider.Current.GetSharePointContext(System.Web.HttpContext.Current).SPHostUrl.ToString());
+    builder.Append("_layouts/15/AllAppLicensesManagement.aspx");
+    <a class="btn btn-default" href="@builder.ToString()">Try it out &raquo;</a>
+}

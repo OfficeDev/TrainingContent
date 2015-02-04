@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/apptheme_color_dark"
+    tools:context=".Login">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="50dp"
+            android:id="@+id/linearLayout">
+
+            <ImageView
+                android:id="@+id/splash_logo"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:src="@drawable/splash_logo"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/splash_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/activity_login_title"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/splash_logo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:textColor="@android:color/white" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/splash_label"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <Button
+            android:text="@string/label_sign_in"
+            android:id="@+id/loginButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
