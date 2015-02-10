@@ -19,7 +19,7 @@ This module concentrates on how to achieve typical Search customizations using a
 **Lab - Using Search Capabilities with CAM Patterns**
 In first lab you will build personalized search results based on a particular user's user profile property values. In second lab you will modify the display templates for the search results to provide customized end user presentation.
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 **Demos**
 - [Export/Import Search Settings](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.SearchSettingsPortability)

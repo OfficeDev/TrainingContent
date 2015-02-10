@@ -2,23 +2,23 @@
 
 ----------
 
-This GitHub repo houses all of the content for the "Transforming SharePoint customizations to app model"
+This GitHub repo houses all of the content for the "Transforming SharePoint customizations to app model" training.
 
-- Module 1: [Introduction to app model transition](1 Introduction to app model transition)
-- Module 2: [Managing site settings using app model](2 Managing site settings using app model)
-- Module 3: [Branding with app model techniques](3 Branding with app model techniques)
-- Module 4: [Building UX components with app model](4 Building UX components with app model)
-- Module 5: [Using Remote Event Receivers and Remote Timer Jobs](5 Using Remote Event Receivers and Remote Timer Jobs)
-- Module 6: [Site Collection and Site Provisioning Using app model](6 Site Collection and Site Provisioning Using app model)
-- Module 7: [User Personalization and OneDrive for Business Operations Using app model](7 User Personalization and OneDrive for Business Operations Using app model)
-- Module 8: [Using Enterprise Content Management Capabilities with app model](8 Using Enterprise Content Management Capabilities with app model)
-- Module 9: [Using Search Capabilities with app model](9 Using Search Capabilities with app model)
+- Module 1: [Introduction to app model transition](01 Introduction to app model transition)
+- Module 2: [Managing site settings using app model](02 Managing site settings using app model)
+- Module 3: [Branding with app model techniques](03 Branding with app model techniques)
+- Module 4: [Building UX components with app model](04 Building UX components with app model)
+- Module 5: [Using Remote Event Receivers and Remote Timer Jobs](05 Using Remote Event Receivers and Remote Timer Jobs)
+- Module 6: [Site Collection and Site Provisioning Using app model](06 Site Collection and Site Provisioning Using app model)
+- Module 7: [User Personalization and OneDrive for Business Operations Using app model](07 User Personalization and OneDrive for Business Operations Using app model)
+- Module 8: [Using Enterprise Content Management Capabilities with app model](08 Using Enterprise Content Management Capabilities with app model)
+- Module 9: [Using Search Capabilities with app model](09 Using Search Capabilities with app model)
 - Module 10: [Transformation guidance from farm solutions to app model](10 Transformation guidance from farm solutions to app model)
 
 
 ----------
 
-(Additional material)[Additional material] folder contains additional reference material for the trainings, like example schedule and other relevant documents for your delivery. 
+[Additional material](Additional material) folder contains additional reference material for the trainings, like example schedule and other relevant documents for your delivery. 
 
 *Notice that we will keep on updating this material based on your input and work being done in the [Office 365 Developer Patterns and Practices program](http://aka.ms/officedevpnp). You can provide us input directly using the [Office 365 Developer Patterns & Practices Yammer group](http://aka.ms/officedevpnpyammer)*
 

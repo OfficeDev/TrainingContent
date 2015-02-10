@@ -22,7 +22,7 @@ Remote timer jobs can be used to replace typical timer job implementations as sc
 **Lab - Using Remote Event Receivers and Remote Timer Jobs**
 In this lab you will create a remote event receiver and associate it to the host web to execute code during end user events and build a simple remote timer job.
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 **Demos**
 - [Remote timer job](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.SimpleTimerJob)

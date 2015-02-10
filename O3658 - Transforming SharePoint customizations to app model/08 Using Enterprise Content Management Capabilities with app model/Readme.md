@@ -20,7 +20,7 @@ This module concentrates on how to achieve typical ECM capabilities using app mo
 **Lab - Using Enterprise Content Management Capabilities with app model**
 In first lab you will create custom cross site collection navigation based on the term configuration in taxonomy store. In second lab you will build a small taxonomy tool which can be used for creating and reading terms in the Office 365. You can use this kind of process to access your on-premises farm terms and then replicate them to the cloud.
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 **Demos**
 - [Creating site columns and content types using CSOM](https://github.com/OfficeDev/PnP/tree/master/Scenarios/ECM.DocumentLibraries)
