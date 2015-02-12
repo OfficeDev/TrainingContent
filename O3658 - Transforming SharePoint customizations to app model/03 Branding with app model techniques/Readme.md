@@ -19,7 +19,7 @@ Introduction to the app model approaches to control site branding elements. Conc
 **Lab - Modification of SharePoint Sites Using SP Apps**
 In this exercise you will create your own custom theme using the SharePoint Color Palette Tool, and then apply the theme from the provider hosted app to the host web.
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 **Demos**
 - [Using SharePoint themes for branding](https://github.com/OfficeDev/PnP/tree/master/Scenarios/Branding.Themes)

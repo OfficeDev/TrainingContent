@@ -19,7 +19,7 @@ Introduction to the transitions to app model. Concentrates on key message around
 **Lab - Requesting Office365 Trial Tenant**
 Demonstrates process of provisioning a new Office365 tenant and set up the basic environment which will be used for other exercises.
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 ----------
 

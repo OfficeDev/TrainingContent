@@ -19,7 +19,7 @@ This module concentrates on how to perform typical site management or content op
 **Lab - Modification of SharePoint Sites Using SP Apps**
 In first lab you will learn how to modify wiki pages using SharePoint Apps and in second exercise we will concentrate on the JavaScript injection pattern. 
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 **Demos**
 - [Manipulate wiki pages with app model](https://github.com/OfficeDev/PnP/tree/master/Scenarios/Provisioning.Pages)

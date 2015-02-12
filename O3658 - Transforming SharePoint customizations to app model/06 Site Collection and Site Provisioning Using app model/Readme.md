@@ -21,7 +21,7 @@ This module concentrates on site provisioning techniques using so called *remote
 **Lab - Site Collection and Site Provisioning Using CAM**
 In this lab you will create a self-service site collection creation experience for end users in cloud to provision new site collections.
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 **Demos**
 - [Site collection provisioning](https://github.com/OfficeDev/PnP/tree/master/Samples/Provisioning.Cloud.Async)

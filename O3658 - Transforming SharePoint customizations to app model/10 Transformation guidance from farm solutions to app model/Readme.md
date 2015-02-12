@@ -19,22 +19,22 @@ This module concentrates on actual transformation process from existing full tru
 **Lab 1 - Replacement of files provisioned via Modules in Full Trust Solutions**
 In this lab you will learn how to replace existing master pages and page layouts which have been deployed to an On-Premises SharePoint Server via Modules in a Full Trust Solution. This will involve deploying new files to replace those deployed via Modules and updating the existing usages of these files to remove the dependency on the files which were deployed via declarative means.
 
-- [Lab manual](10-1 Replacement of files deployed via Modules/lab.md)
+- [Lab manual](10-1 Replacement of files deployed via Modules/Lab.md)
 
 **Lab 2 - Replacement of lists provisioned from list templates in Full Trust Solutions**
 In this lab you will learn how to detect existing lists and libraries, which have been created from a custom list template deployed into an On-Premises SharePoint Server in a Full Trust Solution. This will involve creating new lists to replace those, configuring them appropriately then transferring the existing content from the original list.
 
-- [Lab manual](10-2 Replacing Lists Created from Custom Templates/lab.md)
+- [Lab manual](10-2 Replacing Lists Created from Custom Templates/Lab.md)
 
 **Lab 3 - Content Type and Site columns replacements**
 In this lab you will learn how to replace existing content types by deploying new content types and updating the content to the new content type with new site columns using remote provisioning.
 
-- [Lab manual](10-3 Content Type and Site columns replacements/lab.md)
+- [Lab manual](10-3 Content Type and Site columns replacements/Lab.md)
 
 **Lab 4 - Replacement of web parts with app parts**
 In this lab you will learn how to replace existing web parts by deploying a SharePoint Provider hosted app and updating the content to use an App Part hosted in the Provider hosted app in place of Web Parts using Full Trust Code.
 
-- [Lab manual](10-4 Web Part Replacement Using CAM/lab.md)
+- [Lab manual](10-4 Web Part Replacement Using CAM/Lab.md)
 
 **Demos**
 - SPCAF tooling in practice - Demonstration of free SPCAF tool for app model inventory

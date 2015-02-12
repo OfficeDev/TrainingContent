@@ -21,7 +21,7 @@ This module concentrates on user profile and related functionalities. We will co
 **Lab - User Personalization and OneDrive for Business Operations Using CAM Patterns**
 In this lab you will create an automated synchronization tool to synchronize user profile attributes from on-premises to the cloud and in second lab you will manage the Branding and Functionalities of OneDrive for Business Sites 
 
-- [Lab manual](lab.md)
+- [Lab manual](Lab.md)
 
 **Demos**
 - [User Profile Manipulation with CSOM](https://github.com/OfficeDev/PnP/tree/dev/Samples/UserProfile.Manipulation.CSOM)
