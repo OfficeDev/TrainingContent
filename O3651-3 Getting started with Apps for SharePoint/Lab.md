@@ -15,7 +15,7 @@ In this lab you will get hands-on experience working with the new SharePoint App
 <br />![](Images/Fig02.png)
 
 6. Examine the default project setup for a SharePoint-Hosted app. As you can see, it is like a traditional SharePoint solution-based project because you have a Features and Packages node.
-<br />![](../Images/Fig03.png)
+<br />![](Images/Fig03.png)
 
 7. Note that there are project folders named Content, Images & Pages are actually SharePoint Project Items (SPI) that are Modules and will provision their contents to the respective folders in the app web that will be generated upon installing the app.
    - **Content/App.css**: main Cascading Style Sheet used for the app.
