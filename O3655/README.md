@@ -4,11 +4,11 @@
 
 This GitHub repo houses all of the content for the "Shipping your Office 365 App to the Office Store" training.
 
-- O3655-1 [Overview of the Office App Store](Overview of the Office App Store)
-- O3655-2 [DemoFest of Apps in the Store](DemoFest of Apps in the Store)
-- O3655-3 [Getting Apps Submitted and Approved for the Store](Getting Apps Submitted and Approved for the Store)
-- O3655-4 [How Store Apps Are Different](How Store Apps Are Different)
-- O3655-5 [Embedding Marketing in Your Code](Embedding Marketing in Your Code)
+- O3655-1 [Overview of the Office App Store](O3655-1 Overview of the Office App Store)
+- O3655-2 [DemoFest of Apps in the Store](O3655-2 DemoFest of Apps in the Store)
+- O3655-3 [Getting Apps Submitted and Approved for the Store](O3655-3 Getting Apps Submitted and Approved for the Store)
+- O3655-4 [How Store Apps Are Different](O3655-4 How Store Apps Are Different)
+- O3655-5 [Embedding Marketing in Your Code](O3655-5 Embedding Marketing in Your Code)
 
 ----------
 
