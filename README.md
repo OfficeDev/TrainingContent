@@ -14,6 +14,6 @@ For more information on Office 365 Development visit http://dev.office.com/.
 - [Course 5: Shipping your Office 365 App to the Office Store](/O3655/README.md) 
 - [Course 6: Deep dive into the building blocks and services of the SharePoint platform](/O3656/README.md) 
 - [Course 7: Deep Dive into Office 365 Development on non-Microsoft Stack](/O3657/README.md) 
-- [Course 8: Transforming SharePoint customizations to app model](/O3658/README.md) 
+- [Course 8: Transforming SharePoint customizations to app model](/O3658/Readme.md) 
 
 
