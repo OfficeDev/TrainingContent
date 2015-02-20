@@ -236,7 +236,7 @@ In this task we will add the needed code to deploy our custom theme to the host 
 ![Web Project](Images/webproject.png)  
 2.  Name folder __Resources__.
 3.  Right click the __Resources__ folder and choose __Add - Existing Item__.
-4.  Move to the __O3658-3 Demos\DeployCustomTheme\DeployCustomTheme__ folder and choose both __custom.spcolor__ and __custombg.jpg__ using the __Ctrl__ button on the keyboard and clicking the files one-by-one.
+4.  Move to the __O3658-3 Demos\DeployCustomTheme__ folder and choose both __custom.spcolor__ and __custombg.jpg__ using the __Ctrl__ button on the keyboard and clicking the files one-by-one.
 5.  Activate __custom.spcolor__ in the Solution Explorer to view its properties.  
 ![SP Color](Images/spcolor.png)  
 6.  Set the __Copy to Output Directory__ as __Copy always__.  
