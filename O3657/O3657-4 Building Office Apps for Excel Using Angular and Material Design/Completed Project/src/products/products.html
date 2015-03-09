@@ -1,0 +1,34 @@
+<md-toolbar class="md-primary">
+  <h5>Filter Product List</h5>
+</md-toolbar>
+
+<md-select data-ng-model="vm.selectedSupplier" placeholder="filter on supplier">
+  <md-select-label>{{ vm.selectedSupplier ? 'filtering by ' + vm.selectedSupplier.CompanyName : 'filter by supplier' }}</md-select-label>
+  <md-option data-ng-value="item" data-ng-repeat="item in vm.suppliers">{{item.CompanyName}}</md-option>
+</md-select>
+
+<md-select data-ng-model="vm.selectedCategory" placeholder="filter on category">
+  <md-select-label>{{ vm.selectedCategory ? 'filtering by ' + vm.selectedCategory.CategoryName : 'filter by category' }}</md-select-label>
+  <md-option data-ng-value="item" data-ng-repeat="item in vm.categories">{{item.CategoryName}}</md-option>
+</md-select>
+
+<button data-ng-click="vm.clearFilters()">clear filters</button>
+<button data-ng-click="vm.addProducts()">add products</button>
+
+<md-toolbar class="md-primary">
+  <h5>Products</h5>
+</md-toolbar>
+
+<md-list>
+  <md-item data-ng-repeat="product in vm.products">
+    <md-item-content>
+      <div>
+        <md-checkbox data-ng-model="product.isSelected"
+                     class="md-primary" aria-label="product.ProductName"></md-checkbox>
+      </div>
+      <div class="md-tile-content">
+        <h3>{{product.ProductName}}</h3>
+      </div>
+    </md-item-content>
+  </md-item>
+</md-list>

@@ -1,0 +1,22 @@
+<md-toolbar class="md-primary">
+  <h5>Selected Customer Details</h5>
+</md-toolbar>
+
+<md-content>
+  <md-item>
+    <md-item-content>
+      <div class="md-tile-content">
+        <h3>{{vm.customer.FirstName}} {{vm.customer.LastName}}</h3>
+        <h4>{{vm.customer.Title}}</h4>
+        <p>
+          {{vm.customer.Address}}<br/>
+          {{vm.customer.City}}, {{vm.customer.Region}} {{vm.customer.PostalCode}} {{vm.customer.Country}}
+        </p>
+      </div>
+    </md-item-content>
+  </md-item>
+</md-content>
+
+<md-button data-ng-click="vm.goBack()">
+  <h5>go back to customer list</h5>
+</md-button>
