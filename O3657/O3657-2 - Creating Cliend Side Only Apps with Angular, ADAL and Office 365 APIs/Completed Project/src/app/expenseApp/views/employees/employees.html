@@ -1,0 +1,107 @@
+<div class="employees view indent">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-user"></span> Employees</h3>
+        </header>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="navbar">
+                    <ul class="nav navbar-nav">
+                        <li data-ng-class="{active: !vm.listDisplayModeEnabled}" class="toolbaritem"><a data-ng-click="vm.changeDisplayMode(vm.DisplayMode.Card)"><span class="glyphicon glyphicon-th-large"></span> Card View</a></li>
+                        <li data-ng-class="{active: vm.listDisplayModeEnabled}" class="toolbaritem"><a data-ng-click="vm.changeDisplayMode(vm.DisplayMode.List)"><span class="glyphicon glyphicon-align-justify"></span> List View</a></li>
+                        <li class="toolbaritem"><a data-ng-click="vm.navigate('/employeeEdit/0')"><span class="glyphicon glyphicon-plus"></span> Add Employee</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <label class="navbarText col-sm-2">Filter:</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       data-ng-model="vm.searchText"
+                                       data-ng-change="vm.searchTextChanged();"
+                                       class="novalidate form-control" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row show-hide-animation" data-ng-show="vm.pagedEmployees.length == 0">
+                <div class="col-span-12">
+                    <h4>No employees found</h4>
+                </div>
+            </div>
+
+            <div class="row cardContainer show-hide-animation" data-ng-hide="vm.listDisplayModeEnabled">
+                <div class="col-sm-6 col-md-4 col-lg-3" data-ng-class="{{vm.cardAnimationClass}}"
+                     data-ng-repeat="employee in vm.pagedEmployees | orderBy:'lastName'">
+                    <div class="card">
+                        <button class="btn close cardClose" title="Delete Employee" data-ng-click="vm.deleteEmployee(employee.id)">&times;</button>
+                        <div class="cardHeader"><a href="#/employeeEdit/{{::employee.id}}" class="white">{{::employee.firstName }} {{::employee.lastName}} <i class="icon-edit icon-white editIcon"></i></a></div>
+                        <div class="cardBody">
+                            <div class="clearfix">
+                                <div class="pull-left cardBodyLeft">
+                                    <a href="#/employeeedit/{{::employee.id}}" class="white"><img data-ng-src="Content/Images/{{::employee.gender | lowercase}}.png" class="cardImage" /></a>
+                                </div>
+                                <div class="pull-left cardBodyRight">
+                                    <div class="cardBodyContent">{{::employee.city}}, {{::employee.state}}</div>
+                                    <div>
+                                        <a href="#/employeeExpenses/{{::employee.id}}" class="btn-link">
+                                            View Expenses
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gridContainer employeesTable show-hide-animation" data-ng-show="vm.listDisplayModeEnabled">
+                <div class="col-md-10">
+                    <div>
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th data-ng-click="vm.setOrder('lastName')">Name</th>
+                                    <th data-ng-click="vm.setOrder('city')">Location</th>
+                                    <th data-ng-click="vm.setOrder('orderCount')">Orders</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="employee in vm.pagedEmployees | orderBy:vm.orderby:vm.reverse" class="repeat-animation">
+                                    <td><a href="#/employeeEdit/{{::employee.id}}"><img data-ng-src="Content/Images/{{::employee.gender | lowercase}}.png" class="cardImage" alt="Employee Image" /></a></td>
+                                    <td><a href="#/employeeEdit/{{::employee.id}}">{{::employee.firstName }} {{::employee.lastName}}</a></td>
+                                    <td>{{::employee.city}}, {{::employee.state}}</td>
+                                    <td>
+                                        <a href="#/employeeExpenses/{{::employee.id}}" class="btn-link">
+                                            View Expenses
+                                        </a>
+                                    </td>
+                                    <td><button class="btn btn-danger" data-ng-click="vm.deleteEmployee(employee.id)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row show-hide-animation" data-ng-show="vm.employees.length > 0">
+            <div class="col-md-12">
+                <div data-pagination
+                     data-on-select-page="vm.pageChanged(page)"
+                     data-total-items="vm.totalRecords"
+                     data-items-per-page="vm.pageSize"
+                     data-page="vm.currentPage"
+                     data-boundary-links="true"
+                     class="pagination-sm"></div>
+                <h5>Showing {{ vm.numRecordsDisplaying }} of {{ vm.totalRecords}} total employees</h5>
+                <span data-ng-show="searchText.length > 0">Filtering by "{{ vm.searchText }}"</span>
+            </div>
+        </div>
+        <br /><br /><br />
+
+    </div>
+</div>
