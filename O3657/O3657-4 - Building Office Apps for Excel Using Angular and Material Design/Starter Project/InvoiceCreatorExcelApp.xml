@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:type="">
+  <Id>9c069e04-ca87-4170-9d2a-4343f329841e</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName></ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue=""/>
+  <Description DefaultValue=""/>
+  <IconUrl DefaultValue=""/>
+  <Hosts>
+  </Hosts>
+  <DefaultSettings>
+  </DefaultSettings>
+  <Permissions></Permissions>
+</OfficeApp>
