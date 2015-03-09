@@ -1,0 +1,73 @@
+<div class="view">
+  <div class="container">
+    <header>
+      <h3><span class="glyphicon glyphicon-edit"></span> {{vm.expense.title}} Expense</h3>
+    </header>
+    <form name="editForm" novalidate>
+      <div class="employeeEdit">
+        <div class="row">
+          <div class="col-md-12">
+            Attach the selected receipt from your OneDrive for Business' <strong><a href="{{vm.oneDriveFolder}}"
+                                                                                    target="_blank">receipts</a></strong>
+            folder to this invoice.
+          </div>
+        </div>
+        <br/>
+
+        <div class="row">
+          <div class="col-md-2">
+            Expense:
+          </div>
+          <div class="col-md-10">
+            {{ vm.expense.title }}
+          </div>
+        </div>
+        <br/>
+
+        <div class="row">
+          <div class="col-md-2">
+            Created:
+          </div>
+          <div class="col-md-10">
+            {{ vm.expense.created | date:'MM/dd/yyyy' }}
+          </div>
+        </div>
+        <br/>
+
+        <div class="row">
+          <div class="col-md-2">
+            Category:
+          </div>
+          <div class="col-md-10">
+            {{ vm.expense.expenseCategory }}
+          </div>
+        </div>
+        <br/>
+
+        <div class="row">
+          <div class="col-md-2">
+            Amount:
+          </div>
+          <div class="col-md-10">
+            {{ vm.expense.amount | currency }}
+          </div>
+        </div>
+        <br/>
+
+        <div class="row">
+          <div class="col-md-10">
+            <select data-ng-options="item.name for item in vm.receipts"
+                    data-ng-model="vm.selectedReceipt">
+              <option value="">--- select receipt ---</option>
+            </select>
+          </div>
+        </div>
+        <br/>
+
+        <div class="row">
+          <button type="submit" class="btn btn-primary" data-ng-click="vm.saveReceipt()">attach receipt</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

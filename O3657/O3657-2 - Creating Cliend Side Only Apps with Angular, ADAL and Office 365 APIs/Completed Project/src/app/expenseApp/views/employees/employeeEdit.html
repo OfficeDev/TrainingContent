@@ -1,0 +1,155 @@
+﻿<div class="view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-edit"></span> {{vm.title}} Employee</h3>
+        </header>
+        <form name="editForm" novalidate>
+            <div class="employeeEdit">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>{{ vm.employee.firstName + ' ' + vm.employee.lastName }} <span data-ng-hide="vm.employee.id == 0">(<a style="font-size:12pt" href="#/employeeExpenses/{{vm.employee.id}}">View Expenses</a>)</span></h4>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        First Name:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" name="firstName" class="form-control" data-ng-model="vm.employee.firstName" required />
+                        <span class="errorMessage" ng-show="editForm.firstName.$touched && editForm.firstName.$invalid">
+                            First name is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Last Name:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" name="lastName" class="form-control" data-ng-model="vm.employee.lastName" required />
+                        <span class="errorMessage" ng-show="editForm.lastName.$touched && editForm.lastName.$invalid">
+                            Last name is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Gender:
+                    </div>
+                    <div class="col-md-10">
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="gender" value="Male"
+                                       data-ng-checked="vm.employee.gender == 'Male'"
+                                       data-ng-model="vm.employee.gender" />
+                                Male
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="gender" value="Female"
+                                       data-ng-checked="vm.employee.gender == 'Female'"
+                                       data-ng-model="vm.employee.gender" />
+                                Female
+                                <br />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Email:
+                    </div>
+                    <div class="col-md-10">
+                        <!-- type="email" causing a problem with Breeze so using regex -->
+                        <input type="text" name="email" 
+                               class="form-control"
+                               data-ng-model="vm.employee.email"
+                               required />
+                        <span class="errorMessage" ng-show="editForm.email.$touched && editForm.email.$error.unique">
+                            Email already in use
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Address:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" name="address" class="form-control" data-ng-model="vm.employee.address" required />
+                        <span class="errorMessage" ng-show="editForm.address.$touched && editForm.address.$invalid">
+                            Address is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        City:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" name="city" class="form-control" data-ng-model="vm.employee.city" required />
+                        <span class="errorMessage" ng-show="editForm.city.$touched && editForm.city.$invalid">
+                            City is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        State:
+                    </div>
+                    <div class="col-md-10">
+                        <select name="state" required class="form-control"
+                                data-ng-model="vm.employee.state"
+                                data-ng-options="state.title as state.title for state in vm.states">
+                            <option value=""></option>
+                        </select>
+                        <span class="errorMessage" ng-show="editForm.state.$touched && editForm.state.$invalid">
+                            2 character state is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Zip:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="number" name="zip" class="form-control" data-ng-model="vm.employee.zip" required />
+                        <span class="errorMessage" ng-show="editForm.zip.$touched && editForm.zip.$invalid">
+                            Zip is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary" data-ng-click="vm.saveEmployee()" 
+                                ng-disabled="editForm.$invalid || !editForm.$dirty">{{vm.buttonText}}</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-danger" data-ng-if="vm.employee.id > 0" data-ng-click="vm.deleteEmployee()">Delete</button>
+                    </div>
+                </div>
+                <br />
+                <div class="statusRow">
+                    <br />
+                    <div class="label label-success" data-ng-show="vm.updateStatus">
+                        <span class="glyphicon glyphicon-thumbs-up icon-white"></span>&nbsp;&nbsp;Employee updated!
+                    </div>
+                </div>
+                <div class="statusRow">
+                    <br />
+                    <div class="label label-important" data-ng-show="vm.errorMessage">
+                        <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Error: {{ vm.errorMessage }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
