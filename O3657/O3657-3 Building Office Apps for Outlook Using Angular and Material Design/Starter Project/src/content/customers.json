@@ -1,0 +1,150 @@
+{
+  "d": {
+    "results": [
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(1)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(1)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 1,
+        "LastName": "Davolio",
+        "FirstName": "Nancy",
+        "Title": "Sales Representative",
+        "Address": "507 - 20th Ave. E.\r\nApt. 2A",
+        "City": "Seattle",
+        "Region": "WA",
+        "PostalCode": "98122",
+        "Country": "USA"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(2)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(2)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 2,
+        "LastName": "Fuller",
+        "FirstName": "Andrew",
+        "Title": "Vice President, Sales",
+        "Address": "908 W. Capital Way",
+        "City": "Tacoma",
+        "Region": "WA",
+        "PostalCode": "98401",
+        "Country": "USA"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(3)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(3)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 3,
+        "LastName": "Leverling",
+        "FirstName": "Janet",
+        "Title": "Sales Representative",
+        "Address": "722 Moss Bay Blvd.",
+        "City": "Kirkland",
+        "Region": "WA",
+        "PostalCode": "98033",
+        "Country": "USA"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(4)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(4)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 4,
+        "LastName": "Peacock",
+        "FirstName": "Margaret",
+        "Title": "Sales Representative",
+        "Address": "4110 Old Redmond Rd.",
+        "City": "Redmond",
+        "Region": "WA",
+        "PostalCode": "98052",
+        "Country": "USA"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(5)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(5)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 5,
+        "LastName": "Buchanan",
+        "FirstName": "Steven",
+        "Title": "Sales Manager",
+        "Address": "14 Garrett Hill",
+        "City": "London",
+        "Region": null,
+        "PostalCode": "SW1 8JR",
+        "Country": "UK"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(6)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(6)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 6,
+        "LastName": "Suyama",
+        "FirstName": "Michael",
+        "Title": "Sales Representative",
+        "Address": "Coventry House\r\nMiner Rd.",
+        "City": "London",
+        "Region": null,
+        "PostalCode": "EC2 7JR",
+        "Country": "UK"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(7)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(7)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 7,
+        "LastName": "King",
+        "FirstName": "Robert",
+        "Title": "Sales Representative",
+        "Address": "Edgeham Hollow\r\nWinchester Way",
+        "City": "London",
+        "Region": null,
+        "PostalCode": "RG1 9SP",
+        "Country": "UK"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(8)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(8)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 8,
+        "LastName": "Callahan",
+        "FirstName": "Laura",
+        "Title": "Inside Sales Coordinator",
+        "Address": "4726 - 11th Ave. N.E.",
+        "City": "Seattle",
+        "Region": "WA",
+        "PostalCode": "98105",
+        "Country": "USA"
+      },
+      {
+        "__metadata": {
+          "id": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(9)",
+          "uri": "https://services.odata.org/V3/Northwind/Northwind.svc/Customers(9)",
+          "type": "NorthwindModel.Customer"
+        },
+        "CustomerID": 9,
+        "LastName": "Dodsworth",
+        "FirstName": "Anne",
+        "Title": "Sales Representative",
+        "Address": "7 Houndstooth Rd.",
+        "City": "London",
+        "Region": null,
+        "PostalCode": "WG2 7LT",
+        "Country": "UK"
+      }
+    ]
+  }
+}
