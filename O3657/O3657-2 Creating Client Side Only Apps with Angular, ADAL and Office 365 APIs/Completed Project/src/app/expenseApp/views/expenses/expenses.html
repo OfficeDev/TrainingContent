@@ -1,0 +1,64 @@
+<div class="expenses view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;All Employee Expenses</h3>
+        </header>
+        <br />
+        <div class="employeeEdit">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="navbarText col-sm-3">Filter by Employee/Expense:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control novalidate"
+                               data-ng-model="vm.searchText"
+                               data-ng-change="vm.searchTextChanged();" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container">
+            <div class="row show-hide-animation" data-ng-show="vm.employees.length > 0">
+                <div class="col-md-12">
+                    <div data-pagination
+                         data-on-select-page="vm.pageChanged(page)"
+                         data-total-items="vm.totalRecords"
+                         data-items-per-page="vm.pageSize"
+                         data-page="vm.currentPage"
+                         data-boundary-links="true"
+                         class="pagination-sm"></div>
+                    <div>Showing {{vm.numRecordsDisplaying }} of {{ vm.totalRecords}} total employees</div>
+                    <div data-ng-show="searchText.length > 0">Filtering by "{{ vm.searchText }}"</div>
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 repeat-animation" data-ng-repeat="employee in vm.pagedEmployees | orderBy:'lastName'">
+                    <div>
+                        <h4><a href="#/employeeExpenses/{{::employee.id}}">{{::employee.firstName}} {{::employee.lastName }}</a></h4>
+                    </div>
+                    <div data-ng-include="'/app/expenseApp/views/expenses/expensesTable.html'" data-ng-controller="ExpenseChildController as vm" />
+                </div>
+            </div>
+            <div class="row show-hide-animation" data-ng-show="vm.pagedEmployees.length == 0">
+                <div class="col-md-12">
+                    <h4>No employees found</h4>
+                </div>
+            </div>
+            <div class="row show-hide-animation" data-ng-show="vm.employees.length > 0" style="padding-left: 15px;">
+                <div class="col-md-12">
+                    <div data-pagination
+                         data-on-select-page="vm.pageChanged(page)"
+                         data-total-items="vm.totalRecords"
+                         data-items-per-page="vm.pageSize"
+                         data-page="vm.currentPage"
+                         data-boundary-links="true"
+                         class="pagination-sm"></div>
+                    <h5>Showing {{ vm.numRecordsDisplaying }} of {{ vm.totalRecords}} total employees</h5>
+                    <span data-ng-show="searchText.length > 0">Filtering by "{{ vm.searchText }}"</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /><br /><br />
+</div>
+

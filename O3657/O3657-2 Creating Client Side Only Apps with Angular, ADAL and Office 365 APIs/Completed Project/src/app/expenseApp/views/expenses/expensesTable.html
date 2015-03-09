@@ -1,0 +1,50 @@
+﻿<table class="table table-hover table-striped table-condensed table-bordered expensesTable">
+    <thead>
+        <tr>
+            <th colspan="2" data-ng-click="vm.setOrder('title')">Expense</th>
+            <th data-ng-click="vm.setOrder('created')">Created</th>
+            <th data-ng-click="vm.setOrder('expenseCategory')">Category</th>
+            <th data-ng-click="vm.setOrder('amount')">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-hide="vm.employee.expenses || vm.employee.expenses.length > 0" class="error">
+            <td colspan="4">
+                <div class="text-center"><strong>No expenses found</strong></div>
+            </td>
+        </tr>
+        <tr data-ng-repeat="expense in vm.employee.expenses | orderBy:vm.orderby:vm.reverse" class="repeat-animation">
+            <td style="text-align: center">
+                <span data-ng-show="!expense.receipt"
+                      data-ng-click="vm.goAddReceipt(expense)"
+                      class="glyphicon glyphicon-plus" title="attach receipt" style="color:green; cursor: hand;"></span>
+                <span data-ng-show="expense.receipt" style="cursor: hand;"
+                      data-ng-click="vm.goToReceipt(expense.receipt)"
+                      class="glyphicon glyphicon-file" title="view receipt"></span>
+                <span data-ng-show="expense.receipt"
+                      data-ng-click="vm.goRemoveReceipt(employee, expense)"
+                      class="glyphicon glyphicon-minus" title="remove receipt" style="color:red; cursor: hand;"></span>
+            </td>
+            <td>
+                {{ expense.title }}
+            </td>
+            <td>
+                {{ expense.created | date:'MM/dd/yyyy' }}
+            </td>
+            <td>
+                {{ expense.expenseCategory }}
+            </td>
+            <td>
+                {{ expense.amount | currency }}
+            </td>
+        </tr>
+        <tr class="info">
+            <td colspan="4">
+                &nbsp;
+            </td>
+            <td>
+                <strong>{{ vm.employee.expensesTotal | currency }}</strong>
+            </td>
+        </tr>
+    </tbody>
+</table>

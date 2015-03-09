@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html data-ng-app="expenseApp">
+<head>
+    <title>Expense Manager</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="bower_packages/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="content/animations.css" rel="stylesheet" />
+    <link href="content/styles.css" rel="stylesheet" />
+</head>
+<body data-ng-cloak>
+
+    <header class="navbar navbar-inner navbar-fixed-top" data-ng-controller="expenseApp.NavbarController as vm">
+        <nav class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-ng-click="vm.isCollapsed = !vm.isCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/employees">
+                    <img src="Content/Images/people.png" alt="logo">
+                    <span class="appTitle">{{ vm.appTitle }}</span>
+                </a>
+            </div>
+            <div class="nav-container" data-collapse="vm.isCollapsed">
+                <ul class="nav navbar-nav nav-pills navBarPadding"
+                    data-menu-highlighter data-highlight-class-name="active">
+                    <li><a href="#/employees">Employees</a></li>
+                    <li><a href="#/expenses">Expenses</a></li>
+                    <li><a href="#/about">About</a></li>
+                    <li id="nav-login" data-ng-click="vm.loginOrOut()">
+                        <!-- href not used but needed to compare against path in menu-highlighter -->
+                        <a data-href="#/login">{{ vm.loginLogoutText }}</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="slide-animation-container">
+        <div data-ng-view id="view-container" class="slide-animation"></div>
+    </div>
+
+    <div id="footer">
+        <div class="navbar navbar-fixed-bottom">
+            <div class="navbar-inner footer">
+                <div class="container">
+                    <footer>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Created by <a href="http://twitter.com/DanWahlin" target="_blank">Dan Wahlin</a> and <a href="https://twitter.com/andrewconnell" target="_blank">Andrew Connell</a> -->
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-wc-overlay data-wc-overlay-delay="300">
+        <br /><img src="Content/images/spinner.gif" />&nbsp;&nbsp;Loading
+    </div>
+
+    <!-- 3rd party libraries -->
+    <script src="bower_packages/angular/angular.min.js"></script>
+    <script src="bower_packages/angular-route/angular-route.min.js"></script>
+    <script src="bower_packages/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_packages/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="bower_packages/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_packages/greensock/src/minified/TweenMax.min.js"></script>
+    <script src="bower_packages/adal-angular/dist/adal.min.js"></script>
+    <script src="bower_packages/adal-angular/dist/adal-angular.min.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="js/wc.directives/directives/wcOverlay.directive.js"></script>
+    <script src="js/wc.directives/directives/menuHighlighter.directive.js"></script>
+    <script src="js/expenseApp/app.module.js"></script>
+    <script src="js/expenseApp/app.routes.js"></script>
+    <script src="js/expenseApp/app.adal.js"></script>
+    <script src="js/expenseApp/app.constants.js"></script>
+    <script src="js/expenseApp/animations/list.animation.js"></script>
+    <script src="js/expenseApp/controllers/navbar.controller.js"></script>
+    <script src="js/expenseApp/directives/wcUnique.directive.js"></script>
+    <script src="js/expenseApp/filters/nameCityState.filter.js"></script>
+    <script src="js/expenseApp/filters/nameExpense.filter.js"></script>
+<!--    <script src="js/expenseApp/services/httpInterceptors.js"></script>-->
+    <script src="js/expenseApp/services/data.service.js"></script>
+    <script src="js/expenseApp/services/files.service.js"></script>
+    <script src="js/expenseApp/services/modal.service.js"></script>
+    <script src="js/expenseApp/controllers/login.controller.js"></script>
+    <script src="js/expenseApp/controllers/employees/employeeEdit.controller.js"></script>
+    <script src="js/expenseApp/controllers/employees/employeeExpenses.controller.js"></script>
+    <script src="js/expenseApp/controllers/employees/employees.controller.js"></script>
+    <script src="js/expenseApp/controllers/expenses/expenseChild.controller.js"></script>
+    <script src="js/expenseApp/controllers/expenses/expenses.controller.js"></script>
+    <script src="js/expenseApp/controllers/expenses/expensesReceipt.controller.js"></script>
+    <script src="js/expenseApp/controllers/about.controller.js"></script>
+
+</body>
+</html>
+
+
