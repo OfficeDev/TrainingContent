@@ -136,7 +136,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 1. Add a new persistent data store that will be used for the token cache:
   1. Right-click the project and select **Add/New Folder**.
   1. Name the folder **Data**.
-  1. Locate the [Lab Files](Lab Files) folder provided with this lab & find two files: `TasksWebContext.cs` & `TasksebInitializer.cs`. Copy these two files to the **Data** folder you just created.
+  1. Locate the [Lab Files](Lab Files) folder provided with this lab & find two files: `TasksWebContext.cs` & `TasksWebInitializer.cs`. Copy these two files to the **Data** folder you just created.
 
 1. Add a token cache that leverages Entity Framework to store the user specific tokens in persistent storage:
   1. Right-click the project and select **Add/New Folder**.
