@@ -2,16 +2,16 @@
 
 ----------
 
-This module concentrates on how to perform typical site management or content operations using app model techniques. This includes typical page modifications, how to use JavaScript Embedding pattern and what are the exposed site level settings for remote APIs (CSOm/REST). 
+This module concentrates on how to perform typical site management or content operations using app model techniques. This includes typical page modifications, how to use JavaScript Embed pattern and what are the exposed site level settings for remote APIs (CSOm/REST). 
 
 **Agenda**
 - Introduction to site management with app model
 - Page and content modifications
-- JavaScript Embedding
+- JavaScript Embed pattern
 - Controlling site settings using CSOM
 
 **Key recommendations**
-- Use JavaScript Embedding carefully
+- Use JavaScript Embed pattern carefully
 - Dynamic loading of scripts for JavaScript Embedding
 - Concentrate on end user experience and business requirements
 - Avoid sandbox solutions
@@ -23,7 +23,7 @@ In first lab you will learn how to modify wiki pages using SharePoint Apps and i
 
 **Demos**
 - [Manipulate wiki pages with app model](https://github.com/OfficeDev/PnP/tree/master/Scenarios/Provisioning.Pages)
-- [JavaScript Embedding](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.JavaScriptInjection)
+- [JavaScript Embed](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.EmbedJavaScript)
 - [Caching with client side techniques](https://github.com/OfficeDev/PnP/tree/master/Samples/Performance.Caching)
 
 ----------
