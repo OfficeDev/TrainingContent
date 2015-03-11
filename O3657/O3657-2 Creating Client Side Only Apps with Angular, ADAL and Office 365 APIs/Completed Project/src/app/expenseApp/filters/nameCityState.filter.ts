@@ -7,12 +7,12 @@ module expenseApp {
 
   export function nameCityStateFilter() {
 
-    return (employees: shared.IEmployee[], filterValue:string) => {
+    return (employees:shared.IEmployee[], filterValue:string) => {
       if (!filterValue) {
         return employees;
       }
 
-      var matches: shared.IEmployee[] = [];
+      var matches:shared.IEmployee[] = [];
       filterValue = filterValue.toLowerCase();
       for (var i = 0; i < employees.length; i++) {
         var emp = employees[i];
@@ -28,5 +28,6 @@ module expenseApp {
     };
 
   }
+
   angular.module('expenseApp').filter('nameCityStateFilter', nameCityStateFilter);
 }

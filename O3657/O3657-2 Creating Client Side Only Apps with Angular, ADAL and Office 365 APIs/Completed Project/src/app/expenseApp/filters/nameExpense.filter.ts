@@ -6,12 +6,12 @@
 module expenseApp {
 
   export function nameExpenseFilter() {
-    return (employees: shared.IEmployee[], filterValue:string) => {
+    return (employees:shared.IEmployee[], filterValue:string) => {
       if (!filterValue || !employees) {
         return employees;
       }
 
-      var matches: shared.IEmployee[] = [];
+      var matches:shared.IEmployee[] = [];
       filterValue = filterValue.toLowerCase();
       for (var i = 0; i < employees.length; i++) {
         var emp = employees[i];
@@ -25,7 +25,7 @@ module expenseApp {
       return matches;
     };
 
-    function matchesExpense(employee: shared.IEmployee, filterValue:string):boolean {
+    function matchesExpense(employee:shared.IEmployee, filterValue:string):boolean {
       if (employee.expenses) {
         for (var i = 0; i < employee.expenses.length; i++) {
           if (employee.expenses[i].title.toLowerCase().indexOf(filterValue) > -1) {

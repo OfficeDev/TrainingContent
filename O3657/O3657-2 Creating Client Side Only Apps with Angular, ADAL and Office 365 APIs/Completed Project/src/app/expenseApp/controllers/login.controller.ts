@@ -3,11 +3,11 @@
 
 module expenseApp {
 
-    class LoginController {
+  class LoginController {
 
 
-    }
+  }
 
-    angular.module('expenseApp').controller('expenseApp.LoginController', LoginController);
+  angular.module('expenseApp').controller('expenseApp.LoginController', LoginController);
 
 }

@@ -3,11 +3,11 @@
 
 module expenseApp {
 
-    class AboutController {
+  class AboutController {
 
-        static $inject: string[] = [];
+    static $inject:string[] = [];
 
-    }
+  }
 
-    angular.module('expenseApp').controller('expenseApp.AboutController', AboutController);
+  angular.module('expenseApp').controller('expenseApp.AboutController', AboutController);
 }

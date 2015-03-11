@@ -3,30 +3,31 @@
 
 module expenseApp.employees {
 
-    class EmployeeExpensesController {
-        employeeId: number;
-        employee = {};
-        expensesTotal: number = 0.00;
+  class EmployeeExpensesController {
+    employeeId:number;
+    employee = {};
+    expensesTotal:number = 0.00;
 
-        static $inject = ['$scope', '$routeParams', '$window', 'expenseApp.services.dataService'];
-        constructor(private $scope: ng.IScope, private $routeParams: IEmployeeRouteParams,
-                    private $window: ng.IWindowService, private dataService) {
+    static $inject = ['$scope', '$routeParams', '$window', 'expenseApp.services.dataService'];
 
-            this.employeeId = (this.$routeParams.employeeId) ? parseInt(this.$routeParams.employeeId, 10) : 0;
+    constructor(private $scope:ng.IScope, private $routeParams:IEmployeeRouteParams,
+                private $window:ng.IWindowService, private dataService) {
 
-            if (this.employeeId > 0) {
-                this.dataService.getEmployeeExpenses(this.employeeId)
-                .then((employee) => {
-                    this.employee = employee;
-                    $scope.$broadcast('employee', this.employee);
-                }, (error) => {
-                    this.$window.alert('Sorry, an error occurred: ' + error.message);
-                });
-            }
+      this.employeeId = (this.$routeParams.employeeId) ? parseInt(this.$routeParams.employeeId, 10) : 0;
 
-        }
+      if (this.employeeId > 0) {
+        this.dataService.getEmployeeExpenses(this.employeeId)
+          .then((employee) => {
+            this.employee = employee;
+            $scope.$broadcast('employee', this.employee);
+          }, (error) => {
+            this.$window.alert('Sorry, an error occurred: ' + error.message);
+          });
+      }
+
     }
+  }
 
-    angular.module('expenseApp').controller('expenseApp.employees.EmployeeExpensesController', EmployeeExpensesController);
+  angular.module('expenseApp').controller('expenseApp.employees.EmployeeExpensesController', EmployeeExpensesController);
 
 }
