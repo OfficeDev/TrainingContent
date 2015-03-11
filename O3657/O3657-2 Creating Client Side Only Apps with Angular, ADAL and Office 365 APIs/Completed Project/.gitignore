@@ -8,5 +8,5 @@
 
 # exclude generated JS files
 src/app/**/*.js
-src/app/**/*.map.js
+src/app/**/*.js.map
 src/js
