@@ -9,10 +9,15 @@ module expenseApp {
     isLoggedIn:boolean = false;
     loginLogoutText = 'Login';
 
-    static $inject = ['$scope', '$location', '$window', 'adalAuthenticationService'];
+    static $inject = ['$scope',
+                      '$location',
+                      '$window',
+                      'adalAuthenticationService'];
 
-    constructor(private $scope:ng.IScope, private $location:ng.ILocationService,
-                private $window:ng.IWindowService, private adalService) {
+    constructor(private $scope:ng.IScope,
+                private $location:ng.ILocationService,
+                private $window:ng.IWindowService,
+                private adalService) {
 
       $scope.$watch(() => {
         return this.adalService.userInfo.isAuthenticated;
@@ -26,10 +31,6 @@ module expenseApp {
       if (!this.isLoggedIn) {
         this.$location.path('/login');
       }
-
-      //this.$scope.$on('adal:loginSuccess', () => this.changeLoginStatus(true));
-      //this.$scope.$on('adal:loginFailure',  () => this.changeLoginStatus(false));
-      //this.$scope.$on('adal:notAuthorized', this.notAuthorized.bind(this));
     }
 
     loginOrOut() {

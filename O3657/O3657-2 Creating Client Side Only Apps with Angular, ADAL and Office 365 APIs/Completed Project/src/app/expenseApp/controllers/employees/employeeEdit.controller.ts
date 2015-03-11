@@ -22,11 +22,17 @@ module expenseApp.employees {
     updateStatus:boolean = false;
     errorMessage:string = '';
 
-    static $inject = ['$scope', '$location', '$routeParams', '$timeout',
-      'expenseApp.services.dataService', 'expenseApp.services.modalService'];
+    static $inject = ['$scope',
+                      '$location',
+                      '$routeParams',
+                      '$timeout',
+                      'expenseApp.services.dataService',
+                      'expenseApp.services.modalService'];
 
-    constructor(private $scope:IEditFormScope, private $location:ng.ILocationService,
-                private $routeParams:IEmployeeRouteParams, private $timeout:ng.ITimeoutService,
+    constructor(private $scope:IEditFormScope,
+                private $location:ng.ILocationService,
+                private $routeParams:IEmployeeRouteParams,
+                private $timeout:ng.ITimeoutService,
                 private dataService:expenseApp.services.DataService,
                 private modalService:expenseApp.services.ModalService) {
 
@@ -47,10 +53,6 @@ module expenseApp.employees {
       //Call to $on returns a "deregistration" function that can be called to
       //remove the listener (see routeChange() for an example of using it)
       this.onRouteChangeOff = this.$scope.$on('$locationChangeStart', this.routeChange.bind(this));
-    }
-
-    isStateSelected(employeeStateId, stateId) {
-      return employeeStateId === stateId;
     }
 
     saveEmployee() {

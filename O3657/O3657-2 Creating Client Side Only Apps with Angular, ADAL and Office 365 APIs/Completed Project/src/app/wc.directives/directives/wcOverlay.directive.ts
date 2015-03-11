@@ -13,10 +13,15 @@ module wc.directives {
 
   class OverlayDirective implements ng.IDirective {
 
-    static $inject = ['$q', '$timeout', '$window', 'httpInterceptor'];
+    static $inject = ['$q',
+                      '$timeout',
+                      '$window',
+                      'httpInterceptor'];
 
-    static instance($q:ng.IQService, $timeout:ng.ITimeoutService,
-                    $window:IJQueryWindow, httpInterceptor):ng.IDirective {
+    static instance($q:ng.IQService,
+                    $timeout:ng.ITimeoutService,
+                    $window:IJQueryWindow,
+                    httpInterceptor):ng.IDirective {
       return new OverlayDirective($q, $timeout, $window, httpInterceptor);
     }
 
@@ -30,8 +35,10 @@ module wc.directives {
       '</div>';
     link:(scope:IOverlayScope, element:ng.IAugmentedJQuery) => void;
 
-    constructor(private $q:ng.IQService, private $timeout:ng.ITimeoutService,
-                private $window:IJQueryWindow, private httpInterceptor) {
+    constructor(private $q:ng.IQService,
+                private $timeout:ng.ITimeoutService,
+                private $window:IJQueryWindow,
+                private httpInterceptor) {
       this.link = this._link.bind(this);
     }
 

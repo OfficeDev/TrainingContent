@@ -11,10 +11,16 @@ module expenseApp.expenses {
     selectedReceipt:shared.IReceipt = {};
     oneDriveFolder:string = '';
 
-    static $inject = ['$q', '$window', '$location', '$routeParams',
-      'expenseApp.services.dataService', 'expenseApp.services.filesService'];
+    static $inject = ['$q',
+                      '$window',
+                      '$location',
+                      '$routeParams',
+                      'expenseApp.services.dataService',
+                      'expenseApp.services.filesService'];
 
-    constructor(private $q:ng.IQService, private $window:ng.IWindowService, private $location:ng.ILocationService,
+    constructor(private $q:ng.IQService,
+                private $window:ng.IWindowService,
+                private $location:ng.ILocationService,
                 private $routeParams:IExpenseRouteParams,
                 private dataService:expenseApp.services.DataService,
                 private fileService:expenseApp.services.FilesService) {

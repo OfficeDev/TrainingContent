@@ -2,10 +2,6 @@
 
 module expenseApp.shared {
 
-  export interface IExpenseManager {
-    baseSPUrl: string;
-  }
-
   export interface IAadEndpoints {
 
   }

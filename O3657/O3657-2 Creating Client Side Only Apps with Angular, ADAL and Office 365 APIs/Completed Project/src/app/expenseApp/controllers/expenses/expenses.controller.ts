@@ -18,9 +18,12 @@ module expenseApp.expenses {
         currentPage: number = 1;
         numRecordsDisplaying: number;
 
-        static $inject = ['$filter', '$window', 'expenseApp.services.dataService'];
-        constructor(private $filter: ng.IFilterService, private $window: ng.IWindowService,
-            private dataService: expenseApp.services.DataService) {
+        static $inject = ['$filter',
+                          '$window',
+                          'expenseApp.services.dataService'];
+        constructor(private $filter: ng.IFilterService,
+                    private $window: ng.IWindowService,
+                    private dataService: expenseApp.services.DataService) {
             this.getEmployeesAndExpenses();
         }
 

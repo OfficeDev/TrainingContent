@@ -25,11 +25,21 @@ module expenseApp.services {
     };
     requestDigest:string = null;
 
-    static $inject = ['$http', '$q', '$window', '$location', '$timeout', 'settings', 'adalAuthenticationService'];
+    static $inject = ['$http',
+                      '$q',
+                      '$window',
+                      '$location',
+                      '$timeout',
+                      'settings',
+                      'adalAuthenticationService'];
 
-    constructor(private $http:ng.IHttpService, private $q:ng.IQService, private $window:ng.IWindowService,
-                private $location:ng.ILocationService, private $timeout:ng.ITimeoutService,
-                private settings, private adalService) {
+    constructor(private $http:ng.IHttpService,
+                private $q:ng.IQService,
+                private $window:ng.IWindowService,
+                private $location:ng.ILocationService,
+                private $timeout:ng.ITimeoutService,
+                private settings,
+                private adalService) {
 
       this.baseSPUrl = settings.baseSPUrl;
       this.baseSPListsUrl = this.baseSPUrl + 'web/lists/';
@@ -39,11 +49,17 @@ module expenseApp.services {
     getEmployeesAndExpenses() {
 
       var deferred = this.$q.defer();
-      var empsPromise = this.$http.get(this.baseSPListsUrl +
-      'getByTitle(\'Employees\')/items?$select=ID,FirstName,LastName&$orderby=LastName,FirstName', this.getOptions);
-      var expensesPromise = this.$http.get(this.baseSPListsUrl +
-      'getByTitle(\'Expenses\')/items?$select=ID,Amount,Created,ExpenseCategory,Title,Receipt,Employee/Id' +
-      '&$expand=Employee/Id', this.getOptions);
+      var employeeEndpoint = this.baseSPListsUrl +
+                                'getByTitle(\'Employees\')/items?' +
+                                '$select=ID,FirstName,LastName&' +
+                                '$orderby=LastName,FirstName';
+      var empsPromise = this.$http.get(employeeEndpoint, this.getOptions);
+
+      var expenseEndpoint = this.baseSPListsUrl +
+                                'getByTitle(\'Expenses\')/items?' +
+                                '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt,Employee/Id' +
+                                '&$expand=Employee/Id';
+      var expensesPromise = this.$http.get(expenseEndpoint, this.getOptions);
 
       //Currently the SharePoint REST API doesn't make grabbing the employees & expenses
       //all at once so we're grabbing them individually
@@ -63,21 +79,27 @@ module expenseApp.services {
     }
 
     getEmployeesSummary(pageIndex, pageSize) {
-      var url = this.baseSPListsUrl + 'getByTitle(\'Employees\')/items?$select=ID,FirstName,LastName,Address,' +
-        'City,State,Zip,Email,Gender&$orderby=LastName,FirstName';
+      var url = this.baseSPListsUrl +
+                    'getByTitle(\'Employees\')/items?' +
+                    '$select=ID,FirstName,LastName,Address,City,State,Zip,Email,Gender' +
+                    '&$orderby=LastName,FirstName';
       return this.getPagedResource(url, pageIndex, pageSize);
     }
 
     getStates() {
-      var url = this.baseSPListsUrl + 'getByTitle(\'States\')/items?$select=Title&$orderby=Title';
+      var url = this.baseSPListsUrl +
+                    'getByTitle(\'States\')/items?' +
+                    '$select=Title&' +
+                    '$orderby=Title';
       return this.$http.get(url, this.getOptions).then((result:shared.IHttpDataResponse) => {
         return this.caseProps(result.data.d.results, this.PropStyle.camelCase);
       });
     }
 
     getEmployee(id) {
-      var url = this.baseSPListsUrl + 'getByTitle(\'Employees\')/items(' + id + ')?$select=ID,FirstName,LastName,' +
-        'Address,City,State,Zip,Email,Gender';
+      var url = this.baseSPListsUrl +
+                    'getByTitle(\'Employees\')/items(' + id + ')?' +
+                    '$select=ID,FirstName,LastName,Address,City,State,Zip,Email,Gender';
       return this.$http.get(url, this.getOptions).then((result:shared.IHttpDataResponse) => {
           var cust:shared.IEmployee = this.caseProps(result.data.d, this.PropStyle.camelCase);
           cust.zip = parseInt(cust.zip, 10);
@@ -90,8 +112,9 @@ module expenseApp.services {
     }
 
     getExpense(id) {
-      var url = this.baseSPListsUrl + 'getByTitle(\'Expenses\')/items(' + id + ')' +
-        '?$select=ID,Amount,Created,ExpenseCategory,Title,Receipt';
+      var url = this.baseSPListsUrl +
+                    'getByTitle(\'Expenses\')/items(' + id + ')?' +
+                    '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt';
       return this.$http.get(url, this.getOptions).then((result:shared.IHttpDataResponse) => {
           var expense:shared.IExpense = this.caseProps(result.data.d, this.PropStyle.camelCase);
           return expense;
@@ -135,19 +158,11 @@ module expenseApp.services {
 
     }
 
-//        checkUniqueValue(id, property, value) {
-//            if (!id) { id = 0; }
-//            return this.$http.get(this.serviceBase + 'checkUnique/' + id + '?property=' + property +
-//                                  '&value=' + escape(value), this.getOptions)
-//                .then((results) => {
-//                    return results.data.status;
-//                }
-//            );
-//        }
-
     getEmployeeExpenses = function(id) {
-      var url = this.baseSPListsUrl + 'getByTitle(\'Expenses\')/items?$filter=Employee eq ' + id +
-        '&$select=ID,Amount,Created,ExpenseCategory,Title,Receipt';
+      var url = this.baseSPListsUrl +
+                    'getByTitle(\'Expenses\')/items?' +
+                    '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt' +
+                    '&$filter=Employee eq ' + id;
       var deferred = this.$q.defer();
       var empPromise = this.getEmployee(id);
       var expensesPromise = this.$http.get(url, this.getOptions);
@@ -164,8 +179,6 @@ module expenseApp.services {
         (error) => {
           if (error.status === 302) {
             deferred.resolve(null);
-            //Potential infinite loop here - haven't dealt with that possibility yet
-            //$window.location.href = getRedirectUrl();
           }
         });
 
@@ -188,7 +201,6 @@ module expenseApp.services {
         headers: {
           'Accept':       'application/json;odata=verbose',
           'Content-Type': 'application/json;odata=verbose'
-          //'X-RequestDigest': requestDigest
         }
       };
 
@@ -201,10 +213,6 @@ module expenseApp.services {
           this.$window.alert(error.message);
           return error;
         });
-    }
-
-    newEmployee():shared.IEmployee {
-      return this.$q.when({});
     }
 
     updateEmployee(employee) {
@@ -221,7 +229,6 @@ module expenseApp.services {
           'Accept':       'application/json;odata=verbose',
           'Content-Type': 'application/json;odata=verbose',
           'If-Match':     employee.__metadata.etag
-          //'X-RequestDigest': requestDigest
         }
       };
 
@@ -249,7 +256,6 @@ module expenseApp.services {
         headers: {
           'Accept':   'application/json;odata=verbose',
           'If-Match': employee.__metadata.etag
-          //'X-RequestDigest': requestDigest
         }
       };
 
@@ -346,11 +352,6 @@ module expenseApp.services {
       return deferred.promise; //Return promise to caller
     }
 
-    buildPagingUri(pageIndex, pageSize) {
-      var uri = '&$skip=' + (pageIndex * pageSize) + '&$top=' + pageSize;
-      return uri;
-    }
-
     mapEmployeeToExpenses(employees, expenses) {
       if (employees && expenses) {
         for (var i = 0; i < employees.length; i++) {
@@ -365,15 +366,6 @@ module expenseApp.services {
           employee.expenses = employeeExpenses;
           this.calculateExpensesTotal(employee);
         }
-      }
-    }
-
-    extendEmployees(employees) {
-      var employeesLen = employees.length;
-      //Iterate through employees
-      for (var i = 0; i < employeesLen; i++) {
-        var employee = employees[i];
-        this.calculateExpensesTotal(employee);
       }
     }
 

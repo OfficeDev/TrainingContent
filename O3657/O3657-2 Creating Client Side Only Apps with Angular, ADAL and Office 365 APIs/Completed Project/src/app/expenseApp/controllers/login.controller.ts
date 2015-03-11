@@ -5,6 +5,7 @@ module expenseApp {
 
   class LoginController {
 
+    static $inject:string[] = [];
 
   }
 

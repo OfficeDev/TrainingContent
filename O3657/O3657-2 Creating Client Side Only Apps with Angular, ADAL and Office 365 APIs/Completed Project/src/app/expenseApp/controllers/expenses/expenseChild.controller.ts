@@ -15,8 +15,14 @@ module expenseApp.expenses {
         expensesTotal: number = 0.00;
         employee;
 
-        static $inject = ['$scope', '$window', '$location', 'expenseApp.services.dataService', 'expenseApp.services.modalService'];
-        constructor(private $scope: IEmployeeScope, private $window:ng.IWindowService, private $location: ng.ILocationService,
+        static $inject = ['$scope',
+                          '$window',
+                          '$location',
+                          'expenseApp.services.dataService',
+                          'expenseApp.services.modalService'];
+        constructor(private $scope: IEmployeeScope,
+                    private $window:ng.IWindowService,
+                    private $location: ng.ILocationService,
                     private dataService: expenseApp.services.DataService,
                     private modalService: expenseApp.services.ModalService) {
             //See if parent $scope has an employee that's inherited (ExpensesController)

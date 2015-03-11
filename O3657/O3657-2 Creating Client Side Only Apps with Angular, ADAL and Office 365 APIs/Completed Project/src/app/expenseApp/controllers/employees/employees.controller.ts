@@ -35,12 +35,19 @@ module expenseApp.employees {
     currentPage:number = 1;
     numRecordsDisplaying:number;
 
-    static $inject = ['$location', '$filter', '$window', '$timeout',
-      'expenseApp.services.dataService', 'expenseApp.services.modalService'];
+    static $inject = ['$location',
+                      '$filter',
+                      '$window',
+                      '$timeout',
+                      'expenseApp.services.dataService',
+                      'expenseApp.services.modalService'];
 
-    constructor(private $location:ng.ILocationService, private $filter:ng.IFilterService,
-                private $window:ng.IWindowService, private $timeout:ng.ITimeoutService,
-                private dataService, private modalService) {
+    constructor(private $location:ng.ILocationService,
+                private $filter:ng.IFilterService,
+                private $window:ng.IWindowService,
+                private $timeout:ng.ITimeoutService,
+                private dataService,
+                private modalService) {
       this.getEmployeesSummary();
     }
 
