@@ -547,7 +547,23 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		}
 28. Save your changes to **services.js**.
 29. Open **controllers.js** in an editor window.
-30. Replace the code which creates the **newController** with the following code.
+30. Replace the code which creates the **homeController** with the following code which adds the **deleteCustomer** function to **$scope** so that this function can be called from the **data-ng-click** attribute which has already been added to the home view.
+
+		app.controller('homeController',
+		    function ($scope, wingtipCrmService) {
+		      wingtipCrmService.getCustomers().success(function (data) {
+		        $scope.customers = data.d.results;
+		        // add behavior function for view to call
+		        $scope.deleteCustomer = function (id) {
+		          wingtipCrmService.deleteCustomer(id).success(function (data) {
+		            $scope.$apply();
+		          });
+		        }
+		      });
+		    }
+		);
+
+31. Replace the code which creates the **newController** with the following code.
 		
 		app.controller('newController',
 		    function ($scope, $location, wingtipCrmService) {
@@ -572,7 +588,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		        }
 		    }
 		);
-31. Replace the code which creates the **viewController** with the following code.
+32. Replace the code which creates the **viewController** with the following code.
 		
 		app.controller('viewController',
 		    function ($scope, $routeParams, wingtipCrmService) {
@@ -582,7 +598,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		        });
 		    }
 		);
-32. Replace the code which creates the **editController** with the following code.
+33. Replace the code which creates the **editController** with the following code.
 
 
 		app.controller('editController',
@@ -606,8 +622,8 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		        });
 		    }
 		);
-33. Save your changes to **controllers.js**.
-34. Open the view file in the **views** folder named **new.html** and replace the contents with the following HTML layout.
+34. Save your changes to **controllers.js**.
+35. Open the view file in the **views** folder named **new.html** and replace the contents with the following HTML layout.
 		
 		<h3>New Customer</h3>
 		
@@ -654,8 +670,8 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		<hr />
 		
 		<a href="#/">Return to customers list</a>
-35. Save and close **new.html**.
-36. Open the view file in the **views** folder named **view.html** and replace the contents with the following HTML layout.
+36. Save and close **new.html**.
+37. Open the view file in the **views** folder named **view.html** and replace the contents with the following HTML layout.
 		
 		<h3>View Customer</h3>
 		
@@ -706,8 +722,8 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		<a href="#/edit/{{customer.Id}}">Edit this Customer</a>
 		<br />
 		<a href="#/">Return to Customers List</a>
-37. Save and close **view.html**.
-38. Open the view file in the **views** folder named **edit.html** and replace the contents with the following HTML layout.
+38. Save and close **view.html**.
+39. Open the view file in the **views** folder named **edit.html** and replace the contents with the following HTML layout.
 		
 		<h3>Edit Customer</h3>
 		
@@ -766,10 +782,10 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
 		<hr />
 		
 		<a href="#/">Return to customers list</a>
-39. Save and close **edit.html**.
-40. Test your work by pressing **{F5}** to begin a debugging session. The app should initialize the start page using the view defined in **Home.html** which should display a table of customers. However, now the app should support full CRUD functionality.
-41. Click on the **Add Customer** link and make sure you are able to add a new customer item.
-42. Test the links in the table in the home view. You should be able to click **View** and navigate to a view which displays the details of a single item.
-43. You should be able to click **Edit** and navigate to a view which allows you to edit and existing item and save your changes.
-44. You should be able to click **Delete** and delete a customer item from the list.
-45. You have now completed this lab.
+40. Save and close **edit.html**.
+41. Test your work by pressing **{F5}** to begin a debugging session. The app should initialize the start page using the view defined in **Home.html** which should display a table of customers. However, now the app should support full CRUD functionality.
+42. Click on the **Add Customer** link and make sure you are able to add a new customer item.
+43. Test the links in the table in the home view. You should be able to click **View** and navigate to a view which displays the details of a single item.
+44. You should be able to click **Edit** and navigate to a view which allows you to edit and existing item and save your changes.
+45. You should be able to click **Delete** and delete a customer item from the list.
+46. You have now completed this lab.
