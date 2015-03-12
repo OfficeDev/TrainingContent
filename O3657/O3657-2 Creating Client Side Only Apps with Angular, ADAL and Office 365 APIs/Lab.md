@@ -45,7 +45,49 @@ In this exercise, you will examine and customize the **Starter Project** for the
 ## Exercise 2: Setup Azure AD Application
 In this exercise you will create an Azure AD application that will be used by the starter project.
 
-> todo
+1. In a browser navigate to https://manage.windowsazure.com & login.
+1. In the left-hand navigation, scroll down to and click on **Active Directory**.
+1. Click on the name of your Azure AD directory & then click **Applications** in the toolbar. 
+
+  ![](Images/AzureAdApp01.png)
+
+1. Click the **Add** button at the bottom of the display.
+1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
+1. In the **Add Application** wizard, enter a name of **Auth Flow Demo** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
+1. In the **App Properties** page, enter a **SIGN-ON URL** of **http://localhost:8000**
+
+1. Enter an **App ID Uri** of **http://[your-domain].onmicrosoft.com/ExpenseManager**.
+  > NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
+1. Click the **check** image in the lower right of the wizard to create the application. The application **Quick Start** page will display once the application is created.
+
+  ![](Images/AzureAdApp02.png)
+
+1. Obtain and store the Azure AD tenant ID.
+  1. On the **Quick Start** page, expand the **Get Started** / **Enable Users to Sign On**. 
+  1. Locate the field **Federation Metadata Document URL**. Within that field value you will see a GUID immediately after the `login.windows.net` part of the URL. 
+  1. Copy just the GUID value to the clipboard.
+
+    ![](Images/TenantId.png)
+
+1. On the application Quick Start page, click on **CONFIGURE** in the toolbar.
+1. Copy the **Client ID** value for later use. You will need this later.
+1. Scroll down to the **permissions to other applications** section. 
+  1. In the **Select Application** dropdown, select **Office 365 SharePoint Online**. 
+  1. In the **Delegated Permissions** dropdown on the same line, the following permissions:
+  
+    - Read items in all site collections
+    - Edit or delete items in all site collections
+    - Read user's files
+
+1. Click the **Save** button at the bottom of the page.
+1. Configure the application to allow the OAuth2 Implicit Flow:
+  1. After saving the app, click the **MANAGE MANIFEST** button in the footer of the page. You will be prompted to upload / download the manifest. Download the manifest file to your desktop. It will be named **[client-id].json**.
+  1. Open the manifest in a text editor. Locate the property `oauth2AllowImplicitFlow`.
+  1. Set the `oauth2AllowImplicitFlow` property to `true` and save your changes.
+  1. Back in the Azure Management Portal, click the **MANAGE MANIFEST** button and select **UPLOAD MANIFEST**.
+  1. Select the file you just updated and upload the file.
+
+In this exercise you created an Azure AD application and configured it to support the OAuth implicit flow.
 
 ## Exercise 3: Configure Authentication & ADAL JSON
 In this exercise you will update the starter project to have a login & logout process as well as secure specific routes in the Angular application for authenticated users.
