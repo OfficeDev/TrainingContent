@@ -4,11 +4,18 @@ var app = angular.module('AngularCRM');
 
 app.controller('homeController',
     function ($scope, wingtipCrmService) {
-         wingtipCrmService.getCustomers().success(function (data) {
-            $scope.customers = data.d.results;
-        });
+      wingtipCrmService.getCustomers().success(function (data) {
+        $scope.customers = data.d.results;
+        // add behavior function for view to call
+        $scope.deleteCustomer = function (id) {
+          wingtipCrmService.deleteCustomer(id).success(function (data) {
+            $scope.$apply();
+          });
+        }
+      });
     }
 );
+
 
 app.controller('newController',
     function ($scope, $location, wingtipCrmService) {
