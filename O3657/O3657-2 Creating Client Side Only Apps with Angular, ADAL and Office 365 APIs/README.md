@@ -1,11 +1,10 @@
 Creating Client-Side Only Apps with Angular, ADAL & Office 365 APIs
 ===================================================================
+Unlike other modules in this course (O3657) that focus on using non-Microsoft technologies, this module focuses on two key points:
 
-This module currently contains a completed solution that:
+- Using the Azure Active Directory ADAL JS library to leverage the OAuth2 implicit flow support for a 100% pure client-side solution.
+- Leveraging the support for CORS in the Office 365 Files API & SharePoint REST API.
 
-- is 100% client-side (zero server-side code)
-- uses the ADAL JS library to authenticate using the OAuth2 Implicit Flow
-- calls the SharePoint Online & Office 365 Files API to demonstrate support for CORS
-- is built using Angular 1.3.x
-
-In the near future this module will contain a full hands-on lab.
+Unlike many of the labs in these training courses, this lab will demonstrate how to create an app will demonstrate creating apps from OS X using the freely available [Brackets](http://brackets.io/) editor by Adobe.
+ 
+However you can use any host operating system (*Windows, OS X, Linux, etc*) and any text editor (*Visual Studio, Sublime Text, Atom, Brackets, WebStorm, EMACS, Vim, etc*) to create the Office App. This is because Office Apps are simply text-based web applications (*HTML, CSS, JavaScript, & images*) with a single XML file to describe the application.
