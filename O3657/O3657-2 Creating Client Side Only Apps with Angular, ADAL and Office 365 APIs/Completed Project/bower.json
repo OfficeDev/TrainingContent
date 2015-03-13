@@ -1,11 +1,10 @@
 {
-  "name": "ngconf-typescript",
-  "version": "0.1.0",
-  "description": "AngularJS and TypeScript",
-  "homepage": "https://github.com/andrewconnell/ngconf-typescript",
+  "name": "client-side-only-angular-office365-app",
+  "description": "Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs",
+  "version": "0.2.0",
+  "homepage": "https://github.com/andrewconnell/TrainingContent/tree/master/O3657/O3657-2%20Creating%20Client%20Side%20Only%20Apps%20with%20Angular%2C%20ADAL%20and%20Office%20365%20APIs",
   "authors": [
-    "Andrew Connell <me@andrewconnell.com>",
-    "Dan Wahlin <dwahlin@wahlinconsulting.com>"
+    "OfficeDev"
   ],
   "license": "MIT",
   "ignore": [

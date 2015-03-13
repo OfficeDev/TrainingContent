@@ -1,0 +1,12 @@
+# exclude IDE & OSX files
+.idea
+**/.DS_Store
+
+# exclude external package files
+**/node_modules
+**/bower_components
+
+# exclude generated JS files
+src/app/**/*.js
+src/app/**/*.js.map
+src/js

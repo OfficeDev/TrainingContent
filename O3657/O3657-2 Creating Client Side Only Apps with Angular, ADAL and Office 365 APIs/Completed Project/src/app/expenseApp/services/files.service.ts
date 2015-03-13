@@ -4,11 +4,6 @@
 module expenseApp.services {
   'use strict';
 
-  interface IO365ApiConfig {
-    endpointUri: string;
-    resourceId: string;
-  }
-
   export class FilesService {
     baseSPUrl:string;
     baseSPListsUrl:string;
@@ -19,11 +14,19 @@ module expenseApp.services {
       }
     };
 
-    static $inject = ['$http', '$q', '$window', '$location', '$timeout', 'settings', 'adalAuthenticationService'];
+    static $inject = ['$http',
+                      '$q',
+                      '$window',
+                      '$location',
+                      '$timeout',
+                      'settings'];
 
-    constructor(private $http:ng.IHttpService, private $q:ng.IQService, private $window:ng.IWindowService,
-                private $location:ng.ILocationService, private $timeout:ng.ITimeoutService,
-                private settings, private adalService) {
+    constructor(private $http:ng.IHttpService,
+                private $q:ng.IQService,
+                private $window:ng.IWindowService,
+                private $location:ng.ILocationService,
+                private $timeout:ng.ITimeoutService,
+                private settings) {
 
       this.baseSPUrl = settings.baseSPUrl;
       this.baseSPListsUrl = this.baseSPUrl + 'web/lists/';
