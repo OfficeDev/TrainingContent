@@ -158,7 +158,7 @@ module expenseApp.services {
 
     }
 
-    getEmployeeExpenses = function(id) {
+    getEmployeeExpenses(id) {
       var url = this.baseSPListsUrl +
                     'getByTitle(\'Expenses\')/items?' +
                     '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt' +

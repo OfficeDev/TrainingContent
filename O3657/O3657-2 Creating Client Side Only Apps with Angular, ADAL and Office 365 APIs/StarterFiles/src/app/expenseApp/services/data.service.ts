@@ -137,7 +137,7 @@ module expenseApp.services {
 
     }
 
-    getEmployeeExpenses = function(id) {
+    getEmployeeExpenses(id) {
       var url = '/content/staticdata/expenses.json';
       var deferred = this.$q.defer();
       var empPromise = this.getEmployee(id);
