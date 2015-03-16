@@ -1,5 +1,0 @@
-https://login.windows.net/common/oauth2/authorize?resource=Microsoft.SharePoint&redirect_uri=http://authflowdemo.com/&response_type=code&client_id=[CLIENT-ID]
-
-https://login.windows.net/common/oauth2/token
-Content-Type: application/x-www-form-urlencoded
-grant_type=authorization_code&resource=https://outlook.office365.com&redirect_uri=http%3A%2F%2Fauthflowdemo.com%2F&client_id=[CLIENT-ID]&client_secret=[CLIENT-SECRET]&code=[AUTHORIZATION-CODE]

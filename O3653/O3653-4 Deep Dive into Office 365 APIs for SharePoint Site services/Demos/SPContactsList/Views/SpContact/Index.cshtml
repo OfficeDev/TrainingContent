@@ -1,0 +1,81 @@
+﻿@model SPContactsList.Models.SpContactViewModel
+
+@{
+  ViewBag.Title = "Contacts";
+}
+
+<h2>Contacts</h2>
+
+<div class="row" style="margin-top:50px;">
+  <div class="col-sm-12">
+    @{
+      Dictionary<string, object> attributes4 = new Dictionary<string, object>();
+      attributes4.Add("class", "btn btn-default");
+      @Html.ActionLink("New Contact", "Create", "SpContact", null, attributes4);
+    }
+  </div>
+  <div class="row" style="margin-top:50px;">
+    <div class="col-sm-12">
+      <div class="table-responsive">
+        <table id="filesTable" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>WorkPhone</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var contact in @Model.SpContacts) {
+              <tr>
+                <td>
+                  @using (Html.BeginForm()) {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="contactId" name="contactId" value="@contact.Id" />
+                    <input type="submit" value="Delete" class="btn btn-warning" />
+                  }
+                </td>
+                <td>
+                  @{
+                  Dictionary<string, object> attributes2 = new Dictionary<string, object>();
+                  attributes2.Add("class", "btn btn-default");
+
+                  RouteValueDictionary routeValues2 = new RouteValueDictionary();
+                  routeValues2.Add("contactId", contact.Id);
+                  @Html.ActionLink("Details", "Details", "SpContact", routeValues2, attributes2);
+                  }
+                </td>
+                <td>
+                  @contact.LastName, @contact.FirstName
+                </td>
+                <td>
+                  @contact.Email
+                </td>
+                <td>
+                  @contact.WorkPhone
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="btn btn-group-sm">
+        @{
+          Dictionary<string, object> attributes3 = new Dictionary<string, object>();
+          attributes3.Add("class", "btn btn-default");
+
+          RouteValueDictionary routeValues3 = new RouteValueDictionary();
+          routeValues3.Add("pageIndex", (Model.PageIndex == 0 ? 0 : Model.PageIndex - 1).ToString());
+          routeValues3.Add("pageSize", Model.PageSize.ToString());
+          @Html.ActionLink("Prev", "Index", "SpContact", routeValues3, attributes3);
+        }
+        @{
+          RouteValueDictionary routeValues4 = new RouteValueDictionary();
+          routeValues4.Add("pageIndex", (Model.PageIndex + 1).ToString());
+          routeValues4.Add("pageSize", Model.PageSize.ToString());
+          @Html.ActionLink("Next", "Index", "SpContact", routeValues4, attributes3);
+        }
+      </div>
+    </div>
+  </div>

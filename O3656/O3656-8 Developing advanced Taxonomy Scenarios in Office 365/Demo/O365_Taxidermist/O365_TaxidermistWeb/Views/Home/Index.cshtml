@@ -1,0 +1,55 @@
+﻿@model SiteCollectionModel
+
+@if (!Model.hasPrivateGroup) {
+
+  <hr />
+
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="panel-title">Private Termset Group Does Not Exist</h3>
+    </div>
+    <div class="panel-body">
+      <p>
+        The host web associated with this app exists inside a site collection which has no pritae termset group.
+        Click the button below to create a private termset group which makes it possible to create termsets that
+        will be privately scoped to site collection where the app has been installed.
+      </p>
+      @using (Html.BeginForm("CreatePrivateTermsetGroup", "Home", new { SPHostUrl = Request["SPHostUrl"] }, FormMethod.Post)) {
+        <div class="form-horizontal">
+          <input type="submit" value="Create Private Termset Group" class="btn btn-default" />
+        </div>
+      }
+    </div>
+  </div>
+}
+
+
+@if (Model.hasPrivateGroup) {
+
+  <hr />
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">Private Termset Group Info:</h3>
+    </div>
+    <div class="panel-body">
+      <div>Group ID: <b>@Model.GroupId</b></div>
+      <div>Group Name: <b>@Model.GroupName</b></div>
+      <div>Number of Termsets: <b>@Model.Termsets.Count.ToString()</b></div>
+    </div>
+  </div>
+
+  if (Model.Termsets.Count > 0) {
+    <hr />
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Termsets</h3>
+      </div>
+      <div class="panel-body">
+        @foreach (var termset in Model.Termsets) {
+          @Html.TreeView(termset.Value)
+        }
+      </div>
+    </div>
+  }
+}

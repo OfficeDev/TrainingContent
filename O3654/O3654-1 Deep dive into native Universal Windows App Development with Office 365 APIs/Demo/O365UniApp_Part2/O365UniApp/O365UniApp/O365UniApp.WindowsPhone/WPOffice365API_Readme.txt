@@ -1,0 +1,1 @@
+﻿To learn more about Windows Phone support in Office 365 Client Libraries, go to http://go.microsoft.com/fwlink/?LinkId=506897

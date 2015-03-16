@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeOAuth", "OfficeOAuth\OfficeOAuth.csproj", "{5FCE6CF4-9ABA-44EE-82C5-37DDCB7655DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{04838A26-6A12-4BE3-B16A-1F896B57AB9A}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{9890D683-739B-4BC6-B5A6-F140D1C49A88}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\OfficeOAuth-WAWS-dev.json = PublishScripts\Configurations\OfficeOAuth-WAWS-dev.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FCE6CF4-9ABA-44EE-82C5-37DDCB7655DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FCE6CF4-9ABA-44EE-82C5-37DDCB7655DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FCE6CF4-9ABA-44EE-82C5-37DDCB7655DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FCE6CF4-9ABA-44EE-82C5-37DDCB7655DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9890D683-739B-4BC6-B5A6-F140D1C49A88} = {04838A26-6A12-4BE3-B16A-1F896B57AB9A}
+	EndGlobalSection
+EndGlobal

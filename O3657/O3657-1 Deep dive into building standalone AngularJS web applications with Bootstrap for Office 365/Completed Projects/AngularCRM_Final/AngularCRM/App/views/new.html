@@ -1,0 +1,45 @@
+﻿<h3>New Customer</h3>
+
+<div class="form-horizontal">
+    <fieldset>
+        <div class="form-group">
+            <label for="txtFirstName" class="col-lg-2 control-label">First Name:</label>
+            <div class="col-lg-6">
+                <input id="txtFirstName" type="text" class="form-control" ng-model="customer.FirstName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtLastName" class="col-lg-2 control-label">Last Name:</label>
+            <div class="col-lg-6">
+                <input id="txtLastName" type="text" class="form-control" ng-model="customer.Title">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtWorkPhone" class="col-lg-2 control-label">Work Phone:</label>
+            <div class="col-lg-6">
+                <input id="txtWorkPhone" type="text" class="form-control" ng-model="customer.WorkPhone">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtHomePhone" class="col-lg-2 control-label">Home Phone:</label>
+            <div class="col-lg-6">
+                <input id="txtHomePhone" type="text" class="form-control" ng-model="customer.HomePhone">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtEMailAddress" class="col-lg-2 control-label">EMail Addresss:</label>
+            <div class="col-lg-6">
+                <input id="txtEMailAddress" type="text" class="form-control" ng-model="customer.Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2">
+                <input id="cmdSave" type="button" class="button" value="Save" data-ng-click="addCustomer()" />
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<hr />
+
+<a href="#/">Return to customers list</a>

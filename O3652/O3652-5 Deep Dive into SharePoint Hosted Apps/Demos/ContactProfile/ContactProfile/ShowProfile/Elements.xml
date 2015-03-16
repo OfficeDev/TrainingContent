@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <CustomAction Id="409e7004-2187-4d30-be31-f51b6e96fbdf.ShowProfile"
+                RegistrationType="List"
+                RegistrationId="105"
+                Location="EditControlBlock"
+                Sequence="10001"
+                Title="Show Profile">
+    <UrlAction Url="~appWebUrl/Pages/Default.aspx?{StandardTokens}&amp;SPListItemId={ItemId}&amp;SPListId={ListId}" />
+  </CustomAction>
+</Elements>

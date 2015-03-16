@@ -1,0 +1,16 @@
+<md-toolbar class="md-primary">
+  <h5>Possible Customers Found in this Email</h5>
+</md-toolbar>
+<md-list horizontal layout>
+  <md-item data-ng-repeat="match in vm.matchCandidates">
+    <md-item-content>
+      <md-button data-ng-click="vm.goToCustomer(match)" style="width:250px; padding:5px 16px">
+        <div class="md-tile-content">
+          <h3>{{match.FirstName}} {{match.LastName}}</h3>
+          <p>{{match.Title}}</p>
+        </div>
+        <md-tooltip>click to see details</md-tooltip>
+      </md-button>
+    </md-item-content>
+  </md-item>
+</md-list>

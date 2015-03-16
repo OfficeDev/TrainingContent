@@ -1,5 +1,0 @@
-Connect-SPFarmToAAD 
-  -AADDomain sharepointconfessions.onmicrosoft.com 
-  -SharePointOnlineUrl https://sharepointconfessions.sharepoint.com 
-  -SharePointWeb http://wingtipserver 
-  -AllowOverHttp

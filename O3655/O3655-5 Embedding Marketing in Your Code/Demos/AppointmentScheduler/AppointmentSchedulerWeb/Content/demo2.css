@@ -1,0 +1,132 @@
+
+body {
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	font-size: 83.33%;
+    background-color:black;
+    min-width:1000px;
+}
+
+h1 {
+	padding: 0.5em;
+	font-size: 2.8em;
+} 
+
+
+h2 {
+	margin: 0.5em 0;
+	font-size: 1.4em;	
+}
+
+p {
+	margin: 0.5em;	
+}
+
+.ui-widget {
+	font-size: 1em;	
+}
+
+#event_edit_container {
+	display: none;
+}
+
+
+#buttoncontainer {
+    float:left;
+    width:100%;
+    height:100px;
+    border-top:solid 1px #508ee6;
+    border-bottom:solid 1px #508ee6;
+    background-color:white;
+}
+.aboutcontainer {
+    text-align:center;
+	position: relative;
+    float:left;
+    height:50px;
+    width:75px;
+
+
+}
+.buttongroup{
+    margin-top:.5em;
+    position:relative;
+    float:left;
+    text-align:center;
+    height:80px;
+    padding:5px;
+    border-right:1px solid lightgray;
+}
+.date_get{
+    display:none;
+}
+.date_holder{
+    display:none;
+}
+.wc-time-column-header
+{
+    text-align:center;
+}
+.navgroupname{
+    text-align:center;
+    padding-top:2px;
+    color:gray;
+    font-size:1em;
+}
+.groupname{
+    text-align:center;
+    padding-top:70px;
+    color:gray;
+    font-size:1em;
+}
+.aboutcontainer img{
+    height:45px;
+    width:45px;
+    cursor:pointer;
+}
+
+.aboutcontainer div{
+    width:100%;
+    text-align:center;
+    font-size:.9em;
+}
+.wc-header td {
+	background: url(images/header-bg.png) repeat-x;
+}
+
+
+label {
+	display: block;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+}
+
+form ul {
+	padding: 0.3em;
+}
+
+select, input[type='text'], textarea {
+	width: 250px;
+	padding: 3px;
+}
+
+input[type='text'] {
+	width: 245px;
+}
+
+ul.formatted,ol.formatted {
+	display: block;
+	margin: 1em 0.5em;
+}
+
+ul.formatted li,ol.formatted li {
+	margin: 5px 30px;
+	display: auto;
+}
+
+ul.formatted li {
+	list-style-type: disc;
+}
+
+ol.formatted li {
+	list-style-type: decimal;
+}

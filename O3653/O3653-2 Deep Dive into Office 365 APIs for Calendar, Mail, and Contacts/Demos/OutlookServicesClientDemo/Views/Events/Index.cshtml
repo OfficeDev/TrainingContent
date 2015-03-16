@@ -1,0 +1,33 @@
+﻿@model IEnumerable<OutlookServicesClientDemo.Models.MyEvent>
+
+@{ ViewBag.Title = "My Events"; }
+
+<h2>My Events</h2>
+
+<p>
+  @Html.ActionLink("Create New", "Create")
+</p>
+
+<table id="eventsTable" class="table table-striped table-bordered">
+  <tr>
+    <th>@Html.DisplayNameFor(model => model.Subject)</th>
+    <th>@Html.DisplayNameFor(model => model.Start)</th>
+    <th>@Html.DisplayNameFor(model => model.End)</th>
+    <th>@Html.DisplayNameFor(model => model.Location)</th>
+    <th></th>
+  </tr>
+
+  @foreach (var item in Model) {
+    <tr>
+      <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+      <td>@Html.DisplayFor(modelItem => item.Start)</td>
+      <td>@Html.DisplayFor(modelItem => item.End)</td>
+      <td>@Html.DisplayFor(modelItem => item.Location)</td>
+      <td>
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+      </td>
+    </tr>
+  }
+
+</table>

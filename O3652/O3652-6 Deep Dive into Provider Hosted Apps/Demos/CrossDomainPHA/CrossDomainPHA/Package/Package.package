@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="6adff1b9-52fe-4d6b-9dde-73a3cda95722" solutionId="6adff1b9-52fe-4d6b-9dde-73a3cda95722" resetWebServer="false" sharePointProductVersion="16.0" name="CrossDomainPHA" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <features>
+    <featureReference itemId="c43dbb8f-0634-4bd6-bafc-ebc9e09cc3ec" />
+  </features>
+</package>

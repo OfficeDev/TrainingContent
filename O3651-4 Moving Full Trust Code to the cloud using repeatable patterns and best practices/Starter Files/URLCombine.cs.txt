@@ -1,9 +1,0 @@
-private static string URLCombine(string baseUrl, string relativeUrl) {
-	if (baseUrl.Length == 0)
-		return relativeUrl;
-	if (relativeUrl.Length == 0)
-		return baseUrl;
-	return string.Format("{0}/{1}",
-			baseUrl.TrimEnd(new char[] { '/', '\\' }),
-			relativeUrl.TrimStart(new char[] { '/', '\\' }));
-}

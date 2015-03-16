@@ -1,0 +1,62 @@
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"> 
+<head>
+<title>Installer Template</title>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:TemplateHidden msdt:dt="string">0</mso:TemplateHidden>
+<mso:MasterPageDescription msdt:dt="string">Displays the default result item template.</mso:MasterPageDescription>
+<mso:ContentTypeId msdt:dt="string">0x0101002039C03B61C64EC4A04F5361F385106603</mso:ContentTypeId>
+<mso:TargetControlType msdt:dt="string">;#SearchResults;#</mso:TargetControlType>
+<mso:HtmlDesignAssociated msdt:dt="string">1</mso:HtmlDesignAssociated>
+<mso:ManagedPropertyMapping msdt:dt="string">'Title':'Title','Path':'Path','Description':'Description','AssignedTo':'AssignedTo','DueDateOWSDATE:DueDateOWSDATE'</mso:ManagedPropertyMapping>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+    <div id="Item_Default">
+        <!--#_
+                if(!$isNull(ctx.CurrentItem) && !$isNull(ctx.ClientControl)){
+                    var id = ctx.ClientControl.get_nextUniqueId();
+                    var itemId = id + Srch.U.Ids.item;
+                    var hoverId = id + Srch.U.Ids.hover;
+                    var hoverUrl = "~sitecollection/_catalogs/masterpage/Display Templates/Search/Item_CommonHoverPanel_Actions.js";
+                    $setResultItem(itemId, ctx.CurrentItem);
+                    if(ctx.CurrentItem.IsContainer){
+                        ctx.CurrentItem.csr_Icon = Srch.U.getFolderIconUrl();
+                    }
+                    ctx.currentItem_ShowHoverPanelCallback = Srch.U.getShowHoverPanelCallback(itemId, hoverId, hoverUrl);
+                    ctx.currentItem_HideHoverPanelCallback = Srch.U.getHideHoverPanelCallback();
+
+                    getFormattedDate = function() {
+                      var d = new Date(ctx.CurrentItem.DueDateOWSDATE);
+                      return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+                    };
+
+                    getDueDateStyle = function() {
+                      var d1 = new Date(ctx.CurrentItem.DueDateOWSDATE);
+                      var d2 = new Date();
+                      if(d2>d1)
+                        return 'color:red';
+                      else
+                        return 'color:black';
+                    };
+
+        _#-->
+
+        <div id="_#= $htmlEncode(itemId) =#_" name="Item" data-displaytemplate="TaskItem" class="ms-srch-item" onmouseover="_#= ctx.currentItem_ShowHoverPanelCallback =#_" onmouseout="_#= ctx.currentItem_HideHoverPanelCallback =#_">
+            <h3>
+                <img src="/_layouts/images/icon_tasklist.gif" alt="Task" style="padding-right:10px;border:0px" />
+                <span>_#=ctx.CurrentItem.Title=#_</span><br />
+                <span>Assigned To: _#=ctx.CurrentItem.AssignedTo=#_</span><br />
+                <span style="_#=getDueDateStyle()=#_">Due Date: _#=getFormattedDate()=#_</span>
+            </h3>
+            <div id="_#= $htmlEncode(hoverId) =#_" class="ms-srch-hover-outerContainer"></div>
+        </div>
+        <!--#_
+                }
+        _#-->
+    </div>
+</body>
+
+</html>

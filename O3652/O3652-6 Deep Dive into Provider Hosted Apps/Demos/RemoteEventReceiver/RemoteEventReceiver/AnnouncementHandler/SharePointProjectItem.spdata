@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem Type="Microsoft.VisualStudio.SharePoint.RemoteEventReceiver" DefaultFile="AnnouncementHandler.cs" SupportedTrustLevels="All" SupportedDeploymentScopes="Web, Site" xmlns="http://schemas.microsoft.com/VisualStudio/2010/SharePointTools/SharePointProjectItemModel">
+  <Files>
+    <ProjectItemFile Source="Elements.xml" Target="AnnouncementHandler\" Type="ElementManifest" />
+  </Files>
+  <ExtensionData>
+    <ExtensionDataItem Key="RemoteEventReceiverCategory" Value="ItemEventReceiver" />
+    <ExtensionDataItem Key="WcfServiceRelativePath" Value="Services\AnnouncementHandler.svc" />
+  </ExtensionData>
+</ProjectItem>

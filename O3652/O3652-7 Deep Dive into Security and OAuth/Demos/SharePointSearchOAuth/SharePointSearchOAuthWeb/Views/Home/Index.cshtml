@@ -1,0 +1,23 @@
+﻿<div style="margin:25px;">
+    <table>
+        <thead>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Author</th>
+        @foreach (var Result in ViewBag.Results)
+        {
+            <tr>
+                <td>
+                    <div style="width:200px;"><a href="@Result.Path">@Result.Title</a></div>
+                </td>
+                <td>
+                    <div style="width:200px;">@Result.Description</div>
+                </td>
+                <td>
+                    <div style="width:200px;">@Result.Author</div>
+                </td>
+            </tr>
+        }
+    </table>
+    </
+</div>

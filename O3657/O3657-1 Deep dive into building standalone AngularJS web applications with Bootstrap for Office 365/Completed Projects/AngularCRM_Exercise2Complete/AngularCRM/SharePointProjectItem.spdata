@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem Type="Microsoft.VisualStudio.SharePoint.Module" DefaultFile="Elements.xml" SupportedTrustLevels="All" SupportedDeploymentScopes="Web, Site" xmlns="http://schemas.microsoft.com/VisualStudio/2010/SharePointTools/SharePointProjectItemModel">
+  <Files>
+    <ProjectItemFile Source="Elements.xml" Type="ElementManifest" />
+    <ProjectItemFile Source="fonts\glyphicons-halflings-regular.woff" Target="fonts\" Type="ElementFile" />
+    <ProjectItemFile Source="fonts\glyphicons-halflings-regular.ttf" Target="fonts\" Type="ElementFile" />
+    <ProjectItemFile Source="fonts\glyphicons-halflings-regular.svg" Target="fonts\" Type="ElementFile" />
+    <ProjectItemFile Source="fonts\glyphicons-halflings-regular.eot" Target="fonts\" Type="ElementFile" />
+    <ProjectItemFile Source="App\start.html" Target="App\" Type="ElementFile" />
+    <ProjectItemFile Source="App\App.js" Target="App\" Type="ElementFile" />
+    <ProjectItemFile Source="App\jquery-extensions.js" Target="App\" Type="ElementFile" />
+    <ProjectItemFile Source="App\views\about.html" Target="App\views\" Type="ElementFile" />
+    <ProjectItemFile Source="App\views\edit.html" Target="App\views\" Type="ElementFile" />
+    <ProjectItemFile Source="App\views\home.html" Target="App\views\" Type="ElementFile" />
+    <ProjectItemFile Source="App\views\new.html" Target="App\views\" Type="ElementFile" />
+    <ProjectItemFile Source="App\views\view.html" Target="App\views\" Type="ElementFile" />
+    <ProjectItemFile Source="App\controllers.js" Target="App\" Type="ElementFile" />
+  </Files>
+</ProjectItem>
