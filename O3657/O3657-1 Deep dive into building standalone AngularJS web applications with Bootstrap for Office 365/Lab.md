@@ -235,7 +235,7 @@ In this lab you will get hands-on experience working with Bootstrap and AngularJ
         		$scope.description = "The Angular CRM App is a demo app which I wrote using Bootstrap and AngularJS"
 		    }
 		);
-12. Update the **head** section in **start.js** to include a script link for **controllers.js** just after the script link to **App.js** and then save your changes.
+12. Update the **head** section in **start.html** to include a script link for **controllers.js** just after the script link to **App.js** and then save your changes.
 		
 		<script src="App.js"></script>
 		<script src="controllers.js"></script>
