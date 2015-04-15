@@ -143,9 +143,15 @@
 
         jQuery(function () {
 
-            jQuery(".upgrade").click(function () {
+        	jQuery("#feedback").click(function () {
+        		window.open("@ViewBag.ReviewPage", "_blank");
+        	});
+
+        	jQuery(".upgrade").click(function () {
                 window.location = "@ViewBag.StoreFront";
             });
+
+
 
         });
 
