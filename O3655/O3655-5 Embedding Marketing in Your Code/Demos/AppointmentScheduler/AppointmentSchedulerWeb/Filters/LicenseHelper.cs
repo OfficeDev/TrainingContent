@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace AppointmentSchedulerWeb.Filters
 {
-    public enum LicenseType { Free, Paid, Trial, None }
+	public enum LicenseType { Free, Paid, Trial, None }
     public enum UserLimit { Ten, Twenty, Unlimited }
     public enum ExpirationPeriod { Month, Unlimited, None }
 
@@ -29,6 +29,13 @@ namespace AppointmentSchedulerWeb.Filters
             return String.Format(storeSearchTemplateString, hostWebUrl, currentPageUrl, appName, appName);
 
         }
+
+		public static string GetReviewURL(VerifyEntitlementTokenResponse verifiedLicense)
+		{
+			String reviewURL = "https://store.office.com/writereview.aspx?assetid={0}&AuthType=1";
+							 
+			return String.Format(reviewURL, verifiedLicense.AssetId);;
+		}
 
         public static VerifyEntitlementTokenResponse GetAndVerifyLicense(Guid productId, ClientContext ctx)
         {
