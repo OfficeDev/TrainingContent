@@ -125,7 +125,9 @@ namespace AppointmentSchedulerWeb.Filters
             //Note that the AssetId matches that of the Cheezburgers app on the marketplace. 
             //This is just for TEST purposes so that the storefront URL takes you to a valid app page
             string hardCodedBaseToken = "<r v=\"0\"><t aid=\"WA103524926\"  did=\"{3F47392A-2308-4FC6-BF24-740626612B26}\"  ad=\"2012-06-19T21:48:56Z\"  te=\"2112-07-15T23:47:42Z\" sd=\"2012-02-01\" test=\"true\"/><d>449JFz+my0wNoCm0/h+Ci9DsF/W0Q8rqEBqjpe44KkY=</d></r>";
-            
+
+
+
             string userLimitString = string.Empty;
             switch (userLimit){
                 case UserLimit.Ten:
