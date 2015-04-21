@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace AppointmentSchedulerWeb.Filters
 {
-    public enum LicenseType { Free, Paid, Trial, None }
+	public enum LicenseType { Free, Paid, Trial, None }
     public enum UserLimit { Ten, Twenty, Unlimited }
     public enum ExpirationPeriod { Month, Unlimited, None }
 
@@ -29,6 +29,16 @@ namespace AppointmentSchedulerWeb.Filters
             return String.Format(storeSearchTemplateString, hostWebUrl, currentPageUrl, appName, appName);
 
         }
+
+        /// <summary>
+        /// Gets the review URL for the app using the productid. This allows you to predict the actual store review url 
+        /// where the app will go live. 
+        /// </summary>
+        /// <owner alias="keithmg">Keith McGuinness</owner>
+		public static string GetReviewURL(Guid appProductId)
+		{
+            return String.Format("http://store.office.com/writereview.aspx?p4=WA&productID={0}", appProductId.ToString());
+		}
 
         public static VerifyEntitlementTokenResponse GetAndVerifyLicense(Guid productId, ClientContext ctx)
         {
