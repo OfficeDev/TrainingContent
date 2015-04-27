@@ -23,7 +23,7 @@ namespace AppointmentSchedulerWeb.Controllers
             {
                 ViewBag.Status = "Trial";
                 ViewBag.DaysRemaining = SharePointLicenseProvider.Current.remainingDays;
-				ViewBag.ReviewPage = LicenseHelper.GetReviewURL(SharePointLicenseProvider.Current.license);
+                ViewBag.ReviewPage = LicenseHelper.GetReviewURL(appProductId);
                 ViewBag.StoreFront = LicenseHelper.GetStorefrontUrl(
                     SharePointLicenseProvider.Current.license, 
                     spContext.SPHostUrl.ToString(), 

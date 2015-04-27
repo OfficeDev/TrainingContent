@@ -30,11 +30,14 @@ namespace AppointmentSchedulerWeb.Filters
 
         }
 
-		public static string GetReviewURL(VerifyEntitlementTokenResponse verifiedLicense)
+        /// <summary>
+        /// Gets the review URL for the app using the productid. This allows you to predict the actual store review url 
+        /// where the app will go live. 
+        /// </summary>
+        /// <owner alias="keithmg">Keith McGuinness</owner>
+		public static string GetReviewURL(Guid appProductId)
 		{
-			String reviewURL = "https://store.office.com/writereview.aspx?assetid={0}&AuthType=1";
-							 
-			return String.Format(reviewURL, verifiedLicense.AssetId);;
+            return String.Format("http://store.office.com/writereview.aspx?p4=WA&productID={0}", appProductId.ToString());
 		}
 
         public static VerifyEntitlementTokenResponse GetAndVerifyLicense(Guid productId, ClientContext ctx)
@@ -122,7 +125,9 @@ namespace AppointmentSchedulerWeb.Filters
             //Note that the AssetId matches that of the Cheezburgers app on the marketplace. 
             //This is just for TEST purposes so that the storefront URL takes you to a valid app page
             string hardCodedBaseToken = "<r v=\"0\"><t aid=\"WA103524926\"  did=\"{3F47392A-2308-4FC6-BF24-740626612B26}\"  ad=\"2012-06-19T21:48:56Z\"  te=\"2112-07-15T23:47:42Z\" sd=\"2012-02-01\" test=\"true\"/><d>449JFz+my0wNoCm0/h+Ci9DsF/W0Q8rqEBqjpe44KkY=</d></r>";
-            
+
+
+
             string userLimitString = string.Empty;
             switch (userLimit){
                 case UserLimit.Ten:

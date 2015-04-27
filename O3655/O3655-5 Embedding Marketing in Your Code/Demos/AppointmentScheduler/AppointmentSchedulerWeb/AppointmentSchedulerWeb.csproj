@@ -189,6 +189,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <None Include="Properties\PublishProfiles\sdf.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\cycle.js" />
     <Content Include="Scripts\demo.js" />

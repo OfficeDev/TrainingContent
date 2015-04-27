@@ -15,57 +15,44 @@ var context;
 
 
 function getBuyURL(var_purchaseMarket , var_numSeats, var_productID){
- var dfd = $.Deferred(function(){
+    var purchPromise = $.Deferred(function(){
 	purchaseMarket = var_purchaseMarket;
 	numSeats = var_numSeats;
-	productID = var_productID;
-	
+	productID = var_productID;	
 	context = SP.ClientContext.get_current();
 
     //Retrieve license from SharePoint
     licenseCollection = SP.Utilities.Utility.getAppLicenseInformation(context, productID);
-    
-
     context.executeQueryAsync(
          function(){
 			var buyURL = "";
-			 if (licenseCollection.get_count() > 0) {
-				topLicense = licenseCollection.get_item(0).get_rawXMLLicenseToken();
+             if (licenseCollection.get_count() > 0) {
+                 topLicense = licenseCollection.get_item(0).get_rawXMLLicenseToken();
+                 // parse asset ID
+                 xmlDoc = $.parseXML(topLicense);
+                 assetID = xmlDoc.getElementsByTagName("t")[0].getAttribute("aid");
+                 buyURL = getURLString(purchaseMarket, numSeats, assetID);
 
-				//debug
-				//alert("License retrieved from SharePoint: \n" + topLicense);
-				
-				// parse asset ID
-				xmlDoc = $.parseXML(topLicense);
-				assetID = xmlDoc.getElementsByTagName("t")[0].getAttribute("aid");
-				buyURL = getURLString(purchaseMarket , numSeats, assetID);
-				
-			}
-			else {
-				buyURL = "No License";
-			}
-          
-            dfd.resolve(buyURL);
+             } else {
+                 buyURL = "No License";
+             }
+
+             purchPromise.resolve(buyURL);
          },
          function(){
-            dfd.reject(args.get_message());
+            purchPromise.reject(args.get_message());
          }
       );
-   });
-   return dfd.promise();
+ });
+
+   return purchPromise.promise();
 }
-
-
 
 //Retrieval call succeeded (doesn't mean there is a license, look at the contents to see if there is one)
 function getAssetID() {
 
     if (licenseCollection.get_count() > 0) {
         topLicense = licenseCollection.get_item(0).get_rawXMLLicenseToken();
-
-        //debug
-        //alert("License retrieved from SharePoint: \n" + topLicense);
-        
 		// parse asset ID
 		xmlDoc = $.parseXML(topLicense);
 		assetID = xmlDoc.getElementsByTagName("t")[0].getAttribute("aid");
@@ -75,27 +62,16 @@ function getAssetID() {
     else {
         alert("The user doesn't have a license");
     }
-	
-	//alert(getURLString(purchaseMarket , numSeats, assetID));
-
 }
 
 // This function is executed if the above call fails. This is possible if
 function getAssetIDFail(sender, args) {
     alert('Failed to retrieve license. Please refresh the page and try again.' + args.get_message());
-	assetID = "WA0000000"
-		
-	
+    assetID = "WA0000000";
 }
 
-
-
 function getURLString(purchaseMarket , numSeats, assetID){
-
-	
-	
 	var SPHostWeb =  _spPageContextInfo.webAbsoluteUrl;	
-	
 	if (_spPageContextInfo.isAppWeb){
 		var dotIndex = SPHostWeb.indexOf(".");
 		var appWebStartIndex = SPHostWeb.lastIndexOf("/");
@@ -104,37 +80,28 @@ function getURLString(purchaseMarket , numSeats, assetID){
 	else {
 		var layoutsRoot = SPHostWeb;
 	}
-	var storeFrontURL = layoutsRoot + "/" + _spPageContextInfo.layoutsUrl +  "/storefront.aspx";					
-	
+	var storeFrontURL = layoutsRoot + "/" + _spPageContextInfo.layoutsUrl +  "/storefront.aspx";						
 	var callBackURL = storeFrontURL + "?task=OfficeRedirect";					
 	var callBackURLEncoded = encodeURIComponent(callBackURL);
 	
-	
 	// Generate the same redirect url that sharepoint store uses to communicate with Office Store to preserve all logging and use flow
-	
-	var buyURL = storeFrontURL + "?task=GoToOfficeUrl"
-				+ "&osut=3"
-				+ "&clid=" + encodeURIComponent(_spPageContextInfo.currentUICultureName) 
-				+ "&SPDeployID=1"
-				+ "&SPStorefrontQueryStringForwardai=" + assetID 
-				+ "&SPStorefrontQueryStringForwardPT=SharePointPurchase"
-				+ "&SPStorefrontQueryStringForwardSeats=" + numSeats 
-				+ "&SPStorefrontQueryStringForwardPM=" + purchaseMarket
-				+ "&SPStorefrontQueryStringForwardcallbackurl=" + callBackURLEncoded
-	   
-	//console.log(buyURL);
+    var buyURL = storeFrontURL + "?task=GoToOfficeUrl"
+        + "&osut=3"
+        + "&clid=" + encodeURIComponent(_spPageContextInfo.currentUICultureName)
+        + "&SPDeployID=1"
+        + "&SPStorefrontQueryStringForwardai=" + assetID
+        + "&SPStorefrontQueryStringForwardPT=SharePointPurchase"
+        + "&SPStorefrontQueryStringForwardSeats=" + numSeats
+        + "&SPStorefrontQueryStringForwardPM=" + purchaseMarket
+        + "&SPStorefrontQueryStringForwardcallbackurl=" + callBackURLEncoded;
 	return buyURL;
-
 }
-
 
 function getReviewURL(productId){
 
 	var reviewURL = "https://go.microsoft.com/fwlink/?LinkID=524410&clcid=0x409"
 					+ "&productId=" + productId					
 					+ "&cmu=" + _spPageContextInfo.currentUICultureName; // Automatically retrieve the user culture UI
-
-	//console.log(reviewURL);
 	return reviewURL;
 }
 
@@ -144,7 +111,5 @@ function getReviewURL(productId, contentMarket){
 					+ "&productId=" + productId
 					+ "&cmf=" + contentMarket
 					+ "&cmu=" + _spPageContextInfo.currentUICultureName; // Automatically retrieve the user culture UI
-
-	//console.log(reviewURL);
 	return reviewURL;
 }
