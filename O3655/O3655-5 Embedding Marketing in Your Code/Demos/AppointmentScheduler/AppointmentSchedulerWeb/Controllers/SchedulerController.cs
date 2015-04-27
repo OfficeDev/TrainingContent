@@ -33,6 +33,12 @@ namespace AppointmentSchedulerWeb.Controllers
             else
             {
                 ViewBag.Status = "Full";
+				ViewBag.ReviewPage = LicenseHelper.GetReviewURL(appProductId);
+				ViewBag.StoreFront = LicenseHelper.GetStorefrontUrl(
+					SharePointLicenseProvider.Current.license,
+					spContext.SPHostUrl.ToString(),
+					HttpContext.Request.Url.ToString(),
+					"ContosoAppointmentScheduler");
             }
             return View();
         }

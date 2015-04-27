@@ -37,7 +37,7 @@ namespace AppointmentSchedulerWeb.Filters
         /// <owner alias="keithmg">Keith McGuinness</owner>
 		public static string GetReviewURL(Guid appProductId)
 		{
-            return String.Format("http://store.office.com/writereview.aspx?p4=WA&productID={0}", appProductId.ToString());
+			return String.Format("http://store.office.com/writereview.aspx?p4=WA&productID={0}", appProductId);
 		}
 
         public static VerifyEntitlementTokenResponse GetAndVerifyLicense(Guid productId, ClientContext ctx)

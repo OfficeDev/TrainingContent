@@ -48,10 +48,16 @@
                 },
                 buttons: {
                     save: function () {
-                        appointments++;
-                        //       $('#reminder_spam').remove();
-                        //        $('<div id ="reminder_spam">You currently have 0 appointments of ' + appointments + ' using reminders</div>').appendTo('#spam');
-                        $('#spam').show();
+                    	appointments++;
+                    	if (appointments === 23) {
+		                    $("#spam").show();
+		                    toastr.options = {
+			                    "positionClass": "toast-bottom-full-width",
+			                    "timeOut": 15000
+		                    };
+		                    toastr.success("Would you like to give feedback to the developer ? <button onclick=\"window.location('mailto:contosoappdeveloper@microsoft.com')\">Feedback</button>");
+	                    } 
+
                         calEvent.id = id;
                         id++;
                         calEvent.start = new Date(startField.val());
@@ -110,20 +116,18 @@
                         $calendar.weekCalendar("updateEvent", calEvent);
                         $dialogContent.dialog("close");
 
-                        if (window.trial) {
-                            window.actionCounter++;
-                            if (window.actionCounter === 3) {
-                                window.actionCounter = 0;
-                                $("#trial_spam").html("Would you like to write a review? <button class='reviewButton'>Review</button>");
-                                $("#trial_spam").show();
-                            }
+                        
+                        window.actionCounter++;
+                        if (window.actionCounter === 3) {
+                            window.actionCounter = 0;
+                            $("#trial_spam").html("Would you like to write a review? <button id='feedback'>Review</button>");
+                            $("#trial_spam").show();
                         }
+                        
 
                     },
                     "delete": function () {
                         appointments--;
-                        //   $('#reminder_spam').remove();
-                        // $('<div id ="reminder_spam">You currently have 0 appointments of ' + appointments + ' using reminders</div>').appendTo('#spam').delay(1000);
                         $('#spam').show();
                         $calendar.weekCalendar("removeEvent", calEvent.id);
                         $dialogContent.dialog("close");
