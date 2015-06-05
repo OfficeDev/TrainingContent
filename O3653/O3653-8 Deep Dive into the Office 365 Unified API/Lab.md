@@ -140,7 +140,7 @@ In this exercise, you will use the raw REST API interface of the Unified API to 
 
 1. First get information about the currently logged in user from the Unified API. Within Fiddler's **Composer** tab, do the following:
 	1. Set the HTTP action to **GET**.
-	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me**.
+	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me**
 	1. Set the HTTP headers to the following values, replacing the `{access-token}` token to the actual token you just obtained in the last step:
 	
 		````
@@ -154,19 +154,19 @@ In this exercise, you will use the raw REST API interface of the Unified API to 
 	
 1. Look at the files in your OneDrive for Business. *This assumes you have at least some files within your OneDrive for Business account... if not the payload returned with be empty:
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me/files**.
+	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me/files**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about the files within your OneDrive for Business account.
 
 1. Now, see how you can query for any user's information provided you have access to it.
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/beta/{tenant-id}/users/{userPrincipalName}**.
+	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/beta/{tenant-id}/users/{userPrincipalName}**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Look at the results and notice you are now seeing the details of a user within your Azure AD directory!
 	
 1. Next, try something the app has not been created access to. In the first exercise the app was not given access to Office 365 groups. Try to access a property on groups to see the error that is returned:
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/beta/{tenant-id}/users/{userPrincipalName}/memberOf**.
+	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/beta/{tenant-id}/users/{userPrincipalName}/memberOf**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with a error message of *Insufficient privileges to complete the operation.*
 
@@ -174,14 +174,144 @@ In this exercise, you used the raw REST API interface of the Unified API to inte
 
 
 ## Exercise 3: Use the Unified API .NET SDK in an ASP.NET Web Application 
-In this exercise, you will use the Unified API's .NET SDK within an ASP.NET Web application.
+In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 application.
 
-1. Step 
-1. Step
+### Create a Native Client Application in Azure AD
+*Your custom Windows 8.1 application must be registered as an application in Azure AD in order to work, so we will do that now.*
 
-	![](Images/01.png)  
+1. Within a browser, navigate to the **Azure Management Portal**: https://manage.windowsazure.com
+1. Enter the email address and password of an account that have permissions to manage the directory of the Azure AD tenant (e.g. admin@sample.onmicrosoft.com).
+1. In the left-hand navigation, scroll down to and click on Active Directory.
+1. Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click **Applications** in the toolbar. 
+1. Click the **Add** button at the bottom of the display.
+1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
+1. In the **Add Application** wizard, enter a name of **My First Unified API Windows App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
+1. Next, set the **Redirect URI** of the application to **http://localhost/unifiedapi** and click the check to save your changes.
+1. Once the application has been created, click the **Configure** link the top navigation menu.
+1. Find the **Clint ID** on the **Configure** page & copy it for later use.
+1. Scroll to the bottom of the page to the section **Permissions to Other Applications**.
+1. Click the **Add Application** button & select the **Office 365 Unified API**, then click the check to add it to your application.
+1. Select the **Delegated Permissions: 0** control and add the following permissions to the application:
+	- Read items in all site collections
+	- Read users' files
+	- Access directory as the signed in user
+1. Click the **Save** icon in the bottom menu.
 
-In this exercise, you used the Unified API's .NET SDK within an ASP.NET Web application.
+### Prepare the Visual Studio Solution
+*Next, take an existing starter project and get it ready to write code that will use the Unified API's .NET SDK.*
+
+1. Locate the [Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 8.1 application that you will update to call the Unified API using the native .NET SDK for the Unified API. Open the project **O365-Win-Profile** in Visual Studio.
+1. First, download all referenced NuGet packages. Do this by opening the **Package Manager Console** tool window (**View -> Other Windows -> Package Manager Console**). Then click the **Restore** button in the top-right section of the tool window and wait for the project to download all packages.
+
+	> Verify Visual Studio found all references to the DLL's that were downloaded from the NuGet packages. If you see yellow warning triangles on entries under the **References** folder in the **Solution Explorer**, simply close the solution in Visual Studio and reopen it.
+	
+1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Paste in the GUID Client ID of the Azure AD application you copied previously in this XML element.
+1. Update the login redirect URI for the application that is sent to Azure when logging in. Open the file **AuthenticationHelper.cs** and locate the line that looks like this:
+
+	````c#
+	private static Uri redirectUri = new Uri(" ");
+	````
+	
+	Set the value of that string **http://localhost/unifiedapi**.
+
+
+### Update the Application to Retrieve Data via the Unified API
+*Now you will update the project's codebase to retrieve data from the Unified API to display the values within the Windows 8.1 appilication.*
+
+1. Open the file **UserOperations.cs**.
+1. Update the **GetUsersAsync** function to get users from your Azure AD directory:
+	1. Locate the function `GetUsersAsync()`.
+	1. Replace the existing `return null;` line with the following code:
+
+		````c#
+		List<IUser> userList = null;
+		
+		var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+		
+		var userResult = await graphClient.users.Where( u=> u.userType == "Member").ExecuteAsync();
+		userList = userResult.CurrentPage.ToList();
+		
+		return userList;
+		````
+
+1. Update the **GetUserAsync** function to get details on a specific user:
+	1. Locate the function `GetUserAsync(string userId)`.
+	1. Replace the existing `return null;` line with the following code:
+	
+		````c#
+    User user = null;
+
+    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+
+    var userResult = await graphClient.users.GetById(userId).ExecuteAsync();
+    user = (User)userResult;
+
+    return user;
+		````
+
+1. Update the **GetUserManagerAsync** function to get a specific user's direct manager:
+	1. Locate the function `GetUserManagerAsync(string userId)`.
+	1. Replace the existing `return null;` line with the following code:
+	
+		````c#
+    User manager = null;
+
+    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+
+    var managerResult = await graphClient.users.GetById(userId).manager.ExecuteAsync();
+    manager = (User)managerResult;
+
+    return manager;
+		````
+
+1. Update the **GetUserDirectReportsAsync** function to get a specific user's direct reports:
+	1. Locate the function `GetUserDirectReportsAsync(string userId)`.
+	1. Replace the existing `return null;` line with the following code:
+	
+		````c#
+    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+
+    var directReportResult = await graphClient.users.GetById(userId).directReports.ExecuteAsync();
+    var directReportList = directReportResult.CurrentPage.ToList();
+
+    return directReportList;
+		````
+
+1. Update the **GetUserGroupsAsync** function to get all the groups a user belongs to:
+	1. Locate the function `GetUserGroupsAsync(string userId)`.
+	1. Replace the existing `return null;` line with the following code:
+	
+		````c#
+	  var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+	  var groupResult = await graphClient.users.GetById(userId).memberOf.ExecuteAsync();
+	  var groupList = groupResult.CurrentPage.ToList();
+	
+	  return groupList;
+		````
+
+1. Update the **GetUserFilesAsync** function to get a specified user's files:
+	1. Locate the function `GetUserFilesAsync(string userId)`.
+	1. Replace the existing `return null;` line with the following code:
+	
+		````c#
+    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+
+    var filesResult = await graphClient.users.GetById(userId).files.Take(10).ExecuteAsync();
+    var fileList = filesResult.CurrentPage.ToList();
+
+    return fileList;
+		````
+
+1. Save your changes to the file.
+
+### Test the Project
+1. With all the changes complete, press **F5** to build & run the project.
+1. When prompted, login using your Azure AD account.
+1. After successfully logging in, you will see the application load a list of all the users in your Azure AD directory.
+1. Select one of the users and you will see it get populated with data from the Azure AD directory.
+
+
+In this exercise, you used the Unified API's .NET SDK within Windows 8.1 application.
 
 
 Congratulations! In this lab you have created your first Azure AD application that enabled access to the Unified API and used both the raw REST API and .NET SDK for the Unified API!
