@@ -1,11 +1,11 @@
 # Deep Dive into the Office 365 Unified API
-In this lab, you will use the Unified API to access & program against Office 365 data using both the raw REST API as well as using an ASP.NET Web application and the .NET SDK for the Unified API.
+In this lab, you will use the Unified API to access & program against Office 365 data using both the raw REST API as well as using Windows 8.1 application and the .NET SDK for the Unified API.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 1. You must have access to an Exchange mailbox within an Office 365 developer tenancy.
 1. You must have some files within your Office 365 OneDrive for Business. 
-1. You must have Fiddler ([http://www.telerik.com/fiddler]) or another HTTP debugging proxy tool installed to complete exercise 2.
+1. You must have Fiddler (http://www.telerik.com/fiddler) or another HTTP debugging proxy tool installed to complete exercise 2.
 1. You must have the Office 365 API Tools version 1.3.41104.1 installed in Visual Studio 2013 to complete exercise 3.
 
 ## Exercise 1: Create an Azure AD Application with Necessary Permissions for the Unified API 
