@@ -23,7 +23,9 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 1. In the **Add Application** wizard, enter a name of **My First Unified API App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
 1. In the **App Properties** page, enter a **SIGN-ON URL** of **https://dev.office.com**
 1. Enter an **App ID Uri** of **http://[your-O365-tenant-id].onmicrosoft.com/UnifiedApiApp**.
+
 	> NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
+
 1. Click the **check** image in the lower right of the wizard to create the application. The application Quick Start page will display once the application is created.
 
 	![](Images/Figure02.png)
@@ -47,7 +49,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 	1. For the new **Office 365 Unitied API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
 		- Read users' files 
 		- Have full access to user calendars
-		- Read user clendars
+		- Read user calendars
 		- Read user email
 	1. Click the **Save** button at the bottom of the page.
 
@@ -63,10 +65,10 @@ In this exercise you created an Azure AD application using the Azure Management 
 
 
 ## Exercise 2: Use the Raw REST API Interface of the Unified API
-In this exercise, you will use the raw REST API interface of the Unified API to interact with the different capabilties. In order to call the Unified API, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
+In this exercise, you will use the raw REST API interface of the Unified API to interact with the different capabilities. In order to call the Unified API, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
 
 ### Authenticate & Obtain an Authorization Code from Azure AD 
-*Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.*
+Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.
 
 1. Take the following URL and replace the `{tenant-id}` & `{client-id}` tokens with values obtained / set on the Azure AD application.
 
@@ -81,8 +83,8 @@ In this exercise, you will use the raw REST API interface of the Unified API to 
 1. Open Fiddler.
 1. Open a browser navigate to the above URL after you replaced the tokens. Be sure to remove any line breaks from the above URL that were added for readability.
 	1. You will be prompted to login using the same account you used to create the Azure AD application.
-	1. After logging in you will be taken to a non-existant page. This is not an error, there is just no site setup for this application yet. The important information is in the actual data sent to the page.
-1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddlier will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
+	1. After logging in you will be taken to a non-existent page. This is not an error, there is just no site setup for this application yet. The important information is in the actual data sent to the page.
+1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
 
 	![](Images/Figure05.png)
 
@@ -92,7 +94,7 @@ In this exercise, you will use the raw REST API interface of the Unified API to 
 1. Copy the value for the **code** to the text file; this is the authorization code that can be used to obtain an access token.
 
 ## Obtain an OAuth2 Access Token for the Unified API
-*Use the Azure AD token endpoint to obtain an access token for the Unified API using the authorization code you just obtained.*
+Use the Azure AD token endpoint to obtain an access token for the Unified API using the authorization code you just obtained.
 
 1. Take the following URL and replace the `{tenant-id}` token with the values obtained in the previous exercise:
 
@@ -136,7 +138,7 @@ In this exercise, you will use the raw REST API interface of the Unified API to 
 	![](Images/Figure07.png)  
 
 ### Issue Requests to the Unified API's REST Endpoint
-*Now that you have an access token, create a few requests to the Unified API's REST endpoint.*
+Now that you have an access token, create a few requests to the Unified API's REST endpoint.
 
 1. First get information about the currently logged in user from the Unified API. Within Fiddler's **Composer** tab, do the following:
 	1. Set the HTTP action to **GET**.
@@ -170,7 +172,7 @@ In this exercise, you will use the raw REST API interface of the Unified API to 
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with a error message of *Insufficient privileges to complete the operation.*
 
-In this exercise, you used the raw REST API interface of the Unified API to interact with the different capabilties. 
+In this exercise, you used the raw REST API interface of the Unified API to interact with the different capabilities. 
 
 
 ## Exercise 3: Use the Unified API .NET SDK in an ASP.NET Web Application 
@@ -198,7 +200,7 @@ In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 a
 1. Click the **Save** icon in the bottom menu.
 
 ### Prepare the Visual Studio Solution
-*Next, take an existing starter project and get it ready to write code that will use the Unified API's .NET SDK.*
+Next, take an existing starter project and get it ready to write code that will use the Unified API's .NET SDK.
 
 1. Locate the [Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 8.1 application that you will update to call the Unified API using the native .NET SDK for the Unified API. Open the project **O365-Win-Profile** in Visual Studio.
 1. First, download all referenced NuGet packages. Do this by opening the **Package Manager Console** tool window (**View -> Other Windows -> Package Manager Console**). Then click the **Restore** button in the top-right section of the tool window and wait for the project to download all packages.
@@ -216,7 +218,7 @@ In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 a
 
 
 ### Update the Application to Retrieve Data via the Unified API
-*Now you will update the project's codebase to retrieve data from the Unified API to display the values within the Windows 8.1 appilication.*
+*Now you will update the project's codebase to retrieve data from the Unified API to display the values within the Windows 8.1 application.*
 
 1. Open the file **UserOperations.cs**.
 1. Update the **GetUsersAsync** function to get users from your Azure AD directory:
