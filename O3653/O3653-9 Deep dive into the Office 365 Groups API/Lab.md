@@ -18,7 +18,7 @@ In this exercise, you will use the browser to create & interact with Office 365 
 Using these accounts, create and interact with some groups using the web interface.
 
 ### Create a New Group 
-1. Within a browser, navigate to the **https://mail.office365.com** site & login using a valid account *(in this step, we will use **Rob Walters**)*.
+1. Within a browser, navigate to the **https://mail.office365.com** site & login using a valid account *(in this step, we will use Rob Walters)*.
 1. Create a new group named **Contoso Merger Working Group**.
 	1. In the left navigation, locate & click the link **Create Group**:
 
@@ -30,7 +30,7 @@ Using these accounts, create and interact with some groups using the web interfa
 
 	1. Click the **Create** button at the top to create the group.
 
-1. After creating the group, you will be prompted to add a user as a member to the group. Add one of your test users to the group *(in this step we used **Janice Galvin**)*.
+1. After creating the group, you will be prompted to add a user as a member to the group. Add one of your test users to the group *(in this step we used Janice Galvin)*.
 1. After creating the group it will appear in the left-hand navigation and indicated with a tile that contains letters from the group's name. 
 	1. Update the logo for the group to be more descriptive. Click the pencil icon in the lower-right of the group title.
 
@@ -117,7 +117,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 	1. Click the **Add Application** button.
 	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Office 365 Unified API** option.
 	1. Click the **CHECK** icon in the lower left corner.
-	1. For the new **Office 365 Unitied API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
+	1. For the new **Office 365 Unified API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
 		- Read and write all groups (preview)
 		- Read all groups (preview)
 	1. Click the **Save** button at the bottom of the page.
@@ -133,10 +133,10 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 In this exercise you created an Azure AD application using the Azure Management portal and granted the application the necessary permissions to work with the Groups API.
 
 ## Exercise 3: Use the Raw REST API Interface of the Groups API
-In this exercise, you will use the raw REST API interface of the Groups API to interact with the different capabilties. The Groups API is part of the Unified API. In order to call the Unified API, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
+In this exercise, you will use the raw REST API interface of the Groups API to interact with the different capabilities. The Groups API is part of the Unified API. In order to call the Unified API, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
 
 ### Authenticate & Obtain an Authorization Code from Azure AD 
-*Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.*
+Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.
 
 1. Take the following URL and replace the `{tenant-id}` & `{client-id}` tokens with values obtained / set on the Azure AD application.
 
@@ -151,8 +151,8 @@ In this exercise, you will use the raw REST API interface of the Groups API to i
 1. Open Fiddler.
 1. Open a browser navigate to the above URL after you replaced the tokens. Be sure to remove any line breaks from the above URL that were added for readability.
 	1. You will be prompted to login using the same account you used to create the Azure AD application.
-	1. After logging in you will be taken to a non-existant page. This is not an error, there is just no site setup for this application yet. The important information is in the actual data sent to the page.
-1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddlier will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
+	1. After logging in you will be taken to a non-existent page. This is not an error, there is just no site setup for this application yet. The important information is in the actual data sent to the page.
+1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
 
 	![](Images/Figure11.png)
 
@@ -162,7 +162,7 @@ In this exercise, you will use the raw REST API interface of the Groups API to i
 1. Copy the value for the **code** to the text file; this is the authorization code that can be used to obtain an access token.
 
 ## Obtain an OAuth2 Access Token for the Unified API
-*Use the Azure AD token endpoint to obtain an access token for the Unified API using the authorization code you just obtained.*
+Use the Azure AD token endpoint to obtain an access token for the Unified API using the authorization code you just obtained.
 
 1. Take the following URL and replace the `{tenant-id}` token with the values obtained in the previous exercise:
 
@@ -206,7 +206,7 @@ In this exercise, you will use the raw REST API interface of the Groups API to i
 	![](Images/Figure13.png)  
 
 ### Issue Requests to the Group API's REST Endpoint via the Unified API
-*Now that you have an access token, create a few requests to the Unified API's REST endpoint.*
+Now that you have an access token, create a few requests to the Unified API's REST endpoint.
 
 1. First get information about the currently logged in user from the Unified API. Within Fiddler's **Composer** tab, do the following:
 	1. Set the HTTP action to **GET**.
@@ -269,4 +269,4 @@ In this exercise, you will use the raw REST API interface of the Groups API to i
 	
 	> Note: this part of the Groups API is leveraging the capabilities of the Files and Events API endpoints in the Unified API. These specific endpoints are covered in more depth in other modules within these courses.
 	
-In this exercise, you used the raw REST API interface of the Groups API to interact with the different capabilties.
+In this exercise, you used the raw REST API interface of the Groups API to interact with the different capabilities.
