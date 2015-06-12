@@ -17,13 +17,13 @@ To complete the labs in this course you need to install or configure the followi
 In this lab you will learn how to modify SharePoint User Experience using SharePoint Apps.
 ### Learning Objectives ###
 After completing the exercises in this lab, you will be able to:
-  - Perform JavaScript injection using SP App.
+  - Perform JavaScript injection using SP add-in.
   - Make changes to the SharePoint User Experience via DOM manipulation.
   
 **Estimated time to complete this lab: *15 minutes*.**
   
   
-## Exercise 1: Modify User Experience of a Site Using SP App ##
+## Exercise 1: Modify User Experience of a Site Using SP add-in ##
   
 ### Open the pre-created structure and test the initial deployment. ###
   
@@ -35,7 +35,7 @@ After completing the exercises in this lab, you will be able to:
     * Note: The actual folder location is dependent on where you copied the files to in your local computer. 
     
     ![Open Solution Explorer](Images/ModifyUserExpericenceOpenSolution.png)
-  4. Ensure that the **Site URL** property is correct for the app project by first activating the **ModifyUserExperience** project.
+  4. Ensure that the **Site URL** property is correct for the add-in project by first activating the **ModifyUserExperience** project.
     * If you are prompted to connect to SharePoint, provide the appropriate login information in the window.
     
     ![ModifyUserExperience Project](Images/UXModificationProject.png)
@@ -43,12 +43,12 @@ After completing the exercises in this lab, you will be able to:
     * If you are prompted to connect to SharePoint, provide the appropriate login information in the window.
     
     ![Project Properties](Images/UXModificationProjectProperties.png)
-  6. Open **AppManifest.xml** from the App project.
+  6. Open **AppManifest.xml** from the add-in project.
   
     ![AppManifest](Images/UXModificationAppManifest.png)
   7. Adjust the permission to require **FullControl** in **Web** scope.
   
-    ![App Permissions](Images/UXModificationAppManifestPermissions.png)
+    ![add-in Permissions](Images/UXModificationAppManifestPermissions.png)
   8. Press **F5** or choose **Debug – Start Debugging** to ensure that the application is properly deployed.
   9. Log in to your test tenant by providing the right user ID and password, if required.
   
@@ -56,11 +56,11 @@ After completing the exercises in this lab, you will be able to:
     * Note:  If you have any challenges logging in from your corporate tenant, follow guidance from this support article: http://support.microsoft.com/kb/2507767. 
   10. Click Trust It, when the trust notification appears.
   
-    ![App Trust](Images/UXModificationAppTrust.png)
-  11. You should now see the initial design for the app as follows.
-    * Notice that actual implementation is missing from the buttons, but you can already see how the app will work. 
+    ![add-in Trust](Images/UXModificationAppTrust.png)
+  11. You should now see the initial design for the add-in as follows.
+    * Notice that actual implementation is missing from the buttons, but you can already see how the add-in will work. 
   
-    ![App Page](Images/UXModificationAppPage.png)
+    ![add-in Page](Images/UXModificationAppPage.png)
   12.	Move back to the **Visual Studio** window and press **Shift+F5** or choose **Stop Debugging** from the **Debug** menu.
   
 ### Add the actual operations behind the buttons to wire up JavaScript on the page request process. ###
@@ -247,7 +247,7 @@ After completing the exercises in this lab, you will be able to:
   * Notice that the notification bar does not exist on the page anymore.
 
   
-## Exercise 2: Add an App Script Web Part using SP Apps ##
+## Exercise 2: Add an Add-In Script Web Part using SP Apps ##
   
 ### Open the pre-created structure and test the initial deployment. ###
 
@@ -259,7 +259,7 @@ After completing the exercises in this lab, you will be able to:
   * Note: The actual folder location is dependent on where you copied the files to in your local computer. 
   
   ![Open Solution Explorer](Images/AppScriptPartOpenSolution.png)
-4. Ensure that the **Site URL** property is correct for the app project by first activating the **AppScriptPart** project.
+4. Ensure that the **Site URL** property is correct for the add-in project by first activating the **AppScriptPart** project.
   * If you are prompted to connect to SharePoint, provide the appropriate login information in the window.
   
   ![AppScriptPart Project](Images/AppScriptPartProject.png)
@@ -267,12 +267,12 @@ After completing the exercises in this lab, you will be able to:
   * If you are prompted to connect to SharePoint, provide the appropriate login information in the window.
   
   ![Project Properties](Images/AppScriptPartProjectProperties.png)
-6. Open **AppManifest.xml** from the App project.
+6. Open **AppManifest.xml** from the add-in project.
 
   ![AppManifest](Images/AppScriptPartAppManifest.png)
 7. Adjust the permission to require **FullControl** in **Tennant** scope.
 
-  ![App Permissions](Images/AppScriptPartAppManifestPermissions.png)
+  ![add-in Permissions](Images/AppScriptPartAppManifestPermissions.png)
 8. Press **F5** or choose **Debug – Start Debugging** to ensure that the application is properly deployed.
 9. Log in to your test tenant by providing the right user ID and password, if required.
 
@@ -280,14 +280,14 @@ After completing the exercises in this lab, you will be able to:
   * Note:  If you have any challenges logging in from your corporate tenant, follow guidance from this support article: http://support.microsoft.com/kb/2507767. 
 10. Click Trust It, when the trust notification appears.
 
-  ![App Trust](Images/AppScriptPartAppTrust.png)
-11. You should now see the initial design for the app as follows.
-  * Notice that actual implementation is missing from the buttons, but you can already see how the app will work. 
+  ![add-in Trust](Images/AppScriptPartAppTrust.png)
+11. You should now see the initial design for the add-in as follows.
+  * Notice that actual implementation is missing from the buttons, but you can already see how the add-in will work. 
 
-  ![App Page](Images/AppScriptPartAppPage.png)
+  ![add-in Page](Images/AppScriptPartAppPage.png)
 12.	Move back to the **Visual Studio** window and press **Shift+F5** or choose **Stop Debugging** from the **Debug** menu.
 
-### Add the actual operations behind the button to add the App Script Web Part to the host web. ###
+### Add the actual operations behind the button to add the Add-In Script Web Part to the host web. ###
   
 1. Move to **Solution View** and double-click the **Default.aspx.cs** file to see the starting point for adding the needed code. This file can be found under **Pages – Default.aspx**
 
@@ -338,15 +338,15 @@ After completing the exercises in this lab, you will be able to:
 		        return;
 		    }
 		    list.GetItemById(item.Id);
-		    item["Group"] = "App Script Part";
+		    item["Group"] = "Add-In Script Part";
 		    item.Update();
 		    clientContext.ExecuteQuery();
-		    lblStatus.Text = string.Format("App script part has been added to web part gallery. You can find 'User Profile Information' script part under 'App Script Part' group in the <a href='{0}'>host web</a>.", spContext.SPHostUrl);
+		    lblStatus.Text = string.Format("Add-In script part has been added to web part gallery. You can find 'User Profile Information' script part under 'Add-In Script Part' group in the <a href='{0}'>host web</a>.", spContext.SPHostUrl);
 		    
 		}
 	}
   ```
-  * This code reads the **scenario2.webpart** file from the app website, uploads it to the Web Part Gallery in the host web and sets the group on the newly uploaded web part to "App Script Part".
+  * This code reads the **scenario2.webpart** file from the add-in website, uploads it to the Web Part Gallery in the host web and sets the group on the newly uploaded web part to "add-in Script Part".
 3. Open the **scenario2.webpart** file from the **Solution Explorer**
 
   ![scenario2.webpart](Images/AppScriptPartWebPart.png)
@@ -421,7 +421,7 @@ After completing the exercises in this lab, you will be able to:
 13. Click on the **Web Part** ribbon button  
 
 ![Web Part Button](Images/AppScriptPartWebPartButton.png)  
-14. Click on the **App Script Part** category and then the **Add** button
+14. Click on the **Add-In Script Part** category and then the **Add** button
 
   ![Web Part Button](Images/AppScriptPartAddWebPart.png)  
 15. Click on the **Save** button  

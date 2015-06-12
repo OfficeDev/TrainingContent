@@ -1,8 +1,8 @@
-# 9 - Using Search capabilities with app model #
+# 9 - Using Search Capabilities with add-in model #
 
 ----------
 
-This module concentrates on how to achieve typical Search customizations using app model techniques. We will concentrate on UI level configuration and also how to use remote APIs for executing search operations. 
+This module concentrates on using SharePoint Enterprise Search capabilities with the add-in model. We cover how you can modify the SharePoint search end user experience and also how you can utilize search using remote APIs from your own applications. 
 
 **Agenda**
 - Overview
@@ -16,7 +16,7 @@ This module concentrates on how to achieve typical Search customizations using a
 - Display templates are really powerful
 - Exporting and importing search settings with CSOM
 
-**Lab - Using Search Capabilities with CAM Patterns**
+**Lab - Using Search Capabilities with add-in model patterns**
 In first lab you will build personalized search results based on a particular user's user profile property values. In second lab you will modify the display templates for the search results to provide customized end user presentation.
 
 - [Lab manual](Lab.md)

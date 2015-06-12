@@ -1,13 +1,13 @@
-# 3 - Controlling branding in SharePoint using app model #
+# 3 - Controlling branding in SharePoint using add-in model #
 
 ----------
 
-Introduction to the app model approaches to control site branding elements. Concentration on the impact of the chosen pattern for branding and how to ensure that right branding technique is chosen. 
+Introduction to different branding capabilities using the add-in model techniques. We cover different options to modify the end user experience and discuss what the key considerations are when your making your implementation decision. Session also covers topics related on where the assets used for branding should be stored in order to ease future maintenance.
 
 **Agenda**
-- Introduction to branding with app model
+- Introduction to branding with add-in model
 - Themes and other other branding techniques
-- Controlling publishing (WCM) capabilities using app model techniques
+- Controlling publishing (WCM) capabilities using add-in model techniques
 - Updating existing sites with new branding changes
 
 **Key recommendations**
@@ -16,8 +16,8 @@ Introduction to the app model approaches to control site branding elements. Conc
 - Consider using Alternate CSS for advance settings
 - SharePoint themes can be used to control colour and fonts
 
-**Lab - Modification of SharePoint Sites Using SP Apps**
-In this exercise you will create your own custom theme using the SharePoint Color Palette Tool, and then apply the theme from the provider hosted app to the host web.
+**Lab - Modification of SharePoint Sites Using SP add-ins**
+In this exercise you will create your own custom theme using the SharePoint Color Palette Tool, and then apply the theme from the provider hosted add-in to the host web.
 
 - [Lab manual](Lab.md)
 

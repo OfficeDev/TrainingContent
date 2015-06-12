@@ -18,13 +18,13 @@ The required prerequisite for this course are:
 
 ## Lab Overview ##
 ### Abstract ###
-In this exercise you will create your own custom theme using the SharePoint Color Palette Tool, and then apply the theme from the provider hosted app to the host web.
+In this exercise you will create your own custom theme using the SharePoint Color Palette Tool, and then apply the theme from the provider hosted add-in to the host web.
 
 ### Learning Objectives ###
 After completing the exercises in this lab, you will be able to:
 
 * Use the SharePoint Color Palette Tool to create custom themes.
-* Deploy the theme files to host web using SP App.
+* Deploy the theme files to host web using SP add-in.
 * Set a custom theme to the host web using CSOM.
 
 **Estimated time to complete this lab: *15 minutes*.**
@@ -81,9 +81,9 @@ Using this __Color Slots__ functionality, you can define specific colors for eac
 
 Now we have created the needed theme file for the following task.
 
-###Write the needed code to apply the theme to the host web from the provider hosted app.###
+###Write the needed code to apply the theme to the host web from the provider hosted add-in.###
 
-In this task we will take the theme file you just created with the background image and we will deploy and apply new theme to host web from provider hosted app.
+In this task we will take the theme file you just created with the background image and we will deploy and apply new theme to host web from provider hosted add-in.
 1.  Start __Visual Studio 2013__.  
 2.  Click __File | Open Project__.  
 ![Open Project](Images/openproject.png)  
@@ -92,32 +92,32 @@ In this task we will take the theme file you just created with the background im
 
 4. Provide your tenant login information when the __Connect to SharePoint__ dialog is prompted.  
 ![Account Login](Images/accountlogin.png)  
-5. Ensure that the __Site URL__ property is correct for the app project by first activating the __DeployCustomTheme__ project in the solution explorer.  
-![App Project](Images/deploythemeapp.png)  
+5. Ensure that the __Site URL__ property is correct for the add-in project by first activating the __DeployCustomTheme__ project in the solution explorer.  
+![Add-in Project](Images/deploythemeapp.png)  
 6. Confirm the __Site URL__ from the property window. This this should be pointing to your personal Office365 tenant and to existing developer site collection which you could use for the exercise creation.  
 ![Site URL](Images/siteurl.png)  
-7. Open __AppManifest.xml__ from the App project in the __Solution Explorer__.  
-![App Manifest](Images/manifest.png)  
+7. Open __AppManifest.xml__ from the add-in project in the __Solution Explorer__.  
+![Add-in Manifest](Images/manifest.png)  
 8. Move to the __Permissions__ tab.  
-9. Adjust the permission to require __FullControl__ for __Web__ scope, so that we are able to manipulate the host web where the app is installed.  
-![App Permissions](Images/permission.png)  
+9. Adjust the permission to require __FullControl__ for __Web__ scope, so that we are able to manipulate the host web where the add-in is installed.  
+![add-in Permissions](Images/permission.png)  
 10. Press __F5__ or choose __Debug | Start Debugging__ to ensure that the application can be properly deployed.  
 11. Log in to your test tenant by providing the right user ID and password, if required.  
 ![Log In](Images/login.png)  
   * Note: If you have any challenges to logging in to your corporate tenant, follow guidance from this support article: [http://support.microsoft.com/kb/2507767](http://support.microsoft.com/kb/2507767).  
 12. Click __Trust It__, when the trust notification for the oAuth permissions is shown.  
 ![Trust It](Images/trustit.png)  
-13. You should now see the initial design for the app as follows.  
-  * Notice that we will implement the actual functionality as an app part, so there will not be any actual code in the default.aspx file.  
-![App Page](Images/apppage.png)  
+13. You should now see the initial design for the add-in as follows.  
+  * Notice that we will implement the actual functionality as an add-in part, so there will not be any actual code in the default.aspx file.  
+![add-in Page](Images/apppage.png)  
 14. Move back to the __Visual Studio__ side and press __Shift+F5__ or choose __Stop Debugging__ from the __Debug__ menu.
 
 ### Add the code to modify host web theme settings. ###
 
-In this task we will add the needed code to modify the host web theme settings from the app side.
+In this task we will add the needed code to modify the host web theme settings from the add-in side.
 
 1. Move to the __Solution Explorer__, expand the __Pages__ folder, expand the __Default.aspx__ file, and open __default.aspx.cs__ to add the needed code for actual button clicks.  
-![App Page](Images/apppage2.png)  
+![add-in Page](Images/apppage2.png)  
 2. First add the required __using__ statements to the top of the code page as follows.
 
   * This will ensure that the referenced SharePoint client CSOM can be easily accessed.
@@ -423,7 +423,7 @@ private bool ThemeEntryExists(Web web, List themeList, string themeName)
   ```
 
 14. Press __F5__ or choose __Debug | Start Debugging__ to see the latest changes.
-15. Click the __Deploy a custom theme__ button on the app page.
+15. Click the __Deploy a custom theme__ button on the add-in page.
 16. Click the __host web__ link shown after the button click has been processed to verify that the host web has been changed.
 17. Notice how the previously created custom theme has been applied to the host web with specific graphics.  
 ![Orange Site](Images/orangesite.png)  
@@ -489,7 +489,7 @@ Notice that you can just as well use your own mobile phone to directly access th
 ![Phone Screenshot](Images/phone1.png)
 ![Phone Screenshot](Images/phone2.png)
 ![Phone Screenshot](Images/phone3.png)  
-__IMPORTANT: The emulator does not recognize keyboard input, so you will have to use the mouse to type. If you are presenting this as a demo, consider using a webcam and use the camera app in Windows 8 to demonstrate.__
+__IMPORTANT: The emulator does not recognize keyboard input, so you will have to use the mouse to type. If you are presenting this as a demo, consider using a webcam and use the camera add-in in Windows 8 to demonstrate.__
 9.  Go back to the Design Manager and click __2. Manage Device Channels__.  
 10. Click __Create a channel__. Use the following values:
 

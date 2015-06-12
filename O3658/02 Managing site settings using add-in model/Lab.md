@@ -24,12 +24,12 @@ In this lab you will learn how to modify wiki pages using SharePoint Apps.
 ###Learning Objectives
 After completing the exercises in this lab, you will be able to:  
 
-- Modify page layout of a site using SP App.
+- Modify page layout of a site using SP add-in.
 - Add web parts to the pages using CSOM.
 
 **Estimated time to complete this lab: *15 minutes*.**
 
-##Exercise 1: Modify Page Layout of a Site Using SP App
+##Exercise 1: Modify Page Layout of a Site Using SP add-in
 
 ###Open the pre-created structure and test the initial deployment.
 
@@ -40,18 +40,18 @@ After completing the exercises in this lab, you will be able to:
   *	Note: The exact folder location is dependent on the folder that you copied the files to on your computer.
 
   ![Open Project Dialogue](Images/OpenProjectDialogue.png)
-4.	Ensure that the **Site URL** property is correct for the app project by first activating the **ModifyPages** project. If you are prompted with the **Connect to SharePoint** dialog, close this window.
+4.	Ensure that the **Site URL** property is correct for the add-in project by first activating the **ModifyPages** project. If you are prompted with the **Connect to SharePoint** dialog, close this window.
 
   ![Select Solution](Images/SolutionImage.png)
 5.	Confirm the **Site URL** from the property window. This should point to your personal Office365 tenant and to the existing developer site collection which can be used for this exercise.
 
   ![Solution Web Url](Images/SolutionProperties.png)
-6.	Open **AppManifest.xml** from the app project.
+6.	Open **AppManifest.xml** from the add-in project.
 
-  ![App Manifest Permissions](Images/AppManifest.png)
+  ![Add-in Manifest Permissions](Images/AppManifest.png)
 7.	Select the **Permissions** tab, and adjust the permissions to require **FullControl** in **Web** scope if necessary.
 
-  ![App Permissions](Images/AppPermissions.png)
+  ![Add-in Permissions](Images/AppPermissions.png)
 8.	Press **F5** or choose **Debug—Start Debugging** to ensure the application is properly deployed.
 9.	Log in to your test tenant by providing the correct user ID and password.
 
@@ -63,8 +63,8 @@ After completing the exercises in this lab, you will be able to:
 10.	Click **Trust It**, when the trust notification is shown.
 
   ![Trust Application](Images/TrustApp.png)
-11.	You should now see the initial design for the app as follows.
-  * Note: Actual implementation is missing from the buttons, but you can already see how the app will work.
+11.	You should now see the initial design for the add-in as follows.
+  * Note: Actual implementation is missing from the buttons, but you can already see how the add-in will work.
 12.	Navigate back to the Visual Studio window and press **Shift+F5** or choose **Stop Debugging** from the Debug menu.
 
 
@@ -166,9 +166,9 @@ After completing the exercises in this lab, you will be able to:
 7.	Press **F5** or choose **Debug – Start Debugging** to ensure that the application is properly deployed.
 
   *	Log in to the site and test the functionality
-8.	Click the **Add page with html** button and verify that the new page is created to host web with the specific html entry as defined in the app. Click the **here** link after the page has been created to see it.
+8.	Click the **Add page with html** button and verify that the new page is created to host web with the specific html entry as defined in the add-in. Click the **here** link after the page has been created to see it.
 
-  ![Modify Pages Add Page App](Images/ModifyPagesAddPageApp.png)
+  ![Modify Pages Add Page Add-in](Images/ModifyPagesAddPageApp.png)
   
   ![Page Added](Images/PageAdded.png)
   
@@ -188,20 +188,20 @@ After completing the exercises in this lab, you will be able to:
   * Note: The actual folder location is dependent on where you copied the files to in your local computer.
 
   ![Open JS Solution](Images/OpenJSSolution.png)
-4. Ensure that the **Site URL** property is correct for the app project by first activating the **JavaScriptInjection** project.
+4. Ensure that the **Site URL** property is correct for the add-in project by first activating the **JavaScriptInjection** project.
   * If you are prompted to connect to SharePoint, provide the appropriate login information in the window.
 
-  ![JS App](Images/JSAppProj.png)
+  ![JS add-in](Images/JSAppProj.png)
 5. Confirm the Site URL from the property window. This this should be pointing to your personal Office365 tenant and to the existing developer site collection which can be used for the exercise creation.
   * If you are prompted to connect to SharePoint, provide the appropriate login information in the window.
 
   ![JS Injection Properties](Images/jsInjectProps.png)
-6. Open **AppManifest.xml** from the App project.
+6. Open **AppManifest.xml** from the add-in project.
 
-  ![JS Injection App manifest](Images/jsappmanifest.png)
+  ![JS Injection add-in manifest](Images/jsappmanifest.png)
 7. Adjust the permission to require **FullControl** in **Web* scope.
 
-  ![JS Injection App Scope](Images/jsappwebscope.png)
+  ![JS Injection add-in Scope](Images/jsappwebscope.png)
 8.	Press **F5** or choose **Debug – Start Debugging** to ensure that the application is properly deployed.
 
 9.	Log in to your test tenant by providing the right user ID and password, if required.
@@ -210,17 +210,17 @@ After completing the exercises in this lab, you will be able to:
 10. Click **Trust It**, when the trust notification appears.
 
   ![JS Injection Trust It](Images/jsappTrustIt.png)
-11.	You should now see the initial design for the app as follows.
-  *	Notice that actual implementation is missing from the buttons, but you can already see how the app will work.
+11.	You should now see the initial design for the add-in as follows.
+  *	Notice that actual implementation is missing from the buttons, but you can already see how the add-in will work.
 
-  ![JS Injection App Page](Images/jsapppage.png)
+  ![JS Injection add-in Page](Images/jsapppage.png)
 12.	Move back to **Visual Studio** size and press **Shift+F5** or choose **Stop Debugging** from the **Debug** menu.
 
 ###Add the actual operations behind the buttons to wire up JavaScript on the page request process.
 
 1. Move to Solution View and double-click the Default.aspx.cs file to see the starting point for adding the needed code. This file can be found under Pages – Default.aspx
 
-  ![JS App Solution View](Images/SolutionViewJSAPP.png)
+  ![JS Add-In Solution View](Images/SolutionViewJSAPP.png)
 2. Include the following piece of code to the **btnSubmit_Click** method.
   ```csharp
   protected void btnSubmit_Click(object sender, EventArgs e)

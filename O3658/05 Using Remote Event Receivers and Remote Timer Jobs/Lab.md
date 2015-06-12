@@ -26,7 +26,7 @@ After completing the exercises in this lab, you will be able to:
   * Associate remote event receivers to host web.
   * Manipulate the host web items remotely when events are raised.
   * Debug remote event receivers in the cloud.
-  * Use App model to create simple remote timer job.
+  * Use add-in model to create simple remote timer job.
 
 **Estimated time to complete this lab: *15 minutes*.**
 
@@ -68,7 +68,7 @@ Notice that we will implement the most functionality in an event receiver, so th
 ![App Screen](Images/appscreen.png)  
 13. Move back to Visual Studio side and press __Shift+F5__ or choose __Stop Debugging__ from the __Debug__ menu.
 
-###Add the AppInstalled event receiver and customize it to add an ItemAdded event receiver on a host web list
+###Add-in the AppInstalled event receiver and customize it to add-in an ItemAdded event receiver on a host web list
 
 1. Move to __Solution__ View, select the SharePoint app project and set the __Handle App Installed__ property to true.  
 ![Handle App Installed](Images/handleappinstalled.png)  
@@ -226,21 +226,21 @@ Notice that we will implement the most functionality in an event receiver, so th
         New-AzureSBNamespace -Name '[MyNamespace]' -Location 'Central US'
 ![PowerShell](Images/powershell3.png)  
 
-5. Switch back to __Visual Studio 2013__. Right click the __SharePoint App project__ and choose __properties__. In the screen that opens click on __SharePoint__ in the left navigation to open the SharePoint specific project settings.  
-![SharePoint App Settings](Images/sharepointsettings.png)  
+5. Switch back to __Visual Studio 2013__. Right click the __SharePoint add-in project__ and choose __properties__. In the screen that opens click on __SharePoint__ in the left navigation to open the SharePoint specific project settings.  
+![SharePoint add-in Settings](Images/sharepointsettings.png)  
 6. In the __SharePoint__ project settings scroll down to the end and configure the __Debugging__ settings by checking __Enable debugging via Windows Azure Service Bus__ property and by providing the __Windows Azure Service Bus connection string__ that you've copied in step 4.  
 ![Service Bus Connection String](Images/servicebusconnectionstring.png)  
 
 ###Debug your application
 1. In the __Solution__ view open the newly added __AppEventReceiver.svc__ by double clicking it:  
-![App Event Service](Images/appeventreceiversvc2.png)  
+![add-in Event Service](Images/appeventreceiversvc2.png)  
 2. Add a __breakpoint__ in the __HandleAppInstalled__ method and press __F5__ to start debugging
 3. Click __Trust It__, when the trust notification is shown.  
-![Trust App](Images/doyoutrust.png)  
+![Trust add-in](Images/doyoutrust.png)  
 4. Visual Studio will show the break point being hit. Press __F5__ to continue.  
 ![Break Point](Images/breakpoint.png)  
 5. The __default.aspx__ page opens. Click on __Back to Site__ in the top navigation to navigate back to the host web  
-![App Screen](Images/appscreen2.png)  
+![add-in Screen](Images/appscreen2.png)  
 6. In the host web go to the newly created __Remote Event Receiver lab__ list by clicking on it in the __Recent__ left navigation node  
 ![Lab List](Images/lablist.png)  
 7. Add a new entry to this list  
@@ -248,7 +248,7 @@ Notice that we will implement the most functionality in an event receiver, so th
 8. After pressing save the result will be a modified Description field due to the ItemAdded event receiver that updated the description value  
 ![listview](Images/listview.png)  
 
-That ends this exercise. In this lab we created a list in the host web and programmatically added a remote event receiver to this list during app installation. We’ve configured Azure Service Bus so that Visual Studio can use it as bridge between Office 365 making the call to the remote event receiver and the remote event receiver itself that is running locally on your development box. As documented in the code the detach of remote event receivers does not work in debug mode due to the side loading of apps that Visual Studio does when running via F5. In a production deployment this will work.
+That ends this exercise. In this lab we created a list in the host web and programmatically added a remote event receiver to this list during add-in installation. We’ve configured Azure Service Bus so that Visual Studio can use it as bridge between Office 365 making the call to the remote event receiver and the remote event receiver itself that is running locally on your development box. As documented in the code the detach of remote event receivers does not work in debug mode due to the side loading of apps that Visual Studio does when running via F5. In a production deployment this will work.
 
 ## Exercise 2: Creating simple remote timer job ##
 
@@ -266,7 +266,7 @@ That ends this exercise. In this lab we created a list in the host web and progr
 
     ![Configuration HTML](Images/2.png)
 
-4. Ensure that the **Site URL** property is correct for the app project by first activating the RemoteTimerJob project.
+4. Ensure that the **Site URL** property is correct for the add-in project by first activating the RemoteTimerJob project.
 * If you are prompted to connect to SharePoint, provide the appropriate login information in the window.
 
     ![Configuration HTML](Images/3.png)
@@ -276,7 +276,7 @@ That ends this exercise. In this lab we created a list in the host web and progr
 
     ![Configuration HTML](Images/4.png)
 
-6. Open **AppManifest.xml** from the App project.
+6. Open **AppManifest.xml** from the Add-in project.
 
     ![Configuration HTML](Images/5.png)
 
