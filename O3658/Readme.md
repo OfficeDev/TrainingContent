@@ -1,19 +1,19 @@
-# Transforming SharePoint customizations to app model #
+# Transforming SharePoint customizations to add-in model #
 
 ----------
 
-This GitHub repo houses all of the content for the "Transforming SharePoint customizations to app model" training.
+This GitHub repo houses all of the content for the "Transforming SharePoint customizations to add-in model" training.
 
-- Module 1: [Introduction to app model transition](01 Introduction to app model transition)
-- Module 2: [Managing site settings using app model](02 Managing site settings using app model)
-- Module 3: [Branding with app model techniques](03 Branding with app model techniques)
-- Module 4: [Building UX components with app model](04 Building UX components with app model)
+- Module 1: [Introduction to add-in model transition](01 Introduction to add-in model transition)
+- Module 2: [Managing site settings using add-in model](   02 Managing site settings using add-in model)
+- Module 3: [Branding with add-in model techniques](03 Branding with add-in model techniques)
+- Module 4: [Building UX components with add-in model](04 Building UX components with add-in model)
 - Module 5: [Using Remote Event Receivers and Remote Timer Jobs](05 Using Remote Event Receivers and Remote Timer Jobs)
-- Module 6: [Site Collection and Site Provisioning Using app model](06 Site Collection and Site Provisioning Using app model)
-- Module 7: [User Personalization and OneDrive for Business Operations Using app model](07 User Personalization and OneDrive for Business Operations Using app model)
-- Module 8: [Using Enterprise Content Management Capabilities with app model](08 Using Enterprise Content Management Capabilities with app model)
-- Module 9: [Using Search Capabilities with app model](09 Using Search Capabilities with app model)
-- Module 10: [Transformation guidance from farm solutions to app model](10 Transformation guidance from farm solutions to app model)
+- Module 6: [Site Collection and Site Provisioning Using add-in model](06 Site Collection and Site Provisioning Using add-in model)
+- Module 7: [User Personalization and OneDrive for Business Operations Using add-in model](07 User Personalization and OneDrive for Business Operations Using add-in model)
+- Module 8: [Using Enterprise Content Management Capabilities with add-in model](08 Using Enterprise Content Management Capabilities with add-in model)
+- Module 9: [Using Search Capabilities with add-in model](09 Using Search Capabilities with add-in model)
+- Module 10: [Transformation guidance from farm solutions to add-in model](10 Transformation guidance from farm solutions to add-in model)
 
 ----------
 

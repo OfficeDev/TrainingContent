@@ -1,8 +1,8 @@
-# 6 - Site collection and site  provisioning with app model #
+# 6 - Site collection and site  provisioning with add-in model #
 
 ----------
 
-This module concentrates on site provisioning techniques using so called *remote provisioning pattern*. End user experience will be identical as with the classic xml based approaches, but the actual implementation will be based on app model capabilities for both new site collections and for sub sites. 
+SharePoint has always been about site provisioning. Before you can start collaborating or before you can start publishing content in publishing Intranet, you will need to provision a site collection and/or a sub site, apply the needed configuration and branding. Site provisioning really is the heart and soul of the customizations in the add-in model implementation and it can be customized in similar ways as with the classic farm solution based approach. We'll concentrate on the remote provisioning pattern and how you can use the add-in model to provision site collections and sub sites with the needed configurations. 
 
 **Agenda**
 - Site provisioning patterns - past, present and future

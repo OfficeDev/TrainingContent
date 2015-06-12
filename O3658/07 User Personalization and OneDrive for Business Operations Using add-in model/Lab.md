@@ -246,7 +246,7 @@ In this exercise we used the **PeopleManager** in **Microsoft.SharePoint.Client.
 
 ### Scenario ###
 
-In this lab you will create a provider hosted app, which will take care of automated OneDrive for Business branding.
+In this lab you will create a provider hosted add-in, which will take care of automated OneDrive for Business branding.
 
 After completing this exercise, you will understand how to:
 -	Access OneDrive for Business sites using the context of the user.
@@ -264,7 +264,7 @@ After completing this exercise, you will understand how to:
     
     ![Configuration HTML](Images/13.png)
 
-4.	Ensure that the **Site URL** property is correct for the App project by first activating the **OneDriveCustomizer** project in solution view.
+4.	Ensure that the **Site URL** property is correct for the add-in project by first activating the **OneDriveCustomizer** project in solution view.
 
     ![Configuration HTML](Images/14.png)
 
@@ -274,7 +274,7 @@ After completing this exercise, you will understand how to:
     
     ![Configuration HTML](Images/15.png)
 
-6.	Open **AppManifest.xml** from the App project.  
+6.	Open **AppManifest.xml** from the add-in project.  
 
     ![Configuration HTML](Images/16.png)
 
@@ -294,9 +294,9 @@ After completing this exercise, you will understand how to:
 
     ![Configuration HTML](Images/19.png)
  
-11.	You should now see the initial design for the app as follows.
+11.	You should now see the initial design for the add-in as follows.
 
-    a.	Notice that we will implement the actual functionality as a app part, so there won’t be any actual code in default.aspx
+    a.	Notice that we will implement the actual functionality as a add-in part, so there won’t be any actual code in default.aspx
     
     ![Configuration HTML](Images/20.png)
 
@@ -304,9 +304,9 @@ After completing this exercise, you will understand how to:
 
 
 
-### Include the app part and the needed code for modifications. ###
+### Include the add-in part and the needed code for modifications. ###
 
-1.	Move to **Solution** View, right click the app project and choose **Add – New Item…** 
+1.	Move to **Solution** View, right click the add-in project and choose **Add – New Item…** 
 
     ![Configuration HTML](Images/21.png)
     
@@ -452,11 +452,11 @@ After completing this exercise, you will understand how to:
     
 11.	Now we are ready to test our code in practice. Press **F5** or choose **Start Debugging** from **Debug** menu.
 
-12.	You will land on the full page view of the app, but since we did not do any customizations for this, there is really nothing happening yet.
+12.	You will land on the full page view of the add-in, but since we did not do any customizations for this, there is really nothing happening yet.
 
 13.	Click **Back to Site** from the top left corner.
 
-14.	Verify that there is visible change when we add this new app part to the page, by first checking the status from OneDrive. Click OneDrive from the suite bar to see the out of the box branding.
+14.	Verify that there is visible change when we add this new add-in part to the page, by first checking the status from OneDrive. Click OneDrive from the suite bar to see the out of the box branding.
 
     ![Configuration HTML](Images/25.png)
 
@@ -470,7 +470,7 @@ After completing this exercise, you will understand how to:
 
 18.	Choose **OneDriveCustomizer** Title and click **Add**.
 
-19.	Notice how the app part execution takes a while with the “working on it” message and eventually it does not show any content.
+19.	Notice how the add-in part execution takes a while with the “working on it” message and eventually it does not show any content.
 
     ![Configuration HTML](Images/27.png)
 

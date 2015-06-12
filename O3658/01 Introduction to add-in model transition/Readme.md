@@ -1,23 +1,23 @@
-# 1 - Introduction to app model transition #
+# 1 - Introduction to add-in model transition #
 
 ----------
 
-Introduction to the transitions to app model. Concentrates on key message around why would you do that and what are the key benefits of the app model based implementations in the cloud and in the on-premises.
+This is the introduction module for the general add-in model transformation or transition. We concentrate on the reasoning behind the add-in model and on the process off approaching these kind of projects. We'll also tackle some of the key questions around farm solutions, sandbox solutions and the add-in model, including their differences and reasoning why we recommend the add-in model as the de-facto option for Office 365 and on-premises customizations.
 
 **Agenda**
-- Introduction to app model transition topic
+- Introduction to add-in model transition topic
 - Transition process
-- App model principles
+- Add-in model principles
 - Customization considerations
 
 **Key recommendations**
-- Move gradually to app model
+- Move gradually to add-in model
 - Align with service and product roadmap
 - Concentrate on end user experience and business requirements
 - Avoid sandbox solutions
 
-**Lab - Requesting Office365 Trial Tenant**
-Demonstrates process of provisioning a new Office365 tenant and set up the basic environment which will be used for other exercises.
+**Lab - Requesting Office 365 Trial Tenant**
+Demonstrates process of provisioning a new Office 365 tenant and set up the basic environment which will be used for other exercises.
 
 - [Lab manual](Lab.md)
 

@@ -1,8 +1,8 @@
-# 7 - User profile and personalization with app model #
+# 7 - User Personalization and OneDrive for Business Operations Using add-in model #
 
 ----------
 
-This module concentrates on user profile and related functionalities. We will cover how to use user profile CSOM for typical app model operations, how to synchronize additional attributes to user profile, how to use Yammer as the default social platform and how to perform typical customizations to OneDrive for Business sites. 
+In this module we concentrate on user profile based solutions and how the user profile service can be used with the add-in model. We'll cover the remote API possibilities and how you can use remote APIs to manage personal or other users profile attributes. We also cover customization patterns related on the OneDrive for Business customizations and how you can provide needed configurations, including branding, cross individual personal OneDrive for Business sites. 
 
 **Agenda**
 - Introduction to user profile, personalization and OneDrive for Business

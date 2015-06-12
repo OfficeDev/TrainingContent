@@ -1,4 +1,4 @@
-# Module 10-4 — Replacement of web parts with app parts #
+# Module 10-4 — Replacement of web parts with add-in parts #
 
 ## Lab Environment ##
 
@@ -12,7 +12,7 @@ To complete the labs in this course you need to install or configure the followi
 - Access to a SharePoint 2013 server with the Contoso.Intranet solution deployed and a site collection provisioned using the **WTContosoPublishing Web Template**. (The PowerShell for site creation is available in the [Patterns & Practice reference materials](https://github.com/OfficeDev/PnP/tree/master/Reference%20Material/Contoso.Intranet) .)
   + You should be logged in as an administrator of the site collection to ensure that you have all the necessary permissions for this lab  
 
-- The server needs to be configured for App development. The sample code expects a **self-signed certificate** at ``C:\Certs\HighTrustSampleCert.cer`` with a **password** of ``password`` which has the corresponding certificate file installed as a Trusted Security Token Issuer with the **IssueId** of ``11111111-1111-1111-1111-111111111111`` as per the [MSDN Article](http://msdn.microsoft.com/library/office/fp179901(v=office.15)#Cert2) 
+- The server needs to be configured for add-in development. The sample code expects a **self-signed certificate** at ``C:\Certs\HighTrustSampleCert.cer`` with a **password** of ``password`` which has the corresponding certificate file installed as a Trusted Security Token Issuer with the **IssueId** of ``11111111-1111-1111-1111-111111111111`` as per the [MSDN Article](http://msdn.microsoft.com/library/office/fp179901(v=office.15)#Cert2) 
 
 - Visual Studio 2013 Ultimate
 
@@ -26,20 +26,20 @@ To complete the labs in this course you need to install or configure the followi
 
 ### Abstract ###
 
-In this lab you will learn how to replace existing web parts by deploying a SharePoint Provider hosted app and updating the content to use an App Part hosted in the Provider hosted app in place of Web Parts using Full Trust Code.
+In this lab you will learn how to replace existing web parts by deploying a SharePoint Provider hosted add-in and updating the content to use an add-in Part hosted in the Provider hosted add-in in place of Web Parts using Full Trust Code.
 
 ### Learning Objectives ###
 
 After completing the exercises in this lab, you will be able to:
 
 - Locate specific web part instances using CSOM
-- Create a new app part instances in an existing page using CSOM
+- Create a new add-in part instances in an existing page using CSOM
 - Remove web parts from a page using CSOM
 
 **Estimated time to complete this lab: *30 minutes*.**
 
 
-## Exercise 1: Replace web parts with app parts via CSOM ##
+## Exercise 1: Replace web parts with add-in parts via CSOM ##
 
 ### Open the pre-created structure and test the initial deployment. ###
 
@@ -52,40 +52,40 @@ After completing the exercises in this lab, you will be able to:
 0. Move to the **Module12/WebPartReplacer** folder and open the existing solution named  **WebPartReplacer.sln.**
   * Note: The actual folder location is dependent on where you copied the files to in your local computer. 
   
-0. Ensure that the **Site URL** property is correct for the app project by first activating the **WebPartReplacer** project.
+0. Ensure that the **Site URL** property is correct for the add-in project by first activating the **WebPartReplacer** project.
 
 0. Confirm the **Site URL** from the property window. This this should be pointing to the existing site collection for the lab, in the pre-configured environment this is **http://w15-sp/sites/ftclab**.
 
   ![Set Site URL](Images/WebPartReplacementSetSiteUrl.png)
 
-0. Open **AppManifest.xml** from the App project.
+0. Open **AppManifest.xml** from the add-in project.
 
   ![AppManifest](Images/WebPartReplacementAppManifest.png)
 
 0. Adjust the permission to require **FullControl** in **Web** scope.
 
-  ![App Permissions](Images/WebPartReplacementAppManifestPermissions.png)
+  ![add-in Permissions](Images/WebPartReplacementAppManifestPermissions.png)
 
-0. Note that this app project contains a Client Web Part or App Part. This will be used to replace an existing web part in the host web during this lab
+0. Note that this add-in project contains a Client Web Part or add-in Part. This will be used to replace an existing web part in the host web during this lab
 
-  ![App Permissions](Images/WebPartReplacementClientWebPart.png)
+  ![add-in Permissions](Images/WebPartReplacementClientWebPart.png)
 
 0. Open the **Elements.xml** file.
   
-  * Note that the ClientWebPart definition defines some standard web part attributes like Title, Description and dimensions and also provides a reference to the page which will serve the content of the App Part.
+  * Note that the ClientWebPart definition defines some standard web part attributes like Title, Description and dimensions and also provides a reference to the page which will serve the content of the add-in Part.
 
-  ![App Part Elements.xml](Images/WebPartReplacementAppPartElementsXml.png)
+  ![add-in Part Elements.xml](Images/WebPartReplacementAppPartElementsXml.png)
 
 0. Press **F5** or choose **Debug – Start Debugging** to deploy the application and grant it the necessary permissions.
 
 0. Click Trust It, when the trust notification appears.
   
-  ![App Trust](Images/WebPartReplacementWebPartReplacementAppTrust.png)
+  ![add-in Trust](Images/WebPartReplacementWebPartReplacementAppTrust.png)
 
-0. You should now see the initial design for the app as follows.
-    * Notice that actual implementation is missing from the buttons, but you can already see how the app will work. 
+0. You should now see the initial design for the add-in as follows.
+    * Notice that actual implementation is missing from the buttons, but you can already see how the add-in will work. 
   
-  ![App Page](Images/WebPartReplacementAppPage.png)
+  ![add-in Page](Images/WebPartReplacementAppPage.png)
 
   * In case a message **Only secure content is displayed** appears at the bottom and the blue chrome at the top is missing, click on **Show all content**
    
@@ -134,7 +134,7 @@ After completing the exercises in this lab, you will be able to:
 
   ![Choose notepad](Images/WebPartReplacementChooseNotepad.png) 
 
-0. This is a standard web part definition, the key elements here to take note of are, the type, this web part is a **Microsoft.SharePoint.WebPartPages.ClientWebPart** which has **FeatureId**, **ProductId** and **ProductWebId** which are used needed to load the appropriate app part.
+0. This is a standard web part definition, the key elements here to take note of are, the type, this web part is a **Microsoft.SharePoint.WebPartPages.ClientWebPart** which has **FeatureId**, **ProductId** and **ProductWebId** which are used needed to load the appropriate add-in part.
  
   ![WelcomeAppPart.webpart](Images/WebPartReplacementAppPartXml.png) 
 
@@ -203,11 +203,11 @@ After completing the exercises in this lab, you will be able to:
 |Note 
 |:---------
 |The **ProductId** can be obtained from the AppManifest.xml file by selecting it and pressing **F7** to view the XML code. 
-|The **FeatureId** can be obtained by extracting the contents of the app package and locating the Feature it contains, this can also be extracted via CSOM after the app has been installed. 
-|The **ProductWebId** is the Id of the Web to which the app is deployed and can be read via CSOM  
+|The **FeatureId** can be obtained by extracting the contents of the add-in package and locating the Feature it contains, this can also be extracted via CSOM after the add-in has been installed. 
+|The **ProductWebId** is the Id of the Web to which the add-in is deployed and can be read via CSOM  
 
 
-### Add the required code and run the app ###
+### Add the required code and run the add-in ###
 
 0. In the **Default.aspx.cs** file locate the **ReplaceWebPartsWithAppParts_Click** method and paste in the following code. 
   ```csharp
@@ -242,7 +242,7 @@ After completing the exercises in this lab, you will be able to:
   }
   ```
 
-  * The above code simply gets the Pages library and iterates over all of the list items contained in the Pages library. The **FindWebPartForReplacement** method looks to find Web Parts which should be replaced with our new App Part.
+  * The above code simply gets the Pages library and iterates over all of the list items contained in the Pages library. The **FindWebPartForReplacement** method looks to find Web Parts which should be replaced with our new add-in Part.
 
 0. Include the following piece of code to the **FindWebPartForReplacement** method.
   ```csharp
@@ -298,7 +298,7 @@ After completing the exercises in this lab, you will be able to:
 
 0. Press **F5** or choose **Debug – Start Debugging** to start up the application again.
 
-0. Click the **Replace Web Parts With App Parts** button.
+0. Click the **Replace Web Parts With Add-In Parts** button.
 
   ![Replace Web Parts](Images/WebPartReplacementAppScreenButtonClick.png)
 
@@ -306,6 +306,6 @@ After completing the exercises in this lab, you will be able to:
 
   ![Back to Site](Images/WebPartReplacementAppScreenBackToSite.png)
 
-0. Note that the Welcome Web Part has been replaced with the Welcome App Part.
+0. Note that the Welcome Web Part has been replaced with the Welcome add-in part.
 
-  ![Web Part replaced with App Part](Images/WebPartReplacementAppPartReplaced.png)
+  ![Web Part replaced with Add-In Part](Images/WebPartReplacementAppPartReplaced.png)

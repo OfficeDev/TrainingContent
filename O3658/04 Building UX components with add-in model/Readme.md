@@ -1,31 +1,31 @@
-# 4 - Building UX components with app model #
+# 4 - Building UX components with add-in model #
 
 ----------
 
-Introduction to the app model approaches to control site branding elements. Concentration on the impact of the chosen pattern for branding and how to ensure that right branding technique is chosen. 
+Introduction on how to build typical user interface functionalities using add-in model capabilities. We cover different kind of client side rendering mechanisms to provide similar end user experiences as with classic server side code. 
 
 **Agenda**
-- Introduction to building UX components using app model
-- UX customizations with app model
+- Introduction to building UX components using add-in model
+- UX customizations with add-in model
 - Client Side Rendering
 - Practices for client side techniques
 
 
 **Key recommendations**
-- It’s not just about app parts 
+- It’s not just about add-in parts 
 - Remote provisioning and configuration
 - Do not modify suite bar (top navigation)
 - Careful JavaScript embedding is an option
 
 **Lab - Modification of SharePoint User Experience**
-In this lab you will learn how to modify SharePoint User Experience using SharePoint Apps. In first lap you will be adding second level of navigation to out of the box master page without actual master page modifications by using JavaScript Embedding model. Second lab shows alternative for app part based experience on providing still end users capability to add new parts on the pages with responsive support. 
+In this lab you will learn how to modify SharePoint User Experience using SharePoint add-ins. In first lap you will be adding second level of navigation to out of the box master page without actual master page modifications by using JavaScript Embedding model. Second lab shows alternative for add-in part based experience on providing still end users capability to add new parts on the pages with responsive support. 
 
 - [Lab manual](Lab.md)
 
 **Demos**
 - [Embedding second level navigation](https://github.com/OfficeDev/PnP/tree/master/Samples/OD4B.NavLinksInjection)
-- [Web part templates and app script part](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.AppScriptPart)
-- [App model dialogs](https://github.com/OfficeDev/PnP/tree/master/Scenarios/Provisioning.SiteModifier)
+- [Web part templates and add-in script part](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.AppScriptPart)
+- [Add-in model dialogs](https://github.com/OfficeDev/PnP/tree/master/Scenarios/Provisioning.SiteModifier)
 - [Client side rendering](https://github.com/OfficeDev/PnP/tree/master/Samples/Branding.ClientSideRendering)
 
 ----------
