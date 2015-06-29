@@ -1,0 +1,144 @@
+
+
+ul.ms-core-listMenu-root {
+	list-style-type:none;
+	
+	margin-left:0px;
+	margin-top:0px;
+	/*overflow:hidden;*/
+	padding:0px;
+	position:relative;
+}
+
+ul.ms-core-listMenu-root ul {
+	list-style-type:none;
+	position:absolute;
+	z-index:9000;
+	left:0px;
+	top:25px;
+	
+}
+
+ul.ms-core-listMenu-root > li {
+	position:relative;
+	left:10px;
+	top:0px;
+}
+
+ul.ms-core-listMenu-root > li > a{
+	display:block;
+	float:left;
+	background-color: rgba( 167, 167, 167, 0 );
+	text-decoration:none;
+	color:#333;
+	width:auto;  
+	
+	display:block;
+	padding:0px;
+	margin-right:10px;
+	height:25px;
+	/*margin-bottom:-6px;*/
+	
+}
+
+
+ul.ms-core-listMenu-root > li > ul  > li > ul{
+	display:block;
+	position: relative;
+	background-color:#999;
+}
+ul.ms-core-listMenu-root > li > ul  > li > ul > li{
+	display:block;
+}
+
+ul.ms-core-listMenu-root > li > ul  > li > ul > li > ul{
+	display:block;
+	position: relative;
+	background-color:#000000;
+}
+
+ul.ms-core-listMenu-root > li > ul  > li > ul > li > ul >li{
+	display:block;
+}
+
+ul.ms-core-listMenu-root a:hover {
+	color:#333;
+}
+
+ul.ms-core-listMenu-root > li > a:hover {
+	background-color: rgb( 197,197,197 );
+	text-decoration:underline;
+}
+ul.ms-core-listMenu-root > li > ul > li > a:hover {
+	background-color: #33cc33 /*rgb( 187,187,187 )*/;
+	text-decoration:underline;
+}
+
+ul.ms-core-listMenu-root > li > ul {
+	background-color:rgb( 197,197,197 );
+	text-decoration:none;
+	color:#333;
+	/*margin-left:-9px !important;
+	margin-top:-10px !important;*/
+	padding-left:0px !important;
+	box-shadow: 0px 0px 0px rgba(0,0,0,0);
+}
+
+ul.ms-core-listMenu-root > li > ul > li > a{
+	float:left;
+	background-color: rgb( 197,197,197 );
+	text-decoration:none;
+	color:#333;
+	width:180px;  
+	/*height:50px; */
+	margin-top:0px;
+	margin-bottom:0px;
+	display:block;
+	/*padding: 5px 5px 5px 5px;*/
+	margin-left:0px !important;
+	box-shadow: 0px 0px 0px rgba(0,0,0,0);
+
+}
+
+body {
+/*background-image: url("body_pattern_bg.gif") !important;*/
+ background: url(/sites/designer/_catalogs/masterpage/pcb.jpg) no-repeat center center fixed ;       
+ /*background: url(http://officeimg.vo.msecnd.net/en-us/files/869/762/ZA101834595.jpg) no-repeat center center fixed !important;        */
+ /*background: url(http://www.rapidsmtassembly.com/blog/wp-content/uploads/2010/09/pcb.jpg) no-repeat center center fixed !important;        */
+ background-size: cover;
+ filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.officeBG.png', sizingMethod='scale');-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='officeBG.png', sizingMethod='scale')";
+}
+
+.logo {
+float:left;
+margin-left: 10px;
+border-style:solid;
+border-width:2px;
+border-color:#c4ddd6;
+
+}
+
+.search-box {
+float:right;
+margin-left: 10 px;
+margin-right: 10px;
+}
+
+.ms-srch-sb, .ms-srch-sb:focus {
+border-top-color: #c4ddd6;
+border-right-color: #c4ddd6;
+border-left-color: #c4ddd6;
+border-bottom-color: #c4ddd6;
+}
+
+.site-description
+ {
+ padding-left:150px;
+ margin-right:10px;
+ padding-top:0px;
+ /*width:65%;*/
+ color:#248166;
+ font-size:large
+
+ }
+ 

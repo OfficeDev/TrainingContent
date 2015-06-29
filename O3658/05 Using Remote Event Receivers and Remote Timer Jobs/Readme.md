@@ -1,23 +1,21 @@
-# 5 - Remote timer jobs and event receivers #
+# 5 - Using Remote Event Receivers and Remote Timer Jobs #
 
 ----------
 
-Introduction to remote event receivers and remote timer jobs. Remove event receivers can be associated to app web or host webs to enable external web service calls for typical event receiver events. 
-
-Remote timer jobs can be used to replace typical timer job implementations as scheduled tasks. You can also create on-demand remote timer jobs which are highly helpful for creating asynchronous processes initiated by end users.  
+This module covers two very important topics for the add-in model development, which are remote event receivers and remote timer jobs. We cover both of the topics one by one and explain the different characteristics of both. Remote timer jobs can be used to replace classic event receivers in some level and the remote timer job pattern shows how to implement scheduled or on-demand asynchronous operations using the add-in model.   
 
 **Agenda**
 - Introduction to remote event receivers and remote timer jobs
 - Remote timer jobs
 - Remote event receivers
-- App events
+- Add-in events
 
 
 **Key recommendations**
 - Remote timer jobs for scheduled tasks 
 - You can use WebJobs also for async tasks
 - Remote event receivers is not for synchronization tasks
-- Avoid long operations in app events
+- Avoid long operations in add-in events
 
 **Lab - Using Remote Event Receivers and Remote Timer Jobs**
 In this lab you will create a remote event receiver and associate it to the host web to execute code during end user events and build a simple remote timer job.
@@ -27,7 +25,7 @@ In this lab you will create a remote event receiver and associate it to the host
 **Demos**
 - [Remote timer job](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.SimpleTimerJob)
 - [Remote event receivers](https://github.com/OfficeDev/PnP/tree/master/Samples/Core.EventReceivers)
-- [Debugging app events - Demonstration on using service bus for enabling debugging with app events
+- [Debugging add-in events - Demonstration on using service bus for enabling debugging with add-in events
 
 ----------
 

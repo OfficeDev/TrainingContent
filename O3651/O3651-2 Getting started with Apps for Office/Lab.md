@@ -89,7 +89,7 @@ In this lab you will get hands-on experience working with the new App for Office
 			});
 		  }
 		})();
-14. Close **Home,js** and be sure not to save any changes.
+14. Close **Home.js** and be sure not to save any changes.
 15. Now it time to examine the HTML that has been added to the project to create the app's user interface. Double-click **Home.html** to open this file in a Visual Studio editor window. Examine the layout of HTML elements inside the body element. 
 
 		<body>
