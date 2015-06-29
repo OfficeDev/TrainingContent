@@ -14,16 +14,12 @@ namespace VideoApiWeb.Utils {
       get { return ConfigurationManager.AppSettings["ida:Password"]; }
     }
 
+    public static string Office365TenantId {
+      get { return ConfigurationManager.AppSettings["ida:O365TenantId"]; }
+    }
+    
     public static string AzureAdTenantId {
-      get { return ConfigurationManager.AppSettings["ida:TenantId"]; }
-    }
-
-    public static string O365DiscoveryServiceEndpoint {
-      get { return "https://api.office.com/discovery/v1.0/me/"; }
-    }
-
-    public static string O365DiscoveryResourceId {
-      get { return "https://api.office.com/discovery/"; }
+      get { return ConfigurationManager.AppSettings["ida:AadTenantId"]; }
     }
 
     public static string AzureAdGraphResourceId {
