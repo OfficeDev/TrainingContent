@@ -10,6 +10,7 @@ This GitHub repo houses all of the content for the "Deep Dive into integrating O
 - O3653-4 [Deep Dive into Office 365 APIs for SharePoint Site services](O3653-4%20Deep%20Dive%20into%20Office%20365%20APIs%20for%20SharePoint%20Site%20services)
 - O3653-5 [Deep Dive into Office 365 APIs for Yammer Services](O3653-5%20Deep%20Dive%20into%20Office%20365%20APIs%20for%20Yammer%20Services)
 - O3653-7 [Deep Dive into the Office 365 APIs for OneNote services](O3653-7%20Deep%20Dive%20into%20the%20Office%20365%20APIs%20for%20OneNote%20services)
+- O3653-11 [Deep dive into Office 365 App Launcher & My Apps Extensibility](O3653-11%20Deep%20dive%20into%20Office%20365%20App%20Launcher%20%26%20My%20Apps%20Extensibility)
 
 ----------
 
