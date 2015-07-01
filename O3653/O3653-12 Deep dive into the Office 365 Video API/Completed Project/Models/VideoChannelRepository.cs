@@ -14,7 +14,6 @@ using VideoApiWeb.Utils;
 namespace VideoApiWeb.Models {
   public class VideoChannelRepository {
     private HttpClient _client = null;
-    private string _videoPortalRootUrl = string.Empty;
 
     public VideoChannelRepository(string accessToken) {
       _client = new HttpClient();
