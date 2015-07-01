@@ -1,0 +1,32 @@
+﻿@model VideoApiWeb.Models.VideoListViewModel
+
+<h1>Channel @Model.ChannelTitle Videos</h1>
+<p>
+  @Html.ActionLink("Create New", "Create", new { channelId = Model.ChannelId})
+</p>
+<table class="table">
+  <tr>
+    <th>
+      Title
+    </th>
+    <th>
+      Length
+    </th>
+    <th></th>
+  </tr>
+
+  @foreach (var item in Model.Videos) {
+    <tr>
+      <td>
+        <a href="@item.DisplayFormUrl">@item.Title</a>
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.DurectionInSeconds)s
+      </td>
+      <td>
+        @Html.ActionLink("Delete", "Delete", new { channelId= item.ChannelId, videoId = item.VideoId })
+      </td>
+    </tr>
+  }
+
+</table>

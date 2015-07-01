@@ -6,12 +6,18 @@ using Newtonsoft.Json;
 
 namespace VideoApiWeb.Models.JsonHelpers {
 
-  public class VideoChannel {
+  public class VideoChannelSingle {
     [JsonProperty(PropertyName = "d")]
-    public VideoChannelData Data { get; set; }
+    public VideoChannelResult Data { get; set; }
   }
 
-  public class VideoChannelData {
+
+  public class VideoChannelCollection {
+    [JsonProperty(PropertyName = "d")]
+    public DataCollectionReponse Data { get; set; }
+  }
+
+  public class DataCollectionReponse {
     [JsonProperty(PropertyName = "results")]
     public VideoChannelResult[] Results { get; set; }
   }

@@ -15,6 +15,12 @@ namespace VideoApiWeb {
           url: "{controller}/{action}/{id}",
           defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
       );
+
+      routes.MapRoute(
+        name: "ChannelVideos",
+        url: "Channel/{channelId}/Videos/{action}/{videoId}",
+        defaults: new { controller="Video", videoId = UrlParameter.Optional }
+        );
     }
   }
 }

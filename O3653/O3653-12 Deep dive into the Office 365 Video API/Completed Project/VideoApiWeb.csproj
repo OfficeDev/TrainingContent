@@ -207,16 +207,21 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChannelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Data\TokenCacheDataContext.cs" />
     <Compile Include="Data\TokenCacheInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\JsonHelpers\NewVideoPayload.cs" />
     <Compile Include="Models\JsonHelpers\VideoChannel.cs" />
     <Compile Include="Models\JsonHelpers\SpContextInfo.cs" />
+    <Compile Include="Models\JsonHelpers\ChannelVideos.cs" />
+    <Compile Include="Models\Video.cs" />
     <Compile Include="Models\VideoChannel.cs" />
     <Compile Include="Models\VideoChannelRepository.cs" />
     <Compile Include="Models\JsonHelpers\VideoServiceDiscovery.cs" />
+    <Compile Include="Models\VideoListViewModel.cs" />
     <Compile Include="Utils\AadHelper.cs" />
     <Compile Include="Utils\EfAdalTokenCache.cs" />
     <Compile Include="Models\PerUserWebCache.cs" />
@@ -279,6 +284,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Channel\Index.cshtml" />
+    <Content Include="Views\Video\Index.cshtml" />
+    <Content Include="Views\Video\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

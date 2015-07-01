@@ -16,12 +16,10 @@
       <td style="width: 20px; background-color: @item.HtmlColor">&nbsp;</td>
       <td>
         @item.Title
-        <br/><em>@Html.DisplayFor(modelItem => item.Description)</em>
+        <br /><em>@Html.DisplayFor(modelItem => item.Description)</em>
       </td>
       <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Videos", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        @Html.RouteLink("Videos", "ChannelVideos", new { channelId = item.Id, action = "Index" }, null)
       </td>
     </tr>
   }
