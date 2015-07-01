@@ -39,27 +39,5 @@ namespace VideoApiWeb.Utils {
 
       return _videoPortalRootUrl;
     }
-
-    public static async Task<string> GetRequestDigest(string spSiteUrl) {
-      if (string.IsNullOrEmpty(_formDigest)) {
-        HttpClient client = new HttpClient();
-        client.DefaultRequestHeaders.Add("Accept", "application/json;odata=verbose");
-        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + await AadHelper.GetAccessToken());
-
-        // create request to contextinfo endpoint
-        var query = string.Format("{0}/_api/contextinfo", spSiteUrl);
-
-        // issue request & get response 
-        var response = await client.PostAsync(query, null);
-        string responseString = await response.Content.ReadAsStringAsync();
-
-        // convert response to object
-        var jsonResponse = JsonConvert.DeserializeObject<SpContextInfo>(responseString);
-
-        // obtain digest value
-        _formDigest = jsonResponse.Data.GetContextWebInformation.FormDigestValue;
-      }
-      return _formDigest;
-    }
   }
 }

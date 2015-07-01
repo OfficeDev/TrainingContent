@@ -101,9 +101,7 @@ namespace VideoApiWeb.Models {
     }
 
     public async Task UploadVideo(Video video) {
-      // set digest
       var videoServiceUrl = await SpHelper.GetVideoPortalRootUrl();
-      _client.DefaultRequestHeaders.Add("X-RequestDigest", await SpHelper.GetRequestDigest(videoServiceUrl));
 
       // create new video object
       var newVideo = new JsonHelpers.NewVideoPayload {
@@ -136,9 +134,7 @@ namespace VideoApiWeb.Models {
     }
 
     public async Task DeleteChannelVideo(string channelId, string videoId) {
-      // set digest
       var videoServiceUrl = await SpHelper.GetVideoPortalRootUrl();
-      _client.DefaultRequestHeaders.Add("X-RequestDigest", await SpHelper.GetRequestDigest(videoServiceUrl));
 
       // create request for videos
       var query = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')", await SpHelper.GetVideoPortalRootUrl(), channelId, videoId);

@@ -123,7 +123,7 @@ In this exercise, you will take an existing ASP.NET MVC application and make som
     ````
 
 ### Add Helper Classes Used Throughout the Lab
-Next, add a few utility classes that will assist in collecting things like the form digest (aka: security digest or request digest) that will be needed to submit HTTP POST requests to the API and to obtain an access token for the Video API:
+Next, add a few utility classes that will assist in collecting an access token for the Video API:
 
 1. First, add a new folder **JsonHelpers** to the **Models** folder in the project.
 1. Add two classes that will be used to deserialize JSON responses from the REST requests using the popular [JSON.NET](http://www.newtonsoft.com/json) to make it easier to work with them in a strongly-typed manner:
@@ -134,9 +134,8 @@ Next, add a few utility classes that will assist in collecting things like the f
 
 1. Locate the file `SpHelper.cs` in the [Lab Files](Lab Files) folder within the lab and copy it into the **Utils** folder within the Visual Studio project.
 
-  > This contains two static methods:
+  > This contains one static methods:
     > * The method **GetVideoPortalUrl()** retrieves the Video Service API root endpoint from your SharePoint tenant in Office 365.
-    > * The method **GetRequestDigest()** retrieves the request digest from the SharePoint `contextinfo` endpoint in the SharePoint REST API which is needed when submitting HTTP POST requests to the API.
 
 1. Locate the file `AadHelper.cs` in the [Lab Files](Lab Files) folder within the lab and copy it into the **Utils** folder within the Visual Studio project.
 
@@ -465,9 +464,7 @@ Now you will update the repository object you created previously that is used fo
 
   ````c#
   public async Task UploadVideo(Video video) {
-    // set digest
     var videoServiceUrl = await SpHelper.GetVideoPortalRootUrl();
-    _client.DefaultRequestHeaders.Add("X-RequestDigest", await SpHelper.GetRequestDigest(videoServiceUrl));
 
     // create new video object
     var newVideo = new JsonHelpers.NewVideoPayload {
@@ -504,9 +501,7 @@ Now you will update the repository object you created previously that is used fo
 
   ````c#
   public async Task DeleteChannelVideo(string channelId, string videoId) {
-    // set digest
     var videoServiceUrl = await SpHelper.GetVideoPortalRootUrl();
-    _client.DefaultRequestHeaders.Add("X-RequestDigest", await SpHelper.GetRequestDigest(videoServiceUrl));
 
     // create request for videos
     var query = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')", await SpHelper.GetVideoPortalRootUrl(), channelId, videoId);
