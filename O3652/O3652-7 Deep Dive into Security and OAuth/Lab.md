@@ -1,12 +1,12 @@
-# Deep Dive into Security and OAuth
-In this lab, you will create add-ins that use different approaches for OAuth security management and examine the process flow.
+# Deep Dive into OAuth with SharePoint Add-ins
+In this lab, you will create add-ins that use different approaches for OAuth authentication and examine the process flow. 
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 1. You must have [Fiddler](http://www.telerik.com/fiddler) installed.
 
-## Exercise 1: OAuth in a Provider-Hosted Add-In 
-In this exercise you create a new provider-hosted add-in and examine the OAuth flow.
+## Exercise 1: Authorization Code Flow - OAuth in a Provider-Hosted Add-In 
+In this exercise you create a new provider-hosted add-in and examine the OAuth Authorization Code flow.
 
 1. Create the new solution in Visual Studio 2013:
   1. Launch **Visual Studio 2013** as administrator. 
@@ -82,8 +82,10 @@ In this exercise you create a new provider-hosted add-in and examine the OAuth f
   1. Look for **ProviderHostedOAuth** in the list of registered add-ins to confirm that the add-in was registered during debugging.
   1. Stop debugging.
 
-## Exercise 2: OAuth with the O365 APIs 
-In this exercise you create a new web application and examine the OAuth flow.
+In this exercise you created a new provider-hosted add-in and examined the OAuth Authorization Code flow.
+
+## Exercise 2: Authorization Code Flow - OAuth with the Office 365 APIs 
+In this exercise you create a new web application and examine the OAuth Authorization Code flow.
 
 1. Create the new solution in Visual Studio 2013:
   1. Launch **Visual Studio 2013** as administrator. 
@@ -204,5 +206,8 @@ In this exercise you create a new web application and examine the OAuth flow.
   1. Examine the **Office 365 Exchange Online** permissions. These are the permissions you granted in Visual Studio.
 
     ![](Images/18.png)
+
+In this exercise you created a new web application and examined the OAuth Authorization Code Flow.
+
 
 **Congratulations! You have completed investigation OAuth in Office 365.**
