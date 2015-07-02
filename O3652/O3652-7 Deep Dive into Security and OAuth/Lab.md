@@ -1,5 +1,5 @@
 # Deep Dive into OAuth with SharePoint Add-ins
-In this lab, you will create add-ins that use different approaches for OAuth authentication and examine the process flow. 
+In this lab, you will create add-ins that use different approaches for OAuth authentication and examine the process flow. You will explore two different OAuth flows for obtaining an access token: the Authorization Code flow and the Client Credentials flow.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
@@ -107,7 +107,7 @@ In this exercise you create a new web application and examine the OAuth Authoriz
 
     ![](Images/13.png)
 
-  1. If prompted, sign into **Windows Azure**.
+  1. If prompted, sign into **Microsoft Azure**.
 
     ![](Images/14.png)
 
@@ -196,8 +196,8 @@ In this exercise you create a new web application and examine the OAuth Authoriz
 
   1. Close the window.
   1. Stop debugging.
-1. Examine the Windows Azure configuration.
-  1. Log into the [Windows Azure Portal](https://manage.windowsazure.com)
+1. Examine the Microsoft Azure configuration.
+  1. Log into the [Azure Management Portal](https://manage.windowsazure.com)
   1. Click **Active Directory**.
   1. Select your Azure Active Directory instance.
   1. Click on the add-in entitled **OfficeOAuth.Office365App**. This entry was made for you by the Office 365 tools in Visual Studio.
@@ -209,5 +209,12 @@ In this exercise you create a new web application and examine the OAuth Authoriz
 
 In this exercise you created a new web application and examined the OAuth Authorization Code Flow.
 
+## Exercise 3: Client Credentials Flow - OAuth with the Office 365 APIs 
+In this exercise you create a new web application and examine the OAuth Client Credentials flow.
+
+
+
+
+In this exercise you created a new web application and examined the OAuth Client Credentials flow.
 
 **Congratulations! You have completed investigation OAuth in Office 365.**
