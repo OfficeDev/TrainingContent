@@ -1,0 +1,14 @@
+﻿@model dynamic
+
+<h2>@ViewBag.FeedTitle</h2>
+<ul>
+  @{
+    foreach (var post in ViewBag.Posts) {
+      <li>
+        <a href="@post.Id">@post.Title.Text</a><br />
+        @post.PublishDate.ToString("dd MMM yyyy")
+      </li>
+    }
+  }
+  <li></li>
+</ul>
