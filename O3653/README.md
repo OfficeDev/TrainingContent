@@ -13,6 +13,7 @@ This GitHub repo houses all of the content for the "Deep Dive into integrating O
 - O3653-8 [Deep Dive into the Office 365 Unified API](O3653-8%20Deep%20Dive%20into%20the%20Office%20365%20Unified%20API)
 - O3653-9 [Deep Dive into the Office 365 Groups API](O3653-9%20Deep%20dive%20into%20the%20Office%20365%20Groups%20API)
 - O3653-10 [Deep dive into the Office 365 File Handler Extensibility](O3653-10%20Deep%20dive%20into%20the%20Office%20365%20File%20Handler%20Extensibility)
+- O3653-11 [Deep dive into Office 365 App Launcher & My Apps Extensibility](O3653-11%20Deep%20dive%20into%20Office%20365%20App%20Launcher%20%26%20My%20Apps%20Extensibility)
 
 ----------
 
