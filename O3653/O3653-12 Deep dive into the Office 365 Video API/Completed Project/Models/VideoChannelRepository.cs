@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI.WebControls;
 using Newtonsoft.Json;
 using VideoApiWeb.Models.JsonHelpers;
 using VideoApiWeb.Utils;
@@ -92,7 +93,7 @@ namespace VideoApiWeb.Models {
           VideoId = channelVideo.ID,
           Title = channelVideo.Title,
           DisplayFormUrl = channelVideo.DisplayFormUrl,
-          DurectionInSeconds = channelVideo.VideoDurationInSeconds
+          DurationInSeconds = channelVideo.VideoDurationInSeconds
         };
         videos.Add(video);
       }
@@ -125,12 +126,71 @@ namespace VideoApiWeb.Models {
 
 
       // upload video
-      HttpRequestMessage uploadVideoRequest = new HttpRequestMessage(HttpMethod.Post,
-        string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/SaveBinaryStream", videoServiceUrl, video.ChannelId, jsonResponse.Data.ID));
-      uploadVideoRequest.Content = new StreamContent(new MemoryStream(video.FileContent));
+      const int fileUploadChunkSize = 2 * 1024 * 1024; // upload 2MB chunks
+      long fileBytesUploaded = 0;
+      bool canContinue = true;
+      var fileUploadSessionId = Guid.NewGuid().ToString();
 
-      // issue request
-      await _client.SendAsync(uploadVideoRequest);
+      string uploadVideoEndpoint = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/StartUpload(uploadId=guid'{3}')",
+                                      videoServiceUrl,
+                                      video.ChannelId,
+                                      jsonResponse.Data.ID,
+                                      fileUploadSessionId);
+
+      using (HttpResponseMessage startResponseMessage = await _client.PostAsync(uploadVideoEndpoint, null)) {
+        canContinue = startResponseMessage.IsSuccessStatusCode;
+      }
+
+      // upload all but the last chunk
+      var totalChunks = Math.Ceiling(video.FileContent.Length / (double)fileUploadChunkSize);
+      while (fileBytesUploaded < fileUploadChunkSize * (totalChunks - 1)) {
+        if (!canContinue) { break; }
+
+        // read file in
+        using (var videoFileReader = new BinaryReader(new MemoryStream(video.FileContent))) {
+          // advance to the part of the video to show
+          videoFileReader.BaseStream.Seek(fileBytesUploaded, SeekOrigin.Begin);
+
+          // get a slice of the file to upload
+          var videoSlice = videoFileReader.ReadBytes(Convert.ToInt32(fileUploadChunkSize));
+
+          // upload slice
+          string chunkUploadUrl = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/ContinueUpload(uploadId=guid'{3}',fileOffset='{4}')",
+                                    videoServiceUrl,
+                                    video.ChannelId,
+                                    jsonResponse.Data.ID,
+                                    fileUploadSessionId, fileBytesUploaded);
+          using (var fileContent = new StreamContent(new MemoryStream(videoSlice))) {
+            using (HttpResponseMessage uploadResponseMessage = await _client.PostAsync(chunkUploadUrl, fileContent)) {
+              canContinue = uploadResponseMessage.IsSuccessStatusCode;
+              fileBytesUploaded += fileUploadChunkSize;
+            }
+          }
+        }
+      }
+
+      // upload last chunk
+      if (canContinue) {
+        var lastBytesToUpload = video.FileContent.Length - fileBytesUploaded;
+        using (var videoFileReader = new BinaryReader(new MemoryStream(video.FileContent))) {
+          // jump to the part of the file to upload
+          videoFileReader.BaseStream.Seek(fileBytesUploaded, SeekOrigin.Begin);
+
+          // get the last slice of file to upload
+          var videoSlice = videoFileReader.ReadBytes(Convert.ToInt32(lastBytesToUpload));
+          string chunkUploadUrl = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/FinishUpload(uploadId=guid'{3}',fileOffset='{4}')",
+                                    videoServiceUrl,
+                                    video.ChannelId,
+                                    jsonResponse.Data.ID,
+                                    fileUploadSessionId, fileBytesUploaded);
+          using (var fileContent = new StreamContent(new MemoryStream(videoSlice))) {
+            using (HttpResponseMessage uploadResponseMessage = await _client.PostAsync(chunkUploadUrl, fileContent)) {
+              canContinue = uploadResponseMessage.IsSuccessStatusCode;
+              fileBytesUploaded += fileUploadChunkSize;
+            }
+          }
+        }
+      }
     }
 
     public async Task DeleteChannelVideo(string channelId, string videoId) {

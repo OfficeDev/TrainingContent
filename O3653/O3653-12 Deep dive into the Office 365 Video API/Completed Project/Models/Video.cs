@@ -9,7 +9,7 @@ namespace VideoApiWeb.Models {
     public string VideoId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public int DurectionInSeconds { get; set; }
+    public int DurationInSeconds { get; set; }
     public string DisplayFormUrl { get; set; }
     public string FileName { get; set; }
     public byte[] FileContent { get; set; }

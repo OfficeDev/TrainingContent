@@ -21,7 +21,7 @@
         <a href="@item.DisplayFormUrl">@item.Title</a>
       </td>
       <td>
-        @Html.DisplayFor(modelItem => item.DurectionInSeconds)s
+        @Html.DisplayFor(modelItem => item.DurationInSeconds)s
       </td>
       <td>
         @Html.ActionLink("Delete", "Delete", new { channelId= item.ChannelId, videoId = item.VideoId })

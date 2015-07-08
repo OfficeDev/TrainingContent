@@ -388,7 +388,7 @@ Before adding some methods to retrieve channels, you need to create a few utilit
         public string VideoId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int DurectionInSeconds { get; set; }
+        public int DurationInSeconds { get; set; }
         public string DisplayFormUrl { get; set; }
         public string FileName { get; set; }
         public byte[] FileContent { get; set; }
@@ -449,7 +449,7 @@ Now you will update the repository object you created previously that is used fo
         VideoId = channelVideo.ID,
         Title = channelVideo.Title,
         DisplayFormUrl = channelVideo.DisplayFormUrl,
-        DurectionInSeconds = channelVideo.VideoDurationInSeconds
+        DurationInSeconds = channelVideo.VideoDurationInSeconds
       };
       videos.Add(video);
     }
@@ -460,42 +460,101 @@ Now you will update the repository object you created previously that is used fo
 
 1. Add the following method that will upload a new video to a channel. This method does two things:
   - It first creates a new video object in the Video Portal without the file. This acts as a placeholder to upload the video to.
-  - It then uploads a video to the Video Portal, adding it to the placeholder record previously created.
+  - It then uploads a video to the Video Portal in 2MB chunks, adding it to the placeholder record previously created.
 
-  ````c#
-  public async Task UploadVideo(Video video) {
-    var videoServiceUrl = await SpHelper.GetVideoPortalRootUrl();
+    ````c#
+    public async Task UploadVideo(Video video) {
+      var videoServiceUrl = await SpHelper.GetVideoPortalRootUrl();
 
-    // create new video object
-    var newVideo = new JsonHelpers.NewVideoPayload {
-      Title = video.Title,
-      Description = video.Description,
-      FileName = video.FileName,
-      Metadata = new NewVideoPayloadMetadata { Type = "SP.Publishing.VideoItem" }
-    };
-    var newVideoJson = JsonConvert.SerializeObject(newVideo, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+      // create new video object
+      var newVideo = new JsonHelpers.NewVideoPayload {
+        Title = video.Title,
+        Description = video.Description,
+        FileName = video.FileName,
+        Metadata = new NewVideoPayloadMetadata { Type = "SP.Publishing.VideoItem" }
+      };
+      var newVideoJson = JsonConvert.SerializeObject(newVideo, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-    // create video placeholder
-    var placeholderRequestQuery = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos", videoServiceUrl, video.ChannelId);
-    var placeholderRequestBody = new StringContent(newVideoJson);
-    placeholderRequestBody.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
+      // create video placeholder
+      var placeholderRequestQuery = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos", videoServiceUrl, video.ChannelId);
+      var placeholderRequestBody = new StringContent(newVideoJson);
+      placeholderRequestBody.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
 
-    // issue request & get response 
-    var createPlaceholderResponse = await _client.PostAsync(placeholderRequestQuery, placeholderRequestBody);
-    string createPlaceholderResponseString = await createPlaceholderResponse.Content.ReadAsStringAsync();
-    // convert response to object
-    var jsonResponse = JsonConvert.DeserializeObject<JsonHelpers.ChannelVideosSingle>(createPlaceholderResponseString);
+      // issue request & get response 
+      var createPlaceholderResponse = await _client.PostAsync(placeholderRequestQuery, placeholderRequestBody);
+      string createPlaceholderResponseString = await createPlaceholderResponse.Content.ReadAsStringAsync();
+      // convert response to object
+      var jsonResponse = JsonConvert.DeserializeObject<JsonHelpers.ChannelVideosSingle>(createPlaceholderResponseString);
 
 
-    // upload video
-    HttpRequestMessage uploadVideoRequest = new HttpRequestMessage(HttpMethod.Post,
-      string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/SaveBinaryStream", videoServiceUrl, video.ChannelId, jsonResponse.Data.ID));
-    uploadVideoRequest.Content = new StreamContent(new MemoryStream(video.FileContent));
+      // upload video
+      const int fileUploadChunkSize = 2 * 1024 * 1024; // upload 2MB chunks
+      long fileBytesUploaded = 0;
+      bool canContinue = true;
+      var fileUploadSessionId = Guid.NewGuid().ToString();
 
-    // issue request
-    await _client.SendAsync(uploadVideoRequest);
-  }
-  ````
+      string uploadVideoEndpoint = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/StartUpload(uploadId=guid'{3}')",
+                                      videoServiceUrl,
+                                      video.ChannelId,
+                                      jsonResponse.Data.ID,
+                                      fileUploadSessionId);
+
+      using (HttpResponseMessage startResponseMessage = await _client.PostAsync(uploadVideoEndpoint, null)) {
+        canContinue = startResponseMessage.IsSuccessStatusCode;
+      }
+
+      // upload all but the last chunk
+      var totalChunks = Math.Ceiling(video.FileContent.Length / (double)fileUploadChunkSize);
+      while (fileBytesUploaded < fileUploadChunkSize * (totalChunks - 1)) {
+        if (!canContinue) { break; }
+
+        // read file in
+        using (var videoFileReader = new BinaryReader(new MemoryStream(video.FileContent))) {
+          // advance to the part of the video to show
+          videoFileReader.BaseStream.Seek(fileBytesUploaded, SeekOrigin.Begin);
+
+          // get a slice of the file to upload
+          var videoSlice = videoFileReader.ReadBytes(Convert.ToInt32(fileUploadChunkSize));
+
+          // upload slice
+          string chunkUploadUrl = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/ContinueUpload(uploadId=guid'{3}',fileOffset='{4}')",
+                                    videoServiceUrl,
+                                    video.ChannelId,
+                                    jsonResponse.Data.ID,
+                                    fileUploadSessionId, fileBytesUploaded);
+          using (var fileContent = new StreamContent(new MemoryStream(videoSlice))) {
+            using (HttpResponseMessage uploadResponseMessage = await _client.PostAsync(chunkUploadUrl, fileContent)) {
+              canContinue = uploadResponseMessage.IsSuccessStatusCode;
+              fileBytesUploaded += fileUploadChunkSize;
+            }
+          }
+        }
+      }
+
+      // upload last chunk
+      if (canContinue) {
+        var lastBytesToUpload = video.FileContent.Length - fileBytesUploaded;
+        using (var videoFileReader = new BinaryReader(new MemoryStream(video.FileContent))) {
+          // jump to the part of the file to upload
+          videoFileReader.BaseStream.Seek(fileBytesUploaded, SeekOrigin.Begin);
+
+          // get the last slice of file to upload
+          var videoSlice = videoFileReader.ReadBytes(Convert.ToInt32(lastBytesToUpload));
+          string chunkUploadUrl = string.Format("{0}/_api/VideoService/Channels('{1}')/Videos('{2}')/GetFile()/FinishUpload(uploadId=guid'{3}',fileOffset='{4}')",
+                                    videoServiceUrl,
+                                    video.ChannelId,
+                                    jsonResponse.Data.ID,
+                                    fileUploadSessionId, fileBytesUploaded);
+          using (var fileContent = new StreamContent(new MemoryStream(videoSlice))) {
+            using (HttpResponseMessage uploadResponseMessage = await _client.PostAsync(chunkUploadUrl, fileContent)) {
+              canContinue = uploadResponseMessage.IsSuccessStatusCode;
+              fileBytesUploaded += fileUploadChunkSize;
+            }
+          }
+        }
+      }
+    }
+    ````
 
 1. Lastly, add the following method that will delete the specified video in the specified channel:
 
@@ -656,7 +715,7 @@ Create a controller for handing the listing, creation and deleting of videos in 
           <a href="@item.DisplayFormUrl">@item.Title</a>
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.DurectionInSeconds)s
+          @Html.DisplayFor(modelItem => item.DurationInSeconds)s
         </td>
         <td>
           @Html.ActionLink("Delete", "Delete", new { channelId= item.ChannelId, videoId = item.VideoId })
