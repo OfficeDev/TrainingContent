@@ -12,7 +12,7 @@
     @Scripts.Render("~/Scripts/jquery-ui.min.js")
     @Scripts.Render("~/Scripts/jquery.weekcalendar.js")
     @Scripts.Render("~/Scripts/cycle.js")
-    @Scripts.Render("~/Scripts/toastr.min.js")
+    @Scripts.Render("~/Scripts/toastr.js")
 
 
 
@@ -103,52 +103,57 @@
             <div class="buttongroup">
                 <div class="aboutcontainer">
                     <img id="upgrade" class="upgrade" src="~/Content/images/upgrade.png" />
-                    <div>Upgrade</div>
+                    <div>Purchase</div>
                 </div>
                 <div class="aboutcontainer">
-                    <img id="feedback" src="~/Content/images/review.png" />
-                    <div>Feedback</div>
+                    <img class="feedback" src="~/Content/images/review.png" />
+                    <div>Write Review</div>
                 </div>
                 <div class="groupname">Upgrade to Premium</div>
             </div>
         </div>
-        <div id="spam">
-            @if (ViewBag.status == "Trial")
-            {
-                <div class="spam_message" id="trial_spam">You are currently on a Trial. You have @ViewBag.DaysRemaining days remaining. <button class="upgrade">Upgrade</button></div>
-            }
-            <div id="close_spam"><button>X</button></div>
-        </div>
+		<div id="spam">
+		<div class="spam_message" id="trial_spam">
+			You've completed your first week's appointment schedule. Leave us a review on the Office Store &nbsp;&nbsp;<button class="feedback">Write Review</button>
+		</div>
+		<div id="close_spam"><button>X</button></div>
+
+			
+		</div>
         @RenderBody()
-        @if (ViewBag.status == "Trial")
-        {
-            @RenderPage("~/Views/Scheduler/Trial.cshtml")
-        }
+        @RenderPage("~/Views/Scheduler/Trial.cshtml")
+        
     </div>
 
     @RenderSection("scripts", required: false)
 </body>
 
 </html>
-@if (ViewBag.status == "Trial")//If user is on a trial, load the upsell script instead of the premium feature script
-{
+
     @Scripts.Render("~/Scripts/trial.js")
-}
+
 
 <script type="text/javascript">
 
+	(function () {
+		"use strict";
 
-    (function () {
-        "use strict";
+		jQuery(function () {
 
-        jQuery(function () {
+			jQuery("#testimonials").click(function () {
+				window.open("http://betterwith.office.com/", "_blank");
+			});
 
-            jQuery(".upgrade").click(function () {
-                window.location = "@ViewBag.StoreFront";
-            });
+			jQuery(".upgrade").click(function () {
+				window.open("@ViewBag.StoreFront", "_blank");
+			});
 
-        });
+			jQuery(".feedback").click(function () {
+				window.open("@Html.Raw(@ViewBag.ReviewPage)", "_blank");
+			});
 
-    }());
+		});
+
+	}());
 
 </script>
