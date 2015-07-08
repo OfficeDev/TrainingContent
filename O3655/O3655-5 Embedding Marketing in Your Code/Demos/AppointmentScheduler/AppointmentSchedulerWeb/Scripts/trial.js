@@ -9,14 +9,14 @@ $(document).ready(function () {
     $('#profile_completion1').appendTo('#trialmessage');
     $('#profile_completion1').show();
     $("<div></div>").appendTo(document.body).addClass("ui-widget-overlay").css({ width: $(this).width(), height: $(this).height() });
-
+    
 
 });
 $('#close').click(function () {
     if ($('.profile').is(":visible"))
     {
-        if (confirm("Are you sure? You must complete registration to use the trial.")) {
-            window.location = "/";
+        if (confirm("Are you sure? You must complete registration to use the trial")) {
+        	window.history.back();
         }
         else {
             return false();
@@ -57,8 +57,7 @@ $('.next').click(function () {
         $('#Trial_Messaging').hide();
         $('.ui-widget-overlay').remove();
         jQuery.getScript("/Scripts/demo.js");
-        $('#spam').show();
-
+        $('#spam').hide();
     }
 });
 
@@ -143,9 +142,4 @@ $('#feedback').click(function () {
     toastr.info("Loading feedback form...")
 });
 
-window.setTimeout(function () {
-    var d = new Date();
-    d.setDate(d.getDate() +7 );
-    toastr.options = { "positionClass": "toast-bottom-right" };
-    toastr.success("Buying for more than 50 people? Contact us for a special discount.")
-}, 30000);
+
