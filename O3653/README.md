@@ -14,7 +14,7 @@ This GitHub repo houses all of the content for the "Deep Dive into integrating O
 - O3653-9 [Deep Dive into the Office 365 Groups API](O3653-9%20Deep%20dive%20into%20the%20Office%20365%20Groups%20API)
 - O3653-10 [Deep dive into the Office 365 File Handler Extensibility](O3653-10%20Deep%20dive%20into%20the%20Office%20365%20File%20Handler%20Extensibility)
 - O3653-11 [Deep dive into Office 365 App Launcher & My Apps Extensibility](O3653-11%20Deep%20dive%20into%20Office%20365%20App%20Launcher%20%26%20My%20Apps%20Extensibility)
-
+- O3653-12 [Deep Dive into the Office 365 Video API](O3653-12%20Deep%20Dive%20into%20the%20Office%20365%20Video%20API)
 ----------
 
 Feel free to use this material anyway you want for self-study or for delivering trainings for others. You can also use bits and pieces of this material anyway you want with blogs, presentations and also re-use this material in any other training. Please give us also feedback and suggestions on the material, so that we can improve the base material also for others. 
