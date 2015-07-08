@@ -48,10 +48,16 @@
                 },
                 buttons: {
                     save: function () {
-                        appointments++;
-                        //       $('#reminder_spam').remove();
-                        //        $('<div id ="reminder_spam">You currently have 0 appointments of ' + appointments + ' using reminders</div>').appendTo('#spam');
-                        $('#spam').show();
+                    	appointments++;
+                    	if (appointments === 23) {
+		                    $("#spam").show();
+		                    toastr.options = {
+			                    "positionClass": "toast-bottom-full-width",
+			                    "timeOut": 15000
+		                    };
+		                    toastr.success("Would you like to give feedback to the developer ? <button onclick=\"window.location('mailto:contosoappdeveloper@microsoft.com')\">Feedback</button>");
+	                    } 
+
                         calEvent.id = id;
                         id++;
                         calEvent.start = new Date(startField.val());
@@ -110,20 +116,18 @@
                         $calendar.weekCalendar("updateEvent", calEvent);
                         $dialogContent.dialog("close");
 
-                        if (window.trial) {
-                            window.actionCounter++;
-                            if (window.actionCounter === 3) {
-                                window.actionCounter = 0;
-                                $("#trial_spam").html("Would you like to write a review? <button class='reviewButton'>Review</button>");
-                                $("#trial_spam").show();
-                            }
+                        
+                        window.actionCounter++;
+                        if (window.actionCounter === 3) {
+                            window.actionCounter = 0;
+                            $("#trial_spam").html("Would you like to write a review? <button id='feedback'>Review</button>");
+                            $("#trial_spam").show();
                         }
+                        
 
                     },
                     "delete": function () {
                         appointments--;
-                        //   $('#reminder_spam').remove();
-                        // $('<div id ="reminder_spam">You currently have 0 appointments of ' + appointments + ' using reminders</div>').appendTo('#spam').delay(1000);
                         $('#spam').show();
                         $calendar.weekCalendar("removeEvent", calEvent.id);
                         $dialogContent.dialog("close");
@@ -184,15 +188,15 @@
                        "id": 3,
                        "start": new Date(2015, 08, 23, 17),
                        "end": new Date(2015, 08, 23, 17, 45),
-                       "title": "Daily Review",
-                       "body": "Meeting to review and report on the day"
+                       "title": "Oncology review",
+                       "body": "Quarterly review of oncology referals (south west and south east regions)"
                    },
                    {
                        "id": 4,
                        "start": new Date(2015, 08, 24, 8),
                        "end": new Date(2015, 08, 24, 9, 30),
-                       "title": "Daily Sync",
-                       "body": "Discuss the Itinerary for today with the whole team."
+                       "title": "Emergency consultation",
+                       "body": "Blood scan follow up with J. Jones."
                    },
                    {
                        "id": 5,
@@ -205,8 +209,8 @@
                        "id": 6,
                        "start": new Date(2015, 08, 23, 8),
                        "end": new Date(2015, 08, 23, 9, 30),
-                       "title": "Daily Sync",
-                       "body": "Discuss the Itinerary for today with the whole team."
+                       "title": "New Patient",
+                       "body": "Medical history and basic check-up.  Timothy Dalton (minor).  Mother: Jane Dalton."
                    },
 
                    {
@@ -220,29 +224,29 @@
                        "id": 9,
                        "start": new Date(2015, 08, 24, 10, 15),
                        "end": new Date(2015, 08, 24, 12),
-                       "title": "OOF",
-                       "body": "Parent/Teacher meetings"
+                       "title": "Accounts analysis",
+                       "body": "Review of insurance claims which were denied (major 4 only)"
                    },
                    {
                        "id": 10,
                        "start": new Date(2015, 08, 25, 9, 45),
                        "end": new Date(2015, 08, 25, 12, 30),
                        "title": "Consultation S.Stanley",
-                       "body": "Breakfast with the Team to celebrate Launch"
+                       "body": "Elderly referral complaining of shortness of breath"
                    },
                    {
                        "id": 11,
                        "start": new Date(2015, 08, 25, 8),
                        "end": new Date(2015, 08, 25, 9, 30),
-                       "title": "Daily Sync",
-                       "body": "Discuss the Itinerary for today with the whole team."
+                       "title": "Consultation D. Smith",
+                       "body": "Injury resulting from arm wrestling."
                    },
                    {
                        "id": 12,
                        "start": new Date(2015, 08, 26, 8),
                        "end": new Date(2015, 08, 26, 9, 30),
-                       "title": "Daily Sync",
-                       "body": "Discuss the Itinerary for today with the whole team."
+                       "title": "Consultation Armstrong twins",
+                       "body": "2 year check-up."
                    },
                    {
                        "id": 13,
@@ -256,7 +260,7 @@
                        "start": new Date(2015, 08, 26, 14),
                        "end": new Date(2015, 08, 26, 16),
                        "title": "Minor Injuries Clinic",
-                       "body": "Volounteer work at local clinic"
+                       "body": "Free access (final patient list tbd)"
                    },
                    {
                        "id": 15,
@@ -268,22 +272,22 @@
                        "id": 16,
                        "start": new Date(2015, 08, 24, 17),
                        "end": new Date(2015, 08, 24, 17, 45),
-                       "title": "Daily Review",
-                       "body": "Meeting to review and report on the day"
+                       "title": "Vaccination Q. McQuill",
+                       "body": "Hepatitus (SE Asia)"
                    },
                    {
                        "id": 17,
                        "start": new Date(2015, 08, 25, 17),
                        "end": new Date(2015, 08, 25, 17, 45),
-                       "title": "Daily Review",
-                       "body": "Meeting to review and report on the day"
+                       "title": "Spinal exam (to be confirmed)",
+                       "body": "Spinal curvature arising from workplace"
                    },
                    {
                        "id": 18,
                        "start": new Date(2015, 08, 26, 17),
                        "end": new Date(2015, 08, 26, 17, 45),
                        "title": "Daily Review",
-                       "body": "Meeting to review and report on the day"
+                       "body": "Meeting to review open case"
                    },
                    {
                        "id": 19,

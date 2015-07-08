@@ -1,0 +1,27 @@
+﻿@model dynamic
+
+@{
+  Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <h2>@ViewBag.FeedTitle</h2>
+  <ul>
+    @{
+      foreach (var post in ViewBag.Posts) {
+        <li>@post.Title.Text</li>
+      }
+    }
+    <li></li>
+  </ul>
+
+
+</body>
+</html>
