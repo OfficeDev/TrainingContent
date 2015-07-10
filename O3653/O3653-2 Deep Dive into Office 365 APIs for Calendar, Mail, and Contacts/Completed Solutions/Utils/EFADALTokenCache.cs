@@ -1,4 +1,4 @@
-﻿using Office365Contacts.Models;
+﻿using Office365Mail.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Collections.Generic;
@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using Office365Contacts.Data;
+using Office365Mail.Data;
 
-namespace Office365Contacts.Utils {
+namespace Office365Mail.Utils {
 
   public class EFADALTokenCache : TokenCache {
-    private Office365ContactsContext db = new Office365ContactsContext();
+    private Office365MailContext db = new Office365MailContext();
     string User;
     PerWebUserCache Cache;
 

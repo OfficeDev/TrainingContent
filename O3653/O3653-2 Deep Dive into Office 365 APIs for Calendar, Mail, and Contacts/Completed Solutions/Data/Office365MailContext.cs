@@ -4,16 +4,13 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
-using Office365Contacts.Models;
+using Office365Mail.Models;
 
-namespace Office365Contacts.Data {
+namespace Office365Mail.Data {
 
-  public class Office365ContactsContext : DbContext {
-    public Office365ContactsContext()
-      : base("Office365ContactsContext") { }
-
-    //public DbSet<Tenant> Tenants { get; set; }
-    //public DbSet<User> Users { get; set; }
+  public class Office365MailContext : DbContext {
+    public Office365MailContext()
+      : base("Office365MailContext") { }
 
     public DbSet<PerWebUserCache> PerUserCacheList { get; set; }
 

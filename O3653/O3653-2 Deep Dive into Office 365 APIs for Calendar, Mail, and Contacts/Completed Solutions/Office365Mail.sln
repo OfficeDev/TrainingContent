@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Office365Contacts", "Office365Contacts.csproj", "{54FE6AE2-76E4-4C9C-A34E-A15D50C96521}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Office365Mail", "Office365Mail.csproj", "{54FE6AE2-76E4-4C9C-A34E-A15D50C96521}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

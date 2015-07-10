@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Office365Contacts</RootNamespace>
-    <AssemblyName>Office365Contacts</AssemblyName>
+    <RootNamespace>Office365Mail</RootNamespace>
+    <AssemblyName>Office365Mail</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -179,15 +179,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Data\Office365ContactsContext.cs" />
-    <Compile Include="Data\Office365ContactsInitializer.cs" />
+    <Compile Include="Data\Office365MailContext.cs" />
+    <Compile Include="Data\Office365MailInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\MyContact.cs" />
-    <Compile Include="Models\MyContactRepository.cs" />
+    <Compile Include="Models\MyMessage.cs" />
+    <Compile Include="Models\MyMessagesRespository.cs" />
     <Compile Include="Models\PerUserWebCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -244,9 +244,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Contacts\Create.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\Mail\Index.cshtml" />
+    <Content Include="Views\Mail\Details.cshtml" />
+    <Content Include="Views\Mail\Send.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
