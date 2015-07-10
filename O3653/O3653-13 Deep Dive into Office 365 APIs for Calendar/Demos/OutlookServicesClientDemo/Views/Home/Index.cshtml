@@ -1,0 +1,32 @@
+﻿@{
+  ViewBag.Title = "OutlookServiceClient Demo";
+}
+
+<div class="jumbotron">
+  <h2>OutlookServiceClient Demo</h2>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="flashy">
+      <h3>My Messages</h3>
+      <p>This app allows you to see and send email messages.</p>
+      <p>@Html.ActionLink("See messages...", "Index", "Mail")</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="flashy">
+
+      <h3>My Events</h3>
+      <p>This app allows you to see and create events.</p>
+      <p>@Html.ActionLink("See events...", "Index", "Events")</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="flashy">
+      <h3>My Contacts</h3>
+      <p>This app allows you to see and and manage contacts.</p>
+      <p>@Html.ActionLink("See contacts...", "Index", "Contacts")</p>
+    </div>
+  </div>
+</div>
