@@ -256,6 +256,7 @@
     <Content Include="Views\Calendar\Create.cshtml" />
     <Content Include="Views\Calendar\Details.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
+    <Content Include="Views\Calendar\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

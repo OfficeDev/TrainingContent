@@ -14,24 +14,31 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace Office365Calendar.Models {
   public class MyEventsRepository {
-    public async Task<List<MyEvent>> GetEvents() {
 
+    public bool MorePagesAvailable { get; private set; }
+
+    public async Task<List<MyEvent>> GetEvents(int pageIndex, int pageSize) {
       var client = await EnsureClientCreated();
 
       var eventsResults = await (from ev in client.Me.Events
-                                 where ev.End >= DateTimeOffset.UtcNow
-                                 select ev).Take(10).ExecuteAsync();
+                                 select ev)
+                                 .Skip(pageIndex * pageSize)
+                                 .Take(pageSize)
+                                 .ExecuteAsync();
 
       var events = eventsResults.CurrentPage.OrderBy(e => e.Start);
 
-      var eventList = new List<MyEvent>();
+      // indicate if more results available
+      MorePagesAvailable = eventsResults.MorePagesAvailable;
 
+      var eventList = new List<MyEvent>();
       foreach (var myEvent in events) {
-        MyEvent newEvent = new MyEvent();
-        newEvent.Id = myEvent.Id;
-        newEvent.Subject = myEvent.Subject;
-        newEvent.Start = myEvent.Start;
-        newEvent.End = myEvent.End;
+        var newEvent = new MyEvent {
+          Id = myEvent.Id,
+          Subject = myEvent.Subject,
+          Start = myEvent.Start,
+          End = myEvent.End
+        };
         if (myEvent.Body != null) {
           newEvent.Body = myEvent.Body.Content;
         }
@@ -53,11 +60,12 @@ namespace Office365Calendar.Models {
       var client = await EnsureClientCreated();
       var ev = await client.Me.Events.GetById(id).ExecuteAsync();
 
-      MyEvent newEvent = new MyEvent();
-      newEvent.Id = ev.Id;
-      newEvent.Subject = ev.Subject;
-      newEvent.Start = ev.Start;
-      newEvent.End = ev.End;
+      var newEvent = new MyEvent {
+        Id = ev.Id,
+        Subject = ev.Subject,
+        Start = ev.Start,
+        End = ev.End
+      };
       if (ev.Location != null) {
         newEvent.Location = ev.Location.DisplayName;
       }
@@ -77,8 +85,9 @@ namespace Office365Calendar.Models {
     public async Task AddEvent(MyEvent myEvent) {
       var client = await EnsureClientCreated();
 
-      Location myEventLocation = new Location();
-      myEventLocation.DisplayName = myEvent.Location;
+      var myEventLocation = new Location {
+        DisplayName = myEvent.Location
+      };
 
       var newEvent = new Event {
         Subject = myEvent.Subject,
@@ -87,6 +96,40 @@ namespace Office365Calendar.Models {
         Location = myEventLocation
       };
       await client.Me.Events.AddEventAsync(newEvent);
+    }
+
+    public async Task<List<MyEvent>> Search(string searchTerm) {
+      var client = await EnsureClientCreated();
+
+      var eventsResults = await (from ev in client.Me.Events
+        where ev.Subject.Contains(searchTerm)
+        select ev)
+        .ExecuteAsync();
+
+      var events = eventsResults.CurrentPage.OrderBy(e => e.Start);
+
+      var eventList = new List<MyEvent>();
+      foreach (var myEvent in events) {
+        var newEvent = new MyEvent {
+          Id = myEvent.Id,
+          Subject = myEvent.Subject,
+          Start = myEvent.Start,
+          End = myEvent.End
+        };
+        if (myEvent.Body != null) {
+          newEvent.Body = myEvent.Body.Content;
+        }
+        if (myEvent.Location != null) {
+          newEvent.Location = myEvent.Location.DisplayName;
+        }
+        if (myEvent.Start != null) {
+          newEvent.Start = myEvent.Start;
+        }
+
+        eventList.Add(newEvent);
+      }
+
+      return eventList;
     }
 
     private async Task<OutlookServicesClient> EnsureClientCreated() {

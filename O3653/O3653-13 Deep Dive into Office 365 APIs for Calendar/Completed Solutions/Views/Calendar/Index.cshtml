@@ -1,13 +1,10 @@
 ﻿@model IEnumerable<Office365Calendar.Models.MyEvent>
-
 @{ ViewBag.Title = "My Events"; }
-
 <h2>My Events</h2>
-
 <p>
-  @Html.ActionLink("Create New", "Create")
+  @Html.ActionLink("Create New", "Create") | 
+  @Html.ActionLink("Search Events", "Search")
 </p>
-
 <table id="eventsTable" class="table table-striped table-bordered">
   <tr>
     <th>@Html.DisplayNameFor(model => model.Subject)</th>
@@ -16,7 +13,6 @@
     <th>@Html.DisplayNameFor(model => model.Location)</th>
     <th></th>
   </tr>
-
   @foreach (var item in Model) {
     <tr>
       <td>@Html.DisplayFor(modelItem => item.Subject)</td>
@@ -29,5 +25,27 @@
       </td>
     </tr>
   }
-
 </table>
+<div class="row">
+  <h4>Paging Control</h4>
+  <div class="btn btn-group-sm">
+    @{
+      var pageLinkAttributes = new Dictionary<string, object> { { "class", "btn btn-default" } };
+
+      int pageNumber = ViewBag.pageNumber;
+
+      // do prev link if not on first page
+      if (pageNumber > 1) {
+        var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber - 1 } };
+        @Html.ActionLink("Previous Page", "Index", "Calendar", routeValues, pageLinkAttributes);
+      }
+
+
+      // do next link if current page = max page size
+      if (ViewBag.morePagesAvailable) {
+        var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber + 1 } };
+        @Html.ActionLink("Next Page", "Index", "Calendar", routeValues, pageLinkAttributes);
+      }
+    }
+  </div>
+</div>
