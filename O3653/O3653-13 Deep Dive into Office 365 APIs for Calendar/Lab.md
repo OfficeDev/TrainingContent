@@ -384,7 +384,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
         </div>
         ````
 
-        > The **Events** link will not work yet... you will add that in the next exercise.
+      > The **Events** link will not work yet... you will add that in the next exercise.
 
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
@@ -437,9 +437,6 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
   ````
 
 1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyEventsRepository** and click **Add** to create the new source file for the class.    
-
-	![](Images/08.png)
-
 1. **Add** the following using statements to the top of the **MyEventsRepository** class.
 		
 	````c#
@@ -460,7 +457,7 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
     var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
 
-    // discover contact endpoint
+    // discover endpoint
     var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
     var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
 
@@ -493,23 +490,27 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
 		
   ````c#
   public async Task<List<MyEvent>> GetEvents() {
-
     var client = await EnsureClientCreated();
 
     var eventsResults = await (from ev in client.Me.Events
-                               where ev.End >= DateTimeOffset.UtcNow
-                               select ev).Take(10).ExecuteAsync();
+                               select ev)
+                               .Skip(pageIndex * pageSize)
+                               .Take(pageSize)
+                               .ExecuteAsync();
 
     var events = eventsResults.CurrentPage.OrderBy(e => e.Start);
 
-    var eventList = new List<MyEvent>();
+    // indicate if more results available
+    MorePagesAvailable = eventsResults.MorePagesAvailable;
 
+    var eventList = new List<MyEvent>();
     foreach (var myEvent in events) {
-      MyEvent newEvent = new MyEvent();
-      newEvent.Id = myEvent.Id;
-      newEvent.Subject = myEvent.Subject;
-      newEvent.Start = myEvent.Start;
-      newEvent.End = myEvent.End;
+      var newEvent = new MyEvent {
+        Id = myEvent.Id,
+        Subject = myEvent.Subject,
+        Start = myEvent.Start,
+        End = myEvent.End
+      };
       if (myEvent.Body != null) {
         newEvent.Body = myEvent.Body.Content;
       }
@@ -524,11 +525,34 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     }
 
     return eventList;
-
   }
   ````
 
-1. Add a **DeleteEvent** function  to the **MyEventsRepository** class to delete a contact.
+1. Add a **GetEvent** function to the **MyEventsRepository** class to get a specific event:
+
+  ````c#
+  public async Task<MyEvent> GetEvent(string id) {
+    var client = await EnsureClientCreated();
+    var ev = await client.Me.Events.GetById(id).ExecuteAsync();
+
+    var newEvent = new MyEvent {
+      Id = ev.Id,
+      Subject = ev.Subject,
+      Start = ev.Start,
+      End = ev.End
+    };
+    if (ev.Location != null) {
+      newEvent.Location = ev.Location.DisplayName;
+    }
+    if (ev.Body != null) {
+      newEvent.Body = ev.Body.Content;
+    }
+
+    return newEvent;
+  }
+  ````
+
+1. Add a **DeleteEvent** function to the **MyEventsRepository** class to delete an event.
 
   ````c#
   public async Task DeleteEvent(string id) {
@@ -538,14 +562,15 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
   }
   ````
 
-1. Add a **AddEvent** function  to the **MyEventsRepository** class to create a new contact.
+1. Add a **AddEvent** function  to the **MyEventsRepository** class to create a new event.
 
   ````c#
   public async Task AddEvent(MyEvent myEvent) {
     var client = await EnsureClientCreated();
 
-    Location myEventLocation = new Location();
-    myEventLocation.DisplayName = myEvent.Location;
+    var myEventLocation = new Location {
+      DisplayName = myEvent.Location
+    };
 
     var newEvent = new Event {
       Subject = myEvent.Subject,
@@ -557,8 +582,74 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
   }
   ````
 
+1. Finally, add a **Search** function to the **MyEventsRepository** class to add search functionality:
+
+  ````c#
+  public async Task<List<MyEvent>> Search(string searchTerm) {
+    var client = await EnsureClientCreated();
+
+    var eventsResults = await (from ev in client.Me.Events
+      where ev.Subject.Contains(searchTerm)
+      select ev)
+      .ExecuteAsync();
+
+    var events = eventsResults.CurrentPage.OrderBy(e => e.Start);
+
+    var eventList = new List<MyEvent>();
+    foreach (var myEvent in events) {
+      var newEvent = new MyEvent {
+        Id = myEvent.Id,
+        Subject = myEvent.Subject,
+        Start = myEvent.Start,
+        End = myEvent.End
+      };
+      if (myEvent.Body != null) {
+        newEvent.Body = myEvent.Body.Content;
+      }
+      if (myEvent.Location != null) {
+        newEvent.Location = myEvent.Location.DisplayName;
+      }
+      if (myEvent.Start != null) {
+        newEvent.Start = myEvent.Start;
+      }
+
+      eventList.Add(newEvent);
+    }
+
+    return eventList;
+  }
+  ````
+
+  > Notice how the query uses a `where` clause in the LINQ expression. This will generate a `$filter` call in the Office 365 REST API call limiting the number of results that come back to match just the search term.
+
+At this point you have created the repository that will be used to talk to the Office 365 API.
+
 ## Exercise 4: Code the MVC Application
 In this exercise, you will code the **CalendarController** of the MVC application to display events as well as adding behavior for adding and deleting events.
+
+1. Right-click the **Controllers** folder and select **Add/Controller**.
+  1. In the **Add Scaffold** dialog, select **MVC 4 Controller - Empty**.
+  1. Click **Add**.
+  1. When prompted for a name, enter **CalendarController**.
+  1. Click **Add**.
+1. Within the **CalendarController** file, add the following `using` statements to the top of the file:
+
+  ````c#
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Threading.Tasks;
+  using System.Web;
+  using System.Web.Mvc;
+  using System.Web.UI;
+  using Office365Calendar.Models;
+  ````
+
+1. Within the `CalendarController` class, add the following field to get a reference to the repository you previously created:
+
+  ````c#
+  MyEventsRepository _repo = new MyEventsRepository();
+  ````
 
 1. In the **Solution Explorer**, expand the **Controllers** folder and open the **CalendarController.cs** file.
 1. **Add** the following using statements to the top of the file.
@@ -568,125 +659,332 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
   using Office365Calendar.Models;
   ````
 
-1. **Replace** the **Index** method with the following code to read files.
-		
-  ````c#
-  [Authorize]
-  public async Task<ActionResult> Index() {
-
-    List<MyEvent> events = null;
-    MyEventsRepository repo = new MyEventsRepository();
-    events = await repo.GetEvents();
-    return View(events);
-
-  }
-  ````
-
-1. Finally, update the view to display the results.
-  1. Within the `ContactsController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
-  1. Within the **Add View** dialog, set the following values:
-    1. View Name: **Index**.
-    1. Template: **Empty (without model)**.
+1. Add a route handler and view to list all the events:
+  1. **Replace** the **Index** method with the following code to read files.
       
-      > Leave all other fields blank & unchecked.
-    
-    1. Click **Add**.
-  1. Within the **Views/Calendar/Index.cshtml** file, delete all the code in the file and replace it with the following code:
-		
+    ````c#
+    [Authorize]
+    public async Task<ActionResult> Index(int? pageNumber) {
+      // setup paging
+      const int pageSize = 5;
+      if (pageNumber == null)
+        pageNumber = 1;
+
+      // get list of entities
+      List<MyEvent> events = null;
+      events = await _repo.GetEvents((int)pageNumber - 1, pageSize);
+
+      ViewBag.pageNumber = pageNumber;
+      ViewBag.morePagesAvailable = _repo.MorePagesAvailable;
+
+      return View(events);
+    }
+    ````
+
+    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by the Office 365 API.
+
+  1. Finally, update the view to display the results.
+    1. Within the `CalendarController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
+    1. Within the **Add View** dialog, set the following values:
+      1. View Name: **Index**.
+      1. Template: **Empty (without model)**.
+        
+        > Leave all other fields blank & unchecked.
+      
+      1. Click **Add**.
+    1. Within the **Views/Calendar/Index.cshtml** file, delete all the code in the file and replace it with the following code:
+      
+      ````html
+      @model IEnumerable<Office365Calendar.Models.MyEvent>
+      @{ ViewBag.Title = "My Events"; }
+      <h2>My Events</h2>
+      <p>
+        @Html.ActionLink("Create New", "Create") | 
+        @Html.ActionLink("Search Events", "Search")
+      </p>
+      <table id="eventsTable" class="table table-striped table-bordered">
+        <tr>
+          <th>@Html.DisplayNameFor(model => model.Subject)</th>
+          <th>@Html.DisplayNameFor(model => model.Start)</th>
+          <th>@Html.DisplayNameFor(model => model.End)</th>
+          <th>@Html.DisplayNameFor(model => model.Location)</th>
+          <th></th>
+        </tr>
+        @foreach (var item in Model) {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+            <td>@Html.DisplayFor(modelItem => item.Start)</td>
+            <td>@Html.DisplayFor(modelItem => item.End)</td>
+            <td>@Html.DisplayFor(modelItem => item.Location)</td>
+            <td>
+              @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+              @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+          </tr>
+        }
+      </table>
+      ````
+
+  1. Now at the bottom of the **Index.cshtml** file, add the following code that will implement paging for the index page:
+
+    ````html
+    <div class="row">
+      <h4>Paging Control</h4>
+      <div class="btn btn-group-sm">
+        @{
+          var pageLinkAttributes = new Dictionary<string, object> { { "class", "btn btn-default" } };
+
+          int pageNumber = ViewBag.pageNumber;
+
+          // do prev link if not on first page
+          if (pageNumber > 1) {
+            var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber - 1 } };
+            @Html.ActionLink("Previous Page", "Index", "Calendar", routeValues, pageLinkAttributes);
+          }
+
+
+          // do next link if current page = max page size
+          if (ViewBag.morePagesAvailable) {
+            var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber + 1 } };
+            @Html.ActionLink("Next Page", "Index", "Calendar", routeValues, pageLinkAttributes);
+          }
+        }
+      </div>
+    </div>
+    ````
+
+1. Test the new view:
+  1. In **Visual Studio**, hit **F5** to begin debugging.
+  1. When prompted, log in with your **Organizational Account**.
+  1. Once the application has initialized and displayed its home page, you should be able to verify that your application displays calendar events from your Office 365 account.  
+
+    ![](Images/04.png)
+
+  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+
+1. Add a route handler delete an event:
+  1. In the **CalendarController.cs** file, add an action method named **Delete** using the following code to delete an event.
+
+    ````c#
+    [Authorize]
+    public async Task<ActionResult> Delete(string id) {
+      if (id != null) {
+        await _repo.DeleteEvent(id);
+      }
+
+      return Redirect("/Events");
+
+    }
+    ````
+
+1. Add a route handler and views to handle creating events:
+  1. In the **CalendarController.cs** file, add an action method named **Create** using the following code to create a new event. Notice how you are adding two items, when the create form is requested (the `HttpGet` option) and one for when the form is submitted (the `HttpPost` option).
+
+    ````c#
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult> Create() {
+      var myEvent = new MyEvent {
+        Start = DateTimeOffset.Now,
+        End = DateTimeOffset.Now.AddDays(1)
+      };
+
+      return View(myEvent);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult> Create(MyEvent myEvent) {
+
+      await _repo.AddEvent(myEvent);
+      return Redirect("/Events");
+    }
+    ````
+
+  1. Now you must create a new MVC view for the **Create** action method. You can accomplish this right-clicking on the white space inside the the **Create** action method in the **CalendarController.cs** and selecting **Add View**.
+  1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
+    + View name: **Create**
+    + Template: **Create**
+    + Model class: **MyEvent (Office365Calendar.Models)**
+    + Create as partial view: **unchecked**
+    + Reference script libraries: **unchecked**
+    + Use a layout page: **checked**
+  1. Open the **Create.cshtml** file and make sure the code looks like the following code to build a form that will allow a user to create an event:
+
+    ````html
+    @model Office365Calendar.Models.MyEvent
+
+    @{
+      ViewBag.Title = "Create";
+    }
+
+    <h2>Create</h2>
+
+    @using (Html.BeginForm()) {
+      @Html.AntiForgeryToken()
+
+      <div class="form-horizontal">
+        <h4>MyEvent</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+          @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+          </div>
+        </div>
+
+        <div class="form-group">
+          @Html.LabelFor(model => model.Start, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
+          </div>
+        </div>
+
+        <div class="form-group">
+          @Html.LabelFor(model => model.End, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
+          </div>
+        </div>
+
+        <div class="form-group">
+          @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+          </div>
+        </div>
+      </div>
+    }
+
+    <div>
+      @Html.ActionLink("Back to List", "Index")
+    </div>
+    ````
+
+1. Test the new view:
+  1. In **Visual Studio**, hit **F5** to begin debugging.
+  1. When Prompted, log in with your **Organizational Account**.
+  1. Once the application as loaded and displayed the homepage, click the **Create New** link. You should see the form below. Fill the form out to add a new item:
+
+    ![](Images/05.png)
+
+  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+
+1. Add a route handler and view to handle showing the details of a selected event:
+  1. Right-click on the white space inside the the **Detail** action method in the **CalendarController.cs** and select **Add View**.
+  1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
+    + View name: **Details**
+    + Template: **Details**
+    + Model class: **MyEvent (Office365Calendar.Models)**
+    + Create as partial view: **unchecked**
+    + Reference script libraries: **unchecked**
+    + Use a layout page: **checked**
+
+1. Test the new view:
+  1. In **Visual Studio**, hit **F5** to begin debugging.
+  1. When Prompted, log in with your **Organizational Account**.
+  1. Once the application as loaded and displayed the homepage, click the **Details** link for one of the items. 
+
+    ![](Images/06.png)
+
+  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+
+1. Add a route handler and view to handle search for events:
+  1. In the **CalendarController.cs** file, add two action methods named **Search** using the following code to delete an event.
+
+    ````c#
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult> Search()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult> Search(string searchTerm) {
+      var events = await _repo.Search(searchTerm);
+      return View(events);
+    }
+    ````
+
+  1. Now you must create a new MVC view for the **Search** action method. You can accomplish this right-clicking on the white space inside the the **Search** action method in the **CalendarController.cs** and selecting **Add View**.
+  1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
+    + View name: **Details**
+    + Template: **Empty**
+    + Create as partial view: **unchecked**
+    + Reference script libraries: **unchecked**
+    + Use a layout page: **checked**
+  1. Open the generated **Search.cshtml** view and replace the markup with the following code:
+
     ````html
     @model IEnumerable<Office365Calendar.Models.MyEvent>
 
-    @{ ViewBag.Title = "My Events"; }
+    @{
+      ViewBag.Title = "Search";
+    }
 
-    <h2>My Events</h2>
+    <h2>Search</h2>
 
-    <p>
-      @Html.ActionLink("Create New", "Create")
-    </p>
+    @using (Html.BeginForm("Search", "Calendar", FormMethod.Post)) {
+      <p>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <div class="col-md-10">
+              <input type="text" id="searchTerm" name="searchTerm" class="form-control" /><br />
+              <button type="submit">search for events</button>
+            </div>
+          </div>
+        </div>
+      </p>
+    }
 
-    <table id="eventsTable" class="table table-striped table-bordered">
+    <table class="table">
       <tr>
         <th>@Html.DisplayNameFor(model => model.Subject)</th>
         <th>@Html.DisplayNameFor(model => model.Start)</th>
         <th>@Html.DisplayNameFor(model => model.End)</th>
-        <th>@Html.DisplayNameFor(model => model.Location)</th>
         <th></th>
       </tr>
 
-      @foreach (var item in Model) {
-        <tr>
-          <td>@Html.DisplayFor(modelItem => item.Subject)</td>
-          <td>@Html.DisplayFor(modelItem => item.Start)</td>
-          <td>@Html.DisplayFor(modelItem => item.End)</td>
-          <td>@Html.DisplayFor(modelItem => item.Location)</td>
-          <td>
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-          </td>
-        </tr>
+      @if (Model != null) {
+        foreach (var item in Model) {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+            <td>@Html.DisplayFor(modelItem => item.Start)</td>
+            <td>@Html.DisplayFor(modelItem => item.End)</td>
+            <td>
+              @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+              @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+          </tr>
+        }
       }
-
     </table>
+
+    <p>
+      @Html.ActionLink("Back to List", "Index")
+    </p>
     ````
 
-1. In **Visual Studio**, hit **F5** to begin debugging.
-1. When prompted, log in with your **Organizational Account**.
-1. Once the application has initialized and displayed its home page, you should be able to verify that your application displays calendar events from your Office 365 account.  
-1. Close the browser window, terminate the debugging session and return to Visual Studio.
-1. In the **CalendarController.cs** file, add an action method named **Delete** using the following code to delete a contact.
+1. Test the new view:
+  1. In **Visual Studio**, hit **F5** to begin debugging.
+  1. When Prompted, log in with your **Organizational Account**.
+  1. Once the application as loaded and displayed the homepage, click the **Search Events** link and enter a search term on the next page. You should see a filtered set of results:
 
-  ````c#
-  [Authorize]
-  public async Task<ActionResult> Delete(string id) {
-    MyEventsRepository repo = new MyEventsRepository();
+    ![](Images/07.png)
 
-    if (id != null) {
-      await repo.DeleteEvent(id);
-    }
-
-    return Redirect("/Events");
-
-  }
-  ````
-
-1. In the **CalendarController.cs** file, add an action method named **Create** using the following code to create a new contact.
-
-  ````c#
-  [Authorize]
-  public async Task<ActionResult> Create(MyEvent myEvent) {
-
-    if (Request.HttpMethod == "POST") {
-      MyEventsRepository repo = new MyEventsRepository();
-      await repo.AddEvent(myEvent);
-      return Redirect("/Events");
-    } else {
-      myEvent.Start = DateTimeOffset.Now;
-      myEvent.End = DateTimeOffset.Now.AddDays(1);
-      return View(myEvent);
-    }
-  }
-  ````
-
-1. Now you must create a new MVC view for the **Create** action method. You can accomplish this right-clicking on the white space inside the the **Create** action method in the **CalendarController.cs** and selecting **Add View**.
-1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
-  - View name: **Create**
-  - Template: **Create**
-  - Model class: **MyEvent (Office365Calendar.Models)**
-  - Create as partial view: **unchecked**
-  - Reference script libraries: **unchecked**
-  - Use a layout page: **checked**
-1. Take a moment to look through the code that has been added into the new view file **Create.cshtml**. Note there is no need to modify anything because it should provide the needed behavior without any changes.
-1. Now you must create a new MVC view for the **Create** action method. You can accomplish this right-clicking on the white space inside the the **Create** action method in the **CalendarController.cs** and selecting **Add View**.
-1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
-  - View name: **Details**
-  - Template: **Details**
-  - Model class: **MyEvent (Office365Calendar.Models)**
-  - Create as partial view: **unchecked**
-  - Reference script libraries: **unchecked**
-  - Use a layout page: **checked**
-1. Press **F5** to begin a debugging session. When prompted, log in using your Office 365 credentials and then wait for the home page to appear.
-1. Test the delete functionality of the app by clicking on the **Delete** link for a contact in the table of contacts.
-1. Test the create functionality of the app by clicking the **Create New** link on the home page and navigating to the **Create** page. Fill in the input controls with a sample contact and click **Create**.
-1. After clicking **Create**, you should be able to verify that the contact was properly created.
+  1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
 Congratulations! You have completed working with the the Calendar API.

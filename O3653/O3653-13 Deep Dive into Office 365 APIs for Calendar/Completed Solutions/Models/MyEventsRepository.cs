@@ -137,7 +137,7 @@ namespace Office365Calendar.Models {
       var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
       var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
 
-      // discover contact endpoint
+      // discover endpoint
       var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
       var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
 
