@@ -654,7 +654,7 @@ In this exercise, you will code the **ContactController** of the MVC application
 
       ![](Images/viewDialogIndex.png)
 
-    1. Within the **Views/Calendar/Index.cshtml** file, delete all the code in the file and replace it with the following code:
+    1. Within the **Views/Contact/Index.cshtml** file, delete all the code in the file and replace it with the following code:
       
       ````html
       @model IEnumerable<Office365Contact.Models.MyContact>
@@ -725,7 +725,7 @@ In this exercise, you will code the **ContactController** of the MVC application
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
   1. When prompted, log in with your **Organizational Account**.
-  1. Once the application has initialized and displayed its home page, you should be able to verify that your application displays calendar events from your Office 365 account.  
+  1. Once the application has initialized and displayed its home page, you should be able to verify that your application displays contacts from your Office 365 account.  
 
     ![](Images/renderedIndex.png)
 
@@ -959,4 +959,4 @@ In this exercise, you will code the **ContactController** of the MVC application
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
-Congratulations! You have completed working with the the Calendar API.
+Congratulations! You have completed working with the the Contact API.
