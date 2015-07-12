@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Office365Contacts.Models {
+namespace Office365Mail.Models {
   public class PerWebUserCache {
     [Key]
     public int EntryId { get; set; }

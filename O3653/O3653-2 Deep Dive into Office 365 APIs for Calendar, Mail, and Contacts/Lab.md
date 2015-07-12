@@ -1,22 +1,22 @@
-# Office 365 APIs for Calendar, Mail, and Contacts
-In this lab, you will use the Exchange client of the Office 365 APIs to program against Office 365 contacts as part of an ASP.NET MVC5 application.
+# Office 365 APIs for Mail
+In this lab, you will use the Exchange client of the Office 365 APIs to program against Office 365 mailbox as part of an ASP.NET MVC5 application.
 
 ## Prerequisites
-1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange inbox within an Office 365 developer tenancy.
+1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange inbox within an Office 365 developer tenancy.
 1. You must have the Office 365 API Tools version 1.3.41104.1 installed in Visual Studio 2013.
 
-## Lab Setup: Setting up your Exchange account with Sample Contacts for Testing
-1. Using the browser, navigate to https://outlook.office365.com/owa and log into your OWA mailbox.
-1. In the top navigation bar, click the **People** link to navigate to the page which shows you your contacts.
-1. Make sure there are a few contacts for testing. If you have no contacts or less then 10 contacts, use OWA to enter a few sample contacts so you have at least 10.
-1. Once you have verified that you have a set of contacts for testing, you can move on to the next exercise where you will create and test your first app that programs against this contacts list.
+## Lab Setup: Setting up your Exchange account with Sample Mail Events for Testing
+1. Using the browser, navigate to https://outlook.office365.com and log into your Office 365 mailbox.
+1. Click the *waffle* icon in the top-left corner to open the App Launcher and click the **Mail** tile.
+1. Add some Mail items to your Mail if you don't have any in your mailbox.
+1. Once you have verified that you have a set of Mail events for testing, you can move on to the next exercise.
 
 ## Exercise 1: Create an ASP.NET MVC5 Application
 In this exercise, you will create the ASP.NET MVC5 application and register it with Azure active Directory.
 
 1. Launch **Visual Studio 2013** as administrator. 
 1. In Visual Studio select **File/New/Project**.
-1. In the **New Project** dialog, select **Templates/Visual C#/Web** and click **ASP.NET Web Application**. Name the new project **Office365Contacts** and then click **OK**.  
+1. In the **New Project** dialog, select **Templates/Visual C#/Web** and click **ASP.NET Web Application**. Name the new project **Office365Mail** and then click **OK**.  
 
 	![](Images/01.png)  
 
@@ -44,7 +44,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Find the section **Start Action**.
   1. Click the radio button **Start URL** and enter the SSL URL of the web project that you copied from the previous step.
 
-1. In the **Solution Explorer**, right click the **Office365Contacts** project and select **Add/Connected Service**.
+1. In the **Solution Explorer**, right click the **Office365Mail** project and select **Add/Connected Service**.
 	1. In the **Services Manager** dialog:
     1. Click **Register Your App**.
     1. When prompted, login with your **Organizational Account**.
@@ -52,19 +52,15 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 	    1. Verify the option **Single Organization** is selected.
 	    1. Make sure there is only a single URL listed in the **Redirect URIs** and it is the HTTPS URL of the web project.
 	    1. Click **Apply**.
-    1. Click **Contacts**.
-	    1. Click **Permissions**.
-	    1. Check **Have full access to users' contacts**.
-
-	       ![](Images/04.png)
-
-	    1. Click **Apply**.
+    1. Click **Mail**.
+      1. Click **Permissions**.
+      1. Check **Read and write user calendars**.
+      1. Check **Read user calendars**.
+      1. Click **Apply**.
     1. Click **Users and Groups**.
-	    1. Click **Enable sign-on and read user' profiles**.
-	    1. Click **Apply**.
+      1. Click **Enable sign-on and read user' profiles**.
+      1. Click **Apply**.
     1. Click **OK**.
-
-       ![](Images/06.png)
 
 ## Exercise 3: Configure Web Application to use Azure AD and OWIN
 In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Office 365 APIs.
@@ -86,7 +82,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Add the following node to the `<appSettings>` section, setting the value equal to the **directory tenant ID** you acquired in the previous step:
 
     ````xml
-    <add key="ida:TenantId" value="######-####-####-####-############"/>
+    <add key="ida:AadTenantId" value="######-####-####-####-############"/>
     ````
 
 1. Now you need a few NuGet packages to enable OWIN OpenID Connect authentication & to create a secure token cache (using Entity Framework) in the application:
@@ -123,7 +119,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 1. Add a new persistent data store that will be used for the token cache:
   1. Right-click the project and select **Add/New Folder**.
   1. Name the folder **Data**.
-  1. Locate the [Lab Files](Lab Files) folder provided with this lab & find two files: `Office365ContactsContext.cs` & `Office365ContactsInitializer.cs`. Copy these two files to the **Data** folder you just created.
+  1. Locate the [Lab Files](Lab Files) folder provided with this lab & find two files: `Office365MailContextOffice365MailContext.cs` & `Office365MailInitializer.cs`. Copy these two files to the **Data** folder you just created.
 
 1. Add a token cache that leverages Entity Framework to store the user specific tokens in persistent storage:
   1. Right-click the project and select **Add/New Folder**.
@@ -148,7 +144,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Add the following assembly directive to call the `Startup.Configuration()` method when OWIN starts up. Note that you will only point to the class:
 
     ````c#
-    [assembly:OwinStartup(typeof(Office365Contacts.Startup))]
+    [assembly:OwinStartup(typeof(Office365Mail.Startup))]
     ````
 
   1. Update the signature of the `Startup` class to be a partial class as you will create another in the next step. Do this by adding the `partial` keyword after the `public` statement so it looks like the following:
@@ -171,7 +167,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Right-click the **App_Start** folder and select **Add/Class**.
   1. Name the class **Startup.Auth.cs**.
   1. When the file opens make the following two changes:
-    1. Modify the namespace to just be `Office365Contacts`.
+    1. Modify the namespace to just be `Office365Mail`.
     1. Modify the class declaration to be a `partial` class named `Startup` so it looks like the following:
 
       ````c#
@@ -188,7 +184,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     using Owin;
     using System.Configuration;
     using System.Threading.Tasks;
-    using Exercise2.Utils;
+    using Office365Mail.Utils;
     ````
 
   1. Add the following method to the `Startup` class:
@@ -210,6 +206,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions {
       ClientId = SettingsHelper.ClientId,
       Authority = SettingsHelper.AzureADAuthority,
+      PostLogoutRedirectUri = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority),
       Notifications = new OpenIdConnectAuthenticationNotifications() {
         // when an auth code is received...
         AuthorizationCodeReceived = (context) => {
@@ -255,7 +252,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Within the **AccountController** file, add the following `using` statements to the top of the file:
   
     ````c#
-    using Office365Contacts.Utils;
+    using Office365Mail.Utils;
     using Microsoft.IdentityModel.Clients.ActiveDirectory;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
@@ -374,20 +371,20 @@ In this exercise you will take the ASP.NET MVC web application you created in th
         </div>
         ````
 
-      1. Update that navigation so the Contact link points to the Contacts controller (the **Calendar** link added below) as well as a reference to the login control you just created:
+      1. Update that navigation so the Messages link points to the Mail controller (the **Messages** link added below) as well as a reference to the login control you just created:
 
         ````asp
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li>@Html.ActionLink("Home", "Index", "Home")</li>
             <li>@Html.ActionLink("About", "About", "Home")</li>
-            <li>@Html.ActionLink("Contacts", "Index", "Contacts")</li>
+            <li>@Html.ActionLink("Messages", "Index", "Mail")</li>
           </ul>
           @Html.Partial("_LoginPartial")
         </div>
         ````
 
-        > The **Contacts** link will not work yet... you will add that in the next exercise.
+      > The **Messages** link will not work yet... you will add that in the next exercise.
 
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
@@ -402,47 +399,49 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
-## Exercise 3: Code the Contacts API
-In this exercise, you will create a repository object for wrapping CRUD operations associated with the Contacts API.
+## Exercise 3: Code the Mail API
+In this exercise, you will create a repository object for wrapping CRUD operations associated with the Mail API.
 
-1. In the **Solution Explorer**, locate the **Models** folder in the **Office365Contacts** project.
+1. In the **Solution Explorer**, locate the **Models** folder in the **Office365Mail** project.
 1. Right-click the **Models** folder and select **Add/Class**.
-1. In the **Add New Item** dialog, name the new class **MyContact** and click **Add** to create the new source file for the class.  
-
-	![](Images/07.png)
-
-1. At the top of the course file **MyContact.cs**, add the following using statement just after the using statements that are already there.
+1. In the **Add New Item** dialog, name the new class **MyMessage** and click **Add** to create the new source file for the class.  
+1. At the top of the course file **MyMessage.cs**, add the following using statement just after the using statements that are already there.
 
 	````c#
 	using System.ComponentModel;
 	````
 
-1. Implement the new class **MyContact** using the following class definition.
+1. Implement the new class **MyMessage** using the following class definition.
 		
-	````c#
-	public class MyContact {
-	    public string Id { get; set; }
-	    [DisplayName("First Name")]
-	    public string GivenName { get; set; }
-	    [DisplayName("Last Name")]
-	    public string Surname { get; set; }
-	    [DisplayName("Company")]
-	    public string CompanyName { get; set; }
-	    [DisplayName("Work Phone")]
-	    public string BusinessPhone1 { get; set; }
-	    [DisplayName("Home Phone")]
-	    public string HomePhone1 { get; set; }
-	    [DisplayName("Email Address")]
-	    public string EmailAddress1 { get; set; }
+  ````c#
+  public class MyMessage {
+    public string Id { get; set; }
+    public string ConversationId { get; set; }
+    public string Subject { get; set; }
+    [DisplayName("From Name")]
+    public string FromName { get; set; }
+    [DisplayName("From Email Address")]
+    public string FromEmailAddress { get; set; }
+    [DisplayName("Sent")]
+    [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
+    public DateTimeOffset? DateTimeSent { get; set; }
+    [DisplayName("Received")]
+    [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
+    public DateTimeOffset? DateTimeReceived { get; set; }
+    [DisplayName("Has Attachments")]
+    public bool? HasAttachments { get; set; }
+    public string Importance { get; set; }
+    public bool? IsDraft { get; set; }
+    [DisplayName("To Name")]
+    public string ToName { get; set; }
+    [DisplayName("To Email Address")]
+    public string ToEmailAddress { get; set; }
+    public string Body { get; set; }
+  }
+  ````
 
-	}
-	````
-
-1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyContactsRepository** and click **Add** to create the new source file for the class.    
-
-	![](Images/08.png)
-
-1. **Add** the following using statements to the top of the **MyContactsRepository** class.
+1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyMessagesRespository** and click **Add** to create the new source file for the class.    
+1. **Add** the following using statements to the top of the **MyMessagesRespository** class.
 		
 	````c#
 	using System.Security.Claims;
@@ -450,18 +449,19 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
 	using Microsoft.IdentityModel.Clients.ActiveDirectory;
 	using Microsoft.Office365.Discovery;
 	using Microsoft.Office365.OutlookServices;
-	using Office365Contacts.Utils;
+	using Office365Mail.Utils;
+  using Office365Mail.Models;
 	````
 
-1. **Add** a function named **EnsureClientCreated** to the **MyContactsRepository** class with the following implementation to create and return an **OutlookServicesClient** object.
+1. **Add** a function named **EnsureClientCreated** to the **MyMessagesRespository** class with the following implementation to create and return an **OutlookServicesClient** object.
 		
-	````c#
+  ````c#
   private async Task<OutlookServicesClient> EnsureClientCreated() {
     // fetch from stuff user claims
     var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
     var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
 
-    // discover contact endpoint
+    // discover endpoint
     var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
     var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
 
@@ -476,8 +476,8 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
         return authResult.AccessToken;
       });
 
-    // query discovery service for endpoint for 'calendar' endpoint
-    CapabilityDiscoveryResult dcr = await discovery.DiscoverCapabilityAsync("Contacts");
+    // query discovery service for endpoint for 'Mail' endpoint
+    CapabilityDiscoveryResult dcr = await discovery.DiscoverCapabilityAsync("Mail");
 
     // create an OutlookServicesclient
     return new OutlookServicesClient(dcr.ServiceEndpointUri,
@@ -488,250 +488,348 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
         return authResult.AccessToken;
       });
   }
-	````
+  ````
 
-1. **Add** a function named **GetContactCount** to the **MyContactsRepository** class to retrieve a count of contacts.
-
-	````c#
-	public async Task<int> GetContactCount() {
-		var client = await EnsureClientCreated();
-		var contactsResults = await client.Me.Contacts.ExecuteAsync();
-		return contactsResults.CurrentPage.Count();
-	}
-	````
-
-1. **Add** a function named **GetContacts** to the **MyContactsRepository** class to retrieve and return a list of **MyContact** objects.
+1. **Add** a function named **GetMessages** to the **MyMessagesRespository** class to retrieve and return a list of **MyMessage** objects.
 		
-	````c#
-	public async Task<List<MyContact>> GetContacts(int pageIndex, int pageSize) {
-	  // acquire a O365 client to retrieve contacts
-	  OutlookServicesClient client = await EnsureClientCreated();
+  ````c#
+  public async Task<List<MyMessage>> GetMessages(int pageIndex, int pageSize) {
 
-	  // get contacts, sort by their last name and only one page of content
-	  var contactsResults = await client.Me.Contacts.ExecuteAsync();
-	  var contacts = contactsResults.CurrentPage
-	                                  .OrderBy(e => e.Surname)
-	                                  .Skip(pageIndex * pageSize)
-	                                  .Take(pageSize);
+    var client = await EnsureClientCreated();
 
-	  // convert response from Office 365 API > internal class
-	  var myContactsList = new List<MyContact>();
-	  foreach (var contact in contacts) {
-	    myContactsList.Add(new MyContact {
-	      Id = contact.Id,
-	      GivenName = contact.GivenName,
-	      Surname = contact.Surname,
-	      CompanyName = contact.CompanyName,
-	      EmailAddress = contact.EmailAddresses[0] != null ? contact.EmailAddresses[0].Address : string.Empty,
-	      BusinessPhone = contact.BusinessPhones[0] ?? string.Empty,
-	      HomePhone = contact.HomePhones[0] ?? string.Empty
-	    });
-	  }
+    var messageResults = await (from message in client.Me.Messages
+                                orderby message.DateTimeSent descending
+                                select message)
+                              .Skip(pageIndex * pageSize)
+                              .Take(pageSize)
+                              .ExecuteAsync();
 
-	  // return collection oc contacts
-	  return myContactsList;
-	}
-	````
+    MorePagesAvailable = messageResults.MorePagesAvailable;
 
-1. Add a **DeleteContact** function  to the **MyContactsRepository** class to delete a contact.
+    var messageList = new List<MyMessage>();
 
-	````c#
-	public async Task DeleteContact(string id) {
-		// acquire a O365 client to retrieve contacts
-		var client = await EnsureClientCreated();
+    foreach (IMessage message in messageResults.CurrentPage) {
+      var myMessage = new MyMessage {
+        Id = message.Id,
+        Subject = message.Subject,
+        DateTimeReceived = message.DateTimeReceived,
+        FromName = message.From.EmailAddress.Name,
+        FromEmailAddress = message.From.EmailAddress.Address,
+        ToName = message.ToRecipients[0].EmailAddress.Name,
+        ToEmailAddress= message.ToRecipients[0].EmailAddress.Address,
+        HasAttachments = message.HasAttachments
+      };
 
-		// get the contact to be deleted
-		var contact = await client.Me.Contacts.GetById(id).ExecuteAsync();
+      messageList.Add(myMessage);
+    }
+    return messageList;
+  }
+  ````
 
-		// delete the contact
-		await contact.DeleteAsync();
-	}
-	````
+1. Add a **GetMessage** function to the **MyMessagesRespository** class to get a specific message:
 
-1. Add a **AddContact** function  to the **MyContactsRepository** class to create a new contact.
+  ````c#
+  public async Task<MyMessage> GetMessage(string id) {
+    var client = await EnsureClientCreated();
+    var existingMessage = await client.Me.Messages.GetById(id).ExecuteAsync();
 
-````c#
-public async Task AddContact(MyContact myContact) {
-  // acquire a O365 client to retrieve contacts
-  var client = await EnsureClientCreated();
+    var newMessage = new MyMessage {
+      Id = existingMessage.Id,
+      ConversationId = existingMessage.ConversationId,
+      Subject = existingMessage.Subject,
+      DateTimeSent = existingMessage.DateTimeSent,
+      DateTimeReceived = existingMessage.DateTimeReceived,
+      FromName = existingMessage.From.EmailAddress.Name,
+      FromEmailAddress = existingMessage.From.EmailAddress.Address,
+      Body = existingMessage.Body.Content ?? string.Empty,
+      HasAttachments = existingMessage.HasAttachments,
+      ToName = existingMessage.ToRecipients[0].EmailAddress.Name,
+      ToEmailAddress = existingMessage.ToRecipients[0].EmailAddress.Address
+    };
 
-  // create new contact record
-  var newContact = new Microsoft.Office365.OutlookServices.Contact {
-    GivenName = myContact.GivenName,
-    Surname = myContact.Surname,
-    CompanyName = myContact.CompanyName
-  };
+    return newMessage;
+  }
+  ````
 
-  // add email address
-  newContact.EmailAddresses.Add(new EmailAddress() {
-    Address = myContact.EmailAddress,
-    Name = myContact.EmailAddress
-  });
+1. Add a **DeleteMessage** function to the **MyMessagesRespository** class to delete a message.
 
-  // add phone numbers to collections
-  newContact.HomePhones.Add(myContact.HomePhone);
-  newContact.BusinessPhones.Add(myContact.BusinessPhone);
+  ````c#
+  public async Task DeleteMessage(string id) {
+    var client = await EnsureClientCreated();
+    var myMessage = await client.Me.Messages.GetById(id).ExecuteAsync();
+    await myMessage.DeleteAsync();
+  }
+  ````
 
-  // create the contact in O365
-  await client.Me.Contacts.AddContactAsync(newContact);
-}
-````
+1. Add a **SendMessage** function  to the **MyMessagesRespository** class to send a new email.
+
+  ````c#
+  public async Task SendMessage(MyMessage myMessage) {
+
+    var client = await EnsureClientCreated();
+
+    var newMessage = new Message {Subject = myMessage.Subject};
+
+    var email = new EmailAddress {
+      Name = myMessage.ToName,
+      Address = myMessage.ToEmailAddress
+    };
+    newMessage.ToRecipients.Add(new Recipient { EmailAddress = email });
+
+    newMessage.Body = new ItemBody {
+      ContentType = BodyType.Text,
+      Content = myMessage.Body
+    };
+
+    await client.Me.Messages.AddMessageAsync(newMessage);
+
+    await newMessage.SendAsync();
+  }
+  ````
+
+At this point you have created the repository that will be used to talk to the Office 365 API.
 
 ## Exercise 4: Code the MVC Application
-In this exercise, you will code the **Contacts** controller of the MVC application to display contacts as well as adding behavior for adding and deleting contacts.
+In this exercise, you will code the **MailController** of the MVC application to display messages as well as adding behavior for sending and deleting messages.
 
-1. In the **Solution Explorer**, expand the **Controllers** folder and open the **ContactsController.cs** file.
+1. Right-click the **Controllers** folder and select **Add/Controller**.
+  1. In the **Add Scaffold** dialog, select **MVC 4 Controller - Empty**.
+  1. Click **Add**.
+  1. When prompted for a name, enter **MailController**.
+  1. Click **Add**.
+1. Within the **MailController** file, add the following `using` statements to the top of the file:
+
+  ````c#
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Threading.Tasks;
+  using System.Web;
+  using System.Web.Mvc;
+  using System.Web.UI;
+  using Office365Mail.Models;
+  ````
+
+1. Within the `MailController` class, add the following field to get a reference to the repository you previously created:
+
+  ````c#
+  MyMessagesRespository _repo = new MyMessagesRespository();
+  ````
+
+1. In the **Solution Explorer**, expand the **Controllers** folder and open the **MailController.cs** file.
 1. **Add** the following using statements to the top of the file.
 
-	````c#
-	using Microsoft.Office365.OAuth;
-	using System.Threading.Tasks;
-	using Office365Contacts.Models;
-	````
+  ````c#
+  using System.Threading.Tasks;
+  using Office365Mail.Models;
+  ````
 
-1. **Replace** the **Index** method with the following code to read files.
-		
-	````c#
-  [Authorize]
-  public async Task<ActionResult> Index(int? pageNumber) {
-    // setup paging control
-    int pageSize = 8;
-    int pageIndex = (pageNumber != null) ? (int)pageNumber - 1 : 0;
-    ViewBag.pageIndex = pageIndex;
-    ViewBag.pageSize = pageSize;
+1. Add a field to the class to indicate if there are more items beyond what was returned in the last query:
 
-    // get a list of all contacts
-    List<MyContact> contacts = null;
-    MyContactRepository contactRepository = new MyContactRepository();
-    ViewBag.ContactCount = await contactRepository.GetContactCount();
-    contacts = await contactRepository.GetContacts(pageIndex, pageSize);
+  ````c#
+  MyMessagesRespository _repo = new MyMessagesRespository();
+  ````
 
-    // pass the collection of contacts to the view in the model
-    return View(contacts);
-  }
-	````
-
-1. Finally, update the view to display the results.
-  1. Within the `ContactsController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
-  1. Within the **Add View** dialog, set the following values:
-    1. View Name: **Index**.
-    1. Template: **Empty (without model)**.
+1. Add a route handler and view to list all the events:
+  1. **Replace** the **Index** method with the following code to read files.
       
-      > Leave all other fields blank & unchecked.
-    
-    1. Click **Add**.
-  1. Within the **Views/Contacts/Index.cshtml** file, delete all the code in the file and replace it with the following code:
-		
-		````html
-		@model IEnumerable<Office365Contacts.Models.MyContact>
+    ````c#
+    [Authorize]
+    public async Task<ActionResult> Index(int? pageNumber) {
+      // setup paging
+      const int pageSize = 2;
+      if (pageNumber == null)
+        pageNumber = 1;
 
-		@{ ViewBag.Title = "My Contacts"; }
+      // get list of entities
+      var messages = await _repo.GetMessages((int)pageNumber - 1, pageSize);
 
-		<h2>My Contacts</h2>
+      ViewBag.pageNumber = pageNumber;
+      ViewBag.morePagesAvailable = _repo.MorePagesAvailable;
 
-		<p>@Html.ActionLink("Create New", "Create")</p>
+      return View(messages);
 
-		<table id="contactsTable" class="table table-striped table-bordered">
-		  <tr>
-		    <th>@Html.DisplayNameFor(model => model.GivenName)</th>
-		    <th>@Html.DisplayNameFor(model => model.Surname)</th>
-		    <th>@Html.DisplayNameFor(model => model.CompanyName)</th>
-		    <th>@Html.DisplayNameFor(model => model.BusinessPhone)</th>
-		    <th>@Html.DisplayNameFor(model => model.HomePhone)</th>
-		    <th>@Html.DisplayNameFor(model => model.EmailAddress)</th>
-		    <th></th>
-		  </tr>
-		  @foreach (var item in Model) {
-		    <tr>
-		      <td>@Html.DisplayFor(modelItem => item.GivenName)</td>
-		      <td>@Html.DisplayFor(modelItem => item.Surname)</td>
-		      <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
-		      <td>@Html.DisplayFor(modelItem => item.BusinessPhone)</td>
-		      <td>@Html.DisplayFor(modelItem => item.HomePhone)</td>
-		      <td>@Html.DisplayFor(modelItem => item.EmailAddress)</td>
-		      <td>@Html.ActionLink("Delete", "Delete", new { id = item.Id })</td>
-		    </tr>
-		  }
-		</table>
-		````
-
-1. Enter the following code into **Index.cshtml** at the bottom under the table element you created in the previous step. Note that this code is being added at the bottom of the page to support paging.
-
-	````html
-	<div class="row">
-	  <h4>Paging Control</h4>
-	  <div class="btn btn-group-sm">
-	    @{
-	      int pageIndex = ViewBag.pageIndex;
-	      int pageSize = ViewBag.pageSize;
-	      int contactCount = ViewBag.contactCount;
-
-	      int pageCount = (int)System.Math.Ceiling((double)contactCount / (double)pageSize);
-
-	      for (int i = 1; i <= pageCount; i++) {
-	        Dictionary<string, object> attributes = new Dictionary<string, object>();
-	        attributes.Add("class", "btn btn-default");
-	        RouteValueDictionary routeValues = new RouteValueDictionary();
-	        routeValues.Add("pageNumber", i.ToString());
-	        @Html.ActionLink("Page " + i.ToString(), "Index", "Contacts", routeValues, attributes);
-	      }
-	    }
-	  </div>
-	</div>
-	````
-
-1. In **Visual Studio**, hit **F5** to begin debugging.
-1. When prompted, log in with your **Organizational Account**.
-1. Once the application has initialized and displayed its home page, you should be able to verify that your application displays contacts from your Office 365 account.  
-
-	![](Images/09.png)
-
-1. Try using the paging controls at the bottom of the page. As long as you have nine or more contacts, you should have at least two pages. Test the paging buttons to verify that they can be used to navigate from page to page.
-1. Close the browser window, terminate the debugging session and return to Visual Studio.
-1. In the **ContactsController.cs** file, add an action method named **Delete** using the following code to delete a contact.
-
-	````c#
-  [Authorize]
-  public async Task<ActionResult> Delete(string id) {
-    MyContactRepository contactRepository = new MyContactRepository();
-    if (id != null) {
-      await contactRepository.DeleteContact(id);
     }
-    return Redirect("/");
-  }
-	````
+    ````
 
-1. In the **ContactsController.cs** file, add an action method named **Createusing the following code to create a new contact.
+    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by the Office 365 API.
 
-	````c#
-  [Authorize]
-  public async Task<ActionResult> Create(MyContact myContact) {
-    // if a contact was submitted, create it
-    if (Request.HttpMethod == "POST") {
-      MyContactRepository contactRepository = new MyContactRepository();
-      await contactRepository.AddContact(myContact);
-      return Redirect("/");
-      // else create a empty model & return to the create page view
-    } else {
-      return View(myContact);
+  1. Finally, update the view to display the results.
+    1. Within the `MailController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
+    1. Within the **Add View** dialog, set the following values:
+      1. View Name: **Index**.
+      1. Template: **Empty (without model)**.
+        
+        > Leave all other fields blank & unchecked.
+      
+      1. Click **Add**.
+
+      ![](Images/viewDialogIndex.png)
+
+    1. Within the **Views/Mail/Index.cshtml** file, delete all the code in the file and replace it with the following code:
+      
+      ````html
+      @model IEnumerable<Office365Mail.Models.MyMessage>
+
+      @{
+        ViewBag.Title = "Index";
+      }
+
+      <h2>Index</h2>
+
+      <p>
+        @Html.ActionLink("Create New Message", "Send")
+      </p>
+      <table class="table">
+        <tr>
+          <th>@Html.DisplayNameFor(model => model.Subject)</th>
+          <th>@Html.DisplayNameFor(model => model.DateTimeReceived)</th>
+          <th>From</th>
+          <th>To</th>
+          <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+            <td>@Html.DisplayFor(modelItem => item.DateTimeReceived)</td>
+            <td>
+              @Html.DisplayFor(modelItem => item.FromName)<br />
+              @Html.DisplayFor(modelItem => item.FromEmailAddress)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.ToName)<br />
+              @Html.DisplayFor(modelItem => item.ToEmailAddress)
+            </td>
+            <td>
+              @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+              @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+          </tr>
+        }
+      </table>
+      ````
+
+  1. Now at the bottom of the **Index.cshtml** file, add the following code that will implement paging for the index page:
+
+    ````html
+    <div class="row">
+      <h4>Paging Control</h4>
+      <div class="btn btn-group-sm">
+        @{
+          var pageLinkAttributes = new Dictionary<string, object> { { "class", "btn btn-default" } };
+
+          int pageNumber = ViewBag.pageNumber;
+
+          // do prev link if not on first page
+          if (pageNumber > 1) {
+            var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber - 1 } };
+            @Html.ActionLink("Previous Page", "Index", "Mail", routeValues, pageLinkAttributes);
+          }
+
+
+          // do next link if current page = max page size
+          if (ViewBag.morePagesAvailable) {
+            var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber + 1 } };
+            @Html.ActionLink("Next Page", "Index", "Mail", routeValues, pageLinkAttributes);
+          }
+        }
+      </div>
+    </div>
+    ````
+
+1. Test the new view:
+  1. In **Visual Studio**, hit **F5** to begin debugging.
+  1. When prompted, log in with your **Organizational Account**.
+  1. Once the application has initialized and displayed its home page, you should be able to verify that your application displays Mail from your Office 365 account.  
+
+    ![](Images/renderedIndex.png)
+
+  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+
+1. Add a route handler delete a message:
+  1. In the **MailController.cs** file, add an action method named **Delete** using the following code to delete a message.
+
+    ````c#
+    [Authorize]
+    public async Task<ActionResult> Delete(string id) {
+      if (id != null) {
+        await _repo.DeleteMessage(id);
+      }
+
+      return Redirect("/Mail");
+
     }
-  }
-	````
+    ````
 
-1. Now you must create a new MVC view for the **Create** action method. You can accomplish this right-clicking on the white space inside the the **Create** action method in the **ContactsController.cs** and selecting **Add View**.
-1. In the **Add View** dialog, select **Create** as the **Template** and select **MyContact** as the model class. When the **Add View** dialog matches the following screenshot, click add to generate the view.  
+1. Test the new view:
+  1. In **Visual Studio**, hit **F5** to begin debugging.
+  1. When prompted, log in with your **Organizational Account**.
+  1. Once the application has initialized and displayed its home page, you should be able to verify that your application displays Mail from your Office 365 account.  
 
-	![](Images/10.png)
+    ![](Images/renderedIndex.png)
 
-1. Take a moment to look through the code that has been added into the new view file **Create.cshtml**. Note there is no need to modify anything because it should provide the needed behavior without any changes.
-1. Press **F5** to begin a debugging session. When prompted, log in using your Office 365 credentials and then wait for the home page to appear.
-1. Test the delete functionality of the app by clicking on the **Delete** link for a contact in the table of contacts.
-1. Test the create functionality of the app by clicking the **Create New** link on the home page and navigating to the **Create** page. Fill in the input controls with a sample contact and click **Create**.
+  1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
-	![](Images/11.png)
+1. Add a route handler and views to handle sending events:
+  1. In the **MailController.cs** file, add an action method named **Send** using the following code to create a new event. Notice how you are adding two items, when the create form is requested (the `HttpGet` option) and one for when the form is submitted (the `HttpPost` option).
 
-1. After clicking **Create**, you should be able to verify that the contact was properly created.  
+    ````c#
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult> Send() {
+      return View(new MyMessage());
+    }
 
-	![](Images/12.png)
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult> Send(MyMessage myEvent) {
+      myEvent.FromName = User.Identity.Name;
+      myEvent.FromEmailAddress = User.Identity.Name;
 
-Congratulations! You have completed working with the the Contacts API.
+      await _repo.SendMessage(myEvent);
+      return Redirect("/Mail");
+    }
+    ````
+
+  1. Now you must create a new MVC view for the **Send** action method. You can accomplish this right-clicking on the white space inside the the **Send** action method in the **MailController.cs** and selecting **Add View**.
+  1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
+    + View name: **Send**
+    + Template: **Create**
+    + Model class: **MyMessage (Office365Mail.Models)**
+    + Create as partial view: **unchecked**
+    + Reference script libraries: **unchecked**
+    + Use a layout page: **checked**
+
+    ![](Images/viewDialogSend.png)
+
+  1. Open the **Send.cshtml** file and make sure the code looks like the following code to build a form that will allow a user to create a message:
+
+    ````html
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult> Send() {
+      return View(new MyMessage());
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult> Send(MyMessage myEvent) {
+      myEvent.FromName = User.Identity.Name;
+      myEvent.FromEmailAddress = User.Identity.Name;
+
+      await _repo.SendMessage(myEvent);
+      return Redirect("/Mail");
+    }
+    ````
+
+1. Test the new view:
+  1. In **Visual Studio**, hit **F5** to begin debugging.
+  1. When Prompted, log in with your **Organizational Account**.
+  1. Once the application as loaded and displayed the homepage, click the **Create New** link. You should see the form below. Fill the form out to add a new item:
+
+    ![](Images/renderedSend.png)
+
+  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+
+Congratulations! You have completed working with the the Mail API.

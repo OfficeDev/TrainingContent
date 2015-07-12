@@ -20,13 +20,13 @@ Using the Office 365 API Tool for Visual Studio you can configure your web appli
 1. Initially, no permissions will be selected, as the app is not registered to consume any services yet.
 1. Select **Users and Groups** and then click **Permissions**.
 1. In the **Users and Groups Permissions** dialog, select **Enable sign-on and read users** profiles' and click **Apply**.
-1. Select **Calendar** and then click **Permissions**.
-1. In the **Calendar Permissions** dialog, select **Read users' calendars** and click **Apply**.
+1. Select **Messages** and then click **Permissions**.
+1. In the **Messages Permissions** dialog, select **Send mail as a user**, **Read and write user mail** & **Read user mail** and click **Apply**.
 1. Click on **App Properties** and select **Single Organizations** to make this app single-tenant and remove the HTTP endpoint.
 1. Click **Ok**.
-1. Open the `web.config` file and update the **ida:TenantID** setting to include the GUID of your Azure AD subscription ID.
+1. Open the `web.config` file and update the **ida:AadTenantID** setting to include the GUID of your Azure AD subscription ID.
 
-  > You can get this GUID if you login to your Azure subscription & go to your Azure AD directory. Look at the URL and you will see a GUID in the URL. Copy just that GUID out and put it in the **ida:TenantID** in the `web.config`.
+  > You can get this GUID if you login to your Azure subscription & go to your Azure AD directory. Look at the URL and you will see a GUID in the URL. Copy just that GUID out and put it in the **ida:AadTenantID** in the `web.config`.
 
 After clicking OK in the Services Manager dialog box, Office 365 client libraries (in the form of NuGet packages) for connecting to Office 365 APIs will be added to your project. 
 

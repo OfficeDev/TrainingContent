@@ -8,9 +8,9 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Office365Contacts.Utils;
+using Office365Mail.Utils;
 
-namespace Office365Contacts.Controllers
+namespace Office365Mail.Controllers
 {
   public class AccountController : Controller {
     public void SignIn() {
