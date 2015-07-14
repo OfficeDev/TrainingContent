@@ -44,7 +44,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Find the section **Start Action**.
   1. Click the radio button **Start URL** and enter the SSL URL of the web project that you copied from the previous step.
 
-1. In the **Solution Explorer**, right click the **Office365Contacts** project and select **Add/Connected Service**.
+1. In the **Solution Explorer**, right click the **Office365Calendar** project and select **Add/Connected Service**.
 	1. In the **Services Manager** dialog:
     1. Click **Register Your App**.
     1. When prompted, login with your **Organizational Account**.
@@ -62,7 +62,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
       1. Click **Apply**.
     1. Click **OK**.
 
-## Exercise 3: Configure Web Application to use Azure AD and OWIN
+## Exercise 2: Configure Web Application to use Azure AD and OWIN
 In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Office 365 APIs.
 
 1. Obtain and store the Azure AD tenant ID in the `web.config`.
@@ -245,7 +245,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Save your changes.
 1. With the authentication process wired up into the OWIN startup process, now implement a login controller to provide sign in & sign out functionality:
   1. Right-click the **Controllers** folder and select **Add/Controller**.
-    1. In the **Add Scaffold** dialog, select **MVC 4 Controller - Empty**.
+    1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty**.
     1. Click **Add**.
     1. When prompted for a name, enter **AccountController**.
     1. Click **Add**.
@@ -402,7 +402,7 @@ Congratulations... at this point your app is configured with Azure AD and levera
 ## Exercise 3: Code the Calendar API
 In this exercise, you will create a repository object for wrapping CRUD operations associated with the Calendar API.
 
-1. In the **Solution Explorer**, locate the **Models** folder in the **Office365Contacts** project.
+1. In the **Solution Explorer**, locate the **Models** folder in the **Office365Calendar** project.
 1. Right-click the **Models** folder and select **Add/Class**.
 1. In the **Add New Item** dialog, name the new class **MyEvent** and click **Add** to create the new source file for the class.  
 1. At the top of the course file **MyEvent.cs**, add the following using statement just after the using statements that are already there.
@@ -628,7 +628,7 @@ At this point you have created the repository that will be used to talk to the O
 In this exercise, you will code the **CalendarController** of the MVC application to display events as well as adding behavior for adding and deleting events.
 
 1. Right-click the **Controllers** folder and select **Add/Controller**.
-  1. In the **Add Scaffold** dialog, select **MVC 4 Controller - Empty**.
+  1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty**.
   1. Click **Add**.
   1. When prompted for a name, enter **CalendarController**.
   1. Click **Add**.
