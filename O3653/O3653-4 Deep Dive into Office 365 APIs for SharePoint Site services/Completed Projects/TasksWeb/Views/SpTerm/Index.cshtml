@@ -1,0 +1,36 @@
+﻿@model TasksWeb.Models.SpTermViewModel
+
+@{
+  ViewBag.Title = "Index";
+}
+
+@if (string.IsNullOrEmpty(Model.ParentTermLabel)) {
+  <h2>Terms in the Default Term Set</h2>
+} else {
+  <h2>Child Terms to the Term '@Model.ParentTermLabel'</h2>
+}
+
+<p>
+  @Html.ActionLink("Create New", "Create", new { parentTermId = Model.ParentTermId, parentTermLabel = Model.ParentTermLabel })
+</p>
+
+<table>
+  @foreach (var item in Model.Terms) {
+    <tr>
+      <td>
+        @using (Html.BeginForm("Delete", "SpTerm", FormMethod.Post)) {
+          @Html.AntiForgeryToken()
+          <input type="hidden" id="termId" name="termId" value="@item.Id" />
+          <input type="submit" value="Delete" class="btn btn-danger" />
+        }
+      </td>
+      <td>
+        @Html.ActionLink(item.Label, "Index", new { parentTermId = item.Id, parentTermLabel = item.Label })
+      </td>
+    </tr>
+  }
+</table>
+
+<div>
+  @Html.ActionLink("Back to List", "Index")
+</div>

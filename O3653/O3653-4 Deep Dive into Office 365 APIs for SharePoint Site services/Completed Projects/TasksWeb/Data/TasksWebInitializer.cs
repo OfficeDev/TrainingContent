@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace TasksWeb.Data {
-  public class TasksWebInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<TasksWebContext> {
+  public class TasksWebInitializer : System.Data.Entity.DropCreateDatabaseAlways<TasksWebContext> {
 
   }
 
