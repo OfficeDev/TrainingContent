@@ -12,9 +12,6 @@ namespace OneDriveWeb.Data {
     public OneDriveWebContext()
       : base("OneDriveWebContext") { }
 
-    //public DbSet<Tenant> Tenants { get; set; }
-    //public DbSet<User> Users { get; set; }
-
     public DbSet<PerWebUserCache> PerUserCacheList { get; set; }
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder) {
