@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace OneDriveWeb.Data {
-  public class OneDriveWebInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<OneDriveWebContext> {
+  public class OneDriveWebInitializer : System.Data.Entity.DropCreateDatabaseAlways<OneDriveWebContext> {
 
   }
 
