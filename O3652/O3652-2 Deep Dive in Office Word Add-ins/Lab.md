@@ -7,6 +7,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange inbox within an Office 365 developer tenancy.
 1. You must have the Office 365 API Tools version 1.4.50428.2 installed in Visual Studio 2013 & Update 4 installed.
+1. In order to complete exercise 4, you must have Office 2016 Preview installed which you can obtain from here: https://products.office.com/en-us/office-2016-preview
 
 ## Exercise 1: Creating the ContentWriter Add-in Office Project
 *In this exercise you will create a new Office Add-in project in Visual Studio so that you can begin to write, test and debug an Office Word Add-in. The user interface of the Office Add-in you will create in this lab will not be very complicated as it will just contain HTML buttons and JavaScript command handlers.*
@@ -432,3 +433,185 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	![](Images/Fig16.png)
 
 Congratulations! In this exercise you extended the add-in's capabilities by adding JavaScript code to insert content into the active Word document using Open Office XML.
+
+## Exercise 4: Leverage the Word v2 JavaScript API in Word 2016
+In this exercise you will create a Word Add-in that uses the v2 JavaScript API included in Word 2016. 
+
+> **Note**: For this exercise you must have Word 2016 Preview, or a later version, installed. Refer to the prerequisites at the beginning of this lab for links on where to obtain Office 2016 Preview.
+
+1. Launch Visual Studio 2013 as administrator.
+1. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **App for Office** project template from the **Office/SharePoint** template folder as shown below. Name the new project **Word16Api** and click **OK** to create the new project.
+
+1. When you create a new App for Office project, Visual Studio prompts you with the **Choose the app type** page of the **Create app for Office** dialog. This is the point where you select the type of App for Office you want to create. Leave the default setting with the radio button titled **Task pane** and select **OK** to continue.
+
+	![](Images/Fig02.png)
+
+1. On the **Choose the host applications** page of the **Create app for Office** dialog, uncheck all the Office application except for **Word** and then click **Finish** to create the new Visual Studio solution. 
+
+	![](Images/Fig03.png)
+
+1. Reference the Word 2016 v2 JavaScript API in the add-in:
+	1. Locate and open the homepage for the add-in: **App \ Home \ Home.html**.
+	1. Immediately after the reference to `Office.js` in the `<head>` portion of the page, add the following two script references to the Word v2 JavaScript API:
+
+		````html
+		<script src="https://oep.azurewebsites.net/preview/4229.1002/office.runtime.js" 
+		        type="text/javascript"></script>
+		<script src="https://oep.azurewebsites.net/preview/4229.1002/word.js" 
+		        type="text/javascript"></script>
+		````
+
+	> **Note:** Eventually the Word v2 JavaScript API will be merged into the single `Office.js` file so this step will not be necessary, but in the preview timeframe it is required as an extra step.
+
+1. Now update the user interface for the add-in:
+	1. Locate the `<body>` section of the page within the `home.html` file.
+	1. Replace the entire contents of the `<body>` with the following markup:
+
+		````html
+		<body>
+		  <div id="content-header">
+		    <div class="padding">
+		      <h1>Welcome</h1>
+		    </div>
+		  </div>
+		  <div id="content-main">
+		    <div class="padding">
+		      <button id="addBibliography">Add Bibliography</button>
+		      <button id="highlightInstances">Highlight Instances of "Word"</button>
+		    </div>
+		  </div>
+		</body>
+		````
+
+1. The next step is to code the business logic for the add-in.
+	1. Locate the **App \ Home \ Home.html** file.
+	1. Remove all the sample code except the add-in initialization code so all that is left is the following:
+
+		````javascript
+		(function () {
+		  "use strict";
+
+		  // The initialize function must be run each time a new page is loaded
+		  Office.initialize = function (reason) {
+		    $(document).ready(function () {
+		      app.initialize();
+
+		      // attach click handlers to the word document
+		      // TODO-1
+		      // TODO-2
+		    });
+		  };
+
+		  // TODO-error
+		})();
+		````
+
+	1. Add a universal error handler function that will be used when there are errors. This should replace the comment `// TODO-error`:
+
+		````javascript
+	  function errorHandler (error) {
+	    console.log("Failed: ErrorCode=" + error.errorCode + ", ErrorMessage=" + error.errorMessage);
+	    console.log(error.traceMessages);
+	  }
+		````
+
+	1. Now add a function that will add a bibliography to the end of the current Word document:
+		1. Replace the comment `// TODO-1` with the following jQuery code that creates a click event handler on one of the buttons in the `home.html` page you added previously:
+
+			````javascript
+			$('#addBibliography').click(addBibliography);
+			````
+
+		1. Next, add the following function before the error handler function you added previously.
+
+			Notice how the code in this function is very different from the code in the previous exercises. The Word v2 JavaScript API uses a context (`Word.RequestContext()`) to allow you to batch multiple operations (such as `context.document.body.insertParagraph()`) that will be sent to the hosting Word client application for processing at one time using the `context.executeAsync()` method:
+
+			````javascript
+		  function addBibliography() {
+		    // get reference to hosting Word application
+		    var context = new Word.RequestContext();
+
+		    // insert a H1 for the new paragraph to the end of the document
+		    var bibliographyParagraph = context.document.body.insertParagraph("Bibliography", "end");
+		    bibliographyParagraph.style = "Heading 1";
+
+		    // create one book entry
+		    var bookOneTitle = context.document.body.insertParagraph("Design Patters, Elements of Reusable Object-Oriented Software", "end");
+		    bookOneTitle.style = "Book Title";
+		    var bookOneAuthors = context.document.body.insertParagraph("by Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides", "end");
+		    bookOneAuthors.style = "Subtle Emphasis";
+
+		    // create another book entry
+		    var bookTwoTitle = context.document.body.insertParagraph("Refactoring: Improving the Design of Existing Code", "end");
+		    bookTwoTitle.style = "Book Title";
+		    var bookTwoAuthors = context.document.body.insertParagraph("by Martin Fowler", "end");
+		    bookTwoAuthors.style = "Subtle Emphasis";
+
+		    // execute queued operations
+		    context.executeAsync().then(function () { }, errorHandler);
+		  };
+			````
+
+	1. Finally, add another function that will search and highlight a string within the current Word document. In this case we will search for the text **Word**.
+		1. Replace the comment `// TODO-2` with the following jQuery code that creates a click event handler on one of the buttons in the `home.html` page you added previously:
+
+			````javascript
+			$('#highlightInstances').click(highlightInstances);
+			````
+
+		1. Next, add the following function before the error handler you added previously.
+
+			Notice how this code gets a Word context, creates a search options object and executes a search query against Word. It then uses the `context.references` collection to tell Word to take all the items in this collection and assign unique ID's to them so you can target them. You then use these targets to change the highlight color on the word.Finally you remove all the references from memory:
+
+			````javascript
+		  function highlightInstances() {
+		    // get reference to hosting Word application
+		    var context = new Word.RequestContext();
+
+		    // create search options
+		    var options = Word.SearchOptions.newObject(context);
+		    options.matchCase = true;
+
+		    // get all instances of the word 'Word' in the document
+		    var results = context.document.body.search("Word", options);
+		    context.load(results);
+
+		    // establish ID's for each of the items in the results
+		    context.references.add(results);
+
+		    // execute queued operations
+		    context.executeAsync().then(
+		        function () {
+		          // for all instances found...
+		          for (var i = 0; i < results.items.length; i++) {
+		            // highlight the item in the document
+		            results.items[i].font.highlightColor = "#FFFF00";
+		          }
+
+		          // remove all the references
+		          context.references.remove(results);
+		          // execute queued operations
+		          context.executeAsync();
+		        }, errorHandler);
+		  };
+			````
+
+###Test the Add-in
+1. Now deploy the Word Add-in to the local Word client:
+  1. Select the **Word16Api** project within the **Solution Explorer** tool window.
+  1. Within the **Properties** window set the **Start Action** selector to **Office Desktop Client** and press **F5** to start the project.
+  1. Visual Studio will launch the Word desktop client & create a new Word document.
+1. Type the following into the Word document and press **ENTER** to add some random text:
+
+	````
+	=rand()
+	````
+
+1. First test the insertion of content by pressing the button **Add Bibliography**. You should see a heading followed by two classic programming books added to the document.
+1. Now test the search & highlight function you wrote by pressing the button **Highlight Instances of "Word"**. You should see all instances of the whole word **Word** get highlighted in yellow.
+
+Congratulations! You've now written a Word Add-in that uses the new Word v2 JavaScript API.
+
+
+
+
