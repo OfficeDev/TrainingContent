@@ -1,0 +1,31 @@
+function createBindings() {
+
+    bindings.addFromNamedItemAsync("Sheet1!Applicant_Name", "text",
+                                    { id: "applicant_name" }, function () { });
+
+    bindings.addFromNamedItemAsync("Sheet1!Loan_Amount", "text",
+                                    { id: "loan_amount" }, function () { });
+
+    bindings.addFromNamedItemAsync("Sheet1!Interest_Rate", "text",
+                                    { id: "interest_rate" }, function () { });
+
+    bindings.addFromNamedItemAsync("Sheet1!Loan_Duration", "text",
+                                    { id: "loan_duration" }, function () { });
+
+    bindings.addFromNamedItemAsync("Sheet1!Monthly_Payment", "text",
+                                    { id: "monthly_payment" }, function () { });
+
+    bindings.addFromNamedItemAsync("Sheet1!Total_Income", "text",
+                                    { id: "total_income" }, function () { });
+
+    bindings.addFromNamedItemAsync("Sheet1!Yearly_Mortgage", "text",
+                                    { id: "yearly_mortgage" }, function () { });
+
+
+    bindings.addFromNamedItemAsync("Sheet1!Fixed_Expenses", "text",
+                                    { id: "fixed_expenses" }, function () { });
+
+    bindings.addFromNamedItemAsync("Sheet1!Available_Income", "text",
+                                    { id: "available_income" }, onAllBindingCreated);
+
+}
