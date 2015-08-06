@@ -1,8 +1,0 @@
-function updateAppUI() {
-  $("#applicant_name").text(currentApplicant.name);
-  $("#loan_amount").text(formatToCurrencyUSD(currentApplicant.loan_amount));
-  $("#interest_rate").text((currentRate * 100) + "%");
-  $("#loan_duration").text(currentApplicant.loan_duration + " years");
-  $("#total_income").text(formatToCurrencyUSD(currentApplicant.total_income));
-  $("#fixed_expenses").text(formatToCurrencyUSD(currentApplicant.fixed_expenses));
-}

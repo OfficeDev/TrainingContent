@@ -1,0 +1,20 @@
+function updateBindingsFromDocument() {
+
+    Office.select("bindings#monthly_payment")
+            .getDataAsync({
+                asyncContext: "monthly_payment",
+                valueFormat: Office.ValueFormat.Formatted
+            }, onBindingReadFromDocument);
+
+    Office.select("bindings#yearly_mortgage")
+            .getDataAsync({
+                asyncContext: "yearly_mortgage",
+                valueFormat: Office.ValueFormat.Formatted
+            }, onBindingReadFromDocument);
+
+    Office.select("bindings#available_income")
+            .getDataAsync({
+                asyncContext: "available_income",
+                valueFormat: Office.ValueFormat.Formatted
+            }, onBindingReadFromDocument);
+}
