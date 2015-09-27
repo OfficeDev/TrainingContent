@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Word16Api", "Word16Api\Word16Api.csproj", "{1F20B463-10C4-4809-B203-26AC6F8F0C31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Word16ApiWeb", "Word16ApiWeb\Word16ApiWeb.csproj", "{60CCE91F-6BF2-4447-9039-C1D279665424}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F20B463-10C4-4809-B203-26AC6F8F0C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F20B463-10C4-4809-B203-26AC6F8F0C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F20B463-10C4-4809-B203-26AC6F8F0C31}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1F20B463-10C4-4809-B203-26AC6F8F0C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F20B463-10C4-4809-B203-26AC6F8F0C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F20B463-10C4-4809-B203-26AC6F8F0C31}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{60CCE91F-6BF2-4447-9039-C1D279665424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CCE91F-6BF2-4447-9039-C1D279665424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CCE91F-6BF2-4447-9039-C1D279665424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CCE91F-6BF2-4447-9039-C1D279665424}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

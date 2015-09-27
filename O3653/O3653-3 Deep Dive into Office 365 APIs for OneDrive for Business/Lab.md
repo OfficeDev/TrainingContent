@@ -3,7 +3,7 @@ In this lab, you will use the Office 365 APIs for OneDrive for Business as part 
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-1. You must have the Office 365 API Tools version 1.2.41027.2 installed in Visual Studio 2013.
+1. You must have the Office 365 API Tools version 1.3.41104.1 installed in Visual Studio 2013.
 
 ## Exercise 1: Create an ASP.NET MVC5 Application
 In this exercise, you will create the ASP.NET MVC5 application and register it with Azure active Directory.
@@ -387,7 +387,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
         </div>
         ````
 
-      1. Update that navigation to have a new link (the **Files** link added below) as well as a reference to the login control you just created:
+      1. Update that navigation to have a new link (the **Files (SDK)** link added below) as well as a reference to the login control you just created:
 
         ````asp
         <div class="navbar-collapse collapse">
@@ -395,13 +395,13 @@ In this exercise you will take the ASP.NET MVC web application you created in th
             <li>@Html.ActionLink("Home", "Index", "Home")</li>
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-            <li>@Html.ActionLink("Files", "Index", "Home")</li>
+            <li>@Html.ActionLink("Files (SDK)", "Index", "Home")</li>
           </ul>
           @Html.Partial("_LoginPartial")
         </div>
         ````
 
-        > The **Files** link will not work yet... you will add that in the next exercise.
+        > The **Files (SDK)** link will not work yet... you will add that in the next exercise.
 
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
@@ -416,9 +416,8 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
-
-## Exercise 3: Code the Files API
-In this exercise, you will create a repository object for wrapping CRUD operations associated with the Files API.
+## Exercise 3: Code the Files Native .NET SDK
+In this exercise, you will create a repository object for wrapping CRUD operations associated with the Files native .NET SDK.
 
 1. In the **Solution Explorer**, locate the **Models** folder in the **OneDriveWeb** project.
 2. Right-click the **Models** folder and select **Add/Class**.
@@ -518,8 +517,8 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
   }
   ````
 
-## Exercise 4: Code the MVC Application
-In this exercise, you will code the MVC application to allow navigating the OneDrive for Business file collection.
+### Code the MVC Application
+Now you will code the MVC application to allow navigating the OneDrive for Business file collection using the native .NET SDK.
 
 1. Right-click the **Controllers** folder and select **Add/Controller**.
   1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty** and click **Add**.
@@ -704,4 +703,296 @@ In this exercise, you will code the MVC application to allow navigating the OneD
 1. Press **F5** to begin debugging.
 1. Test the paging, upload, and delete functionality of the application.
 
-Congratulations! You have completed working with the OneDrive for Business APIs.
+Congratulations! In this exercise you have created an MVC application to allow navigate the OneDrive for Business file collection using the native .NET SDK
+
+## Exercise 5: Use the new OneDrive REST API
+In this exercise, you will create another repository, controller and view similar to the last exercise, but this time you will use the new OneDrive for Business REST API that mirrors the same API signature as the OneDrive consumer API.
+
+1. In the **Solution Explorer**, locate the **Models** folder in the **OneDriveWeb** project.
+1. First, you will use JSON serialization to simply the processing of the response coming from the OneDrive for Business REST API.
+  1. Right-click the **Models** folder and select **Add - Folder**.
+  1. Name the folder **JsonHelpers**.
+  1. Locate the file **FolderContents.cs** in the [Lab Files](Lab Files) folder and copy it into the **JsonHelpers** folder in the project.
+1. Now create the new repository class:
+  1. Right-click the **Models** folder and select **Add - Class**.
+  1. In the **Add New Item** dialog, name the new class **OneDriveNewApiRepository.cs**.
+  1. Click **Add**.
+
+1. Add the following references to the top of the FileRepository class.
+
+  ````c#
+  using Microsoft.IdentityModel.Clients.ActiveDirectory;
+  using Microsoft.Office365.Discovery;
+  using Microsoft.Office365.SharePoint.FileServices;
+  using OneDriveWeb.Utils;
+  using System.Security.Claims;
+  using System.Threading.Tasks;
+  ````
+
+1. Add the following code to the `OneDriveNewApiRepository` class, creating a few private fields and a new constructor:
+
+  ````c#
+  private HttpClient _client;
+
+  private string _oneDriveAccessToken = string.Empty;
+  private string _oneDriveResourceId = string.Empty;
+  private string _oneDriveEndpoint = string.Empty;
+
+  public OneDriveNewApiRepository() {
+    _client = new HttpClient();
+    _client.DefaultRequestHeaders.Add("Accept", "application/json");
+  }
+  ````
+
+1. Now, you will need the resource ID, endpoint and access token for the new OneDrive REST API. Add the following method to the `OneDriveNewApiRepository` class. This will use the Office 365 Discovery Service to get the endpoint for the v1.0 OneDrive REST API. You will take this and update it to point to the 2.0 version of the API.
+
+  ````c#
+  private async Task InitOneDriveNewRestConnection() {
+    // fetch from stuff user claims
+    var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+    var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
+
+    // discover contact endpoint
+    var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
+    var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
+
+    // create auth context
+    AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureADAuthority, new EFADALTokenCache(signInUserId));
+
+    // authenticate with directory service
+    var discoClient = new DiscoveryClient(new Uri(SettingsHelper.O365DiscoveryServiceEndpoint),
+      async () => {
+        var authResult = await authContext.AcquireTokenSilentAsync(SettingsHelper.O365DiscoveryResourceId, clientCredential, userIdentifier);
+        return authResult.AccessToken;
+      });
+
+    // query discovery service for endpoint for onedrive endpoint
+    var discoCapabilityResult = await discoClient.DiscoverCapabilityAsync("MyFiles");
+
+    // get details around onedrive endpoint (replace 1.0 with 2.0 for the new REST API)
+    _oneDriveResourceId = discoCapabilityResult.ServiceResourceId;
+    _oneDriveEndpoint = discoCapabilityResult.ServiceEndpointUri.ToString().Replace("1.0", "2.0");
+    _oneDriveAccessToken = (await authContext.AcquireTokenSilentAsync(_oneDriveResourceId, clientCredential, userIdentifier)).AccessToken;
+
+    return;
+  }
+  ````
+
+1. Add the following method to get a list of all the items (folders & files) within the root of the user's OneDrive:
+
+  ````c#
+  public async Task<IEnumerable<IItem>> GetMyFiles(int pageIndex, int pageSize) {
+    // ensure connection established to new onedrive API
+    if ((string.IsNullOrEmpty(_oneDriveAccessToken)) ||
+        (string.IsNullOrEmpty(_oneDriveEndpoint)) ||
+        (string.IsNullOrEmpty(_oneDriveResourceId))) {
+      await InitOneDriveNewRestConnection();
+    }
+
+    // set the access token on the request
+    _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _oneDriveAccessToken);
+
+    // create the query for all file at the root
+    var query = _oneDriveEndpoint + "/drive/root/children";
+
+    // create request for items
+    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, query);
+
+    // issue request & get response
+    var response = await _client.SendAsync(request);
+    string responseString = await response.Content.ReadAsStringAsync();
+    // convert them to JSON
+    var jsonResponse = JsonConvert.DeserializeObject<JsonHelpers.FolderContents>(responseString);
+
+    // convert to model object
+    var items = new List<IItem>();
+
+    foreach (var folderItem in jsonResponse.FolderItems) {
+      // if folder
+      if (folderItem.FileSize == 0) {
+        var folder = new Folder {
+          Id = folderItem.Id,
+          Name = folderItem.Name,
+          ETag = folderItem.eTag,
+          DateTimeCreated = folderItem.CreatedDateTime,
+          DateTimeLastModified = folderItem.LastModifiedDateTime,
+          WebUrl = folderItem.WebUrl,
+          Size = 0
+        };
+        items.Add(folder);
+      } else {
+        var file = new File {
+          Id = folderItem.Id,
+          Name = folderItem.Name,
+          ETag = folderItem.eTag,
+          DateTimeCreated = folderItem.CreatedDateTime,
+          DateTimeLastModified = folderItem.LastModifiedDateTime,
+          WebUrl = folderItem.WebUrl,
+          Size = folderItem.FileSize
+        };
+        items.Add(file);
+      }
+    }
+
+    return items.OrderBy(item => item.Name).ToList();
+  }
+  ````
+
+1. Lastly, add the following method to the `OneDriveNewApiRepository` class to delete a single file from the user's OneDrive for Business drive:
+
+  ````c#
+  public async Task DeleteFile(string id, string etag) {
+    // ensure connection established to new onedrive API
+    if ((string.IsNullOrEmpty(_oneDriveAccessToken)) ||
+        (string.IsNullOrEmpty(_oneDriveEndpoint)) ||
+        (string.IsNullOrEmpty(_oneDriveResourceId))) {
+      await InitOneDriveNewRestConnection();
+    }
+
+    // set the access token on the request
+    _client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _oneDriveAccessToken);
+
+    // create query request to delete file
+    var query = _oneDriveEndpoint + "/drive/items/" + id;
+
+    // create delete request
+    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, query);
+    request.Headers.IfMatch.Add(new EntityTagHeaderValue(etag));
+
+    await _client.SendAsync(request);
+  }
+  ````
+
+### Code the MVC Application
+Now you will code the MVC application to allow navigating the OneDrive for Business file collection using the new OneDrive for Business REST API.
+
+1. Right-click the **Controllers** folder and select **Add/Controller**.
+  1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty** and click **Add**.
+  1. In the **Add Controller** dialog, give the controller the name **OneDriveNewApiRepository** and click **Add**.
+1. **Add** the following references to the top of the file.
+
+  ````c#
+  using OneDriveWeb.Models;
+  using System.Threading.Tasks;
+  ````
+
+1. **Replace** the **Index** method with the following code to read files.
+
+  ````c#
+  [Authorize]
+  public async Task<ActionResult> Index(int? pageIndex, int? pageSize) {
+
+    var repository = new OneDriveNewApiRepository();
+
+    // setup paging defaults if not provided
+    pageIndex = pageIndex ?? 0;
+    pageSize = pageSize ?? 10;
+
+    // setup paging for the IU
+    ViewBag.PageIndex = (int)pageIndex;
+    ViewBag.PageSize = (int)pageSize;
+
+    var myFiles = await repository.GetMyFiles((int)pageIndex, (int)pageSize);
+
+    return View(myFiles);
+  }
+  ````
+
+1. Within the `FilesController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
+1. Within the **Add View** dialog, set the following values:
+  1. View Name: **Index**.
+  1. Template: **Empty (without model)**.
+    
+    > Leave all other fields blank & unchecked.
+  
+  1. Click **Add**.
+1. **Replace** all of the code in the file with the following:
+
+  ````asp
+  @model IEnumerable<Microsoft.Office365.SharePoint.FileServices.IItem>
+
+  <h2>My Files (New OneDrive API)</h2>
+
+  <div class="row" style="margin-top:50px;">
+    <div class="col-sm-12">
+      <div class="table-responsive">
+        <table id="filesTable" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Created</th>
+              <th>Modified</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var file in Model) {
+              <tr>
+                <td>
+                  @{
+                    Dictionary<string, object> attributes1 = new Dictionary<string, object>();
+                    attributes1.Add("class", "btn btn-warning");
+
+                    RouteValueDictionary routeValues1 = new RouteValueDictionary();
+                    routeValues1.Add("id", file.Id);
+                    routeValues1.Add("etag", file.ETag);
+                    @Html.ActionLink("X", "Delete", "OneDriveNewApi", routeValues1, attributes1);                  
+                  }
+                </td>
+                <td>
+                  @file.Id
+                </td>
+                <td>
+                  <a href="@file.WebUrl">@file.Name</a>
+                </td>
+                <td>
+                  @file.DateTimeCreated
+                </td>
+                <td>
+                  @file.DateTimeLastModified
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="btn btn-group-sm">
+        @{
+          Dictionary<string, object> attributes2 = new Dictionary<string, object>();
+          attributes2.Add("class", "btn btn-default");
+
+          RouteValueDictionary routeValues2 = new RouteValueDictionary();
+          routeValues2.Add("pageIndex", (ViewBag.PageIndex == 0 ? 0 : ViewBag.PageIndex - 1).ToString());
+          routeValues2.Add("pageSize", ViewBag.PageSize.ToString());
+          @Html.ActionLink("Prev", "Index", "OneDriveNewApi", routeValues2, attributes2);
+
+          RouteValueDictionary routeValues3 = new RouteValueDictionary();
+          routeValues3.Add("pageIndex", (ViewBag.PageIndex + 1).ToString());
+          routeValues3.Add("pageSize", ViewBag.PageSize.ToString());
+          @Html.ActionLink("Next", "Index", "OneDriveNewApi", routeValues3, attributes2);
+        }
+      </div>
+    </div>
+  </div>
+  ````
+
+1. Now add the code to delete a file:
+  1. Within the `OneDriveNewApiController` class, add the following function to delete a file:
+
+    ````c#
+    [Authorize]
+    public async Task<ActionResult> Delete(string id, string etag) {
+      var repository = new OneDriveNewApiRepository();
+
+      if (id != null) {
+        await repository.DeleteFile(id, etag);
+      }
+
+      return Redirect("/");
+    }
+    ````
+
+1. Now press **F5** and test the application. Login using the same process you used in the previous exercise and see if you can see your files. In addition, verify you can delete a file by clicking the **X** in the list of all the files.
+
+Congratulations! You have completed creating another repository, controller and view similar to the last exercise, but this time you used the new OneDrive for Business REST API that mirrors the same API signature as the OneDrive consumer API.

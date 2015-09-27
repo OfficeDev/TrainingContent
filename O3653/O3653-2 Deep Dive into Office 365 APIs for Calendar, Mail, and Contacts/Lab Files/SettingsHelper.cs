@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 
-namespace Office365Contacts.Utils {
+namespace Office365Mail.Utils {
   public class SettingsHelper {
 
     public static string ClientId {
@@ -16,7 +16,7 @@ namespace Office365Contacts.Utils {
     }
 
     public static string AzureAdTenantId {
-      get { return ConfigurationManager.AppSettings["ida:TenantId"]; }
+      get { return ConfigurationManager.AppSettings["ida:AadTenantId"]; }
     }
 
     public static string O365DiscoveryServiceEndpoint {

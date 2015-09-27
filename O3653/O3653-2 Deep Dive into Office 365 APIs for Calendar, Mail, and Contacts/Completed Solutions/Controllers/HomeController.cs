@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Office365Contacts.Controllers {
+namespace Office365Mail.Controllers {
   public class HomeController : Controller {
 
     public ActionResult Index() {

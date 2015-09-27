@@ -5,9 +5,9 @@ using System.Web;
 using Owin;
 using Microsoft.Owin;
 
-[assembly: OwinStartup(typeof(Office365Contacts.Startup))]
+[assembly: OwinStartup(typeof(Office365Mail.Startup))]
 
-namespace Office365Contacts {
+namespace Office365Mail {
   public partial class Startup {
 
     public void Configuration(IAppBuilder app)

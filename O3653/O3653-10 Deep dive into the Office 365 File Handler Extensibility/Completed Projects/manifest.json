@@ -1,0 +1,16 @@
+{
+  "Id": "6fdcb1b6-9b47-471d-aeee-db2baddb122c",
+  "Manifest": {
+    "extensionPoints": [
+      {
+        "type": "FileHandler",
+        "properties": {
+          "extension": "blog",
+          "fileIcon": "https://localhost:44301/content/officedev.png",
+          "openUrl": "https://localhost:44301/bloghandler/open",
+          "previewUrl": "https://localhost:44301/bloghandler/preview"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="063cff17-4ef7-46e2-bcf2-834976c606a9" Publisher="CN=Microsoft" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>O365-Win-Profile</DisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="O365_Win_Profile.App">
+      <m2:VisualElements DisplayName="O365-Win-Profile" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="O365-Win-Profile" ForegroundText="light" BackgroundColor="#1799F0">
+        <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#1799F0" />
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

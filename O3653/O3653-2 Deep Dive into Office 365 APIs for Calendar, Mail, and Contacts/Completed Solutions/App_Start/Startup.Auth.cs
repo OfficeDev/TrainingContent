@@ -6,12 +6,12 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Office365Contacts.Utils;
+using Office365Mail.Utils;
 using Owin;
 using System.Configuration;
 using System.Threading.Tasks;
 
-namespace Office365Contacts {
+namespace Office365Mail {
   public partial class Startup {
     public void ConfigureAuth(IAppBuilder app) {
       // configure the authentication type & settings
@@ -22,6 +22,7 @@ namespace Office365Contacts {
       app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions {
         ClientId = SettingsHelper.ClientId,
         Authority = SettingsHelper.AzureADAuthority,
+        PostLogoutRedirectUri = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority),
         Notifications = new OpenIdConnectAuthenticationNotifications() {
           // when an auth code is received...
           AuthorizationCodeReceived = (context) => {

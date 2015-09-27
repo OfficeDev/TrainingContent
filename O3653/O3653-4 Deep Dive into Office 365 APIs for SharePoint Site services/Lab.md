@@ -2,9 +2,10 @@
 In this lab, you will use the Office 365 APIs for SharePoint Sites as part of an ASP.NET MVC5 application to manage a Tasks list.
 
 ## Prerequisites
-1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-1. You must have the Office 365 API Tools version 1.2.41027.2 installed in Visual Studio 2013.
-1. You must have a task list named "Tasks" in the root site of SharePoint Online.
+1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
+1. You must have the Office 365 API Tools version 1.3.41104.1 installed in Visual Studio 2013.
+1. You must have a task list named "Tasks" in the root site of SharePoint Online to complete exercise 3.
+1. You must have a term set setup within your Office 365 subscriptions Managed Metadata instance with a few terms & a user account with access to manage the term store to complete exercise 4.
 
 ## Exercise 1: Create an ASP.NET MVC5 Application
 In this exercise, you will create the ASP.NET MVC5 application and register it with Azure active Directory.
@@ -18,7 +19,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
     1. Name the new project **TasksWeb**.
     1. Click **OK**.
 
-       ![](Images/01.png?raw=true "Figure 1")
+       ![](Images/01.png)
 
   1. In the **New ASP.NET Project** dialog:
     1. Click **MVC**.
@@ -39,6 +40,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Save your changes.
 
     ![](Images/SslEnabled.png)
+
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
 1. Configure the project to always go to the homepage of the web application when debugging:
@@ -387,7 +389,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
         </div>
         ````
 
-      1. Update that navigation to have a new link (the **Tasks** link added below) as well as a reference to the login control you just created:
+      1. Update that navigation to have a new link (the **Tasks** & **Terms** link added below) as well as a reference to the login control you just created:
 
         ````asp
         <div class="navbar-collapse collapse">
@@ -396,12 +398,13 @@ In this exercise you will take the ASP.NET MVC web application you created in th
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
             <li>@Html.ActionLink("Tasks", "Index", "SpTask")</li>
+            <li>@Html.ActionLink("Terms", "Index", "SpTerm")</li>
           </ul>
           @Html.Partial("_LoginPartial")
         </div>
         ````
 
-        > The **Tasks** link will not work yet... you will add that in the next exercise.
+        > The **Tasks** & Terms links will not work yet... you will add them in the next exercises.
 
 1. Lastly, because this web application will use the antiforgery token, you need to make sure the unique ID used by the token is a value in the user claim. This should be explicitly set so you don't assume the default one is there.
   1. Open the `global.asax.cs` file in your project.
@@ -638,8 +641,8 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
   }
   ````
 
-## Exercise 4: Code the MVC Application
-In this exercise, you will code the MVC application to allow navigating the tasks collection.
+### Add the MVC Controllers & Views
+With the data access code complete, now you need to add a controller and views to support the web application.
 
 1. In the **Solution Explorer**, right click the **Models** folder and select **Add/Class**.
   1. In the **Add New Item** dialog, name the new class **SpTaskViewModel.cs**.
@@ -875,4 +878,455 @@ In this exercise, you will code the MVC application to allow navigating the task
 1. Press **F5** to begin debugging.
 1. Test the list, detail, paging, creation, edit and delete functionality of the application.
 
-Congratulations! You have completed working with the SharePoint Site APIs.
+Congratulations! You have completed working with the SharePoint Site REST APIs using an Azure AD provided OAuth access token.
+
+## Exercise 4: Use Azure AD Access Token to call the SharePoint Taxonomy CSOM API
+In this exercise, you will use an OAuth 2 access token provided by Azure AD to authenticate with SharePoint Online and leverage the Managed Metadata (aka: Taxonomy) CSOM API. This differs from the previous exercise in that you used the SharePoint Online REST API to work with SharePoint lists.
+
+1. First add the **AppForSharePointWebToolkit** NuGet package to the project. This will give you a few code files that will make it easier to create a CSOM context:
+  1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
+  1. Enter the following in the console and press **ENTER**. NuGet will download and install the package and any dependent packages:
+
+    ````powershell
+    PM> Install-Package -Id AppForSharePointWebToolkit
+    ````
+
+1. Now add the necessary CSOM references to the project:
+  1. If you don't have a recent copy of the SharePoint CSOM CSOM installed locally, download the appropriate version and install it on your workstation from here: https://www.microsoft.com/en-us/download/details.aspx?id=35585
+  1. Right-click the project and select **Add Reference**.
+  1. Click **Browse** and navigate to the following folder:
+
+    ````
+    c:\Program Files\Common Files\microsoft shared\Web Server Extensions\16\ISAPI\
+    ````
+
+  1. Locate and add the following assemblies to you project:
+    - `Microsoft.SharePoint.Client.dll`
+    - `Microsoft.SharePoint.Client.Runtime.dll`
+    - `Microsoft.SharePoint.Client.Taxonomy.dll`
+
+### Update the Application's Permissions in Azure AD
+The application in Azure AD was created using the *Connected Service* wizard in Visual Studio. This wizard does not have the necessary options to grant an application access to the managed metadata scope available in SharePoint. Therefore you need to update the application's permissions in Azure AD.
+
+1. Within a browser, navigate to the **Azure Management Portal**: https://manage.windowsazure.com
+1. Enter the email address and password of an account that have permissions to manage the directory of the Azure AD tenant (e.g. admin@sample.onmicrosoft.com).
+1. In the left-hand navigation, scroll down to and click on Active Directory.
+  
+  Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click Applications in the toolbar.
+1. In the filter, select **Applications my company owns** and click the check mark.
+1. Select the application you in the previous exercise.
+1. Click the **Configure** menu option and scroll to the bottom of the page.
+1. Click the **Delegated Permissions** selector for **Office 365 SharePoint Online**.
+1. Add the two permissions for managed metadata:
+  - Read managed metadata
+  - Read and write managed metadata
+1. Click the **Save** icon at the bottom of the page.
+
+### Add the Data Access Repository to the Visual Studio Project
+1. Go back to Visual Studio where the project is open.
+1. In the **Solution Explorer**, right-click the **Models** folder and select **Add / Class**.
+1. In the **Add New Item** dialog, name the new class **SpTerm.cs** & click **Add**.
+1. Add the following public properties to the `SpTerm` class:
+
+  ````c#
+  public Guid Id { get; set; }
+  public string Label { get; set; }
+  ````
+
+1. Next, create a repository by adding another class to the **Models** folder named **SpTermRepository.cs**.
+1. Add the following references to the top of the `SpTermRepository` class:
+
+  ````c#
+  using Microsoft.IdentityModel.Clients.ActiveDirectory;
+  using Microsoft.SharePoint.Client;
+  using Microsoft.SharePoint.Client.Taxonomy;
+  using TasksWeb.Utils;
+  ````
+
+1. The first thing you will need is a method that can obtain an OAuth 2 access token from Azure AD, so add the following method to the `SpTermRepository` class:
+
+````c#
+private async Task<string> GetAccessToken() {
+  // fetch from stuff user claims
+  var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+  var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
+
+  var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
+  var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
+
+  // create auth context
+  AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureADAuthority, new EFADALTokenCache(signInUserId));
+
+  // authenticate
+  var authResult = await authContext.AcquireTokenSilentAsync(SettingsHelper.SharePointServiceResourceId, clientCredential, userIdentifier);
+
+  // obtain access token
+  return authResult.AccessToken;
+}
+````
+
+1. Next, you will need a method that will create a CSOM client context that will include the access token in each request. The class `TokenHelper` included in the **AppForSharePointWebToolkit** package assists with this. 
+  
+  Add the following method to the `SpTermRepository` class:
+
+    ````c#
+    private async Task<ClientContext> GetClientContext() {
+      string targetUrl = string.Format("https://{0}.sharepoint.com", SettingsHelper.O365TenantId);
+      var context = TokenHelper.GetClientContextWithAccessToken(targetUrl, await GetAccessToken());
+      return context;
+    }
+    ````
+
+1. With the plumbing added to the repository, you can now add methods to interact with the SharePoint taxonomy CSOM. These functions will get all terms, get one term, create and delete specified terms in the default term store.
+  1. Add the following method `GetTerms()` to get all the root terms in the default term store:
+
+    ````c#
+    public async Task<List<SpTerm>> GetTerms() {
+      var context = await GetClientContext();
+
+      // get list of top level term
+      var session = TaxonomySession.GetTaxonomySession(context);
+      context.Load(session, taxSession => taxSession.TermStores.Include(
+                 taxStore => taxStore.Groups.Include(
+                 taxGroup => taxGroup.TermSets.Include(tax => tax.Name)
+                 )));
+      context.ExecuteQuery();
+
+      // get the root of the term set
+      var termStore = session.TermStores[0];
+      var termGroup = termStore.Groups[0];
+      var termSet = termGroup.TermSets[0];
+
+      // get all the child terms for the found term
+      var terms = termSet.Terms;
+      context.Load(terms);
+      context.ExecuteQuery();
+
+      // convert sharepoint terms => biz object
+      var results = terms.Select(term => new SpTerm {
+        Id = term.Id,
+        Label = term.Name
+      })
+      .ToList();
+
+      return results;
+    }
+    ````
+
+  1. Add the following method `GetTerms(Guid)` to get all the terms under a specific term:
+
+    ````c#
+    public async Task<List<SpTerm>> GetTerms(Guid parentTermId) {
+      var context = await GetClientContext();
+
+      // get a list of all the child terms based on the term passed in
+      var session = TaxonomySession.GetTaxonomySession(context);
+      context.Load(session, taxSession => taxSession.TermStores.Include(
+                 taxStore => taxStore.Groups.Include(
+                 taxGroup => taxGroup.TermSets.Include(tax => tax.Name)
+                 )));
+      context.ExecuteQuery();
+
+      // get the root of the term set
+      var termStore = session.TermStores[0];
+      var termGroup = termStore.Groups[0];
+      var termSet = termGroup.TermSets[0];
+
+      // find the specified term
+      var searchTerm = termSet.GetTerm(parentTermId);
+      context.Load(searchTerm);
+      context.ExecuteQuery();
+
+      // get all the child terms for the found term
+      var terms = searchTerm.Terms;
+      context.Load(terms);
+      context.ExecuteQuery();
+
+      // convert sharepoint terms => biz object
+      var results = terms.Select(term => new SpTerm {
+        Id = term.Id,
+        Label = term.Name
+      })
+      .ToList();
+
+      return results;
+    }
+    ````
+
+  1. Now add the following method `CreateTerm(Guid, string)` to create a new term under the specified term:
+
+    ````c#
+    public async Task CreateTerm(Guid parentTermId, string newTermLabel) {
+      var context = await GetClientContext();
+
+      // get a list of all the child terms based on the term passed in
+      var session = TaxonomySession.GetTaxonomySession(context);
+      context.Load(session, taxSession => taxSession.TermStores.Include(
+                 taxStore => taxStore.Groups.Include(
+                 taxGroup => taxGroup.TermSets.Include(tax => tax.Name)
+                 )));
+      context.ExecuteQuery();
+
+      // get the root of the term set
+      var termStore = session.TermStores[0];
+      var termGroup = termStore.Groups[0];
+      var termSet = termGroup.TermSets[0];
+
+      // find the specified term
+      var searchTerm = termSet.GetTerm(parentTermId);
+      context.Load(searchTerm);
+      context.ExecuteQuery();
+
+      // create the term
+      searchTerm.CreateTerm(newTermLabel, 1033, Guid.NewGuid());
+      termStore.CommitAll();
+      context.ExecuteQuery();
+
+      return;
+    }
+    ````
+
+  1. And finally, add the following `DeleteTerm(Guid)` method to delete the specified term:
+
+    ````c#
+    public async Task DeleteTerm(Guid termId) {
+      var context = await GetClientContext();
+
+      // get a list of all the child terms based on the term passed in
+      var session = TaxonomySession.GetTaxonomySession(context);
+      context.Load(session, taxSession => taxSession.TermStores.Include(
+                 taxStore => taxStore.Groups.Include(
+                 taxGroup => taxGroup.TermSets.Include(tax => tax.Name)
+                 )));
+      context.ExecuteQuery();
+
+      // get the root of the term set
+      var termStore = session.TermStores[0];
+      var termGroup = termStore.Groups[0];
+      var termSet = termGroup.TermSets[0];
+
+      // find the specified term
+      var searchTerm = termSet.GetTerm(termId);
+      context.Load(searchTerm);
+      context.ExecuteQuery();
+
+      // delete the term
+      searchTerm.DeleteObject();
+      termStore.CommitAll();
+      context.ExecuteQuery();
+
+      return;
+    }
+    ````
+
+### Add the MVC Controller & Views to the Web Application
+With the data access implemented, the next step is to create the controller and views for the web application.
+
+1. First, create a new view model class that will be used to pass data back and forth between the views and controllers:
+  1. Add a new class to the **Models** folder named **SpTermViewModel.cs**.
+  1. Add the following code to the `SpTermViewModel` class:
+
+    ````c#
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Web;
+
+    namespace TasksWeb.Models {
+      public class SpTermViewModel
+      {
+        public Guid ParentTermId;
+        public string ParentTermLabel;
+
+        public string NewTermLabel;
+
+        public List<SpTerm> Terms;
+      }
+    }
+    ````
+
+1. Now add a controller to the project.
+  1. Right-click the **Controllers** folder and select **Add/Controller**.
+  1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty** and click **Add**.
+  1. In the **Add Controller** dialog, give the controller the name **SpTermController** and click **Add**.
+  1. Add the following references to the top of the file:
+
+    ````c#
+    using System.Threading.Tasks;
+    using TasksWeb.Models;
+    ````
+
+  1. Next, add the following private field to the `SpTermController` class to have a single reference to our stateless repository previously created:
+
+    ````c#
+    private SpTermRepository _repo = new SpTermRepository();
+    ````
+
+  1. The first step is to add an `Index()` method to display terms. This will either show the top level list of terms, or all terms within a selected term. Add the following action to the `SpTermController` class:
+
+    ````c#
+    [Authorize]
+    public async Task<ActionResult> Index(Guid? parentTermId, string parentTermLabel) {
+      var viewModel = new SpTermViewModel();
+
+      // if no parent term passed in, get the root
+      if (!parentTermId.HasValue)
+        viewModel.Terms = await _repo.GetTerms();
+      else {
+        viewModel.ParentTermId = parentTermId.Value;
+        viewModel.ParentTermLabel = parentTermLabel;
+        viewModel.Terms = await _repo.GetTerms(parentTermId.Value);
+      }
+
+      return View(viewModel);
+    }
+    ````
+
+  1. The next step is to add a pair of actions to handle creating a term. The first one will display the form to create a term and the second will handle the submission of the form. Add the following actions to the `SpTermController` class:
+
+    ````c#
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult> Create(Guid parentTermId, string parentTermLabel) {
+      var viewModel = new SpTermViewModel {
+        ParentTermId = parentTermId,
+        ParentTermLabel = parentTermLabel
+      };
+
+      return View(viewModel);
+    }
+
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Create() {
+      // load model
+      var viewModel = new SpTermViewModel {
+        ParentTermId = new Guid(Request.Form["ParentTermId"]),
+        ParentTermLabel = Request.Form["ParentTermLabel"],
+        NewTermLabel = Request.Form["NewTermLabel"]
+      };
+
+      // create the term
+      await _repo.CreateTerm(viewModel.ParentTermId, viewModel.NewTermLabel);
+      return
+        Redirect(string.Format("/SpTerm?parentTermId={0}&parentTermLabel={1}",
+                                viewModel.ParentTermId,
+                                viewModel.ParentTermLabel)
+                );
+    }
+    ````
+
+  1. And finally, add another action to the `SpTermController` class to handle deleting a term:
+
+    ````c#
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Delete(Guid termId) {
+
+      await _repo.DeleteTerm(termId);
+
+      return Redirect("/SpTerm");
+    }
+    ````
+
+1. After creating the controller, you can now create the views:
+  1. Within the `SpTermController` class, right-click within the `Index()` method and select **Add View**.
+    1. Within the **Add View** dialog, select the following values & click **Add**:
+      - View Name: **Index**
+      - Template: **Empty (without model)**
+    1. After the view has been created in the `Index.cshtml` file, replace all the generated code with the following to implement the home view:
+
+      ````html
+      @model TasksWeb.Models.SpTermViewModel
+
+      @{
+        ViewBag.Title = "Index";
+      }
+
+      @if (string.IsNullOrEmpty(Model.ParentTermLabel)) {
+        <h2>Terms in the Default Term Set</h2>
+      } else {
+        <h2>Child Terms to the Term '@Model.ParentTermLabel'</h2>
+      }
+
+      <p>
+        @Html.ActionLink("Create New", "Create", new { parentTermId = Model.ParentTermId, parentTermLabel = Model.ParentTermLabel })
+      </p>
+
+      <table>
+        @foreach (var item in Model.Terms) {
+          <tr>
+            <td>
+              @using (Html.BeginForm("Delete", "SpTerm", FormMethod.Post)) {
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="termId" name="termId" value="@item.Id" />
+                <input type="submit" value="Delete" class="btn btn-danger" />
+              }
+            </td>
+            <td>
+              @Html.ActionLink(item.Label, "Index", new { parentTermId = item.Id, parentTermLabel = item.Label })
+            </td>
+          </tr>
+        }
+      </table>
+
+      <div>
+        @Html.ActionLink("Back to List", "Index")
+      </div>
+      ````
+
+  1. Within the `SpTermController` class, right-click within the first `Create()` method (with one that is decorated with the `HttpGet` attribute) and select **Add View**.
+    1. Within the **Add View** dialog, select the following values & click **Add**:
+      - View Name: **Create**
+      - Template: **Empty (without model)**
+    1. After the view has been created in the `Create.cshtml` file, replace all the generated code with the following to implement the home view:
+
+      ````html
+      @model TasksWeb.Models.SpTermViewModel
+
+      <h2>Create a Term Under the Term: '@Model.ParentTermLabel'</h2>
+
+      @using (Html.BeginForm("Create", "SpTerm", FormMethod.Post)) {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+          @Html.HiddenFor(model => model.ParentTermId)
+          @Html.HiddenFor(model => model.ParentTermLabel)
+          <div class="form-group">
+            <div class="control-label col-md-2">New Term:</div>
+            <div class="col-md-10">
+              @Html.EditorFor(model => model.NewTermLabel, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+              <input type="submit" value="Create Term" class="btn btn-default" />
+            </div>
+          </div>
+        </div>
+      }
+
+      <div>
+        @Html.ActionLink("Back to List", "Index")
+      </div>
+
+      @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+      }
+      ````
+
+1. With everything coded, now test the application by pressing **F5**.
+  1. Once the browser loads the page, click the **Sign In** link in the upper right corner & login to Azure AD.
+  1. When the application loads, click the **Terms** link to see a list of all the top-level terms within your term set, similar to the following figure:
+
+    ![](Images/Level1Terms.png)
+
+  1. Then click on one of the terms to see its child terms:
+
+    ![](Images/Level2Terms.png)
+
+  1. Finally, click the **Create New** link to jump to the create form and create a new term. You will be taken back to the **Terms** `Index()` action, but if you navigate back to where the term was created, you should see the new term.
+
+Congratulations! You have now used an Azure AD OAuth2 generated token to use in authenticating HTTP requests to SharePoint using the CSOM.

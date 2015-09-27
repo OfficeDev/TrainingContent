@@ -1,13 +1,13 @@
-# Deep dive into the Office 365 App Model #
+# Deep dive into the Office 365 Add-in Model
 
 ----------
 
-This GitHub repo houses all of the content for the "Deep dive into the Office 365 App Model" training.
+This GitHub repo houses all of the content for the "Deep dive into the Office 365 Add-in Model" training.
 
-- O3652-1 [Deep Dive Apps for Office in Outlook](O3652-1%20Deep%20Dive%20Apps%20for%20Office%20in%20Outlook)
-- O3652-2 [Deep Dive Apps for Office in Word](O3652-2%20Deep%20Dive%20Apps%20for%20Office%20in%20Word)
-- O3652-3 [Deep Dive Apps for Office in PowerPoint](O3652-3%20Deep%20Dive%20Apps%20for%20Office%20in%20PowerPoint)
-- O3652-4 [Deep Dive Apps for Office in Excel](O3652-4%20Deep%20Dive%20Apps%20for%20Office%20in%20Excel)
+- O3652-1 [Deep Dive in Office Outlook Add-ins](O3652-1%20Deep%20Dive%20in%20Office%20Outlook%20Add-ins)
+- O3652-2 [Deep Dive in Office Word Add-ins](O3652-2%20Deep%20Dive%20in%20Office%20Word%20Add-ins)
+- O3652-3 [Deep Dive in Office PowerPoint Add-ins](O3652-3%20Deep%20Dive%20in%20Office%20PowerPoint%20Add-ins)
+- O3652-4 [Deep Dive in Office Excel Add-ins](O3652-4%20Deep%20Dive%20in%20Office%20Excel%20Add-ins)
 - O3652-5 [Deep Dive into SharePoint Hosted Apps](O3652-5%20Deep%20Dive%20into%20SharePoint%20Hosted%20Apps)
 - O3652-6 [Deep Dive into Provider Hosted Apps](O3652-6%20Deep%20Dive%20into%20Provider%20Hosted%20Apps)
 - O3652-7 [Deep Dive into Security and OAuth](O3652-7%20Deep%20Dive%20into%20Security%20and%20OAuth)

@@ -189,6 +189,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <None Include="Properties\PublishProfiles\sdf.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\cycle.js" />
     <Content Include="Scripts\demo.js" />
@@ -213,12 +214,17 @@
     <Content Include="Service References\LicenseVerificationService\AppointmentSchedulerWeb.LicenseVerificationService.VerifyEntitlementTokenResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Service References\LicenseVerificationService\AppointmentSchedulerWeb.svc.VerifyEntitlementTokenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Service References\LicenseVerificationService\configuration91.svcinfo" />
     <None Include="Service References\LicenseVerificationService\configuration.svcinfo" />
     <None Include="Service References\LicenseVerificationService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="StoreUtilities.js" />
+    <Content Include="Third Party Notices.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

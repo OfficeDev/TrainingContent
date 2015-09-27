@@ -152,7 +152,7 @@
 
             function getDefaults() {
                 return {
-                    tapToDismiss: true,
+                    tapToDismiss: false,
                     toastClass: 'toast',
                     containerId: 'toast-container',
                     debug: false,
@@ -166,7 +166,7 @@
                     hideEasing: 'swing',
                     onHidden: undefined,
 
-                    extendedTimeOut: 1000,
+                    extendedTimeOut: 7000,
                     iconClasses: {
                         error: 'toast-error',
                         info: 'toast-info',
@@ -175,7 +175,7 @@
                     },
                     iconClass: 'toast-info',
                     positionClass: 'toast-top-right',
-                    timeOut: 5000, // Set timeOut and extendedTimeOut to 0 to make it sticky
+                    timeOut: 10000, // Set timeOut and extendedTimeOut to 0 to make it sticky
                     titleClass: 'toast-title',
                     messageClass: 'toast-message',
                     target: 'body',
@@ -290,8 +290,8 @@
                 }
 
                 if (options.onclick) {
-                    $toastElement.click(function () {
-                        options.onclick();
+                	$toastElement.click(function () {
+                    	options.onclick();
                         hideToast();
                     });
                 }
