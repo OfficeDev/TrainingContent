@@ -104,6 +104,7 @@
     <Content Include="services\office365\redirectTarget.html">
       <ConnectedServiceReference>Sites</ConnectedServiceReference>
     </Content>
+    <Content Include="services\office365\scripts\aadgraph.js" />
     <Content Include="services\office365\scripts\exchange.js" />
     <Content Include="services\office365\scripts\InAppBrowserOverride.js">
       <ConnectedServiceReference>Sites</ConnectedServiceReference>
@@ -114,7 +115,6 @@
     <Content Include="services\office365\scripts\sharepoint.js" />
     <Content Include="services\office365\scripts\utility.js" />
     <Content Include="services\office365\settings\settings.js" />
-    <Folder Include="images\" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -200,7 +200,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="services\office365\scripts\typings\aadgraph.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\exchange.d.ts" />
-    <TypeScriptCompile Include="services\office365\scripts\typings\o365adal.d.ts" />
+    <TypeScriptCompile Include="services\office365\scripts\typings\o365auth.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\o365discovery.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\sharepoint.d.ts" />
     <TypeScriptCompile Include="services\office365\scripts\typings\utility.d.ts" />
