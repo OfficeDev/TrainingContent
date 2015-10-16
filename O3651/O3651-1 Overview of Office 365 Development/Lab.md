@@ -63,7 +63,7 @@ In this exercise, you will download, install and investigate an App for Office h
 In this exercise, you will download, install and investigate an App for Office hosted by Excel.
 
 1. Sign up to access sample data.
-  1. Navigate to the [Azure Data Market](https://datamarket.azure.com).
+  1. Navigate to the [Azure Data Market](https://datamarket.azure.com/home).
   2. Sign in with your Microsoft account.
   3. Search for **crime**.
   4. Click **2006-2008 Crime in the United States**<br/>
