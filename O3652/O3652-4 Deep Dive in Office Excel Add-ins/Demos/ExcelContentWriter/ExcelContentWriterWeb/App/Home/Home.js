@@ -27,7 +27,7 @@
 										["Anna", "Conda"],
 										["Max", "Headroom"]];
 
-			// insert matrix into Word document
+			// insert matrix into Excel document
 			Office.context.document.setSelectedDataAsync(matrix, { coercionType: "matrix" }, testForSuccess);
 		}
 
@@ -38,7 +38,7 @@
 			myTable.headers = [['First Name', 'Last Name']];
 			myTable.rows = [['Bob', 'White'], ['Anna', 'Conda'], ['Max', 'Headroom']];
 
-			// add table to Word document
+			// add table to Excel document
 			Office.context.document.setSelectedDataAsync(myTable, { coercionType: "table" }, testForSuccess)
 		}
 
