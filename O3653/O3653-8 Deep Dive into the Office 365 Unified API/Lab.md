@@ -175,7 +175,7 @@ Now that you have an access token, create a few requests to the Unified API's RE
 In this exercise, you used the raw REST API interface of the Unified API to interact with the different capabilities. 
 
 
-## Exercise 3: Use the Unified API .NET SDK in an ASP.NET Web Application 
+## Exercise 3: Use the Unified API .NET SDK in an Native Client Application 
 In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 application.
 
 ### Create a Native Client Application in Azure AD
