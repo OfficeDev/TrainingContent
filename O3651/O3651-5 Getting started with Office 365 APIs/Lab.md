@@ -108,7 +108,13 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 1. Add a new model that will be used by our persistent token cache:
   1. Right-click **Models** folder in the project and select **Add/Class**.
   1. Name the class **PerWebUserCache.cs**.
-  1. When the file has been created, add the following code to the class:
+  1. When the file has been created, change the accessibility to public:
+
+    ````c#
+    public class PerWebUserCache {}
+    ````
+
+  1. add the following code to the class:
 
     ````c#
     [Key]
@@ -423,7 +429,7 @@ In this exercise you will add a controller and views that utilize the Office 365
     using Microsoft.Office365.OutlookServices;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Exercise2.utils;
+    using Exercise2.Utils;
     ````
 
   1. Decorate the controller to only allow authenticated users to execute it by adding the `[Authorize]` attribute on the line immediately before the controller declaration:
