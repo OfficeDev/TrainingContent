@@ -521,11 +521,11 @@ In this exercise you will add a controller and views that utilize the Office 365
           </tr>
         </thead>
         <tbody>
-          @foreach (var o365Contact in ViewBag.Events) {
+          @foreach (var o365Event in ViewBag.Events) {
             <tr>
-              <td>@o365Contact.Subject</td>
-              <td>@o365Contact.Start</td>
-              <td>@o365Contact.End</td>
+              <td>@o365Event.Subject</td>
+              <td>@o365Event.Start</td>
+              <td>@o365Event.End</td>
             </tr>
           }
         </tbody>
