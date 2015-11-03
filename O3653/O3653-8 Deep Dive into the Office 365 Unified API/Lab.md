@@ -187,7 +187,7 @@ In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 a
 1. Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click **Applications** in the toolbar. 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
-1. In the **Add Application** wizard, enter a name of **My First Unified API Windows App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
+1. In the **Add Application** wizard, enter a name of **My First Unified API Windows App** and choose the type **Native Client Application**. Click the arrow to advance to the next page of the wizard.
 1. Next, set the **Redirect URI** of the application to **http://localhost/unifiedapi** and click the check to save your changes.
 1. Once the application has been created, click the **Configure** link the top navigation menu.
 1. Find the **Clint ID** on the **Configure** page & copy it for later use.
