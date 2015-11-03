@@ -156,7 +156,7 @@ Now that you have an access token, create a few requests to the Unified API's RE
 	
 1. Look at the files in your OneDrive for Business. *This assumes you have at least some files within your OneDrive for Business account... if not the payload returned with be empty*:
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me/files**
+	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me/drive/root/children**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about the files within your OneDrive for Business account.
 
