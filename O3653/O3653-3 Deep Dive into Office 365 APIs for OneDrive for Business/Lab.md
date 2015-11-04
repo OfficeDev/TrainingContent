@@ -201,7 +201,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     using Owin;
     using System.Configuration;
     using System.Threading.Tasks;
-    using Exercise2.Utils;
+    using OneDriveWeb.Utils;
     ````
 
   1. Add the following method to the `Startup` class:
