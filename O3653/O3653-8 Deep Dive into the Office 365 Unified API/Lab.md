@@ -202,10 +202,13 @@ In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 a
 ### Prepare the Visual Studio Solution
 Next, take an existing starter project and get it ready to write code that will use the Unified API's .NET SDK.
 
-1. Locate the [Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 8.1 application that you will update to call the Unified API using the native .NET SDK for the Unified API. Open the project **O365-Win-Profile** in Visual Studio.
+1. Locate the [Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 8.1 application that you will update to call the Unified API using the native .NET SDK for the Unified API. Open the solution **O365-Win-Profile** in Visual Studio.
 1. First, download all referenced NuGet packages. Do this by opening the **Package Manager Console** tool window (**View -> Other Windows -> Package Manager Console**). Then click the **Restore** button in the top-right section of the tool window and wait for the project to download all packages.
 
 	> Verify Visual Studio found all references to the DLL's that were downloaded from the NuGet packages. If you see yellow warning triangles on entries under the **References** folder in the **Solution Explorer**, simply close the solution in Visual Studio and reopen it.
+	> Note that you may get the following error
+	```The specified path, file name, or both are too long. The fully qualified file name must be less than 260 characters, and the directory name must be less than 248 characters.```
+	when attepting to restore ```Microsoft.OData.ProxyExtensions```, particularly if you have cloned the entire TrainingContent repository. To overcome this, you need to copy the entire **O365-Win-Profile** solution and its files to a location with a shorter path, for example ```c:\temp\O3653-8\Lab Files``` and re-open it from there before proceeding.
 	
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Paste in the GUID Client ID of the Azure AD application you copied previously in this XML element.
 1. Update the login redirect URI for the application that is sent to Azure when logging in. Open the file **AuthenticationHelper.cs** and locate the line that looks like this:
