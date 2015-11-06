@@ -535,9 +535,10 @@ In this exercise you will add a controller and views that utilize the Office 365
 
   1. Save your changes.
 1. Run the application by pushing **F5**.
+  1. Note that you're not prompted to login immediately. The default route does not require authorization.
+  1. On the homepage of the application, click the **Calendar** link in the top navigation. Note that you're now prompted to login (if you're not already logged in) as the `Calendar` route is decorated with the `[Authorize]` attribute
   1. When prompted, login using your **Organizational Account**.
-  1. When prompted, trust the permissions requested by the application if prompted.
-  1. When you go back to the homepage of the application, click the **Calendar** link in the top navigation.
+  1. If prompted, trust the permissions requested by the application.
   1. Verify that events appear in the web application.
 
 **Congratulations! You have completed your first Office 365 API application.**
