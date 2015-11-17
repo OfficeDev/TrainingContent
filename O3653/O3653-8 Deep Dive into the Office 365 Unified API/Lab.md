@@ -194,7 +194,7 @@ In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 a
 1. Scroll to the bottom of the page to the section **Permissions to Other Applications**.
 1. Click the **Add Application** button & select the **Office 365 Unified API**, then click the check to add it to your application.
 1. Select the **Delegated Permissions: 0** control and add the following permissions to the application:
-	- Read signed-in user's files
+	- Read user files and files shared with user
 	- Access directory as the signed in user
 	- Read items in all site collections
 1. Click the **Save** icon in the bottom menu.

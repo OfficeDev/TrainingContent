@@ -401,7 +401,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
             <li>@Html.ActionLink("Home", "Index", "Home")</li>
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-            <li>@Html.ActionLink("Files (SDK)", "Index", "Home")</li>
+            <li>@Html.ActionLink("Files (SDK)", "Index", "Files")</li>
           </ul>
           @Html.Partial("_LoginPartial")
         </div>
@@ -484,7 +484,7 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
 1. **Add** the following code to read a page of files.
 
   ````c#
-  public async Task<IEnumerable<IITem>> GetMyFiles(int pageIndex, int pageSize)
+  public async Task<IEnumerable<IItem>> GetMyFiles(int pageIndex, int pageSize)
   {
       var client = await EnsureClientCreated();
 
@@ -874,7 +874,7 @@ Now you will code the MVC application to allow navigating the OneDrive for Busin
 
 1. Right-click the **Controllers** folder and select **Add/Controller**.
   1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty** and click **Add**.
-  1. In the **Add Controller** dialog, give the controller the name **OneDriveNewApiRepository** and click **Add**.
+  1. In the **Add Controller** dialog, give the controller the name **OneDriveNewApiController** and click **Add**.
 1. **Add** the following references to the top of the file.
 
   ````c#
