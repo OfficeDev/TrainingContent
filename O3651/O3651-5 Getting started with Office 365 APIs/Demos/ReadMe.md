@@ -1,6 +1,6 @@
 # Demos
 ## Azure Active Directory Portal
-1. [Azure Portal](httpmanage.windowsazure.com)
+1. [Azure Portal](htts://manage.windowsazure.com)
 ## Authentication process
 1. [How to use Discovery Service](http://code.msdn.microsoft.com/Office-365-APIs-How-to-use-609102ea)
 ## Getting started Office 365 API tools for VS ASP.NET MVC

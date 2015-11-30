@@ -8,7 +8,7 @@ In order to run the completed project provided here, you must perform some setup
 1. You will need a text editor for this lab... anything will do from [Visual Studio](https://www.visualstudio.com/) to [Brackets](http://www.brackets.io) to [WebStorm](https://www.jetbrains.com/webstorm/) to Notepad.
 
 ## Create a SharePoint Site using the Provided Site Template
-Create a new SharePoint site in SharePoint Online using the template found within the [ExpenseApp.wsp](ExpenseApp.wsp) file.
+Create a new SharePoint site (create a new Site Collection and choose Select Template Later) in SharePoint Online using the template found within the [ExpenseApp.wsp](ExpenseApp.wsp) file.
 
 Take note of the URL of the site 
 
@@ -51,9 +51,8 @@ $ npm install
   1. In the **Select Application** dropdown, select **Office 365 SharePoint Online**. 
   1. In the **Delegated Permissions** dropdown on the same line, the following permissions:
   
-    - Read items in all site collections
-    - Edit or delete items in all site collections
-    - Read user' files
+    - Read and write items in all site collections
+    - Read user files
 
 1. Click the **Save** button at the bottom of the page.
 1. Configure the application to allow the OAuth2 Implicit Flow:
