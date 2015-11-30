@@ -44,13 +44,13 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 ### Grant App Necessary Permissions to the Unified API
 1. Scroll down to the **permissions to other applications** section. 
 	1. Click the **Add Application** button.
-	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Office 365 Unified API** option.
+	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Microsoft Graph** option.
 	1. Click the **CHECK** icon in the lower right corner.
-	1. For the new **Office 365 Unitied API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
-		- Read signed-in user's files 
-		- Read and write signed-in user's calendars
-		- Read signed-in user's calendars
-		- Read signed-in user's email
+	1. For the new **Microsoft Graph** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
+		- Read user files and files shared with user
+		- Have full access to user calendars
+		- Read user calendars
+		- Read user mail
 	1. Click the **Save** button at the bottom of the page.
 
 ### Get the Azure AD Tenant ID
