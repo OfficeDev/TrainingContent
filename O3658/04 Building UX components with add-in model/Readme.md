@@ -4,6 +4,9 @@
 
 Introduction on how to build typical user interface functionalities using add-in model capabilities. We cover different kind of client side rendering mechanisms to provide similar end user experiences as with classic server side code. 
 
+**Video**
+- [PnP Add-In Transformation Training module 4: Building UX components with add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-module-4-Building-UX-components-with-add-in-model)
+
 **Agenda**
 - Introduction to building UX components using add-in model
 - UX customizations with add-in model

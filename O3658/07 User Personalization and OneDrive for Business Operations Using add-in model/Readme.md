@@ -4,6 +4,9 @@
 
 In this module we concentrate on user profile based solutions and how the user profile service can be used with the add-in model. We'll cover the remote API possibilities and how you can use remote APIs to manage personal or other users profile attributes. We also cover customization patterns related on the OneDrive for Business customizations and how you can provide needed configurations, including branding, cross individual personal OneDrive for Business sites. 
 
+**Video**
+- [PnP Add-In Transformation Training module 7: User Personalization and One Drive for Business operations using add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-module-7-User-Personalization-and-One-Drive-for-Business-operatio)
+
 **Agenda**
 - Introduction to user profile, personalization and OneDrive for Business
 - Custom attribute replication

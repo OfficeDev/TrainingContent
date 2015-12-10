@@ -4,6 +4,9 @@
 
 SharePoint has always been about site provisioning. Before you can start collaborating or before you can start publishing content in publishing Intranet, you will need to provision a site collection and/or a sub site, apply the needed configuration and branding. Site provisioning really is the heart and soul of the customizations in the add-in model implementation and it can be customized in similar ways as with the classic farm solution based approach. We'll concentrate on the remote provisioning pattern and how you can use the add-in model to provision site collections and sub sites with the needed configurations. 
 
+**Video**
+- [PnP Add-In Transformation Training module 6: Site provisioning with add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-module-6-Site-provisioning-with-add-in-model)
+
 **Agenda**
 - Site provisioning patterns - past, present and future
 - Site provisioning with client side object model (CSOM)

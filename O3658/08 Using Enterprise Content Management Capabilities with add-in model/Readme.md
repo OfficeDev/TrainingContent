@@ -4,6 +4,9 @@
 
 Module covers different patterns for enabling or implementation enterprise content management capabilities using the add-in model techniques. We cover the typical technical implementation for information management architecture and for other enterprise content management capabilities such as implementing governance processes for your deployment using add-in techniques.  
 
+**Video**
+- [PnP Add-In Transformation Training module 8: Using Enterprise Content Management Capabilities with add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-module-8-Enterprise-Content-Management)
+
 **Agenda**
 - Content types and site columns
 - Managed Metadata CSOM

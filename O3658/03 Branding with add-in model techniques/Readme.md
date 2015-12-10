@@ -4,6 +4,9 @@
 
 Introduction to different branding capabilities using the add-in model techniques. We cover different options to modify the end user experience and discuss what the key considerations are when your making your implementation decision. Session also covers topics related on where the assets used for branding should be stored in order to ease future maintenance.
 
+**Video**
+- [PnP Add-In Transformation Training module 3: Branding with add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-module-3-Branding-with-add-in-model)
+
 **Agenda**
 - Introduction to branding with add-in model
 - Themes and other other branding techniques

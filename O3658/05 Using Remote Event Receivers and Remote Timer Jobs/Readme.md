@@ -4,6 +4,9 @@
 
 This module covers two very important topics for the add-in model development, which are remote event receivers and remote timer jobs. We cover both of the topics one by one and explain the different characteristics of both. Remote timer jobs can be used to replace classic event receivers in some level and the remote timer job pattern shows how to implement scheduled or on-demand asynchronous operations using the add-in model.   
 
+**Video**
+- [PnP Add-In Transformation Training module 5: Using Remote Event Receivers and Remote Timer Jobs](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-module-5-Remote-timer-events)
+
 **Agenda**
 - Introduction to remote event receivers and remote timer jobs
 - Remote timer jobs

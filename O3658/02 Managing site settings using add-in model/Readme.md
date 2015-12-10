@@ -4,6 +4,9 @@
 
 Introduction to generic site management operations using the add-in model. We cover capabilities like modification of pages by adding web parts to them and how to take advantage of so called "JavaScript Embed" pattern, which can be used to modify the end user experience without a need of using a custom master page. 
 
+**Video**
+- [PnP Add-In Transformation Training Module 2: Managing site settings using add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-Module-2-Managing-site-settings-using-add-in-model)
+
 **Agenda**
 - Introduction to site management with add-in model
 - Page and content modifications

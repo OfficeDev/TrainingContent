@@ -4,6 +4,9 @@
 
 This module concentrates on using SharePoint Enterprise Search capabilities with the add-in model. We cover how you can modify the SharePoint search end user experience and also how you can utilize search using remote APIs from your own applications. 
 
+**Video**
+- [PnP Add-In Transformation Training Module 9: Using Search Capabilities with add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-Module-9-Using-Search-Capabilities-with-add-in-model)
+
 **Agenda**
 - Overview
 - Search Building Blocks

@@ -4,6 +4,9 @@
 
 This is the introduction module for the general add-in model transformation or transition. We concentrate on the reasoning behind the add-in model and on the process off approaching these kind of projects. We'll also tackle some of the key questions around farm solutions, sandbox solutions and the add-in model, including their differences and reasoning why we recommend the add-in model as the de-facto option for Office 365 and on-premises customizations.
 
+**Video**
+- [PnP Add-In Transformation Training module 1: Introduction](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-In-Transformation-Training-module-1-Introduction)
+
 **Agenda**
 - Introduction to add-in model transition topic
 - Transition process

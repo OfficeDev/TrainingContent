@@ -4,6 +4,9 @@
 
 This module concentrates on the actual transformation process and covers more detailed different techniques which you can take while transforming existing farm solutions to add-in model implementations. We also cover recommendations around farm solutions, which will help you to perform transition in the future. These farm solution principles can be used for new farm solutions to help the future add-in model transition, if you still need to develop farm solutions in on-premises. 
 
+**Video**
+- [PnP Add-in Transformation Training Module 10: Transformation guidance from farm solutions to add-in model](https://channel9.msdn.com/blogs/OfficeDevPnP/PnP-Add-in-Transformation-Training-Module-10-Transformation-Guideance-from-Farm-Solutions)
+
 **Agenda**
 - Transformation process
 - Transformation approaches
