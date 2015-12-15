@@ -8,7 +8,7 @@ The important take-away from this lab is to understand how you can create a 100%
 
 ## Prerequisites
 1. You must have an Office 365 tenant complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
-1. You must have [node.js](http://nodejs.org/) installed on your development environment. You can get node.js from the [downloads](http://nodejs.org/download/) section on their site. Certain [node.js packages](https://www.npmjs.org) available via [NPM](htttps://www.npmjs.org) will be used in creating this Office App.
+1. You must have [node.js](http://nodejs.org/) installed on your development environment. You can get node.js from the [downloads](http://nodejs.org/download/) section on their site. Certain [node.js packages](https://www.npmjs.org) available via [NPM](https://www.npmjs.org) will be used in creating this Office App.
 1. You will need [git](http://git-scm.com/) installed, it's a requirement for [bower](http://bower.io). You can get git from the [downloads](http://git-scm.com/downloads) section on their web site.
 1. You will need a text editor for this lab. The editor **[Brackets](http://www.brackets.io)** is used in this lab.
 
