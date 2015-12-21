@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3E4ABE38-84F7-4F14-A546-BCE377FD775A}</ProjectGuid>
+    <ProjectGuid>{795AE0C3-6949-43A8-B041-C32CCB920298}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ContentGenerator</RootNamespace>
@@ -14,12 +14,14 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
-    <AppFeaturePartId>{25f5764c-4695-429f-8cc5-3528b7c6b8f1}</AppFeaturePartId>
-    <WspPartId>{5c8b8c4f-f451-4e26-9662-03d355874062}</WspPartId>
-    <WorkflowPartId>{e8092dd3-6e29-451b-8f84-ae6dd91a6515}</WorkflowPartId>
-    <CspkgPartId>{8c8df117-b528-4066-a469-7eb9c45f3e9d}</CspkgPartId>
-    <SqlPackagePartId>{2d07693b-ca9e-490c-86c9-361f71519b5d}</SqlPackagePartId>
+    <AppFeaturePartId>{4fc56ad6-f2bc-47ed-921c-768a6c44d786}</AppFeaturePartId>
+    <WspPartId>{f2971228-b3f7-47c6-9c23-a4e94bccf72f}</WspPartId>
+    <WorkflowPartId>{1b1e5af9-62f5-47c4-9edf-403a72c24313}</WorkflowPartId>
+    <CspkgPartId>{0f9c3ec7-dfde-4916-9887-03880cff2ad9}</CspkgPartId>
+    <SqlPackagePartId>{45916d3b-a56a-402f-b83b-33d039aab8bd}</SqlPackagePartId>
     <ProjectMode>OfficeApp</ProjectMode>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <MinimumOfficeToolsVersion>12.2</MinimumOfficeToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="ContentGeneratorManifest\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{b7977cd5-4e20-46b2-9102-7d46f82d0217}</SharePointProjectItemId>
+      <SharePointProjectItemId>{42736422-ce18-4deb-a078-9827098e0a68}</SharePointProjectItemId>
     </None>
     <Content Include="ContentGeneratorManifest\ContentGenerator.xml">
       <OpcRelationship>manifest-oemanifest</OpcRelationship>
@@ -50,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ContentGeneratorWeb\ContentGeneratorWeb.csproj">
-      <Project>{EADF01D4-F3BD-49F7-B3FF-E37A5026EB57}</Project>
+      <Project>{6CF8FD56-91D1-4C8A-8578-05E2E02B95E6}</Project>
       <Name>ContentGeneratorWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>
