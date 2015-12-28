@@ -1,5 +1,4 @@
 ﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
-using Microsoft.Graph;
 using Microsoft.OData.Client;
 using System;
 using System.Collections.Generic;
@@ -7,254 +6,205 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Windows.UI.Xaml.Media.Imaging;
+using O365_Win_Profile.Model;
+
 
 namespace O365_Win_Profile
 {
     class UserOperations
     {
 
-        /// <summary>
-        /// Gets a list of users on the current tenant.
-        /// </summary>
-        /// <returns>List<IUser> </returns>
-        public async Task<List<IUser>> GetUsersAsync()
+        public static async Task<string> GetJsonAsync(string url)
         {
-            try
+            var accessToken = await AuthenticationHelper.GetGraphAccessTokenAsync();
+            using (HttpClient client = new HttpClient())
             {
-                List<IUser> userList = null;
+                var accept = "application/json";
 
-                var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+                client.DefaultRequestHeaders.Add("Accept", accept);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                var userResult = await graphClient.users.Where( u=> u.userType == "Member").ExecuteAsync();
-                userList = userResult.CurrentPage.ToList();
-
-                return userList;
-            }
-
-            catch (DataServiceQueryException dsqe)
-            {
-                Debug.WriteLine("Could not get users: " + dsqe.InnerException.Message);
-                return null;
-            }
-
-            catch (Exception e)
-            {
-                Debug.WriteLine("Could not get users: " + e.Message);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the manager of the specified user.
-        /// </summary>
-        /// <returns>User </returns>
-        public async Task<User> GetUserManagerAsync(string userId)
-        {
-            try
-            {
-                User manager = null;
-
-                var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-
-                var managerResult = await graphClient.users.GetById(userId).manager.ExecuteAsync();
-                manager = (User)managerResult;
-
-                return manager;
-            }
-
-            catch (DataServiceQueryException dsqe)
-            {
-                Debug.WriteLine("Could not get manager: " + dsqe.InnerException.Message);
-                return null;
-            }
-
-            catch (Exception e)
-            {
-                Debug.WriteLine("Could not get manager: " + e.Message);
-                return null;
-            }
-
-        }
-
-        /// <summary>
-        /// Gets the specified user.
-        /// </summary>
-        /// <returns>User </returns>
-
-        public async Task<User> GetUserAsync(string userId)
-        {
-            try
-            {
-                User user = null;
-
-                var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-
-                var userResult = await graphClient.users.GetById(userId).ExecuteAsync();
-                user = (User)userResult;
-
-                return user;
-            }
-
-            catch (DataServiceQueryException dsqe)
-            {
-                Debug.WriteLine("Could not get user: " + dsqe.InnerException.Message);
-                return null;
-            }
-
-            catch (Exception e)
-            {
-                Debug.WriteLine("Could not get user: " + e.Message);
-                return null;
-            }
-
-        }
-
-        /// <summary>
-        /// Gets the specified user's direct reports.
-        /// </summary>
-        /// <returns>List<IDirectoryObject> </returns>
-        public async Task<List<IDirectoryObject>> GetUserDirectReportsAsync(string userId)
-        {
-            try
-            {
-
-                var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-
-                var directReportResult = await graphClient.users.GetById(userId).directReports.ExecuteAsync();
-                var directReportList = directReportResult.CurrentPage.ToList();
-
-                return directReportList;
-            }
-
-            catch (DataServiceQueryException dsqe)
-            {
-                Debug.WriteLine("Could not get direct reports: " + dsqe.InnerException.Message);
-                return null;
-            }
-
-            catch (Exception e)
-            {
-                Debug.WriteLine("Could not get direct reports: " + e.Message);
-                return null;
-            }
-
-        }
-
-        /// <summary>
-        /// Gets groups to which the specified user belongs. 
-        /// </summary>
-        /// <returns><List<IDirectoryObject> </returns>
-        public async Task<List<IDirectoryObject>> GetUserGroupsAsync(string userId)
-        {
-            try 
-            {
-                var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-                var groupResult = await graphClient.users.GetById(userId).memberOf.ExecuteAsync();
-                var groupList = groupResult.CurrentPage.ToList();
-
-                return groupList;
-            }
-
-            catch (DataServiceQueryException dsqe)
-            {
-                Debug.WriteLine("Could not get groups: " + dsqe.InnerException.Message);
-                return null;
-            }
-
-            catch (Exception e)
-            {
-
-                Debug.WriteLine("Could not get groups: " + e.Message);
-                return null;
-            }
-
-        }
-
-        /// <summary>
-        /// Gets files that are shared with the user.
-        /// </summary>
-        /// <returns>List<IItem> </returns>
-        public async Task<List<IItem>> GetUserFilesAsync(string userId)
-        {
-            try
-            {
-                var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-
-                var filesResult = await graphClient.users.GetById(userId).files.Take(10).ExecuteAsync();
-                var fileList = filesResult.CurrentPage.ToList();
-
-                return fileList;
-            }
-
-            catch (DataServiceQueryException dsqe)
-            {
-                Debug.WriteLine("Could not get files: " + dsqe.InnerException.Message);
-                return null;
-            }
-
-            catch (Exception e)
-            {
-
-                Debug.WriteLine("Could not get files: " + e.Message);
-                return null;
-            }
-
-
-        }
-
-        /// <summary>
-        /// Gets the user's thumbnail photo.
-        /// </summary>
-        /// <returns>BitmapImage </returns>
-
-        // Using a REST request for photo after getting the URI for the thumbnail stream
-        public async Task<BitmapImage> GetPhotoAsync(string photoUrl, string token)
-        {
-
-            using (var client = new HttpClient())
-            {
-                try
+                using (var response = await client.GetAsync(url))
                 {
-                    var request = new HttpRequestMessage(HttpMethod.Get, new Uri(photoUrl));
-                    BitmapImage bitmap = null;
-
-                    request.Headers.Add("Authorization", "Bearer " + token);
-
-                    var response = await client.SendAsync(request);
-
-                    var stream = await response.Content.ReadAsStreamAsync();
                     if (response.IsSuccessStatusCode)
-                    {
-
-                        using (var memStream = new MemoryStream())
-                        {
-                            await stream.CopyToAsync(memStream);
-                            memStream.Seek(0, SeekOrigin.Begin);
-                            bitmap = new BitmapImage();
-                            await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
-                        }
-                        return bitmap;
-                    }
-
-                    else
-                    {
-                        Debug.WriteLine("Unable to find an image at this endpoint.");
-                        bitmap = new BitmapImage(new Uri("ms-appx:///assets/UserDefault.png", UriKind.RelativeOrAbsolute));
-                        return bitmap;
-                    }
-
-                }
-
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Could not get the thumbnail photo: " + e.Message);
+                        return await response.Content.ReadAsStringAsync();
                     return null;
                 }
             }
+        }
 
+        public async Task<List<UserModel>> GetUsersAsync()
+        {
+
+            List<UserModel> retUsers = null;
+            try
+            {
+                var restURL = string.Format("{0}/users?$filter={1}", AuthenticationHelper.ResourceBetaUrl, "(userType eq 'Member')");
+                string responseString = await GetJsonAsync(restURL);
+
+                if (responseString != null)
+                {
+                    retUsers = JObject.Parse(responseString)["value"].ToObject<UserModel[]>().ToList();
+                }
+            }
+
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+
+            return retUsers;
+        }
+
+        public async Task<UserModel> GetUserManagerAsync(string userId)
+        {
+            UserModel user = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/manager", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+
+                if (responseString != null)
+                {
+                    user = JObject.Parse(responseString).ToObject<UserModel>();
+                }
+            }
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return user;
+        }
+
+        public async Task<UserModel> GetUserAsync(string userId)
+        {
+            UserModel user = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    user = JObject.Parse(responseString).ToObject<UserModel>();
+                }
+            }
+
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+
+            return user;
+        }
+
+        public async Task<List<UserModel>> GetUserDirectReportsAsync(string userId)
+        {
+            List<UserModel> retUsers = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/directReports", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    retUsers = JObject.Parse(responseString)["value"].ToObject<List<UserModel>>();
+                }
+            }
+
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return retUsers;
+        }
+
+        public async Task<List<GroupModel>> GetUserGroupsAsync(string userId)
+        {
+            List<GroupModel> retUserGroups = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/memberof", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    var jsonresult = JObject.Parse(responseString)["value"];
+                    retUserGroups = new List<GroupModel>();
+                    foreach (var item in jsonresult)
+                    {
+                        if (item["@odata.type"].ToString() == "#microsoft.graph.group")
+                        {
+                            var group = item.ToObject<GroupModel>();
+                            retUserGroups.Add(group);
+                        }
+                    }
+
+                }
+            }
+
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return retUserGroups;
+        }
+
+        public async Task<List<DriveItemModel>> GetUserFilesAsync(string userId)
+        {
+
+            List<DriveItemModel> fileList = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/drive/root/children", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    fileList = JObject.Parse(responseString)["value"].ToObject<List<DriveItemModel>>();
+                }
+            }
+
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return fileList;
+        }
+
+        public async Task<BitmapImage> GetPhotoAsync(string userId, string token)
+        {
+            BitmapImage bitmap = null;
+            var restURL = string.Format("{0}/users/{1}/photo/$value", AuthenticationHelper.ResourceBetaUrl, userId);
+            var accessToken = AuthenticationHelper.AccessToken;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                using (var response = await client.GetAsync(restURL))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Stream imageStream = await response.Content.ReadAsStreamAsync();
+
+                        var memStream = new MemoryStream();
+                        await imageStream.CopyToAsync(memStream);
+                        memStream.Position = 0;
+
+                        bitmap = new BitmapImage();
+                        await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
+                    }
+                    if (bitmap == null)
+                    {
+                        Debug.WriteLine("Unable to find an image at this endpoint.");
+                        bitmap = new BitmapImage(new Uri("ms-appx:///assets/UserDefault.png", UriKind.RelativeOrAbsolute));
+
+                    }
+                    return bitmap;
+                }
+            }
         }
 
     }
