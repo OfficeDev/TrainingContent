@@ -1,16 +1,10 @@
-﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
-using Microsoft.Graph;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
-using Windows.ApplicationModel.Resources.Core;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -20,10 +14,10 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using O365_Win_Profile.Model;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace O365_Win_Profile
 {
@@ -35,7 +29,7 @@ namespace O365_Win_Profile
 
         private string _loggedInUserName = null;
         private bool _userLoggedIn = false;
-        private GraphService _graphClient = null;
+        private string _loginAuthorizationCode = null;
         private UserOperations _userOperations = new UserOperations();
         public static ApplicationDataContainer _settings = ApplicationData.Current.LocalSettings;
 
@@ -61,7 +55,7 @@ namespace O365_Win_Profile
 
                 //If signin is successful, populate the user list
 
-                if (_graphClient != null)
+                if (_loginAuthorizationCode != null)
                 {
                     if (App.UserList == null)
                     {
@@ -100,9 +94,9 @@ namespace O365_Win_Profile
         public async Task SignInCurrentUserAsync()
         {
 
-            _graphClient = await AuthenticationHelper.GetGraphClientAsync();
+            _loginAuthorizationCode = await AuthenticationHelper.GetGraphAccessTokenAsync();
 
-            if (_graphClient != null)
+            if (_loginAuthorizationCode != null)
             {
                 _loggedInUserName = (string)_settings.Values["LoggedInUser"];
 
@@ -111,8 +105,8 @@ namespace O365_Win_Profile
 
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            User selectedUser = (User)e.AddedItems[0];
-            this.Frame.Navigate(typeof(UserDisplayPage), selectedUser.objectId);
+            UserModel selectedUser = (UserModel)e.AddedItems[0];
+            this.Frame.Navigate(typeof(UserDisplayPage), selectedUser.id);
         }
 
 
@@ -123,12 +117,12 @@ namespace O365_Win_Profile
             {
                 ProgressBar.Visibility = Visibility.Visible;
                 await SignInCurrentUserAsync();
-                if (_graphClient == null)
+                if (_loginAuthorizationCode == null)
                 {
                     Debug.WriteLine("Unable to log in user.");
 
                 }
-                else 
+                else
                 {
                     ConnectButton.Content = "disconnect";
                 }
@@ -148,32 +142,3 @@ namespace O365_Win_Profile
 
     }
 }
-
-//********************************************************* 
-// 
-//O365-Win-Profile, https://github.com/OfficeDev/O365-Win-Profile
-//
-//Copyright (c) Microsoft Corporation
-//All rights reserved. 
-//
-// MIT License:
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// ""Software""), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// 
-//********************************************************* 

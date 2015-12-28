@@ -1,15 +1,15 @@
-# Deep Dive into the Office 365 Unified API
-In this lab, you will use the Unified API to access & program against Office 365 data using both the raw REST API as well as using Windows 8.1 application and the .NET SDK for the Unified API.
+# Deep Dive into the Office 365 Microsoft Graph API
+In this lab, you will use the Microsoft Graph API to access & program against Office 365 data using both the raw REST API as well as using Windows 10 application for the Microsoft Graph API.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 1. You must have access to an Exchange mailbox within an Office 365 developer tenancy.
 1. You must have some files within your Office 365 OneDrive for Business. 
 1. You must have Fiddler (http://www.telerik.com/fiddler) or another HTTP debugging proxy tool installed to complete exercise 2.
-1. You must have the Office 365 API Tools version 1.3.41104.1 installed in Visual Studio 2013 to complete exercise 3.
+1. You must have Visual Studio 2015 to complete exercise 3. 
 
-## Exercise 1: Create an Azure AD Application with Necessary Permissions for the Unified API 
-In this exercise, you will create an Azure AD application using the Azure Management portal and grant the application the necessary permissions to work with the Unified API.
+## Exercise 1: Create an Azure AD Application with Necessary Permissions for the Microsoft Graph API 
+In this exercise, you will create an Azure AD application using the Azure Management portal and grant the application the necessary permissions to work with the Microsoft Graph API.
 
 1. Within a browser, navigate to the **Azure Management Portal**: https://manage.windowsazure.com
 1. Enter the email address and password of an account that have permissions to manage the directory of the Azure AD tenant (e.g. admin@sample.onmicrosoft.com).
@@ -20,9 +20,9 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
-1. In the **Add Application** wizard, enter a name of **My First Unified API App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
+1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph API App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
 1. In the **App Properties** page, enter a **SIGN-ON URL** of **https://dev.office.com**
-1. Enter an **App ID Uri** of **http://[your-O365-tenant-id].onmicrosoft.com/UnifiedApiApp**.
+1. Enter an **App ID Uri** of **http://[your-O365-tenant-id].onmicrosoft.com/MicrosoftGraphApiApp**.
 
 	> NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
 
@@ -41,16 +41,17 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 	![](Images/Figure03.png)
 
-### Grant App Necessary Permissions to the Unified API
+### Grant App Necessary Permissions to the Microsoft Graph API
 1. Scroll down to the **permissions to other applications** section. 
 	1. Click the **Add Application** button.
-	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Office 365 Unified API** option.
+	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Microsoft Graph API** option.
 	1. Click the **CHECK** icon in the lower right corner.
-	1. For the new **Office 365 Unitied API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
-		- Read signed-in user's files 
-		- Read and write signed-in user's calendars
-		- Read signed-in user's calendars
-		- Read signed-in user's email
+	1. For the new **Microsoft Graph API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
+		- Read files that the user selects
+		- Read user files and files shared with user
+		- Read all groups
+		- Read all users' full profiles
+		- Sign in and read user profile
 	1. Click the **Save** button at the bottom of the page.
 
 ### Get the Azure AD Tenant ID
@@ -61,11 +62,11 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 	Copy the GUID from any of the URLs and save them to a text file, just like you did for the client ID & key earlier, as you will need this later. 
 
-In this exercise you created an Azure AD application using the Azure Management portal and granted the application the necessary permissions to work with the Unified API.
+In this exercise you created an Azure AD application using the Azure Management portal and granted the application the necessary permissions to work with the Microsoft Graph API.
 
 
-## Exercise 2: Use the Raw REST API Interface of the Unified API
-In this exercise, you will use the raw REST API interface of the Unified API to interact with the different capabilities. In order to call the Unified API, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
+## Exercise 2: Use the Raw REST API Interface of the Microsoft Graph API
+In this exercise, you will use the raw REST API interface of the Microsoft Graph API to interact with the different capabilities. In order to call the Microsoft Graph API, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
 
 ### Authenticate & Obtain an Authorization Code from Azure AD 
 Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.
@@ -93,8 +94,8 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
 1. With the session selected in Fiddler, click the **Inspector** tab and then click the **WebForms** button. This will show a list of all the values submitted to the current page.
 1. Copy the value for the **code** to the text file; this is the authorization code that can be used to obtain an access token.
 
-## Obtain an OAuth2 Access Token for the Unified API
-Use the Azure AD token endpoint to obtain an access token for the Unified API using the authorization code you just obtained.
+## Obtain an OAuth2 Access Token for the Microsoft Graph API
+Use the Azure AD token endpoint to obtain an access token for the Microsoft Graph API using the authorization code you just obtained.
 
 1. Take the following URL and replace the `{tenant-id}` token with the values obtained in the previous exercise:
 
@@ -137,12 +138,12 @@ Use the Azure AD token endpoint to obtain an access token for the Unified API us
 
 	![](Images/Figure07.png)  
 
-### Issue Requests to the Unified API's REST Endpoint
-Now that you have an access token, create a few requests to the Unified API's REST endpoint.
+### Issue Requests to the Microsoft Graph API's REST Endpoint
+Now that you have an access token, create a few requests to the Microsoft Graph API's REST endpoint.
 
-1. First get information about the currently logged in user from the Unified API. Within Fiddler's **Composer** tab, do the following:
+1. First get information about the currently logged in user from the Microsoft Graph API. Within Fiddler's **Composer** tab, do the following:
 	1. Set the HTTP action to **GET**.
-	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me**
+	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/me**
 	1. Set the HTTP headers to the following values, replacing the `{access-token}` token to the actual token you just obtained in the last step:
 	
 		````
@@ -156,30 +157,30 @@ Now that you have an access token, create a few requests to the Unified API's RE
 	
 1. Look at the files in your OneDrive for Business. *This assumes you have at least some files within your OneDrive for Business account... if not the payload returned with be empty*:
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me/drive/root/children**
+	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/me/drive/root/children**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about the files within your OneDrive for Business account.
 
 1. Now, see how you can query for any user's information provided you have access to it.
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/beta/{tenant-id}/users/{userPrincipalName}**
+	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{userPrincipalName}**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Look at the results and notice you are now seeing the details of a user within your Azure AD directory!
 	
 1. Next, try something the app has not been created access to. In the first exercise the app was not given access to Office 365 groups. Try to access a property on groups to see the error that is returned:
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/beta/{tenant-id}/users/{userPrincipalName}/memberOf**
+	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{userPrincipalName}/memberOf**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with a error message of *Insufficient privileges to complete the operation.*
 
-In this exercise, you used the raw REST API interface of the Unified API to interact with the different capabilities. 
+In this exercise, you used the raw REST API interface of the Microsoft Graph API to interact with the different capabilities. 
 
 
-## Exercise 3: Use the Unified API .NET SDK in an Native Client Application 
-In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 application.
+## Exercise 3: Use the Microsoft Graph API in an Native Client Application 
+In this exercise, you will use the Microsoft Graph API's within a Windows 10 application.
 
 ### Create a Native Client Application in Azure AD
-*Your custom Windows 8.1 application must be registered as an application in Azure AD in order to work, so we will do that now.*
+*Your custom Windows 10 application must be registered as an application in Azure AD in order to work, so we will do that now.*
 
 1. Within a browser, navigate to the **Azure Management Portal**: https://manage.windowsazure.com
 1. Enter the email address and password of an account that have permissions to manage the directory of the Azure AD tenant (e.g. admin@sample.onmicrosoft.com).
@@ -187,29 +188,24 @@ In this exercise, you will use the Unified API's .NET SDK within a Windows 8.1 a
 1. Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click **Applications** in the toolbar. 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
-1. In the **Add Application** wizard, enter a name of **My First Unified API Windows App** and choose the type **Native Client Application**. Click the arrow to advance to the next page of the wizard.
-1. Next, set the **Redirect URI** of the application to **http://localhost/unifiedapi** and click the check to save your changes.
+1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph API Windows App** and choose the type **Native Client Application**. Click the arrow to advance to the next page of the wizard.
+1. Next, set the **Redirect URI** of the application to **http://localhost/microsoftgraphapi** and click the check to save your changes.
 1. Once the application has been created, click the **Configure** link the top navigation menu.
 1. Find the **Clint ID** on the **Configure** page & copy it for later use.
 1. Scroll to the bottom of the page to the section **Permissions to Other Applications**.
-1. Click the **Add Application** button & select the **Office 365 Unified API**, then click the check to add it to your application.
+1. Click the **Add Application** button & select the **Office 365 Microsoft Graph API**, then click the check to add it to your application.
 1. Select the **Delegated Permissions: 0** control and add the following permissions to the application:
+	- Read files that the user selects
 	- Read user files and files shared with user
-	- Access directory as the signed in user
-	- Read items in all site collections
+	- Read all groups
+	- Read all users' full profiles
+	- Sign in and read user profile
 1. Click the **Save** icon in the bottom menu.
 
 ### Prepare the Visual Studio Solution
-Next, take an existing starter project and get it ready to write code that will use the Unified API's .NET SDK.
+Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph API's.
 
-1. Locate the [Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 8.1 application that you will update to call the Unified API using the native .NET SDK for the Unified API. Open the solution **O365-Win-Profile** in Visual Studio.
-1. First, download all referenced NuGet packages. Do this by opening the **Package Manager Console** tool window (**View -> Other Windows -> Package Manager Console**). Then click the **Restore** button in the top-right section of the tool window and wait for the project to download all packages.
-
-	> Verify Visual Studio found all references to the DLL's that were downloaded from the NuGet packages. If you see yellow warning triangles on entries under the **References** folder in the **Solution Explorer**, simply close the solution in Visual Studio and reopen it.
-	> Note that you may get the following error
-	```The specified path, file name, or both are too long. The fully qualified file name must be less than 260 characters, and the directory name must be less than 248 characters.```
-	when attepting to restore ```Microsoft.OData.ProxyExtensions```, particularly if you have cloned the entire TrainingContent repository. To overcome this, you need to copy the entire **O365-Win-Profile** solution and its files to a location with a shorter path, for example ```c:\temp\O3653-8\Lab Files``` and re-open it from there before proceeding.
-	
+1. Locate the [Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph API using the native for the Microsoft Graph API. Open the solution **O365-Win-Profile** in Visual Studio.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Paste in the GUID Client ID of the Azure AD application you copied previously in this XML element.
 1. Update the login redirect URI for the application that is sent to Azure when logging in. Open the file **AuthenticationHelper.cs** and locate the line that looks like this:
 
@@ -217,11 +213,11 @@ Next, take an existing starter project and get it ready to write code that will 
 	private static Uri redirectUri = new Uri(" ");
 	````
 	
-	Set the value of that string **http://localhost/unifiedapi**.
+	Set the value of that string **http://localhost/microsoftgraphapi**.
 
 
-### Update the Application to Retrieve Data via the Unified API
-*Now you will update the project's codebase to retrieve data from the Unified API to display the values within the Windows 8.1 application.*
+### Update the Application to Retrieve Data via the Microsoft Graph API
+*Now you will update the project's codebase to retrieve data from the Microsoft Graph API to display the values within the Windows 10 application.*
 
 1. Open the file **UserOperations.cs**.
 1. Update the **GetUsersAsync** function to get users from your Azure AD directory:
@@ -229,14 +225,24 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 
 		````c#
-		List<IUser> userList = null;
-		
-		var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-		
-		var userResult = await graphClient.users.Where( u=> u.userType == "Member").ExecuteAsync();
-		userList = userResult.CurrentPage.ToList();
-		
-		return userList;
+            List<UserModel> retUsers = null;
+            try
+            {
+                var restURL = string.Format("{0}/users?$filter={1}", AuthenticationHelper.ResourceBetaUrl, "(userType eq 'Member')");
+                string responseString = await GetJsonAsync(restURL);
+
+                if (responseString != null)
+                {
+                    retUsers = JObject.Parse(responseString)["value"].ToObject<UserModel[]>().ToList();
+                }
+            }
+
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+
+            return retUsers;
 		````
 
 1. Update the **GetUserAsync** function to get details on a specific user:
@@ -244,14 +250,23 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-    User user = null;
+            UserModel user = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    user = JObject.Parse(responseString).ToObject<UserModel>();
+                }
+            }
 
-    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+            catch (Exception el)
+            {
+                el.ToString();
+            }
 
-    var userResult = await graphClient.users.GetById(userId).ExecuteAsync();
-    user = (User)userResult;
-
-    return user;
+            return user;
 		````
 
 1. Update the **GetUserManagerAsync** function to get a specific user's direct manager:
@@ -259,14 +274,22 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-    User manager = null;
+            UserModel user = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/manager", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
 
-    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-
-    var managerResult = await graphClient.users.GetById(userId).manager.ExecuteAsync();
-    manager = (User)managerResult;
-
-    return manager;
+                if (responseString != null)
+                {
+                    user = JObject.Parse(responseString).ToObject<UserModel>();
+                }
+            }
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return user;
 		````
 
 1. Update the **GetUserDirectReportsAsync** function to get a specific user's direct reports:
@@ -274,12 +297,22 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+            List<UserModel> retUsers = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/directReports", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    retUsers = JObject.Parse(responseString)["value"].ToObject<List<UserModel>>();
+                }
+            }
 
-    var directReportResult = await graphClient.users.GetById(userId).directReports.ExecuteAsync();
-    var directReportList = directReportResult.CurrentPage.ToList();
-
-    return directReportList;
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return retUsers;
 		````
 
 1. Update the **GetUserGroupsAsync** function to get all the groups a user belongs to:
@@ -287,11 +320,32 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-	  var graphClient = await AuthenticationHelper.GetGraphClientAsync();
-	  var groupResult = await graphClient.users.GetById(userId).memberOf.ExecuteAsync();
-	  var groupList = groupResult.CurrentPage.ToList();
-	
-	  return groupList;
+            List<GroupModel> retUserGroups = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/memberof", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    var jsonresult = JObject.Parse(responseString)["value"];
+                    retUserGroups = new List<GroupModel>();
+                    foreach (var item in jsonresult)
+                    {
+                        if (item["@odata.type"].ToString() == "#microsoft.graph.group")
+                        {
+                            var group = item.ToObject<GroupModel>();
+                            retUserGroups.Add(group);
+                        }
+                    }
+
+                }
+            }
+
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return retUserGroups;
 		````
 
 1. Update the **GetUserFilesAsync** function to get a specified user's files:
@@ -299,12 +353,22 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-    var graphClient = await AuthenticationHelper.GetGraphClientAsync();
+            List<DriveItemModel> fileList = null;
+            try
+            {
+                var restURL = string.Format("{0}/users/{1}/drive/root/children", AuthenticationHelper.ResourceBetaUrl, userId);
+                string responseString = await GetJsonAsync(restURL);
+                if (responseString != null)
+                {
+                    fileList = JObject.Parse(responseString)["value"].ToObject<List<DriveItemModel>>();
+                }
+            }
 
-    var filesResult = await graphClient.users.GetById(userId).files.Take(10).ExecuteAsync();
-    var fileList = filesResult.CurrentPage.ToList();
-
-    return fileList;
+            catch (Exception el)
+            {
+                el.ToString();
+            }
+            return fileList;
 		````
 
 1. Save your changes to the file.
@@ -316,7 +380,7 @@ Next, take an existing starter project and get it ready to write code that will 
 1. Select one of the users and you will see it get populated with data from the Azure AD directory.
 
 
-In this exercise, you used the Unified API's .NET SDK within Windows 8.1 application.
+In this exercise, you used the Microsoft Graph API's within Windows 10 application.
 
 
-Congratulations! In this lab you have created your first Azure AD application that enabled access to the Unified API and used both the raw REST API and .NET SDK for the Unified API!
+Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph API and used REST API for the Microsoft Graph API!

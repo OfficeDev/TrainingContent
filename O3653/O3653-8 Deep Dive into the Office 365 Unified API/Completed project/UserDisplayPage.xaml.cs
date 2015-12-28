@@ -1,18 +1,12 @@
-﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
-using Microsoft.Graph;
-using O365_Win_Profile.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,19 +15,20 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using O365_Win_Profile.Common;
+using O365_Win_Profile.Model;
 
-// The Split Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234234
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace O365_Win_Profile
 {
     /// <summary>
-    /// A page that displays a group title, a list of items within the group, and details for
-    /// the currently selected item.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class UserDisplayPage : Page
     {
         private UserOperations _userOperations = new UserOperations();
-        public User DisplayUser = null;
+        public UserModel DisplayUser = null;
 
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
@@ -81,8 +76,8 @@ namespace O365_Win_Profile
                 this.navigationHelper.GoBackCommand.RaiseCanExecuteChanged();
             }
 
-            User nextUser = (User)e.AddedItems[0];
-            await SetUserAsync(nextUser.objectId);
+            UserModel nextUser = (UserModel)e.AddedItems[0];
+            await SetUserAsync(nextUser.id);
         }
 
         /// <summary>
@@ -261,9 +256,9 @@ namespace O365_Win_Profile
 
             // Get manager
 
-            User manager = await _userOperations.GetUserManagerAsync(DisplayUser.objectId);
+            UserModel manager = await _userOperations.GetUserManagerAsync(DisplayUser.id);
 
-            if ( manager != null)
+            if (manager != null)
             {
                 ManagerBlock.Text = manager.displayName;
             }
@@ -275,9 +270,9 @@ namespace O365_Win_Profile
 
             // Get groups for user
 
-            var groups = await _userOperations.GetUserGroupsAsync(DisplayUser.objectId);
+            var groups = await _userOperations.GetUserGroupsAsync(DisplayUser.id);
 
-            if ( groups.Count > 0)
+            if (groups.Count > 0)
             {
                 GroupNames.ItemsSource = groups;
             }
@@ -288,7 +283,7 @@ namespace O365_Win_Profile
 
             // Get direct reports for user. 
 
-            var directReports = await _userOperations.GetUserDirectReportsAsync(DisplayUser.objectId);
+            var directReports = await _userOperations.GetUserDirectReportsAsync(DisplayUser.id);
 
             if (directReports.Count > 0)
             {
@@ -302,7 +297,7 @@ namespace O365_Win_Profile
 
             // Get files shared with the user
 
-            var files = await _userOperations.GetUserFilesAsync(DisplayUser.objectId);
+            var files = await _userOperations.GetUserFilesAsync(DisplayUser.id);
 
             if (files == null)
             {
@@ -327,9 +322,7 @@ namespace O365_Win_Profile
 
             try
             {
-
-                var thumbnailStreamLink = DisplayUser.thumbnailPhoto.SelfLink.AbsoluteUri;
-                var image = await _userOperations.GetPhotoAsync(thumbnailStreamLink, AuthenticationHelper.AccessToken);
+                var image = await _userOperations.GetPhotoAsync(DisplayUser.id, AuthenticationHelper.AccessToken);
 
                 if (image != null)
                 {
@@ -351,39 +344,10 @@ namespace O365_Win_Profile
         {
             if (e.AddedItems.Count == 1)
             {
-                IDirectoryObject nextUser = (IDirectoryObject)e.AddedItems[0];
-                await SetUserAsync(nextUser.objectId);
+                UserModel nextUser = (UserModel)e.AddedItems[0];
+                await SetUserAsync(nextUser.id);
             }
         }
 
     }
 }
-
-//********************************************************* 
-// 
-//O365-Win-Profile, https://github.com/OfficeDev/O365-Win-Profile
-//
-//Copyright (c) Microsoft Corporation
-//All rights reserved. 
-//
-// MIT License:
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// ""Software""), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// 
-//********************************************************* 

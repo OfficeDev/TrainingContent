@@ -1,5 +1,5 @@
 ﻿<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
-    <Page
+<Page
     x:Name="pageRoot"
     x:Class="O365_Win_Profile.UserDisplayPage"
     DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
@@ -9,7 +9,7 @@
     xmlns:common="using:O365_Win_Profile.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Foreground="White" FontSize="11">
 
     <Page.Resources>
         <!-- Collection of items displayed by this page -->
@@ -44,17 +44,18 @@
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
             <ProgressBar x:Name="ProgressBar" Width="900" 
                      Visibility="Collapsed"
-                     Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" IsIndeterminate="True"/>
+                     Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" IsIndeterminate="True" Foreground="Black"/>
             <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
                         Style="{StaticResource NavigationBackButtonNormalStyle}"
                         VerticalAlignment="Top"
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"
-                        AutomationProperties.ItemType="Navigation Button"/>
+                        AutomationProperties.ItemType="Navigation Button" Foreground="White" Content="&#xE0D5;"/>
             <TextBlock x:Name="pageTitle" Text="All users" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
-                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,0,40"/>
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,0,40" Foreground="White"/>
         </Grid>
 
         <!-- Vertical scrolling item list -->
@@ -78,8 +79,8 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                            <TextBlock Text="{Binding displayName}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap" MaxHeight="40"/>
-                            <TextBlock Text="{Binding title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
+                            <TextBlock Text="{Binding displayName}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap" MaxHeight="40" Foreground="White"/>
+                            <TextBlock Text="{Binding title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Foreground="White"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -131,15 +132,11 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Phone: " Margin="0,0,5,0" />
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding telephoneNumber}"/>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding mobilePhone}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Hire Date: " Margin="0,0,5,0"/>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding HireDate.Day}"/>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="/"/>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding HireDate.Month}"/>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="/"/>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding HireDate.Year}"/>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding hireDate}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Address: " Margin="0,0,5,0"/>
@@ -160,12 +157,12 @@
                     <StackPanel Margin="0,10,0,0" >
                         <TextBlock Text="Direct reports: " Style="{StaticResource SubheaderTextBlockStyle}"/>
                         <ListView SelectionChanged="DirectReportNames_SelectionChanged" SelectionMode="Single" x:Name="DirectReportNames" >
-                        <ListView.ItemTemplate>
-                            <DataTemplate >
-                                <TextBlock Text="{Binding displayName}"/>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                            <ListView.ItemTemplate>
+                                <DataTemplate >
+                                    <TextBlock Text="{Binding displayName}" Foreground="White"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" >
                         <TextBlock Text="Groups: " Style="{StaticResource SubheaderTextBlockStyle}"/>
