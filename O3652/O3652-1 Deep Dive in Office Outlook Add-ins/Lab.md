@@ -254,7 +254,7 @@ The functions used in this Add-in, `getSelectedDataAsync()` & `setSelectedDataAs
 
   > The two functions `setSelectedDataAsync()` & `getSelectedDataAsync()` were introduced in **Office.js** version 1.2.
 
-  ![](Images/ManifestOfficejs12.png)
+  ![](Images/ManifestOfficeJs12.png)
 
 ### Test the Compose Form
 1. Press **F5** to build and launch the browser (or Outlook client) to test the compose form.

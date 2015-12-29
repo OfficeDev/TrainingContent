@@ -2,9 +2,9 @@
 
 var Office = new function() {
     this._appContext = 40;
-    this._showAll = true;
+    this._showAll = false;
     this._setContext = {
-        MAILBOX: "1.1"
+        MAILBOX: "1.2"
     };
 }
 

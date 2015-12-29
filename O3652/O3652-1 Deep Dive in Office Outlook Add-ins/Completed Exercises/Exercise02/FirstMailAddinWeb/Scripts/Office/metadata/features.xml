@@ -85,6 +85,10 @@
       <Method Name="CustomXmlPrefixMappings.getNamespaceAsync" />
       <Method Name="CustomXmlPrefixMappings.getPrefixAsync" />
     </Version>
+    <version Value="1.2">
+      <Method Name="CustomXmlNode.getNamespaceAsync" />
+      <Method Name="CustomXmlNode.getPrefixAsync" />
+    </version>
   </Set>
   <Set Name="DocumentEvents">
     <Version Value="1.1">
@@ -109,6 +113,9 @@
     <Version Value="1.1" />
   </Set>
   <Set Name="TextCoercion">
+    <Version Value="1.1" />
+  </Set>
+  <Set Name="ImageCoercion">
     <Version Value="1.1" />
   </Set>
   <Set Name="MatrixCoercion">
@@ -140,8 +147,16 @@
   <Set Name="Mailbox">
     <Version Value="1.1" />
     <Version Value="1.2" />
+    <Version Value="1.3" />
   </Set>
   <Set Name="PartialTableBindings">
     <Version Value="1.1" />
+  </Set>
+  <Set Name="ExcelApi">
+    <Version Value="1.1" />
+  </Set>
+  <Set Name="WordApi">
+    <Version Value="1.1" />
+    <Version Value="1.2" />
   </Set>
 </Features>

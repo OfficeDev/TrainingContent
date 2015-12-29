@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4E9663F-3005-4704-ACC3-A7520EBE4119}</ProjectGuid>
+    <ProjectGuid>{4B660D07-8F34-4FEA-B93B-80902486F934}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FirstMailAddin</RootNamespace>
@@ -14,14 +14,18 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
-    <AppFeaturePartId>{81ca4386-d5cf-428a-b771-187c7cf79e61}</AppFeaturePartId>
-    <WspPartId>{b48b8967-5435-4284-b785-2f16b3cc44b0}</WspPartId>
-    <WorkflowPartId>{44aacfd5-bb08-4d24-851c-986191885d29}</WorkflowPartId>
-    <CspkgPartId>{16a1cc92-b45b-468b-9d9d-4de97ba3e0b9}</CspkgPartId>
-    <SqlPackagePartId>{d7b8ba69-4a03-4ed6-b47f-c171654dc481}</SqlPackagePartId>
+    <AppFeaturePartId>{a34e0a44-a9ec-4271-a0cb-92068427e47b}</AppFeaturePartId>
+    <WspPartId>{60d07fdf-fca4-4689-98b3-67ca77ac8edd}</WspPartId>
+    <WorkflowPartId>{f67bc506-fea0-40f8-a236-c7b7390ba24e}</WorkflowPartId>
+    <CspkgPartId>{b8e05cce-e9f4-40d1-b0d2-529c3d3c96e8}</CspkgPartId>
+    <SqlPackagePartId>{382ad093-9f38-4e3d-9cc2-beb48e5c2448}</SqlPackagePartId>
     <ProjectMode>MailApp</ProjectMode>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
-    <MinimumOfficeToolsVersion>12.1</MinimumOfficeToolsVersion>
+    <MinimumOfficeToolsVersion>12.2</MinimumOfficeToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,7 +48,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="FirstMailAddinManifest\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{eed68427-6001-4681-aeb8-888409e3e24e}</SharePointProjectItemId>
+      <SharePointProjectItemId>{3e420d0f-6ccf-497a-98b0-ab2c430f8bbc}</SharePointProjectItemId>
     </None>
     <Content Include="FirstMailAddinManifest\FirstMailAddin.xml">
       <OpcRelationship>manifest-oemanifest</OpcRelationship>
@@ -52,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FirstMailAddinWeb\FirstMailAddinWeb.csproj">
-      <Project>{CA006DFF-F7DD-463A-B31A-983775986ECD}</Project>
+      <Project>{7DD2AD4F-08B7-4452-9EAF-3F1181120F50}</Project>
       <Name>FirstMailAddinWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>
