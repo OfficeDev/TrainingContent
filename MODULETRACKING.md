@@ -1,4 +1,4 @@
-Office 365 Development Training Content
+Office 365 Development Training Content 
 ===============
 
 This page is used to track the status of various aspects of the training modules in this repo.
