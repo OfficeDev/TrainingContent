@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O365-Win-Profile", "O365-Win-Profile\O365-Win-Profile.csproj", "{DD6F75F1-F589-4715-99F8-044E36145A25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "O365-Win-Profile", "O365-Win-Profile.csproj", "{DD6F75F1-F589-4715-99F8-044E36145A25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
