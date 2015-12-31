@@ -191,7 +191,7 @@ In this exercise, you will use the Microsoft Graph API's within a Windows 10 app
 1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph API Windows App** and choose the type **Native Client Application**. Click the arrow to advance to the next page of the wizard.
 1. Next, set the **Redirect URI** of the application to **http://localhost/microsoftgraphapi** and click the check to save your changes.
 1. Once the application has been created, click the **Configure** link the top navigation menu.
-1. Find the **Clint ID** on the **Configure** page & copy it for later use.
+1. Find the **Client ID** on the **Configure** page & copy it for later use.
 1. Scroll to the bottom of the page to the section **Permissions to Other Applications**.
 1. Click the **Add Application** button & select the **Office 365 Microsoft Graph API**, then click the check to add it to your application.
 1. Select the **Delegated Permissions: 0** control and add the following permissions to the application:
