@@ -1,0 +1,46 @@
+﻿<h3>View Customer</h3>
+
+<div class="ms-Grid">
+        <div class="ms-TextField">
+            <label for="txtID" class="ms-Label">ID:</label>
+            <div class="ms-u-lg6">
+                <input id="txtID" type="text" readonly class="ms-TextField-field" ng-model="customer.ID">
+            </div>
+        </div>
+        <div class="ms-TextField">
+            <label for="txtFirstName" class="ms-Label">First Name:</label>
+            <div class="ms-u-lg6">
+                <input id="txtFirstName" type="text" readonly class="ms-TextField-field" ng-model="customer.FirstName">
+            </div>
+        </div>
+        <div class="ms-TextField">
+            <label for="txtLastName" class="ms-Label">Last Name:</label>
+            <div class="ms-u-lg6">
+                <input id="txtLastName" type="text" readonly class="ms-TextField-field" ng-model="customer.Title">
+            </div>
+        </div>
+        <div class="ms-TextField">
+            <label for="txtWorkPhone" class="ms-Label">Work Phone:</label>
+            <div class="ms-u-lg6">
+                <input id="txtWorkPhone" type="text" readonly class="ms-TextField-field" ng-model="customer.WorkPhone">
+            </div>
+        </div>
+        <div class="ms-TextField">
+            <label for="txtHomePhone" class="ms-Label">Home Phone:</label>
+            <div class="ms-u-lg6">
+                <input id="txtHomePhone" type="text" readonly class="ms-TextField-field" ng-model="customer.HomePhone">
+            </div>
+        </div>
+        <div class="ms-TextField">
+            <label for="txtEMailAddress" class="ms-Label">EMail Addresss:</label>
+            <div class="ms-u-lg6">
+                <input id="txtEMailAddress" type="text" readonly class="ms-TextField-field" ng-model="customer.Email">
+            </div>
+        </div>
+</div>
+
+<hr />
+
+<a class="ms-Link" href="#/edit/{{customer.Id}}">Edit this Customer</a>
+<br />
+<a href="#/" class="ms-Link" >Return to Customers List</a>
