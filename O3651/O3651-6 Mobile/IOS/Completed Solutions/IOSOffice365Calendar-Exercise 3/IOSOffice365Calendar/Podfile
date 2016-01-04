@@ -1,0 +1,7 @@
+source 'https://github.com/Cocoapods/Specs.git'
+platform :ios, '8.0'
+
+xcodeproj 'IOSOffice365Calendar'
+pod 'ADALiOS', '=1.2.4' 
+pod 'orc' 
+pod 'MSGraph-SDK-iOS'
