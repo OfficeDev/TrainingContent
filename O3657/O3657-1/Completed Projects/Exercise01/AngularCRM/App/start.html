@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Angular CRM</title>
+
+    <link rel="stylesheet" href="http://appsforoffice.microsoft.com/fabric/1.0/fabric.min.css">
+    <link rel="stylesheet" href="http://appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css">
+    <link href="../Content/App.css" rel="stylesheet">
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+
+    <script src="jquery-extensions.js"></script>
+
+    <script src="../Scripts/angular.js"></script>
+    <script src="../Scripts/angular-route.js"></script>
+    <script src="App.js"></script>
+</head>
+<body class="ms-font-m" ng-app="AngularCRM">
+    <div class="ms-NavBar">
+        <ul class="ms-NavBar-items">
+            <li class="ms-NavBar-item ms-font-xl">
+                <a class="ms-NavBar-link" href="#">Angular CRM</a>
+            </li>
+            <li class="ms-NavBar-item">
+                <a class="ms-NavBar-link" href="#">Home</a>
+            </li>
+            <li class="ms-NavBar-item">
+                <a class="ms-NavBar-link" href="#">Add Customer</a>
+            </li>
+            <li class="ms-NavBar-item">
+                <a class="ms-NavBar-link" href="#">About</a>
+            </li>
+            <li class="ms-NavBar-item ms-NavBar-item--right">
+                <a id="lnkHostWeb" class="ms-NavBar-link">Back to Host Web</a>
+            </li>
+        </ul>
+    </div>
+    <div class="ms-Grid">
+        <div id="content-box"></div>
+    </div>
+</body>
+</html>
