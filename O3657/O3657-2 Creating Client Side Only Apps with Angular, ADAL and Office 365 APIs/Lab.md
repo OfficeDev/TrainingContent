@@ -1,14 +1,14 @@
-# Creating Client-Side Only Apps with Angular, ADAL & Office 365 APIs
+# Creating Client-Side Only Apps with Angular, ADAL & Microsoft Graph API
 In this lab, you will take an existing web application built with [Angular](http://www.angularjs.org) that uses static JSON files as it's data source and add two things:
 
 - Secure multiple routes in the application using the ADAL JS library for Azure Active Directory to take advantage of the OAuth2 Implicit Flow.
-- Replace existing calls to static JSON files to use the SharePoint Online REST & Office 365 Files APIs, taking advantage of their support for CORS.
+- Replace existing calls to static JSON files to use the SharePoint Online REST & Microsoft Graph API, taking advantage of their support for CORS.
 
 The important take-away from this lab is to understand how you can create a 100% client-side application that is secured (with Azure AD) and leverages data in Office 365 using the REST APIs that support CORS.
 
 ## Prerequisites
-1. You must have an Office 365 tenant complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
-1. You must have [node.js](http://nodejs.org/) installed on your development environment. You can get node.js from the [downloads](http://nodejs.org/download/) section on their site. Certain [node.js packages](https://www.npmjs.org) available via [NPM](https://www.npmjs.org) will be used in creating this Office App.
+1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
+1. You must have [node.js](http://nodejs.org/) installed on your development environment. You can get node.js from the [downloads](http://nodejs.org/en/download/) section on their site. Certain [node.js packages](https://www.npmjs.org) available via [NPM](https://www.npmjs.org) will be used in creating this Client-Side only App.
 1. You will need [git](http://git-scm.com/) installed, it's a requirement for [bower](http://bower.io). You can get git from the [downloads](http://git-scm.com/downloads) section on their web site.
 1. You will need a text editor for this lab. The editor **[Brackets](http://www.brackets.io)** is used in this lab.
 
@@ -19,6 +19,12 @@ In this exercise, you will examine and customize the **Starter Project** for the
 1. Open the project in any text editor, such as [Visual Studio](https://www.visualstudio.com/) or [Brackets](http://www.brackets.io) or [WebStorm](https://www.jetbrains.com/webstorm/) or Notepad.
 1. Download all NPM packages (used to build & self-host the project) and bower packages (used for external 3rd party script libraries).
   1. Open a command window and navigate to the [StarterFiles](StarterFiles) folder.
+  1. Enter the following in the command prompt to install requried 3rd party script libraries globally
+  
+    ````
+    npm install -g bower gulp superstatic
+    ````
+    
   1. Enter the following in the command prompt to download all NPM packages. When it completes it will then download all the bower packages as well.
 
     ````
@@ -29,12 +35,12 @@ In this exercise, you will examine and customize the **Starter Project** for the
 
 1. Test the application by starting up a local web server and navigating to the site. One option is to use a static web server that is built on node.js: [superstatic](https://www.npmjs.org/packages/superstatic).
 
-  To use superstatic, install it globally from a command prompt:
+  Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the **StarterFiles** directory:
 
   ````
-  npm install -g superstatic
+  gulp compile-ts
   ````
-
+  
   To start the superstatic web server, enter the following at the command prompt within the root of the [StarterFiles](StarterFiles) folder:
 
   ````
@@ -42,7 +48,9 @@ In this exercise, you will examine and customize the **Starter Project** for the
   ````
 
   This will host the site at [http://localhost:8000](http://localhost:8000). The file [superstatic.json](StarterFiles/superstatic.json) configures *superstatic* to load the site starting with `/src` as the web root.
-
+  
+    ![](Images/StartProject01.png)
+    
 ## Exercise 2: Setup the SharePoint Site & OneDrive for Business Dependencies
 In this exercise you will create a new SharePoint site with sample data that the app relies on using the pre-built site template & upload some files to your OneDrive for Business account.
 
@@ -68,9 +76,9 @@ Finally, create a SharePoint site with sample data in it using the provided site
 1. Give the site a title, description and URL name.
 1. For the template, click the **Custom** tab and select **ExpenseApp**.
 1. Scroll to the bottom of the page and click **Create**.
-1. Once the site has been created, copy the root URL of the new site as this will be used laster in this lab.
+1. Once the site has been created, copy the root URL of the new site as this will be used later in this lab.
 
-In this exercise you added some content to a OneDrive for Business account and you created a SharePoint site with sample data to test in the remained of this lab.
+In this exercise you added some content to a OneDrive for Business account and you created a SharePoint site with sample data to test in the remaining of this lab.
 
 ## Exercise 3: Setup Azure AD Application
 In this exercise you will create an Azure AD application that will be used by the starter project.
@@ -102,12 +110,18 @@ In this exercise you will create an Azure AD application that will be used by th
 1. On the application Quick Start page, click on **CONFIGURE** in the toolbar.
 1. Copy the **Client ID** value for later use. You will need this later.
 1. Scroll down to the **permissions to other applications** section. 
-  1. In the **Select Application** dropdown, select **Office 365 SharePoint Online**. 
-  1. In the **Delegated Permissions** dropdown on the same line, the following permissions:
+1. Click **Add application**
+  1. In the **Permissions to other applications** dialog, select **Microsoft Graph** and **Office 365 SharePoint Online** and save changes.
   
-    - Read items in all site collections
-    - Edit or delete items in all site collections
-    - Read user's files
+    ![](Images/AzureAdApp03.png)
+    
+  1. In the **Delegated Permissions** dropdown for **Microsoft Graph**, check the following permissions:
+  
+    - Read user files and files shared with user
+
+  1. In the **Delegated Permissions** dropdown for **Office 365 SharePoint Online**, check the following permissions:
+  
+    - Read and write items in all site collections
 
 1. Click the **Save** button at the bottom of the page.
 1. Configure the application to allow the OAuth2 Implicit Flow:
@@ -152,8 +166,8 @@ You will first create a constants file that will be used to modify the settings 
   module expenseApp {
 
     var settings:shared.IAdalSettings = {
-      tenant:          '',
-      clientId:        '',
+      tenant:          '', //Update with your tenant ID
+      clientId:        '', //Update with your client ID
       aadEndpoints:    {}
     };
 
@@ -161,8 +175,57 @@ You will first create a constants file that will be used to modify the settings 
 
   }
   ````
-
 1. Update the **tenant** & **clientId** values with the values of the Azure AD tenant ID and Azure AD application's client ID that you obtained in the previous exercise.
+
+1. Add two properties to the **settings** object created in this file that point to the root REST endpoint for the Microsoft Graph API & SharePoint REST API:
+
+  ````javascript
+    baseSPUrl:       '[baseSPUrl]/_api/',
+    baseOneDriveUrl: 'https://graph.microsoft.com/v1.0/me',
+  ````
+
+  > Note that the above references are used only as placeholders. The **baseSPUrl** property should point to the endpoint of the site that was created by ExpenseApp template in exercise 2. For instance if the site's homepage is https://foo-tenant.sharepoint.com/sites/mvasite, the **baseSPUrl** should be https://foo-tenant.sharepoint.com/sites/mvasite/_api/.
+
+1. Next add name-value pairs for each REST endpoint & it's associated resource ID that the ADAL JS Angular service should monitor to the **aadEndpoints** property. The property name should be the URL of the endpoint and the value should be the resource ID, such as the following:
+
+  ````javascript
+  aadEndpoints:    {
+    // sharepoint site containing lists
+    '[baseSPUrl]/_api/': 'https://[tenant].sharepoint.com',
+    // MS Graph API
+    'https://graph.microsoft.com/v1.0/me': 'https://graph.microsoft.com/'
+  }
+  ````
+  
+  > Note that the above references are used only as placeholders. You need to update **[baseSPUrl]** and **[tenant]** to your values.
+  
+1. So far **app.constants.ts** looks like following (**[tenant ID]**, **[client ID]**, **[baseSPUrl]** and **[tenant]** are placeholders) :
+
+  ````javascript
+  ///<reference path="../../../tools/typings/tsd.d.ts" />
+  ///<reference path="../../../tools/typings/expenseApp.d.ts" />
+
+  'use strict';
+
+  module expenseApp {
+
+    var settings:shared.IAdalSettings = {
+      tenant:          '[tenant ID]', //Update with your tenant ID
+      clientId:        '[client ID]', //Update with your client ID
+      aadEndpoints:    {
+        // sharepoint site containing lists
+        '[baseSPUrl]/_api/': 'https://[tenant].sharepoint.com',
+        // MS Graph API
+        'https://graph.microsoft.com/v1.0/me': 'https://graph.microsoft.com/'
+      },
+      baseSPUrl:       '[baseSPUrl]/_api/',
+      baseOneDriveUrl: 'https://graph.microsoft.com/v1.0/me',
+    };
+
+    angular.module('expenseApp').constant('settings', settings);
+
+  }  
+  ````
 
 Next you will configure the ADAL JS Angular service.
 
@@ -199,7 +262,7 @@ Next you will configure the ADAL JS Angular service.
   ````
 
 1. Configure the app's configuration to call this function that was just added to setup the ADAL JS Angular provider. Open the **app.module.ts** file.
-1. In the declaration of the app, add another module to get injected into the app, immediately after injecting `ui.bootstrap`: `AdalAngular`:
+1. In the declaration of the app, add another module to get injected into the app, immediately after injecting `ui.bootstrap`.
 
   ````javascript
   var app = angular.module('expenseApp', [
@@ -222,7 +285,7 @@ Next you will configure the ADAL JS Angular service.
              settings:expenseApp.shared.IAdalSettings,
              adalProvider):void { 
 
-      /* */
+      expenseApp.Routes.configure($routeProvider);
 
     }]);
   ````
@@ -234,7 +297,7 @@ Next you will configure the ADAL JS Angular service.
   ````
 
 1. With these two new files added, add references to them in the **index.html** file so they are loaded with the app loads. Open the **/src/index.html** file.
-2. Add the following two references to the added files just after the reference to `app.module.ts` in the `<!-- Custom scripts -->` section of the page:
+2. Add the following two references to the added files just after the reference to `app.module.js` in the `<!-- Custom scripts -->` section of the page:
 
   ````html
   <script src="js/expenseApp/app.adal.js"></script>
@@ -250,15 +313,59 @@ Finally, configure specific routes so they trigger ADAL JS to authenticate the u
   requireADLogin: true
   ````
 
-  So that they look similar to this route:
+  So that route file looks like this:
 
   ````javascript
-  .when('/employees', {
-    controller:     'expenseApp.employees.EmployeesController',
-    templateUrl:    viewBase + 'employees/employees.html',
-    controllerAs:   'vm',
-    requireADLogin: true
-  })
+  'use strict';
+
+  export class Routes {
+    static configure($routeProvider:ng.route.IRouteProvider) {
+      var viewBase:string = 'app/expenseApp/views/';
+
+      $routeProvider
+        .when('/login', {
+          controller:   'expenseApp.LoginController',
+          templateUrl:  viewBase + 'login.html',
+          controllerAs: 'vm'
+        })
+        .when('/employees', {
+          controller:     'expenseApp.employees.EmployeesController',
+          templateUrl:    viewBase + 'employees/employees.html',
+          controllerAs:   'vm',
+          requireADLogin: true
+        })
+        .when('/employeeExpenses/:employeeId', {
+          controller:     'expenseApp.employees.EmployeeExpensesController',
+          templateUrl:    viewBase + 'employees/employeeExpenses.html',
+          controllerAs:   'vm',
+          requireADLogin: true
+        })
+        .when('/employeeEdit/:employeeId', {
+          controller:     'expenseApp.employees.EmployeeEditController',
+          templateUrl:    viewBase + 'employees/employeeEdit.html',
+          controllerAs:   'vm',
+          requireADLogin: true
+        })
+        .when('/expenses', {
+          controller:     'expenseApp.expenses.ExpensesController',
+          templateUrl:    viewBase + 'expenses/expenses.html',
+          controllerAs:   'vm',
+          requireADLogin: true
+        })
+        .when('/expensesAttachReceipt/:employeeId/:expenseId', {
+          templateUrl:    viewBase + 'expenses/expensesAttachReceipt.html',
+          controller:     'expenseApp.expenses.ExpenseReceiptController',
+          controllerAs:   'vm',
+          requireADLogin: true
+        })
+        .when('/about', {
+          controller:  'expenseApp.AboutController',
+          templateUrl: viewBase + 'about.html'
+        })
+        .otherwise({redirectTo: '/login'});
+      }
+    }
+  }
   ````
 
 Next, update the controller used in the top navigation to add login/logout capabilities.
@@ -282,20 +389,25 @@ Next, update the controller used in the top navigation to add login/logout capab
                   private adalService)
   ````
 
-1. Add the following code to the class constructor to monitor the `isAuthenticated` property from the ADAL JS Angular service so that when it changes, certain properties are updated:
+1. Update the class constructor as following to monitor the `isAuthenticated` property from the ADAL JS Angular service so that when it changes, certain properties are updated:
 
   ````javascript
-    $scope.$watch(() => {
-      return this.adalService.userInfo.isAuthenticated;
-    }, (loggedIn) => {
-      console.log('isAuthenticated changed: ' + loggedIn);
-      this.changeLoginStatus(loggedIn);
-    });
+  constructor(private $scope:ng.IScope,
+                  private $location:ng.ILocationService,
+                  private $window:ng.IWindowService,
+                  private adalService) {
+        $scope.$watch(() => {
+        return this.adalService.userInfo.isAuthenticated;
+        }, (loggedIn) => {
+        console.log('isAuthenticated changed: ' + loggedIn);
+        this.changeLoginStatus(loggedIn);
+        });
 
-    this.isLoggedIn = this.adalService.userInfo.isAuthenticated;
+        this.isLoggedIn = this.adalService.userInfo.isAuthenticated;
 
-    if (!this.isLoggedIn) {
-      this.$location.path('/login');
+        if (!this.isLoggedIn) {
+        this.$location.path('/login');
+        }                      
     }
   ````
 
@@ -313,42 +425,30 @@ Next, update the controller used in the top navigation to add login/logout capab
     }
   ````
 
-1. Save all changes to all files.
+1. Save all your changes.
+1. Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the **StarterFiles** directory:
+
+  ````
+  gulp compile-ts
+  ````
+
+1. Test the app by starting the server. To start the superstatic web server, enter the following at the command prompt within the root of the [StarterFiles](StarterFiles) folder:
+
+  ````
+  superstatic --port 8000
+  ````
 
 In this exercise you added authentication, login & logout controls to the Angular app using the ADAL JS Angular provided service.
 
-## Exercise 5: Utilize Live Office 365 & SharePoint Online REST Services
+  ![](Images/StartProject02.png)
+
+## Exercise 5: Utilize Microsoft Graph API & SharePoint Online REST Services
 In this exercise you will create a SharePoint site using the provided site template that includes sample data. After creating the site, you will update the starter app to use the live services in Office 365 & SharePoint Online instead of the static sample files.
 
-Before updating the two Angular services that will call the Office 365 and SharePoint REST APIs, you must first update the ADAL JS configuration. This is required as it tells the ADAL JS Angular service to monitor requests to specific REST endpoints & when it sees one of those requests, it automatically adds the authorization HTTP header to the request.
-
-1. Open the **/src/app/expenseApp/app.constants.ts** file.
-1. Add two properties to the **settings** object created in this file that point to the root REST endpoint for the Office 365 Files API & SharePoint REST API:
-
-  ````javascript
-    baseSPUrl:       'https://[tenant].sharepoint.com/_api/',
-    baseOneDriveUrl: 'https://[tenant]-my.sharepoint.com/_api/v1.0/me',
-  ````
-
-  > Note that the above references are used only as placeholders. The value **tenant** should be replaced with the Office 365 tenant you are using. 
-  > 
-  > Furthermore, the **baseSPUrl** property should point to the endpoint of the site that was created in exercise 2. For instance if the site's homepage is https://foo-tenant.sharepoint.com/sites/mvasite, the **baseSPUrl** should be https://foo-tenant.sharepoint.com/sites/mvasite/_api.
-
-1. Next add name-value pairs for each REST endpoint & it's associated resource ID that the ADAL JS Angular service should monitor to the **aadEndpoints** property. The property name should be the URL of the endpoint and the value should be the resource ID, such as the following:
-
-  ````javascript
-  aadEndpoints:    {
-    // sharepoint site containing lists
-    'https://[tenant].sharepoint.com/_api/': 'https://[tenant].sharepoint.com',
-    // o365 files api
-    'https://[tenant]-my.sharepoint.com/_api/v1.0/me': 'https://[tenant]-my.sharepoint.com/'
-  }
-  ````
-
-Now update the **files.service.ts** Angular service to call the live Files API.
+Now update the **files.service.ts** Angular service to call the Microsoft Graph API to get Files.
 
 1. Open the **/src/app/expenseApp/services/files.services.ts** file.
-2. Update the items injected into the service to inject the **settings** object. Do this by updating the list of things injected as well as the class constructor:
+1. Update the items injected into the service to inject the **settings** object. Do this by updating the list of things injected as well as the class constructor:
 
   ````javascript
     static $inject = ['$http',
@@ -375,13 +475,13 @@ Now update the **files.service.ts** Angular service to call the live Files API.
 1. Within the function **getUserFiles()**, update the line that sets the HTTP endpoint for the request to not use the local static JSON file and instead use the real service:
 
   ````javascript
-  var endpoint = this.settings.baseOneDriveUrl + '/files/getbypath(\'receipts\')/children';
+  var endpoint = this.settings.baseOneDriveUrl + '/drive/root:/receipts:/children';
   ````
 
 1. Within the function **getReceiptsFolderPath()**, update the line that sets the HTTP endpoint for the request to not use the local static JSON file and instead use the real service:
 
   ````javascript
-  var endpoint = this.settings.baseOneDriveUrl + '/files/getbypath(\'receipts\')?$select=webUrl';
+  var endpoint = this.settings.baseOneDriveUrl + '/drive/root:/receipts?$select=webUrl';
   ````
 
 Next, update the **data.service.ts** Angular service to call the live SharePoint REST API:
@@ -398,15 +498,13 @@ Next, update the **data.service.ts** Angular service to call the live SharePoint
                     'settings'];
 
   constructor(private $http:ng.IHttpService,
-              private $q:ng.IQService,
-              private $window:ng.IWindowService,
-              private $location:ng.ILocationService,
-              private $timeout:ng.ITimeoutService,
-              private settings) {
+                private $q:ng.IQService,
+                private $window:ng.IWindowService,
+                private $location:ng.ILocationService,
+                private $timeout:ng.ITimeoutService,
+                private settings) {
 
-    this.baseSPUrl = settings.baseSPUrl;
-    this.baseSPListsUrl = this.baseSPUrl + 'web/lists/';
-
+  this.baseSPUrl = settings.baseSPUrl;
   }
   ````
 
@@ -414,33 +512,34 @@ Next, update the **data.service.ts** Angular service to call the live SharePoint
 
   ````javascript
   var employeeEndpoint = this.baseSPListsUrl +
-                            'getByTitle(\'Employees\')/items?' +
-                            '$select=ID,FirstName,LastName&' +
-                            '$orderby=LastName,FirstName';
+                                'getByTitle(\'Employees\')/items?' +
+                                '$select=ID,FirstName,LastName&' +
+                                '$orderby=LastName,FirstName';
   var empsPromise = this.$http.get(employeeEndpoint, this.getOptions);
 
   var expenseEndpoint = this.baseSPListsUrl +
-                            'getByTitle(\'Expenses\')/items?' +
-                            '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt,Employee/Id' +
-                            '&$expand=Employee/Id';
+                                'getByTitle(\'Expenses\')/items?' +
+                                '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt,Employee/Id' +
+                                '&$expand=Employee/Id';
   var expensesPromise = this.$http.get(expenseEndpoint, this.getOptions);
   ````
 
-1. Locate the **getEmployeeSummary()**. Update the endpoint to be dynamic rather than using the static JSON file endpoint:
+1. Locate the **getEmployeesSummary()**. Update the endpoint to be dynamic rather than using the static JSON file endpoint:
 
   ````javascript
   var url = this.baseSPListsUrl +
-                'getByTitle(\'Employees\')/items?' +
-                '$select=ID,FirstName,LastName,Address,City,State,Zip,Email,Gender' +
+                    'getByTitle(\'Employees\')/items?' +
+                    '$select=ID,FirstName,LastName,Address,City,State,Zip,Email,Gender' +
+                    '&$orderby=LastName,FirstName';
   ````
 
 1. Locate the **getStates()**. Update the endpoint to be dynamic rather than using the static JSON file endpoint:
 
   ````javascript
   var url = this.baseSPListsUrl +
-                'getByTitle(\'States\')/items?' +
-                '$select=Title&' +
-                '$orderby=Title';
+              'getByTitle(\'States\')/items?' +
+              '$select=Title&' +
+              '$orderby=Title';
   ````
 
 1. Locate the **getEmployee()**. Update the endpoint to be dynamic rather than using the static JSON file endpoint:
@@ -448,22 +547,24 @@ Next, update the **data.service.ts** Angular service to call the live SharePoint
   ````javascript
   var url = this.baseSPListsUrl +
                 'getByTitle(\'Employees\')/items(' + id + ')?' +
+                '$select=ID,FirstName,LastName,Address,City,State,Zip,Email,Gender';
   ````
 
 1. Locate the **getExpense()**. Update the endpoint to be dynamic rather than using the static JSON file endpoint:
 
   ````javascript
   var url = this.baseSPListsUrl +
-                'getByTitle(\'Expenses\')/items(' + id + ')?' +
+                    'getByTitle(\'Expenses\')/items(' + id + ')?' +
+                    '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt';
   ````
 
 1. Locate the **getEmployeeExpenses()**. Update the endpoint to be dynamic rather than using the static JSON file endpoint:
 
   ````javascript
   var url = this.baseSPListsUrl +
-                'getByTitle(\'Expenses\')/items?' +
-                '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt' +
-                '&$filter=Employee eq ' + id;
+                    'getByTitle(\'Expenses\')/items?' +
+                    '$select=ID,Amount,Created,ExpenseCategory,Title,Receipt' +
+                    '&$filter=Employee eq ' + id;
   ````
 
 1. Locate the **insertEmployee()**. Find the line that sets the value of the **baseUrl** variable. Update it to be dynamic:
@@ -488,11 +589,11 @@ Next, update the **data.service.ts** Angular service to call the live SharePoint
 1. Test the app by starting the server. To start the superstatic web server, enter the following at the command prompt within the root of the [StarterFiles](StarterFiles) folder:
 
   ````
-  ss --port 8000
+  superstatic --port 8000
   ````
 
   This will host the site at [http://localhost:8000](http://localhost:8000). The file [superstatic.json](StarterFiles/superstatic.json) configures *superstatic* to load the site starting with `/src` as the web root.
 
   Login to the application and click the through the Employees and Expenses section to see the application getting live data from SharePoint Online & OneDrive for Business.
 
-In this exercise you updated the application to get data from the live SharePoint Online REST API & the Office 365 Files REST API.
+In this exercise you updated the application to get data from the live SharePoint Online REST API & the Microsoft Graph REST API.

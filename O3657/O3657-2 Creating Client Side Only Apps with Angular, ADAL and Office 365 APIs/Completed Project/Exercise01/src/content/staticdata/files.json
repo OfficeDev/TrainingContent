@@ -1,0 +1,334 @@
+{
+  "@odata.context": "https://tenant-my.sharepoint.com/_api/v1.0/$metadata#files",
+  "value": [{
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OCA6ETH5LF52VBKKEPPZDBNIJOS",
+    "@odata.etag": "\"{7E26F140-BDAC-42D5-A511-EFC8C2D425D2},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OCA6ETH5LF52VBKKEPPZDBNIJOS",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{7E26F140-BDAC-42D5-A511-EFC8C2D425D2},1\"",
+    "id": "01UNQJ6OCA6ETH5LF52VBKKEPPZDBNIJOS",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-04 18-46-25.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 449108,
+    "dateTimeCreated": "2015-02-27T19:53:37Z",
+    "dateTimeLastModified": "2015-02-27T19:53:37Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-04%2018-46-25.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OCA6ETH5LF52VBKKEPPZDBNIJOS/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OD7ZYRZCQSF7JE2KGEN2XDHUW6N",
+    "@odata.etag": "\"{9123CE7F-4542-49FA-A518-8DD5C67A5BCD},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OD7ZYRZCQSF7JE2KGEN2XDHUW6N",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{9123CE7F-4542-49FA-A518-8DD5C67A5BCD},1\"",
+    "id": "01UNQJ6OD7ZYRZCQSF7JE2KGEN2XDHUW6N",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-04 19-12-50.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 256228,
+    "dateTimeCreated": "2015-02-27T19:53:37Z",
+    "dateTimeLastModified": "2015-02-27T19:53:37Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-04%2019-12-50.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OD7ZYRZCQSF7JE2KGEN2XDHUW6N/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OAU6D44RJ3TA5E2ZUCBQGKXSNIP",
+    "@odata.etag": "\"{C8F9F014-73A7-4907-ACD0-41819579350F},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OAU6D44RJ3TA5E2ZUCBQGKXSNIP",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{C8F9F014-73A7-4907-ACD0-41819579350F},1\"",
+    "id": "01UNQJ6OAU6D44RJ3TA5E2ZUCBQGKXSNIP",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-05 20-33-52.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 638934,
+    "dateTimeCreated": "2015-02-27T19:53:38Z",
+    "dateTimeLastModified": "2015-02-27T19:53:38Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-05%2020-33-52.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OAU6D44RJ3TA5E2ZUCBQGKXSNIP/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OFM2HWZS5LNIZAJD6JEFPSFRKWH",
+    "@odata.etag": "\"{99EDD1AC-6D75-4046-91F9-242BE458AAC7},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OFM2HWZS5LNIZAJD6JEFPSFRKWH",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{99EDD1AC-6D75-4046-91F9-242BE458AAC7},1\"",
+    "id": "01UNQJ6OFM2HWZS5LNIZAJD6JEFPSFRKWH",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-06 19-48-36.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 806494,
+    "dateTimeCreated": "2015-02-27T19:53:38Z",
+    "dateTimeLastModified": "2015-02-27T19:53:38Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-06%2019-48-36.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OFM2HWZS5LNIZAJD6JEFPSFRKWH/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OGE2HX56BOUWBAIUHC6OW2GKTZR",
+    "@odata.etag": "\"{DFEFD1C4-D405-40B0-8A1C-5E75B4654F31},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OGE2HX56BOUWBAIUHC6OW2GKTZR",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{DFEFD1C4-D405-40B0-8A1C-5E75B4654F31},1\"",
+    "id": "01UNQJ6OGE2HX56BOUWBAIUHC6OW2GKTZR",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-06 20-04-35.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 929668,
+    "dateTimeCreated": "2015-02-27T19:53:38Z",
+    "dateTimeLastModified": "2015-02-27T19:53:38Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-06%2020-04-35.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OGE2HX56BOUWBAIUHC6OW2GKTZR/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OHRV4LLYE23VBDJN2QTO6UVFV6R",
+    "@odata.etag": "\"{BC16AFF1-5B13-46A8-96EA-1377A952D7D1},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OHRV4LLYE23VBDJN2QTO6UVFV6R",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{BC16AFF1-5B13-46A8-96EA-1377A952D7D1},1\"",
+    "id": "01UNQJ6OHRV4LLYE23VBDJN2QTO6UVFV6R",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-06 20-12-34.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 420420,
+    "dateTimeCreated": "2015-02-27T19:53:39Z",
+    "dateTimeLastModified": "2015-02-27T19:53:39Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-06%2020-12-34.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OHRV4LLYE23VBDJN2QTO6UVFV6R/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OFEDILRMHRV4RBLYZH2BY7ON7DS",
+    "@odata.etag": "\"{16171AA4-351E-42E4-BC64-FA0E3EE6FC72},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OFEDILRMHRV4RBLYZH2BY7ON7DS",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{16171AA4-351E-42E4-BC64-FA0E3EE6FC72},1\"",
+    "id": "01UNQJ6OFEDILRMHRV4RBLYZH2BY7ON7DS",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-08 05-37-40.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 934305,
+    "dateTimeCreated": "2015-02-27T19:53:39Z",
+    "dateTimeLastModified": "2015-02-27T19:53:39Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-08%2005-37-40.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OFEDILRMHRV4RBLYZH2BY7ON7DS/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6ODHGQDG6D45PNFIU3WG3KVSPVID",
+    "@odata.etag": "\"{6F063467-9D0F-4A7B-8A6E-C6DAAB27D503},1\"",
+    "@odata.editLink": "me/files/01UNQJ6ODHGQDG6D45PNFIU3WG3KVSPVID",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{6F063467-9D0F-4A7B-8A6E-C6DAAB27D503},1\"",
+    "id": "01UNQJ6ODHGQDG6D45PNFIU3WG3KVSPVID",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-08 07-05-27.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 387497,
+    "dateTimeCreated": "2015-02-27T19:53:39Z",
+    "dateTimeLastModified": "2015-02-27T19:53:39Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-08%2007-05-27.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6ODHGQDG6D45PNFIU3WG3KVSPVID/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OFULCMPNDLLYVA3G2BU6MCEZGE6",
+    "@odata.etag": "\"{F69858B4-6B8D-41C5-B368-34F3044C989E},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OFULCMPNDLLYVA3G2BU6MCEZGE6",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{F69858B4-6B8D-41C5-B368-34F3044C989E},1\"",
+    "id": "01UNQJ6OFULCMPNDLLYVA3G2BU6MCEZGE6",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-09 10-04-21.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 550732,
+    "dateTimeCreated": "2015-02-27T19:53:40Z",
+    "dateTimeLastModified": "2015-02-27T19:53:40Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-09%2010-04-21.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OFULCMPNDLLYVA3G2BU6MCEZGE6/content"
+  }, {
+    "@odata.type": "#Microsoft.FileServices.File",
+    "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OCFIBWZGGCD4VBY3YALP3G64NFH",
+    "@odata.etag": "\"{936D4045-4318-43E5-8DE0-0B7ECDEE34A7},1\"",
+    "@odata.editLink": "me/files/01UNQJ6OCFIBWZGGCD4VBY3YALP3G64NFH",
+    "createdBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "eTag": "\"{936D4045-4318-43E5-8DE0-0B7ECDEE34A7},1\"",
+    "id": "01UNQJ6OCFIBWZGGCD4VBY3YALP3G64NFH",
+    "lastModifiedBy": {
+      "application": null,
+      "user": {
+        "id": "4dbea01a-abbe-42a8-b511-df8bb5deb34b",
+        "displayName": "Ken Sanchez,#i:0#.f|membership|Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken.Sanchez@tenant.onmicrosoft.com,#Ken Sanchez"
+      }
+    },
+    "name": "2015-01-09 10-04-47.pdf",
+    "parentReference": {
+      "driveId": "01ZHJHOV6U6NJGVMCNJBBJCZNJIHOE54GY",
+      "id": "01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+      "path": "/receipts"
+    },
+    "size": 648014,
+    "dateTimeCreated": "2015-02-27T19:53:40Z",
+    "dateTimeLastModified": "2015-02-27T19:53:40Z",
+    "type": "File",
+    "webUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/Documents/receipts/2015-01-09%2010-04-47.pdf",
+    "contentUrl": "https://tenant-my.sharepoint.com/personal/Ken_Sanchez_tenant_onmicrosoft_com/_api/v1.0/me/files/01UNQJ6OCFIBWZGGCD4VBY3YALP3G64NFH/content"
+  }]
+}

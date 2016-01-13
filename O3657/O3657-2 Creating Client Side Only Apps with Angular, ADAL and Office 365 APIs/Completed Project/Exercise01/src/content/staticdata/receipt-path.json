@@ -1,0 +1,8 @@
+{
+  "@odata.context": "https://tenant-my.sharepoint.com/_api/v1.0/$metadata#files/$entity",
+  "@odata.type": "#Microsoft.FileServices.Folder",
+  "@odata.id": "https://tenant-my.sharepoint.com/_api/v1.0/me/files/01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+  "@odata.etag": "\"{13F6D7BC-657A-4329-B3D6-95A129966B50},1\"",
+  "@odata.editLink": "me/files/01UNQJ6OF4273BG6TFFFB3HVUVUEUZM22Q",
+  "webUrl": "https://tenant-my.sharepoint.com/personal/ken_sanchez_tenant_onmicrosoft_com/Documents/receipts"
+}

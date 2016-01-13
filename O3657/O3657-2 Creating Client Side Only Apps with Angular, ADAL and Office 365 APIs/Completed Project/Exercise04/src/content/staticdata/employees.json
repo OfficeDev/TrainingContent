@@ -1,0 +1,56 @@
+{
+  "d": {
+    "results": [{
+      "__metadata": {
+        "id": "54a7ff70-a2ec-46b7-8fb8-4cad13d63726",
+        "uri": "https://tenant.sharepoint.com/_api/Web/Lists(guid'62b32450-4e03-4334-88bd-ae613b9c0bde')/Items(1)",
+        "etag": "\"33\"",
+        "type": "SP.Data.EmployeesListItem"
+      },
+      "Id": 1,
+      "ID": 1,
+      "FirstName": "Rob",
+      "LastName": "Walters",
+      "Email": "rob.walters@contoso.com",
+      "Address": "123 Main Street",
+      "City": "Redmond",
+      "State": "WA",
+      "Zip": "55555",
+      "Gender": "Male"
+    },{
+      "__metadata": {
+        "id": "54a7ff70-a2ec-46b7-8fb8-4cad13d63726",
+        "uri": "https://tenant.sharepoint.com/_api/Web/Lists(guid'62b32450-4e03-4334-88bd-ae613b9c0bde')/Items(2)",
+        "etag": "\"33\"",
+        "type": "SP.Data.EmployeesListItem"
+      },
+      "Id": 2,
+      "ID": 2,
+      "FirstName": "Ken",
+      "LastName": "Sanchez",
+      "Email": "ken.sanchez@contoso.com",
+      "Address": "123 Main Street",
+      "City": "Redmond",
+      "State": "WA",
+      "Zip": "55555",
+      "Gender": "Male"
+    }, {
+      "__metadata": {
+        "id": "54a7ff70-a2ec-46b7-8fb8-4cad13d63726",
+        "uri": "https://tenant.sharepoint.com/_api/Web/Lists(guid'62b32450-4e03-4334-88bd-ae613b9c0bde')/Items(3)",
+        "etag": "\"33\"",
+        "type": "SP.Data.EmployeesListItem"
+      },
+      "Id": 3,
+      "ID": 3,
+      "FirstName": "Janice",
+      "LastName": "Galvin",
+      "Email": "janice.galvin@contoso.com",
+      "Address": "123 Main Street",
+      "City": "Redmond",
+      "State": "WA",
+      "Zip": "55555",
+      "Gender": "Male"
+    }]
+  }
+}
