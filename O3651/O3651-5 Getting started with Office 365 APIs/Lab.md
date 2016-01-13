@@ -1,11 +1,11 @@
-# Getting started with Office 365 APIs
-In this lab, you will investigate the O365 APIs.
+# Getting started with Microsoft Graph
+In this lab, you will investigate the Microsoft Graph.
 
 ## Prerequisites
 1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 
 ## Exercise 1: Create & Configure an MVC Web Application
-In this exercise you will create a new MVC web application to utilize the O365 APIs.
+In this exercise you will create a new MVC web application to utilize the Microsoft Graph.
 
 1. In Visual Studio, click **File/New/Project**.
 1. In the **New Project** dialog
@@ -58,7 +58,7 @@ In this exercise you will create a new MVC web application to utilize the O365 A
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
 ## Exercise 2: Configure Web Application to use Azure AD and OWIN
-In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Office 365 APIs.
+In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph.
 
 
 
@@ -111,8 +111,8 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 
         > The **Calendar** link will not work yet... you will add that in the next exercise.
 
-## Exercise 3: Leverage the Office 365 APIs and SDK
-In this exercise you will add a controller and views that utilize the Office 365 APIs and SDK.
+## Exercise 3: Leverage the Microsoft Graph and SDK
+In this exercise you will add a controller and views that utilize the Microsoft Graph and SDK.
 
 1. With the authentication process complete, add a new controller that will retrieve events from your calendar:
   1. Right-click the **Models** folder and select **Add/Class**.
@@ -274,4 +274,4 @@ In this exercise you will add a controller and views that utilize the Office 365
   5. Verify that events appear in the web application.
    
 
-**Congratulations! You have completed your first Office 365 API application.**
+**Congratulations! You have completed your first Microsoft Graph application.**
