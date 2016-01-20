@@ -1,11 +1,11 @@
-# Getting started with Microsoft Graph
-In this lab, you will investigate the Microsoft Graph.
+# Getting started with Microsoft Graph API
+In this lab, you will investigate the Microsoft Graph API.
 
 ## Prerequisites
 1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 
 ## Exercise 1: Create & Configure an MVC Web Application
-In this exercise you will create a new MVC web application to utilize the Microsoft Graph.
+In this exercise you will create a new MVC web application to utilize the Microsoft Graph API.
 
 1. In Visual Studio, click **File/New/Project**.
 1. In the **New Project** dialog
@@ -21,9 +21,10 @@ In this exercise you will create a new MVC web application to utilize the Micros
   3. Select **Work And School Accounts**.
   4. Select **Cloud - Single Organization**
   5. Input **Domain**
-  6. Check **Read directory data** under Directory Access Permissions
-  4. Click **OK**.
-  5. Click **OK**.
+  6. Check **Read directory data** under Directory Access Permissions 
+  7. Click **OK**.
+  8. Uncheck **Host in the cloud**
+  9. Click **OK**.
 
     ![](Images/03.png)
 
@@ -52,13 +53,13 @@ In this exercise you will create a new MVC web application to utilize the Micros
 
     ![](Images/ConsentDialog.png)
 
-  1. Click **OK** to approve the app's permission request on your data in Office 365.
+  1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
 
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
 ## Exercise 2: Configure Web Application to use Azure AD and OWIN
-In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph.
+In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph API.
 
 
 
@@ -80,7 +81,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
      ![](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
-  1. Locate the [Lab Files](Lab Files) folder provided with this lab & find the file `SettingsHelper.cs`. Copy that file to the **Utils** folder.
+  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. Locate the [Lab Files](Lab Files) folder provided with this lab & find the file `SettingsHelper.cs`. Copy that file to the **Utils** folder.
 1. Update **_Layout** file to add **Calendar** link:
     1. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
       1. Locate the part of the file that includes a few links at the top of the page... it should look similar to the following code:
@@ -111,8 +112,8 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 
         > The **Calendar** link will not work yet... you will add that in the next exercise.
 
-## Exercise 3: Leverage the Microsoft Graph and SDK
-In this exercise you will add a controller and views that utilize the Microsoft Graph and SDK.
+## Exercise 3: Leverage the Microsoft Graph API and SDK
+In this exercise you will add a controller and views that utilize the Microsoft Graph API and SDK.
 
 1. With the authentication process complete, add a new controller that will retrieve events from your calendar:
   1. Right-click the **Models** folder and select **Add/Class**.
@@ -159,7 +160,7 @@ In this exercise you will add a controller and views that utilize the Microsoft 
     }
     ````
 
-  1. Create a function `GetGraphAccessTokenAsync` to get access token for Graph API Authentication:
+  1. Create a method `GetGraphAccessTokenAsync` to get access token for Graph API Authentication:
 
     ````c#
     public async Task<string> GetGraphAccessTokenAsync()
@@ -274,4 +275,4 @@ In this exercise you will add a controller and views that utilize the Microsoft 
   5. Verify that events appear in the web application.
    
 
-**Congratulations! You have completed your first Microsoft Graph application.**
+**Congratulations! You have completed your first Microsoft Graph API application.**
