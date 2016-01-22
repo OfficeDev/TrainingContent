@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentWriter", "ContentWriter\ContentWriter.csproj", "{CC780E5E-7B40-462B-9A1A-24D8ABD12866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentWriterWeb", "ContentWriterWeb\ContentWriterWeb.csproj", "{CDE32D7F-8C9F-4135-B328-76A14427F3E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC780E5E-7B40-462B-9A1A-24D8ABD12866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC780E5E-7B40-462B-9A1A-24D8ABD12866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC780E5E-7B40-462B-9A1A-24D8ABD12866}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CC780E5E-7B40-462B-9A1A-24D8ABD12866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC780E5E-7B40-462B-9A1A-24D8ABD12866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC780E5E-7B40-462B-9A1A-24D8ABD12866}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CDE32D7F-8C9F-4135-B328-76A14427F3E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDE32D7F-8C9F-4135-B328-76A14427F3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDE32D7F-8C9F-4135-B328-76A14427F3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDE32D7F-8C9F-4135-B328-76A14427F3E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

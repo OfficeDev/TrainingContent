@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A02D8F80-DA25-4284-9D7C-3077EFE92D5D}</ProjectGuid>
+    <ProjectGuid>{5EC7CEF7-BE64-4EA8-B84F-656F7173B143}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BindingDemoWithWordApp</RootNamespace>
@@ -14,12 +14,14 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
-    <AppFeaturePartId>{d1e503be-60be-46c2-9b51-f6466bfd832c}</AppFeaturePartId>
-    <WspPartId>{4d5a86ec-eb61-4dc0-ab41-f54d36e1a682}</WspPartId>
-    <WorkflowPartId>{1c72ccbf-adb5-4976-a9bd-ef3a3e4adae0}</WorkflowPartId>
-    <CspkgPartId>{2e2a5b1d-7bec-46a7-b9f6-a3a7c13dd960}</CspkgPartId>
-    <SqlPackagePartId>{c3f8d3e9-f107-4e0d-a1fa-5941e3d76834}</SqlPackagePartId>
+    <AppFeaturePartId>{83feb863-158c-4697-be11-828894f85f6c}</AppFeaturePartId>
+    <WspPartId>{138260f1-ac52-4392-9d0a-5727a5b2f38b}</WspPartId>
+    <WorkflowPartId>{204432ee-2e96-4107-827f-39edf219356a}</WorkflowPartId>
+    <CspkgPartId>{fe3022f6-8c1d-4352-a4ce-0f9bd67bf835}</CspkgPartId>
+    <SqlPackagePartId>{ecd41521-5c98-458b-bb7f-07f08c051dd6}</SqlPackagePartId>
     <ProjectMode>OfficeApp</ProjectMode>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <MinimumOfficeToolsVersion>12.2</MinimumOfficeToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="BindingDemoWithWordAppManifest\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{ec996cc4-aba1-4021-8bed-ce4b15d223fe}</SharePointProjectItemId>
+      <SharePointProjectItemId>{b3b73437-e83a-4d2b-87f8-98c923dfdd15}</SharePointProjectItemId>
     </None>
     <Content Include="BindingDemoWithWordAppManifest\BindingDemoWithWordApp.xml">
       <OpcRelationship>manifest-oemanifest</OpcRelationship>
@@ -51,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BindingDemoWithWordAppWeb\BindingDemoWithWordAppWeb.csproj">
-      <Project>{FDE1F3C4-5AEE-4077-A892-9A76F89C8978}</Project>
+      <Project>{11C0A6BD-4294-41F9-B640-F9F1DC6D3E50}</Project>
       <Name>BindingDemoWithWordAppWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>
