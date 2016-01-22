@@ -24,7 +24,7 @@ In this exercise, you will create a new Outlook Add-in for reading and creating 
   1. First, the Outlook Add-in's manifest file is located in the Office Add-in project at the top of the **Solution Explorer** window. This is the file that will tell the hosting Office client application, Outlook, about the Add-in and where the web application that implements the Add-in resides.
   1. Next locate the **AddInCompose** and **AddInRead** folders. These contain the client-side applications that host the two different experiences for the Add-in you created. 
 
-    The first one, **AddInComponse**, will host the web application for the Add-in experience when creating an email.
+    The first one, **AddInCompose**, will host the web application for the Add-in experience when creating an email.
 
     The second one, **AddInRead**, will host the web application for the Add-in experience when reading an email.
 
