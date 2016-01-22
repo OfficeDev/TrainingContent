@@ -114,7 +114,7 @@ To complete this exercise, you will need a free developer account from Yandex.
 ### Configure the Compose Form to Translate Selected Text
 First, update the compose form to include a button to translate the selected text in the email.
 
-1. Open the file **AddInCompose/Home/Home.html**.
+1. Open the file [**AddInCompose/Home/Home.html**](Completed Exercises/Exercise01/FirstMailAddinWeb/AppCompose/Home/Home.html).
 1. Scroll to the bottom and locate the `<div>` with an id of **content-main**.
 1. Replace the contents of the `<div>` to include only a single button, like the following code:
 
@@ -129,7 +129,7 @@ First, update the compose form to include a button to translate the selected tex
 ### Code the Compose Form to Translate Selected Text
 With the form updated, now update the code that will implement the business logic.
 
-1. Open the file **AddInCompose/Home/Home.js**.
+1. Open the file [**AddInCompose/Home/Home.js**](Completed Exercises/Exercise01/FirstMailAddinWeb/AppCompose/Home/Home.js).
 1. Clean out all the default code so the file is left with just the remaining code:
 
   ````javascript
