@@ -24,7 +24,7 @@ In this exercise, you will create a new Outlook Add-in for reading and creating 
   1. First, the Outlook Add-in's manifest file is located in the Office Add-in project at the top of the **Solution Explorer** window. This is the file that will tell the hosting Office client application, Outlook, about the Add-in and where the web application that implements the Add-in resides.
   1. Next locate the **AddInCompose** and **AddInRead** folders. These contain the client-side applications that host the two different experiences for the Add-in you created. 
 
-    The first one, **AddInComponse**, will host the web application for the Add-in experience when creating an email.
+    The first one, **AddInCompose**, will host the web application for the Add-in experience when creating an email.
 
     The second one, **AddInRead**, will host the web application for the Add-in experience when reading an email.
 
@@ -114,7 +114,7 @@ To complete this exercise, you will need a free developer account from Yandex.
 ### Configure the Compose Form to Translate Selected Text
 First, update the compose form to include a button to translate the selected text in the email.
 
-1. Open the file **AddInCompose/Home/Home.html**.
+1. Open the file [**AddInCompose/Home/Home.html**](Completed Exercises/Exercise01/FirstMailAddinWeb/AppCompose/Home/Home.html).
 1. Scroll to the bottom and locate the `<div>` with an id of **content-main**.
 1. Replace the contents of the `<div>` to include only a single button, like the following code:
 
@@ -129,7 +129,7 @@ First, update the compose form to include a button to translate the selected tex
 ### Code the Compose Form to Translate Selected Text
 With the form updated, now update the code that will implement the business logic.
 
-1. Open the file **AddInCompose/Home/Home.js**.
+1. Open the file [**AddInCompose/Home/Home.js**](Completed Exercises/Exercise01/FirstMailAddinWeb/AppCompose/Home/Home.js).
 1. Clean out all the default code so the file is left with just the remaining code:
 
   ````javascript

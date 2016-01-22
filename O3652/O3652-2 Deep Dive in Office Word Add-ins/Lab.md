@@ -365,7 +365,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 ## Exercise 3: Writing Content to a Word Document using Office Open XML
 *In this exercise you will continue working on the Visual Studio solution for the ContentWriter Add-in you worked on in the previous exercise. You will extend the Add-in's capabilities by adding JavaScript code to insert content into the active Word document using Open Office XML.*
 
-1. Look inside the folder for this lab and locate the child folder named **Starter Files**. You should see that this folder contains four XML files as shown in the following screenshot.
+1. Look inside the folder for this lab and locate the child folder named [**Starter Files**](Starter Files). You should see that this folder contains four XML files as shown in the following screenshot.
 
 	![](Images/Fig11.png)
 
@@ -608,7 +608,6 @@ In this exercise you will create a Word Add-in that uses the v2 JavaScript API i
 4. Now test the search & highlight function you wrote by pressing the button **Highlight Instances of "Word"**. You should see all instances of the whole word **Word** get highlighted in purple.
 
 Congratulations! You've now written a Word Add-in that uses the new Word v2 JavaScript API.
-
 
 
 
