@@ -21,7 +21,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 	![](Images/Fig03.png)
 
-5. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **ContentWriter** and **ContentWriterWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **ContentWriterManifest** which contains a single file named **ContentWriter.xml**.
+5. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **ContentWriter** and **ContentWriterWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **ContentWriterManifest** which contains a single file named [**ContentWriter.xml**](Completed Projects/Exercise 1/ContentWriter/ContentWriter/ContentWriterManifest/ContentWriter.xml).
 
 	![](Images/Fig04.png)
 
@@ -34,9 +34,9 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 	![](Images/Fig06.png)
 
-9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**.
+9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named [**Home.html**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html), [**Home.css**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.css) and [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js). Note that the Add-in project is currently configured to use [**Home.html**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html) as the Add-in's start page and that [**Home.html**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html) is linked to both [**Home.css**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.css) and [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js).
  
-10. Double-click on **app.js** to open it in a code editor window. you should be able to see that the code creates a global variable named **app** based on the JavaScript *Closure* pattern. The global **app** object defines a method named **initialize** but it does not execute this method. 
+10. Double-click on [**app.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/App.js) to open it in a code editor window. you should be able to see that the code creates a global variable named **app** based on the JavaScript *Closure* pattern. The global **app** object defines a method named **initialize** but it does not execute this method. 
 
 	````javascript 
 	var app = (function () {
@@ -67,9 +67,9 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	})();
 	````
 
-11. Close **app.js** and be sure not to save any changes.
-12. Next you will examine the JavaScript code in **home.js**. Double-click on **home.js** to open it in a code editor window. Note that **Home.html** links to **app.js** before it links to **home.js** which means that JavaScript code written in **Home.js** can access the global **app** object created in **app.js**.
-13. Walk through the code in **Home.js** and see how it uses a self-executing function to register an event handler on the **Office.initialize** method which in turn registers a document-ready event handler using jQuery. This allows the Add-in to call **app.initialize** and to register an event handler using the **getDataFromSelection** function. 
+11. Close [**app.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/App.js) and be sure not to save any changes.
+12. Next you will examine the JavaScript code in [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js). Double-click on [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) to open it in a code editor window. Note that [**Home.html**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html) links to [**app.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/App.js) before it links to [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) which means that JavaScript code written in [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) can access the global **app** object created in [**app.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/App.js).
+13. Walk through the code in [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) and see how it uses a self-executing function to register an event handler on the **Office.initialize** method which in turn registers a document-ready event handler using jQuery. This allows the Add-in to call **app.initialize** and to register an event handler using the **getDataFromSelection** function. 
 
 	````javascript 
 	(function () {
@@ -97,7 +97,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	})();
 	````
 
-14. Delete the **getDataFromSelection** function from **Home.js** and also remove the line of code that binds the event handler to the button with the id of **get-data-from-selection** so your code matches the following code listing.
+14. Delete the **getDataFromSelection** function from [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) and also remove the line of code that binds the event handler to the button with the id of **get-data-from-selection** so your code matches the following code listing.
 
 	````javascript
 	(function () {
@@ -114,8 +114,8 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	})(); 
 	````
 
-15. Save your changes to **Home.js**. You will return to this source file after you have added your HTML layout to **Home.html**.
-16. Now it's time to examine the HTML that has been added to the project to create the Add-in's user interface. Double-click **Home.html** to open this file in a Visual Studio editor window. Examine the layout of HTML elements inside the body element. 
+15. Save your changes to [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js). You will return to this source file after you have added your HTML layout to [**Home.html**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html).
+16. Now it's time to examine the HTML that has been added to the project to create the Add-in's user interface. Double-click [**Home.html**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html)* to open this file in a Visual Studio editor window. Examine the layout of HTML elements inside the body element. 
 
 	````html
 	<body>
@@ -179,8 +179,8 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	</div>
 	````
 
-19. Save and close **Home.html**.
-20. Open the CSS file named **Home.css** and add the following CSS rule to ensure all the Add-in's command buttons and select element have a uniform width and spacing.
+19. Save and close [**Home.html**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html).
+20. Open the CSS file named [**Home.css**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.css) and add the following CSS rule to ensure all the Add-in's command buttons and select element have a uniform width and spacing.
 
 	````css
 	#content-main button, #content-main select{
@@ -189,13 +189,13 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	}
 	````
 
-21. Save and close **Home.css**.
+21. Save and close [**Home.css**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.css).
 22. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2016 and you should see your Office Add-in in the task pane on the right side of a new Word document as shown in the following screenshot.
 
 	![](Images/Fig07.png)
 
 23. Close Microsoft Word to terminate your debugging session and return to Visual Studio.
-24. Return to the source file named **Home.js** or open it if it is not already open.
+24. Return to the source file named [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) or open it if it is not already open.
 25. Add a new function named **testForSuccess** with the following implementation.
 
 	````javascript
@@ -226,7 +226,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	};
 	````
 
-28. When you are done, the **Home.js** file should match the following listing.
+28. When you are done, the [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) file should match the following listing.
 
 	````javascript
 	(function () {
@@ -255,7 +255,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	})();
 	````
 
-29. Save your changes to **Home.js**.
+29. Save your changes to [**Home.js**](Completed Projects/Exercise 1/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js).
 30. Now test the functionality of the Add-in. Press the **{F5}** key to begin a debugging session and click the **Hello World** button. You should see that "Hello World" has been added into the cursor position of the Word document.
 
 	![](Images/Fig08.png)
@@ -266,7 +266,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 *In this exercise you will continue working on the Visual Studio solution for the ContentWriter Add-in you created in the previous exercise. You will add additional JavaScript code to insert content into the current Word document in a variety of formats.*
  
 1. In Visual Studio, make sure you have the **ContentWriter** project open.
-2. In the Solution Explorer, double click on **Home.js** to open this JavaScript file in an editor window. 
+2. In the Solution Explorer, double click on [**Home.js**](Completed Projects/Exercise 2/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js) to open this JavaScript file in an editor window. 
 3. Just below the **onAddContentHelloWorld** function, add four new functions named **onAddContentHtml**, **onAddContentMatrix**, **onAddContentOfficeTable** and **onAddContentOfficeOpenXml**.
 
 	````javascript
@@ -365,16 +365,16 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 ## Exercise 3: Writing Content to a Word Document using Office Open XML
 *In this exercise you will continue working on the Visual Studio solution for the ContentWriter Add-in you worked on in the previous exercise. You will extend the Add-in's capabilities by adding JavaScript code to insert content into the active Word document using Open Office XML.*
 
-1. Look inside the folder for this lab and locate the child folder named **Starter Files**. You should see that this folder contains four XML files as shown in the following screenshot.
+1. Look inside the folder for this lab and locate the child folder named [**Starter Files**](Starter Files). You should see that this folder contains four XML files as shown in the following screenshot.
 
 	![](Images/Fig11.png)
 
-2. Add the four XML files into the Visual Studio project into the same folder as the HTML start page named **Home.html**.
+2. Add the four XML files into the Visual Studio project into the same folder as the HTML start page named [**Home.html**](Completed Projects/Exercise 3/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html).
 
 	![](Images/Fig12.png)
 
 3. Quickly open and review the XML content inside each of these four XML files. This will give you better idea of what Open Office XML looks like when targeting Microsoft Word. 
-4. Open **Home.html** and locate the button element with the id of **addContentOfficeOpenXml**. Directly under this button, add a new HTML **select** element as shown in the following code listing.
+4. Open [**Home.html**](Completed Projects/Exercise 3/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html) and locate the button element with the id of **addContentOfficeOpenXml**. Directly under this button, add a new HTML **select** element as shown in the following code listing.
 
 	````html
 	<div>
@@ -388,8 +388,8 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	</div>
 	````
 
-5. Save and close **Home.html**.
-6. Return to the code editor window with **Home.js**. 
+5. Save and close [**Home.html**](Completed Projects/Exercise 3/ContentWriter/ContentWriterWeb/AddIn/Home/Home.html).
+6. Return to the code editor window with [**Home.js**](Completed Projects/Exercise 3/ContentWriter/ContentWriterWeb/AddIn/Home/Home.js). 
 7. Implement the **onAddContentOfficeOpenXml** function to obtain the currently selected file name from the select element and then to execute an HTTP GET request using the jQuery **$.ajax** function to retrieve the associated XML file. In the success callback function, call **setSelectedDataAsync** to write the XML content to the current Word document using the **ooxml** coercion type as shown in the following code listing.
 
 	````javascript
@@ -462,7 +462,7 @@ In this exercise you will create a Word Add-in that uses the v2 JavaScript API i
 		````
 
 6. The next step is to code the business logic for the Add-in.
-	1. Locate the **AddIn \ Home \ Home.js** file.
+	1. Locate the [**AddIn \ Home \ Home.js**](Completed Projects/Exercise 4/Word16Api/Word16ApiWeb/AddIn/Home/Home.js) file.
 	2. Remove all the sample code except the Add-in initialization code so all that is left is the following:
 
 		````javascript
