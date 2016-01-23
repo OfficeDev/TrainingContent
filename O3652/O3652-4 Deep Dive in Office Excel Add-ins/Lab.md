@@ -298,7 +298,7 @@ In this exercise you will write code to create bindings on named ranges within t
 
 1.	Save and close **Home.html**.
 1.	Open **Home.css** in an editor window.
-1.  Modify the contents of **Home.css** with the set of CSS rules shown in the following listing. If you would rather not type it all in by hand, you copy and paste this HTML code from [**Home.css.txt**](Starter Files/home.css.txt?raw=true) which is located in the **Starter Files** folder for this lab.
+1.  Modify the contents of **Home.css** with the set of CSS rules shown in the following listing. If you would rather not type it all in by hand, you copy and paste this HTML code from [**Home.css.txt**](Starter Files/Home.css.txt?raw=true) which is located in the **Starter Files** folder for this lab.
 
 	````css
 	body {
@@ -394,7 +394,7 @@ In this exercise you will write code to create bindings on named ranges within t
 	![](Images/Fig13.png)    
 
 1.	Close Excel and return to Visual Studio.
-1.	Inside **Home.js**, place the cursor under the **"use strict;"** statement at the top of the closure and add the following code. If you would rather not type this code by hand, you can copy and paste it from [**Home.js_Part1.txt**](Starter Files/home.js_Part1.txt?raw=true) inside the **Starter Files** folder for this lab. 
+1.	Inside **Home.js**, place the cursor under the **"use strict;"** statement at the top of the closure and add the following code. If you would rather not type this code by hand, you can copy and paste it from [**Home.js_Part1.txt**](Starter Files/Home.js_Part1.txt?raw=true) inside the **Starter Files** folder for this lab. 
 
 	````javascript
 	var officeDoc;
