@@ -191,7 +191,7 @@ In this exercise you will create a new App for Office project in Visual Studio s
 *In this exercise you continue to work on the LoanAppraisal project you created in the previous lab by integrating a preexisting Excel workbook into the development process. This will make it possible for you to develop an app binds to named ranges within the workbook.*
 
 1. Ensure that you still have the **LoanAppraisal** app project opened in Visual Studio.
-1. Using Windows Explorer, look in the **Starter Files** folder inside the folder for this lab and fins the workbook file named [**TestDoc.xlsx**](O3652/O3652-4 Deep Dive in Office Excel Add-ins/Starter Files/TestDoc.xlsx).
+1. Using Windows Explorer, look in the **Starter Files** folder inside the folder for this lab and fins the workbook file named [**TestDoc.xlsx**](Starter Files/TestDoc.xlsx).
 1. Double-click on **TestDoc.xlsx** to open the workbook in Microsoft Excel.  You should see that the workbook provides morgage loan information and a chart as shown in the following scrrenshot.  
 
 	![](Images/Fig08.png)  
