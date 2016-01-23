@@ -417,7 +417,7 @@ In this exercise you will write code to create bindings on named ranges within t
 1.After this step is complete, your **Home.js** file should match the following code listing.
 
 	````javascript
-	// <reference path="../App.js" />
+	/// <reference path="../App.js" />
 	(function () {
 	    "use strict";
 
