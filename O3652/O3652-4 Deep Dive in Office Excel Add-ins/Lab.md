@@ -416,7 +416,7 @@ In this exercise you will write code to create bindings on named ranges within t
 
 1.After this step is complete, your **Home.js** file should match the following code listing.
 
-	````javascript
+	```javascript
 	/// <reference path="../App.js" />
 	(function () {
 	    "use strict";
@@ -445,7 +445,7 @@ In this exercise you will write code to create bindings on named ranges within t
 	    }
 
 	})();
-	````
+	```
 
 1.	Place your cursor under the code that assigns a function to **Office.initialize** and add five new functions named **updateAppUI**, **onInitializeUI**, **formatToCurrencyUSD**, **onRateChanged** and **onApplicantChanged**.
 
