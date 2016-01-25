@@ -191,7 +191,7 @@ In this exercise you will create a new App for Office project in Visual Studio s
 *In this exercise you continue to work on the LoanAppraisal project you created in the previous lab by integrating a preexisting Excel workbook into the development process. This will make it possible for you to develop an app binds to named ranges within the workbook.*
 
 1. Ensure that you still have the **LoanAppraisal** app project opened in Visual Studio.
-1. Using Windows Explorer, look in the **Starter Files** folder inside the folder for this lab and fins the workbook file named [**TestDoc.xlsx**](Starter Files/TestDoc.xlsx?raw=true).
+1. Download [**TestDoc.xlsx**](Starter Files/TestDoc.xlsx?raw=true).
 1. Double-click on **TestDoc.xlsx** to open the workbook in Microsoft Excel.  You should see that the workbook provides morgage loan information and a chart as shown in the following scrrenshot.  
 
 	![](Images/Fig08.png)  
@@ -235,134 +235,11 @@ In this exercise you will write code to create bindings on named ranges within t
 	-	**Fixed_Expenses**
 	-	**Available_Income**
 2. Open **Home.html** in an editor window.
-3. Modify the contents of the **content-main** div element with the code shown in the following listing. If you would rather not type it all in by hand, you copy and paste this HTML code from [**content-main.css.txt**](Starter Files/content-main.css.txt?raw=true) which is located in the **Starter Files** folder for this lab.
-
-	````html		
-	<div id="content-main">	
-	    <div id="currentApplicantInfo">
-	        <table>
-	            <tr>
-	                <td colspan="2" class="header_cell">Loan Application Detail</td>
-	            </tr>
-	            <tr>
-	                <td>Name:</td>
-	                <td id="applicant_name">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td>Loan Amount:</td>
-	                <td id="loan_amount">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td>Interest Rate:</td>
-	                <td id="interest_rate">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td>Load Duration:</td>
-	                <td id="loan_duration">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td>Monthy Payment:</td>
-	                <td id="monthly_payment">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td colspan="2" class="header_cell">High-level Finanical Summary</td>
-	            </tr>
-	            <tr>
-	                <td>Total Income:</td>
-	                <td id="total_income">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td>Yearly Morgage:</td>
-	                <td id="yearly_mortgage">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td>Fixed Expenses:</td>
-	                <td id="fixed_expenses">&nbsp;</td>
-	            </tr>
-	            <tr>
-	                <td>Available Income:</td>
-	                <td id="available_income">&nbsp;</td>
-	            </tr>
-	        </table>
-	    </div>
-	
-	    <div class="padding">
-	        <h3>Interest Rate</h3>
-	        <div id="selectInterestRate" class="section"></div>
-	        <h3>Select a loan applicant</h3>
-	        <div id="selectApplicant" class="section"></div>
-	    </div>
-	
-	</div>
-	````
+3. Modify the contents of the **content-main** div element with the HTML code from [**content-main.css.txt**](Starter Files/content-main.css.txt?raw=true) which is located in the **Starter Files** folder for this lab.
 
 1.	Save and close **Home.html**.
 1.	Open **Home.css** in an editor window.
-1.  Modify the contents of **Home.css** with the set of CSS rules shown in the following listing. If you would rather not type it all in by hand, you copy and paste this HTML code from [**Home.css.txt**](Starter Files/Home.css.txt?raw=true) which is located in the **Starter Files** folder for this lab.
-
-	````css
-	body {
-	  padding: 0px;
-	  background-color: #eee;
-	}
-
-	h3 {
-	  margin: 2px;
-	}
-
-	#currentApplicantInfo {
-	  margin: 0px;
-	  padding: 0px;
-	}
-
-	.section {
-	  margin: 0px;
-	  padding: 0px;
-	  padding-top: 2px;
-	  padding-bottom: 4px;
-	}
-
-	.section input[type="radio"] {
-	  margin: 0px;
-	  margin-left: 4px;
-	  padding: 0px;
-	}
-
-	.section label {
-	  margin: 0px;
-	  padding: 0px;
-	  font-size: 0.8em;
-	}
-		
-	#currentApplicantInfo table {
-	  margin: 0px;
-	  width: 100%;
-	  box-sizing: border-box;
-	  border: 1px solid black;
-	  border-collapse: collapse;
-	}
-
-	#currentApplicantInfo table td {
-	  min-width: 100px;
-	  border: 1px solid #ddd;
-	  border-collapse: collapse;
-	  padding: 2px;
-	  padding-left: 4px;
-	  background: white;
-	  font-size: 1.0em;
-	}
-
-	#currentApplicantInfo table td.header_cell {
-	  color: #eee;
-	  background-color: navy;
-	  font-weight: bold;
-	  border: 1px solid black;
-	}
-
-	#monthly_payment {
-	  color: red;
-	}
-	````
+1.  Modify the contents of **Home.css** with the set of CSS rules shown in [**Home.css.txt**](Starter Files/Home.css.txt?raw=true) which is located in the **Starter Files** folder for this lab.
 
 1. Save and close **Home.css**.
 1. Open **Home.js** in a code editor widow. Remove the following line of code.
@@ -389,29 +266,29 @@ In this exercise you will write code to create bindings on named ranges within t
 	})();
 	````
 
-1.Start a debugging session by pressing the **{F5}** key to inspect the app's new HTML layout. You should see the user interface appears like the one in the following screenshot.
+1. Start a debugging session by pressing the **{F5}** key to inspect the app's new HTML layout. You should see the user interface appears like the one in the following screenshot.
 
 	![](Images/Fig13.png)    
 
 1.	Close Excel and return to Visual Studio.
-1.	Inside **Home.js**, place the cursor under the **"use strict;"** statement at the top of the closure and add the following code. If you would rather not type this code by hand, you can copy and paste it from [**Home.js_Part1.txt**](Starter Files/Home.js_Part1.txt?raw=true) inside the **Starter Files** folder for this lab. 
+1.	Inside **Home.js**, place the cursor under the **"use strict;"** statement at the top of the closure and add the following code.
 
 	````javascript
-	var officeDoc;
-	var bindings;
+    var officeDoc;
+    var bindings;
 
-	var interestRates = [0.0425, 0.0500, 0.0750];
-	var currentRate = interestRates[0];
+    var interestRates = [0.0425, 0.0500, 0.0750];
+    var currentRate = interestRates[0];
 
-	var applicants = [
-	  { name: "Brian Cox", loan_amount: 100000, loan_duration: 30, total_income: 82000, fixed_expenses: 22000 },
-	  { name: "Wendy Wheeler", loan_amount: 325000, loan_duration: 30, total_income: 145000, fixed_expenses: 40000 },
-	  { name: "Ken Sanchez", loan_amount: 225000, loan_duration: 30, total_income: 162000, fixed_expenses: 40000 },
-	  { name: "Joe Healy", loan_amount: 625000, loan_duration: 30, total_income: 182000, fixed_expenses: 72000 },
-	  { name: "Mke Fitzmaurice", loan_amount: 725000, loan_duration: 8, total_income: 320000, fixed_expenses: 120000 },
-	  { name: "Chris Sells", loan_amount: 1225000, loan_duration: 15, total_income: 325000, fixed_expenses: 167000 }
-	];
-	var currentApplicant = applicants[0];
+    var applicants = [
+      { name: "Brian Cox", loan_amount: 100000, loan_duration: 30, total_income: 82000, fixed_expenses: 22000 },
+      { name: "Wendy Wheeler", loan_amount: 325000, loan_duration: 30, total_income: 145000, fixed_expenses: 40000 },
+      { name: "Ken Sanchez", loan_amount: 225000, loan_duration: 30, total_income: 162000, fixed_expenses: 40000 },
+      { name: "Joe Healy", loan_amount: 625000, loan_duration: 30, total_income: 182000, fixed_expenses: 72000 },
+      { name: "Mke Fitzmaurice", loan_amount: 725000, loan_duration: 8, total_income: 320000, fixed_expenses: 120000 },
+      { name: "Chris Sells", loan_amount: 1225000, loan_duration: 15, total_income: 325000, fixed_expenses: 167000 }
+    ];
+    var currentApplicant = applicants[0];
 	````
 
 1.After this step is complete, your **Home.js** file should match the following code listing.
@@ -473,73 +350,74 @@ In this exercise you will write code to create bindings on named ranges within t
 	}
 	````
 
-1.	Implement the **updateAppUI** function with the following code. If you prefer, you can copy and paste this code from the file named [**updateAppUI.js.txt**](Starter Files/updateAppUI.js.txt?raw=true) in the **Starter Files** folder for this lab.
+1.	Implement the **updateAppUI** function using the following code.
 
 	````javascript
-	function updateAppUI() {
-	    $("#applicant_name").text(currentApplicant.name);
-	    $("#loan_amount").text(formatToCurrencyUSD(currentApplicant.loan_amount));
-	    $("#interest_rate").text((currentRate * 100) + "%");
-	    $("#loan_duration").text(currentApplicant.loan_duration + " years");
-	    $("#total_income").text(formatToCurrencyUSD(currentApplicant.total_income));
-	    $("#fixed_expenses").text(formatToCurrencyUSD(currentApplicant.fixed_expenses));
-	}
+    function updateAppUI() {
+        $("#applicant_name").text(currentApplicant.name);
+        $("#loan_amount").text(formatToCurrencyUSD(currentApplicant.loan_amount));
+        $("#interest_rate").text((currentRate * 100) + "%");
+        $("#loan_duration").text(currentApplicant.loan_duration + " years");
+        $("#total_income").text(formatToCurrencyUSD(currentApplicant.total_income));
+        $("#fixed_expenses").text(formatToCurrencyUSD(currentApplicant.fixed_expenses));
+    }
 	````
 
-1. Implement the **onInitializeUI** function with the following code. If you prefer, you can copy and paste this code from the file named [**onInitializeUI.js.txt**](Starter Files/onInitializeUI.js.txt?raw=true) in the **Starter Files** folder for this lab.
+1. Implement the **onInitializeUI** function using the following code.
 
 	````javascript
-	function onInitializeUI() {
-	    var divRates = $("#selectInterestRate");
-	    divRates.empty();
+    function onInitializeUI() {
 
-	    for (var i = 0; i < interestRates.length; ++i) {
-	        var rate = interestRates[i];
-	        divRates.append($('<input>', { type: 'radio', name: 'rate', value: rate }));
-	        var formatedRate = (rate * 100).toFixed(2) + "%";
-	        divRates.append($('<label>').text(formatedRate));
-	        divRates.append($("<br>"));
-	    }
+        var divRates = $("#selectInterestRate");
+        divRates.empty();
 
-	    var divApplicants = $("#selectApplicant");
-	    divApplicants.empty();
+        for (var i = 0; i < interestRates.length; ++i) {
+            var rate = interestRates[i];
+            divRates.append($('<input>', { type: 'radio', name: 'rate', value: rate }));
+            var formatedRate = (rate * 100).toFixed(2) + "%";
+            divRates.append($('<label>').text(formatedRate));
+            divRates.append($("<br>"));
+        }
 
-	    for (i = 0; i < applicants.length; ++i) {
-	        var name = applicants[i].name;
-	        divApplicants.append($('<input>', { type: 'radio', name: 'Applicant', value: i }));
-	        divApplicants.append($('<label>').text(applicants[i].name));
-	        divApplicants.append($("<br>"));
-	    }
+        var divApplicants = $("#selectApplicant");
+        divApplicants.empty();
 
-	    $("#selectInterestRate :first-child").attr("checked", "checked");
-	    $("#selectApplicant :first-child").attr("checked", "checked");
+        for (i = 0; i < applicants.length; ++i) {
+            var name = applicants[i].name;
+            divApplicants.append($('<input>', { type: 'radio', name: 'Applicant', value: i }));
+            divApplicants.append($('<label>').text(applicants[i].name));
+            divApplicants.append($("<br>"));
+        }
 
-	    $("input[name='rate']").click(onRateChanged);
-	    $("input[name='Applicant']").click(onApplicantChanged);
+        $("#selectInterestRate :first-child").attr("checked", "checked");
+        $("#selectApplicant :first-child").attr("checked", "checked");
 
-	    updateAppUI();
-	}
+        $("input[name='rate']").click(onRateChanged);
+        $("input[name='Applicant']").click(onApplicantChanged);
+
+        updateAppUI();
+    }
 	````
 
-1. Implement the **formatToCurrencyUSD** function with the following code. If you prefer, you can copy and paste this code from the file named [**formatToCurrencyUSD.js.txt**](Starter Files/formatToCurrencyUSD.js.txt?raw=true) in the **Starter Files** folder for this lab.
+1. Implement the **formatToCurrencyUSD** function using the following code.
 
 	````javascript
-	function formatToCurrencyUSD(amount) {
-	    var sign; var cents; var i;
-	    amount = amount.toString().replace(/\$|\,/g, '');
-	    if (isNaN(amount)) { amount = "0"; }
-	    sign = (amount == (amount = Math.abs(amount)));
-	    amount = Math.floor(amount * 100 + 0.50000000001);
-	    cents = amount % 100;
-	    amount = Math.floor(amount / 100).toString();
-	    if (cents < 10) {
-	        cents = '0' + cents;
-	    }
-	    for (i = 0; i < Math.floor((amount.length - (1 + i)) / 3) ; i++) {
-	        amount = amount.substring(0, amount.length - (4 * i + 3)) + ',' + amount.substring(amount.length - (4 * i + 3));
-	    }
-	    return (((sign) ? '' : '-') + '$' + amount + '.' + cents);
-	}
+    function formatToCurrencyUSD(amount) {
+        var sign; var cents; var i;
+        amount = amount.toString().replace(/\$|\,/g, '');
+        if (isNaN(amount)) { amount = "0"; }
+        sign = (amount == (amount = Math.abs(amount)));
+        amount = Math.floor(amount * 100 + 0.50000000001);
+        cents = amount % 100;
+        amount = Math.floor(amount / 100).toString();
+        if (cents < 10) {
+            cents = '0' + cents;
+        }
+        for (i = 0; i < Math.floor((amount.length - (1 + i)) / 3) ; i++) {
+            amount = amount.substring(0, amount.length - (4 * i + 3)) + ',' + amount.substring(amount.length - (4 * i + 3));
+        }
+        return (((sign) ? '' : '-') + '$' + amount + '.' + cents);
+    }
 	````
 
 1. Implement **onRateChanged** and **onApplicantChanged** using the following code.
@@ -597,37 +475,37 @@ In this exercise you will write code to create bindings on named ranges within t
 	}
 	````
 
-1. Implement the **createBindings** function using the following code. If you prefer, you can copy and paste this code from the file named [**createBindings.js.txt**](Starter Files/createBindings.js.txt?raw=true) in the **Starter Files** folder for this lab.
+1. Implement the **createBindings** function using the following code.
 
 	````javascript
-	function createBindings() {	
-	    bindings.addFromNamedItemAsync("Sheet1!Applicant_Name", "text",
-	                                    { id: "applicant_name" }, function () { });
-	
-	    bindings.addFromNamedItemAsync("Sheet1!Loan_Amount", "text",
-	                                   { id: "loan_amount" }, function () { });
-	
-	    bindings.addFromNamedItemAsync("Sheet1!Interest_Rate", "text",
-	                                   { id: "interest_rate" }, function () { });
-	
-	    bindings.addFromNamedItemAsync("Sheet1!Loan_Duration", "text",
-	                                   { id: "loan_duration" }, function () { });
-	
-	    bindings.addFromNamedItemAsync("Sheet1!Monthly_Payment", "text",
-	                                   { id: "monthly_payment" }, function () { });
-	
-	    bindings.addFromNamedItemAsync("Sheet1!Total_Income", "text",
-	                                   { id: "total_income" }, function () { });
-	
-	    bindings.addFromNamedItemAsync("Sheet1!Yearly_Mortgage", "text",
-	                                   { id: "yearly_mortgage" }, function () { });
-		
-	    bindings.addFromNamedItemAsync("Sheet1!Fixed_Expenses", "text",
-	                                   { id: "fixed_expenses" }, function () { });
-	
-	    bindings.addFromNamedItemAsync("Sheet1!Available_Income", "text",
-	                                   { id: "available_income" }, onAllBindingCreated);
-	}
+    function createBindings() {
+        bindings.addFromNamedItemAsync("Sheet1!Applicant_Name", "text",
+                                        { id: "applicant_name" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Loan_Amount", "text",
+                                        { id: "loan_amount" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Interest_Rate", "text",
+                                        { id: "interest_rate" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Loan_Duration", "text",
+                                        { id: "loan_duration" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Monthly_Payment", "text",
+                                        { id: "monthly_payment" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Total_Income", "text",
+                                        { id: "total_income" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Yearly_Mortgage", "text",
+                                        { id: "yearly_mortgage" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Fixed_Expenses", "text",
+                                        { id: "fixed_expenses" }, function () { });
+
+        bindings.addFromNamedItemAsync("Sheet1!Available_Income", "text",
+                                        { id: "available_income" }, onAllBindingCreated);
+    }
 	````
 
 1. Implement the **onAllBindingCreated** function using the following code.
@@ -638,29 +516,29 @@ In this exercise you will write code to create bindings on named ranges within t
 	}
 	````
 
-1. Implement the **updateBindingsToDocument** function using the following code. If you prefer, you can copy and paste this code from the file named [**updateBindingsToDocument.js.txt**](Starter Files/updateBindingsToDocument.js.txt?raw=true) in the **Starter Files** folder for this lab.
+1. Implement the **updateBindingsToDocument** function using the following code.
 
 	````javascript
-	function updateBindingsToDocument() {
-		Office.select("bindings#applicant_name")
-		        .setDataAsync(currentApplicant.name, function () { });
-		
-		Office.select("bindings#loan_amount")
-		        .setDataAsync(currentApplicant.loan_amount, function () { });
-		
-		Office.select("bindings#interest_rate")
-		        .setDataAsync(currentRate, function () { });
-		
-		Office.select("bindings#loan_duration")
-		        .setDataAsync(currentApplicant.loan_duration, function () { });
-		
-		Office.select("bindings#total_income")
-		        .setDataAsync(currentApplicant.total_income, function () { });
-		
-		Office.select("bindings#fixed_expenses")
-		        .setDataAsync(currentApplicant.fixed_expenses, onBindingUpdated);
-		}
-	}
+    function updateBindingsToDocument() {
+
+        Office.select("bindings#applicant_name")
+                .setDataAsync(currentApplicant.name, function () { });
+
+        Office.select("bindings#loan_amount")
+                .setDataAsync(currentApplicant.loan_amount, function () { });
+
+        Office.select("bindings#interest_rate")
+                .setDataAsync(currentRate, function () { });
+
+        Office.select("bindings#loan_duration")
+                .setDataAsync(currentApplicant.loan_duration, function () { });
+
+        Office.select("bindings#total_income")
+                .setDataAsync(currentApplicant.total_income, function () { });
+
+        Office.select("bindings#fixed_expenses")
+                .setDataAsync(currentApplicant.fixed_expenses, onBindingUpdated);
+    }
 	````
 
 1. Implement the **onBindingUpdated** function using the following code.
@@ -671,28 +549,29 @@ In this exercise you will write code to create bindings on named ranges within t
 	}
 	````
 
-1. Implement the **updateBindingsFromDocument** function using the following code. If you prefer, you can copy and paste this code from the file named [**updateBindingsFromDocument.js.txt**](Starter Files/updateBindingsFromDocument.js.txt?raw=true) in the **Starter Files** folder for this lab.
+1. Implement the **updateBindingsFromDocument** function using the following code.
 
 	````javascript
-	function updateBindingsFromDocument() {		
-	    Office.select("bindings#monthly_payment")
-	          .getDataAsync({
-	              asyncContext: "monthly_payment",
-	              valueFormat: Office.ValueFormat.Formatted
-	          }, onBindingReadFromDocument);
-	
-	    Office.select("bindings#yearly_mortgage")
-	          .getDataAsync({
-	              asyncContext: "yearly_mortgage",
-	              valueFormat: Office.ValueFormat.Formatted
-	          }, onBindingReadFromDocument);
-	
-	    Office.select("bindings#available_income")
-	          .getDataAsync({
-	              asyncContext: "available_income",
-	              valueFormat: Office.ValueFormat.Formatted
-	          }, onBindingReadFromDocument);
-	}
+    function updateBindingsFromDocument() {
+
+        Office.select("bindings#monthly_payment")
+                .getDataAsync({
+                    asyncContext: "monthly_payment",
+                    valueFormat: Office.ValueFormat.Formatted
+                }, onBindingReadFromDocument);
+
+        Office.select("bindings#yearly_mortgage")
+                .getDataAsync({
+                    asyncContext: "yearly_mortgage",
+                    valueFormat: Office.ValueFormat.Formatted
+                }, onBindingReadFromDocument);
+
+        Office.select("bindings#available_income")
+                .getDataAsync({
+                    asyncContext: "available_income",
+                    valueFormat: Office.ValueFormat.Formatted
+                }, onBindingReadFromDocument);
+    }
 	````
 
 1. Implement the **onBindingReadFromDocument** function using the following code.
