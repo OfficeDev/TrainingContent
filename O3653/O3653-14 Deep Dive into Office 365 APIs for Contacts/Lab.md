@@ -63,7 +63,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
 
-> **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+> **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
@@ -88,7 +88,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
      ![](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
-  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. Locate the [Lab Files](Lab Files) folder provided with this lab & find the file [`SettingsHelper.cs`](/Lab Files/SettingsHelper.cs). Copy the [`SettingsHelper.cs`](/Lab Files/SettingsHelper.cs) file to the **Utils** folder.
+  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. Locate the [Lab Files](Lab Files) folder provided with this lab & find the file [`SettingsHelper.cs`](Lab Files/SettingsHelper.cs). Copy the [`SettingsHelper.cs`](Lab Files/SettingsHelper.cs) file to the **Utils** folder.
 1. Update **_Layout** file to update **Contact** link:
     1. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
       1. Locate the part of the file that includes a few links at the top of the page... it should look similar to the following code:
