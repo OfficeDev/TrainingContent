@@ -30,99 +30,111 @@ In this lab you will get hands-on experience working with the new Office Add-in 
 9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**.
  
 10. Double-click on **app.js** to open it in a code editor window. you should be able to see that the code creates a global variable named **app** based on the JavaScript *Closure* pattern. The global **app** object defines a method named **initialize** but it does not execute this method. 
- 
-		var app = (function () {
-		  "use strict";
 
-		  var app = {};
+    ````javascript    
+    var app = (function () {
+        "use strict";
 
-		  // Common initialization function (to be called from each page)
-		  app.initialize = function () {
-		    $('body').append(
-			  '<div id="notification-message">' +
-			  '<div class="padding">' +
-			  '<div id="notification-message-close"></div>' +
-			  '<div id="notification-message-header"></div>' +
-			  '<div id="notification-message-body"></div>' +
-			  '</div>' +
-			  '</div>');
+        var app = {};
 
-			  $('#notification-message-close').click(function () {
-			    $('#notification-message').hide();
-			  });
+        // Common initialization function (to be called from each page)
+        app.initialize = function () {
+        $('body').append(
+            '<div id="notification-message">' +
+            '<div class="padding">' +
+            '<div id="notification-message-close"></div>' +
+            '<div id="notification-message-header"></div>' +
+            '<div id="notification-message-body"></div>' +
+            '</div>' +
+            '</div>');
 
-			  // After initialization, expose a common notification function
-			  app.showNotification = function (header, text) {
-			    $('#notification-message-header').text(header);
-			    $('#notification-message-body').text(text);
-			    $('#notification-message').slideDown('fast');
-			  };
-			};
+            $('#notification-message-close').click(function () {
+            $('#notification-message').hide();
+            });
 
-			  return app;
-		})();
+            // After initialization, expose a common notification function
+            app.showNotification = function (header, text) {
+            $('#notification-message-header').text(header);
+            $('#notification-message-body').text(text);
+            $('#notification-message').slideDown('fast');
+            };
+        };
+
+            return app;
+    })();
+    ````
+    
 11. Close **app.js** and be sure not to save any changes.
 12. Next you will examine the JavaScript code in **home.js**. Double-click on **home.js** to open it in a code editor window. Note that **Home.html** links to **app.js** before it links to **home.js** which means that JavaScript code written in **Home.js** can access the global **app** object created in **app.js**.
 13. Walk through the code in **Home.js** and see how it uses a self-executing function register an event handler on the **Office.initialize** method which in turn registers a document-read event handler using jQuery. This allows the Add-in to call **app.initialize** and to register an event handler using the **getDataFromSelection** function. 
  
-		(function () {
-		  "use strict";
+ 	````javascript
+    (function () {
+        "use strict";
 
-		  // The initialize function must be run each time a new page is loaded
-		  Office.initialize = function (reason) {
-		    $(document).ready(function () {
-		      app.initialize();
-		      $('#get-data-from-selection').click(getDataFromSelection);
-		    });
-		  };
+        // The initialize function must be run each time a new page is loaded
+        Office.initialize = function (reason) {
+        $(document).ready(function () {
+            app.initialize();
+            $('#get-data-from-selection').click(getDataFromSelection);
+        });
+        };
 
-		  // Reads data from current document selection and displays a notification
-		  function getDataFromSelection() {
-		    Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
-		      function (result) {
-		        if (result.status === Office.AsyncResultStatus.Succeeded) {
-		          app.showNotification('The selected text is:', '"' + result.value + '"');
-		        } else {
-		          app.showNotification('Error:', result.error.message);
-		      }
-			});
-		  }
-		})();
+        // Reads data from current document selection and displays a notification
+        function getDataFromSelection() {
+        Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
+            function (result) {
+            if (result.status === Office.AsyncResultStatus.Succeeded) {
+                app.showNotification('The selected text is:', '"' + result.value + '"');
+            } else {
+                app.showNotification('Error:', result.error.message);
+            }
+        });
+        }
+    })();
+    ````
+        
 14. Close **Home.js** and be sure not to save any changes.
 15. Now it is time to examine the HTML that has been added to the project to create the Add-in's user interface. Double-click **Home.html** to open this file in a Visual Studio editor window. Examine the layout of HTML elements inside the body element. 
 
-		<body>
-			<div id="content-header">
-				<div class="padding">
-					<h1>Welcome</h1>
-				</div>
-			</div>
-			<div id="content-main">
-				<div class="padding">
-					<p><strong>Add home screen content here.</strong></p>
-					<p>For example:</p>
-					<button id="get-data-from-selection">Get data from selection</button>
+	````html
+    <body>
+        <div id="content-header">
+            <div class="padding">
+                <h1>Welcome</h1>
+            </div>
+        </div>
+        <div id="content-main">
+            <div class="padding">
+                <p><strong>Add home screen content here.</strong></p>
+                <p>For example:</p>
+                <button id="get-data-from-selection">Get data from selection</button>
 
-					<p style="margin-top: 50px;">
-						<a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=276812">Find more samples online...</a>
-					</p>
-				</div>
-			</div>
-		</body>
+                <p style="margin-top: 50px;">
+                    <a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=276812">Find more samples online...</a>
+                </p>
+            </div>
+        </div>
+    </body>
+	````  
+
 16. Replace the text message of **Welcome** inside the **h1** element with a different message such as **My Office Add-in**. Also trim down the contents of the **div** element with the **id** of **content-main** to match the HTML code shown below. 
 
-		<body>
-			<div id="content-header">
-				<div class="padding">
-					<h1>My Office Add-in</h1>
-				</div>
-			</div>
-			<div id="content-main">
-				<div class="padding">
-					<button id="get-data-from-selection">Get data from selection</button>
-				</div>
-			</div>
-		</body>
+	````html
+    <body>
+        <div id="content-header">
+            <div class="padding">
+                <h1>My Office Add-in</h1>
+            </div>
+        </div>
+        <div id="content-main">
+            <div class="padding">
+                <button id="get-data-from-selection">Get data from selection</button>
+            </div>
+        </div>
+    </body>
+	````        
+        
 17. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2013 and you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
 <br/>![](Images/Fig07.png)
 
@@ -136,121 +148,138 @@ In this lab you will get hands-on experience working with the new Office Add-in 
  
 1. In the Solution Explorer, double click on **Home.html** to open it in an editor window. 
 2. As you can see, the **head** section of **Home.html** already links to the jQuery library as well as **app.css**, **app.js**, **Home.css** and **Home.js**.
-3. Remove all the content from the **body** section of **Home.html** and replace it with the HTML in the following code listing. If you would rather copy-and-paste this HTML code rather than type it, you can find a copy of it in the file named **Home.html.txt** in the **Starter Files** folder for this lab.
+3. Remove all the content from the **body** section of **Home.html** and replace it with the HTML in the following code listing.
 
-		<body>
+    ````html
+    <body>
 
-			<div id="topDiv">
+        <div id="topDiv">
 
-				<h2>Get a Quote</h2>
+            <h2>Get a Quote</h2>
 
-				<div class="toolbar">
-					<input id="cmdGetContent" type="button" value="Get Content" />
-					<input id="cmdInsertContent" type="button" value="Insert Content" />
-				</div>
+            <div class="toolbar">
+                <input id="cmdGetContent" type="button" value="Get Content" />
+                <input id="cmdInsertContent" type="button" value="Insert Content" />
+            </div>
 
-				<div class="displayPanel">
-					<div id="contentArea"></div>
-				</div>
+            <div class="displayPanel">
+                <div id="contentArea"></div>
+            </div>
 
-			</div>
+        </div>
 
-		</body>
+    </body>
+    ````
+    
 4. Save your changes and close **Home.html**.
 5. In the Solution Explorer, double click on **Home.css** to open this CSS file in an editor window.
-6. Delete all contents inside **Home.css** and replace it with the following set of CSS rules. If you would rather copy-and-paste these CSS rules rather than type them, you can find a copy in the file named **Home.css.txt** in the **Starter Files** folder for this lab. 
+6. Delete all contents inside **Home.css** and replace it with the following set of CSS rules. 
 
-		body {
-			margin: 0;
-		}
+    ````css
+    body {
+        margin: 0;
+    }
 
-		#topDiv {
-			background-color: white;
-			padding: 0;
-		}
+    #topDiv {
+        background-color: white;
+        padding: 0;
+    }
 
-		#topDiv h2 {
-			margin: 0;
-			font-size: 24pt;
-			color: white;
-			background-color: #0a00ff;
-			padding: 12px;
-			height: 24px;
-		}
+    #topDiv h2 {
+        margin: 0;
+        font-size: 24pt;
+        color: white;
+        background-color: #0a00ff;
+        padding: 12px;
+        height: 24px;
+    }
 
-		#topDiv .toolbar {
-			background-color: #fbeba0;
-			margin: 0;
-			padding: 2px;
-		}
+    #topDiv .toolbar {
+        background-color: #fbeba0;
+        margin: 0;
+        padding: 2px;
+    }
 
-		#topDiv .toolbar input {
-			margin: 4px;
-		}
+    #topDiv .toolbar input {
+        margin: 4px;
+    }
 
-		#topDiv .displayPanel {
-			margin: 0;
-			border: 1px solid black;
-			padding: 6px;
-			font-size: 12px;
-			font-family: "Garamond, Arial, sans-serif";
-			background-color: white;
-			color: blue;
-			min-height: 320px;
-		}
+    #topDiv .displayPanel {
+        margin: 0;
+        border: 1px solid black;
+        padding: 6px;
+        font-size: 12px;
+        font-family: "Garamond, Arial, sans-serif";
+        background-color: white;
+        color: blue;
+        min-height: 320px;
+    }
+    ````
+
 7. Save your changes and close **Home.css**.
 8. In the Solution Explorer, double click on **Home.js** to open this JavaScript file in an editor window. Modify the code in **Home.js** to match the code shown in the following code listing which provides app initialization code and adds three emtpy functions named **getQuote**, **cmdGetContent** and **cmdInsertContent**. 
 
-		(function () {
-		  "use strict";
+    ````javascript
+    (function () {
+        "use strict";
 
-		  Office.initialize = function (reason) {
-		    $(document).ready(function () {
-		      app.initialize();
-		    });
-		  };
+        Office.initialize = function (reason) {
+        $(document).ready(function () {
+            app.initialize();
+        });
+        };
 
-		  function getQuote() {
-    	  }
+        function getQuote() {
+        }
 
-		  function cmdGetContent() {
-		  }
+        function cmdGetContent() {
+        }
 
-		  function cmdInsertContent() {
-		  }
+        function cmdInsertContent() {
+        }
 
-		})(); 
+    })(); 
+    ````
 
 9. Directly below the call to **app.initialize**, add a line of code to register the **cmdGetContent** function as an event handler for the **click** event of the command button with the **id** of **cmdGetContent**. Likewise, add a second line of code to register the **cmdInsertContent** function as an event handler for the **click** event of  the command button with the **id** of **cmdInsertContent**.   
 
-		Office.initialize = function (reason) {
-		  $(document).ready(function () {
-		    app.initialize();
-            // adding event handlers for app command buttons
-		    $("#cmdGetContent").click(cmdGetContent);
-		    $("#cmdInsertContent").click(cmdInsertContent);
-		  });
-		};
-10. Implement the **getQuote** function to return a random quote from a string array of quotes as shown in the following code listing. If you would rather copy-and-paste an implementation of this function rather than type it, you can find a copy in the file named **getQuote.js.txt** in the **Starter Files** folder for this lab.
+    ````javascript
+    Office.initialize = function (reason) {
+        $(document).ready(function () {
+        app.initialize();
+        // adding event handlers for app command buttons
+        $("#cmdGetContent").click(cmdGetContent);
+        $("#cmdInsertContent").click(cmdInsertContent);
+        });
+    };
+    ````
+    
+10. Implement the **getQuote** function to return a random quote from a string array of quotes as shown in the following code listing.
 
-		function getQuote() {
+    ````javascript
+    function getQuote() {
 
-    	  var quotes = [
-		    "I would rather have an Agave bottle in front of me than a frontal lobatomy.",
-		    "Better to remain silent and be thought a fool than to speak and erase all doubt.",
-		    "A two-year-old is kind of like having a blender, but you don't have a top for it.",
-		    "Between two evils, I always pick the one I never tried before."
-		  ];
+        var quotes = [
+        "I would rather have an Agave bottle in front of me than a frontal lobatomy.",
+        "Better to remain silent and be thought a fool than to speak and erase all doubt.",
+        "A two-year-old is kind of like having a blender, but you don't have a top for it.",
+        "Between two evils, I always pick the one I never tried before."
+        ];
 
-		  var index = Math.floor(Math.random() * quotes.length);
-    	  return quotes[index];
-		}
+        var index = Math.floor(Math.random() * quotes.length);
+        return quotes[index];
+    }
+    ````
+        
 11. Implement the **cmdGetContent** function to call the **getQuote** function to return a string-based quote. Display the quote on the Add-in's start page by writing it to the div with the **id** of **contentArea**.
 
-		function cmdGetContent() {
-    	  // display quote inside Agave
-    	  $("#contentArea").html(getQuote());
-		}
+    ````javascript
+    function cmdGetContent() {
+        // display quote inside Agave
+        $("#contentArea").html(getQuote());
+    }
+    ````
+    
 12. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2013 and you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
 <br/>![](Images/Fig09.png)
 
@@ -267,11 +296,14 @@ In this lab you will get hands-on experience working with the new Office Add-in 
 2. Locate the **cmdInsertContent** function which should currently be an empty function.
 3. Implement the **cmdInsertContent** function to read the current quote from the **contentArea** div and write it into the current Word document at the cursor location. You can accomplish this by calling the **setSelectedDataAsync** method of the **Office.context.document** object using the following syntax.
 
-		function cmdInsertContent() {
-    	  // insert current quote in Active Word document
-    	  var quote = $("#contentArea").html();
-    	  Office.context.document.setSelectedDataAsync(quote, {}, function () { });
-		}
+    ````javascript
+    function cmdInsertContent() {
+        // insert current quote in Active Word document
+        var quote = $("#contentArea").html();
+        Office.context.document.setSelectedDataAsync(quote, {}, function () { });
+    }
+    ````
+    
 4. Now test the functionality of the Add-in by pressing the {**{F5}** key to start a debugging session. Begin your testing by clicking the **Get Content** button to display a new quote inside the Add-in's user interface in the task pane. Next, click the "Insert Content** button to insert the quote into the current Word document as shown in the following screenshot.
 <br/>![](Images/Fig11.png)
 
