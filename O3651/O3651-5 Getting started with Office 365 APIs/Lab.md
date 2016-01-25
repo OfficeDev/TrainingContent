@@ -81,7 +81,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
      ![](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
-  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. Locate the [Lab Files](Lab Files) folder provided with this lab & find the file `SettingsHelper.cs`. Copy that file to the **Utils** folder.
+  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. Download [SettingsHelper.cs](Lab Files/SettingsHelper.cs?raw=true) and copy that file to the **Utils** folder.
 1. Update **_Layout** file to add **Calendar** link:
     1. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
       1. Locate the part of the file that includes a few links at the top of the page... it should look similar to the following code:

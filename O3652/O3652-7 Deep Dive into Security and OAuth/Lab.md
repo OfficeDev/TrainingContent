@@ -218,7 +218,7 @@ In this exercise you create a new web application and examine the OAuth Client C
 ### Configure Azure AD Application for App-Only Authentication
 The first step is to create & configure an application in your Azure AD directory to support app-only permissions.
 
-1. Locate the starter project in the Starter Project folder within this lab located at [TrainingContent/O3652/O3652-7 Deep Dive into Security and OAuth](/O3652/O3652-7 Deep Dive into Security and OAuth). Open the Visual Studio solution ClientCredsAddin.sln in Visual Studio.
+1. Locate the starter project in the Starter Project folder within this lab located at [TrainingContent/O3652/O3652-7 Deep Dive into Security and OAuth](Starter Project). Open the Visual Studio solution ClientCredsAddin.sln in Visual Studio.
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
   1. Change the property **SSL Enabled** to **TRUE**.
