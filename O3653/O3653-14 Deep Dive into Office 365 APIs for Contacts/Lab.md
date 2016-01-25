@@ -63,7 +63,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
 
-> **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+> **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
