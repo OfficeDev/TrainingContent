@@ -4,6 +4,7 @@ In this lab, you will create add-ins that use different approaches for OAuth aut
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 1. You must have [Fiddler](http://www.telerik.com/fiddler) installed.
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 ## Exercise 1: Authorization Code Flow - OAuth in a Provider-Hosted Add-In 
 In this exercise you create a new provider-hosted add-in and examine the OAuth Authorization Code flow.
@@ -217,7 +218,7 @@ In this exercise you create a new web application and examine the OAuth Client C
 ### Configure Azure AD Application for App-Only Authentication
 The first step is to create & configure an application in your Azure AD directory to support app-only permissions.
 
-1. Locate a starter project in the [Starter Project](Starter Project) folder within this lab. Open the Visual Studio solution **ClientCredsAddin.sln** in Visual Studio.
+1. Locate the starter project in the Starter Project folder within this lab located at [TrainingContent/O3652/O3652-7 Deep Dive into Security and OAuth](/O3652/O3652-7 Deep Dive into Security and OAuth). Open the Visual Studio solution ClientCredsAddin.sln in Visual Studio.
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
   1. Change the property **SSL Enabled** to **TRUE**.
