@@ -49,7 +49,6 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 	1. For the new **Microsoft Graph API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
 		- Read files that the user selects
 		- Read user files and files shared with user
-		- Read all groups
 		- Read all users' full profiles
 		- Sign in and read user profile
 	1. Click the **Save** button at the bottom of the page.
