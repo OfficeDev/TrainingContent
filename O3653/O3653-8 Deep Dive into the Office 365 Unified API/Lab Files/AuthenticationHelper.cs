@@ -26,7 +26,7 @@ namespace O365_Win_Profile
         // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
 
         private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
-        public const string ResourceBetaUrl = "https://graph.microsoft.com/v1.0/";
+        public const string EndpointUrl = "https://graph.microsoft.com/v1.0/";
         public const string ResourceUrl = "https://graph.microsoft.com/";
 
 
