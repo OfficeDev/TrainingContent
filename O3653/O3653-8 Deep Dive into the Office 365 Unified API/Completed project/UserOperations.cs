@@ -45,7 +45,7 @@ namespace O365_Win_Profile
             List<UserModel> retUsers = null;
             try
             {
-                var restURL = string.Format("{0}/users?$filter={1}", AuthenticationHelper.ResourceBetaUrl, "(userType eq 'Member')");
+                var restURL = string.Format("{0}/users?$filter={1}", AuthenticationHelper.EndPointUrl, "(userType eq 'Member')");
                 string responseString = await GetJsonAsync(restURL);
 
                 if (responseString != null)
@@ -67,7 +67,7 @@ namespace O365_Win_Profile
             UserModel user = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/manager", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/manager", AuthenticationHelper.EndPointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
 
                 if (responseString != null)
@@ -87,7 +87,7 @@ namespace O365_Win_Profile
             UserModel user = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}", AuthenticationHelper.EndPointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
@@ -108,7 +108,7 @@ namespace O365_Win_Profile
             List<UserModel> retUsers = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/directReports", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/directReports", AuthenticationHelper.EndPointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
@@ -128,7 +128,7 @@ namespace O365_Win_Profile
             List<GroupModel> retUserGroups = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/memberof", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/memberof", AuthenticationHelper.EndPointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
@@ -159,7 +159,7 @@ namespace O365_Win_Profile
             List<DriveItemModel> fileList = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/drive/root/children", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/drive/root/children", AuthenticationHelper.EndPointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
@@ -177,7 +177,7 @@ namespace O365_Win_Profile
         public async Task<BitmapImage> GetPhotoAsync(string userId, string token)
         {
             BitmapImage bitmap = null;
-            var restURL = string.Format("{0}/users/{1}/photo/$value", AuthenticationHelper.ResourceBetaUrl, userId);
+            var restURL = string.Format("{0}/users/{1}/photo/$value", AuthenticationHelper.EndPointUrl, userId);
             var accessToken = AuthenticationHelper.AccessToken;
             using (HttpClient client = new HttpClient())
             {

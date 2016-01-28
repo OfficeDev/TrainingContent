@@ -73,7 +73,7 @@ namespace O365_Win_Profile
         public async Task<BitmapImage> GetPhotoAsync(string userId, string token)
         {
             BitmapImage bitmap = null;
-            var restURL = string.Format("{0}/users/{1}/photo/$value", AuthenticationHelper.ResourceBetaUrl, userId);
+            var restURL = string.Format("{0}/users/{1}/photo/$value", AuthenticationHelper.EndpointUrl, userId);
             var accessToken = AuthenticationHelper.AccessToken;
             using (HttpClient client = new HttpClient())
             {
