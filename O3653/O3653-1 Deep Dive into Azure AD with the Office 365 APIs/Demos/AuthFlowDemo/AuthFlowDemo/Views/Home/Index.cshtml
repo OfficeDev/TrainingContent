@@ -1,8 +1,10 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Home Page";
 }
 
-<h2>Home</h2>
-
-<a href="@Html.Raw(DemoConstants.AADAuthUrl)">Press here to authenticate</a>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Home</h2>
+        @Html.ActionLink("Press here to authenticate", "Index", "AcceptRedirect")
+    </div>
+</div>

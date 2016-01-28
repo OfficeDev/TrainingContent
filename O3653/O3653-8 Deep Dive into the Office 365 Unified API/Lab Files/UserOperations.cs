@@ -1,5 +1,4 @@
 ﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
-using Microsoft.Graph;
 using Microsoft.OData.Client;
 using System;
 using System.Collections.Generic;
@@ -7,73 +6,104 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Windows.UI.Xaml.Media.Imaging;
+using O365_Win_Profile.Model;
 
-namespace O365_Win_Profile {
-  class UserOperations {
 
-    public async Task<List<IUser>> GetUsersAsync() {
-      return null;
-    }
+namespace O365_Win_Profile
+{
+    class UserOperations
+    {
 
-    public async Task<User> GetUserManagerAsync(string userId) {
-      return null;
-    }
+        public static async Task<string> GetJsonAsync(string url)
+        {
+            var accessToken = await AuthenticationHelper.GetGraphAccessTokenAsync();
+            using (HttpClient client = new HttpClient())
+            {
+                var accept = "application/json";
 
-    public async Task<User> GetUserAsync(string userId) {
-      return null;
-    }
+                client.DefaultRequestHeaders.Add("Accept", accept);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-    public async Task<List<IDirectoryObject>> GetUserDirectReportsAsync(string userId) {
-      return null;
-    }
-
-    public async Task<List<IDirectoryObject>> GetUserGroupsAsync(string userId) {
-      return null;
-    }
-
-    public async Task<List<IItem>> GetUserFilesAsync(string userId) {
-      return null;
-    }
-
-    public async Task<BitmapImage> GetPhotoAsync(string photoUrl, string token) {
-
-      using (var client = new HttpClient()) {
-        try {
-          var request = new HttpRequestMessage(HttpMethod.Get, new Uri(photoUrl));
-          BitmapImage bitmap = null;
-
-          request.Headers.Add("Authorization", "Bearer " + token);
-
-          var response = await client.SendAsync(request);
-
-          var stream = await response.Content.ReadAsStreamAsync();
-          if (response.IsSuccessStatusCode) {
-
-            using (var memStream = new MemoryStream()) {
-              await stream.CopyToAsync(memStream);
-              memStream.Seek(0, SeekOrigin.Begin);
-              bitmap = new BitmapImage();
-              await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
+                using (var response = await client.GetAsync(url))
+                {
+                    if (response.IsSuccessStatusCode)
+                        return await response.Content.ReadAsStringAsync();
+                    return null;
+                }
             }
-            return bitmap;
-          } else {
-            Debug.WriteLine("Unable to find an image at this endpoint.");
-            bitmap = new BitmapImage(new Uri("ms-appx:///assets/UserDefault.png", UriKind.RelativeOrAbsolute));
-            return bitmap;
-          }
-
-        } catch (Exception e) {
-          Debug.WriteLine("Could not get the thumbnail photo: " + e.Message);
-          return null;
         }
-      }
+
+        public async Task<List<UserModel>> GetUsersAsync()
+        {
+            return null;
+        }
+
+        public async Task<UserModel> GetUserManagerAsync(string userId)
+        {
+            return null;
+        }
+
+        public async Task<UserModel> GetUserAsync(string userId)
+        {
+            return null;
+        }
+
+        public async Task<List<UserModel>> GetUserDirectReportsAsync(string userId)
+        {
+            return null;
+        }
+
+        public async Task<List<GroupModel>> GetUserGroupsAsync(string userId)
+        {
+            return null;
+        }
+
+        public async Task<List<DriveItemModel>> GetUserFilesAsync(string userId)
+        {
+
+            return null;
+        }
+
+        public async Task<BitmapImage> GetPhotoAsync(string userId, string token)
+        {
+            BitmapImage bitmap = null;
+            var restURL = string.Format("{0}/users/{1}/photo/$value", AuthenticationHelper.ResourceBetaUrl, userId);
+            var accessToken = AuthenticationHelper.AccessToken;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                using (var response = await client.GetAsync(restURL))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Stream imageStream = await response.Content.ReadAsStreamAsync();
+
+                        var memStream = new MemoryStream();
+                        await imageStream.CopyToAsync(memStream);
+                        memStream.Position = 0;
+
+                        bitmap = new BitmapImage();
+                        await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
+                    }
+                    if (bitmap == null)
+                    {
+                        Debug.WriteLine("Unable to find an image at this endpoint.");
+                        bitmap = new BitmapImage(new Uri("ms-appx:///assets/UserDefault.png", UriKind.RelativeOrAbsolute));
+
+                    }
+                    return bitmap;
+                }
+            }
+        }
 
     }
-
-  }
 }
 
 //********************************************************* 

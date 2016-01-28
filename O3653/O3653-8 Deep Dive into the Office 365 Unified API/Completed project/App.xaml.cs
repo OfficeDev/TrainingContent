@@ -1,6 +1,4 @@
-﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
-using Microsoft.Graph;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,24 +14,25 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
+using O365_Win_Profile.Model;
 
 namespace O365_Win_Profile
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Windows.UI.Xaml.Application
+    sealed partial class App : Application
     {
-        public static List<IUser> UserList = null;
-
+        public static List<UserModel> UserList = null;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
+                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
+                Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -61,11 +60,13 @@ namespace O365_Win_Profile
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-                // Set the default language
-                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
@@ -102,37 +103,8 @@ namespace O365_Win_Profile
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-
+            //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
     }
 }
-
-//********************************************************* 
-// 
-//O365-Win-Profile, https://github.com/OfficeDev/O365-Win-Profile
-//
-//Copyright (c) Microsoft Corporation
-//All rights reserved. 
-//
-// MIT License:
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// ""Software""), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// 
-//********************************************************* 

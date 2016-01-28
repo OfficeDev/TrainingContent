@@ -1,5 +1,5 @@
-# Configure the Completed Project
-In order to run the completed project provided here, you must perform some setup steps. 
+# Configure the Completed Projects
+In order to run the completed projects provided here, you must perform some setup steps. 
 
 ## Prerequisites
 1. You must have an Office 365 tenant complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
@@ -8,7 +8,7 @@ In order to run the completed project provided here, you must perform some setup
 1. You will need a text editor for this lab... anything will do from [Visual Studio](https://www.visualstudio.com/) to [Brackets](http://www.brackets.io) to [WebStorm](https://www.jetbrains.com/webstorm/) to Notepad.
 
 ## Create a SharePoint Site using the Provided Site Template
-Create a new SharePoint site (create a new Site Collection and choose Select Template Later) in SharePoint Online using the template found within the [ExpenseApp.wsp](ExpenseApp.wsp) file.
+Create a new SharePoint site in SharePoint Online using the template found within the [ExpenseApp.wsp](ExpenseApp.wsp) file.
 
 Take note of the URL of the site 
 
@@ -51,8 +51,9 @@ $ npm install
   1. In the **Select Application** dropdown, select **Office 365 SharePoint Online**. 
   1. In the **Delegated Permissions** dropdown on the same line, the following permissions:
   
-    - Read and write items in all site collections
-    - Read user files
+    - Read items in all site collections
+    - Edit or delete items in all site collections
+    - Read user' files
 
 1. Click the **Save** button at the bottom of the page.
 1. Configure the application to allow the OAuth2 Implicit Flow:
@@ -70,3 +71,21 @@ Use the values you obtained above within the application in order to configure t
 - **baseSPUrl**: This is the root URL to the SharePoint REST API endpoint of the site you created using the template in the [ExpenseApp.wsp](ExpenseApp.wsp) file.
 - **baseOneDriveUrl**: This is the root URL of the Office 365 Files API endpoint for your OneDrive for Business account.
 - **aadEndpoints**: This object contains a name-value property-value pair for each REST endpoint you are going to call that ADAL JS should attach a bearer token to. Each property is in the format of `'[root-API-endpoint]':'[api-resource-id]'`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -20,13 +20,19 @@ namespace OAuthFlowWizard
         private void Form1_Load(object sender, EventArgs e)
         {
             clientId.Text = ConfigurationSettings.AppSettings["ClientId"];
-            clientSecret.Text = ConfigurationSettings.AppSettings["ClientSecret"];
             redirectUri.Text = ConfigurationSettings.AppSettings["RedirectUri"];
+
+            //This is the friendly error message when error occurred missing ClientID and RedirectUri in the App.config.
+            if (string.IsNullOrEmpty(clientId.Text) || string.IsNullOrEmpty(redirectUri.Text))
+            {
+                MessageBox.Show("The Client ID and Redirect Uri values are missing. Please add the Client ID to the 'ClientId' setting and the Redirect Uri to the 'RedirectUri' setting in App.config.");
+            }
 
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            logInUrl.Text = String.Format("https://login.windows.net/common/oauth2/authorize?resource=Microsoft.SharePoint&redirect_uri={0}&response_type=code&client_id={1}", redirectUri.Text, clientId.Text);
+            string resource = ConfigurationSettings.AppSettings["Resource"];
+            logInUrl.Text = String.Format("https://login.windows.net/common/oauth2/authorize?resource={0}&redirect_uri={1}&response_type=code&client_id={2}", resource, redirectUri.Text, clientId.Text);
             Clipboard.SetText(logInUrl.Text);
             MessageBox.Show("Log in URL copied to clipboard");
         }

@@ -1,5 +1,4 @@
 ﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
-using Microsoft.Graph;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Diagnostics;
@@ -25,24 +24,16 @@ namespace O365_Win_Profile
         // The AuthorizationUri is added as a resource in App.xaml when you regiter the app with 
         // Office 365. As a convenience, we load that value into a variable called _commonAuthority, adding _common to this Url to signify
         // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
-        
+
         private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
-        public const string ResourceBetaUrl = "https://graph.microsoft.com/beta/";
+        public const string ResourceBetaUrl = "https://graph.microsoft.com/v1.0/";
         public const string ResourceUrl = "https://graph.microsoft.com/";
 
 
-        // Add your redirect URI value here.
-        private static Uri redirectUri = new Uri(" ");
-
-
-        private static readonly Uri DiscoveryServiceEndpointUri = new Uri("https://api.office.com/discovery/v1.0/me/");
-        private const string DiscoveryResourceId = "https://api.office.com/discovery/";
+        // TODO:s Add your redirect URI value here.
+        private static Uri redirectUri = new Uri("http://localhost/microsoftgraphapi");
 
         public static ApplicationDataContainer _settings = ApplicationData.Current.LocalSettings;
-
-
-
-        public static GraphService _graphClient = null;
 
         //Property for storing and returning the authority used by the last authentication.
         //This value is populated when the user connects to the service and made null when the user signs out.
@@ -54,8 +45,7 @@ namespace O365_Win_Profile
                 {
                     return _settings.Values["LastAuthority"].ToString();
                 }
-                else
-                {
+                else {
                     return string.Empty;
                 }
 
@@ -77,8 +67,7 @@ namespace O365_Win_Profile
                 {
                     return _settings.Values["TenantId"].ToString();
                 }
-                else
-                {
+                else {
                     return string.Empty;
                 }
 
@@ -100,8 +89,7 @@ namespace O365_Win_Profile
                 {
                     return _settings.Values["LoggedInUser"].ToString();
                 }
-                else
-                {
+                else {
                     return string.Empty;
                 }
 
@@ -123,8 +111,7 @@ namespace O365_Win_Profile
                 {
                     return _settings.Values["LoggedInUserEmail"].ToString();
                 }
-                else
-                {
+                else {
                     return string.Empty;
                 }
 
@@ -143,75 +130,51 @@ namespace O365_Win_Profile
         /// Checks that an OutlookServicesClient object is available. 
         /// </summary>
         /// <returns>The OutlookServicesClient object. </returns>
-        public static async Task<GraphService> GetGraphClientAsync()
+        public static async Task<string> GetGraphAccessTokenAsync()
         {
-            if (_graphClient != null)
+            try
             {
-                return _graphClient;
+                //First, look for the authority used during the last authentication.
+                //If that value is not populated, use CommonAuthority.
+                string authority = null;
+                if (String.IsNullOrEmpty(LastAuthority))
+                {
+                    authority = CommonAuthority;
+                }
+                else
+                {
+                    authority = LastAuthority;
+                }
+
+                // Create an AuthenticationContext using this authority.
+                _authenticationContext = new AuthenticationContext(authority);
+
+
+                // Set the value of _authenticationContext.UseCorporateNetwork to true so that you 
+                // can use this app inside a corporate intranet. If the value of UseCorporateNetwork 
+                // is true, you also need to add the Enterprise Authentication, Private Networks, and
+                // Shared User Certificates capabilities in the Package.appxmanifest file.
+
+                _authenticationContext.UseCorporateNetwork = true;
+
+                var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
+
+                return token;
             }
-            else
+            // The following is a list of all exceptions you should consider handling in your app.
+            // In the case of this sample, the exceptions are handled by returning null upstream. 
+            catch (ArgumentException ae)
             {
-                try
-                {
-                    //First, look for the authority used during the last authentication.
-                    //If that value is not populated, use CommonAuthority.
-                    string authority = null;
-                    if (String.IsNullOrEmpty(LastAuthority))
-                    {
-                        authority = CommonAuthority;
-                    }
-                    else
-                    {
-                        authority = LastAuthority;
-                    }
-
-                    // Create an AuthenticationContext using this authority.
-                    _authenticationContext = new AuthenticationContext(authority);
-
-
-                    // Set the value of _authenticationContext.UseCorporateNetwork to true so that you 
-                    // can use this app inside a corporate intranet. If the value of UseCorporateNetwork 
-                    // is true, you also need to add the Enterprise Authentication, Private Networks, and
-                    // Shared User Certificates capabilities in the Package.appxmanifest file.
-
-                    _authenticationContext.UseCorporateNetwork = true;
-
-
-
-
-                    var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
-
-
-                    // Check the token
-                    if (String.IsNullOrEmpty(token))
-                    {
-                        // User cancelled sign-in
-                        return null;
-                    }
-                    else
-                    {
-                        Uri serviceRoot = new Uri(ResourceBetaUrl + TenantId);
-                        _graphClient = new Microsoft.Graph.GraphService(serviceRoot,
-                        async () => await GetTokenHelperAsync(_authenticationContext, ResourceUrl));
-                        return _graphClient;
-                    }
-                }
-                // The following is a list of all exceptions you should consider handling in your app.
-                // In the case of this sample, the exceptions are handled by returning null upstream. 
-
-                catch (ArgumentException ae)
-                {
-                    // Argument exception
-                    Debug.WriteLine("Exception: " + ae.Message);
-                    _authenticationContext.TokenCache.Clear();
-                    return null;
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Exception: " + e.Message);
-                    _authenticationContext.TokenCache.Clear();
-                    return null;
-                }
+                // Argument exception
+                Debug.WriteLine("Exception: " + ae.Message);
+                _authenticationContext.TokenCache.Clear();
+                return null;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exception: " + e.Message);
+                _authenticationContext.TokenCache.Clear();
+                return null;
             }
         }
 
@@ -223,7 +186,7 @@ namespace O365_Win_Profile
             _authenticationContext.TokenCache.Clear();
 
             //Clean up all existing clients
-            _graphClient = null;
+            AccessToken = null;
             //Clear stored values from last authentication.
             _settings.Values["TenantId"] = null;
             _settings.Values["LastAuthority"] = null;
@@ -254,8 +217,7 @@ namespace O365_Win_Profile
                 AccessToken = accessToken;
                 return accessToken;
             }
-            else
-            {
+            else {
                 return null;
             }
         }
