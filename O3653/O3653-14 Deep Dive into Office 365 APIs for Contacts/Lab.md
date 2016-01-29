@@ -21,13 +21,13 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 
     ![](Images/01.png)
 
-  1. Click **OK**.
+  1. Give the project the name **Office365Contact** and Click **OK**.
 1. In the **New ASP.NET Project** dialog
   1. Click **MVC**.
   2. Click **Change Authentication**.
   3. Select **Work And School Accounts**.
   4. Select **Cloud - Single Organization**
-  5. Input **Domain**
+  5. Input **Domain** of your O365 tenancy
   6. Check **Read directory data** under Directory Access Permissions 
   7. Click **OK**.
   8. Uncheck **Host in the cloud**
@@ -37,9 +37,9 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 
     ![](Images/03.png)
 
-1. Update the web project to use SSL by default:
+1. Ensure the web project uses SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
-  1. Change the property **SSL Enabled** to **TRUE**.
+  1. Ensure **SSL Enabled** is set to **TRUE**.
   1. Copy the **SSL URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
@@ -54,6 +54,10 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
+
   1. To sign in, click the **Sign In** link in the upper-right corner.
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
@@ -62,13 +66,10 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 
   1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
-
-> **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
-
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
 ## Exercise 2: Configure Web Application to use Azure AD and OWIN
-In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph API.
+In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph.
 
 1. Grant App Necessary Permissions.
 
@@ -88,7 +89,9 @@ In this exercise you will take the ASP.NET MVC web application you created in th
      ![](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
-  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. Locate the [Lab Files](Lab Files) folder provided with this lab & find the file [`SettingsHelper.cs`](Lab Files/SettingsHelper.cs). Copy the [`SettingsHelper.cs`](Lab Files/SettingsHelper.cs) file to the **Utils** folder.
+  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
+  1. Locate the [\\\O3653\O3653-14 Deep Dive into Office 365 APIs for Contacts\Lab Files](/O3653/O3653-14 Deep Dive into Office 365 APIs for Contacts/Lab Files) folder provided with this lab and find the file [`SettingsHelper.cs`](/O3653/O3653-14 Deep Dive into Office 365 APIs for Contacts/Lab Files/SettingsHelper.cs). Drag the [`SettingsHelper.cs`](/O3653/O3653-14 Deep Dive into Office 365 APIs for Contacts/Lab Files/SettingsHelper.cs) file to the **Utils** folder in the project.
+     
 1. Update **_Layout** file to update **Contact** link:
     1. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
       1. Locate the part of the file that includes a few links at the top of the page... it should look similar to the following code:
@@ -171,7 +174,7 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
         public string address { get; set; }
     }
     ````
-1. Assembly references are not added to the shared projects in Universal Apps, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
+1. Assembly references are not added to the shared projects in ASP.NET MVC, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
 	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
 	1. Enter each line below in the console, one at a time, pressing **ENTER** after each one. NuGet will install the package and all dependent packages:
 	
@@ -195,7 +198,7 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
 	using System.Text;
 	````
 
-    1. **Add** a function named **GetGraphAccessTokenAsync** to the **MyContactRepository** class with the following implementation to get access token for Microsoft Graph API Authentication.
+    1. **Add** a function named **GetGraphAccessTokenAsync** to the **MyContactRepository** class with the following implementation to get access token for Microsoft Graph Authentication.
 		
     ````c#
     public async Task<string> GetGraphAccessTokenAsync()
@@ -415,7 +418,7 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     }
     ````    
 
-At this point you have created the repository that will be used to talk to the Microsoft Graph API.
+At this point you have created the repository that will be used to talk to the Microsoft Graph.
 
 ## Exercise 4: Code the MVC Application
 In this exercise, you will code the **ContactController** of the MVC application to display contacts as well as adding behavior for adding and deleting contacts.
@@ -444,7 +447,7 @@ In this exercise, you will code the **ContactController** of the MVC application
     ````
 
 1. Within the `ContactController` class, add a route handler and view to list all the contacts:
-  1. **Replace** the **Index** method with the following code to read files.
+  1. **Replace** the **Index** method with the following code to read contacts.
       
     ````c#
     [Authorize]
@@ -467,7 +470,7 @@ In this exercise, you will code the **ContactController** of the MVC application
     }
     ````
 
-    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by the Microsoft Graph API.
+    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by the Microsoft Graph.
 
   1. Finally, update the view to display the results.
     1. Within the `ContactController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
@@ -540,6 +543,9 @@ In this exercise, you will code the **ContactController** of the MVC application
         ````  
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
+
+  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
   1. When prompted, log in with your **Organizational Account**.
   1. Once the application is loaded click the **Contacts link** in the top menu bar.
   1. Verify that your application displays Contacts from your Office 365 account.  
@@ -587,7 +593,7 @@ In this exercise, you will code the **ContactController** of the MVC application
     }
     ````
 
-  1. Now you must create a new MVC view for the **Create** action method. You can accomplish this right-clicking on the white space inside the the **Create** action method in the **ContactController.cs** and selecting **Add View**.
+  1. Within the `ContactController` class, right click the `View(myContact)` at the end of the `Create()` method and select **Add View**.
   1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
     + View name: **Create**
     + Template: **Create**
@@ -596,7 +602,7 @@ In this exercise, you will code the **ContactController** of the MVC application
     + Reference script libraries: **unchecked**
     + Use a layout page: **checked**
     + Click **Add**
-  1. Open the **Create.cshtml** file and make sure the code looks like the following code to build a form that will allow a user to create a contact:
+  1. Open the **Create.cshtml** file. Delete all the code in the file and replace it with the following code:
 
     ````html
     @model Office365Contact.Models.MyContact
@@ -670,6 +676,10 @@ In this exercise, you will code the **ContactController** of the MVC application
 
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
+
   1. When Prompted, log in with your **Organizational Account**.  
   1. Once the application is loaded click the **Contacts link** in the top menu bar.
   1. Click the **Create New** link. You should see the form below. Fill the form out to add a new contact and click the **Create button**.
@@ -690,7 +700,7 @@ In this exercise, you will code the **ContactController** of the MVC application
         return View(myContact);
     }
     ````
-  1. Now you must create a new MVC view for the **Details** action method. You can accomplish this right-clicking on the white space inside the the **Details** action method in the **ContactController.cs** and selecting **Add View**.
+  1. Within the `ContactController` class, right click the `View(myContact)` at the end of the `Details()` method and select **Add View**.
   1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
     + View name: **Details**
     + Template: **Details**
@@ -755,6 +765,10 @@ In this exercise, you will code the **ContactController** of the MVC application
     ````
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
+
   1. When Prompted, log in with your **Organizational Account**.
   1. Once the application is loaded click the **Contacts link** in the top menu bar.
   1. Click the **Details** link for one of the contacts and verify the information about the contact is displayed. 
