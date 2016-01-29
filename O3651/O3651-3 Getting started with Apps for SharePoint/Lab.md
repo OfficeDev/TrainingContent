@@ -168,7 +168,7 @@ In this lab you will get hands-on experience working with the new SharePoint Add
 1.	Close the **MyHelloWorldApp** project.
 
 ## Exercise 3: Creating and Debugging a Provider-hosted Add-in
-*In this exercise you will create and test a simple Provider-hosted Add-in. This will give you opportunity to observe the basic differences between developing SharePoint-hosted Add-ins using Visual Studio 2015. Note that this lab will not involve security topics such as Add-in authentication. Instead, you will configure the Add-in to use Internal security so that you can get the Add-in up and running without worrying about how to configure Add-in authenhtication.*
+*In this exercise you will create and test a simple Provider-hosted Add-in. This will give you opportunity to observe the basic differences between developing SharePoint-hosted Add-ins using Visual Studio 2015. Note that this lab will not involve security topics such as Add-in authentication. Instead, you will configure the Add-in to use Internal security so that you can get the Add-in up and running without worrying about how to configure Add-in authentication.*
 
 1.	Launch Visual Studio 2015 as administrator if it is not already running.
 1.	In Visual Studio select **File > New > Project**.
