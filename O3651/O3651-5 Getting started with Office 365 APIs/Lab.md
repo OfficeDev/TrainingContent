@@ -1,11 +1,11 @@
-# Getting started with Microsoft Graph API
-In this lab, you will investigate the Microsoft Graph API.
+# Getting started with Microsoft Graph
+In this lab, you will investigate the Microsoft Graph.
 
 ## Prerequisites
 1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 
 ## Exercise 1: Create & Configure an MVC Web Application
-In this exercise you will create a new MVC web application to utilize the Microsoft Graph API.
+In this exercise you will create a new MVC web application to utilize the Microsoft Graph.
 
 1. In Visual Studio, click **File/New/Project**.
 1. In the **New Project** dialog
@@ -13,6 +13,7 @@ In this exercise you will create a new MVC web application to utilize the Micros
   1. Select **ASP.NET Web Application**.
 
     ![](Images/01.png)
+    > **Note:** Make sure you enter the exact same name for the Visual Studio Project that is specified in these lab instructions.  The Visual Studio Project name becomes part of the namespace in the code.  The code inside these instructions depends on the namespace matching the Visual Studio Project name specified in these instructions.  If you use a different project name the code will not compile unless you adjust all the namespaces to match the Visual Studio Project name you enter when you create the project.
 
   1. Click **OK**.
 1. In the **New ASP.NET Project** dialog
@@ -47,6 +48,9 @@ In this exercise you will create a new MVC web application to utilize the Micros
   
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
   1. To sign in, click the **Sign In** link in the upper-right corner.
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
@@ -59,7 +63,7 @@ In this exercise you will create a new MVC web application to utilize the Micros
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
 ## Exercise 2: Configure Web Application to use Azure AD and OWIN
-In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph API.
+In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph.
 
 
 
@@ -81,7 +85,9 @@ In this exercise you will take the ASP.NET MVC web application you created in th
      ![](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
-  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. Download [SettingsHelper.cs](Lab Files/SettingsHelper.cs?raw=true) and copy that file to the **Utils** folder.
+  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
+  1. Locate the [\\\O3651\O3651-5 Getting started with Office 365 APIs\Lab\Lab Files](/O3651/O3651-5 Getting started with Office 365 APIs/Lab Files) folder provided with this lab and find the [`SettingsHelper.cs`](/O3651/O3651-5 Getting started with Office 365 APIs/Lab Files/SettingsHelper.cs) file.  Drag the [`SettingsHelper.cs`](/O3651/O3651-5 Getting started with Office 365 APIs/Lab Files/SettingsHelper.cs) file to the **Utils** folder in the project.
+      
 1. Update **_Layout** file to add **Calendar** link:
     1. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
       1. Locate the part of the file that includes a few links at the top of the page... it should look similar to the following code:
@@ -112,8 +118,8 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 
         > The **Calendar** link will not work yet... you will add that in the next exercise.
 
-## Exercise 3: Leverage the Microsoft Graph API and SDK
-In this exercise you will add a controller and views that utilize the Microsoft Graph API and SDK.
+## Exercise 3: Leverage the Microsoft Graph and SDK
+In this exercise you will add a controller and views that utilize the Microsoft Graph and SDK.
 
 1. With the authentication process complete, add a new controller that will retrieve events from your calendar:
   1. Right-click the **Models** folder and select **Add/Class**.
@@ -268,6 +274,9 @@ In this exercise you will add a controller and views that utilize the Microsoft 
 
   1. Save your changes.
 1. Run the application by pushing **F5**.
+
+ > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
   1. You're now prompted to login (if you're not already logged in). Note that if you're not prompted to login immediately, click **Sign in** in the upper-right corner on the homepage.
   2. When prompted, login using your **Organizational Account**.
   3. If prompted, trust the permissions requested by the application.
@@ -275,4 +284,4 @@ In this exercise you will add a controller and views that utilize the Microsoft 
   5. Verify that events appear in the web application.
    
 
-**Congratulations! You have completed your first Microsoft Graph API application.**
+**Congratulations! You have completed your first Microsoft Graph application.**
