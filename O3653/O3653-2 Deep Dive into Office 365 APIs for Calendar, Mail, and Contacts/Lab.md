@@ -1,5 +1,5 @@
-# Microsoft Graph APIs for Mail
-In this lab, you will use Microsoft Graph APIs to program against an Office 365 mailbox as part of an ASP.NET MVC5 application.
+# Microsoft Graph for Mail
+In this lab, you will use Microsoft Graph to program against an Office 365 mailbox as part of an ASP.NET MVC5 application.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. 
@@ -26,6 +26,9 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
     
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
   1. To sign in, click the **Sign In** link in the upper-right corner.
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
@@ -354,7 +357,7 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     }
     ```
 
-At this point you have created the repository that will be used to talk to Microsoft Graph API.
+At this point you have created the repository that will be used to talk to Microsoft Graph.
 
 ## Exercise 3: Code the MVC Application
 In this exercise, you will code the **MailController** of the MVC application to display messages as well as add behavior for sending and deleting messages.
@@ -396,7 +399,7 @@ In this exercise, you will code the **MailController** of the MVC application to
 
      }
      ```
-     > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 10, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by Microsoft Graph API.
+     > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 10, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by Microsoft Graph.
 
   2. Update the view to display the messages list.
     1. Within the `MailController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
@@ -487,6 +490,9 @@ In this exercise, you will code the **MailController** of the MVC application to
 
     3. Test the new view.
        1. In **Visual Studio**, hit **F5** to begin debugging.
+
+	    > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
        2. When prompted, log in with your **Organizational Account**.
        3. Once the application has initialized and displays the home page, click the **Messages** menu option and verify that your application displays Mail from your Office 365 account.  
          ![](Images/10.png)
@@ -552,6 +558,9 @@ In this exercise, you will code the **MailController** of the MVC application to
 
   3. Test the new view:
      1. In **Visual Studio**, press **F5** to begin debugging.
+
+	  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
      2. When prompted, log in with your **Organizational Account**.
      3. On the **Messages** list, click the **Details** menu option.  
         ![](Images/11.png)
@@ -574,6 +583,9 @@ In this exercise, you will code the **MailController** of the MVC application to
 
   2. Test **Delete** function:
     1. In **Visual Studio**, press **F5** to begin debugging.
+
+	 > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
     2. When prompted, log in with your **Organizational Account**.
     3. On the **Messages** list, the message can be deleted by clicking the **Delete** menu option.
     4. Close the browser window, terminate the debugging session, and return to Visual Studio.
@@ -676,6 +688,9 @@ In this exercise, you will code the **MailController** of the MVC application to
          ```
   3. Test **Send** view:
      1. In **Visual Studio**, press **F5** to begin debugging.
+
+	  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
      2. When prompted, log in with your **Organizational Account**.
      3. In the **Messages** list, create a new message by clicking the **Create New Message** menu option.
         ![](Images/12.png)
