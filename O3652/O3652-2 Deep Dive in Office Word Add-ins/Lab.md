@@ -4,6 +4,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 **Prerequisites:**
 1. You must have Visual Studio 2015 & Update 1 installed.
 1. You must have Office 2016 Preview installed which you can obtain from here: https://products.office.com/en-us/office-2016-preview
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 ## Exercise 1: Creating the ContentWriter Add-in Office Project
 *In this exercise you will create a new Office Add-in project in Visual Studio so that you can begin to write, test and debug an Office Word Add-in. The user interface of the Office Add-in you will create in this lab will not be very complicated as it will just contain HTML buttons and JavaScript command handlers.*
@@ -190,6 +191,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 	````
 
 21. Save and close **Home.css**.
+21. Right click the ContentWriter project in the Visual Studio Solution and select **Set as Startup Project**.
 22. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2016 and you should see your Office Add-in in the task pane on the right side of a new Word document as shown in the following screenshot.
 
 	![](Images/Fig07.png)
@@ -365,7 +367,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 ## Exercise 3: Writing Content to a Word Document using Office Open XML
 *In this exercise you will continue working on the Visual Studio solution for the ContentWriter Add-in you worked on in the previous exercise. You will extend the Add-in's capabilities by adding JavaScript code to insert content into the active Word document using Open Office XML.*
 
-1. Look inside the folder for this lab and locate the child folder named **Starter Files**. You should see that this folder contains four XML files as shown in the following screenshot.
+1. Look inside the folder for this lab and locate **Starter Files** folder within this lab located at [\\\O3652\O3652-2 Deep Dive in Office Word Add-ins](.). You should see that this folder contains four XML files as shown in the following screenshot.
 
 	![](Images/Fig11.png)
 
