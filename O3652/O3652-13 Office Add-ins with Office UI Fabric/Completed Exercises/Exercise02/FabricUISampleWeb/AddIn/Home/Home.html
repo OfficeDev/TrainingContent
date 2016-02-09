@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title></title>
+    <script src="../../Scripts/jquery-2.2.0.js" type="text/javascript"></script>
+
+    <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.min.css">
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css">
+
+    <script src="../../samples/components/SearchBox/Jquery.SearchBox.js"></script>
+    <script src="../../samples/components/Pivot/Jquery.Pivot.js"></script>
+    <script src="../../samples/components/Dropdown/Jquery.Dropdown.js"></script>
+    <script src="../../samples/components/ListItem/Jquery.ListItem.js"></script>
+    <!-- To enable offline debugging using a local reference to Office.js, use:                        -->
+    <!-- <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+    <!-- <script src="../../Scripts/Office/1/office.js" type="text/javascript"></script>  -->
+
+    <link href="Home.css" rel="stylesheet" type="text/css" />
+    <script src="Home.js" type="text/javascript"></script>
+</head>
+<body class="ms-font-m">
+    <div id="header">
+        <div class="ms-Grid">
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-u-sm4 ms-u-md4 ms-u-lg4"><img src="/Images/contoso_logo.png" alt="Logo" height="50" width="92"></div>
+                <div class="ms-Grid-col ms-u-sm8 ms-u-md8 ms-u-lg8"> <div class="ms-font-xl" style="line-height:2em">Citations</div></div>
+            </div>
+        </div>  
+    </div>
+    <div id="content">
+        <!-- search box -->
+        <center>
+            <div class="ms-SearchBox">
+                <label class="ms-SearchBox-label"><i class="ms-SearchBox-icon ms-Icon ms-Icon--search"></i>Search publications</label>
+                <input class="ms-SearchBox-field">
+                <button class="ms-SearchBox-closeButton"><i class="ms-Icon ms-Icon--x"></i></button>
+            </div>
+        </center> 
+        <div id="navigation">
+            <ul class="ms-Pivot">
+                <li class="ms-Pivot-link is-selected">All Publications</li>
+                <li class="ms-Pivot-link">My Library</li>
+                <li class="ms-Pivot-link ms-Pivot-link--overflow">
+                    <i class="ms-Pivot-ellipsis ms-Icon ms-Icon--ellipsis"></i>
+                </li>
+            </ul>
+        </div>
+        <!-- filter -->
+        <div>
+            <div class="ms-font-m">Sort by</div>
+            <div class="ms-Dropdown" tabindex="0" style="width:80%">
+                <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--caretDown"></i>
+                <select class="ms-Dropdown-select">
+                    <option>Year</option>
+                    <option>Publisher</option>
+                    <option>Author</option>
+                </select>
+            </div>
+        </div>
+        <!-- list -->
+        <ul class="ms-List">
+        <div class="ms-ListItem is-selected is-selectable">
+            <span class="ms-ListItem-primaryText">Lezama Humberto</span>
+            <span class="ms-ListItem-secondaryText">Customizing CRM</span>
+            <span class="ms-ListItem-tertiaryText">Contoso Publications</span>
+            <span class="ms-ListItem-metaText">2015</span>
+            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
+            <div class="ms-ListItem-actions">
+            </div>
+        </div>
+
+        <div class="ms-ListItem is-selected is-selectable">
+            <span class="ms-ListItem-primaryText">Lewis, Lezama et al</span>
+            <span class="ms-ListItem-secondaryText">Electrochemical Studies</span>
+            <span class="ms-ListItem-tertiaryText">Contoso Publications</span>
+            <span class="ms-ListItem-metaText">2013</span>
+            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
+            <div class="ms-ListItem-actions">
+            </div>
+        </div>
+
+        <div class="ms-ListItem is-selectable">
+            <span class="ms-ListItem-primaryText">Jimenez, Lezama et al</span>
+            <span class="ms-ListItem-secondaryText">Office Extensibilit</span>
+            <span class="ms-ListItem-tertiaryText">Contoso Publications</span>
+            <span class="ms-ListItem-metaText">2012</span>
+            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
+            <div class="ms-ListItem-actions">
+            </div>
+        </div>
+
+        <div class="ms-ListItem is-selectable">
+            <span class="ms-ListItem-primaryText">Davids Tristan</span>
+            <span class="ms-ListItem-secondaryText">Word Programming</span>
+            <span class="ms-ListItem-tertiaryText">Contoso Publications</span>
+            <span class="ms-ListItem-metaText">2010</span>
+            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
+            <div class="ms-ListItem-actions">
+            </div>
+        </div>
+        </ul>
+        <!-- button -->
+        <center>
+            <button class="ms-Button" id="set-data">
+                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                <span class="ms-Button-label">Insert Reference</span>
+                <span class="ms-Button-description">Insert Reference into document</span>
+            </button>
+        </center>
+
+        <div>
+            <p id="display-data"></p>
+        </div>
+    </div>
+</body>
+</html>
