@@ -4,11 +4,11 @@
 >
 >[O3657-1 Creating a SharePoint-hosted Add-in using Office UI Fabric and AngularJS](/O3657/O3657-1)
 >
->[O3657-2 Creating Client-Side Only Apps with Angular, ADAL & Microsoft Graph API](/O3657/O3657-2)
+>[O3657-2 Creating Client-Side Only Apps with Angular, ADAL & Microsoft Graph API](/O3657/O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs)
 >
->[O3657-3 Building Office Apps for Outlook Using Angular and Material Design](/O3657/O3657-3)
+>[O3657-3 Building Office Apps for Outlook Using Angular and Material Design](/O3657/O3657-3 Building Office Apps for Outlook Using Angular and Material Design)
 >
->[O3657-4 Building Office Apps for Excel Using Angular and Material Design](/O3657/O3657-4)
+>[O3657-4 Building Office Apps for Excel Using Angular and Material Design](/O3657/O3657-4 Building Office Apps for Excel Using Angular and Material Design)
 
 In this lab you will get hands-on experience working with the new Office Add-in development model. Through the exercises in this lab you will learn how to create and test an Office Add-in that runs inside Microsoft Word.
 
