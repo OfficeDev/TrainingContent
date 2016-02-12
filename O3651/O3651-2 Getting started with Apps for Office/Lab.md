@@ -1,5 +1,12 @@
 # Getting Started with Office Add-in Development
 
+> **Note:** You can create Office Add-ins with or without Visual Studio 2015.  This lab describes how to make Office add-ins with Visual Studio 2015.  To create Office Add-ins without Visual Studio 2015 please see the following training modules:
+>
+>[O3657-1 Creating a SharePoint-hosted Add-in using Office UI Fabric and AngularJS](../O3657/O3657-1)
+>[O3657-2 Creating Client-Side Only Apps with Angular, ADAL & Microsoft Graph API](../O3657/O3657-2)
+>[O3657-3 Building Office Apps for Outlook Using Angular and Material Design](../O3657/O3657-3)
+>[O3657-4 Building Office Apps for Excel Using Angular and Material Design](../O3657/O3657-4)
+
 In this lab you will get hands-on experience working with the new Office Add-in development model. Through the exercises in this lab you will learn how to create and test an Office Add-in that runs inside Microsoft Word.
 
 **Prerequisites:** Before you can start this lab, you must have installed Office 2013 with Service Pack 1, Visual Studio 2015 with Update 1, and Microsoft Office Developer Tools for Visual Studio 2015 ENU 14.0.23513 on your development workstation.
