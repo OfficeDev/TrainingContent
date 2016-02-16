@@ -5,6 +5,7 @@ In this lab you will explore the Microsoft Graph using a Windows Store App.
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 1. You must have Visual Studio 2015.
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 ## Exercise 1: Use the Microsoft Graph in a Native Client Application and Configure the Starter Project
 In this exercise, you will use the Microsoft Graph within a Windows 10 application. 
@@ -40,14 +41,14 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 
 > This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
-1. Locate the starter project in the Starter project folder within this lab located at \<repo root>\O3653\O3653-1\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Starter\MyFilesWin10. Open the Visual Studio solution **MyFilesWin10.sln** in Visual Studio 2015.
+1. Locate the starter project in the Starter project folder within this lab located at [\\\O3653\O3653-1\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Starter](Lab/Starter). Open the Visual Studio solution **MyFilesWin10.sln** in Visual Studio 2015.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Enter your Client ID.
 ![](Images/7.png)
 
 ## Exercise 2: Add class to implement authentication and represent the data returned from the Microsoft Graph.
 In this exercise, you will add an authentication class to get access token for Microsoft Graph. Then use this access token to get my files.
 
-*Note: The code listed in this lab can be found in the [\\\O3653\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Labfiles](/O3653/O3653-1 Deep Dive into Azure AD with the Office 365 APIs/Lab/Labfiles) folder.*
+*Note: The code listed in this lab can be found in the [\\\O3653\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Labfiles](Lab/Labfiles) folder.*
 
 1. Assembly references are not added to the shared projects in Universal Apps, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
 	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
@@ -60,7 +61,7 @@ In this exercise, you will add an authentication class to get access token for M
 1. Add a class to facilitate the authorization to Azure / Office 365:
 	1. In **Solution Explorer**, right-click on the **MyFilesWin10** project and choose **Add/New Item...**
 	1. In the **Add New Item** dialog, select **Class** and enter the name **AuthenticationHelper**.
-	1. Locate the [\\\O3653\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Labfiles](/O3653/O3653-1 Deep Dive into Azure AD with the Office 365 APIs/Lab/Labfiles) folder provided with this lab & find the file [`AuthenticationHelper.cs`](/O3653/O3653-1%20Deep%20Dive%20into%20Azure%20AD%20with%20the%20Office%20365%20APIs/Lab/Labfiles/AuthenticationHelper.cs). Copy the contents of the [`AuthenticationHelper.cs`](/O3653/O3653-1%20Deep%20Dive%20into%20Azure%20AD%20with%20the%20Office%20365%20APIs/Lab/Labfiles/AuthenticationHelper.cs) file and paste in into the AuthenticationHelper.cs class you just created in Visual Studio, overwriting all the content in the class Visual Studio generated.
+	1. Locate the [\\\O3653\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Labfiles](Lab/Labfiles) folder provided with this lab & find the file [`AuthenticationHelper.cs`](/O3653/O3653-1%20Deep%20Dive%20into%20Azure%20AD%20with%20the%20Office%20365%20APIs/Lab/Labfiles/AuthenticationHelper.cs). Copy the contents of the [`AuthenticationHelper.cs`](/O3653/O3653-1%20Deep%20Dive%20into%20Azure%20AD%20with%20the%20Office%20365%20APIs/Lab/Labfiles/AuthenticationHelper.cs) file and paste in into the AuthenticationHelper.cs class you just created in Visual Studio, overwriting all the content in the class Visual Studio generated.
     1. Update the login redirect URI for the application that is sent to Azure when logging in. Locate the line that looks like this:
 
 		````c#

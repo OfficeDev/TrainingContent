@@ -2,7 +2,11 @@
 
 In this lab you will get hands-on experience working with Office UI Fabric and AngularJS by developing a SharePoint-hosted Add-in which plays the role of a customer relationship management system (CRM).
 
-**Prerequisites**: Before you can start this lab, you must have an Office 365 developer site. You must also have Visual Studio 2015 installed with Update 1. If you do not yet have an Office 365 developer site, you should step through the lab exercises for module 7 in which you will sign-up with Microsoft to create a new Office 365 developers site.
+## Prerequisites: 
+
+1. Before you can start this lab, you must have an Office 365 developer site. You must also have Visual Studio 2015 installed with Update.
+1. If you do not yet have an Office 365 developer site, you should step through the lab exercises for module 7 in which you will sign-up with Microsoft to create a new Office 365 developers site.
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 ## Exercise 1: Configuring a SharePoint-hosted Add-in with Office UI Fabric and AngularJS
 1. Using the browser, navigate to your Office 365 developer site and log on using your credentials. The purpose of this step is to ensure your developer site is accessible before you begin to work with Visual Studio.
@@ -381,7 +385,7 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
 6. Click the **Finish** button in the **SharePoint Customization Wizard** to create the new project item for the list.  Inside the **Lists** folder, you should be able to see a **Customers** folder which contains an element manifest named **elements.xml**.  
 ![](Images/Fig17.png)
 7. In this step you will modify the **elements.xml** so that the **Customers** list will be created with a pre-populated set of customer items.
-	1.  Using Windows Explorer, look inside the **Starter Files** folder for this lab and locate the file named **Customers_Elements.xml.txt**.
+	1.  Using Windows Explorer, look inside the **Starter Files** folder within this lab located at [\\\O3657\O3657-1](.) and locate the file named **Customers_Elements.xml.txt**.
 	2.  Open **Customers_Elements.xml.txt** in NOTEPAD and copy all its contents into the Windows clipboard.
 	3.  Return to Visual Studio and make sure that the **elements.xml** file for the **Customers** list is open in an editor window.
 	4.  Delete all the existing content from **elements.xml**.

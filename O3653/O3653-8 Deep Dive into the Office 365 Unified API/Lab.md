@@ -1,5 +1,5 @@
-# Deep Dive into the Office 365 Microsoft Graph API
-In this lab, you will use the Microsoft Graph API to access & program against Office 365 data using both the raw REST API as well as using Windows 10 application for the Microsoft Graph API.
+# Deep Dive into the Office 365 Microsoft Graph
+In this lab, you will use the Microsoft Graph to access & program against Office 365 data using both the raw REST API as well as using Windows 10 application for the Microsoft Graph.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
@@ -7,9 +7,10 @@ In this lab, you will use the Microsoft Graph API to access & program against Of
 1. You must have some files within your Office 365 OneDrive for Business. 
 1. You must have Fiddler (http://www.telerik.com/fiddler) or another HTTP debugging proxy tool installed to complete exercise 2.
 1. You must have Visual Studio 2015 to complete exercise 3. 
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
-## Exercise 1: Create an Azure AD Application with Necessary Permissions for the Microsoft Graph API 
-In this exercise, you will create an Azure AD application using the Azure Management portal and grant the application the necessary permissions to work with the Microsoft Graph API.
+## Exercise 1: Create an Azure AD Application with Necessary Permissions for the Microsoft Graph 
+In this exercise, you will create an Azure AD application using the Azure Management portal and grant the application the necessary permissions to work with the Microsoft Graph.
 
 1. Within a browser, navigate to the **Azure Management Portal**: https://manage.windowsazure.com
 1. Enter the email address and password of an account that have permissions to manage the directory of the Azure AD tenant (e.g. admin@sample.onmicrosoft.com).
@@ -20,7 +21,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
-1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph API App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
+1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
 1. In the **App Properties** page, enter a **SIGN-ON URL** of **https://dev.office.com**
 1. Enter an **App ID Uri** of **http://[your-O365-tenant-id].onmicrosoft.com/MicrosoftGraphApiApp**.
 
@@ -41,14 +42,15 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 	![](Images/Figure03.png)
 
-### Grant App Necessary Permissions to the Microsoft Graph API
+### Grant App Necessary Permissions to the Microsoft Graph
 1. Scroll down to the **permissions to other applications** section. 
 	1. Click the **Add Application** button.
-	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Microsoft Graph API** option.
+	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Microsoft Graph** option.
 	1. Click the **CHECK** icon in the lower right corner.
-	1. For the new **Microsoft Graph API** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
+	1. For the new **Microsoft Graph** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
 		- Read files that the user selects
 		- Read user files and files shared with user
+		- Read all groups
 		- Read all users' full profiles
 		- Sign in and read user profile
 	1. Click the **Save** button at the bottom of the page.
@@ -61,11 +63,11 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 	Copy the GUID from any of the URLs and save them to a text file, just like you did for the client ID & key earlier, as you will need this later. 
 
-In this exercise you created an Azure AD application using the Azure Management portal and granted the application the necessary permissions to work with the Microsoft Graph API.
+In this exercise you created an Azure AD application using the Azure Management portal and granted the application the necessary permissions to work with the Microsoft Graph.
 
 
-## Exercise 2: Use the Raw REST API Interface of the Microsoft Graph API
-In this exercise, you will use the raw REST API interface of the Microsoft Graph API to interact with the different capabilities. In order to call the Microsoft Graph API, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
+## Exercise 2: Use the Raw REST API Interface of the Microsoft Graph
+In this exercise, you will use the raw REST API interface of the Microsoft Graph to interact with the different capabilities. In order to call the Microsoft Graph, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
 
 ### Authenticate & Obtain an Authorization Code from Azure AD 
 Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.
@@ -93,8 +95,8 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
 1. With the session selected in Fiddler, click the **Inspector** tab and then click the **WebForms** button. This will show a list of all the values submitted to the current page.
 1. Copy the value for the **code** to the text file; this is the authorization code that can be used to obtain an access token.
 
-## Obtain an OAuth2 Access Token for the Microsoft Graph API
-Use the Azure AD token endpoint to obtain an access token for the Microsoft Graph API using the authorization code you just obtained.
+## Obtain an OAuth2 Access Token for the Microsoft Graph
+Use the Azure AD token endpoint to obtain an access token for the Microsoft Graph using the authorization code you just obtained.
 
 1. Take the following URL and replace the `{tenant-id}` token with the values obtained in the previous exercise:
 
@@ -137,10 +139,10 @@ Use the Azure AD token endpoint to obtain an access token for the Microsoft Grap
 
 	![](Images/Figure07.png)  
 
-### Issue Requests to the Microsoft Graph API's REST Endpoint
-Now that you have an access token, create a few requests to the Microsoft Graph API's REST endpoint.
+### Issue Requests to the Microsoft Graph REST Endpoint
+Now that you have an access token, create a few requests to the Microsoft Graph REST endpoint.
 
-1. First get information about the currently logged in user from the Microsoft Graph API. Within Fiddler's **Composer** tab, do the following:
+1. First get information about the currently logged in user from the Microsoft Graph. Within Fiddler's **Composer** tab, do the following:
 	1. Set the HTTP action to **GET**.
 	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/me**
 	1. Set the HTTP headers to the following values, replacing the `{access-token}` token to the actual token you just obtained in the last step:
@@ -172,11 +174,11 @@ Now that you have an access token, create a few requests to the Microsoft Graph 
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with a error message of *Insufficient privileges to complete the operation.*
 
-In this exercise, you used the raw REST API interface of the Microsoft Graph API to interact with the different capabilities. 
+In this exercise, you used the raw REST API interface of the Microsoft Graph to interact with the different capabilities. 
 
 
-## Exercise 3: Use the Microsoft Graph API in an Native Client Application 
-In this exercise, you will use the Microsoft Graph API's within a Windows 10 application.
+## Exercise 3: Use the Microsoft Graph in an Native Client Application 
+In this exercise, you will use the Microsoft Graph within a Windows 10 application.
 
 ### Create a Native Client Application in Azure AD
 *Your custom Windows 10 application must be registered as an application in Azure AD in order to work, so we will do that now.*
@@ -187,12 +189,12 @@ In this exercise, you will use the Microsoft Graph API's within a Windows 10 app
 1. Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click **Applications** in the toolbar. 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
-1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph API Windows App** and choose the type **Native Client Application**. Click the arrow to advance to the next page of the wizard.
+1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph Windows App** and choose the type **Native Client Application**. Click the arrow to advance to the next page of the wizard.
 1. Next, set the **Redirect URI** of the application to **http://localhost/microsoftgraphapi** and click the check to save your changes.
 1. Once the application has been created, click the **Configure** link the top navigation menu.
 1. Find the **Client ID** on the **Configure** page & copy it for later use.
 1. Scroll to the bottom of the page to the section **Permissions to Other Applications**.
-1. Click the **Add Application** button & select the **Office 365 Microsoft Graph API**, then click the check to add it to your application.
+1. Click the **Add Application** button & select the **Office 365 Microsoft Graph**, then click the check to add it to your application.
 1. Select the **Delegated Permissions: 0** control and add the following permissions to the application:
 	- Read files that the user selects
 	- Read user files and files shared with user
@@ -202,9 +204,9 @@ In this exercise, you will use the Microsoft Graph API's within a Windows 10 app
 1. Click the **Save** icon in the bottom menu.
 
 ### Prepare the Visual Studio Solution
-Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph API's.
+Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph.
 
-1. Locate the [Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph API using the native for the Microsoft Graph API. Open the solution **O365-Win-Profile** in Visual Studio.
+1. Locate the [\\\O3653\O3653-8 Deep Dive into the Office 365 Unified API\Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph using the native for the Microsoft Graph. Open the solution **O365-Win-Profile** in Visual Studio.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Paste in the GUID Client ID of the Azure AD application you copied previously in this XML element.
 1. Update the login redirect URI for the application that is sent to Azure when logging in. Open the file **AuthenticationHelper.cs** and locate the line that looks like this:
 
@@ -215,8 +217,8 @@ Next, take an existing starter project and get it ready to write code that will 
 	Set the value of that string **http://localhost/microsoftgraphapi**.
 
 
-### Update the Application to Retrieve Data via the Microsoft Graph API
-*Now you will update the project's codebase to retrieve data from the Microsoft Graph API to display the values within the Windows 10 application.*
+### Update the Application to Retrieve Data via the Microsoft Graph
+*Now you will update the project's codebase to retrieve data from the Microsoft Graph to display the values within the Windows 10 application.*
 
 1. Open the file **UserOperations.cs**.
 1. Update the **GetUsersAsync** function to get users from your Azure AD directory:
@@ -379,7 +381,7 @@ Next, take an existing starter project and get it ready to write code that will 
 1. Select one of the users and you will see it get populated with data from the Azure AD directory.
 
 
-In this exercise, you used the Microsoft Graph API's within Windows 10 application.
+In this exercise, you used the Microsoft Graph within Windows 10 application.
 
 
-Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph API and used REST API for the Microsoft Graph API!
+Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph and used REST API for the Microsoft Graph!

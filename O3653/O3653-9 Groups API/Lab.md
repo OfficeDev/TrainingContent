@@ -3,9 +3,11 @@ In this lab, you will use the Microsoft Graph to access and program against Offi
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-2. You must have access to an Exchange mailbox within an Office 365 developer tenancy.
-3. You must have Fiddler (http://www.telerik.com/fiddler) or another HTTP debugging proxy tool installed to complete exercise 3.
-4. You must have Visual Studio 2015 with Update 1 installed.
+1. You must have access to an Exchange mailbox within an Office 365 developer tenancy.
+1. You must have Fiddler (http://www.telerik.com/fiddler) or another HTTP debugging proxy tool installed to complete exercise 3.
+1. You must have Visual Studio 2015 with Update 1 installed.
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
+
 
 ## Exercise 1: Create and Interact with Office 365 Groups using the Browser
 In this exercise, you will use the browser to create and interact with Office 365 Groups. You'll want to ensure you have a few users in your Office 365 tenant that you can use. For this lab we've created the following users ahead of time:
@@ -41,7 +43,7 @@ Using these accounts, create and interact with some groups using the web interfa
 
       ![](Images/Figure27.png)	       
                
-   1. Select the **contoso.png** file in the [\\\O3653\O3653-9 Deep dive into the Office 365 Groups API\Lab Files](/O3653/O3653-9 Deep dive into the Office 365 Groups API/Lab Files) folder within this lab as the new icon for the group.
+   1. Select the **contoso.png** file in the [\\\O3653\O3653-9 Groups API\Lab Files](Lab Files) folder within this lab as the new icon for the group.
    1. Click **Save** button. 
 1. With the icon set, start up a conversation in the group that other members can participate in.
    1. Click the **Start a group conversation** link in the middle-pane and enter the following message:
@@ -304,7 +306,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
 
 5. Click the **Save** button at the bottom of the page.
 
-7. Locate the [\\\O3653\O3653-9 Deep dive into the Office 365 Groups API\Starter Files](/O3653/O3653-9 Deep dive into the Office 365 Groups API/Starter Files) folder that contains a starter project.  The starter project is an ASP.NET MVC5 web application that you will update to call the Microsoft Graph.
+7. Locate the [\\\O3653\O3653-9 Groups API\StarterFiles](StarterFiles) folder that contains a starter project.  The starter project is an ASP.NET MVC5 web application that you will update to call the Microsoft Graph.
 8. Open the **Office365Group** Visual Studio solution as an administrator.
 9. Open the **Web.config** file.
 
