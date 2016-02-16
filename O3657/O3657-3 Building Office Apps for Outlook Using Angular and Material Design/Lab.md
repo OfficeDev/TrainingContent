@@ -1,31 +1,50 @@
-# Creating Office Apps for Outlook
-In this lab, you will create an Office App and test it within the Outlook Web client. Once the app is finished it will run within all other Outlook clients on desktop, mobile and web clients where Office Apps for Outlook are supported.
+# Creating Office Add-ins for Outlook
+In this lab, you will create an Office Add-in and test it within the Outlook Web client. Once the add-in is finished it will run within all other Outlook clients on desktop, mobile and web clients where Office Add-ins for Outlook are supported.
 
-The app that you will build in this application will be installed into Outlook's and be displayed when reading an email. It will take all words within the email that start with an upper case letter and search for them within a fake customer database for possible matches. The matches will then be shown to the user which they can click on to see additional details on the possible customer match.
+The add-in that you will build in this application will be installed into Outlook's and be displayed when reading an email. It will take all words within the email that start with an upper case letter and search for them within a fake customer database for possible matches. The matches will then be shown to the user which they can click on to see additional details on the possible customer match.
 
 ## Prerequisites
 1. You must have an Office 365 tenant complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
-1. You must have [node.js](http://nodejs.org/) installed on your development environment. You can get node.js from the [downlods](http://nodejs.org/download/) section on their site. Certain [node.js packages](https://www.npmjs.org) available via [NPM](https://www.npmjs.org) will be used in creating this Office App.
+1. You must have [node.js](http://nodejs.org/) installed on your development environment. You can get node.js from the [downloads](https://nodejs.org/en/download/) section on their site. Certain [node.js packages](https://www.npmjs.org) available via [NPM](https://www.npmjs.org) will be used in creating this Office Add-in.
 1. You will need a text editor for this lab. The editor **[Brackets](http://www.brackets.io)** is used in this lab.
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
+5. You will also need to install Git with the ability to execute from the command line.  
+6. Additionally, you may need to add Git to your computer's PATH environment variable.
+7. Ensure that **bower** is installed in your project folder.  To install bower, run
+  ````
+    $ npm install bower
+    ````
 
 ## Exercise 1: Configure the Starter Project
 In this exercise, you will examine and customize the **Starter Project** for the remainder of the lab.
-
+  
+  The scaffolding of this starter project is created by [YO OFFICE](https://github.com/OfficeDev/generator-office). It's a template for [Yeoman](http://yeoman.io) generator. To simple this demo, some places were changed. For instance,remove default angular view form **index.html**.
+  
 1. Launch **Brackets**.
 1. Within **Brackets**, use the menu to select **File &raquo; Open Folder**.
-1. Locate the [Starter Project](Starter Project) folder within this lab in the dialog, select it and click **Open**.
+1. Locate the [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project) folder within this lab in the dialog, select it and click **Open**.
 1. Within Brackets, open the `bower.json` file. This file contains all the [bower](http://www.bower.io) packages that will be used in the application, found in the **dependencies** section of the file:
-  1. **microsoft.office.js**: Office Apps related assets provided by Microsoft.
-  1. **angular-***: Various Angular modules.
-  1. **angular-material**: The Angular implementation of Material Design that will be used to easily style the application.
+  ````javascript
+  "dependencies": {
+    "microsoft.office.js": "*",
+    "angular": "~1.4.4",
+    "angular-route": "~1.4.4",
+    "angular-sanitize": "~1.4.4",
+    "angular-material": "~1.0.1"
+  }  
+  ````
+  
+  >1. **microsoft.office.js**: Office Add-ins related assets provided by Microsoft.
+  >1. **angular-***: Various Angular modules.
+  >1. **angular-material**: The Angular implementation of Material Design that will be used to easily style the application.
 
 1. Download all dependent node & bower packages listed in the `package.json` & `bower.json` files. The NPM `package.json` file has a script in it that will automatically run the bower download.
   1. Open a **Terminal** window (on OS X) or **Command Prompt** (on Windows).
-  1. Navigate to the root folder of the **Starter Project** in the Terminal window.
+  1. Navigate to the root folder of the **Starter Project** located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project) in the Terminal window.
   
     ![](Images/terminal01.png)  
   
-  1. Run the following command to download all packages. This will create a new folders `node_modules` & `bower_components` in the **Starter Project**.
+  1. Run the following command to download all packages. This will create the new folder `node_modules`in the **Starter Project** located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project).
 
     ````
     $ npm install
@@ -33,95 +52,57 @@ In this exercise, you will examine and customize the **Starter Project** for the
 
     ![](Images/terminal02.png)    
 
-1. Next, you must create and install a self-signed certificate on your machine. If you have already done this for another project, you don't have to repeat it. Otherwise, **[follow these instructions](self-signed-cert-osx.md)**.
+6. At the prompt to choose a suitable version of angular, select **2**.
 
-1. Now test to make sure the sample app is working.
-  1. From the from the command line, ensure you are in the root of the **Starter Project** folder and enter the following command to start the web server:
+    ![](Images/choose-angular-version.png)
+
+1. Now test to make sure the sample add-in is working.
+  1. From the command line, ensure you are in the root of the **Starter Project** folder located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project) and enter the following command to start the web server:
 
     ````
-    $ node server.js
+    $ gulp serve-static
     ````
 
-  1. Open a browser and navigate to **https://localhost:8433**. Ignore any certificate warnings & errors the browser may display.
+  1. Open a browser and navigate to **https://localhost:8443/appread/index.html**. Ignore any certificate warnings & errors the browser may display.
   1. You should see a page that displays a single rendered HTML `<h1>` tag: **Customer Lookup**.
+  
+    ![](Images/ssl-no-trusted.png)
+  1. This HTTPS server used a self-signed SSL cert. Follow this [document](https://github.com/OfficeDev/generator-office/blob/master/docs/trust-self-signed-cert.md) to add self-signed certificate as trusted root certificate. 
+  
+    ![](Images/ssl-trusted.png)
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 
-In this exercise you downloaded all external package dependencies and tested the local web server that will host the Office App for Outlook.
+In this exercise you downloaded all external package dependencies and tested the local web server that will host the Office Add-in for Outlook.
 
-## Exercise 2: Create Skeleton of an Office App for Outlook
-In this exercise you will, deploy & test a skeleton implementation of the Office App for Outlook.
+## Exercise 2: Create Skeleton of an Office Add-in for Outlook
+In this exercise you will deploy & test a skeleton implementation of the Office Add-in for Outlook.
 
-1. Update the app manifest that will be used to install the app into your Outlook instance.
+1. Update the add-in manifest that will be used to install the add-in into your Outlook instance.
 
-  > NOTE: Refern to MSDN for full documentation on an app's manifest file: **[MSDN - Mail App Manifests](https://msdn.microsoft.com/EN-US/library/office/dn642483.aspx)**
+  > NOTE: Refer to MSDN for full documentation on an add-in's manifest file: **[MSDN - Outlook add-in manifests](https://msdn.microsoft.com/EN-US/library/office/dn642483.aspx)**
 
-  1. Open the `CustomerLookupOutlookApp.xml` file in the **Starter Project**'s root folder.
-  1. Locate the `<OfficeApp>` element. Set the attribute `xsi:type` to `xsi:type="MailApp"` to define this as a mail app.
+  1. Open the [`manifest-customer-lookup.xml`](Starter Project/manifest-customer-lookup.xml) file in the [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project)'s root folder. It's generated by [YO OFFICE](https://github.com/OfficeDev/generator-office).
+  1. Locate the `<OfficeApp>` element. Set the attribute `xsi:type` to `xsi:type="MailApp"` to define this as a mail add-in.
 
-    > The other types of apps are content and task pane apps.
+    > The other types of add-ins are content and task pane add-ins.
   
-  1. Locate the element `<ProviderName>` and set it to your name. This is the name of the author of the app:
+  1. Locate the element `<ProviderName>` and set it to your name. This is the name of the author of the add-in:
 
     ````xml
     <ProviderName>OfficeDev</ProviderName>
     ````
 
-  1. Locate the `<DisplayName>`, `<Description>` and `<IconUrl>` elements. These are used in the marketing and branding of the app. 
+  1. Locate the `<DisplayName>`, `<Description>` and `<HighResolutionIconUrl>` elements. These are used in the marketing and branding of the add-in. 
   
     Update them to similar values which follows:
 
     ````xml
     <DisplayName DefaultValue="Customer Lookup"/>
-    <Description DefaultValue="This app looks at the names in the body of the email for matching customers."/>
-    <IconUrl DefaultValue="https://localhost:8433/content/OfficeDev.png"/>
+    <Description DefaultValue="This add-in looks at the names in the body of the email for matching customers."/>
+    <HighResolutionIconUrl DefaultValue="https://localhost:8443/content/OfficeDev.png"/>
     ````
 
-  1. Locate the `<Hosts>` element. This tells the hosting Office client what this app needs access to. 
-
-    In this case, add a new child element that specifies the host as a mailbox:
-
-    ````xml
-    <Hosts> <!-- already exists -->
-      <Host Name="Mailbox"/>
-    </Hosts> <!-- already exists -->
-    ````
-
-  1. Locate the `<Requirements>` element. This tells the Office client the minimum version number of the Office client (`Office.js`) runtime this app is using. This will ensure that the app won't be loaded in any Office clients that have not been updated to a more recent version, such as those installed versions on desktops or tablets.
-  
-    Update the `<Requirements>` element to have a new `<Set>` as shown in the following markup:
-
-    ````xml
-    <Requirements> <!-- already exists -->
-      <Sets DefaultMinVersion="1.1">
-        <Set Name="Mailbox" MinVersion="1.1"/>
-      </Sets>
-    </Requirements> <!-- already exists -->
-    ````
-
-  1. Locate the `<FormSettings>` element. This tells the Office client where this app can load and the homepage for the app in that form. In our case we want this to load in the read forms, not in the compose forms, within Outlook.
-
-    Add the following `<Form>` element to the `<FormSettings>` element to tell it to load our app's homepage that we are running locally.
-
-    ````xml
-    <FormSettings> <!-- already exists -->
-      <Form xsi:type="ItemRead">
-        <DesktopSettings>
-          <SourceLocation DefaultValue="https://localhost:8433/index.html"/>
-          <RequestedHeight>200</RequestedHeight>
-        </DesktopSettings>
-      </Form>
-    </FormSettings> <!-- already exists -->
-    ````
-
-  1. Next, tell the Outlook client what permissions this app requires. This will be used to prompt the user to grant the app permissions when they try to install it. 
-  
-    Locate the `<Permissions>` element and update it to the following so our app can read the contents of the selected email:
-
-    ````xml
-    <Permissions>ReadItem</Permissions>
-    ````
-
-  1. Lastly, the hosting Office app needs to know when the app should load and what data it has access to. Do this by adding a `<Rule>` section as the very last element before the closing `<OfficeApp>` tag:
+  1. Lastly, the hosting Office Add-in needs to know when the add-in should load and what data it has access to. Do this by adding a `<Rule>` section as the very last element before the closing `<OfficeApp>` tag:
 
     ````xml
     <Rule xsi:type="RuleCollection" Mode="And">
@@ -139,61 +120,62 @@ In this exercise you will, deploy & test a skeleton implementation of the Office
 
   1. Save your changes.
 
-1. Install the app within your Outlook web client.
+1. Install the add-in within your Outlook web client.
   1. Using the browser, navigate to https://mail.office365.com and login to your Office 365 developer tenant.
-  1. Using the "cog" icon in the top right, select **Manage Apps**.
+  1. Using the "cog" icon in the top right, select **Manage add-ins**.
 
-    ![](Images/manage-apps.png)
+    ![](Images/manage-addins.png)
 
-  1. Click the **plus** icon to add a new app & select **add from file**.
+  1. Click the **plus** icon to add a new add-in & select **add from file**.
 
-    ![](Images/add-app.png)
+    ![](Images/add-addin.png)
 
-  1. Select the option to upload a file, find the `CustomerLookupOutlookApp.xml` file you just modified and upload it.
+  1. Select the option to upload a file, find the `manifest-customer-lookup.xml` file you just modified and upload it.
   1. When prompted, accept any security warnings.
-1. Test the Office App for Outlook.
+  
+    ![](Images/confirm-addins.png)
+  
+1. Test the Office Add-in for Outlook.
   1. Start the local server that is hosting the application.
-    1. From the command line, navigate to the **src** folder within the **Starter Project** folder.
-    1. Enter the following to start the server:
+      1. From the command line, ensure you are in the root of the **Starter Project** folder located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project) and enter the following command to start the web server:
 
       ````
-      $ node server.js
+      $ gulp serve-static
       ````
 
   1. Go back to the browser where you are logged into the Outlook web client at https://mail.office365.com. If you are no longer logged in, repeat the login process again.
-  1. Send your Office 365 developer tenant email address a test email (you can send it to yourself). This email must have at least one upper case whole word in the email to trigger the app to load.
+  1. Send your Office 365 developer tenant email address a test email (you can send it to yourself). This email must have at least one upper case whole word in the email to trigger the add-in to load.
   1. After sending the email, select it within the Outlook web client.
-  1. After a few seconds, you should notice the app loads between the header portion of the email and the body of the email.
+  1. After a few seconds, you should notice the add-in loads between the header portion of the email and the body of the email.
 
-    Click the **Customer Lookup** button to open the app. You should see the app display the single `<h1>` tag in our app to demonstrate the app is not only loading, but it is showing the contents from our local server.
+    Click the **Customer Lookup** button to open the add-in. You should see the add-in display the single `<h1>` tag in our add-in to demonstrate the add-in is not only loading, but it is showing the contents from our local server.
 
     ![](Images/customer-lookup-01.png)
 
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 
-In this exercise you created a skeleton of the Office app for Outlook and got it working within Outlook. 
+In this exercise you created a skeleton of the Office Add-in for Outlook and got it working within Outlook. 
 
-## Exercise 3: Implement the Office App for Outlook.
-In this exercise you will create the Angular part of the application to enable functionality on the app.
+## Exercise 3: Implement the Office Add-in for Outlook.
+In this exercise you will update the Angular part of the application to enable functionality on the add-in.
 
-1. Create the Angular application:
-  1. Add a new file to the **src** folder of the **Starter Project** named **app.module.js**.
-  1. Add the following code to the **app.module.js** file. This creates the Angular application, sets it to use debug logging, configures the Material Design theme to use and forces the route service to initialize:
+1. Update the Angular application:
+  1. Open **app.module.js** in the **src/appread** folder
+  1. Add dependency `ngAnimate` and `ngMaterial` modules to `officeAddin` module.
+  
+    ````javascript
+    var officeAddin = angular.module('officeAddin', [
+        'ngRoute',
+        'ngSanitize',
+        'ngAnimate',
+        'ngMaterial'
+    ]);
+    ````
+   
+  1. Update `officeAddin.config()` method, set it to use `$mdThemingProvider`, configures the Material Design theme to use and forces the route service to initialize:
 
     ````javascript
-    (function () {
-      'use strict';
-
-      // create the angular app
-      var outlookApp = angular.module('appowa', [
-        'ngRoute',
-        'ngAnimate',
-        'ngSanitize',
-        'ngMaterial'
-      ]);
-
-      // configure the app
-      outlookApp.config(['$logProvider', '$mdThemingProvider', function ($logProvider, $mdThemingProvider) {
+    officeAddin.config(['$logProvider', '$mdThemingProvider', function ($logProvider, $mdThemingProvider) {
         // set debug logging to on
         if ($logProvider.debugEnabled) {
           $logProvider.debugEnabled(true);
@@ -202,37 +184,15 @@ In this exercise you will create the Angular part of the application to enable f
         // configure theme color
         $mdThemingProvider.theme('default')
             .primaryPalette('blue');
-      }]);
-
-    })();
+    }]);
     ````
-
-  1. Now load the Angular application by adding the following code before the closing statement in the **app.module.js** file. 
-  
-    This will manually bootstrap the Angular app after Office has initialized. Office will look for the the `initialize` method to be defined and call it immediately upon the app loading in the client. It is important to note that if this function does not complete within five (5) seconds of the app being loaded by the hosting Office client application, an error will be displayed. Therefore it is important to declare and call this as quickly as possible.    
-
-    ````javascript
-    // when office has initialized, manually bootstrap the app
-    Office.initialize = function () {
-      console.log(">>> Office.initialize()");
-      angular.bootstrap(jQuery('#container'), ['appowa']);
-    };
-    ````
-
+ 
 1. Define navigation routes for the application:
-  1. Add a new file to the **src** folder of the **Starter Project** named **app.routes.js**.
-  1. Add the following code to the **app.routes.js** file. This creates the two routes in our application:
+  1. Open **app.routes.js** in the **src/appread** folder 
+  1. Update routes as following. This creates the two routes in our application and remove default `homeController`:
 
     ````javascript
-    (function () {
-      'use strict';
-
-      var outlookApp = angular.module('appowa');
-
-      // load routes
-      outlookApp.config(['$routeProvider', routeConfigurator]);
-
-      function routeConfigurator($routeProvider) {
+    function routeConfigurator($routeProvider) {
         $routeProvider
             .when('/', {
               templateUrl: 'customers/customers.html',
@@ -246,13 +206,12 @@ In this exercise you will create the Angular part of the application to enable f
             });
 
         $routeProvider.otherwise({redirectTo: '/'});
-      }
-    })();
+    }
     ````
 
-1. Create the initial list view for all found customers in the app:
-  1. Create a new folder named **customers** within the **src** folder in the **Starter Project**.
-  1. Add a new file to the **customers** folder of the **Starter Project** named **customers.html**.
+1. Create the initial list view for all found customers in the add-in:
+  1. Create a new folder named **customers** within the **src/appread** folder in the **Starter Project** located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project).
+  1. Add a new file to the **customers** folder named **customers.html**.
   1. Add the following code to the **customers.html** file. This will be the view for our customer list screen:
 
     ````html
@@ -281,7 +240,7 @@ In this exercise you will create the Angular part of the application to enable f
     (function () {
       'use strict';
 
-      angular.module('appowa')
+      angular.module('officeAddin')
           .controller('customersController',
           ['$q', '$location', 'officeService', 'customerService',
             customersController]);
@@ -330,11 +289,11 @@ In this exercise you will create the Angular part of the application to enable f
     })();
     ````
 
-  1. Add the following function to the **customers.controller.js** file to retrieve all the potential customer last names from the current email address:
+  1. Add the following function to the `customersController` in **customers.controller.js** file to retrieve all the potential customer last names from the current email address:
 
     ````javascript
     /**
-     * Load the possible candidate matches in the email within the app.
+     * Load the possible candidate matches in the email within the add-in.
      */
     function loadMatchesFromEmail() {
       var deferred = $q.defer();
@@ -352,7 +311,7 @@ In this exercise you will create the Angular part of the application to enable f
     }
     ````
 
-  1. Add the following function to the **customers.controller.js** file to search for the matching customer names in the static JSON file:
+  1. Add the following function to the `customersController` in **customers.controller.js** file to search for the matching customer names in the static JSON file:
 
     ````javascript
     /**
@@ -375,8 +334,8 @@ In this exercise you will create the Angular part of the application to enable f
     }
     ````
 
-1. Create the customer detail view and controller for the app:
-  1. Add a new file to the **customers** folder of the **Starter Project** named **customers-detail.html**.
+1. Create the customer detail view and controller for the add-in:
+  1. Add a new file to the **customers** folder named **customers-detail.html**.
   1. Add the following code to the **customers-detail.html** file. This will be the view for our customer detail screen:
 
     ````html
@@ -411,7 +370,7 @@ In this exercise you will create the Angular part of the application to enable f
     (function () {
       'use strict';
 
-      angular.module('appowa')
+      angular.module('officeAddin')
           .controller('customersDetailController',
           ['$q', '$window', '$location', '$routeParams', 'customerService',
             customersDetailController]);
@@ -480,16 +439,15 @@ In this exercise you will create the Angular part of the application to enable f
     })();
     ````
 
-1. Add a new service, **officeService** that will be used to to get the data from the the hosting Outlook client app that our app will use.
-  1. Create a new folder named **services** within the **src** folder in the **Starter Project**.
-  1. Add a new file to the **services** folder of the **Starter Project** named **officeService.js**.
-  1. Add the following code to the **officeService.js** file. This will be the service that will talk to the hosting Office client app:
+1. Add a new service, **officeService** that will be used to to get the data from the the hosting Outlook client add-in that our add-in will use.
+  1. Add a new file to the **services** folder of the **src/appread** named **officeService.js**.
+  1. Add the following code to the **officeService.js** file. This will be the service that will talk to the hosting Office client add-in:
 
     ````javascript
     (function () {
       'use strict';
 
-      angular.module('appowa')
+      angular.module('officeAddin')
              .service('officeService', ['$q', officeService]);
 
       /**
@@ -530,17 +488,17 @@ In this exercise you will create the Angular part of the application to enable f
     })();
     ````
 
-  > Refer to MSND for additional API documentation on creating mail apps using the Office.js runtime: **[MSDN - Get and set Outlook item data in read or compose forms](https://msdn.microsoft.com/EN-US/library/office/dn568064.aspx)**.
+  > Refer to MSDN for additional API documentation on creating mail add-ins using the Office.js runtime: **[MSDN - Get and set Outlook item data in read or compose forms](https://msdn.microsoft.com/EN-US/library/office/dn568064.aspx)**.
 
 1. Add a new service, **dataService** minic querying a real RESTful service to find potential matching customers that were found in the email body.
-  1. Add a new file to the **services** folder of the **Starter Project** named **customerService.js**.
-  1. Add the following code to the **customerService.js** file. This will be the service that will talk to the hosting Office client app:
+  1. Add a new file to the **services** folder of the **src/appread** named **customerService.js**.
+  1. Add the following code to the **customerService.js** file. This will be the service that will talk to the hosting Office client add-in:
 
     ````javascript
     (function () {
       'use strict';
 
-      angular.module('appowa')
+      angular.module('officeAddin')
           .service('customerService', ['$q', '$http', customerService]);
 
       /**
@@ -630,19 +588,17 @@ In this exercise you will create the Angular part of the application to enable f
     ````
 
 1. Now update the homepage of our site to add the necessary Angular bits.
-  1. Open the **index.html** file in the **src** folder within the **Starter Project**.
+  1. Open the [`index.html`](Starter Project/src/appread/index.html) file in the [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project\src\appread](Starter Project/src/appread) folder within the **Starter Project**.
+  1. Remove `<h1>Customer Lookup</h1>`
   1. Add the following HTML tag to the body of the page to create a place for our views to get swapped in and out by Angular:
 
     ````html
-    <div data-ng-view class="shuffle-animation"></div>
+      <div data-ng-view class="shuffle-animation"></div>
     ````
 
   1. Finally, add the following JavaScript references immediately after the other script references at the bottom of the page:
 
     ````html
-    <!-- app code -->
-    <script src="app.module.js" type="application/javascript"></script>
-    <script src="app.routes.js" type="application/javascript"></script>
     <!-- services -->
     <script src="services/officeService.js" type="application/javascript"></script>
     <script src="services/customerService.js" type="application/javascript"></script>
@@ -651,33 +607,33 @@ In this exercise you will create the Angular part of the application to enable f
     <script src="customers/customers-detail.controller.js" type="application/javascript"></script>
     ````
 
-1. Test the Office App for Outlook.
+1. Test the Office Add-in for Outlook.
   1. Start the local server that is hosting the application.
-    1. From the command line, navigate to the **src** folder within the **Starter Project** folder.
+    1. From the command line, navigate to **Starter Project** folder located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project).
     1. Enter the following to start the server:
 
       ````
-      $ node server.js
+      $ gulp serve-static
       ````
 
   1. Go back to the browser where you are logged into the Outlook web client at https://mail.office365.com. If you are no longer logged in, repeat the login process again.
-  1. Send your Office 365 developer tenant email address a test email (you can send it to yourself). This email must have at least one upper case whole word in the email to trigger the app to load.
+  1. Send your Office 365 developer tenant email address a test email (you can send it to yourself). This email must have at least one upper case whole word in the email to trigger the add-in to load.
 
     > To have a match, use one or more of the following last names: **Davolio**, **Fuller**, **Leverling**, **Peacock** or another name found in the [customers.json](src/content/customers.json) file.
 
   1. After sending the email, select it within the Outlook web client.
-  1. After a few seconds, you should notice the app loads between the header portion of the email and the body of the email.
+  1. After a few seconds, you should notice the add-in loads between the header portion of the email and the body of the email.
 
-    Click the **Customer Lookup** button to open the app. You should see the app displaying matching people.
+    Click the **Customer Lookup** button to open the add-in. You should see the add-in displaying matching people.
 
     ![](Images/customer-lookup-02.png)
 
-    Now click one of the people to ensure the app takes them to the next screen:
+    Now click one of the people to ensure the add-in takes them to the next screen:
 
     ![](Images/customer-lookup-03.png)
 
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 
-Congratulations! You have now created your first Office App for Outlook.
+Congratulations! You have now created your first Office Add-in for Outlook.
 
-> The next step would be to take this app and deploy it to the public Office store to provide it to other users. Please refer to the course [O3655](https://github.com/OfficeDev/TrainingContent/tree/master/O3655) in the OfficeDev GitHub account for more information.
+> The next step would be to take this add-in and deploy it to the public Office store to provide it to other users. Please refer to the course [O3655](https://github.com/OfficeDev/TrainingContent/tree/master/O3655) in the OfficeDev GitHub account for more information.
