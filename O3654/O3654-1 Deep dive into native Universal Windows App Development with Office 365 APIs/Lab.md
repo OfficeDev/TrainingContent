@@ -1,12 +1,14 @@
-# Deep Dive into native Universal App Development with Office 365 APIs
-In this lab, you will use the Office 365 APIs as part of a Windows Store Universal application. The starter project uses the sample data files that are part of the Hub App project. In this lab, you will extend the application to use the Office 365 API.
+# Deep Dive into native Universal App Development with Microsoft Graph
+In this lab, you will use the Microsoft Graph as part of a Windows Store Universal application. The starter project uses the sample data files that are part of the Hub App project. In this lab, you will extend the application to use the Microsoft Graph.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
+1. You must have Visual Studio 2015.
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 2. You must have Visual Studio 2015 and the Windows Software Development Kit (SDK) for Windows 10 (10.0.10586.0) installed. https://dev.windows.com/en-us/downloads/windows-10-sdk
 
-## Exercise 1: Use the Microsoft Graph API in an Native Client Application and Configure the Starter Project
-In this exercise, you will use the Microsoft Graph API's within a Windows 10 application. 
+## Exercise 1: Use the Microsoft Graph in an Native Client Application and Configure the Starter Project
+In this exercise, you will use the Microsoft Graph within a Windows 10 application. 
 
 ### Register your application with Azure Active Directory
 *Your custom Windows 10 application must be registered as an application in Azure AD in order to work, so we will do that now.*
@@ -37,16 +39,16 @@ In this exercise, you will use the Microsoft Graph API's within a Windows 10 app
 ![](Images/6.png)
 
 ### Prepare the Visual Studio Solution
-Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph API's.
+Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph.
 
-1. Locate the [Lab/Starter](Lab\Starter) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph API using the native for the Microsoft Graph API. Open the solution **HubApp2.sln** in Visual Studio.
+1. Locate the [\\\O3654\O3654-1 Deep dive into native Universal Windows App Development with Office 365 APIs\Lab\Starter](Lab\Starter) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph using the native for the Microsoft Graph. Open the solution **HubApp2.sln** in Visual Studio.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Enter your Client ID.
 ![](Images/7.png)
 
 
 ## Exercise 2: Add classes to represent the data returned from the Office 365 service.
 In this exercise, you will add classes to the project that will "normalize" the various data types from Office 365. These classes mimic the sample data classes from the starter project. This is intentional, since the focus of this module is on the Office 365 operations, not the XAML data binding. 
-*Note: The code listed in this lab can be found in the [Lab/Labfiles](Lab\Labfiles) folder.*
+*Note: The code listed in this lab can be found in the [\\\O3654\O3654-1 Deep dive into native Universal Windows App Development with Office 365 APIs\Lab\Labfiles](Lab\Labfiles) folder.*
 
 1. Add a class to represent a group of items from Office 365:
 	1. In **Solution Explorer**, right-click on the **DataModel** folder in the project and select **Add/New Item...**
@@ -259,7 +261,7 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		        public static string AccessToken = null;		
 		
 		        // Properties used for communicating with your Windows Azure AD tenant.
-		        // The AuthorizationUri is added as a resource in App.xaml when you regiter the app with 
+		        // The AuthorizationUri is added as a resource in App.xaml when you register the app with 
 		        // Office 365. As a convenience, we load that value into a variable called _commonAuthority, adding _common to this Url to signify
 		        // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
 		

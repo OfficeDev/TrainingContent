@@ -1,8 +1,8 @@
-Calling the O365 Microsoft Graph API with iOS
+Calling the O365 Microsoft Graph with iOS
 ======================================
 ## Overview
 
-The lab demonstrates how use an AzureAD account authenticate and the Microsoft Graph API to access Calendar Events from an iOS app.
+The lab demonstrates how use an AzureAD account authenticate and the Microsoft Graph to access Calendar Events from an iOS app.
 
 ## Objectives
 
@@ -12,9 +12,10 @@ The lab demonstrates how use an AzureAD account authenticate and the Microsoft G
 
 ## Prerequisites
 
-- OSX 10.X environment
-- [XCode 7][xcode-7]
-- [Cocoapods dependency manager][cocoapods]
+1. OSX 10.X environment
+1. [XCode 7][xcode-7]
+1. [Cocoapods dependency manager][cocoapods]
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 [xcode-7]: https://itunes.apple.com/nz/app/xcode/id497799835?mt=12
 [cocoapods]: https://cocoapods.org/
@@ -48,7 +49,7 @@ The lab demonstrates how use an AzureAD account authenticate and the Microsoft G
 In this exercise you will use an existing application with the AzureAD 
 authentication included, to add the O365 Microsfot Graph SDK library in the project.
 
-01. Locate the [Lab Files](Lab Files) folder that contains a starter project. 
+01. Locate the [\\\O3651\O3651-6 Mobile\IOS\Lab Files](Lab Files) folder that contains a starter project. 
 02. In Finder, navigate to the Lab Files folder and open the **Podfile** file under the root folder of the project and add the following lines to the end of the file:
 
     ```ruby
@@ -267,7 +268,7 @@ An access token is required to access Office 365 APIs so your application needs 
    ![](img/fig.14.png)
   
 
-## Exercise 3: Connect to the Microsoft Graph API to get Calendar events
+## Exercise 3: Connect to the Microsoft Graph to get Calendar events
 
 In this exercise you will connect your application to get a **MSGraphServiceClient**. We can get the calendar events form this client.
 
@@ -370,6 +371,6 @@ In this exercise you will connect your application to get a **MSGraphServiceClie
 
 ## Summary
 
-In this exercise, you used the Microsoft Graph API's within an iOS application.
+In this exercise, you used the Microsoft Graph within an iOS application.
 
-Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph API within an iOS application!
+Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph within an iOS application!

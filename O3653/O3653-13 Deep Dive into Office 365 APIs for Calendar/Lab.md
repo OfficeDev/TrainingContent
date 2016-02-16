@@ -591,11 +591,11 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
         ````  
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
   1. When prompted, log in with your **Organizational Account**.
   1. Once the application is loaded click the **Events link** in the top menu bar.
-  
-  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
-
   1. Verify that your application displays calendar events from your Office 365 account.  
 
     ![](Images/04.png)
@@ -724,11 +724,11 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
 
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
   1. When Prompted, log in with your **Organizational Account**.
   1. Once the application is loaded click the **Events link** in the top menu bar.
-  
-  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
-
   1. Click the **Create New** link. You should see the form below. Fill the form out to add a new item:
 
     ![](Images/05.png)
@@ -760,10 +760,10 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
 
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
-  1. When Prompted, log in with your **Organizational Account**.
-  
-  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
+  1. When Prompted, log in with your **Organizational Account**.
   1. Once the application is loaded click the **Events link** in the top menu bar.
   1. Click the **Details** link for one of the items. 
 
@@ -850,11 +850,11 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
 
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
+
+   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
   1. When Prompted, log in with your **Organizational Account**.
   1. Once the application is loaded click the **Events link** in the top menu bar.
-  
-  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
-
   1. Click the **Search Events** link and enter a search term on the next page. You should see a filtered set of results:
 
     ![](Images/07.png)

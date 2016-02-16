@@ -1,8 +1,8 @@
-# Creating Client-Side Only Apps with Angular, ADAL & Microsoft Graph API
+# Creating Client-Side Only Apps with Angular, ADAL & Microsoft Graph
 In this lab, you will take an existing web application built with [Angular](http://www.angularjs.org) that uses static JSON files as it's data source and add two things:
 
 - Secure multiple routes in the application using the ADAL JS library for Azure Active Directory to take advantage of the OAuth2 Implicit Flow.
-- Replace existing calls to static JSON files to use the SharePoint Online REST & Microsoft Graph API, taking advantage of their support for CORS.
+- Replace existing calls to static JSON files to use the SharePoint Online REST & Microsoft Graph, taking advantage of their support for CORS.
 
 The important take-away from this lab is to understand how you can create a 100% client-side application that is secured (with Azure AD) and leverages data in Office 365 using the REST APIs that support CORS.
 
@@ -11,14 +11,15 @@ The important take-away from this lab is to understand how you can create a 100%
 1. You must have [node.js](http://nodejs.org/) installed on your development environment. You can get node.js from the [downloads](http://nodejs.org/en/download/) section on their site. Certain [node.js packages](https://www.npmjs.org) available via [NPM](https://www.npmjs.org) will be used in creating this Client-Side only App.
 1. You will need [git](http://git-scm.com/) installed, it's a requirement for [bower](http://bower.io). You can get git from the [downloads](http://git-scm.com/downloads) section on their web site.
 1. You will need a text editor for this lab. The editor **[Brackets](http://www.brackets.io)** is used in this lab.
+1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 ## Exercise 1: Configure the Starter Project
 In this exercise, you will examine and customize the **Starter Project** for the remainder of the lab.
 
-1. Locate the starter project found in the [StarterFiles](StarterFiles).
+1. Locate the starter project found in the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles).
 1. Open the project in any text editor, such as [Visual Studio](https://www.visualstudio.com/) or [Brackets](http://www.brackets.io) or [WebStorm](https://www.jetbrains.com/webstorm/) or Notepad.
 1. Download all NPM packages (used to build & self-host the project) and bower packages (used for external 3rd party script libraries).
-  1. Open a command window and navigate to the [StarterFiles](StarterFiles) folder.
+  1. Open a command window and navigate to the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) folder.
   1. Enter the following in the command prompt to install requried 3rd party script libraries globally
   
     ````
@@ -35,13 +36,13 @@ In this exercise, you will examine and customize the **Starter Project** for the
 
 1. Test the application by starting up a local web server and navigating to the site. One option is to use a static web server that is built on node.js: [superstatic](https://www.npmjs.org/packages/superstatic).
 
-  Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the **StarterFiles** directory:
+  Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) directory:
 
   ````
   gulp compile-ts
   ````
   
-  To start the superstatic web server, enter the following at the command prompt within the root of the [StarterFiles](StarterFiles) folder:
+  To start the superstatic web server, enter the following at the command prompt within the root of the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) folder:
 
   ````
   superstatic --port 8000
@@ -138,7 +139,7 @@ In this exercise you will update the starter project to have a login & logout pr
 
 Install the ADAL JS libraries into the project.
 
-1. Open a command prompt in the root of the [StarterFiles](StarterFiles).
+1. Open a command prompt in the root of the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles).
 1. Run the following command to install ADAL JS into the project:
 
   ````
@@ -177,7 +178,7 @@ You will first create a constants file that will be used to modify the settings 
   ````
 1. Update the **tenant** & **clientId** values with the values of the Azure AD tenant ID and Azure AD application's client ID that you obtained in the previous exercise.
 
-1. Add two properties to the **settings** object created in this file that point to the root REST endpoint for the Microsoft Graph API & SharePoint REST API:
+1. Add two properties to the **settings** object created in this file that point to the root REST endpoint for the Microsoft Graph & SharePoint REST API:
 
   ````javascript
     baseSPUrl:       '[baseSPUrl]/_api/',
@@ -426,13 +427,13 @@ Next, update the controller used in the top navigation to add login/logout capab
   ````
 
 1. Save all your changes.
-1. Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the **StarterFiles** directory:
+1. Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) directory:
 
   ````
   gulp compile-ts
   ````
 
-1. Test the app by starting the server. To start the superstatic web server, enter the following at the command prompt within the root of the [StarterFiles](StarterFiles) folder:
+1. Test the app by starting the server. To start the superstatic web server, enter the following at the command prompt within the root of the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) folder:
 
   ````
   superstatic --port 8000
@@ -442,10 +443,10 @@ In this exercise you added authentication, login & logout controls to the Angula
 
   ![](Images/StartProject02.png)
 
-## Exercise 5: Utilize Microsoft Graph API & SharePoint Online REST Services
+## Exercise 5: Utilize Microsoft Graph & SharePoint Online REST Services
 In this exercise you will create a SharePoint site using the provided site template that includes sample data. After creating the site, you will update the starter app to use the live services in Office 365 & SharePoint Online instead of the static sample files.
 
-Now update the **files.service.ts** Angular service to call the Microsoft Graph API to get Files.
+Now update the **files.service.ts** Angular service to call the Microsoft Graph to get Files.
 
 1. Open the **/src/app/expenseApp/services/files.services.ts** file.
 1. Update the items injected into the service to inject the **settings** object. Do this by updating the list of things injected as well as the class constructor:
@@ -580,13 +581,13 @@ Next, update the **data.service.ts** Angular service to call the live SharePoint
   ````
 
 1. Save all your changes.
-1. Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the **StarterFiles** directory:
+1. Before testing the application you must first compile all the TypeScript to JavaScript. Do this by running the following command from the root of the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) directory:
 
   ````
   gulp compile-ts
   ````
 
-1. Test the app by starting the server. To start the superstatic web server, enter the following at the command prompt within the root of the [StarterFiles](StarterFiles) folder:
+1. Test the app by starting the server. To start the superstatic web server, enter the following at the command prompt within the root of the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) folder:
 
   ````
   superstatic --port 8000
@@ -596,4 +597,4 @@ Next, update the **data.service.ts** Angular service to call the live SharePoint
 
   Login to the application and click the through the Employees and Expenses section to see the application getting live data from SharePoint Online & OneDrive for Business.
 
-In this exercise you updated the application to get data from the live SharePoint Online REST API & the Microsoft Graph REST API.
+In this exercise you updated the application to get data from the live SharePoint Online REST API & the Microsoft Graph.
