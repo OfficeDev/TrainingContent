@@ -207,6 +207,12 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph.
 
 1. Locate the [\\\O3653\O3653-8 Deep Dive into the Office 365 Unified API\Lab Files](Lab Files) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph using the native for the Microsoft Graph. Open the solution **O365-Win-Profile** in Visual Studio.
+1. In the Solution Explorer, right-click the **O365-Win-Profile** solution node and select **Manage Nuget Packages for Solution**.
+1. Click the **Updates** tab.
+1. Select the **Select all Packages** checkbox.
+1. Click the **Update** button.
+1. Click **OK**.
+1. Click **I Accept**.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Paste in the GUID Client ID of the Azure AD application you copied previously in this XML element.
 1. Update the login redirect URI for the application that is sent to Azure when logging in. Open the file **AuthenticationHelper.cs** and locate the line that looks like this:
 
