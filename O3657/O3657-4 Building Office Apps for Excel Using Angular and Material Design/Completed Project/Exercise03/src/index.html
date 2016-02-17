@@ -20,7 +20,13 @@
   <link href="content/shuffle-animation.css" rel="stylesheet" type="text/css"/>  
 </head>
 <body id="container">
-    <h1>Invoice Creator</h1>
-
+    <div data-ng-view class="shuffle-animation"></div>
+    <!-- app code -->
+    <script src="app/app.module.js" type="application/javascript"></script>
+    <script src="app/app.routes.js" type="application/javascript"></script>
+    <!-- services -->
+    <script src="app/services/productService.js" type="application/javascript"></script>
+    <!-- contollers -->
+    <script src="app/products/products.controller.js" type="application/javascript"></script>
 </body>
 </html>
