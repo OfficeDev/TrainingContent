@@ -1,41 +1,31 @@
-Configuring your O365 Tenant
-============================
+Configuring your Office 365 Tenant
+==================================
 
-##Overview
+## Overview
 
-The lab steps through the steps required to configure your O365 Tenant for authentication from your Android or iOS app.
+The lab steps through the steps required to configure your Office 365 Tenant for authentication from your Android or iOS app.
 
+## Objectives
 
-##Objectives
+- Connect your Office 365 Azure Active Directory to your Azure subscription.
+- Add an Azure Active Directory Application to your Office 365 Tenant's Active Directory to allow authentcation from your Android or iOS app.
 
-- TODO: Create an O365 Tenant?
-- Connect your O365 directory to your Azure subscription
-- Add an Application to your O365 Tenant's Active Directory to allow authentcation from your Android or iOS app.
+## Prerequisites
+1. You must have an Office 365 tenant and Azure Subscription to complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
 
-
-##Prerequisites
-
-- [An O365 tenancy][sign-up-for-o365]
-- [An Azure subscription][azure-management-portal]
-
-[sign-up-for-o365]: http://office.microsoft.com/en-nz/business/office-365-enterprise-e3-business-software-FX103030346.aspx
-[azure-management-portal]: https://manage.windowsazure.com/
-
-##Tasks
+## Tasks
 
 The hands-on lab includes the following exercises:
 
-- [**Task 1:**](#task1) Connect your O365 directory to your Azure subscription
+- [**Task 1:**](#task1) Connect your Office 365 Azure Active Directory  to your Azure subscription
 
-- [**Task 2:**](#task2) Create a new Application in your O365 directory for your Android or iOS app
-
+- [**Task 2:**](#task2) Create a new Azure Active Directory Application in your Office 365 Azure Active Directory for your Android or iOS app
 
 <a name="task1"></a>
-##Task 1: Connect your O365 directory to your Azure subscription
+## Task 1: Connect your Office 365 Azure Active Directory to your Azure subscription
 
-
-Here we will associate your Azure account with your O365 tenant as a global administrator.
-This gives you the ability to manage the O365 directory using the Azure portal.
+Here we will associate your Azure account with your Office 365 tenant as a global administrator.
+This gives you the ability to manage the Office 365 directory using the Azure  Management Portal.
 
 
 01. Sign into the [Azure Portal](https://manage.windowsazure.com/)
@@ -48,38 +38,21 @@ This gives you the ability to manage the O365 directory using the Azure portal.
 
     ![](img/0005_custom_create_active_directory.png)
 
-04. Select **Use existing directory**, and then **I am ready to be signed out now**
+04. Fill out the following form and click **Complete**.
 
-    ![](img/00010_use_existing_directory.png)
+    ![](img/00011_create_directory.png)
 
-05. You will be signed out of the portal and redirected to a sign-in page. Sign in using the credentials for a global
-    administrator in your O365 tenant.
-
-    ![](img/00015_sign_in_as_directory_global_admin.png)
-
-06. When authenticated click **continue**. This will add your Azure account as a global administrator of the O365
-    directory.
-
-    ![](img/00020_accept_confirmation_dialog.png)
-
-07. Click **Sign out now** and when prompted sign back into your Azure account.
-
-    ![](img/00025_sign_out_and_sign_back_in.png)
-
-
-You have successfully associated your Azure account with your O365 tenant as a global administrator.
-This gives you the ability to manage the O365 directory using the Azure portal.
-
+You have successfully created an Azure Active Directory.
 
 <a name="task2"></a>
-##Task 2: Create a new Application in your O365 directory for your Android or iOS app
+## Task 2: Create a new Azure Active Directory Application in your Office 365 directory for your Android or iOS app
 
 
-Here we will create an Application in your O365 directory to allow your Android or iOS app to authenticate
-and interact with the O365 Exchange and SharePoint APIs
+Here we will create an Azure Active Directory Application in your Office 365 directory to allow your Android or iOS app to authenticate
+and interact with the Office 365 Exchange and SharePoint APIs
 
 
-01. When you're signed back in, navigate to your O365 directory in the Active Directory extension.
+01. When you're signed back in, navigate to your Office 365 directory in the Active Directory extension.
 
     ![](img/00030_navigate_to_active_directory.png)
 
@@ -91,11 +64,11 @@ and interact with the O365 Exchange and SharePoint APIs
     
     ![](img/00040_add_new_application.png)
 
-04. Select **Add an application from my Organization**. Click **Next**.
+04. Select **Add an application from my Organization is developing**.
     
     ![](img/00045_add_application_by_my_org.png)
 
-05. Enter a name for the application, and select **Native Client Application**. Click **Next**.
+05. Enter a name for the application, and select **Native Client Application**. Click **the arrow icon on the bottom-right corner of the page**.
 
     ![](img/00050_add_native_application.png)
 
@@ -108,7 +81,7 @@ and interact with the O365 Exchange and SharePoint APIs
 
     ![](img/00055_add_redirect_uri.png)
 
-07. Click **Next**.
+07. Click **the check mark icon on the bottom-right corner of the page**.
 
 08. The application is created. Navigate to the **Configure** tab.
 
@@ -118,45 +91,45 @@ and interact with the O365 Exchange and SharePoint APIs
 
     ![](img/00065_copy_down_client_id.png)
 
-10. Finally, scroll to the bottom of the screen. In the **Permissions to other applications**
-    section, select **Office 365 Exchange Online** from the Select application
-    dropdown.
+10. Finally, scroll to the bottom of the screen. In the **Permissions to other applications** section, click **Add application**.
+	
+	![](img/00090_add_application.png)
 
-11. From **Delegated Permissions** select the following:
+11. Select **Microsoft Graph**. Click **the check mark icon**
+
+	![](img/000100_select_application.png)
+
+12. From **Delegated Permissions** select the following:
 
     * Read and write access to users' mail
     * Send mail as user
     * Have full access to users' calendars
     * Have full access to users' contacts
+    * Have full access to user files and files shared with user
 
     This configures your app to have delegated permission to access user data in
-    Exchange.
+    Microsoft Graph.
 
-    > Note: **do not** select "Have full access to a users' mailbox". This is
-    > meant for access to a user's mailbox using an older API called Exchange
-    > Web Services. If you select it, requests made to the Exchange REST API 
-    > may be rejected as unauthorized.
+	![](img/000110_microsoft_graph_permissions.png)
 
-    ![](img/00070_configure_exchange_permissions.png)
+13. Click **Add application**
 
-12. Again from the Select application dropdown, select **Office 365 SharePoint Online**.
+14. Select **Office 365 SharePoint Online**. Click **the check mark icon**.
+	
+	![](img/000120_add_application_sharepoint_online.png)
 
-13. From **Delegated Permissions** select the following:
+15. From **Delegated Permissions** select the following:
 
-    * Edit or delete user's files
-    * Read user's files
-    * Create or delete items and lists in all site collections
-    * Edit or delete items in all site collections
-    * Read items in all site collections
+    * Read and write items and lists in all site collections
 
     This configures your app to have delegated permission to access user data in SharePoint.
 
-    ![](img/00075_configure_sharepoint_permissions.png)
+    ![](img/000130_sharepoint_online_permissions.png)
 
-14. Click **Save** to save the changes.
+16. Click **Save** to save the changes.
 
     ![](img/00080_save_the_changes.png)
 
 
-You have successfully created an Application in your O365 directory to allow your Android or iOS app to authenticate
-and interact with the O365 Exchange and SharePoint APIs
+You have successfully created an Azure Active Directory Application in your Office 365 directory to allow your Android or iOS app to authenticate
+and interact with the Microsoft Graph and SharePoint APIs

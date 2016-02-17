@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">O365 OneDrive Test App</string>
+
+    <string name="action_restart">Restart</string>
+
+    <string name="activity_launch_sign_in_button">Sign in</string>
+
+    <string name="dialog_error_title">Whoops!</string>
+    <string name="dialog_error_unable_to_sign_in">Unable to sign in: %s</string>
+
+    <string name="label_ok">Ok</string>
+
+    <string name="hello_world">Hello world!</string>
+</resources>

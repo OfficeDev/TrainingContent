@@ -1,48 +1,45 @@
-Authentication with O365
-========================
+Authentication with Office 365
+==============================
 
-##Overview
+## Overview
 
 The lab lets students create, configure and run an Android App which demonstrates authentication
-with O365 using the ADAL for Android.
+with Office 365 using the Azure Active Directory Authentication Library (ADAL) for Android.
 
+## Objectives
 
-##Objectives
+- Learn how to authenticate with Azure Active Directory from an Android app by using the 
+  **Azure Active Directory Authentication Library (ADAL) for Android**
 
-- Learn how to authenticate with Azure AD from Android using the 
-  **Azure Active Directory AuthenticationLibrary (ADAL) for Android**
-
-
-##Prerequisites
+## Prerequisites
 
 - [Git version control tool][git-scm]
 - [Android Studio][android-studio]
-- Android API Level 19 installed [using the Android SDK Manager][sdk-manager]
-- Complete the [Prerequisites](../01 Azure AD Auth Prerequisites) module.
-    - You must have an Office 365 tenant linked to your Windows Azure
-      subscription to complete this lab.
+- Android API Level 23 installed [using the Android SDK Manager][sdk-manager]
+- Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\01 Azure AD Auth Prerequisites](../01%20Azure%20AD%20Auth%20Prerequisites) module.
+    - You must have an Office 365 tenant linked to your Windows Azure subscription to complete this lab.
 
 [git-scm]: http://git-scm.com
 [android-studio]: http://developer.android.com/sdk/installing/studio.html
 [sdk-manager]: http://developer.android.com/tools/help/sdk-manager.html
 
-##Exercises
+## Exercises
 
 The hands-on lab includes the following exercises:
 
 - [**Exercise 1:**](#exercise1) Create a new Android app and add the ADAL
 
-- [**Exercise 2:**](#exercise2) Use the ADAL to acquire an auth token for O365 Exchange
+- [**Exercise 2:**](#exercise2) Use the ADAL to acquire an auth token for Office 365 Exchange
 
 
 <a name="exercise1"></a>
-##Exercise 1: Create a new Android app and add the ADAL
+## Exercise 1: Create a new Android app and add the ADAL
 
 Here we will create a new empty Android app, and add the Active Directory Authentication Library for Android (ADAL) to it.
 
-Finally, we'll use the ADAL to authenticate with O365 and obtain an access token.
+Then, we'll use the ADAL to authenticate and obtain an access token.
 
-###Task 1 - Create a new Android app
+### Task 1 - Create a new Android app
 
 01. Launch Android Studio and create a new project.
 
@@ -51,55 +48,50 @@ Finally, we'll use the ADAL to authenticate with O365 and obtain an access token
 02. Fill out the new project wizard, selecting the following:
 
     * Phone and Tablet
-    * API 19: Android 4.4 (KitKat)
-    * Blank Activity
+    * API 23: Android 6.0 (Marshmallow)
+    * Empty Activity
 
     ![](img/0005_create_new_project_form.png)
     ![](img/0010_create_new_project_form_2.png)
     ![](img/0015_create_new_project_form_3.png)
-
-03. Name the new activity "MyActivity".
+	![](img/0016_create_new_project_form_3.png)
 
 04. Click **Finish** to complete the wizard and create your new Android project.
 
 
-###Task 2 - Create an AVD/emulator and launch the app for debugging
+### Task 2 - Create an AVD/emulator and launch the app for debugging
 
 In this task we will create an AVD (Android Virtual Device) in order to test our app. If you have already created an
 AVD you may skip this Task.
 
-01. Launch the AVD Manager and select **Create**.
+01. Launch the AVD Manager and click **Create Virtual Device...**.
 
     ![](img/0020_launch_avd_manager.png)
+	![](img/0021_click_create.png)
 
-02. Fill out the form with the following details:
+02. Fill out the new AVD wizard, selecting the following:
 
-    * Device: Nexus 5
-    * Target: Android 4.4.2 - API Level 19
-    * CPU/ABI: (choose any)
-    * Keyboard: Hardware keyboard present
-    * Skin: Skin with dynamic hardware controls
-    * RAM: At least 1024
-    * Emulation options: Use Host GPU
+	![](img/0022_create_AVD.png)
+	![](img/0023_create_AVD.png)
+	![](img/0024_create_AVD.png)
+	![](img/0025_create_AVD.png)
 
-    ![](img/0025_create_avd_dialog.png)
+03. Select the newly created AVD and click **Start** to start it.
 
-03. Click **OK** to create the AVD.
+	![](img/0026_run_AVD.png)
 
-04. Select the newly created AVD and click **Start** to start it.
-
-05. When the emulator is running, return to Android Studio and select **Run > Debug 'app'**.
+04. When the emulator is running, return to Android Studio and select **Run > Debug 'app'**.
 
     ![](img/0030_launch_app.png)
 
-06. When prompted, select your emulator from the list and click **OK** to deploy the app and start debugging it.
+05. When prompted, select your emulator from the list and click **OK** to deploy the app and start debugging it.
 
     ![](img/0035_emulator_running.png)
 
-Done! The emulator runs seperately to Android Studio and can be shared between multiple instances of 
+Done! The emulator runs separately from Android Studio and can be shared between multiple instances of 
 Android Studio, Eclipse and even Visual Studio with Xamarin for Android.
 
-###Task 3 - Add the Active Directory Authentication Library to your project
+### Task 3 - Add the Active Directory Authentication Library to your project
 
 01. Open the `build.gradle` file for the ADAL test app.
 
@@ -135,17 +127,17 @@ You've now completed the basic steps required to prepare your app to use the ADA
 we'll take a look at authenticating a user and retrieving an Access Token.
 
 <a name="exercise2"></a>
-##Exercise 2: Use the ADAL to acquire an auth token for O365 Exchange
+## Exercise 2: Use the ADAL to acquire an auth token for Office 365 Exchange
 
 Now that we've got the library, let's add some code to authenticate a user.
 
-###Task 1: Acquire a new token
+### Task 1: Acquire a new token
 
 01. Navigate to the **activity_my.xml** layout file. You can find layouts in the `src/main/res/layout` folder.
 
     ![](img/0048_navigate_to_activity_my_xml.png)
 
-02. Replace the "Hello world" label with the following Button definition:
+02. Replace the "Hello world" TextView with the following Button definition:
 
     ```xml
     <Button
@@ -161,7 +153,7 @@ Now that we've got the library, let's add some code to authenticate a user.
 
 04. Add the following member fields to the class:
 
-    **Note:** Make sure to use the correct constants in the following code block!
+    > **Note:** Make sure to use the correct constants in the following code block!
 
     **CLIENT_ID** = The client ID created in the Prerequisites lab
 
@@ -169,16 +161,33 @@ Now that we've got the library, let's add some code to authenticate a user.
 
     ```java
     //The resource we want to authenticate for
-    private static final String RESOURCE = "https://outlook.office365.com";
-    private static final String CLIENT_ID = "3a164325-14ba-471b-beb8-7b40a9f1a72e";
+    private static final String RESOURCE = "https://graph.microsoft.com/";
+    private static final String CLIENT_ID = "YOUR CLIENT ID";
     private static final String REDIRECT_URI = "http://example.com/redirect";
     //Local instance variables
     private AuthenticationContext mAuthContext;
     private Button mGetAccessTokenButton;
     ```
 
-05. Use the Android Studio "Quick fix" **Import Class** function to automatically add any missing 
-    **import** statements;
+05. Make sure you import the following class.
+    	
+	```java
+	import android.app.Activity;
+	import android.app.AlertDialog;
+	import android.content.Context;
+	import android.content.Intent;
+	import android.os.Bundle;
+	import android.text.TextUtils;
+	import android.view.View;
+	import android.widget.Button;
+	import android.widget.Toast;
+	import com.microsoft.aad.adal.AuthenticationCallback;
+	import com.microsoft.aad.adal.AuthenticationContext;
+	import com.microsoft.aad.adal.AuthenticationResult;
+	import com.microsoft.aad.adal.PromptBehavior;
+	import java.security.NoSuchAlgorithmException;
+	import javax.crypto.NoSuchPaddingException;
+	```
 
     ![](img/0055_quick_fix_import_class.png)
 
@@ -273,7 +282,7 @@ Now that we've got the library, let's add some code to authenticate a user.
     }
     ```
 
-10. Ok - we're ready to try it out. Launch the application in the emulator.
+10. Launch the application in the emulator.
 
 11. When the app has launched, tap **Get Access Token** to start the auth process.
 
@@ -296,21 +305,22 @@ Authorization: Bearer {your access token}
 
 Next, we'll try refreshing an old token using a Refresh Token.
 
-###Task 1: Refresh an existing token
+### Task 2: Refresh an existing token
 
 Refreshing a token doesn't require any user input. We simply pass our cached **Refresh Token** to the 
-`acquireTokenByRefreshToken` function on `AuthenticationContext`. But manually caching a refresh token securely is
-difficult, and should be avoided if possible.
+`acquireTokenByRefreshToken` function on `AuthenticationContext`.
 
-Fortunately the ADAL automatically and securely encrypts and caches the refresh tokens for us. Internally, 
+> **Note:** Manually caching a refresh token securely is difficult, and should be avoided if possible.
+> 
+> Fortunately the ADAL automatically and securely encrypts and caches the refresh tokens for us. Internally, 
 it uses the [Android Keystore](https://developer.android.com/training/articles/keystore.html) to securely store
 encryption keys.
+>
+>We don't need to worry about storing the refresh token ourselves - instead we can rely on the ADAL to do it for us.
 
-So, we don't need to worry about storing the refresh token ourselves - instead we can rely on the ADAL to do it for us.
 To authenticate the user without prompting them for credentials, we use the `acquireTokenSilent` function.
 
-
-01. Open up the **activity_my.xml** layout, and add the following Button definition:
+01. Open the **activity_my.xml** layout, and add the following Button definition:
 
     ```xml
     <Button
@@ -390,16 +400,15 @@ To authenticate the user without prompting them for credentials, we use the `acq
     store the new refresh token.
 
 
-The access token will expire in a few hours, but the refresh token will remain valid for a very long time.
-
-We do need to store the User Id somewhere - currently we're storing it as a member variable on our activty,
+> **Note:**  The access token will expire in a few hours, but the refresh token will remain valid for a very long time.
+>
+>We do need to store the User Id somewhere - currently we're storing it as a member variable on our activity,
 but this will not serve for a real-world application. Instead we could store it in a database or using the
 [Shared Preferences](http://developer.android.com/reference/android/content/SharedPreferences.html) service.
 
+## Summary
 
-##Summary
-
-By completing this hands-on lab you have learnt:
+By completing this hands-on lab you have learned:
 
 01. How to add the ADAL library an Android project
 02. How to obtain an access token using the ADAL

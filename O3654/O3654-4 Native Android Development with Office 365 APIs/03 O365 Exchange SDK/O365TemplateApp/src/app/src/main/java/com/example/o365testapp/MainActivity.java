@@ -1,6 +1,7 @@
 package com.example.o365testapp;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 public class MainActivity extends Activity {
 
@@ -11,6 +12,7 @@ public class MainActivity extends Activity {
      */
     private String mAccessToken;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,9 +20,6 @@ public class MainActivity extends Activity {
 
         //Access token obtained by LaunchActivity using the Active Directory Authentication Library
         mAccessToken = getIntent().getStringExtra(PARAM_ACCESS_TOKEN);
-
-
-
     }
 
     /*
