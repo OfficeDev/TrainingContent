@@ -9,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.NoSuchPaddingException;
 
 public class App extends Application {
-
     private AuthenticationContext mAuthContext;
 
     public AuthenticationContext getAuthContext() {

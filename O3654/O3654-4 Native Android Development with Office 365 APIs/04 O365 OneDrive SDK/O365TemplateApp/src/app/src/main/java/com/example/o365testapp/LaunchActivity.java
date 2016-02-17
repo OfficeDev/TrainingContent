@@ -14,13 +14,11 @@ import com.microsoft.aad.adal.PromptBehavior;
 public class LaunchActivity extends Activity {
 
     private App mApp;
-
     private View mSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_launch);
         setProgressBarIndeterminate(true);

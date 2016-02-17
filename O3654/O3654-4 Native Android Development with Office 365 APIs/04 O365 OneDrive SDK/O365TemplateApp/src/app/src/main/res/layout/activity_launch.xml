@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/office_365_logo" />
+            android:src="@mipmap/office_365_logo" />
 
         <TextView
             android:layout_width="match_parent"

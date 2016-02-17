@@ -3,8 +3,7 @@ O365 Template App
 
 This template app is intended to be used in the following hands-on labs:
 
-01. O365 Exchange
-02. O365 SharePoint Files/OneDrive Pro
+01. Microsoft Graph
 
 It comes pre-configured with code to handle authentication with O365 using
 the Active Directory Authentication Library.
