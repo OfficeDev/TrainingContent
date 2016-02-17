@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExcelApp", "MyExcelApp\MyExcelApp.csproj", "{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExcelApp", "MyExcelApp\MyExcelApp.csproj", "{ED8EA400-3B6E-4704-ACDA-02CFB3069284}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExcelAppWeb", "MyExcelAppWeb\MyExcelAppWeb.csproj", "{7578F57D-F3E8-473D-B92D-CF259961C059}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExcelAppWeb", "MyExcelAppWeb\MyExcelAppWeb.csproj", "{F488120E-7FFA-4E0E-A37C-3F715777CBFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,16 +13,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{7578F57D-F3E8-473D-B92D-CF259961C059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7578F57D-F3E8-473D-B92D-CF259961C059}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7578F57D-F3E8-473D-B92D-CF259961C059}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7578F57D-F3E8-473D-B92D-CF259961C059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED8EA400-3B6E-4704-ACDA-02CFB3069284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED8EA400-3B6E-4704-ACDA-02CFB3069284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED8EA400-3B6E-4704-ACDA-02CFB3069284}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{ED8EA400-3B6E-4704-ACDA-02CFB3069284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED8EA400-3B6E-4704-ACDA-02CFB3069284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED8EA400-3B6E-4704-ACDA-02CFB3069284}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F488120E-7FFA-4E0E-A37C-3F715777CBFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F488120E-7FFA-4E0E-A37C-3F715777CBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F488120E-7FFA-4E0E-A37C-3F715777CBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F488120E-7FFA-4E0E-A37C-3F715777CBFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

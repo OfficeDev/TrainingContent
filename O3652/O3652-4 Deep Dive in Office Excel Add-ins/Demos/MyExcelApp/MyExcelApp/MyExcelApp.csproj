@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3238C8D2-2A04-4867-9AF6-A1CD88C7C1FE}</ProjectGuid>
+    <ProjectGuid>{ED8EA400-3B6E-4704-ACDA-02CFB3069284}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyExcelApp</RootNamespace>
@@ -14,12 +14,14 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
-    <AppFeaturePartId>{b4bef100-6339-44c2-8f61-83533fdf4b32}</AppFeaturePartId>
-    <WspPartId>{57975d76-00b4-48ec-b171-98eba121f073}</WspPartId>
-    <WorkflowPartId>{4d376d2b-8b66-44e4-9b70-c01191cc2d96}</WorkflowPartId>
-    <CspkgPartId>{d9bf9ca1-5e91-419e-b625-aceb740a8481}</CspkgPartId>
-    <SqlPackagePartId>{470d30f2-2908-4f71-8460-f00abdeb6ae9}</SqlPackagePartId>
+    <AppFeaturePartId>{ca03d792-5c0b-40aa-a580-99fa535e5a59}</AppFeaturePartId>
+    <WspPartId>{92c274fe-79d5-4415-b166-a3edb8fa9078}</WspPartId>
+    <WorkflowPartId>{18f3669d-7b32-4567-a569-a7f3c7d62dd2}</WorkflowPartId>
+    <CspkgPartId>{348e7727-8b29-4298-aa16-a4bc55ae6bb6}</CspkgPartId>
+    <SqlPackagePartId>{d047daa4-225b-4098-a86d-13d3590a2d9b}</SqlPackagePartId>
     <ProjectMode>OfficeApp</ProjectMode>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <MinimumOfficeToolsVersion>12.2</MinimumOfficeToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,7 +45,7 @@
   <ItemGroup>
     <None Include="Book1.xlsx" />
     <None Include="MyExcelAppManifest\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{9bab5dbd-3b77-490d-8bb8-1631abd6cc35}</SharePointProjectItemId>
+      <SharePointProjectItemId>{51fc6ab3-bb7f-47b2-9cad-d00324cc6697}</SharePointProjectItemId>
     </None>
     <Content Include="MyExcelAppManifest\MyExcelApp.xml">
       <OpcRelationship>manifest-oemanifest</OpcRelationship>
@@ -51,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyExcelAppWeb\MyExcelAppWeb.csproj">
-      <Project>{7578F57D-F3E8-473D-B92D-CF259961C059}</Project>
+      <Project>{F488120E-7FFA-4E0E-A37C-3F715777CBFF}</Project>
       <Name>MyExcelAppWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>
