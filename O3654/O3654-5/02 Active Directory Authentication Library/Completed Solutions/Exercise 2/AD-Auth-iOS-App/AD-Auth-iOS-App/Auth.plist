@@ -1,0 +1,7 @@
+{
+	clientId = "";
+	resourceId = "https://graph.microsoft.com/";
+	redirectUriString = "http://example.com/redirect";
+	authority = "https://login.microsoftonline.com/common";
+	graphResourceUrl = "https://graph.microsoft.com/v1.0";
+}

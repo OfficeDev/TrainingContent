@@ -1,0 +1,3 @@
+pod 'ADALiOS', '=1.2.4' 
+pod 'orc'
+pod 'MSGraph-SDK-iOS'
