@@ -45,7 +45,12 @@ In this exercise, you used the Video Portal's Web interface to create channels a
 In this exercise, you will take an existing ASP.NET MVC application and make some changes to prepare it to communicate with the Office 365 Video REST API.
 
 1. Locate the Visual Studio solution **VideoApiWeb.sln** located in the [Starter Project](Starter Project) folder in this lab. Open this project in Visual Studio.
-
+1. In the Solution Explorer, right-click the **VideoApiWeb** solution node and select **Manage Nuget Packages for Solution**.
+1. Click the **Updates** tab.
+1. Select the **Select all Packages** checkbox.
+1. Click the **Update** button.
+1. Click **OK**.
+1. Click **I Accept**.
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
   1. Change the property **SSL Enabled** to **TRUE**.

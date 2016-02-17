@@ -42,6 +42,12 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph.
 
 1. Locate the [\\\O3654\O3654-1 Deep dive into native Universal Windows App Development with Office 365 APIs\Lab\Starter](Lab\Starter) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph using the native for the Microsoft Graph. Open the solution **HubApp2.sln** in Visual Studio.
+1. In the Solution Explorer, right-click the **HubApp2** solution node and select **Manage Nuget Packages for Solution**.
+1. Click the **Updates** tab.
+1. Select the **Select all Packages** checkbox.
+1. Click the **Update** button.
+1. Click **OK**.
+1. Click **I Accept**.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Enter your Client ID.
 ![](Images/7.png)
 
