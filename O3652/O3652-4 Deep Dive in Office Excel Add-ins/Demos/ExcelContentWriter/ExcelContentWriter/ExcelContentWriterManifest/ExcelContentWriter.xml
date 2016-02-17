@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TaskPaneApp">
-  <Id>88d674f6-1df7-4400-a5ae-7cc81b9356e2</Id>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TaskPaneApp">
+  <Id>256a223d-bc7e-4542-941b-139a824a9fe7</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Ted</ProviderName>
+  <ProviderName>[Provider name]</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Excel Content Writer" />
+  <DisplayName DefaultValue="ExcelContentWriter" />
   <Description DefaultValue="ExcelContentWriter"/>
-  <Capabilities>
-    <Capability Name="Workbook" />
-  </Capabilities>
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="~remoteAppUrl/App/Home/Home.html" />
+    <SourceLocation DefaultValue="~remoteAppUrl/AddIn/Home/Home.html" />
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
 </OfficeApp>

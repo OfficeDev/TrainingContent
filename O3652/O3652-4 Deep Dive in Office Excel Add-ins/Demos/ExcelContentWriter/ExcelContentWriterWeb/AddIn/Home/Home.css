@@ -1,0 +1,6 @@
+﻿/* Page-specific styling */
+
+#content-main button, #content-main select {
+    width: 210px;
+    margin: 8px;
+}
