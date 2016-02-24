@@ -4,7 +4,6 @@ In this lab, you will create add-ins that use different approaches for OAuth aut
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 1. You must have [Fiddler](http://www.telerik.com/fiddler) installed.
-1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 ## Exercise 1: Authorization Code Flow - OAuth in a Provider-Hosted Add-In 
 In this exercise you create a new provider-hosted add-in and examine the OAuth Authorization Code flow.
@@ -213,12 +212,18 @@ In this exercise you created a new web application and examined the OAuth Author
 ## Exercise 3: Client Credentials Flow - OAuth with the Office 365 APIs 
 In this exercise you create a new web application and examine the OAuth Client Credentials flow.
 
-> Note: In order to fully demonstrate the capabilities of app-only permissions using the client credentials OAuth flow, you will need at least two users in your Office 365 tenant with some email in their inbox.
+> **Note:** In order to fully demonstrate the capabilities of app-only permissions using the client credentials OAuth flow, you will need at least two users in your Office 365 tenant with some email in their Inbox.
 
 ### Configure Azure AD Application for App-Only Authentication
 The first step is to create & configure an application in your Azure AD directory to support app-only permissions.
 
-1. Locate the starter project in the Starter Project folder within this lab located at [TrainingContent/O3652/O3652-7 Deep Dive into Security and OAuth](https://github.com/OfficeDev/TrainingContent/tree/master/O3652/O3652-7%20Deep%20Dive%20into%20Security%20and%20OAuth). Open the Visual Studio solution ClientCredsAddin.sln in Visual Studio.
+1. Locate the starter project in the Starter project folder within this lab located at [\\\O3652\O3652-7 Deep Dive into Security and OAuth\Starter Project](/Starter Project). Open the Visual Studio solution **ClientCredsAddin.sln** in Visual Studio 2015.
+1. In the Solution Explorer, right-click the **ClientCredsAddin** solution node and select **Manage Nuget Packages for Solution**.
+1. Click the **Updates** tab.
+1. Select the **Select all Packages** checkbox.
+1. Click the **Update** button.
+1. Click **OK**.
+1. Click **I Accept**.
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
   1. Change the property **SSL Enabled** to **TRUE**.
@@ -230,37 +235,38 @@ The first step is to create & configure an application in your Azure AD director
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
 1. Configure the project to always go to the homepage of the web application when debugging:
-  1. In the **Solution Explorer** tool window & select **Properties**.
+  1. In the **Solution Explorer** right-click the project and select **Properties**.
   1. Select the **Web** tab in the left margin.
   1. Find the section **Start Action**.
   1. Click the radio button **Start URL** and enter the SSL URL of the web project that you copied from the previous step.
 
-1. In the **Solution Explorer**, right click the **Office365Contacts** project and select **Add/Connected Service**.
+1. In the **Solution Explorer**, right click the **ClientCredsAddin** project and select **Add/Connected Service**.
   1. In the **Services Manager** dialog:
     1. Click **Register Your App**.
     1. When prompted, login with your **Organizational Account**.
     1. Click **App Properties**.
-      1. Verify the option **Single Organization** is selected.
-      1. Make sure there is only a single URL listed in the **Redirect URIs** and it is the HTTPS URL of the web project.
-      1. Click **Apply**.
+       1. Verify the option **Single Organization** is selected.
+       1. Make sure there is only a single URL listed in the **Redirect URIs** and it is the HTTPS URL of the web project.
+       1. Click **Apply**.
     1. Click **Users and Groups**.
-      1. Click **Enable sign-on and read user' profiles**.
-      1. Click **Apply**.
+       1. Click **Permissions...**.
+       2. Choose **Sign in and read user profile**.
+       3. Click **Apply**.
     1. Click **OK**.
 
 1. Now you need to create a public-private key-pair certificate. Do this by creating a self-signed certificate:
-  1. Launch a Visual Studio Command Prompt: **Start / Visual Studio 2013 / Visual Studio Tools / Developer Command Prompt for VS2013**.
+  1. Launch a Visual Studio Command Prompt: **Start / Visual Studio 2015 / Developer Command Prompt for VS2015**.
   1. In the command prompt, change directory to the root folder of the starter project. *The remaining steps assume you are in a folder such as `c:\dev\ClientCredsAddin`.*
   1. Run the following commands to create a new self-signed certificate:
 
     ````powershell
-    PS C:\dev\ClientCredsAddin\makecert -r -pe -n "CN=Contoso SuperApp Cert" -b 01/01/2015 -e 12/31/2015 -ss my -len 2048
+    PS C:\dev\ClientCredsAddin\makecert -r -pe -n "CN=Contoso SuperApp Cert" -b 01/01/2016 -e 12/31/2016 -ss my -len 2048
     ````
 
 1. Next, extract the public & private keys from the machine's certificate store:
   1. Launch an MMC instance (**Start / Run / MMC **).
-  1. In the menu, select **File / Add or Remove Snap-ins**.
-  1. Select **Certificates**, click **Add** and **OK**. *If prompted, pick the current user option.*
+  1. In the menu, select **File / Add or Remove Snap-in...**.
+  1. Select **Certificates**, click **Add** and **OK**. *If prompted, pick the current user or My user account option.*
 
     ![](Images/19.png)
 
@@ -356,9 +362,13 @@ Now that the application is configured with the public certificate & necessary p
 1. Open the `web.config` and set the following values in the `<appSettings>` section:
   - **ida:ClientID**: This is the Client ID of the Azure AD application you obtained in the Azure Management Portal.
   - **ida:AadTenantID**: This is the Tenant ID of the Azure AD directory you obtained in the Azure Management Portal.
-  - **ida:CertPfxFilePath**: Enter `~/Content/ClientCredsAddin.pfx` and copy the `*.pfx` file to the **Content** folder in the project. *In a real application you will want to put this certificate in a safe place on your production server and not the root of the web application, but for this lab this is sufficient.*
+  - **ida:CertPfxFilePath**: Enter `~/Content/CertCredsAddin.pfx` and copy the `*.pfx` file to the **Content** folder in the project. *In a real application you will want to put this certificate in a safe place on your production server and not the root of the web application, but for this lab this is sufficient.*
   - **ida:CertPfxFilePassword**: Enter the password you used when exporting the private `*.pfx` file.
-
+1. Assembly references are not added to the starter projects in Universal Apps, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
+	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
+	2. Click **Restore** to restore all missing NuGet packages.
+	![](Images/28.png)
+	
 1. Create a MVC controller that will be used for all authentication routing for the web application:
   1. Right-click the **Controllers** folder and select **Add/Controller**.
     1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty**.
