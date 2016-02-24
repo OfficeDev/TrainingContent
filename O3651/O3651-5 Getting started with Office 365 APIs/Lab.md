@@ -70,8 +70,12 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 1. Grant App Necessary Permissions.
 
   1. Browse to the [Azure Management Portal](https://manage.windowsazure.com) and sign in with your **Organizational Account**.
+  
+	> **Note:** If the Azure Management Portal pops up a message asking if you want to navigate to the updated Azure Management Portal answer no.
+	 
   1. In the left-hand navigation, click **Active Directory**.
   1. Select the directory you share with your Office 365 subscription.
+  1. Locate and select the **Application** tab on the header/options bar.
   1. Select the application you created for this lab.
   1. Open **Configure** tab
   1. Scroll down to the **permissions to other applications** section. 
@@ -147,6 +151,8 @@ In this exercise you will add a controller and views that utilize the Microsoft 
   1. Add the following `using` statements after the existing `using` statements in the **CalendarController.cs** file:
 
     ````c#
+	using System.ComponentModel;
+	using System.ComponentModel.DataAnnotations;
     using Microsoft.IdentityModel.Clients.ActiveDirectory;
     using System.Security.Claims;
     using System.Threading.Tasks;
