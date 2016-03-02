@@ -168,11 +168,11 @@ Now that you have an access token, create a few requests to the Microsoft Graph 
 	1. Leave the same HTTP headers in place & click the **Execute** button.
 	1. Select the session you just created and click the **Inspectors** tab. Look at the results and notice you are now seeing the details of a user within your Azure AD directory!
 	
-1. Next, try something the app has not been created access to. In the first exercise the app was not given access to Office 365 groups. Try to access a property on groups to see the error that is returned:
+1. Next, try something the app has not been created access to. In the first exercise the app was not given access to Office 365 Contacts. Try to access contacts to see the error that is returned:
 	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{userPrincipalName}/memberOf**
+	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{userPrincipalName}/contacts**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with a error message of *Insufficient privileges to complete the operation.*
+	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with a error message of *Access is denied. Check credentials and try again.*
 
 In this exercise, you used the raw REST API interface of the Microsoft Graph to interact with the different capabilities. 
 
