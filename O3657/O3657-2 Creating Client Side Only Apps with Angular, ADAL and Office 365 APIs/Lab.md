@@ -17,7 +17,6 @@ The important take-away from this lab is to understand how you can create a 100%
 In this exercise, you will examine and customize the **Starter Project** for the remainder of the lab.
 
 1. Locate the starter project found in the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles).
-1. Open the project in any text editor, such as [Visual Studio](https://www.visualstudio.com/) or [Brackets](http://www.brackets.io) or [WebStorm](https://www.jetbrains.com/webstorm/) or Notepad.
 1. Download all NPM packages (used to build & self-host the project) and bower packages (used for external 3rd party script libraries).
   1. Open a command window and navigate to the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) folder.
   1. Enter the following in the command prompt to install requried 3rd party script libraries globally
