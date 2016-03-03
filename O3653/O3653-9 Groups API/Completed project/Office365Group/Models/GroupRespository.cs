@@ -22,7 +22,7 @@ namespace Office365Group.Models
     public class GroupRespository
     {
         private string GraphResourceUrl = "https://graph.microsoft.com/V1.0";
-        private string GraphBetaResourceUrl = "https://graph.microsoft.com/beta";
+        private string TenantId = ConfigurationManager.AppSettings["ida:TenantId"];
 
         public static async Task<string> GetGraphAccessTokenAsync()
         {
@@ -92,7 +92,7 @@ namespace Office365Group.Models
         public async Task<List<GroupModel>> GetMyOrganizationGroups()
         {
             var allGroup = new List<GroupModel>();
-            string restURL = string.Format("{0}/myorganization/groups?$select=id,displayName", GraphResourceUrl);
+            string restURL = string.Format("{0}/{1}/groups?$select=id,displayName", GraphResourceUrl, TenantId);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {
@@ -113,19 +113,22 @@ namespace Office365Group.Models
         public async Task<List<GroupModel>> GetJoinedGroups()
         {
             var allGroup = new List<GroupModel>();
-            string restURL = string.Format("{0}/me/joinedGroups?$select=id,displayName", GraphBetaResourceUrl);
+            string restURL = string.Format("{0}/me/memberOf", GraphResourceUrl);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {
                 var jsonresult = JObject.Parse(responseString)["value"];
                 foreach (var item in jsonresult)
                 {
-                    var group = new GroupModel
+                    if (item["@odata.type"].ToString().Equals("#microsoft.graph.group", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                        displayName = item["displayName"].IsNullOrEmpty() ? string.Empty : item["displayName"].ToString()
-                    };
-                    allGroup.Add(group);
+                        var group = new GroupModel
+                        {
+                            Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
+                            displayName = item["displayName"].IsNullOrEmpty() ? string.Empty : item["displayName"].ToString()
+                        };
+                        allGroup.Add(group);
+                    }
                 }
             }
             return allGroup;
@@ -133,7 +136,7 @@ namespace Office365Group.Models
         public async Task<List<GroupModel>> SearchGoupByName(string groupName)
         {
             var allGroup = new List<GroupModel>();
-            string restURL = string.Format("{0}/myorganization/groups?$filter=startswith(displayName,'{1}')", GraphBetaResourceUrl, groupName);
+            string restURL = string.Format("{0}/{1}/groups?$filter=startswith(displayName,'{2}')", GraphResourceUrl, TenantId, groupName);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {
@@ -154,7 +157,7 @@ namespace Office365Group.Models
         public async Task<List<ConversationModel>> GetGroupConversations(string id)
         {
             var retconversations = new List<ConversationModel>();
-            string restURL = string.Format("{0}/myorganization/groups/{1}/conversations?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, id);
+            string restURL = string.Format("{0}/{1}/groups/{2}/conversations?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, TenantId, id);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {
@@ -177,7 +180,7 @@ namespace Office365Group.Models
         public async Task<List<ThreadModel>> GetGroupThreads(string id)
         {
             var retthreads = new List<ThreadModel>();
-            string restURL = string.Format("{0}/myorganization/groups/{1}/threads?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, id);
+            string restURL = string.Format("{0}/{1}/groups/{2}/threads?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, TenantId, id);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {
@@ -199,7 +202,7 @@ namespace Office365Group.Models
         public async Task<List<PostModel>> GetGroupThreadPosts(string groupId, string threadId)
         {
             var retPosts = new List<PostModel>();
-            string restURL = string.Format("{0}/myorganization/groups/{1}/threads/{2}/posts?$select=body,from,sender", GraphResourceUrl, groupId, threadId);
+            string restURL = string.Format("{0}/{1}/groups/{2}/threads/{3}/posts?$select=body,from,sender", GraphResourceUrl, TenantId, groupId, threadId);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {
@@ -228,7 +231,7 @@ namespace Office365Group.Models
         public async Task<List<EventModel>> GetGroupEvents(string groupId)
         {
             var retEvents = new List<EventModel>();
-            string restURL = string.Format("{0}/groups/{1}/events?$select=subject,bodyPreview,start,end,webLink", GraphResourceUrl, groupId);
+            string restURL = string.Format("{0}/{1}/groups/{2}/events?$select=subject,bodyPreview,start,end,webLink", GraphResourceUrl, TenantId, groupId);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {
@@ -265,7 +268,7 @@ namespace Office365Group.Models
         public async Task<List<FileModel>> GetGroupFiles(string groupId)
         {
             var retFiles = new List<FileModel>();
-            string restURL = string.Format("{0}/groups/{1}/drive/root/children?$select=name,webUrl,lastModifiedDateTime,size", GraphResourceUrl, groupId);
+            string restURL = string.Format("{0}/{1}/groups/{2}/drive/root/children?$select=name,webUrl,lastModifiedDateTime,size", GraphResourceUrl, TenantId, groupId);
             string responseString = await GetJsonAsync(restURL);
             if (responseString != null)
             {

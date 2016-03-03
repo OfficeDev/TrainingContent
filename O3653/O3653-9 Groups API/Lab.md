@@ -23,21 +23,19 @@ Using these accounts, create and interact with some groups using the web interfa
 ### Create a New Group 
 1. Within a browser, navigate to the **https://mail.office365.com** site & login using a valid account *(in this step, we will use Rob Walters)*.
 1. Create a new group named **Contoso Merger Working Group**.
-   1. In the left navigation, locate & click the **PLUS** icon:
-	  
+   1. In the left navigation, locate & click the **PLUS** icon.
+
       ![](Images/Figure01.png)
 
    1. Set the name to **Contoso Merger Working Group** & give it a description as shown in the following figure.
-
-	  ![](Images/Figure02.png)
+      ![](Images/Figure02.png)
 
    1. Click the **Create** button at the top to create the group.
 
 1. After creating the group, you will be prompted to add a user as a member to the group. Add one of your test users to the group *(in this step we used Janice Galvin)*.
 1. After creating the group it will appear in the left-hand navigation and indicated with a tile that contains letters from the group's name. 
    1. Update the logo for the group to be more descriptive. Click the pencil icon in the center of the group logo.
-
-	  ![](Images/Figure03.png)	
+      ![](Images/Figure03.png)	
 
    1. Then Click the pencil icon to change group icon.
 
@@ -47,18 +45,15 @@ Using these accounts, create and interact with some groups using the web interfa
    1. Click **Save** button. 
 1. With the icon set, start up a conversation in the group that other members can participate in.
    1. Click the **Start a group conversation** link in the middle-pane and enter the following message:
-	
-	  ```
+      ```
 	  Does anyone have prior relationships with firms that do corporate valuations?
 	  ```
 	
    1. Once you save the message, you will see the message appear in the list of conversations:
-
-	  ![](Images/Figure04.png)	
+      ![](Images/Figure04.png)	
 
 1. At this point the current user (*Rob Walters*) is not subscribed to the group. Ideally all messages to this group should show up in his mailbox. To do this, click the **Subscribe to this group by email** link.
-
-	> Conversations are just one of the features available in groups. In addition to conversations there is a shared calendar, files, notebook and other options. Feel free to explore and add additional content.
+    > Conversations are just one of the features available in groups. In addition to conversations there is a shared calendar, files, notebook and other options. Feel free to explore and add additional content.
 	
     ![](Images/Figure28.png)	
 
@@ -66,14 +61,12 @@ Using these accounts, create and interact with some groups using the web interfa
 1. In the last section you added another user (*Janice Galvin*) as a member when you created the group. Login as this user on the same **https://mail.office365.com** site.
 1. Once you login, you will see the **Contoso Merger Working Group** listed in the left-hand navigation. Select the group.
 1. Locate the conversation that was created in the previous step & click the **reply all** link to leave a comment:
-
     ```
     I used to work for a valuation firm... let me dig up a contact and get back to you.
     ```
 
 1. You will see the conversation update with the message you just added.
 1. Logout of **https://mail.office365.com** and login as the original user (*Rob Walters*).
-
     ![](Images/Figure05.png)
 
 1. Notice that when you login, the message will appear in their email inbox, not just in the group's conversations view. This is because you subscribed to the conversations.
@@ -81,12 +74,11 @@ Using these accounts, create and interact with some groups using the web interfa
 ### Search and join an Office 365 Group as another user
 1. Now let's try to find the group as another user. Login as a new user (*in this step we used **Thomas Hardy**).
 1. Once logged in, click the **Browse** link in the left-hand navigation.
-   
+    
     ![](Images/Figure29.png)
 
 1. Enter **contoso** as the search term and press **ENTER**.
-
-	![](Images/Figure06.png)
+    ![](Images/Figure06.png)
 
 1. Select the group **Contoso Merger Working Group** & click the **Join** button in the right-hand navigation to join the group.
 1. You should now be able to go back to main page for your inbox and see the group listed in the left-hand pane. Notice that you can see all the conversations and other aspects of the group.
@@ -100,29 +92,26 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 1. Enter the email address and password of an account that have permissions to manage the directory of the Azure AD tenant (e.g. admin@sample.onmicrosoft.com).
 1. In the left-hand navigation, scroll down and click on Active Directory.
 1. Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click **Applications** in the toolbar. 
-
-	![](Images/Figure07.png)
+    ![](Images/Figure07.png)
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
 1. In the **Add Application** wizard, enter a name of **My First Groups API App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
 1. In the **App Properties** page, enter a **SIGN-ON URL** of **https://dev.office.com**
 1. Enter an **App ID Uri** of **http://[your-O365-tenant-id].onmicrosoft.com/GroupsApiApp**.
-	> NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
-1. Click the **check** image in the lower right of the wizard to create the application. The application Quick Start page will display once the application is created.
+    > NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
 
-	![](Images/Figure08.png)
+1. Click the **check** image in the lower right of the wizard to create the application. The application Quick Start page will display once the application is created.
+    ![](Images/Figure08.png)
 
 1. On the application Quick Start page, click on **CONFIGURE** in the toolbar.
 1. Scroll down to the **Keys** section. 
-	1. In the **Select Duration** dropdown, select **1 year**. 
-	1. Then click the **Save** button at the bottom of the page.
-
-	*The page will refresh and include the value of the key. In addition, a message is displayed advising that the key will not be shown a second time.*
+   1. In the **Select Duration** dropdown, select **1 year**. 
+   1. Then click the **Save** button at the bottom of the page.
+      *The page will refresh and include the value of the key. In addition, a message is displayed advising that the key will not be shown a second time.*
 
 1. For both the **Client ID** and **Key**, copy these values to a text file as you will need them later in this lab.
-
-	![](Images/Figure09.png)
+    ![](Images/Figure09.png)
 
 ### Grant App Necessary Permissions
 1. Scroll down to the **permissions to other applications** section. 
@@ -131,6 +120,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
    1. Click the **CHECK** icon in the lower right corner.
    1. For the new **Microsoft Graph** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
       - Read all groups
+ 
    1. Click the **Save** button at the bottom of the page.
 2. Scroll down to the **permissions to other applications** section.
    1. For the new **Windows Azure Active Directory** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
@@ -140,10 +130,9 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 ### Get the Azure AD Tenant ID
 1. Click on the **View Endpoints** button in the gutter at the bottom of the page.
 1. The dialog that appears you will see a list of a number of different endpoints. All of them contain a GUID which is the unique ID of the Azure AD tenant for the application as shown in the following figure:
+    ![](Images/Figure10.png)
 
-	![](Images/Figure10.png)
-
-	Copy the GUID from any of the URLs and save them to a text file, just like you did for the client ID & key earlier, as you will need this later. 
+	**Copy the GUID from any of the URLs and save them to a text file, just like you did for the client ID & key earlier, as you will need this later.** 
 
 In this exercise you created an Azure AD application using the Azure Management portal and granted the application the necessary permissions to work with the Groups API.
 
@@ -155,7 +144,7 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
 
 1. Take the following URL and replace the `{tenant-id}` & `{client-id}` tokens with values obtained / set on the Azure AD application.
 
-	````
+    ````
 	https://login.microsoftonline.com/{tenant-id}/oauth2/authorize?
 	client_id={client-id}
 	&resource=https://graph.microsoft.com/
@@ -165,10 +154,11 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
 
 1. Open Fiddler.
 1. Open a browser navigate to the above URL after you replaced the tokens. Be sure to remove any line breaks from the above URL that were added for readability.
-	> You will be prompted to login using the same account you used to create the Azure AD application.
-1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
+	
+    > You will be prompted to login using the same account you used to create the Azure AD application.
 
-	![](Images/Figure11.png)
+1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
+    ![](Images/Figure11.png)
 
 	> NOTE: To simplify the screenshot, session requests for script & image files have been removed.
 
@@ -180,106 +170,116 @@ Use the Azure AD token endpoint to obtain an access token for the Microsoft Grap
 
 1. Take the following URL and replace the `{tenant-id}` token with the values obtained in the previous exercise:
 
-	````
-	https://login.microsoftonline.com/{tenant-id}/oauth2/token
-	```` 
+    ````
+    https://login.microsoftonline.com/{tenant-id}/oauth2/token
+    ```` 
 
 1. Within Fiddler, click the **Composer** tab.
 1. Set the HTTP action to **POST** and copy the URL above with the replaced token into the address path.
 1. Within the box just below the HTTP action & URL, add the following HTTP headers:
 
-	````
-	Accept: application/json
-	Content-Type: application/x-www-form-urlencoded
-	````
+    ````
+    Accept: application/json
+    Content-Type: application/x-www-form-urlencoded
+    ````
 
 1. Now, take the following and replace the `{client-id}` token with the value from the first exercise. Replace the `{url-encoded-client-secret}` token with the URL encoded value of the client secret from the first exercise in the lab.
 
-	> To get the URL encoded value, you can refrence [W3shools](http://www.w3schools.com/tags/ref_urlencode.asp "W3shools") to encode client secret. It will display a utility to paste the value you obtained in the first exercise and conver it to the URL encoded version.
+    > To get the URL encoded value, you can refrence [W3shools](http://www.w3schools.com/tags/ref_urlencode.asp "W3shools") to encode client secret. It will display a utility to paste the value you obtained in the first exercise and conver it to the URL encoded version.
 	
 	Lastly, replace the `{authorization-code}` token with the code that you got from the previous step, using Fiddler.
 
-	````
-	grant_type=authorization_code
-	&redirect_uri=https://dev.office.com
-	&client_id={client-id}
+    ````
+    grant_type=authorization_code
+    &redirect_uri=https://dev.office.com
+    &client_id={client-id}
 	&client_secret={url-encoded-client-secret}
 	&resource=https://graph.microsoft.com
 	&code={authorization-code}
 	````
 
 1. Take the resulting string from all the previous changes and paste it into the **Request Body** box within the **Composer** tab. Be sure to remove all line breaks form the string so you are left with something that looks like the following:
-
 	![](Images/Figure12.png)  
 
 1. Click the **Execute** button to make the request.
 1. Select the session that was just created and click the **Inspectors** tab. Here you see the all the values that were submitted in the request.
 1. Click the **JSON** button in the lower part of the **Inspector** tab. This contains the access and refresh tokens from the successful request. 
 1. Copy & save the access token just like you've done with the client ID, secret & tenant ID in the previous exercise.
-
 	![](Images/Figure13.png)  
 
 ### Issue Requests to the Group API's REST Endpoint via the Microsoft Graph
 Now that you have an access token, create a few requests to the Microsoft Graph's REST endpoint.
 
 1. First get information about the currently logged in user from the Microsoft Graph. Within Fiddler's **Composer** tab, do the following:
-	1. Set the HTTP action to **GET**.
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/me**
-	1. Set the HTTP headers to the following values, replacing the `{access-token}` token to the actual token you just obtained in the last step:
+   1. Set the HTTP action to **GET**.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/me**
+   1. Set the HTTP headers to the following values, replacing the `{access-token}` token to the actual token you just obtained in the last step:
 	
-		````
-		Accept: application/json
-		Authorization: Bearer {access-token}
-		````
+    ````
+    Accept: application/json
+    Authorization: Bearer {access-token}
+    ````
 
-	1. Clear the box for the **Request Body**.
-	1. Click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about you, the currently logged in user.
+   1. Clear the box for the **Request Body**.
+   1. Click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about you, the currently logged in user.
 
 1. Get a list of all the groups that exist within your organization.
-	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/myorganization/groups**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all the groups in your organization.
+   1. Within the Fiddler **Composer** tab.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/{tenant-id}/groups**
+      > NOTE: Replace the `{tenant-id}` with value obtained in the previous exercise.
+
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all the groups in your organization.
 	
 1. Check the groups you are currently a member of. *This assumes you are logged in as a user that's a member of at least one group.*
-	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/beta/me/joinedGroups**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about the groups you are a member of.
+   1. Within the Fiddler **Composer** tab.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/me/memberOf**
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about the groups you are a member of.
 	
 1. You can also search for a specific group using the OData query syntax:	
-	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/myorganization/groups?$filter=startswith(displayName,'Contoso')**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about the group that was created in a previous exercise.
+   1. Within the Fiddler **Composer** tab.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/{tenant-id}/groups?$filter=startswith(displayName,'Contoso')**
+      > NOTE: Replace the `{tenant-id}` with value obtained in the previous exercise.
+
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about the group that was created in a previous exercise.
 
 1. Now, look at the conversations within the specified group. *For this step, you need to get the ID (aka: objectId) of the group you found in the previous step*: 
-	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/myorganization/groups/{replace-with-group-object-id}/conversations**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all conversations in the group.
+   1. Within the Fiddler **Composer** tab.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/{tenant-id}/groups/{replace-with-group-object-id}/conversations**
+      > NOTE: Replace the `{tenant-id}` with value obtained in the previous exercise.
 
-1. You can also look at the conversations as threads...
-	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/myorganization/groups/{replace-with-group-object-id}/threads**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all threads in the group.
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all conversations in the group.
 
-1. ... and see all the posts within a thread...
-	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/myorganization/groups/{replace-with-group-object-id}/threads/{replace-with-thread-id}/posts**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all messages within a thread.
+1. You can also look at the conversations as threads.
+   1. Within the Fiddler **Composer** tab.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/{tenant-id}/groups/{replace-with-group-object-id}/threads**
+      > NOTE: Replace the `{tenant-id}` with value obtained in the previous exercise.
+
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all threads in the group.
+
+1. You can see all the posts within a thread.
+   1. Within the Fiddler **Composer** tab.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/{tenant-id}/groups/{replace-with-group-object-id}/threads/{replace-with-thread-id}/posts**
+      > NOTE: Replace the `{tenant-id}` with value obtained in the previous exercise.
+
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all messages within a thread.
 	
 1. The Groups API also allows you to look at the events and files associated with the group:
-	1. Within the Fiddler **Composer** tab...
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/myorganization/groups/{replace-with-group-object-id}/events**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all the events within the group.
-	1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/myorganization/groups/{replace-with-group-object-id}/drive/root/children**
-	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all the files within the group.
+   1. Within the Fiddler **Composer** tab.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/{tenant-id}/groups/{replace-with-group-object-id}/events**
+      > NOTE: Replace the `{tenant-id}` with value obtained in the previous exercise.
+
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all the events within the group.
+   1. Set the endpoint URL to **https://graph.microsoft.com/v1.0/{tenant-id}/groups/{replace-with-group-object-id}/drive/root/children**
+   1. Leave the same HTTP headers in place & click the **Execute** button.
+   1. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find a list of all the files within the group.
 	
 	> Note: this part of the Groups API is leveraging the capabilities of the Files and Events API endpoints in the Microsoft Graph. These specific endpoints are covered in more depth in other modules within these courses.
 	
@@ -289,57 +289,53 @@ In this exercise, you used the raw REST API interface of the Groups API by Fiddl
 In this exercise, you will use MVC web app to access the Microsoft Graph for Office 365 Groups.
 
 1. Within a browser, navigate to the **Azure Management Portal**: https://manage.windowsazure.com, find the application that you created in Exercise 2.
+    ![](Images/Figure30.png) 
 
-   ![](Images/Figure30.png) 
+1. Select the application, go to the configure table.
+    ![](Images/Figure31.png) 
 
-2. Select the application, go to the configure table.
+1. Modify **SIGN-ON URL** using **https://localhost:44300/**.
+    ![](Images/Figure16.png) 
 
-   ![](Images/Figure31.png) 
+1. Modify **REPLY URL** using **https://localhost:44300/**.
+    ![](Images/Figure17.png) 
 
-3. Modify **SIGN-ON URL** using **https://localhost:44300/**.
-
-   ![](Images/Figure16.png) 
-
-4. Modify **REPLY URL** using **https://localhost:44300/**.
-
-   ![](Images/Figure17.png) 
-
-5. Click the **Save** button at the bottom of the page.
-
-7. Locate the [\\\O3653\O3653-9 Groups API\StarterFiles](StarterFiles) folder that contains a starter project.  The starter project is an ASP.NET MVC5 web application that you will update to call the Microsoft Graph.
-8. Open the **Office365Group** Visual Studio solution as an administrator.
-9. Open the **Web.config** file.
-
-   ![](Images/Figure14.png) 
+1. Click the **Save** button at the bottom of the page.
+1. Locate the [\\\O3653\O3653-9 Groups API\StarterFiles](StarterFiles) folder that contains a starter project.  The starter project is an ASP.NET MVC5 web application that you will update to call the Microsoft Graph.
+1. Open the **Office365Group** Visual Studio solution as an administrator.
+1. Open the **Web.config** file.
+    ![](Images/Figure14.png) 
 
    1. Enter the value for **client id** that you got from Exercise 2.
-   2. Replace the value for **ClientSecret** with the **key** that you got form Exercise 2.
-   3. Replace the value for **TenantId** with the **Tenant Id** that you got form Exercise 2.
-   
-   ![](Images/Figure15.png) 
+   1. Replace the value for **ClientSecret** with the **key** that you got form Exercise 2.
+   1. Replace the value for **TenantId** with the **Tenant Id** that you got form Exercise 2.
+    ![](Images/Figure15.png) 
 
-9. Add the code to get Graph Access token.
+1. Add the code to get Graph Access token.
    1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGraphAccessTokenAsync** function.
-		````c#
-        var AzureAdGraphResourceURL = "https://graph.microsoft.com/";
-        var Authority = ConfigurationManager.AppSettings["ida:AADInstance"] + ConfigurationManager.AppSettings["ida:TenantId"];
-        var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
-        var userObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-        var clientCredential = new ClientCredential(ConfigurationManager.AppSettings["ida:ClientId"], ConfigurationManager.AppSettings["ida:ClientSecret"]);
-        var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
 
-        AuthenticationContext authContext = new AuthenticationContext(Authority, new ADALTokenCache(signInUserId));
-        var result = await authContext.AcquireTokenSilentAsync(AzureAdGraphResourceURL, clientCredential, userIdentifier);
-        return result.AccessToken;
+		````c#
+		var AzureAdGraphResourceURL = "https://graph.microsoft.com/";
+		var Authority = ConfigurationManager.AppSettings["ida:AADInstance"] + ConfigurationManager.AppSettings["ida:TenantId"];
+		var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+		var userObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+		var clientCredential = new ClientCredential(ConfigurationManager.AppSettings["ida:ClientId"], ConfigurationManager.AppSettings["ida:ClientSecret"]);
+		var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
+		AuthenticationContext authContext = new AuthenticationContext(Authority, new ADALTokenCache(signInUserId));
+		var result = await authContext.AcquireTokenSilentAsync(AzureAdGraphResourceURL, clientCredential, userIdentifier);
+		return result.AccessToken;
 		````
-10. Add the **about me** interface.
+
+1. Add the **about me** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **AboutMe** function.
 
 		````c#
 		var me = await _repo.GetMe();
 		return View(me);
 		````
-   2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMe** function.
+
+   1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMe** function.
+
 		````c#
 		UserModel me = null;
 		string restURL = string.Format("{0}/me", GraphResourceUrl);
@@ -357,25 +353,28 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
 		}
 		return me;
 		````
-   3. Test this interface:
+
+   1. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
        > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
-      2. On the **Home** page, click **Group** menu, then click **About Me** button, you will find **About Me** page like the following screenshot:
+      1. On the **Home** page, click **Group** menu, then click **About Me** button, you will find **About Me** page like the following screenshot:
          ![](Images/Figure20.png) 
 
-11. Add the **my organization groups** interface.
+1. Add the **my organization groups** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **MyOrganizationGroups** function.
 
-	    ````c#
+		````c#
 		var groups = await _repo.GetMyOrganizationGroups();
 		return View("List", groups);
-	    ````
-   2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMyOrganizationGroups** function.
-        ````c#
+		````
+
+   1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMyOrganizationGroups** function.
+
+		````c#
 		var allGroup = new List<GroupModel>();
-		string restURL = string.Format("{0}/myorganization/groups?$select=id,displayName", GraphResourceUrl);
+		string restURL = string.Format("{0}/{1}/groups?$select=id,displayName", GraphResourceUrl, TenantId);
 		string responseString = await GetJsonAsync(restURL);
 		if (responseString != null)
 		{
@@ -391,7 +390,8 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
 		    }
 		}
 		return allGroup;
-	    ````
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
@@ -400,33 +400,39 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       2. On the **Home** page, click **Group** menu, then click **My Organization Groups** button, you will find **My Organization Groups** page like the following screenshot:
          ![](Images/Figure18.png) 
 
-12. Add the **joined groups** interface.
+1. Add the **joined groups** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **JoinedGroups** function.
 
-	    ````c#
-        var groups = await _repo.GetJoinedGroups();
-        return View("List", groups);
-	    ````
+		````c#
+		var groups = await _repo.GetJoinedGroups();
+		return View("List", groups);
+		````
+
    2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetJoinedGroups** function.
-        ````c#
-        var allGroup = new List<GroupModel>();
-        string restURL = string.Format("{0}/me/joinedGroups?$select=id,displayName", GraphBetaResourceUrl);
-        string responseString = await GetJsonAsync(restURL);
-        if (responseString != null)
-        {
-            var jsonresult = JObject.Parse(responseString)["value"];
-            foreach (var item in jsonresult)
-            {
-                var group = new GroupModel
-                {
-                    Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                    displayName = item["displayName"].IsNullOrEmpty() ? string.Empty : item["displayName"].ToString()
-                };
-                allGroup.Add(group);
-            }
-        }
-        return allGroup;
-	    ````
+
+		````c#
+		var allGroup = new List<GroupModel>();
+		string restURL = string.Format("{0}/me/memberOf", GraphResourceUrl);
+		string responseString = await GetJsonAsync(restURL);
+		if (responseString != null)
+		{
+		    var jsonresult = JObject.Parse(responseString)["value"];
+		    foreach (var item in jsonresult)
+		    {
+		        if (item["@odata.type"].ToString().Equals("#microsoft.graph.group", StringComparison.CurrentCultureIgnoreCase))
+		        {
+		            var group = new GroupModel
+		            {
+		                Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
+		                displayName = item["displayName"].IsNullOrEmpty() ? string.Empty : item["displayName"].ToString()
+		            };
+		            allGroup.Add(group);
+		        }
+		    }
+		}
+		return allGroup;
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
@@ -435,17 +441,19 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, you will find **Joined Groups** page like the following screenshot:
          ![](Images/Figure19.png) 
 
-13. Add the **search for a specific group** interface.
+1. Add the **search for a specific group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **SearchGroup** function.
 
-	    ````c#
-        var groups = await _repo.SearchGoupByName(groupName);
-        return View("List", groups);
-	    ````
+		````c#
+		var groups = await _repo.SearchGoupByName(groupName);
+		return View("List", groups);
+		````
+
    2. Open **Models/GroupRespository.cs** file, use the following code to replace **SearchGoupByName** function.
-        ````c#
+
+		````c#
         var allGroup = new List<GroupModel>();
-        string restURL = string.Format("{0}/myorganization/groups?$filter=startswith(displayName,'{1}')", GraphBetaResourceUrl, groupName);
+        string restURL = string.Format("{0}/{1}/groups?$filter=startswith(displayName,'{2}')", GraphResourceUrl, TenantId, groupName);
         string responseString = await GetJsonAsync(restURL);
         if (responseString != null)
         {
@@ -461,7 +469,8 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
             }
         }
         return allGroup;
-	    ````
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
@@ -470,35 +479,38 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       2. On the **Home** page, click **Group** menu, enter a **search term** that matches the name of one of your Office 365 Groups, then click **Search For a Specific Group** button, you will find the **search results** page like the following screenshot:
          ![](Images/Figure21.png) 
 
-14. Add the **conversations within the specified group** interface.
-   1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupConversations** function.
+1. Add the **conversations within the specified group** interface.
+    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupConversations** function.
 
-	    ````c#
-        var conversations = await _repo.GetGroupConversations(id);
-        return View("GroupConversations", conversations);
-	    ````
+		````c#
+		var conversations = await _repo.GetGroupConversations(id);
+		return View("GroupConversations", conversations);
+		````
+
    2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGroupConversations** function.
-        ````c#
-        var retconversations = new List<ConversationModel>();
-        string restURL = string.Format("{0}/myorganization/groups/{1}/conversations?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl,id);
-        string responseString = await GetJsonAsync(restURL);
-        if (responseString != null)
-        {
-            var jsonresult = JObject.Parse(responseString)["value"];
-            foreach (var item in jsonresult)
-            {
-                var conversation = new ConversationModel
-                {
-                    Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                    topic = item["topic"].IsNullOrEmpty() ? string.Empty : item["topic"].ToString(),
-                    preview = item["preview"].IsNullOrEmpty() ? string.Empty : item["preview"].ToString(),
-                    lastDeliveredDateTime = item["lastDeliveredDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastDeliveredDateTime"].ToString())
-                };
-                retconversations.Add(conversation);
-            }
-        }
-        return retconversations;
-	    ````
+
+		````c#
+		var retconversations = new List<ConversationModel>();
+		string restURL = string.Format("{0}/{1}/groups/{2}/conversations?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, TenantId, id);
+		string responseString = await GetJsonAsync(restURL);
+		if (responseString != null)
+		{
+		    var jsonresult = JObject.Parse(responseString)["value"];
+		    foreach (var item in jsonresult)
+		    {
+		        var conversation = new ConversationModel
+		        {
+		            Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
+		            topic = item["topic"].IsNullOrEmpty() ? string.Empty : item["topic"].ToString(),
+		            preview = item["preview"].IsNullOrEmpty() ? string.Empty : item["preview"].ToString(),
+		            lastDeliveredDateTime = item["lastDeliveredDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastDeliveredDateTime"].ToString())
+		        };
+		        retconversations.Add(conversation);
+		    }
+		}
+		return retconversations;
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
@@ -508,36 +520,39 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       3. On **Group List** page, click the **Conversations** link for any group, you will find **Group Conversations** like the following screenshot.
          ![](Images/Figure22.png)
 
-15. Add the **group threads** interface.
+1. Add the **group threads** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupThreads** function.
 
-	    ````c#
-        var threads = await _repo.GetGroupThreads(id);
-        ViewData["GroudId"] = id;
-        return View("GroupThreads", threads);
-	    ````
+		````c#
+		var threads = await _repo.GetGroupThreads(id);
+		ViewData["GroudId"] = id;
+		return View("GroupThreads", threads);
+		````
+
    2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGroupThreads** function.
-        ````c#
-        var retthreads = new List<ThreadModel>();
-        string restURL = string.Format("{0}/myorganization/groups/{1}/threads?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, id);
-        string responseString = await GetJsonAsync(restURL);
-        if (responseString != null)
-        {
-            var jsonresult = JObject.Parse(responseString)["value"];
-            foreach (var item in jsonresult)
-            {
-                var thread = new ThreadModel
-                {
-                    Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                    topic = item["topic"].IsNullOrEmpty() ? string.Empty : item["topic"].ToString(),
-                    preview = item["preview"].IsNullOrEmpty() ? string.Empty : item["preview"].ToString(),
-                    lastDeliveredDateTime = item["lastDeliveredDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastDeliveredDateTime"].ToString())
-                };
-                retthreads.Add(thread);
-            }
-        }
-        return retthreads;
-	    ````
+
+		````c#
+		var retthreads = new List<ThreadModel>();
+		string restURL = string.Format("{0}/{1}/groups/{2}/threads?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, TenantId, id);
+		string responseString = await GetJsonAsync(restURL);
+		if (responseString != null)
+		{
+		    var jsonresult = JObject.Parse(responseString)["value"];
+		    foreach (var item in jsonresult)
+		    {
+		        var thread = new ThreadModel
+		        {
+		            Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
+		            topic = item["topic"].IsNullOrEmpty() ? string.Empty : item["topic"].ToString(),
+		            preview = item["preview"].IsNullOrEmpty() ? string.Empty : item["preview"].ToString(),
+		            lastDeliveredDateTime = item["lastDeliveredDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastDeliveredDateTime"].ToString())
+		        };
+		        retthreads.Add(thread);
+		    }
+		}
+		return retthreads;
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
 
@@ -547,41 +562,44 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       3. On **Group List** page, click the **Threads** link for any group, you will find **Group Threads** page like the following screenshot.
          ![](Images/Figure23.png)
 
-16. Add the **all the posts within a thread** interface.
+1. Add the **all the posts within a thread** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupThreadPosts** function.
 
-	    ````c#
-        var threads = await _repo.GetGroupThreadPosts(groupId, threadId);
-        return View("GroupThreadPosts", threads);
-	    ````
+		````c#
+		var threads = await _repo.GetGroupThreadPosts(groupId, threadId);
+		return View("GroupThreadPosts", threads);
+		````
+
    2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGroupThreadPosts** function.
-        ````c#
-        var retPosts = new List<PostModel>();
-        string restURL = string.Format("{0}/myorganization/groups/{1}/threads/{2}/posts?$select=body,from,sender", GraphResourceUrl, groupId, threadId);
-        string responseString = await GetJsonAsync(restURL);
-        if (responseString != null)
-        {
-            var jsonresult = JObject.Parse(responseString)["value"];
-            foreach (var item in jsonresult)
-            {
-                var post = new PostModel();
-                if (!item["body"].IsNullOrEmpty())
-                {
-                    post.content = item["body"]["content"].IsNullOrEmpty() ? string.Empty : item["body"]["content"].ToString();
-                }
-                if (!item["from"].IsNullOrEmpty() && !item["from"]["emailAddress"].IsNullOrEmpty())
-                {
-                    post.fromEmailAddress = item["from"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : item["from"]["emailAddress"]["address"].ToString();
-                }
-                if (!item["sender"].IsNullOrEmpty() && !item["sender"]["emailAddress"].IsNullOrEmpty())
-                {
-                    post.senderEmailAddress = item["sender"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : item["sender"]["emailAddress"]["address"].ToString();
-                }
-                retPosts.Add(post);
-            }
-        }
-        return retPosts;
-	    ````
+
+		````c#
+		var retPosts = new List<PostModel>();
+		string restURL = string.Format("{0}/{1}/groups/{2}/threads/{3}/posts?$select=body,from,sender", GraphResourceUrl, TenantId, groupId, threadId);
+		string responseString = await GetJsonAsync(restURL);
+		if (responseString != null)
+		{
+		    var jsonresult = JObject.Parse(responseString)["value"];
+		    foreach (var item in jsonresult)
+		    {
+		        var post = new PostModel();
+		        if (!item["body"].IsNullOrEmpty())
+		        {
+		            post.content = item["body"]["content"].IsNullOrEmpty() ? string.Empty : item["body"]["content"].ToString();
+		        }
+		        if (!item["from"].IsNullOrEmpty() && !item["from"]["emailAddress"].IsNullOrEmpty())
+		        {
+		            post.fromEmailAddress = item["from"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : item["from"]["emailAddress"]["address"].ToString();
+		        }
+		        if (!item["sender"].IsNullOrEmpty() && !item["sender"]["emailAddress"].IsNullOrEmpty())
+		        {
+		            post.senderEmailAddress = item["sender"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : item["sender"]["emailAddress"]["address"].ToString();
+		        }
+		        retPosts.Add(post);
+		    }
+		}
+		return retPosts;
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
@@ -592,50 +610,53 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       4. On **Groups Threads** page, click the **Post** link for any thread, you will find **posts list** like the following screenshot. 
          ![](Images/Figure24.png)
 
-17. Add the **events associated with the group** interface.
+1. Add the **events associated with the group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupEvents** function.
 
-	    ````c#
-        var conversations = await _repo.GetGroupEvents(id);
-        return View("GroupEvents", conversations);
-	    ````
+		````c#
+		var conversations = await _repo.GetGroupEvents(id);
+		return View("GroupEvents", conversations);
+		````
+
    2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGroupEvents** function.
-        ````c#
-        var retEvents = new List<EventModel>();
-        string restURL = string.Format("{0}/groups/{1}/events?$select=subject,bodyPreview,start,end,webLink", GraphResourceUrl, groupId);
-        string responseString = await GetJsonAsync(restURL);
-        if (responseString != null)
-        {
-            var jsonresult = JObject.Parse(responseString)["value"];
-            foreach (var item in jsonresult)
-            {
-                var Event = new EventModel();
-                Event.subject = item["subject"].IsNullOrEmpty() ? string.Empty : item["subject"].ToString();
-                Event.bodyPreview = item["bodyPreview"].IsNullOrEmpty() ? string.Empty : item["bodyPreview"].ToString();
-                Event.webLink = item["webLink"].IsNullOrEmpty() ? string.Empty : item["webLink"].ToString();
-                if (!item["start"].IsNullOrEmpty())
-                {
-                    var datetimekind = DateTimeKind.Local;
-                    if (item["start"]["timeZone"].ToString() == "UTC")
-                    {
-                        datetimekind = DateTimeKind.Utc;
-                    }
-                    Event.start = DateTime.SpecifyKind(DateTime.Parse(item["start"]["dateTime"].ToString()), datetimekind);
-                }
-                if (!item["end"].IsNullOrEmpty())
-                {
-                    var datetimekind = DateTimeKind.Local;
-                    if (item["end"]["timeZone"].ToString() == "UTC")
-                    {
-                        datetimekind = DateTimeKind.Utc;
-                    }
-                    Event.end = DateTime.SpecifyKind(DateTime.Parse(item["end"]["dateTime"].ToString()), datetimekind);
-                }
-                retEvents.Add(Event);
-            }
-        }
-        return retEvents;
-	    ````
+
+		````c#
+		var retEvents = new List<EventModel>();
+		string restURL = string.Format("{0}/{1}/groups/{2}/events?$select=subject,bodyPreview,start,end,webLink", GraphResourceUrl, TenantId, groupId);
+		string responseString = await GetJsonAsync(restURL);
+		if (responseString != null)
+		{
+		    var jsonresult = JObject.Parse(responseString)["value"];
+		    foreach (var item in jsonresult)
+		    {
+		        var Event = new EventModel();
+		        Event.subject = item["subject"].IsNullOrEmpty() ? string.Empty : item["subject"].ToString();
+		        Event.bodyPreview = item["bodyPreview"].IsNullOrEmpty() ? string.Empty : item["bodyPreview"].ToString();
+		        Event.webLink = item["webLink"].IsNullOrEmpty() ? string.Empty : item["webLink"].ToString();
+		        if (!item["start"].IsNullOrEmpty())
+		        {
+		            var datetimekind = DateTimeKind.Local;
+		            if (item["start"]["timeZone"].ToString() == "UTC")
+		            {
+		                datetimekind = DateTimeKind.Utc;
+		            }
+		            Event.start = DateTime.SpecifyKind(DateTime.Parse(item["start"]["dateTime"].ToString()), datetimekind);
+		        }
+		        if (!item["end"].IsNullOrEmpty())
+		        {
+		            var datetimekind = DateTimeKind.Local;
+		            if (item["end"]["timeZone"].ToString() == "UTC")
+		            {
+		                datetimekind = DateTimeKind.Utc;
+		            }
+		            Event.end = DateTime.SpecifyKind(DateTime.Parse(item["end"]["dateTime"].ToString()), datetimekind);
+		        }
+		        retEvents.Add(Event);
+		    }
+		}
+		return retEvents;
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
@@ -645,33 +666,36 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       3. On **Group List** page, click the **Events** link for any group, you will find **Group Events** page like the following screenshot. 
          ![](Images/Figure25.png)
 
-18. Add the **files associated with the group** interface.
+1. Add the **files associated with the group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupFiles** function.
 
-	    ````c#
-        var files = await _repo.GetGroupFiles(id);
-        return View("GroupFiles", files);
-	    ````
+		````c#
+		var files = await _repo.GetGroupFiles(id);
+		return View("GroupFiles", files);
+		````
+
    2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGroupFiles** function.
-        ````c#
-        var retFiles = new List<FileModel>();
-        string restURL = string.Format("{0}/groups/{1}/drive/root/children?$select=name,webUrl,lastModifiedDateTime,size", GraphResourceUrl, groupId);
-        string responseString = await GetJsonAsync(restURL);
-        if (responseString != null)
-        {
-            var jsonresult = JObject.Parse(responseString)["value"];
-            foreach (var item in jsonresult)
-            {
-                var file = new FileModel();
-                file.name = item["name"].IsNullOrEmpty() ? string.Empty : item["name"].ToString();
-                file.webLink = item["webUrl"].IsNullOrEmpty() ? string.Empty : item["webUrl"].ToString();
-                file.lastModifiedDateTime = item["lastModifiedDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastModifiedDateTime"].ToString());
-                file.size = FormatBytes(Convert.ToInt64(item["size"].ToString()));
-                retFiles.Add(file);
-            }
-        }
-        return retFiles;
-	    ````
+
+		````c#
+		var retFiles = new List<FileModel>();
+		string restURL = string.Format("{0}/{1}/groups/{2}/drive/root/children?$select=name,webUrl,lastModifiedDateTime,size", GraphResourceUrl, TenantId, groupId);
+		string responseString = await GetJsonAsync(restURL);
+		if (responseString != null)
+		{
+		    var jsonresult = JObject.Parse(responseString)["value"];
+		    foreach (var item in jsonresult)
+		    {
+		        var file = new FileModel();
+		        file.name = item["name"].IsNullOrEmpty() ? string.Empty : item["name"].ToString();
+		        file.webLink = item["webUrl"].IsNullOrEmpty() ? string.Empty : item["webUrl"].ToString();
+		        file.lastModifiedDateTime = item["lastModifiedDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastModifiedDateTime"].ToString());
+		        file.size = FormatBytes(Convert.ToInt64(item["size"].ToString()));
+		        retFiles.Add(file);
+		    }
+		}
+		return retFiles;
+		````
+
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       

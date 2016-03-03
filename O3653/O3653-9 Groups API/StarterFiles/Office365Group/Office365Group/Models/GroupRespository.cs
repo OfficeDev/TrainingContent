@@ -22,7 +22,7 @@ namespace Office365Group.Models
     public class GroupRespository
     {
         private string GraphResourceUrl = "https://graph.microsoft.com/V1.0";
-        private string GraphBetaResourceUrl = "https://graph.microsoft.com/beta";
+        private string TenantId = ConfigurationManager.AppSettings["ida:TenantId"];
 
         public static async Task<string> GetGraphAccessTokenAsync()
         {
