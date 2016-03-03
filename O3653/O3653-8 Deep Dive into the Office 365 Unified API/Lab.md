@@ -235,7 +235,7 @@ Next, take an existing starter project and get it ready to write code that will 
             List<UserModel> retUsers = null;
             try
             {
-                var restURL = string.Format("{0}/users?$filter={1}", AuthenticationHelper.ResourceBetaUrl, "(userType eq 'Member')");
+                var restURL = string.Format("{0}/users?$filter={1}", AuthenticationHelper.EndpointUrl, "(userType eq 'Member')");
                 string responseString = await GetJsonAsync(restURL);
 
                 if (responseString != null)
@@ -260,7 +260,7 @@ Next, take an existing starter project and get it ready to write code that will 
             UserModel user = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}", AuthenticationHelper.EndpointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
@@ -284,7 +284,7 @@ Next, take an existing starter project and get it ready to write code that will 
             UserModel user = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/manager", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/manager", AuthenticationHelper.EndpointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
 
                 if (responseString != null)
@@ -307,7 +307,7 @@ Next, take an existing starter project and get it ready to write code that will 
             List<UserModel> retUsers = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/directReports", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/directReports", AuthenticationHelper.EndpointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
@@ -330,7 +330,7 @@ Next, take an existing starter project and get it ready to write code that will 
             List<GroupModel> retUserGroups = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/memberof", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/memberof", AuthenticationHelper.EndpointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
@@ -363,7 +363,7 @@ Next, take an existing starter project and get it ready to write code that will 
             List<DriveItemModel> fileList = null;
             try
             {
-                var restURL = string.Format("{0}/users/{1}/drive/root/children", AuthenticationHelper.ResourceBetaUrl, userId);
+                var restURL = string.Format("{0}/users/{1}/drive/root/children", AuthenticationHelper.EndpointUrl, userId);
                 string responseString = await GetJsonAsync(restURL);
                 if (responseString != null)
                 {
