@@ -170,7 +170,7 @@ module wc.directives {
 
         if (document.defaultView && document.defaultView.getComputedStyle) {
           func = document.defaultView.getComputedStyle;
-        } else if (typeof (document.body.currentStyle) !== 'undefined') {
+        } else if (typeof (document.body['currentStyle']) !== 'undefined') {
           func = (element, anything) => {
             return element['currentStyle'];
           };

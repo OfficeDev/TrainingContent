@@ -17,6 +17,10 @@ The important take-away from this lab is to understand how you can create a 100%
 In this exercise, you will examine and customize the **Starter Project** for the remainder of the lab.
 
 1. Locate the starter project found in the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles).
+1. Open the project folder in any text editor, such as [Visual Studio Code](https://code.visualstudio.com/) or [Brackets](http://www.brackets.io) or [WebStorm](https://www.jetbrains.com/webstorm/).
+
+    ![](Images/OpenProject01.png)
+  
 1. Download all NPM packages (used to build & self-host the project) and bower packages (used for external 3rd party script libraries).
   1. Open a command window and navigate to the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) folder.
   1. Enter the following in the command prompt to install requried 3rd party script libraries globally
@@ -316,53 +320,57 @@ Finally, configure specific routes so they trigger ADAL JS to authenticate the u
   So that route file looks like this:
 
   ````javascript
-  'use strict';
+  ///<reference path="../../../tools/typings/tsd.d.ts" />
+  ///<reference path="../../../tools/typings/expenseApp.d.ts" />
 
-  export class Routes {
-    static configure($routeProvider:ng.route.IRouteProvider) {
-      var viewBase:string = 'app/expenseApp/views/';
+  module expenseApp {
+    'use strict';
 
-      $routeProvider
-        .when('/login', {
-          controller:   'expenseApp.LoginController',
-          templateUrl:  viewBase + 'login.html',
-          controllerAs: 'vm'
-        })
-        .when('/employees', {
-          controller:     'expenseApp.employees.EmployeesController',
-          templateUrl:    viewBase + 'employees/employees.html',
-          controllerAs:   'vm',
-          requireADLogin: true
-        })
-        .when('/employeeExpenses/:employeeId', {
-          controller:     'expenseApp.employees.EmployeeExpensesController',
-          templateUrl:    viewBase + 'employees/employeeExpenses.html',
-          controllerAs:   'vm',
-          requireADLogin: true
-        })
-        .when('/employeeEdit/:employeeId', {
-          controller:     'expenseApp.employees.EmployeeEditController',
-          templateUrl:    viewBase + 'employees/employeeEdit.html',
-          controllerAs:   'vm',
-          requireADLogin: true
-        })
-        .when('/expenses', {
-          controller:     'expenseApp.expenses.ExpensesController',
-          templateUrl:    viewBase + 'expenses/expenses.html',
-          controllerAs:   'vm',
-          requireADLogin: true
-        })
-        .when('/expensesAttachReceipt/:employeeId/:expenseId', {
-          templateUrl:    viewBase + 'expenses/expensesAttachReceipt.html',
-          controller:     'expenseApp.expenses.ExpenseReceiptController',
-          controllerAs:   'vm',
-          requireADLogin: true
-        })
-        .when('/about', {
-          controller:  'expenseApp.AboutController',
-          templateUrl: viewBase + 'about.html'
-        })
-        .otherwise({redirectTo: '/login'});
+    export class Routes {
+      static configure($routeProvider:ng.route.IRouteProvider) {
+        var viewBase:string = 'app/expenseApp/views/';
+
+        $routeProvider
+          .when('/login', {
+            controller:   'expenseApp.LoginController',
+            templateUrl:  viewBase + 'login.html',
+            controllerAs: 'vm'
+          })
+          .when('/employees', {
+            controller:     'expenseApp.employees.EmployeesController',
+            templateUrl:    viewBase + 'employees/employees.html',
+            controllerAs:   'vm',
+            requireADLogin: true
+          } as ng.route.IRoute)
+          .when('/employeeExpenses/:employeeId', {
+            controller:     'expenseApp.employees.EmployeeExpensesController',
+            templateUrl:    viewBase + 'employees/employeeExpenses.html',
+            controllerAs:   'vm',
+            requireADLogin: true
+          } as ng.route.IRoute)
+          .when('/employeeEdit/:employeeId', {
+            controller:     'expenseApp.employees.EmployeeEditController',
+            templateUrl:    viewBase + 'employees/employeeEdit.html',
+            controllerAs:   'vm',
+            requireADLogin: true
+          } as ng.route.IRoute)
+          .when('/expenses', {
+            controller:     'expenseApp.expenses.ExpensesController',
+            templateUrl:    viewBase + 'expenses/expenses.html',
+            controllerAs:   'vm',
+            requireADLogin: true
+          } as ng.route.IRoute)
+          .when('/expensesAttachReceipt/:employeeId/:expenseId', {
+            templateUrl:    viewBase + 'expenses/expensesAttachReceipt.html',
+            controller:     'expenseApp.expenses.ExpenseReceiptController',
+            controllerAs:   'vm',
+            requireADLogin: true
+          } as ng.route.IRoute)
+          .when('/about', {
+            controller:  'expenseApp.AboutController',
+            templateUrl: viewBase + 'about.html'
+          })
+          .otherwise({redirectTo: '/login'});
       }
     }
   }

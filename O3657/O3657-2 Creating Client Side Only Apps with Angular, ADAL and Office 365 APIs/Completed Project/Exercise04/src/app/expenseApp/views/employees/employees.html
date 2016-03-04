@@ -50,7 +50,7 @@
               <div class="clearfix">
                 <div class="pull-left cardBodyLeft">
                   <a href="#/employeeedit/{{::employee.id}}" class="white"><img
-                      data-ng-src="Content/Images/{{::employee.gender | lowercase}}.png" class="cardImage"/></a>
+                      data-ng-src="content/images/{{::employee.gender | lowercase}}.png" class="cardImage"/></a>
                 </div>
                 <div class="pull-left cardBodyRight">
                   <div class="cardBodyContent">{{::employee.city}}, {{::employee.state}}</div>
@@ -83,7 +83,7 @@
               <tr data-ng-repeat="employee in vm.pagedEmployees | orderBy:vm.orderby:vm.reverse"
                   class="repeat-animation">
                 <td><a href="#/employeeEdit/{{::employee.id}}"><img
-                    data-ng-src="Content/Images/{{::employee.gender | lowercase}}.png" class="cardImage"
+                    data-ng-src="content/images/{{::employee.gender | lowercase}}.png" class="cardImage"
                     alt="Employee Image"/></a></td>
                 <td><a href="#/employeeEdit/{{::employee.id}}">{{::employee.firstName }} {{::employee.lastName}}</a>
                 </td>
