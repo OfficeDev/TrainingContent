@@ -217,17 +217,11 @@ In this exercise you create a new web application and examine the OAuth Client C
 ### Configure Azure AD Application for App-Only Authentication
 The first step is to create & configure an application in your Azure AD directory to support app-only permissions.
 
-1. Locate the starter project in the Starter project folder within this lab located at [\\\O3652\O3652-7 Deep Dive into Security and OAuth\Starter Project](/Starter Project). Open the Visual Studio solution **ClientCredsAddin.sln** in Visual Studio 2015.
-1. In the Solution Explorer, right-click the **ClientCredsAddin** solution node and select **Manage Nuget Packages for Solution**.
-1. Click the **Updates** tab.
-1. Select the **Select all Packages** checkbox.
-1. Click the **Update** button.
-1. Click **OK**.
-1. Click **I Accept**.
+1. Locate the starter project in the Starter project folder within this lab located at [\\\O3652\O3652-7 Deep Dive into Security and OAuth\Starter Project](/Starter Project). Open the Visual Studio solution **ClientCredsAddin.sln** in Visual Studio 2013.
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
   1. Change the property **SSL Enabled** to **TRUE**.
-  1. Copy the **SSL URL** property to the clipboard for use in the next step.
+  1. Copy the **URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
     ![](Images/SslEnabled.png)
@@ -238,31 +232,31 @@ The first step is to create & configure an application in your Azure AD director
   1. In the **Solution Explorer** right-click the project and select **Properties**.
   1. Select the **Web** tab in the left margin.
   1. Find the section **Start Action**.
-  1. Click the radio button **Start URL** and enter the SSL URL of the web project that you copied from the previous step.
+  1. Click the radio button **Start URL** and enter the **URL** of the web project that you copied from the previous step.
 
 1. In the **Solution Explorer**, right click the **ClientCredsAddin** project and select **Add/Connected Service**.
   1. In the **Services Manager** dialog:
-    1. Click **Register Your App**.
+    1. Click **Register your app**.
     1. When prompted, login with your **Organizational Account**.
     1. Click **App Properties**.
        1. Verify the option **Single Organization** is selected.
-       1. Make sure there is only a single URL listed in the **Redirect URIs** and it is the HTTPS URL of the web project.
        1. Click **Apply**.
+    ![](Images/29.png)
     1. Click **Users and Groups**.
        1. Click **Permissions...**.
        2. Choose **Sign in and read user profile**.
        3. Click **Apply**.
+    ![](Images/30.png)
     1. Click **OK**.
 
 1. Now you need to create a public-private key-pair certificate. Do this by creating a self-signed certificate:
-  1. Launch a Visual Studio Command Prompt: **Start / Visual Studio 2015 / Developer Command Prompt for VS2015**.
-  1. In the command prompt, change directory to the root folder of the starter project. *The remaining steps assume you are in a folder such as `c:\dev\ClientCredsAddin`.*
-  1. Run the following commands to create a new self-signed certificate:
+  1. Launch a Visual Studio Command Prompt: **Start / Visual Studio 2013 / Developer Command Prompt for VS2013**.
+  1. In the command prompt, run the following commands to create a new self-signed certificate:
 
-    ````powershell
-    PS C:\dev\ClientCredsAddin\makecert -r -pe -n "CN=Contoso SuperApp Cert" -b 01/01/2016 -e 12/31/2016 -ss my -len 2048
+    ````command
+    makecert -r -pe -n "CN=Contoso SuperApp Cert" -b 01/01/2016 -e 12/31/2016 -ss my -len 2048
     ````
-
+    ![](Images/31.png)
 1. Next, extract the public & private keys from the machine's certificate store:
   1. Launch an MMC instance (**Start / Run / MMC **).
   1. In the menu, select **File / Add or Remove Snap-in...**.
@@ -298,7 +292,7 @@ Now that you have the certificate public-private key pair, you need to add the p
 
     ````powershell
     $cer = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
-    $cer.Import("c:\dev\ClientCredsAddin\ClientCredsAddin.cer")
+    $cer.Import("c:\certs\ClientCredsAddin.cer")
     $bin = $cer.GetRawCertData()
 
     $base64Value = [System.Convert]::ToBase64String($bin)
@@ -307,8 +301,12 @@ Now that you have the certificate public-private key pair, you need to add the p
     $base64Thumbprint = [System.Convert]::ToBase64String($bin)
 
     $keyid = [System.Guid]::NewGuid().ToString()
-    ````
 
+    $base64Thumbprint
+    $keyid
+    $base64Value
+    ````
+    ![](Images/32.png)
 1. Now, update the application's registration in the Azure Management Portal:
   1. Open a browser and navigate to the Azure Management Portal at https://manage.windowsazure.com.
   1. In the left-hand navigation, scroll down to and click on **Active Directory**.
@@ -319,6 +317,7 @@ Now that you have the certificate public-private key pair, you need to add the p
   > There is no user interface to add a certificate so you will add it manually to the manifest.
   
   1. At the bottom of the page, click the **Manage Manifest** button and select **Download Manifest** to download a JSON manifest of the application. 
+    ![](Images/33.png)
   1. Open the JSON file in a text editor & locate the section `"keyCredentials": [],`.
   1. Add a JSON object to this empty array that matches looks like the following, but take care to update values **$base64Value**, **$base64Thumbprint** & **$keyId** from the values you obtained in PowerShell previously:
 
@@ -333,27 +332,31 @@ Now that you have the certificate public-private key pair, you need to add the p
       }
     ],
     ````
-
+    ![](Images/34.png)
   1. Save your changes.
   1. Go back to the Azure Management Portal where your app is still selected.
   1. Click the **Manage Manifest** button and select **Upload Manifest**.
+    ![](Images/35.png)
   1. Upload the JSON file you just modified.
 
   1. Now, modify the permissions for the application to grant the application app-only permissions.
     1. Scroll down to the **permissions to other applications** section. 
-      1. In the **Select Application** dropdown, select **Office 365 Exchange Online**. 
-      1. In the **Application Permissions** dropdown on the same line for **Office 365 Exchange Online**, the following permission:
+      1. Click **Add application**. In the popup window, add **Office 365 Exchange Online**
+      ![](Images/40.png)
+      1. In the **Application Permissions** dropdown on the same line for **Office 365 Exchange Online**, select the following permission:
       
         + Read mail in all mailboxes
-
+     ![](Images/36.png)
       1. In the line for **Windows Azure Active Directory**, select the **Application Permissions** dropdown and add the following permission:
 
         + Read directory data
+     ![](Images/37.png)
   1. Click the **Save** button at the bottom of the page.
 
 1. Before leaving Azure AD, collect two values that will be needed in the next step:
   1. On the page for the Azure AD application, locate the **Client ID** GUID and copy it to a text file.
   1. At the bottom of the page, click the **View Endpoints** button. All of the endpoints have a GUID near the start of them. Copy that GUID as that is the **tenant ID** or your Azure AD directory.
+    ![](Images/38.png)
 
 ### Setup the ASP.NET MVC Web Application for App-Only Authentication
 Now that the application is configured with the public certificate & necessary permissions in Azure AD, you can now update the ASP.NET MVC application for app-only permissions and leverage the client credentials OAuth flow.
@@ -362,8 +365,9 @@ Now that the application is configured with the public certificate & necessary p
 1. Open the `web.config` and set the following values in the `<appSettings>` section:
   - **ida:ClientID**: This is the Client ID of the Azure AD application you obtained in the Azure Management Portal.
   - **ida:AadTenantID**: This is the Tenant ID of the Azure AD directory you obtained in the Azure Management Portal.
-  - **ida:CertPfxFilePath**: Enter `~/Content/CertCredsAddin.pfx` and copy the `*.pfx` file to the **Content** folder in the project. *In a real application you will want to put this certificate in a safe place on your production server and not the root of the web application, but for this lab this is sufficient.*
-  - **ida:CertPfxFilePassword**: Enter the password you used when exporting the private `*.pfx` file.
+  - **ida:CertPfxFilePath**: Enter `~/Content/CertCredsAddin.pfx` and copy the `CertCredsAddin.pfx` file to the **Content** folder in the project. *In a real application you will want to put this certificate in a safe place on your production server and not the root of the web application, but for this lab this is sufficient.*
+  - **ida:CertPfxFilePassword**: Enter the password you used when exporting the private `CertCredsAddin.pfx` file.
+    ![](Images/39.png)
 1. Assembly references are not added to the starter projects in Universal Apps, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
 	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
 	2. Click **Restore** to restore all missing NuGet packages.
@@ -418,57 +422,69 @@ Now that the application is configured with the public certificate & necessary p
 
     ````c#
     public async Task<ActionResult> Auth() {
-      var authHelper = new AuthHelper();
-      var appState = new AppState();
-
-      // get id token from successful AzureAD auth
-      var openIdToken = AuthHelper.OpenIdToken(Request.Form["id_token"]);
-      appState.TenantId = openIdToken.TenantId;
-      appState.TenantDomain = openIdToken.Domain;
-      appState.LoggedOnUser = openIdToken.UserPrincipalName;
-
-      // set app as authoirzed
-      appState.AppIsAuthorized = true;
-
-      // obtain access token for graph client
-      var aadGraphAccessToken = await authHelper.GetAppOnlyAccessToken(
-        SettingsHelper.AzureAdGraphResourceId, 
-        appState.TenantId);
-
-      // TODO LATER: get all users in the directory
-
-      // get access token for exchange online
-      var exchangeOnlineAccessToken = await authHelper.GetAppOnlyAccessToken(SettingsHelper.ExchangeOnlineResourceId, appState.TenantId);
-      appState.ExchangeOnlineAccessToken = exchangeOnlineAccessToken;
-
-      Session["ClientCredsAddinAppState"] = appState;
-
-      return new RedirectResult("/Mail");
+	   var authHelper = new AuthHelper();
+	   var appState = new AppState();
+	
+	   // get id token from successful AzureAD auth
+	   var openIdToken = AuthHelper.OpenIdToken(Request.Form["id_token"]);
+	   appState.TenantId = openIdToken.TenantId;
+	   appState.TenantDomain = openIdToken.Domain;
+	   appState.LoggedOnUser = openIdToken.UserPrincipalName;
+	
+	   // set app as authoirzed
+	   appState.AppIsAuthorized = true;
+	
+	   // obtain access token for graph client
+	   var aadGraphAccessToken = await authHelper.GetAppOnlyAccessToken(
+	     SettingsHelper.AzureAdGraphResourceId, 
+	     appState.TenantId);
+	
+	   // TODO LATER: get all users in the directory
+	
+	   // get access token for exchange online
+	   var exchangeOnlineAccessToken = await authHelper.GetAppOnlyAccessToken(SettingsHelper.ExchangeOnlineResourceId, appState.TenantId);
+	   appState.ExchangeOnlineAccessToken = exchangeOnlineAccessToken;
+	
+	   Session["ClientCredsAddinAppState"] = appState;
+	
+	   return new RedirectResult("/Mail");
     }
     ````
 
   1. Create a new class **JwtToken** in the **Models** folder to represent the OpenID JWT token returned from Azure AD and add the following code to it:
 
     ````c#
-    public static JwtToken OpenIdToken(string idToken)
-    {
-      string encodedOpenIdToken = idToken;
-      string decodedOpenIdToken = Base64UrlDecodeJwtTokenPayload(encodedOpenIdToken);
-
-      return JsonConvert.DeserializeObject<JwtToken>(decodedOpenIdToken);
-    }
-
-    private static string Base64UrlDecodeJwtTokenPayload(string base64UrlEncodedJwtToken) {
-      string payload = base64UrlEncodedJwtToken.Split('.')[1];
-
-      return Base64UrlEncoder.Decode(payload);
-    }
+    using Newtonsoft.Json;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Web;
+	
+	namespace ClientCredsAddin.Models
+	{
+	    public class JwtToken
+	    {
+	        [JsonProperty(PropertyName = "tid")]
+	        public string TenantId { get; set; }
+	        [JsonProperty(PropertyName = "upn")]
+	        public string UserPrincipalName { get; set; }
+	        [JsonProperty(PropertyName = "domain")]
+	        public string Domain
+	        {
+	            get
+	            {
+	                return (string.IsNullOrEmpty(UserPrincipalName))
+	                  ? "string.Empty"
+	                  : UserPrincipalName.Split('@')[1];
+	            }
+	        }
+	    }
+	}
     ````
 
   1. Create the `AuthHelper` utility class that will be used to handle the heavy lifting part of getting access tokens and processing OpenID tokens.
     1. Add a new class to the **Utils** folder named **AuthHelper.cs**.
-    1. Ensure the following using statements are present at the top of the file:
-
+    1. Ensure the following using statements are present at the top of the file:    
       ````c#
       using System;
       using System.Collections.Generic;
@@ -481,65 +497,66 @@ Now that the application is configured with the public certificate & necessary p
       using Microsoft.IdentityModel.Clients.ActiveDirectory;
       using Newtonsoft.Json;
       ````
+    1. Add the following methods to the `AuthHelper` class to process the OpenID JWT token returned from Azure AD:    
+       ````c#
+       public static JwtToken OpenIdToken(string idToken)
+       {
+         string encodedOpenIdToken = idToken;
+         string decodedOpenIdToken = Base64UrlDecodeJwtTokenPayload(encodedOpenIdToken);
 
-    1. Add the following methods to the `AuthHelper` class to process the OpenID JWT token returned from Azure AD:
+         return JsonConvert.DeserializeObject<JwtToken>(decodedOpenIdToken);
+       }
 
-      ````c#
-      public static JwtToken OpenIdToken(string idToken)
-      {
-        string encodedOpenIdToken = idToken;
-        string decodedOpenIdToken = Base64UrlDecodeJwtTokenPayload(encodedOpenIdToken);
+       private static string Base64UrlDecodeJwtTokenPayload(string base64UrlEncodedJwtToken) {
+         string payload = base64UrlEncodedJwtToken.Split('.')[1];
 
-        return JsonConvert.DeserializeObject<JwtToken>(decodedOpenIdToken);
-      }
-
-      private static string Base64UrlDecodeJwtTokenPayload(string base64UrlEncodedJwtToken) {
-        string payload = base64UrlEncodedJwtToken.Split('.')[1];
-
-        return Base64UrlEncoder.Decode(payload);
-      }
-      ````
-
+         return Base64UrlEncoder.Decode(payload);
+       }
+       ````
     1. Add the following method to the `AuthHelper` class to obtain an app-only OAuth access token from Azure AD for the specified resource:
+       ````c#
+       public async Task<string> GetAppOnlyAccessToken(string resource, string tenantId)
+       {
+         string authority = SettingsHelper.AzureADAuthority;
+         var authContext = new Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext(authority, false);
 
-    ````c#
-    public async Task<string> GetAppOnlyAccessToken(string resource, string tenantId)
-    {
-      string authority = SettingsHelper.AzureADAuthority;
-      var authContext = new Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext(authority, false);
-
-      // get certificate & password
-      string certFile = HttpContext.Current.Server.MapPath(SettingsHelper.CertPfxFilePath);
-      string certPassword = SettingsHelper.CertPfxFilePassword;
-      var cert = new X509Certificate2(certFile, certPassword, X509KeyStorageFlags.MachineKeySet);
-      var clientAssertionCert = new ClientAssertionCertificate(SettingsHelper.ClientId, cert);
+         // get certificate & password
+         string certFile = HttpContext.Current.Server.MapPath(SettingsHelper.CertPfxFilePath);
+         string certPassword = SettingsHelper.CertPfxFilePassword;
+         var cert = new X509Certificate2(certFile, certPassword, X509KeyStorageFlags.MachineKeySet);
+         var clientAssertionCert = new ClientAssertionCertificate(SettingsHelper.ClientId, cert);
       
-      // authenticate
-      var authResult = await authContext.AcquireTokenAsync(resource, clientAssertionCert);
+         // authenticate
+         var authResult = await authContext.AcquireTokenAsync(resource, clientAssertionCert);
 
-      return authResult.AccessToken;
-    }
-    ````
+         return authResult.AccessToken;
+       }
+       ````
 
   1. Finally, add a class to hold the application state that will be stored in the session state. Add a class named **AppState** to the **Models** folder and add the following code to it:
 
     ````c#
-    public async Task<string> GetAppOnlyAccessToken(string resource, string tenantId)
-    {
-      string authority = SettingsHelper.AzureADAuthority;
-      var authContext = new Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext(authority, false);
-
-      // get certificate & password
-      string certFile = HttpContext.Current.Server.MapPath(SettingsHelper.CertPfxFilePath);
-      string certPassword = SettingsHelper.CertPfxFilePassword;
-      var cert = new X509Certificate2(certFile, certPassword, X509KeyStorageFlags.MachineKeySet);
-      var clientAssertionCert = new ClientAssertionCertificate(SettingsHelper.ClientId, cert);
-      
-      // authenticate
-      var authResult = await authContext.AcquireTokenAsync(resource, clientAssertionCert);
-
-      return authResult.AccessToken;
-    }
+    using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Web;
+	
+	namespace ClientCredsAddin.Models {
+	  public class AppState {
+	    public string TenantId { get; set; }
+	    public string TenantDomain { get; set; }
+	    public string LoggedOnUser { get; set; }
+	    public bool AppIsAuthorized { get; set; }
+	    public string ExchangeOnlineAccessToken { get; set; }
+	
+	    public Dictionary<string,string> MailboxList { get; set; }
+	
+	    public AppState() {
+	      this.AppIsAuthorized = false;
+	      this.MailboxList = new Dictionary<string, string>();
+	    }
+	  }
+	}
     ````
 
 ### Get Users From Azure AD Directory with App-Only Permissions
@@ -561,7 +578,7 @@ With authentication setup with the application in Azure AD and in the ASP.NET MV
     using Newtonsoft.Json;
     ````
 
-  1. Next, add the following method to retrieve and return a collection of users from the Azure AD directory using the Azure AD graph REST API:
+  1. Next, add the following method in the **GraphRepository** class to retrieve and return a collection of users from the Azure AD directory using the Azure AD graph REST API:
 
     ````c#
     public async Task<Dictionary<string, string>> GetUsers(string accessToken) {
@@ -588,10 +605,9 @@ With authentication setup with the application in Azure AD and in the ASP.NET MV
     }
     ````
 
-  1. Go back to the **AccountController**. Locate the `TODO LATER` comment in the `Auth()` route handler and replace them with the following code that will retrieve the users from the directory:
+  1. Go back to the **AccountController**. Find the `TODO LATER: get all users in the directory` comment in the `Auth()` route handler. Under this comment, add the following code that will retrieve the users from the directory:
 
-    ````c#
-    // get all users in the directory
+    ````c#    
     var graphRepo = new GraphRepository();
     var users = await graphRepo.GetUsers(aadGraphAccessToken);
     appState.MailboxList = users;
@@ -697,21 +713,53 @@ The ASP.NET MVC web application now contains all the *worker* code to authentica
   1. Click **Add**.
 1. Within the **Views/Mail/Index.cshtml** file, delete all the code in the file and replace it with the following code:
 
-  ````html
-  @model ClientCredsAddin.Models.MailViewModel
-  @{
-    ViewBag.Title = "Index";
-  }
-
-  <h2>Index</h2>
-
-  @if (Model.AppState.AppIsAuthorized == false) {
-    using (Html.BeginForm("", "Mail", FormMethod.Post)) {
-      <p>Force admin consent:</p>
-      <button type="submit" name="action:GoAdminConsent">Go Admin Consent</button>
-    }
-  }
-  ````
+    ````
+    @model ClientCredsAddin.Models.MailViewModel
+	@{
+	    ViewBag.Title = "Index";
+	}
+	
+	<h2>Index</h2>
+	
+	@if (Model.AppState.AppIsAuthorized == false)
+	{
+	    using (Html.BeginForm("", "Mail", FormMethod.Post))
+	    {
+	        <p>Force admin consent:</p>
+	        <button type="submit" name="action:GoAdminConsent">Go Admin Consent</button>
+	    }
+	}
+	
+	@if (Model.AppState.AppIsAuthorized == true)
+	{
+	    <p>
+	        <strong>Organization:</strong> [@Model.AppState.TenantDomain]<br />
+	        <strong>Current logged in user:</strong> [@Model.AppState.LoggedOnUser]
+	    </p>
+	
+	    using (Html.BeginForm("", "Mail", FormMethod.Post))
+	    {
+	        <p>
+	            Select a mailbox:<br />
+	            @Html.DropDownList("Mailbox", Model.UserListSelectors)
+	            <button type="submit" name="action:viewMailboxMessages">View User's Emails</button>
+	        </p>
+	    }
+	
+	    if (Model.Messages.Count > 0)
+	    {
+	        <p>
+	            <strong>Selected mailbox messages: </strong> [@Model.SelectedMailbox]<br />
+	            <ul>
+	                @foreach (var message in Model.Messages)
+	                {
+	                    <li>@message</li>
+	                }
+	            </ul>
+	        </p>
+	    }
+	}
+    ````
 
 1. Notice that the code you just added to the view uses a custom view model object. Go ahead and add that:
   1. Add a new class named **MailViewModel** to the **Models** folder.
@@ -741,7 +789,7 @@ The ASP.NET MVC web application now contains all the *worker* code to authentica
 
 1. Implement the default route for the **MailController**:
   1. Go back to the `MailController` class within the **Controllers** folder.
-  1. Add the following `Index()` route to the `MailController`:
+  1. Update `Index()` route with the following code in the `MailController`:
 
     ````c#
     public ActionResult Index() {
@@ -774,54 +822,34 @@ The ASP.NET MVC web application now contains all the *worker* code to authentica
       }).ToList();
     }
     ````
-
-  1. Now go back to the view file (**Views/Mail/Index.cshtml**) and add the following code to implement the details of the current login session and the drop down list of mailboxes.
-
-    ````html
-    @if (Model.AppState.AppIsAuthorized == true) {
-      <p>
-        <strong>Organization:</strong> [@Model.AppState.TenantDomain]<br />
-        <strong>Current logged in user:</strong> [@Model.AppState.LoggedOnUser]
-      </p>
-
-      using (Html.BeginForm("", "Mail", FormMethod.Post)) {
-        <p>
-          Select a mailbox:<br />
-          @Html.DropDownList("Mailbox", Model.UserListSelectors)
-          <button type="submit" name="action:viewMailboxMessages">View User's Emails</button>
-        </p>
-      }
-    }
-    ````
-
 1. Last but not least, go back to the `MailController` to add one last method that will handle when the user click the button to fetch the email messages from a user's mailbox:
 
-  ````c#
-  [HttpPost]
-  [MultipleButton(Name = "action", Argument = "viewMailboxMessages")]
-  public async Task<ActionResult> ListEmailMessages() {
-    var appState = Session["ClientCredsAddinAppState"] as AppState;
-
-    // get requested mailbox
-    var requestedMailbox = Request.Form["Mailbox"];
-
-    // build view model
-    var viewModel = new MailViewModel {
-      AppState = appState,
-      SelectedMailbox = requestedMailbox,
-      UserListSelectors = GetMailboxSelectOptions(appState.MailboxList)
-    };
-
-    // get messages
-    var repo = new MessageRepository(viewModel.AppState.ExchangeOnlineAccessToken);
-    var results = await repo.GetMessages(requestedMailbox);
-
-    viewModel.SelectedMailbox = requestedMailbox;
-    viewModel.Messages = results;
-
-    return View("Index", viewModel);
-  }
-  ````
+    ````c#
+    [HttpPost]
+    [MultipleButton(Name = "action", Argument = "viewMailboxMessages")]
+    public async Task<ActionResult> ListEmailMessages() {
+	    var appState = Session["ClientCredsAddinAppState"] as AppState;
+	
+	    // get requested mailbox
+	    var requestedMailbox = Request.Form["Mailbox"];
+	
+	    // build view model
+	    var viewModel = new MailViewModel {
+	      AppState = appState,
+	      SelectedMailbox = requestedMailbox,
+	      UserListSelectors = GetMailboxSelectOptions(appState.MailboxList)
+	    };
+	
+	    // get messages
+	    var repo = new MessageRepository(viewModel.AppState.ExchangeOnlineAccessToken);
+	    var results = await repo.GetMessages(requestedMailbox);
+	
+	    viewModel.SelectedMailbox = requestedMailbox;
+	    viewModel.Messages = results;
+	
+	    return View("Index", viewModel);
+    }
+    ````
 
 1. Test the application by pressing **F5** in Visual Studio or using the **Debug / Start Debugging** menu item.
   1. When the browser launches, click the **Mail** menu item in the top navigation.
