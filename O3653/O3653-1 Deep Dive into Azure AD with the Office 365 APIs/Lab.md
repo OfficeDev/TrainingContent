@@ -4,8 +4,9 @@ In this lab you will explore the Microsoft Graph using a Windows Store App.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-1. You must have Visual Studio 2015.
+1. You must have Visual Studio 2015. 
 1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
+*Note: To perform Exercise 2, you need to work on Windows 10 or you need to install a Windows 10 emulator. If you want to install an emulator you have to have Visual Studio 2015 Professional version. Please refer to the following link https://msdn.microsoft.com/en-us/library/dn975273.aspx to develop apps for the Universal Windows Platform (UWP).*
 
 ## Exercise 1: Use the Microsoft Graph in a Native Client Application and Configure the Starter Project
 In this exercise, you will use the Microsoft Graph within a Windows 10 application. 
@@ -42,12 +43,6 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 > This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 1. Locate the starter project in the Starter project folder within this lab located at [\\\O3653\O3653-1\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Starter](Lab/Starter). Open the Visual Studio solution **MyFilesWin10.sln** in Visual Studio 2015.
-1. In the Solution Explorer, right-click the **MyFilesWin10** solution node and select **Manage Nuget Packages for Solution**.
-1. Click the **Updates** tab.
-1. Select the **Select all Packages** checkbox.
-1. Click the **Update** button.
-1. Click **OK**.
-1. Click **I Accept**.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Enter your Client ID.
 ![](Images/7.png)
 
