@@ -21,7 +21,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
-1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph App** and choose the type **Web Application and/or Web API**. Click the arrow to advance to the next page of the wizard.
+1. In the **Add Application** wizard, enter a name of **My First Microsoft Graph App** and choose the type **Web application and/or web API**. Click the arrow to advance to the next page of the wizard.
 1. In the **App Properties** page, enter a **SIGN-ON URL** of **https://dev.office.com**
 1. Enter an **App ID Uri** of **http://[your-O365-tenant-id].onmicrosoft.com/MicrosoftGraphApiApp**.
 
@@ -48,8 +48,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 	1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Microsoft Graph** option.
 	1. Click the **CHECK** icon in the lower right corner.
 	1. For the new **Microsoft Graph** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
-		- Read files that the user selects
-		- Read user files and files shared with user
+		- Read all files that user can access
 		- Read all groups
 		- Read all users' full profiles
 		- Sign in and read user profile
@@ -115,7 +114,7 @@ Use the Azure AD token endpoint to obtain an access token for the Microsoft Grap
 
 1. Now, take the following and replace the `{client-id}` token with the value from the first exercise. Replace the `{url-encoded-client-secret}` token with the URL encoded value of the client secret from the first exercise in the lab.
 
-	> To get the URL encoded value, search for the phrase *url encode* on [http://www.bing.com]. It will display a utility to paste the value you obtained in the first exercise and conver it to the URL encoded version.
+	> To get the URL encoded value, search for the phrase *url encode* on [http://www.bing.com]. It will display a utility to paste the value you obtained in the first exercise and convert it to the URL encoded version.
 	
 	Lastly, replace the `{authorization-code}` token with the code that you got from the previous step, using Fiddler.
 
@@ -172,7 +171,7 @@ Now that you have an access token, create a few requests to the Microsoft Graph 
 	1. Within the Fiddler **Composer** tab...
 	1. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{userPrincipalName}/contacts**
 	1. Leave the same HTTP headers in place & click the **Execute** button.
-	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with a error message of *Access is denied. Check credentials and try again.*
+	1. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with an error message of *Access is denied. Check credentials and try again.*
 
 In this exercise, you used the raw REST API interface of the Microsoft Graph to interact with the different capabilities. 
 
@@ -194,10 +193,9 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 1. Once the application has been created, click the **Configure** link the top navigation menu.
 1. Find the **Client ID** on the **Configure** page & copy it for later use.
 1. Scroll to the bottom of the page to the section **Permissions to Other Applications**.
-1. Click the **Add Application** button & select the **Office 365 Microsoft Graph**, then click the check to add it to your application.
-1. Select the **Delegated Permissions: 0** control and add the following permissions to the application:
-	- Read files that the user selects
-	- Read user files and files shared with user
+1. Click the **Add Application** button & select the **Microsoft Graph**, then click the check to add it to your application.
+1. Select the **Delegated Permissions: 0**, control and add the following permissions to the application:
+	- Read all files that user can access
 	- Read all groups
 	- Read all users' full profiles
 	- Sign in and read user profile
@@ -222,6 +220,24 @@ Next, take an existing starter project and get it ready to write code that will 
 	
 	Set the value of that string **http://localhost/microsoftgraphapi**.
 
+### Update the Application to get GraphServiceClient object.
+1. Open the file **AuthenticationHelper.cs**.
+2. Update the **GetGraphServiceAsync** function to get GraphServiceClient:
+	1. Locate the function `GetGraphServiceAsync()`.
+	1. Replace the existing `return null;` line with the following code:
+
+	   ````c#
+       var accessToken = await GetGraphAccessTokenAsync();
+       var graphserviceClient = new GraphServiceClient(url,
+                                          new DelegateAuthenticationProvider(
+                                                        (requestMessage) =>
+                                                        {
+                                                            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                                                            return Task.FromResult(0);
+                                                        }));
+
+        return graphserviceClient;
+		````
 
 ### Update the Application to Retrieve Data via the Microsoft Graph
 *Now you will update the project's codebase to retrieve data from the Microsoft Graph to display the values within the Windows 10 application.*
@@ -232,24 +248,19 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 
 		````c#
-            List<UserModel> retUsers = null;
-            try
-            {
-                var restURL = string.Format("{0}/users?$filter={1}", AuthenticationHelper.EndpointUrl, "(userType eq 'Member')");
-                string responseString = await GetJsonAsync(restURL);
-
-                if (responseString != null)
-                {
-                    retUsers = JObject.Parse(responseString)["value"].ToObject<UserModel[]>().ToList();
-                }
-            }
-
-            catch (Exception el)
-            {
-                el.ToString();
-            }
-
-            return retUsers;
+        try
+        {
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceAsync(AuthenticationHelper.EndpointUrl);
+            var userCollection = await graphServiceClient.Users.Request().
+                                          Filter(string.Format("userType eq 'Member'")).
+                                          Select("id,displayName,jobTitle").GetAsync();
+            return userCollection.CurrentPage.ToList();
+        }
+        catch (Exception el)
+        {
+            el.ToString();
+        }
+        return null;
 		````
 
 1. Update the **GetUserAsync** function to get details on a specific user:
@@ -257,23 +268,18 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-            UserModel user = null;
-            try
-            {
-                var restURL = string.Format("{0}/users/{1}", AuthenticationHelper.EndpointUrl, userId);
-                string responseString = await GetJsonAsync(restURL);
-                if (responseString != null)
-                {
-                    user = JObject.Parse(responseString).ToObject<UserModel>();
-                }
-            }
-
-            catch (Exception el)
-            {
-                el.ToString();
-            }
-
-            return user;
+        try
+        {
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceAsync(AuthenticationHelper.EndpointUrl);
+            UserRequestBuilder userBuilder = new UserRequestBuilder(string.Format("{0}/users/{1}", AuthenticationHelper.EndpointUrl, userId),
+                                                                   graphServiceClient);
+            return await userBuilder.Request().Select("id,displayName,jobTitle,email,userPrincipalName,department,mobilePhone,city,country,streetAddress").GetAsync();
+        }
+        catch (Exception el)
+        {
+            el.ToString();
+        }
+        return null;
 		````
 
 1. Update the **GetUserManagerAsync** function to get a specific user's direct manager:
@@ -281,22 +287,20 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-            UserModel user = null;
-            try
-            {
-                var restURL = string.Format("{0}/users/{1}/manager", AuthenticationHelper.EndpointUrl, userId);
-                string responseString = await GetJsonAsync(restURL);
+        try
+        {
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceAsync(AuthenticationHelper.EndpointUrl);
 
-                if (responseString != null)
-                {
-                    user = JObject.Parse(responseString).ToObject<UserModel>();
-                }
-            }
-            catch (Exception el)
-            {
-                el.ToString();
-            }
+            UserRequestBuilder userBuilder = new UserRequestBuilder(string.Format("{0}/users/{1}", AuthenticationHelper.EndpointUrl, userId),
+                                                                   graphServiceClient);
+            User user = (await userBuilder.Manager.Request().GetAsync()) as User;
             return user;
+        }
+        catch (Exception el)
+        {
+            el.ToString();
+        }
+        return null;
 		````
 
 1. Update the **GetUserDirectReportsAsync** function to get a specific user's direct reports:
@@ -304,22 +308,21 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-            List<UserModel> retUsers = null;
-            try
-            {
-                var restURL = string.Format("{0}/users/{1}/directReports", AuthenticationHelper.EndpointUrl, userId);
-                string responseString = await GetJsonAsync(restURL);
-                if (responseString != null)
-                {
-                    retUsers = JObject.Parse(responseString)["value"].ToObject<List<UserModel>>();
-                }
-            }
+        try
+        {
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceAsync(AuthenticationHelper.EndpointUrl);
+            var directReportsBuilder = new UserDirectReportsCollectionWithReferencesRequestBuilder(string.Format("{0}/users/{1}/directReports", AuthenticationHelper.EndpointUrl, userId),
+                                                                                           graphServiceClient);
+            var directReport = (await directReportsBuilder.Request().GetAsync()).CurrentPage.ToList();
 
-            catch (Exception el)
-            {
-                el.ToString();
-            }
-            return retUsers;
+            return directReport;
+        }
+
+        catch (Exception el)
+        {
+            el.ToString();
+        }
+        return null;
 		````
 
 1. Update the **GetUserGroupsAsync** function to get all the groups a user belongs to:
@@ -327,32 +330,21 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-            List<GroupModel> retUserGroups = null;
-            try
-            {
-                var restURL = string.Format("{0}/users/{1}/memberof", AuthenticationHelper.EndpointUrl, userId);
-                string responseString = await GetJsonAsync(restURL);
-                if (responseString != null)
-                {
-                    var jsonresult = JObject.Parse(responseString)["value"];
-                    retUserGroups = new List<GroupModel>();
-                    foreach (var item in jsonresult)
-                    {
-                        if (item["@odata.type"].ToString() == "#microsoft.graph.group")
-                        {
-                            var group = item.ToObject<GroupModel>();
-                            retUserGroups.Add(group);
-                        }
-                    }
+        try
+        {
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceAsync(AuthenticationHelper.EndpointUrl);
+            UserRequestBuilder userBuilder = new UserRequestBuilder(string.Format("{0}/users/{1}", AuthenticationHelper.EndpointUrl, userId),
+                                                       graphServiceClient);
+            var groups = (await userBuilder.MemberOf.Request().GetAsync()).CurrentPage.ToList();
+            var retGroups = groups.Where(i => i is Group).ToList();
+            return retGroups;
+        }
 
-                }
-            }
-
-            catch (Exception el)
-            {
-                el.ToString();
-            }
-            return retUserGroups;
+        catch (Exception el)
+        {
+            el.ToString();
+        }
+        return null;
 		````
 
 1. Update the **GetUserFilesAsync** function to get a specified user's files:
@@ -360,34 +352,64 @@ Next, take an existing starter project and get it ready to write code that will 
 	1. Replace the existing `return null;` line with the following code:
 	
 		````c#
-            List<DriveItemModel> fileList = null;
-            try
-            {
-                var restURL = string.Format("{0}/users/{1}/drive/root/children", AuthenticationHelper.EndpointUrl, userId);
-                string responseString = await GetJsonAsync(restURL);
-                if (responseString != null)
-                {
-                    fileList = JObject.Parse(responseString)["value"].ToObject<List<DriveItemModel>>();
-                }
-            }
+        try
+        {
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceAsync(AuthenticationHelper.EndpointUrl);
+            UserRequestBuilder userBuilder = new UserRequestBuilder(string.Format("{0}/users/{1}", AuthenticationHelper.EndpointUrl, userId),
+                                                       graphServiceClient);
+            return (await userBuilder.Drive.Root.Children.Request().GetAsync()).CurrentPage.ToList();
+        }
 
-            catch (Exception el)
-            {
-                el.ToString();
-            }
-            return fileList;
+        catch (Exception el)
+        {
+            el.ToString();
+        }
+        return null;
+		````
+
+1. Update the **GetPhotoAsync** function to get a specified user's files:
+	1. Locate the function `GetPhotoAsync(string userId)`.
+	1. Replace the existing `return null;` line with the following code:
+	
+		````c#
+        BitmapImage bitmap = null;
+        try
+        {
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceAsync(AuthenticationHelper.EndpointUrl);
+            var photoStream = await graphServiceClient.Users[userId].Photo.Content.Request().GetAsync();
+
+            var memStream = new MemoryStream();
+            await photoStream.CopyToAsync(memStream);
+            memStream.Position = 0;
+            bitmap = new BitmapImage();
+            await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
+        }
+        catch (Exception el)
+        {
+            el.ToString();
+        }
+        if (bitmap == null)
+        {
+            Debug.WriteLine("Unable to find an image at this endpoint.");
+            bitmap = new BitmapImage(new Uri("ms-appx:///assets/UserDefault.png", UriKind.RelativeOrAbsolute));
+        }
+        return bitmap;
 		````
 
 1. Save your changes to the file.
 
 ### Test the Project
-1. With all the changes complete, press **F5** to build & run the project.
+1. With all the changes complete, configure the following setting:
+
+   ![](Images/Figure08.png)  
+
+1. Press **F5** to build & run the project.
 1. When prompted, login using your Azure AD account.
 1. After successfully logging in, you will see the application load a list of all the users in your Azure AD directory.
 1. Select one of the users and you will see it get populated with data from the Azure AD directory.
 
 
-In this exercise, you used the Microsoft Graph within Windows 10 application.
+In this exercise, you used the Microsoft Graph SDK within Windows 10 application.
 
 
-Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph and used REST API for the Microsoft Graph!
+Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph SDK!

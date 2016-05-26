@@ -33,7 +33,7 @@ namespace O365_Win_Profile
 
 
         // TODO:s Add your redirect URI value here.
-        private static Uri redirectUri = new Uri(" ");
+        private static Uri redirectUri = new Uri("http://localhost/microsoftgraphapi");
 
         public static ApplicationDataContainer _settings = ApplicationData.Current.LocalSettings;
 
@@ -134,7 +134,16 @@ namespace O365_Win_Profile
         /// <returns>The OutlookServicesClient object. </returns>
         public static async Task<GraphServiceClient> GetGraphServiceAsync(string url)
         {
-            return null;
+            var accessToken = await GetGraphAccessTokenAsync();
+            var graphserviceClient = new GraphServiceClient(url,
+                                          new DelegateAuthenticationProvider(
+                                                        (requestMessage) =>
+                                                        {
+                                                            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                                                            return Task.FromResult(0);
+                                                        }));
+
+            return graphserviceClient;
         }
         /// <summary>
         /// Checks that an OutlookServicesClient object is available. 
