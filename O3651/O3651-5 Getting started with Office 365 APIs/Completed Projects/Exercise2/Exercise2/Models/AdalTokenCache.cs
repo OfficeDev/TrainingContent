@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Security;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace Exercise2.Models
+namespace Exercise.Models
 {
     public class ADALTokenCache : TokenCache
     {

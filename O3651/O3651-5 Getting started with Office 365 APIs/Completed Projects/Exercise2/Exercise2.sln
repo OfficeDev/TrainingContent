@@ -19,13 +19,4 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.canviz.com:39776/tfs/canviz
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Exercise2\\Exercise2.csproj
-		SccProjectName1 = Exercise2
-		SccLocalPath1 = Exercise2
-	EndGlobalSection
 EndGlobal

@@ -7,10 +7,15 @@ In this lab, you will investigate the Microsoft Graph.
 ## Exercise 1: Create & Configure an MVC Web Application
 In this exercise you will create a new MVC web application to utilize the Microsoft Graph.
 
+1. Open Visual Studio, sign in with your **Organizational Account** by clicking the **Sign in** button on the top right corner.
+
+	![](Images/SignIn.png)
+	> **Note:** Visual studio will create web application in Azure automatically with this account when creating the project.
 1. In Visual Studio, click **File/New/Project**.
 1. In the **New Project** dialog
   1. Select **Templates/Visual C#/Web**.
   1. Select **ASP.NET Web Application**.
+  2. For the project name, enter **Exercise**,
 
     ![](Images/01.png)
     > **Note:** Make sure you enter the exact same name for the Visual Studio Project that is specified in these lab instructions.  The Visual Studio Project name becomes part of the namespace in the code.  The code inside these instructions depends on the namespace matching the Visual Studio Project name specified in these instructions.  If you use a different project name the code will not compile unless you adjust all the namespaces to match the Visual Studio Project name you enter when you create the project.
@@ -18,10 +23,10 @@ In this exercise you will create a new MVC web application to utilize the Micros
   1. Click **OK**.
 1. In the **New ASP.NET Project** dialog
   1. Click **MVC**.
-  2. Click **Change Authentication**.
+  2. Click the **Change Authentication** button.
   3. Select **Work And School Accounts**.
   4. Select **Cloud - Single Organization**
-  5. Input **Domain**
+  5. Add your domain in the **Domain** field (for example, contoso.onmicrosoft.com)
   6. Check **Read directory data** under Directory Access Permissions 
   7. Click **OK**.
   8. Uncheck **Host in the cloud**
@@ -41,7 +46,7 @@ In this exercise you will create a new MVC web application to utilize the Micros
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
 1. Configure the project to always go to the homepage of the web application when debugging:
-  1. In the **Solution Explorer** tool window & select **Properties**.
+  1. In the **Solution Explorer** tool window, right click the project and select **Properties**.
   1. Select the **Web** tab in the left margin.
   1. Find the section **Start Action**.
   1. Click the radio button **Start URL** and enter the SSL URL of the web project that you copied from the previous step.
@@ -49,7 +54,11 @@ In this exercise you will create a new MVC web application to utilize the Micros
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
 
-   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+   	> **Note:**
+   	> 1. If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue.
+   	> 1. If you receive an error of assembly 'System.Spatial', please right click the project, select **Manage Nuget Packages**, then update System.Spatial to the latest version.
+   	> ![](Images/SpatialError.png)
+   	> ![](Images/UpdateSpatial.png)
 
   1. To sign in, click the **Sign In** link in the upper-right corner.
   1. Login using your **Organizational Account**.
@@ -70,14 +79,18 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 1. Grant App Necessary Permissions.
 
   1. Browse to the [Azure Management Portal](https://manage.windowsazure.com) and sign in with your **Organizational Account**.
-  
-	> **Note:** If the Azure Management Portal pops up a message asking if you want to navigate to the updated Azure Management Portal answer no.
-	 
+
+    > **Note:** If the Azure Management Portal pops up a message asking if you want to navigate to the updated Azure Management Portal answer no.
+
   1. In the left-hand navigation, click **Active Directory**.
   1. Select the directory you share with your Office 365 subscription.
-  1. Locate and select the **Application** tab on the header/options bar.
-  1. Select the application you created for this lab.
-  1. Open **Configure** tab
+  1. Locate and select the **Applications** tab on the header/options bar.
+  1. Search for the application with the **ida:ClientId** that was created in exercise 1 and open it. You can find the Client ID by opening the web.config file at the root of the solution.
+
+    ![](Images/ClientId.png)
+
+    ![](Images/SearchApplication.png)
+  1. Click the application, then click the **Configure** tab
   1. Scroll down to the **permissions to other applications** section. 
   1. Click the **Add Application** button.
   1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Microsoft Graph** option.
@@ -87,7 +100,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Click the **Save** button at the bottom of the page.
 
      ![](Images/AzurePermission.png)
-1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
+1. In the Visual Studio project, add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
   1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
   1. Locate the [\\\O3651\O3651-5 Getting started with Office 365 APIs\Lab\Lab Files](/O3651/O3651-5 Getting started with Office 365 APIs/Lab Files) folder provided with this lab and find the [`SettingsHelper.cs`](/O3651/O3651-5 Getting started with Office 365 APIs/Lab Files/SettingsHelper.cs) file.  Drag the [`SettingsHelper.cs`](/O3651/O3651-5 Getting started with Office 365 APIs/Lab Files/SettingsHelper.cs) file to the **Utils** folder in the project.
@@ -125,14 +138,25 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 ## Exercise 3: Leverage the Microsoft Graph and SDK
 In this exercise you will add a controller and views that utilize the Microsoft Graph and SDK.
 
+1. Add Microsoft Graph package by NuGet:
+  1. Click **View/Other Windows/Package Manager Console**.
+  1. In the **Package Manager Console**, type **Install-Package Microsoft.Graph** and press **Enter** .
+  
+     ![](Images/PackageManagerConsole.png)
 1. With the authentication process complete, add a new controller that will retrieve events from your calendar:
   1. Right-click the **Models** folder and select **Add/Class**.
     1. In the **Add Class** dialog, give the Class the name **MyEvent** and click **Add**.
+    1. Add the following `using` statements after the existing `using` statements in the **MyEvent.cs** file:
+
+    ````c#
+	using System.ComponentModel;
+	using System.ComponentModel.DataAnnotations;   
+    ````
+
     1. Implement the new class **MyEvent** using the following class definition.
     
     ````c#
-    public class MyEvent {
-           
+    public class MyEvent {           
         [DisplayName("Subject")]
         public string Subject { get; set; }
 
@@ -145,28 +169,25 @@ In this exercise you will add a controller and views that utilize the Microsoft 
         public DateTimeOffset? End { get; set; }
     }
     ````
-  1. Right-click the **Controllers** folder and select **Add/Controller**.
+  1. In the solution explorer, right-click the **Controllers** folder and select **Add/Controller**.
     1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty** and click **Add**.
     1. In the **Add Controller** dialog, give the controller the name **CalendarController** and click **Add**.
   1. Add the following `using` statements after the existing `using` statements in the **CalendarController.cs** file:
 
     ````c#
-	using System.ComponentModel;
-	using System.ComponentModel.DataAnnotations;
-    using Microsoft.IdentityModel.Clients.ActiveDirectory;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-    using Exercise2.Utils;
-    using Exercise2.Models;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using Newtonsoft.Json.Linq;    
+	using Exercise.Utils;
+	using Microsoft.IdentityModel.Clients.ActiveDirectory;
+	using System.Security.Claims;
+	using System.Threading.Tasks;
+	using Exercise.Models;
+	using System.Net.Http.Headers;
+	using Microsoft.Graph;    
     ````
 
   1. Decorate the controller to only allow authenticated users to execute it by adding the `[Authorize]` attribute on the line immediately before the controller declaration:
 
     ````c#
-    namespace Exercise2.Controllers {
+    namespace Exercise.Controllers {
       [Authorize]
       public class CalendarController : Controller {}
     }
@@ -190,45 +211,48 @@ In this exercise you will add a controller and views that utilize the Microsoft 
         return result.AccessToken;
     }
     ````
+
+ 1. Create a method `GetGraphServiceClient` to get GraphServiceClient for calling Graph API:
+
+    ````c#
+    public static GraphServiceClient GetGraphServiceClient(string token)
+    {
+        var authenticationProvider = new DelegateAuthenticationProvider(
+            requestMessage =>
+            {
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                return Task.FromResult(0);
+            });
+
+        return new GraphServiceClient(SettingsHelper.GraphResourceUrl, authenticationProvider);
+    }
+    ````
+
   1. Modify the `Index()` method to be asynchronous by adding the `async` keyword and modifying the return type:
 
     ````c#
     public async Task<ActionResult> Index() {}
     ````
-  1. In the `Index()` method, use the `HttpClient` to call Graph Rest API to retrieve the first 20 events in the user's calendar:
+  1. In the `Index()` method, use the `GraphServiceClient` to call Graph Rest API to retrieve the first 20 events in the user's calendar:
 
     ````c#
     var eventsResults = new List<MyEvent>();
     var accessToken = await GetGraphAccessTokenAsync();
-    var restURL = string.Format("{0}me/events?$top=20&$skip=0", SettingsHelper.GraphResourceUrl);
 
     try
     {
-        using (HttpClient client = new HttpClient())
+        var graphService = GetGraphServiceClient(accessToken);
+        var request = graphService.Me.Events.Request(new Option[] { new QueryOption("top", "20"), new QueryOption("skip", "0") });
+        var userEventsCollectionPage = await request.GetAsync();
+        foreach (var evnt in userEventsCollectionPage)
         {
-            var accept = "application/json";
-
-            client.DefaultRequestHeaders.Add("Accept", accept);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            using (var response = await client.GetAsync(restURL))
+            eventsResults.Add(new MyEvent
             {
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonresult = JObject.Parse(await response.Content.ReadAsStringAsync());
+                Subject = !string.IsNullOrEmpty(evnt.Subject) ? evnt.Subject : string.Empty,
+                Start = !string.IsNullOrEmpty(evnt.Start.DateTime) ? DateTime.Parse(evnt.Start.DateTime) : new DateTime(),
+                End = !string.IsNullOrEmpty(evnt.End.DateTime) ? DateTime.Parse(evnt.End.DateTime) : new DateTime()
 
-                    foreach (var item in jsonresult["value"])
-                    {
-                        eventsResults.Add(new MyEvent
-                        {
-                            Subject = !string.IsNullOrEmpty(item["subject"].ToString()) ? item["subject"].ToString() : string.Empty,
-                            Start = !string.IsNullOrEmpty(item["start"]["dateTime"].ToString()) ? DateTime.Parse(item["start"]["dateTime"].ToString()) : new DateTime(),
-                            End = !string.IsNullOrEmpty(item["end"]["dateTime"].ToString()) ? DateTime.Parse(item["end"]["dateTime"].ToString()) : new DateTime()
-
-                        });
-                    }
-                }                
-            }
+            });
         }
     }
     catch (Exception el)
