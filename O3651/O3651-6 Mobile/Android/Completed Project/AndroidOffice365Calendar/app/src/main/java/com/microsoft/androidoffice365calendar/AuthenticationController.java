@@ -8,19 +8,16 @@ import com.microsoft.aad.adal.AuthenticationCallback;
 import com.microsoft.aad.adal.AuthenticationContext;
 import com.microsoft.aad.adal.AuthenticationResult;
 import com.microsoft.aad.adal.PromptBehavior;
-import com.microsoft.services.orc.auth.AuthenticationCredentials;
-import com.microsoft.services.orc.core.DependencyResolver;
-import com.microsoft.services.orc.http.Credentials;
-import com.microsoft.services.orc.http.impl.OAuthCredentials;
-import com.microsoft.services.orc.http.impl.OkHttpTransport;
-import com.microsoft.services.orc.serialization.impl.GsonSerializer;
 
+/**
+ * Created by Microsoft on 5/24/2016.
+ */
 public class AuthenticationController {
     private final String TAG = "Authentication";
     private AuthenticationContext authContext;
-    private DependencyResolver dependencyResolver;
     private Activity contextActivity;
     private String resourceId;
+    private String graphToken;
 
     public static synchronized AuthenticationController getInstance() {
         if (INSTANCE == null) {
@@ -52,14 +49,7 @@ public class AuthenticationController {
                         @Override
                         public void onSuccess(final AuthenticationResult authenticationResult) {
                             if (authenticationResult != null && authenticationResult.getStatus() == AuthenticationResult.AuthenticationStatus.Succeeded) {
-                                dependencyResolver = new DependencyResolver.Builder(
-                                        new OkHttpTransport(), new GsonSerializer(),
-                                        new AuthenticationCredentials() {
-                                            @Override
-                                            public Credentials getCredentials() {
-                                                return new OAuthCredentials(authenticationResult.getAccessToken());
-                                            }
-                                        }).build();
+                                graphToken = authenticationResult.getAccessToken();
                                 result.set(true);
                             }
                         }
@@ -87,14 +77,14 @@ public class AuthenticationController {
         return authContext;
     }
 
-    public DependencyResolver getDependencyResolver() {
-        return getInstance().dependencyResolver;
-    }
-
-    private boolean verifyAuthenticationContext() {
+     private boolean verifyAuthenticationContext() {
         if (this.contextActivity == null) {
             return false;
         }
         return true;
+    }
+
+    public String getGraphToken(){
+        return graphToken;
     }
 }

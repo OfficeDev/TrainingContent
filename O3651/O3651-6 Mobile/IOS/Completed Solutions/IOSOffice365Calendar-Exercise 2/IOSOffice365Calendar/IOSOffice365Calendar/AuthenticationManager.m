@@ -10,7 +10,6 @@
 
 @interface AuthenticationManager ()
 @property (strong,    nonatomic) ADAuthenticationContext *authContext;
-@property (readwrite, nonatomic) ADALDependencyResolver  *dependencyResolver;
 @property (readonly, nonatomic) NSURL    *redirectURL;
 @property (readonly, nonatomic) NSString *authority;
 @property (readonly, nonatomic) NSString *clientId;
@@ -22,11 +21,9 @@
 {
     self = [super init];
     if (self) {
-        
         //Azure AD account info
         NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
         NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-        
         _authority = [content objectForKey:@"authority"];
         _clientId = [content objectForKey:@"clientId"];
         _redirectURL = [NSURL URLWithString:[content objectForKey:@"redirectUriString"]];
@@ -38,16 +35,14 @@
 {
     static AuthenticationManager *sharedInstance;
     static dispatch_once_t onceToken;
-    
     // Initialize the AuthenticationManager only once.
     dispatch_once(&onceToken, ^{
         sharedInstance = [[AuthenticationManager alloc] init];
     });
-    
     return sharedInstance;
 }
 
--(void)acquireAuthTokenWithResourceId:(NSString *)resourceId completionHandler:(void (^)(BOOL authenticated))completionBlock
+-(void)acquireAuthTokenWithResourceId:(NSString *)resourceId completionHandler:(void (^)(BOOL authenticated, NSString* accessToken))completionBlock
 {
     ADAuthenticationError *error;
     self.authContext = [ADAuthenticationContext authenticationContextWithAuthority:self.authority error:&error];
@@ -56,21 +51,17 @@
                                    redirectUri:self.redirectURL
                                completionBlock:^(ADAuthenticationResult *result) {
                                    if (AD_SUCCEEDED != result.status) {
-                                       completionBlock(NO);
+                                       completionBlock(NO, nil);
                                    }
                                    else {
-                                       self.dependencyResolver = [[ADALDependencyResolver alloc] initWithContext:self.authContext
-                                                                                                      resourceId:resourceId
-                                                                                                        clientId:self.clientId
-                                                                                                     redirectUri:self.redirectURL];
-                                       completionBlock(YES);
+                                       completionBlock(YES, result.accessToken);
                                    }
                                }];
 }
+
 -(void)clearCredentials{
     id<ADTokenCacheStoring> cache = [ADAuthenticationSettings sharedInstance].defaultTokenCacheStore;
     ADAuthenticationError *error;
-    
     if ([[cache allItemsWithError:&error] count] > 0)
         [cache removeAllWithError:&error];
     NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -78,5 +69,4 @@
         [cookieStore deleteCookie:cookie];
     }
 }
-
 @end

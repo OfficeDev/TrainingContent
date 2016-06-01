@@ -15,7 +15,6 @@
 		0E451A801C3A0E250009CD50 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E451A7F1C3A0E250009CD50 /* LoginViewController.m */; };
 		0E451A831C3A0E8F0009CD50 /* CalendarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E451A821C3A0E8F0009CD50 /* CalendarTableViewController.m */; };
 		0E451A851C3A0EDA0009CD50 /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E451A841C3A0EDA0009CD50 /* Auth.plist */; };
-		126011335C7727EBC4AABB31 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E6370B0E9D27002D6BE76A2 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,9 +31,6 @@
 		0E451A811C3A0E8F0009CD50 /* CalendarTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarTableViewController.h; sourceTree = "<group>"; };
 		0E451A821C3A0E8F0009CD50 /* CalendarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarTableViewController.m; sourceTree = "<group>"; };
 		0E451A841C3A0EDA0009CD50 /* Auth.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Auth.plist; sourceTree = "<group>"; };
-		1C3804E078A1898208D72DE6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		4E6370B0E9D27002D6BE76A2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8AF8686AF2A129135CB9DE91 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +38,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				126011335C7727EBC4AABB31 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,8 +92,6 @@
 		14435919C984DEC38ECCD614 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8AF8686AF2A129135CB9DE91 /* Pods.debug.xcconfig */,
-				1C3804E078A1898208D72DE6 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -106,7 +99,6 @@
 		DB621759407F774C41115813 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4E6370B0E9D27002D6BE76A2 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -346,7 +338,6 @@
 		};
 		0E451A7C1C3A0D4B0009CD50 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AF8686AF2A129135CB9DE91 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = IOSOffice365Calendar/Info.plist;
@@ -358,7 +349,6 @@
 		};
 		0E451A7D1C3A0D4B0009CD50 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C3804E078A1898208D72DE6 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = IOSOffice365Calendar/Info.plist;

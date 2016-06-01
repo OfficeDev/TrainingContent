@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <ADALiOS/ADAL.h>
 #import <orc/impl/impl.h>
-#import <MSGraph-SDK-iOS/MSGraphService.h>
+#import <MSGraphSDK/MSGraphSDK.h>
 @interface CalendarTableViewController : UITableViewController
 @property (strong, nonatomic) NSMutableArray* eventsList;
-@property (strong, nonatomic) MSGraphServiceClient *graphCilent;
--(void)initGraphClient:(MSGraphServiceClient *)client;
+@property (strong, nonatomic) MSGraphClient *graphCilent;
+-(void)initGraphClient:(MSGraphClient *)client;
 @end

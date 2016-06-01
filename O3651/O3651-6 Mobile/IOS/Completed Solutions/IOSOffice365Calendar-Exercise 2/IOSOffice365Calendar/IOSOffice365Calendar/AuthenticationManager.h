@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <ADALiOS/ADAL.h>
 #import <orc/impl/impl.h>
-#import <MSGraph-SDK-iOS/MSGraphService.h>
+#import <MSGraphSDK/MSGraphSDK.h>
 
 @interface AuthenticationManager : NSObject
 
 @property (readonly, nonatomic) ADALDependencyResolver *dependencyResolver;
 //retrieve token
--(void)acquireAuthTokenWithResourceId:(NSString *)resourceId completionHandler:(void (^)(BOOL authenticated))completionBlock;
+-(void)acquireAuthTokenWithResourceId:(NSString *)resourceId completionHandler:(void (^)(BOOL authenticated, NSString* accessToken))completionBlock;
 //clear token
 -(void)clearCredentials;
 
