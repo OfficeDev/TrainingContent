@@ -14,16 +14,29 @@ using System.Configuration;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Office365Group.Util;
+using Microsoft.Graph;
 
 
 namespace Office365Group.Models
 {
     public class GroupRespository
     {
-        private string GraphResourceUrl = "https://graph.microsoft.com/V1.0";
-        private string TenantId = ConfigurationManager.AppSettings["ida:TenantId"];
+        public static string GraphResourceUrl = "https://graph.microsoft.com/V1.0";
+        public static string TenantId = ConfigurationManager.AppSettings["ida:TenantId"];
 
+        public static async Task<GraphServiceClient> GetGraphServiceAsync()
+        {
+            var accessToken = await GetGraphAccessTokenAsync();
+            var graphserviceClient = new GraphServiceClient(GraphResourceUrl,
+                                          new DelegateAuthenticationProvider(
+                                                        (requestMessage) =>
+                                                        {
+                                                            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                                                            return Task.FromResult(0);
+                                                        }));
+
+            return graphserviceClient;
+        }
         public static async Task<string> GetGraphAccessTokenAsync()
         {
             var AzureAdGraphResourceURL = "https://graph.microsoft.com/";
@@ -32,29 +45,11 @@ namespace Office365Group.Models
             var userObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
             var clientCredential = new ClientCredential(ConfigurationManager.AppSettings["ida:ClientId"], ConfigurationManager.AppSettings["ida:ClientSecret"]);
             var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
-
             AuthenticationContext authContext = new AuthenticationContext(Authority, new ADALTokenCache(signInUserId));
             var result = await authContext.AcquireTokenSilentAsync(AzureAdGraphResourceURL, clientCredential, userIdentifier);
             return result.AccessToken;
         }
 
-        public static async Task<string> GetJsonAsync(string url)
-        {
-            string accessToken = await GetGraphAccessTokenAsync();
-            using (HttpClient client = new HttpClient())
-            {
-                var accept = "application/json";
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(url))
-                {
-                    if (response.IsSuccessStatusCode)
-                        return await response.Content.ReadAsStringAsync();
-                    return null;
-                }
-            }
-        }
 
         private static string FormatBytes(long bytes)
         {
@@ -72,217 +67,113 @@ namespace Office365Group.Models
 
         public async Task<UserModel> GetMe()
         {
-            UserModel me = null;
-            string restURL = string.Format("{0}/me", GraphResourceUrl);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
+            var graphServiceClient = await GetGraphServiceAsync();
+            var me = await graphServiceClient.Me.Request().GetAsync();
+            UserModel myModel = new UserModel()
             {
-                var jsonresult = JObject.Parse(responseString);
-                me = new UserModel
-                {
-                    displayName = jsonresult["displayName"].IsNullOrEmpty() ? string.Empty : jsonresult["displayName"].ToString(),
-                    givenName = jsonresult["givenName"].IsNullOrEmpty() ? string.Empty : jsonresult["givenName"].ToString(),
-                    mail = jsonresult["mail"].IsNullOrEmpty() ? string.Empty : jsonresult["mail"].ToString(),
-                    mobilePhone = jsonresult["mobilePhone"].IsNullOrEmpty() ? string.Empty : jsonresult["mobilePhone"].ToString(),
-                };
-            }
-            return me;
+                displayName = me.DisplayName,
+                givenName = me.GivenName,
+                mail = me.Mail,
+                mobilePhone = me.MobilePhone
+            };
+            return myModel;
         }
 
         public async Task<List<GroupModel>> GetMyOrganizationGroups()
         {
-            var allGroup = new List<GroupModel>();
-            string restURL = string.Format("{0}/{1}/groups?$select=id,displayName", GraphResourceUrl, TenantId);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
-            {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    var group = new GroupModel
-                    {
-                        Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                        displayName = item["displayName"].IsNullOrEmpty() ? string.Empty : item["displayName"].ToString()
-                    };
-                    allGroup.Add(group);
-                }
-            }
+            var graphServiceClient = await GetGraphServiceAsync();
+            var groups = await graphServiceClient.Groups.Request().Filter("securityEnabled eq false").Select("id,displayName").GetAsync();
+            var allGroup = groups.CurrentPage.Select(x => new GroupModel() { Id = x.Id, displayName = x.DisplayName }).ToList();
             return allGroup;
         }
 
         public async Task<List<GroupModel>> GetJoinedGroups()
         {
-            var allGroup = new List<GroupModel>();
-            string restURL = string.Format("{0}/me/memberOf", GraphResourceUrl);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
-            {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    if (item["@odata.type"].ToString().Equals("#microsoft.graph.group", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        var group = new GroupModel
-                        {
-                            Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                            displayName = item["displayName"].IsNullOrEmpty() ? string.Empty : item["displayName"].ToString()
-                        };
-                        allGroup.Add(group);
-                    }
-                }
-            }
+            var graphServiceClient = await GetGraphServiceAsync();
+            var groups = await graphServiceClient.Me.MemberOf.Request().GetAsync();
+            var allGroup = groups.CurrentPage.Where(x => x.ODataType == "#microsoft.graph.group")
+                           .Select(x => new GroupModel() { Id = x.Id, displayName = (x as Group).DisplayName }).ToList();
             return allGroup;
         }
-        public async Task<List<GroupModel>> SearchGoupByName(string groupName)
+        public async Task<List<GroupModel>> SearchGroupByName(string groupName)
         {
-            var allGroup = new List<GroupModel>();
-            string restURL = string.Format("{0}/{1}/groups?$filter=startswith(displayName,'{2}')", GraphResourceUrl, TenantId, groupName);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
-            {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    var group = new GroupModel
-                    {
-                        Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                        displayName = item["displayName"].IsNullOrEmpty() ? string.Empty : item["displayName"].ToString()
-                    };
-                    allGroup.Add(group);
-                }
-            }
+            var graphServiceClient = await GetGraphServiceAsync();
+            var groups = await graphServiceClient.Groups.Request().Filter(string.Format("startswith(displayName,'{0}')", groupName))
+                               .Select("id,displayName").GetAsync();
+            var allGroup = groups.CurrentPage.Select(x => new GroupModel() { Id = x.Id, displayName = x.DisplayName }).ToList();
             return allGroup;
         }
 
         public async Task<List<ConversationModel>> GetGroupConversations(string id)
         {
-            var retconversations = new List<ConversationModel>();
-            string restURL = string.Format("{0}/{1}/groups/{2}/conversations?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, TenantId, id);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
+            var graphServiceClient = await GetGraphServiceAsync();
+            var request = await graphServiceClient.Groups[id].Conversations.Request().
+                              Select("id,topic,preview,lastDeliveredDateTime").GetAsync();
+            var retConversations = request.CurrentPage.Select(x => new ConversationModel
             {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    var conversation = new ConversationModel
-                    {
-                        Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                        topic = item["topic"].IsNullOrEmpty() ? string.Empty : item["topic"].ToString(),
-                        preview = item["preview"].IsNullOrEmpty() ? string.Empty : item["preview"].ToString(),
-                        lastDeliveredDateTime = item["lastDeliveredDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastDeliveredDateTime"].ToString())
-                    };
-                    retconversations.Add(conversation);
-                }
-            }
-            return retconversations;
+                Id = x.Id,
+                topic = x.Topic,
+                preview = x.Preview,
+                lastDeliveredDateTime = x.LastDeliveredDateTime
+            }).ToList();
+            return retConversations;
         }
 
         public async Task<List<ThreadModel>> GetGroupThreads(string id)
         {
-            var retthreads = new List<ThreadModel>();
-            string restURL = string.Format("{0}/{1}/groups/{2}/threads?$select=id,topic,preview,lastDeliveredDateTime", GraphResourceUrl, TenantId, id);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
+            var graphServiceClient = await GetGraphServiceAsync();
+            var request = await graphServiceClient.Groups[id].Threads.Request().
+                              Select("id,topic,preview,lastDeliveredDateTime").GetAsync();
+            var retThreads = request.CurrentPage.Select(x => new ThreadModel
             {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    var thread = new ThreadModel
-                    {
-                        Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString(),
-                        topic = item["topic"].IsNullOrEmpty() ? string.Empty : item["topic"].ToString(),
-                        preview = item["preview"].IsNullOrEmpty() ? string.Empty : item["preview"].ToString(),
-                        lastDeliveredDateTime = item["lastDeliveredDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastDeliveredDateTime"].ToString())
-                    };
-                    retthreads.Add(thread);
-                }
-            }
-            return retthreads;
+                Id = x.Id,
+                topic = x.Topic,
+                preview = x.Preview,
+                lastDeliveredDateTime = x.LastDeliveredDateTime
+            }).ToList();
+            return retThreads;
         }
         public async Task<List<PostModel>> GetGroupThreadPosts(string groupId, string threadId)
         {
-            var retPosts = new List<PostModel>();
-            string restURL = string.Format("{0}/{1}/groups/{2}/threads/{3}/posts?$select=body,from,sender", GraphResourceUrl, TenantId, groupId, threadId);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
+            var graphServiceClient = await GetGraphServiceAsync();
+            var request = await graphServiceClient.Groups[groupId].Threads[threadId].Posts.Request().
+                              Select("body,from,sender").GetAsync();
+            var retPosts = request.CurrentPage.Select(x => new PostModel
             {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    var post = new PostModel();
-                    if (!item["body"].IsNullOrEmpty())
-                    {
-                        post.content = item["body"]["content"].IsNullOrEmpty() ? string.Empty : item["body"]["content"].ToString();
-                    }
-                    if (!item["from"].IsNullOrEmpty() && !item["from"]["emailAddress"].IsNullOrEmpty())
-                    {
-                        post.fromEmailAddress = item["from"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : item["from"]["emailAddress"]["address"].ToString();
-                    }
-                    if (!item["sender"].IsNullOrEmpty() && !item["sender"]["emailAddress"].IsNullOrEmpty())
-                    {
-                        post.senderEmailAddress = item["sender"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : item["sender"]["emailAddress"]["address"].ToString();
-                    }
-                    retPosts.Add(post);
-                }
-            }
+               content = x.Body.Content,
+               fromEmailAddress = x.From.EmailAddress.Address,
+               senderEmailAddress = x.Sender.EmailAddress.Address
+            }).ToList();
             return retPosts;
         }
 
         public async Task<List<EventModel>> GetGroupEvents(string groupId)
         {
-            var retEvents = new List<EventModel>();
-            string restURL = string.Format("{0}/{1}/groups/{2}/events?$select=subject,bodyPreview,start,end,webLink", GraphResourceUrl, TenantId, groupId);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
+            var graphServiceClient = await GetGraphServiceAsync();
+            var request = await graphServiceClient.Groups[groupId].Events.Request().
+                              Select("subject,bodyPreview,start,end,webLink").GetAsync();
+            var retEvents = request.CurrentPage.Select(x => new EventModel
             {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    var Event = new EventModel();
-                    Event.subject = item["subject"].IsNullOrEmpty() ? string.Empty : item["subject"].ToString();
-                    Event.bodyPreview = item["bodyPreview"].IsNullOrEmpty() ? string.Empty : item["bodyPreview"].ToString();
-                    Event.webLink = item["webLink"].IsNullOrEmpty() ? string.Empty : item["webLink"].ToString();
-                    if (!item["start"].IsNullOrEmpty())
-                    {
-                        var datetimekind = DateTimeKind.Local;
-                        if (item["start"]["timeZone"].ToString() == "UTC")
-                        {
-                            datetimekind = DateTimeKind.Utc;
-                        }
-                        Event.start = DateTime.SpecifyKind(DateTime.Parse(item["start"]["dateTime"].ToString()), datetimekind);
-                    }
-                    if (!item["end"].IsNullOrEmpty())
-                    {
-                        var datetimekind = DateTimeKind.Local;
-                        if (item["end"]["timeZone"].ToString() == "UTC")
-                        {
-                            datetimekind = DateTimeKind.Utc;
-                        }
-                        Event.end = DateTime.SpecifyKind(DateTime.Parse(item["end"]["dateTime"].ToString()), datetimekind);
-                    }
-                    retEvents.Add(Event);
-                }
-            }
+                subject = x.Subject,
+                bodyPreview = x.BodyPreview,
+                webLink = x.WebLink,
+                start = DateTime.SpecifyKind(DateTime.Parse(x.Start.DateTime), x.Start.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local),
+                end = DateTime.SpecifyKind(DateTime.Parse(x.End.DateTime), x.End.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local)
+
+            }).ToList();
             return retEvents;
         }
         public async Task<List<FileModel>> GetGroupFiles(string groupId)
         {
-            var retFiles = new List<FileModel>();
-            string restURL = string.Format("{0}/{1}/groups/{2}/drive/root/children?$select=name,webUrl,lastModifiedDateTime,size", GraphResourceUrl, TenantId, groupId);
-            string responseString = await GetJsonAsync(restURL);
-            if (responseString != null)
+            var graphServiceClient = await GetGraphServiceAsync();
+            var request = await graphServiceClient.Groups[groupId].Drive.Root.Children.Request().Select("name,webUrl,lastModifiedDateTime,size").GetAsync();
+            var retFiles = request.CurrentPage.Select(x => new FileModel
             {
-                var jsonresult = JObject.Parse(responseString)["value"];
-                foreach (var item in jsonresult)
-                {
-                    var file = new FileModel();
-                    file.name = item["name"].IsNullOrEmpty() ? string.Empty : item["name"].ToString();
-                    file.webLink = item["webUrl"].IsNullOrEmpty() ? string.Empty : item["webUrl"].ToString();
-                    file.lastModifiedDateTime = item["lastModifiedDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["lastModifiedDateTime"].ToString());
-                    file.size = FormatBytes(Convert.ToInt64(item["size"].ToString()));
-                    retFiles.Add(file);
-                }
-            }
+                name = x.Name,
+                webLink = x.WebUrl,
+                lastModifiedDateTime = x.LastModifiedDateTime,
+                size = FormatBytes((long)x.Size)
+            }).ToList();
             return retFiles;
         }
     }

@@ -41,7 +41,7 @@ namespace Office365Group.Models
 
         [DisplayName("Last Delivered Date Time")]
         [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
-        public DateTime? lastDeliveredDateTime { get; set; }
+        public DateTimeOffset? lastDeliveredDateTime { get; set; }
     }
     public class ThreadModel
     {
@@ -52,7 +52,7 @@ namespace Office365Group.Models
         public string preview { get; set; }
         [DisplayName("Last Delivered Date Time")]
         [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
-        public DateTime? lastDeliveredDateTime { get; set; }
+        public DateTimeOffset? lastDeliveredDateTime { get; set; }
     }
 
     public class EventModel
@@ -81,7 +81,7 @@ namespace Office365Group.Models
         public string webLink { get; set; }
         [DisplayName("Last Modified Date Time")]
         [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
-        public DateTime? lastModifiedDateTime { get; set; }
+        public DateTimeOffset? lastModifiedDateTime { get; set; }
         [DisplayName("size")]
         public string size { get; set; }
     }
