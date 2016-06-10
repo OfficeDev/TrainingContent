@@ -28,11 +28,6 @@ namespace AuthFlowDemo.Utils
             get { return ConfigurationManager.AppSettings["ida:TenantId"]; }
         }
 
-        public static string GraphResourceUrl
-        {
-            get { return "https://graph.microsoft.com/v1.0/"; }
-        }
-
         public static string AzureAdGraphResourceURL
         {
             get { return "https://graph.microsoft.com/"; }

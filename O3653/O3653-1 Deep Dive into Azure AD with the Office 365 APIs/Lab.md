@@ -4,9 +4,8 @@ In this lab you will explore the Microsoft Graph using a Windows Store App.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-1. You must have Visual Studio 2015. 
+1. You must have Visual Studio 2015.
 1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
-*Note: To perform Exercise 2, you need to work on Windows 10 or you need to install a Windows 10 emulator. If you want to install an emulator you have to have Visual Studio 2015 Professional version. Please refer to the following link https://msdn.microsoft.com/en-us/library/dn975273.aspx to develop apps for the Universal Windows Platform (UWP).*
 
 ## Exercise 1: Use the Microsoft Graph in a Native Client Application and Configure the Starter Project
 In this exercise, you will use the Microsoft Graph within a Windows 10 application. 
@@ -32,7 +31,7 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 ![](Images/5.png)
 12. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
     - Read files that the user selects
-	- Read user files and files shared with user	
+	- Read all files that user can access	
 	- Sign in and read user profile
 13. Click **Save**
 14. Copy the value specified for **Client ID** and **REDIRECT URIS**; you will need this later when coding the **MyFilesWin10** project.
@@ -43,8 +42,35 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 > This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 1. Locate the starter project in the Starter project folder within this lab located at [\\\O3653\O3653-1\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Starter](Lab/Starter). Open the Visual Studio solution **MyFilesWin10.sln** in Visual Studio 2015.
+1. In the Solution Explorer, right-click the **MyFilesWin10** solution node and select **Restore Nuget Packages**.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Enter your Client ID.
 ![](Images/7.png)
+1. Open file **App.xaml.cs** file, make following changes:
+	1. Add the following using statements after the existing using statements.
+	
+	 	````c#    
+	    using Windows.UI.Popups;
+		````
+
+	1. Add the following code at the beginning of method **OnLaunched**:
+	
+		````c#    
+	    try
+	    {
+	        string ClientID = App.Current.Resources["ida:ClientID"].ToString();
+	    }
+	    catch (Exception)
+	    {
+	        MessageDialog md = new MessageDialog("The Client ID is missing. Please add the Client ID to the 'ida:ClientID' setting in App.xaml.");
+	        await md.ShowAsync();
+	    }
+		````
+	1. Making method **OnLaunched** async by changing its signature to
+	 	````c#    
+	    protected override async void OnLaunched(LaunchActivatedEventArgs e)
+		````
+
+*Note: If you want to build and run it, please install Microsoft.Graph package(refer to Exercise 2 step 1-2) in advance.*
 
 ## Exercise 2: Add class to implement authentication and represent the data returned from the Microsoft Graph.
 In this exercise, you will add an authentication class to get access token for Microsoft Graph. Then use this access token to get my files.
@@ -56,13 +82,13 @@ In this exercise, you will add an authentication class to get access token for M
 	1. Enter each line below in the console, one at a time, pressing **ENTER** after each one. NuGet will install the package and all dependent packages:
 	
 		````powershell
-		PM> Install-Package -Id Microsoft.IdentityModel.Clients.ActiveDirectory		
+		Install-Package -Id Microsoft.IdentityModel.Clients.ActiveDirectory
+		Install-Package -Id Microsoft.Graph		
 		````
 
 1. Add a class to facilitate the authorization to Azure / Office 365:
-	1. In **Solution Explorer**, right-click on the **MyFilesWin10** project and choose **Add/New Item...**
-	1. In the **Add New Item** dialog, select **Class** and enter the name **AuthenticationHelper**.
-	1. Locate the [\\\O3653\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Labfiles](Lab/Labfiles) folder provided with this lab & find the file [`AuthenticationHelper.cs`](/O3653/O3653-1%20Deep%20Dive%20into%20Azure%20AD%20with%20the%20Office%20365%20APIs/Lab/Labfiles/AuthenticationHelper.cs). Copy the contents of the [`AuthenticationHelper.cs`](/O3653/O3653-1%20Deep%20Dive%20into%20Azure%20AD%20with%20the%20Office%20365%20APIs/Lab/Labfiles/AuthenticationHelper.cs) file and paste in into the AuthenticationHelper.cs class you just created in Visual Studio, overwriting all the content in the class Visual Studio generated.
+	1. In **Solution Explorer**, right-click on the **MyFilesWin10** project and choose **Add/Existing Item...**
+	1. In the **Add Existing Item** dialog, locate the [\\\O3653\O3653-1 Deep Dive into Azure AD with the Office 365 APIs\Lab\Labfiles](Lab/Labfiles) folder provided with this lab & select the file [`AuthenticationHelper.cs`](/O3653/O3653-1%20Deep%20Dive%20into%20Azure%20AD%20with%20the%20Office%20365%20APIs/Lab/Labfiles/AuthenticationHelper.cs). Click **Add**.
     1. Update the login redirect URI for the application that is sent to Azure when logging in. Locate the line that looks like this:
 
 		````c#
@@ -90,7 +116,7 @@ In this exercise, you will add an authentication class to get access token for M
         this.Status.Text += accessToken + "\n";       
 		````
 
-    1. In the **GetFilesAsJsonAsync** method, locate the following comment block:
+    1. In the **GetFilesAsync** method, locate the following comment block:
 
 		````c#
 		//get my files
@@ -100,41 +126,16 @@ In this exercise, you will add an authentication class to get access token for M
 
 		````c#
 		var accessToken = m_settings["access_token"];
-        // Build request
-        var url = string.Format("{0}me/drive/root/children", AuthenticationHelper.ResourceBetaUrl);
-
-        var request = HttpWebRequest.CreateHttp(url);
-        request.Method = "GET";
-        request.Accept = "application/json";
-        request.Headers["Authorization"] = "Bearer " + accessToken;
-
-        // Get response
-        var response = await request.GetResponseAsync()
-                                        .ConfigureAwait(continueOnCapturedContext: true)
-                            as HttpWebResponse;
-        var responseReader = new StreamReader(response.GetResponseStream());
-        var responseBody = await responseReader.ReadToEndAsync()
-                                                    .ConfigureAwait(continueOnCapturedContext: true);
-
-        if (response.StatusCode == HttpStatusCode.OK)
-        {
-            // Parse the JSON result
-            var jsonResult = JsonObject.Parse(responseBody);
-            return jsonResult;
-        }
-
-        // Consent was not obtained
-        this.Status.Text += string.Format("Request failed. Status: '{0}', Body: '{1}'\n",
-                                        response.StatusCode,
-                                        responseBody);
-        this.Status.Foreground = ErrorBrush;
+        var graphClient = GetGraphServiceClient(accessToken);
+        var driveItemsPage = await graphClient.Me.Drive.Root.Children.Request().GetAsync();
+        return driveItemsPage.CurrentPage;
 		````		
     
 1. Configure the debug mode in VS to match the screenshot below and press **F5** to run the program.
 
    ![](Images/8.png)
 
-1. Click the **Get token** button. The access token is printed in the output box.
+1. Click the **Get token** button. You will be asked to log in. Then the access token is printed in the output box.
 
    ![](Images/9.png)
 
