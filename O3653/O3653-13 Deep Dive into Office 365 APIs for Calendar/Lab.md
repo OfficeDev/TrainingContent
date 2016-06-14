@@ -1,5 +1,5 @@
 # Microsoft Graph for Calendar
-In this lab, you will use Microsoft Graph to work with Office 365 calendars as part of an ASP.NET MVC5 application.
+In this lab, you will use Microsoft Graph SDK to work with Office 365 calendars as part of an ASP.NET MVC5 application.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. 
@@ -164,71 +164,33 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     }
     ````
 
-1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **Event** and click **Add** to create the new source file for the class. Implement the new class **Event** using the following class definition.
-
-    ````c#
-    public class Event
-    {
-        public string Id { get; set; }
-        public string Subject { get; set; }
-        public Start Start { get; set; }
-        public End End { get; set; }
-        public Location Location { get; set; }
-        public Body Body { get; set; }
-    }
-
-    public class Start
-    {
-        public string dateTime { get; set; }
-        public string timeZone { get { return "UTC"; } }
-    }
-
-    public class End
-    {
-        public string dateTime { get; set; }
-        public string timeZone { get { return "UTC"; } }
-    }
-
-    public class Location
-    {
-        public string address { get; set; }
-        public string displayName { get; set; }
-    }
-
-    public class Body
-    {
-        public string contentType { get { return "text"; } }
-        public string content { get; set; }
-    }
-    ````
 1. Assembly references are not added to the shared projects in ASP.NET MVC, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
 	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
 	1. Enter each line below in the console, one at a time, pressing **ENTER** after each one. NuGet will install the package and all dependent packages:
 	
 		````powershell
-		PM> Install-Package -Id Microsoft.IdentityModel.Clients.ActiveDirectory
-		PM> Install-Package -Id Newtonsoft.Json		
+        PM> Install-Package Microsoft.Graph
 		````
 
 1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyEventsRepository** and click **Add** to create the new source file for the class.    
-    1. **Add** the following using statements to the top of the **MyEventsRepository** class.
+    1. **Use** the following using statements instead of the **MyEventsRepository** class old using statements.
 		
 	````c#
+	using System;
+	using System.Collections.Generic;
 	using System.Security.Claims;
 	using System.Threading.Tasks;
 	using Office365Calendar.Utils;
-	using System.Net.Http;
-    using System.Net.Http.Headers;
+	using System.Net.Http.Headers;
 	using Microsoft.IdentityModel.Clients.ActiveDirectory;
-    using Newtonsoft.Json.Linq;
-	using Newtonsoft.Json;
-	using System.Text;
+	using System.Linq;
+	using Microsoft.Graph;
 	````
 
     1. **Add** a function named **GetGraphAccessTokenAsync** to the **MyEventsRepository** class with the following implementation to get access token for Microsoft Graph Authentication.
 		
     ````c#
-    public async Task<string> GetGraphAccessTokenAsync()
+    private async Task<string> GetGraphAccessTokenAsync()
     {
         var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
         var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
@@ -236,68 +198,54 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
         var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
         var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
 
-        // create auth context
         AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureAdAuthority, new ADALTokenCache(signInUserId));
         var result = await authContext.AcquireTokenSilentAsync(SettingsHelper.AzureAdGraphResourceURL, clientCredential, userIdentifier);
-
         return result.AccessToken;
     }
     ````
 
-    1. **Add** a public property named **MorePagesAvailable** to the **MyEventsRepository** class to indicate if there are more pages.
+    1. **Add** a function named **GetGraphServiceAsync** to the **MyEventsRepository** class with the following implementation to get Graph service client.
     
-	````c#
-	public bool MorePagesAvailable { get; private set; }
-	````
+    ````c#
+    private async Task<GraphServiceClient> GetGraphServiceAsync()
+    {
+        var accessToken = await GetGraphAccessTokenAsync();
+        var graphserviceClient = new GraphServiceClient(SettingsHelper.GraphResourceUrl,
+                                      new DelegateAuthenticationProvider(
+                                                    (requestMessage) =>
+                                                    {
+                                                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                                                        return Task.FromResult(0);
+                                                    }));
+
+        return graphserviceClient;
+    }
+    ````
 
     1. **Add** a function named **GetEvents** to the **MyEventsRepository** class to retrieve and return a list of **MyEvent** objects.
 		
     ````c#
     public async Task<List<MyEvent>> GetEvents(int pageIndex, int pageSize)
     {
-        var eventsResults = new List<MyEvent>();
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/events?$top={1}&$skip={2}", SettingsHelper.GraphResourceUrl, pageSize, pageIndex * pageSize);
         try
         {
-            using (HttpClient client = new HttpClient())
+            var graphServiceClient = await GetGraphServiceAsync();
+            var requestEvents = await graphServiceClient.Me.Events.Request().Top(pageSize).Skip(pageIndex * pageSize).GetAsync();
+            var eventsResults = requestEvents.CurrentPage.Select(x => new MyEvent
             {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(restURL))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var jsonresult = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                        foreach (var item in jsonresult["value"])
-                        {
-                            eventsResults.Add(new MyEvent
-                            {
-                                Start = !string.IsNullOrEmpty(item["start"]["dateTime"].ToString()) ? DateTime.Parse(item["start"]["dateTime"].ToString()) : new DateTime(),
-                                End = !string.IsNullOrEmpty(item["end"]["dateTime"].ToString()) ? DateTime.Parse(item["end"]["dateTime"].ToString()) : new DateTime(),
-                                Id = !string.IsNullOrEmpty(item["id"].ToString()) ? item["id"].ToString() : string.Empty,
-                                Subject = !string.IsNullOrEmpty(item["subject"].ToString()) ? item["subject"].ToString() : string.Empty,
-                                Body = !string.IsNullOrEmpty(item["body"].ToString()) ? item["body"]["content"].ToString() : string.Empty,
-                                Location = !string.IsNullOrEmpty(item["location"].ToString()) ? item["location"]["displayName"].ToString() : string.Empty,
-                            });
-                        }
-                    }
-                }
-            }
+                Id = x.Id,
+                Subject = x.Subject,
+                Body = x.Body.Content,
+                Location = x.Location.DisplayName,
+                Start = DateTime.SpecifyKind(DateTime.Parse(x.Start.DateTime), x.Start.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
+                End = DateTime.SpecifyKind(DateTime.Parse(x.End.DateTime), x.End.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
+            }).ToList();
+            return eventsResults;
         }
-        catch (Exception el)
+        catch
         {
-            el.ToString();
+            return null;
         }
-
-        // indicate if more results available
-        MorePagesAvailable = eventsResults.Count < pageSize ? false : true;
-
-        return eventsResults.OrderBy(e => e.Start).ToList();
     }
     ````
 
@@ -306,43 +254,26 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     ````c#
     public async Task<MyEvent> GetEvent(string id)
     {
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/events/{1}", SettingsHelper.GraphResourceUrl, id);
-        var ev = new MyEvent();
         try
         {
-            using (HttpClient client = new HttpClient())
+            var graphServiceClient = await GetGraphServiceAsync();
+            var requestEvent = await graphServiceClient.Me.Events[id].Request().GetAsync();
+            var eventResult = new MyEvent
             {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(restURL))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var item = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                        if (item != null)
-                        {
-                            ev.Start = !string.IsNullOrEmpty(item["start"]["dateTime"].ToString()) ? DateTime.Parse(item["start"]["dateTime"].ToString()) : new DateTime();
-                            ev.End = !string.IsNullOrEmpty(item["end"]["dateTime"].ToString()) ? DateTime.Parse(item["end"]["dateTime"].ToString()) : new DateTime();
-                            ev.Id = !string.IsNullOrEmpty(item["id"].ToString()) ? item["id"].ToString() : string.Empty;
-                            ev.Subject = !string.IsNullOrEmpty(item["subject"].ToString()) ? item["subject"].ToString() : string.Empty;
-                            ev.Body = !string.IsNullOrEmpty(item["body"].ToString()) ? item["body"]["content"].ToString() : string.Empty;
-                            ev.Location = !string.IsNullOrEmpty(item["location"].ToString()) ? item["location"]["displayName"].ToString() : string.Empty;
-                        }
-                    }
-                }
-            }
+                Id = requestEvent.Id,
+                Subject = requestEvent.Subject,
+                Body = requestEvent.Body.Content,
+                Location = requestEvent.Location.DisplayName,
+                Start = DateTime.SpecifyKind(DateTime.Parse(requestEvent.Start.DateTime), requestEvent.Start.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
+                End = DateTime.SpecifyKind(DateTime.Parse(requestEvent.End.DateTime), requestEvent.End.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
+            };
+            return eventResult;
         }
-        catch (Exception el)
+        catch
         {
-            el.ToString();
+            return null;
         }
 
-        return ev;
     }
     ````
 
@@ -351,73 +282,41 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     ````c#
     public async Task DeleteEvent(string id)
     {
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/events('{1}')", SettingsHelper.GraphResourceUrl, id);
         try
         {
-            using (HttpClient client = new HttpClient())
-            {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.DeleteAsync(restURL))
-                {
-                    if (response.IsSuccessStatusCode)
-                        return;
-                    else
-                        throw new Exception("delete event error: " + response.StatusCode);
-                }
-            }
+            var graphServiceClient = await GetGraphServiceAsync();
+            await graphServiceClient.Me.Events[id].Request().DeleteAsync();
         }
-        catch (Exception el)
+        catch
         {
-            el.ToString();
         }
+        return;
+
     }
     ````
 
-    1. Add a **AddEvent** function  to the **MyEventsRepository** class to create a new event.
+    1. Add an **AddEvent** function  to the **MyEventsRepository** class to create a new event.
 
     ````c#
     public async Task AddEvent(MyEvent myEvent)
     {
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/events", SettingsHelper.GraphResourceUrl);
         try
         {
-            using (HttpClient client = new HttpClient())
+            var graphServiceClient = await GetGraphServiceAsync();
+            var requestEvent = new Microsoft.Graph.Event
             {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                var ev = new Event
-                {
-                    Subject = myEvent.Subject,
-                    Start = new Start { dateTime = myEvent.Start.ToString() },
-                    End = new End { dateTime = myEvent.End.ToString() },
-                    Location = new Location { displayName = myEvent.Location },
-					Body = new Body { content = myEvent.Body }
-                };
-                string postBody = JsonConvert.SerializeObject(ev);
-
-                using (var response = await client.PostAsync(restURL, new StringContent(postBody, Encoding.UTF8, "application/json")))
-                {
-                    if (response.IsSuccessStatusCode)
-                        return;
-                    else
-                        throw new Exception("add event error: " + response.StatusCode);
-                }
-
-            }
+                Subject = myEvent.Subject,
+                Start = new DateTimeTimeZone() { DateTime = myEvent.Start.ToString(), TimeZone = DateTimeKind.Local.ToString() },
+                End = new DateTimeTimeZone { DateTime = myEvent.End.ToString(), TimeZone = DateTimeKind.Local.ToString() },
+                Location = new Microsoft.Graph.Location { DisplayName = myEvent.Location },
+                Body = new ItemBody { Content = myEvent.Body }
+            };
+            await graphServiceClient.Me.Events.Request().AddAsync(requestEvent);
         }
-        catch (Exception el)
+        catch
         {
-            el.ToString();
         }
+        return;
     }
     ````
 
@@ -426,50 +325,29 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     ````c#
     public async Task<List<MyEvent>> Search(string searchTerm)
     {
-        var eventsResults = new List<MyEvent>();
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/events?$filter=startswith(subject,+'{1}')", SettingsHelper.GraphResourceUrl, searchTerm);
         try
         {
-            using (HttpClient client = new HttpClient())
+            var graphServiceClient = await GetGraphServiceAsync();
+            var requestEvents = await graphServiceClient.Me.Events.Request().Filter(string.Format("startswith(subject,+'{0}')", searchTerm)).GetAsync();
+            var eventsResults = requestEvents.CurrentPage.Select(x => new MyEvent
             {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(restURL))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var jsonresult = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                        foreach (var item in jsonresult["value"])
-                        {
-                            eventsResults.Add(new MyEvent
-                            {
-                                Start = !string.IsNullOrEmpty(item["start"]["dateTime"].ToString()) ? DateTime.Parse(item["start"]["dateTime"].ToString()) : new DateTime(),
-                                End = !string.IsNullOrEmpty(item["end"]["dateTime"].ToString()) ? DateTime.Parse(item["end"]["dateTime"].ToString()) : new DateTime(),
-                                Id = !string.IsNullOrEmpty(item["id"].ToString()) ? item["id"].ToString() : string.Empty,
-                                Subject = !string.IsNullOrEmpty(item["subject"].ToString()) ? item["subject"].ToString() : string.Empty,
-                                Body = !string.IsNullOrEmpty(item["body"].ToString()) ? item["body"]["content"].ToString() : string.Empty,
-                                Location = !string.IsNullOrEmpty(item["location"].ToString()) ? item["location"]["displayName"].ToString() : string.Empty,
-                            });
-                        }
-                    }
-                }
-            }
+                Id = x.Id,
+                Subject = x.Subject,
+                Body = x.Body.Content,
+                Location = x.Location.DisplayName,
+                Start = DateTime.SpecifyKind(DateTime.Parse(x.Start.DateTime), x.Start.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local),
+                End = DateTime.SpecifyKind(DateTime.Parse(x.End.DateTime), x.End.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local),
+            }).OrderBy(x=>x.Start).ToList();
+            return eventsResults;
         }
-        catch (Exception el)
+        catch
         {
-            el.ToString();
+            return null;
         }
-
-        return eventsResults.OrderBy(e => e.Start).ToList();
     }
     ````
 
-At this point you have created the repository that will be used to talk to the Microsoft Graph.
+At this point you have created the repository that will be used to talk to the Microsoft Graph SDK.
 
 ## Exercise 4: Code the MVC Application
 In this exercise, you will code the **CalendarController** of the MVC application to display events as well as adding behavior for adding and deleting events.
@@ -479,7 +357,7 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
   1. Click **Add**.
   1. When prompted for a name, enter **CalendarController**.
   1. Click **Add**.
-1. Within the **CalendarController** file, add the following `using` statements to the top of the file:
+1. Within the **CalendarController** file, use the following `using` statements instead of the old using statements :
 
     ````c#
     using System;
@@ -509,19 +387,17 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
         if (pageNumber == null)
             pageNumber = 1;
 
-        // get list of entities
         List<MyEvent> events = null;
         events = await _repo.GetEvents((int)pageNumber - 1, pageSize);
-
         ViewBag.pageNumber = pageNumber;
-        ViewBag.morePagesAvailable = _repo.MorePagesAvailable;
+        if(events != null)
+            ViewBag.morePagesAvailable = events.Count < pageSize ? false : true;
 
         return View(events);
-
     }
     ````
 
-    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by the Microsoft Graph.
+    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes.
 
   1. Finally, update the view to display the results.
     1. Within the `CalendarController` class, right click the `View(events)` at the end of the `Index()` action method and select **Add View**.
@@ -729,6 +605,7 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
 
   1. When Prompted, log in with your **Organizational Account**.
   1. Once the application is loaded click the **Events link** in the top menu bar.
+  1. Click the **Delete** link. The event would be deleted successfully.
   1. Click the **Create New** link. You should see the form below. Fill the form out to add a new item:
 
     ![](Images/05.png)
@@ -757,6 +634,12 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
     + Reference script libraries: **unchecked**
     + Use a layout page: **checked**
     + Click **Add**
+
+1. Open the **Details.cshtml** file. Find the following code and remove it:
+   
+	````html
+	   @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+	````
 
 1. Test the new view:
   1. In **Visual Studio**, hit **F5** to begin debugging.
@@ -861,4 +744,4 @@ In this exercise, you will code the **CalendarController** of the MVC applicatio
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
-Congratulations! You have completed working with the the Calendar API.
+Congratulations! You have completed working with the Calendar API.
