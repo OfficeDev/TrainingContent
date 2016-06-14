@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OneDriveWeb.Models.JsonHelpers.FolderItem>
+﻿@model IEnumerable<Microsoft.Graph.DriveItem>
 
 @{ ViewBag.Title = "My Files"; }
 
@@ -29,7 +29,7 @@
 
                                     RouteValueDictionary routeValues1 = new RouteValueDictionary();
                                     routeValues1.Add("name", file.Id);
-                                    routeValues1.Add("etag", file.eTag);
+                                    routeValues1.Add("etag", file.ETag);
                                     @Html.ActionLink("X", "Delete", "Files", routeValues1, attributes1);
                                 }
                             </td>
@@ -40,31 +40,36 @@
                                 <a href="@file.WebUrl">@file.Name</a>
                             </td>
                             <td>
-                                @file.CreatedDateTime
+                                @file.CreatedDateTime.Value.UtcDateTime.ToLocalTime()
                             </td>
                             <td>
-                                @file.LastModifiedDateTime
+                                @file.LastModifiedDateTime.Value.UtcDateTime.ToLocalTime()
                             </td>
                         </tr>
-                                    }
+                     }
                 </tbody>
             </table>
         </div>
         <div class="btn btn-group-sm">
             @{
-                //Place Paging controls here
-                Dictionary<string, object> attributes2 = new Dictionary<string, object>();
-                attributes2.Add("class", "btn btn-default");
+                var pageLinkAttributes = new Dictionary<string, object> { { "class", "btn btn-default" } };
 
-                RouteValueDictionary routeValues2 = new RouteValueDictionary();
-                routeValues2.Add("pageIndex", (ViewBag.PageIndex == 0 ? 0 : ViewBag.PageIndex - 1).ToString());
-                routeValues2.Add("pageSize", ViewBag.PageSize.ToString());
-                @Html.ActionLink("Prev", "Index", "Files", routeValues2, attributes2);
+                int pageIndex = ViewBag.pageIndex;
 
-                RouteValueDictionary routeValues3 = new RouteValueDictionary();
-                routeValues3.Add("pageIndex", (ViewBag.PageIndex + 1).ToString());
-                routeValues3.Add("pageSize", ViewBag.PageSize.ToString());
-                @Html.ActionLink("Next", "Index", "Files", routeValues3, attributes2);
+                // do prev link if not on first page
+                if (pageIndex > 1)
+                {
+                    var routeValues = new RouteValueDictionary { { "pageIndex", pageIndex - 1 } };
+                    @Html.ActionLink("Previous Page", "Index", "Files", routeValues, pageLinkAttributes);
+            }
+
+
+            // do next link if current page = max page size
+            if (ViewBag.morePagesAvailable)
+            {
+                var routeValues = new RouteValueDictionary { { "pageIndex", pageIndex + 1 } };
+                    @Html.ActionLink("Next Page", "Index", "Files", routeValues, pageLinkAttributes);
+            }
             }
         </div>
     </div>
