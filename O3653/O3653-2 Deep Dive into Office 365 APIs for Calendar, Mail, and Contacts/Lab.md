@@ -34,7 +34,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
 
     ![](Images/ConsentDialog.png)
-  1. Click **OK** to approve the app's permission request on your data in Office 365.
+  1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
 
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
@@ -64,295 +64,271 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
 
     ![](Images/06.png)
 
-2. Right-click the **Util** folder and select **Add/Class**, in the **Add New Item** dialog, name the new class **JsonExtensions** and click **Add** to create the new source file for the class. 
-3. At the top of the **JsonExtensions.cs** file, remove all the using statements and add the following using statements.
+2. Right-click the **Util** folder and select **Add/Class**, in the **Add New Item** dialog, name the new class **SettingsHelper** and click **Add** to create the new source file for the class. 
+3. At the top of the **SettingsHelper.cs** file, remove all the using statements and add the following using statements.
 
 	```c#
-    using System;
-    using Newtonsoft.Json.Linq;
+    using System.Configuration;
 	```
 
-4. Implement the new class **JsonExtensions** using the following class definition.
+4. Implement the new class **SettingsHelper** using the following class definition.
 
     ```c#
-    public static class JsonExtensions
+    public class SettingsHelper
     {
-        public static bool IsNullOrEmpty(this JToken token)
+
+        public static string ClientId
         {
-            return (token == null) ||
-                   (token.Type == JTokenType.Array && !token.HasValues) ||
-                   (token.Type == JTokenType.Object && !token.HasValues) ||
-                   (token.Type == JTokenType.String && token.ToString() == String.Empty) ||
-                   (token.Type == JTokenType.Null);
+            get { return ConfigurationManager.AppSettings["ida:ClientId"]; }
+        }
+
+        public static string ClientSecret
+        {
+            get { return ConfigurationManager.AppSettings["ida:ClientSecret"]; }
+        }
+        public static string AzureAdInstance
+        {
+            get { return ConfigurationManager.AppSettings["ida:AADInstance"]; }
+        }
+
+        public static string AzureAdTenantId
+        {
+            get { return ConfigurationManager.AppSettings["ida:TenantId"]; }
+        }
+
+        public static string GraphResourceUrl
+        {
+            get { return "https://graph.microsoft.com/v1.0/"; }
+        }
+
+        public static string AzureAdGraphResourceURL
+        {
+            get { return "https://graph.microsoft.com/"; }
+        }
+
+        public static string AzureAdAuthority
+        {
+            get { return AzureAdInstance + AzureAdTenantId; }
+        }
+
+        public static string ClaimTypeObjectIdentifier
+        {
+            get { return "http://schemas.microsoft.com/identity/claims/objectidentifier"; }
         }
     }
     ```
 
-    ![](Images/05.png)
 5. In the **Solution Explorer**, locate the **Models** folder in the **Office365Mail** project.
-6. Right-click the **Models** folder and select **Add/Class**, in the **Add New Item** dialog, name the new class **MyMessage** and click **Add** to create the new source file for the class. 
-7. At the top of the **MyMessage.cs** file, add the following using statements just after the using statements that are already there.
+6. Right-click the **Models** folder and select **Add/Class**.
+7. In the **Add New Item** dialog, name the new class **MyMessage** and click **Add** to create the new source file for the class.  
+    1. At the top of the source file **MyMessage.cs**, add the following using statement just after the using statements that are already there.
 
-	```c#
+	````c#
 	using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-	```
+	using System.ComponentModel.DataAnnotations;
+	````
 
-8. Implement the new class **MyMessage** using the following class definition.
+    2. Implement the new class **MyMessage** using the following class definition.
 		
-      ```c#
-      public class MyMessage
-      {
-        public string Id { get; set; }
-        public string ConversationId { get; set; }
-        public string Subject { get; set; }
-        [DisplayName("From Name")]
-        public string FromName { get; set; }
-        [DisplayName("From Email Address")]
-        public string FromEmailAddress { get; set; }
-        [DisplayName("Sent")]
-        [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
-        public DateTimeOffset? DateTimeSent { get; set; }
-        [DisplayName("Received")]
-        [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
-        public DateTimeOffset? DateTimeReceived { get; set; }
-        [DisplayName("Has Attachments")]
-        public bool? HasAttachments { get; set; }
-        public string Importance { get; set; }
-        public bool? IsDraft { get; set; }
-        [DisplayName("To Name")]
-        public string ToName { get; set; }
-        [DisplayName("To Email Address")]
-        public string ToEmailAddress { get; set; }
-        public string Body { get; set; }
-      }
-      ```
-
+    ````c#
+    public class MyMessage
+    {
+    public string Id { get; set; }
+    public string ConversationId { get; set; }
+    public string Subject { get; set; }
+    [DisplayName("From Name")]
+    public string FromName { get; set; }
+    [DisplayName("From Email Address")]
+    public string FromEmailAddress { get; set; }
+    [DisplayName("Sent")]
+    [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
+    public DateTimeOffset? DateTimeSent { get; set; }
+    [DisplayName("Received")]
+    [DisplayFormat(DataFormatString = "{0:dddd MMMM d, yyyy}")]
+    public DateTimeOffset? DateTimeReceived { get; set; }
+    [DisplayName("Has Attachments")]
+    public bool? HasAttachments { get; set; }
+    public string Importance { get; set; }
+    public bool? IsDraft { get; set; }
+    [DisplayName("To Name")]
+    public string ToName { get; set; }
+    [DisplayName("To Email Address")]
+    public string ToEmailAddress { get; set; }
+    public string Body { get; set; }
+    }
+    ````
+8. Assembly references are not added to the shared projects in ASP.NET MVC, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
+	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
+	2. Enter each line below in the console, one at a time, pressing **ENTER** after each one. NuGet will install the package and all dependent packages:
+	
+		````powershell
+        PM> Install-Package Microsoft.Graph
+		````
 9. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyMessagesRespository** and click **Add** to create the new source file for the class.    
 10. **Add** the following using statements to the top of the **MyMessagesRespository** class.
 		
 	```c#
-    using System.Text;
-	using System.Net.Http;
-	using System.Net.Http.Headers;
-	using System.Diagnostics;
-	using Newtonsoft.Json;
-	using Newtonsoft.Json.Linq;
-	using System.Threading.Tasks;
-	using System.Configuration;
-	using System.Security.Claims;
+    using Microsoft.Graph;
 	using Microsoft.IdentityModel.Clients.ActiveDirectory;
 	using Office365Mail.Util;
+	using System.Net.Http.Headers;
+	using System.Security.Claims;
+	using System.Threading.Tasks;
 	```
 
-11. **Add** the following definition to **MyMessagesRespository** class.
-
-     ```c#
-     private string GraphResourceUrl = "https://graph.microsoft.com/V1.0/";
-     public bool MorePagesAvailable = false;
-     ```
-
-12. **Add** a function named **GetGraphAccessTokenAsync** to the **MyMessagesRespository** class to retrieve an Access Token.
+11. **Add** a function named **GetGraphAccessTokenAsync** to the **MyMessagesRespository** class to retrieve an Access Token.
 
     ```c#
-    public static async Task<string> GetGraphAccessTokenAsync()
+    private async Task<string> GetGraphAccessTokenAsync()
     {
-        var AzureAdGraphResourceURL = "https://graph.microsoft.com/";
-        var Authority = ConfigurationManager.AppSettings["ida:AADInstance"] + ConfigurationManager.AppSettings["ida:TenantId"];
-
         var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
-        var userObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-        var clientCredential = new ClientCredential(ConfigurationManager.AppSettings["ida:ClientId"], ConfigurationManager.AppSettings["ida:ClientSecret"]);
+        var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
+
+        var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
         var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
 
-        // create auth context
-        AuthenticationContext authContext = new AuthenticationContext(Authority, new ADALTokenCache(signInUserId));
-        var result = await authContext.AcquireTokenSilentAsync(AzureAdGraphResourceURL, clientCredential, userIdentifier);
-
+        AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureAdAuthority, new ADALTokenCache(signInUserId));
+        var result = await authContext.AcquireTokenSilentAsync(SettingsHelper.AzureAdGraphResourceURL, clientCredential, userIdentifier);
         return result.AccessToken;
     }
     ```
 
-13. **Add** a function named **GetJsonAsync** to the **MyMessagesRespository** class.
+12. **Add** a function named **GetGraphServiceAsync** to the **MyMessagesRespository** class.
 
     ```c#
-    public static async Task<string> GetJsonAsync(string url)
+    private async Task<GraphServiceClient> GetGraphServiceAsync()
     {
-        string accessToken = await GetGraphAccessTokenAsync();
-        using (HttpClient client = new HttpClient())
-        {
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            using (var response = await client.GetAsync(url))
-            {
-                if (response.IsSuccessStatusCode)
-                    return await response.Content.ReadAsStringAsync();
-                return null;
-            }
-        }
-    } 
+        var accessToken = await GetGraphAccessTokenAsync();
+        var graphserviceClient = new GraphServiceClient(SettingsHelper.GraphResourceUrl,
+									new DelegateAuthenticationProvider(
+												(requestMessage) =>
+												{
+													requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+													return Task.FromResult(0);
+												}));
+        return graphserviceClient;
+    }
     ```
 
-14. **Add** a function named **GetMessages** to the **MyMessagesRespository** class to retrieve and return a list of **MyMessage** objects.
+10. **Add** a function named **GetMessages** to the **MyMessagesRespository** class to retrieve and return a list of **MyMessage** objects.
 		
-      ```c#
-	   public async Task<List<MyMessage>> GetMessages(int pageIndex, int pageSize)
-	    {
-	
-	        List<MyMessage> messageList = new List<MyMessage>();
-	        try
-	        {
-	            string restURL = string.Format("{0}/me/messages?$orderby=SentDateTime desc&$skip={1}&$top={2}", GraphResourceUrl, pageIndex * pageSize, pageSize);
-	            string responseString = await GetJsonAsync(restURL);
-	            if (responseString != null)
-	            {
-	                MorePagesAvailable = !JObject.Parse(responseString)["@odata.nextLink"].IsNullOrEmpty();
-	                var jsonresult = JObject.Parse(responseString)["value"];
-	                foreach (var item in jsonresult)
-	                {
-	                    var msg = new MyMessage();
-	                    msg.Id = item["id"].IsNullOrEmpty() ? string.Empty : item["id"].ToString();
-	                    msg.Subject = item["subject"].IsNullOrEmpty() ? string.Empty : item["subject"].ToString();
-	                    msg.DateTimeReceived = item["receivedDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(item["receivedDateTime"].ToString());
-	                    if (!item["from"].IsNullOrEmpty() && !item["from"]["emailAddress"].IsNullOrEmpty())
-	                    {
-	                        msg.FromName = item["from"]["emailAddress"]["name"].IsNullOrEmpty() ? string.Empty : item["from"]["emailAddress"]["name"].ToString();
-	                        msg.FromEmailAddress = item["from"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : item["from"]["emailAddress"]["address"].ToString();
-	                    }
-	                    if (!item["toRecipients"].IsNullOrEmpty())
-	                    {
-	                        var to = item["toRecipients"].ToArray();
-	                        if (!to[0]["emailAddress"].IsNullOrEmpty())
-	                        {
-	                            msg.ToName = to[0]["emailAddress"]["name"].IsNullOrEmpty() ? string.Empty : to[0]["emailAddress"]["name"].ToString();
-	                            msg.ToEmailAddress = to[0]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : to[0]["emailAddress"]["address"].ToString();
-	                        }
-	                    }
-	
-	                    messageList.Add(msg);
-	                }
-	            }
-	        }
-	
-	        catch (Exception el)
-	        {
-	            Debug.WriteLine("GetMessages error: " + el.ToString());
-	        }
-	        return messageList;
-	    }
-      ```
+    ```c#
+	public async Task<List<MyMessage>> GetMessages(int pageIndex, int pageSize)
+	{
+		try
+		{
+			var graphServiceClient = await GetGraphServiceAsync();
 
-15. Add a function named **GetMessage** to the **MyMessagesRespository** class to get a specific message:
+			var requestMessages = await graphServiceClient.Me.Messages.Request().Top(pageSize).Skip(pageIndex * pageSize).GetAsync();
+
+			var MessagesResults = requestMessages.CurrentPage.Select(x => new MyMessage
+			{
+				Id = x.Id,
+				Subject = x.Subject,
+				DateTimeReceived = x.ReceivedDateTime,
+				FromName = x.From != null ? x.From.EmailAddress.Name : string.Empty,
+				FromEmailAddress = x.From != null ? x.From.EmailAddress.Address : string.Empty,
+				ToName = x.ToRecipients != null && x.ToRecipients.Count() > 0 ? x.ToRecipients.ElementAt(0).EmailAddress.Name : string.Empty,
+				ToEmailAddress = x.ToRecipients != null && x.ToRecipients.Count() > 0 ? x.ToRecipients.ElementAt(0).EmailAddress.Address : string.Empty
+			}).ToList();
+
+			return MessagesResults;
+		}
+		catch
+		{
+			throw;
+		}
+	}
+    ```
+
+11. Add a function named **GetMessage** to the **MyMessagesRespository** class to get a specific message:
    
     ```c#
 	public async Task<MyMessage> GetMessage(string id)
     {
         try
         {
-            var restURL = string.Format("{0}/me/messages/{1}", GraphResourceUrl, id);
-            string responseString = await GetJsonAsync(restURL);
+            var graphServiceClient = await GetGraphServiceAsync();
 
-            if (responseString != null)
+            var requestMessage = await graphServiceClient.Me.Messages[id].Request().GetAsync();
+
+            var messageResult = new MyMessage
             {
-                var jsonresult = JObject.Parse(responseString);
-                var msg = new MyMessage();
-                msg.Id = jsonresult["id"].IsNullOrEmpty() ? string.Empty : jsonresult["id"].ToString();
-                msg.Subject = jsonresult["subject"].IsNullOrEmpty() ? string.Empty : jsonresult["subject"].ToString();
-                msg.DateTimeReceived = jsonresult["receivedDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(jsonresult["receivedDateTime"].ToString());
-                msg.DateTimeSent = jsonresult["sentDateTime"].IsNullOrEmpty() ? new DateTime() : DateTime.Parse(jsonresult["sentDateTime"].ToString());
+                Id = requestMessage.Id,
+                Subject = requestMessage.Subject,
+                Body = requestMessage.Body.Content,
+                DateTimeReceived = requestMessage.ReceivedDateTime,
+                DateTimeSent = requestMessage.SentDateTime,
+                FromName = requestMessage.From != null ? requestMessage.From.EmailAddress.Name : string.Empty,
+                FromEmailAddress = requestMessage.From != null ? requestMessage.From.EmailAddress.Address : string.Empty,
+                ToName = requestMessage.ToRecipients != null && requestMessage.ToRecipients.Count() > 0 ?
+                    requestMessage.ToRecipients.ElementAt(0).EmailAddress.Name :
+                    string.Empty,
+                ToEmailAddress = requestMessage.ToRecipients != null && requestMessage.ToRecipients.Count() > 0 ?
+                    requestMessage.ToRecipients.ElementAt(0).EmailAddress.Address :
+                    string.Empty
+            };
 
-                if (!jsonresult["from"].IsNullOrEmpty() && !jsonresult["from"]["emailAddress"].IsNullOrEmpty())
-                {
-                    msg.FromName = jsonresult["from"]["emailAddress"]["name"].IsNullOrEmpty() ? string.Empty : jsonresult["from"]["emailAddress"]["name"].ToString();
-                    msg.FromEmailAddress = jsonresult["from"]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : jsonresult["from"]["emailAddress"]["address"].ToString();
-                }
-                if (!jsonresult["toRecipients"].IsNullOrEmpty())
-                {
-                    var to = jsonresult["toRecipients"].ToArray();
-                    if (!to[0]["emailAddress"].IsNullOrEmpty())
-                    {
-                        msg.ToName = to[0]["emailAddress"]["name"].IsNullOrEmpty() ? string.Empty : to[0]["emailAddress"]["name"].ToString();
-                        msg.ToEmailAddress = to[0]["emailAddress"]["address"].IsNullOrEmpty() ? string.Empty : to[0]["emailAddress"]["address"].ToString();
-                    }
-                }
-                if (!jsonresult["body"].IsNullOrEmpty())
-                {
-                    msg.Body = jsonresult["body"]["content"].IsNullOrEmpty() ? string.Empty : jsonresult["body"]["content"].ToString();
-                }
-
-                return msg;
-            }
+            return messageResult;
         }
-
-        catch (Exception el)
+        catch
         {
-            Debug.WriteLine("GetMessage error: " + el.ToString());
+            throw;
         }
-        return null;
     }
     ```
 
-16. Add a function named **DeleteMessage** to the **MyMessagesRespository** class to delete a message.
+12. Add a function named **DeleteMessage** to the **MyMessagesRespository** class to delete a message.
 
     ```c#
-    public async Task<bool> DeleteMessage(string id)
+    public async Task DeleteMessage(string id)
     {
-        var restURL = string.Format("{0}/me/messages/{1}", GraphResourceUrl, id);
-
-        string accessToken = await GetGraphAccessTokenAsync();
-        using (HttpClient client = new HttpClient())
+        try
         {
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var graphServiceClient = await GetGraphServiceAsync();
 
-            using (var response = await client.DeleteAsync(restURL))
-            {
-                if (response.IsSuccessStatusCode)
-                    return true;
-                else
-                    Debug.WriteLine("DeleteMessage error: " + response.StatusCode);
-            }
+            await graphServiceClient.Me.Messages[id].Request().DeleteAsync();
         }
-        
-        return false;
+        catch
+        {
+            throw;
+        }
     }
     ```
 
-17. Add a function named **SendMessage** to the **MyMessagesRespository** class to send an email message.
+13. Add a function named **SendMessage** to the **MyMessagesRespository** class to send an email message.
 
     ```c#
     public async Task SendMessage(MyMessage myMessage)
     {
-        var restURL = string.Format("{0}/me/Microsoft.Graph.sendMail", GraphResourceUrl);
-        string accessToken = await GetGraphAccessTokenAsync();
-        using (HttpClient client = new HttpClient())
+        try
         {
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var to = new { EmailAddress = new { Name = myMessage.ToName, Address = myMessage.ToEmailAddress } };
-            var msg = new
+            var graphServiceClient = await GetGraphServiceAsync();
+
+            var to = new Recipient
             {
-                Message = new
+                EmailAddress = new EmailAddress
                 {
-                    Subject = myMessage.Subject,
-                    Body = new
-                    {
-                        ContentType = "TEXT",
-                        Content = myMessage.Body
-                    },
-                    ToRecipients = new[] { to }
-                },
-                SaveToSentItems = true
+                    Name = myMessage.ToName,
+                    Address = myMessage.ToEmailAddress
+                }
             };
-            string postBody = JsonConvert.SerializeObject(msg);
-            using (var response = await client.PostAsync(restURL, new StringContent(postBody, Encoding.UTF8, "application/json")))
+
+            var Message = new Message
             {
-                if (response.IsSuccessStatusCode)
-                    return;
-                else
-                    Debug.WriteLine("SendMessage error: " + response.StatusCode);
-            }
+                Subject = myMessage.Subject,
+                Body = new ItemBody
+                {
+                    Content = myMessage.Body,
+                    ContentType = BodyType.Text
+                },
+                ToRecipients = new List<Recipient> { to }
+            };
+            await graphServiceClient.Me.SendMail(Message).Request().PostAsync();
+        }
+        catch
+        {
+            throw;
         }
     }
     ```
@@ -389,13 +365,13 @@ In this exercise, you will code the **MailController** of the MVC application to
      ```c#
      public async Task<ActionResult> Index(int? pageNumber)
      {
-         const int pageSize = 10;
-         if (pageNumber == null)
-             pageNumber = 1;
-         var messages = await _repo.GetMessages((int)pageNumber - 1, pageSize);
-         ViewBag.pageNumber = pageNumber;
-         ViewBag.morePagesAvailable =_repo.MorePagesAvailable;
-         return View(messages);
+        const int pageSize = 10;
+        if (pageNumber == null)
+            pageNumber = 1;
+        var messages = await _repo.GetMessages((int)pageNumber - 1, pageSize);
+        ViewBag.pageNumber = pageNumber;
+        ViewBag.morePagesAvailable = messages.Count < pageSize ? false : true;
+        return View(messages);
 
      }
      ```
