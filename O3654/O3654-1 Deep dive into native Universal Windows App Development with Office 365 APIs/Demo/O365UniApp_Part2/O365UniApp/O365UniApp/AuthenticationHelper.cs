@@ -23,12 +23,11 @@ namespace O365UniApp
         // Office 365. As a convenience, we load that value into a variable called _commonAuthority, adding _common to this Url to signify
         // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
         private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
-        public const string ResourceBetaUrl = "https://graph.microsoft.com/v1.0/";
         public const string ResourceUrl = "https://graph.microsoft.com/";
 
 
         // TODO:s Add your redirect URI value here.
-        private static Uri redirectUri = new Uri("");
+        private static Uri redirectUri = new Uri("http://winoffice36541app/microsoftgraphapi");
 
         
         //Property for storing the authentication context.
@@ -85,7 +84,6 @@ namespace O365UniApp
                 }
 
                 _authenticationContext = new AuthenticationContext(authority);
-                _authenticationContext.UseCorporateNetwork = true;
 
                 var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
 
@@ -125,16 +123,13 @@ namespace O365UniApp
         {
             AuthenticationResult result = null;
 
-            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri);
+            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri, new PlatformParameters(PromptBehavior.Auto, true));
 
-            if (result.Status == AuthenticationStatus.Success)
+            if (!string.IsNullOrEmpty(result.AccessToken))
             {
                 _settings.Values["LastAuthority"] = context.Authority;
-                return result.AccessToken;
             }
-            else {
-                return null;
-            }
+            return result.AccessToken;
         }
     }
 }

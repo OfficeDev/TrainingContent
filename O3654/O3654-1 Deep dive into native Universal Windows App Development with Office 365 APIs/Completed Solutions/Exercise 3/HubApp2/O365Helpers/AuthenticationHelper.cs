@@ -6,6 +6,7 @@ using Windows.Storage;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Microsoft.Graph;
 
 namespace HubApp2.O365Helpers
 {
@@ -18,16 +19,13 @@ namespace HubApp2.O365Helpers
         private static Uri _returnUri = WebAuthenticationBroker.GetCurrentApplicationCallbackUri();
         public static string AccessToken = null;
 
-
         // Properties used for communicating with your Windows Azure AD tenant.
-        // The AuthorizationUri is added as a resource in App.xaml when you regiter the app with 
+        // The AuthorizationUri is added as a resource in App.xaml when you register the app with 
         // Office 365. As a convenience, we load that value into a variable called _commonAuthority, adding _common to this Url to signify
         // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
 
         private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
-        public const string ResourceBetaUrl = "https://graph.microsoft.com/v1.0/";
         public const string ResourceUrl = "https://graph.microsoft.com/";
-
 
         // TODO:s Add your redirect URI value here.
         private static Uri redirectUri = new Uri("http://WinOffice36541App/microsoftgraphapi");
@@ -44,7 +42,8 @@ namespace HubApp2.O365Helpers
                 {
                     return _settings.Values["LastAuthority"].ToString();
                 }
-                else {
+                else
+                {
                     return string.Empty;
                 }
 
@@ -66,7 +65,8 @@ namespace HubApp2.O365Helpers
                 {
                     return _settings.Values["TenantId"].ToString();
                 }
-                else {
+                else
+                {
                     return string.Empty;
                 }
 
@@ -88,7 +88,8 @@ namespace HubApp2.O365Helpers
                 {
                     return _settings.Values["LoggedInUser"].ToString();
                 }
-                else {
+                else
+                {
                     return string.Empty;
                 }
 
@@ -110,7 +111,8 @@ namespace HubApp2.O365Helpers
                 {
                     return _settings.Values["LoggedInUserEmail"].ToString();
                 }
-                else {
+                else
+                {
                     return string.Empty;
                 }
 
@@ -147,13 +149,6 @@ namespace HubApp2.O365Helpers
 
                 // Create an AuthenticationContext using this authority.
                 _authenticationContext = new AuthenticationContext(authority);
-
-                // Set the value of _authenticationContext.UseCorporateNetwork to true so that you 
-                // can use this app inside a corporate intranet. If the value of UseCorporateNetwork 
-                // is true, you also need to add the Enterprise Authentication, Private Networks, and
-                // Shared User Certificates capabilities in the Package.appxmanifest file.
-
-                _authenticationContext.UseCorporateNetwork = true;
 
                 var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
 
@@ -199,46 +194,33 @@ namespace HubApp2.O365Helpers
         {
             string accessToken = null;
             AuthenticationResult result = null;
-            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri);
-            
-            if (result.Status == AuthenticationStatus.Success)
+            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri, new PlatformParameters(PromptBehavior.Auto, true));
+
+            accessToken = result.AccessToken;
+            if (!string.IsNullOrEmpty(accessToken))
             {
-                accessToken = result.AccessToken;
                 //Store values for logged-in user, tenant id, and authority, so that
                 //they can be re-used if the user re-opens the app without disconnecting.
                 _settings.Values["LoggedInUser"] = result.UserInfo.GivenName;
                 _settings.Values["LoggedInUserEmail"] = result.UserInfo.DisplayableId;
                 _settings.Values["TenantId"] = result.TenantId;
                 _settings.Values["LastAuthority"] = context.Authority;
-               
+
                 AccessToken = accessToken;
-                return accessToken;
             }
-            else {
-                
-                return null;
-            }
+            return accessToken;
         }
 
-        public static async Task<string> GetJsonAsync(string url)
+        public static async Task<GraphServiceClient> GetGraphServiceClientAsync()
         {
             var accessToken = await GetGraphAccessTokenAsync();
-            using (HttpClient client = new HttpClient())
-            {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(url))
+            var authenticationProvider = new DelegateAuthenticationProvider(
+                (requestMessage) =>
                 {
-                    if (response.IsSuccessStatusCode)
-                        return await response.Content.ReadAsStringAsync();
-                    return null;
-                }
-            }
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    return Task.FromResult(0);
+                });
+            return new GraphServiceClient(authenticationProvider);
         }
-
-
     }
 }
