@@ -1,47 +1,54 @@
-﻿using Microsoft.Office365.Exchange;
-using Microsoft.Office365.OAuth;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Graph;
+using Microsoft.Office365.OAuth;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Net.Http.Headers;
 
 namespace _365OAuthWeb
 {
     public static class ContactsAPISample
     {
-        const string ServiceResourceId = "https://outlook.office365.com";
-        static readonly Uri ServiceEndpointUri = new Uri("https://outlook.office365.com/ews/odata");
+        const string GraphResourceId = "https://graph.microsoft.com";
 
         // Do not make static in Web apps; store it in session or in a cookie instead
         static string _lastLoggedInUser;
         static DiscoveryContext _discoveryContext;
 
-        public static async Task<IEnumerable<IContact>> GetContacts()
+        public static async Task<IEnumerable<Contact>> GetContacts()
         {
             var client = await EnsureClientCreated();
 
             // Obtain first page of contacts
-            var contactsResults = await (from i in client.Me.Contacts
-                                         orderby i.DisplayName
-                                         select i).ExecuteAsync();
+            var contactsResults = await client.Me.Contacts.Request().OrderBy("displayName").GetAsync();
 
             return contactsResults.CurrentPage;
         }
 
-        public static async Task<ExchangeClient> EnsureClientCreated()
+        public static async Task<GraphServiceClient> EnsureClientCreated()
         {
             if (_discoveryContext == null)
             {
                 _discoveryContext = await DiscoveryContext.CreateAsync();
             }
 
-            var dcr = await _discoveryContext.DiscoverResourceAsync(ServiceResourceId);
+            var dcr = await _discoveryContext.DiscoverResourceAsync(GraphResourceId);
 
             _lastLoggedInUser = dcr.UserId;
 
-            return new ExchangeClient(ServiceEndpointUri, async () =>
-            {
-                return (await _discoveryContext.AuthenticationContext.AcquireTokenByRefreshTokenAsync(new SessionCache().Read("RefreshToken"), new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(_discoveryContext.AppIdentity.ClientId, _discoveryContext.AppIdentity.ClientSecret), ServiceResourceId)).AccessToken;
-            });
+            var clientCredential = new ClientCredential(_discoveryContext.AppIdentity.ClientId, _discoveryContext.AppIdentity.ClientSecret);
+            var authResult = await _discoveryContext
+                                    .AuthenticationContext
+                                    .AcquireTokenByRefreshTokenAsync(new SessionCache().Read("RefreshToken"), clientCredential, GraphResourceId);
+            var graphToken = authResult.AccessToken;
+            var authenticationProvider = new DelegateAuthenticationProvider(
+                (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", graphToken);
+                    return Task.FromResult(0);
+                });
+            return new GraphServiceClient(authenticationProvider);
         }
 
         public static Uri SignOut(string postLogoutRedirect)

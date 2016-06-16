@@ -61,7 +61,7 @@ namespace OAuthControllerWeb.Controllers
                 string lastName = p["Title"].Value<string>();
                 string firstName = p["FirstName"].Value<string>();
                 string jobTitle = p["JobTitle"].Value<string>();
-                string workEmail = p["Email"].Value<string>();
+                string workEmail = p["EMail"].Value<string>();
                 string workPhone = p["WorkPhone"].Value<string>();
                 if (lastName != null)
                 {
