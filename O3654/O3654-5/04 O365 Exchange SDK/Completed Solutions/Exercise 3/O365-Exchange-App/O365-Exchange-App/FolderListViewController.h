@@ -7,12 +7,13 @@
 //
 
 #import "ViewController.h"
-#import <MSGraph-SDK-iOS/MSGraphServiceClient.h>
+#import <MSGraphSDK.h>
 #import "ExchangeGraphService.h"
+
 @interface FolderListViewController : ViewController
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) UIActivityIndicatorView* spinner;
 
 @property (nonatomic) NSArray *folders;
-@property (nonatomic) MSGraphServiceMailFolder *currentFolder;
+@property (nonatomic) MSGraphMailFolder *currentFolder;
 @end

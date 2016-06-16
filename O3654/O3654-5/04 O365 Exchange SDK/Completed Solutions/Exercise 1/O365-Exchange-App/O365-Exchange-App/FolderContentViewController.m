@@ -33,6 +33,7 @@
     self.spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:self.spinner];
     self.spinner.hidesWhenStopped = YES;
+    
 
 }
 

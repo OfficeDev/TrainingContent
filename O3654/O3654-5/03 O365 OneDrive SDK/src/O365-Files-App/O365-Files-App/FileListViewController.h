@@ -2,5 +2,6 @@
 
 @interface FileListViewController : ViewController
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property NSString *token;
+@property (nonatomic) UIActivityIndicatorView* spinner;
+
 @end

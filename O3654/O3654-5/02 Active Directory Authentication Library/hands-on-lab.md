@@ -15,9 +15,9 @@ The lab lets students configure and run an iOS App which allows the user to auth
 - OSX 10.X environment
 - [XCode 7](https://itunes.apple.com/nz/app/xcode/id497799835?mt=12)
 - [Cocoapods dependency manager][cocoapods]
-- Complete the  [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites) module.
+- Complete the  [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites](../01 Azure AD Auth Prerequisites) module.
 
-[cocoapods]: cocoapods.org
+[cocoapods]: https://cocoapods.org
 
 ## Exercises
 
@@ -42,10 +42,16 @@ Then check everything is ok by starting up the app.
      
     ![](img/fig.2.png)
 
+03. Choose the destination folder
+     
+    ![](img/fig.3.png)
+
 03. Using Finder, on the project folder, create a new text file called **Podfile** (without a file extension), and add the lines
 
     ```ruby
-    pod 'ADALiOS', '=1.2.4'
+    target 'AD-Auth-iOS-App' do
+ 	 pod 'ADALiOS'
+	end
     ```
 
 04. Now open a terminal and navigate to the root folder of the project. Then execute the following command:
@@ -60,7 +66,7 @@ Then check everything is ok by starting up the app.
 05. Close XCode and re-open the project, this time using the **.xcworkspace** file.
     This workspace includes the pod libraries.
 
-06. Build workspace and build successfully.
+06. Build the workspace to ensure it builds successfully.
 
 <a name="exercise2"></a>
 ## Exercise 2: Create the application using storyboards and ADALiOS library
@@ -125,13 +131,15 @@ In this exercise you will add the action buttons to the application, connect the
     NSString* token;
     ```
 
-03. On finder, under the project folder, create a new file called **Auth.plist** and drag it into XCode under our project
+03. Create a property list file **Auth.plist** into **AD-Auth-iOS-App** project.
+
+    ![](img/fig.4.png)
 
 04. Open the file and fill it with the following properties:
 
     ![](img/fig.28.png)
 
-    > **Note:** You can find the clientId/redirectUriString in [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites\hands-on-lab.md](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites/hands-on-lab.md)
+    > **Note:** You can find the clientId/redirectUriString in [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites\hands-on-lab.md](../01 Azure AD Auth Prerequisites/hands-on-lab.md)
 
 05. Set the variables values in the **viewDidLoad** method to initialize with the **Auth.plist** values when the application starts
 
@@ -202,7 +210,7 @@ In this exercise you will add the action buttons to the application, connect the
 08. Implement the clear action by adding the following code:
 
     ```objc
-	 - (IBAction)clearAction:(id)sender {
+	- (IBAction)clearAction:(id)sender {
 	    ADAuthenticationError* error;
 	    id<ADTokenCacheStoring> cache = [ADAuthenticationSettings sharedInstance].defaultTokenCacheStore;
 	    NSArray* allItems = [cache allItemsWithError:&error];

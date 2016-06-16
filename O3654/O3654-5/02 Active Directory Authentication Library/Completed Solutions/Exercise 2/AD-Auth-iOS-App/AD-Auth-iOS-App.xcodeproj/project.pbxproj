@@ -15,7 +15,6 @@
 		0E4ED4E81C4F776C00A9CFA1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E4ED4E61C4F776C00A9CFA1 /* LaunchScreen.storyboard */; };
 		0E4ED4F01C4F870B00A9CFA1 /* ic_launcher-web.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E4ED4EF1C4F870B00A9CFA1 /* ic_launcher-web.png */; };
 		0E4ED4F21C4F96A600A9CFA1 /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E4ED4F11C4F96A600A9CFA1 /* Auth.plist */; };
-		2F3C7EA49240CB3AD14125F0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B14807DA30BB7779ADEA4A54 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		0E4ED4F11C4F96A600A9CFA1 /* Auth.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Auth.plist; path = "AD-Auth-iOS-App/Auth.plist"; sourceTree = "<group>"; };
 		1BA9BED06F373C73789D6826 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		661008B854D3581098AC2DDF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		B14807DA30BB7779ADEA4A54 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +39,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F3C7EA49240CB3AD14125F0 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +92,6 @@
 		2982FE2EF8305FF2EFC20750 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B14807DA30BB7779ADEA4A54 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

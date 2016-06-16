@@ -1,3 +1,5 @@
-pod 'ADALiOS', '=1.2.4' 
-pod 'orc'
-pod 'MSGraph-SDK-iOS'
+target 'O365-Files-App' do
+  pod 'ADALiOS'
+  pod 'orc'
+  pod 'MSGraphSDK'
+ end

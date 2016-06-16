@@ -36,19 +36,6 @@
     
     self.folderName.text = self.currentFolder.displayName;
     self.title = self.currentFolder.displayName;
-
-}
-
--(void) getFolderContent{
-    [self.spinner startAnimating];
-    ExchangeGraphService *exchangeService =[[ExchangeGraphService alloc] init];
-    [exchangeService getFolderContent:self.currentFolder._id callback:^(NSArray *messages, NSError *error) {
-        self.folderMessages = messages;
-        dispatch_async(dispatch_get_main_queue(),^{
-            [self.spinner stopAnimating];
-            [self.tableView reloadData];
-        });
-     }];
 }
 
 -(void) viewDidAppear:(BOOL)animated{
@@ -69,13 +56,14 @@
     NSString* identifier = @"msgListCell";
     EmailListTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    MSGraphServiceMessage *msg = [self.folderMessages objectAtIndex:indexPath.row];
+    MSGraphMessage *msg = [self.folderMessages objectAtIndex:indexPath.row];
     
     cell.title.text = msg.from.emailAddress.name;
     cell.subtitle.text = msg.bodyPreview;
     
     return cell;
 }
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
@@ -83,6 +71,7 @@
     controller.currentMsg = self.currentMsg;
     
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.currentMsg= [self.folderMessages objectAtIndex:indexPath.row];
@@ -94,13 +83,20 @@
     return ([identifier isEqualToString:@"msgDetail"] && self.currentMsg);
 }
 
-
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
 
-
-
-
+-(void) getFolderContent{
+    [self.spinner startAnimating];
+    ExchangeGraphService *exchangeService =[[ExchangeGraphService alloc] init];
+    [exchangeService getFolderContent:self.currentFolder.entityId callback:^(NSArray *messages, NSError *error) {
+        self.folderMessages = messages;
+        dispatch_async(dispatch_get_main_queue(),^{
+            [self.spinner stopAnimating];
+            [self.tableView reloadData];
+        });
+    }];
+}
 
 @end

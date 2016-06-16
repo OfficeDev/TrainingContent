@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E11C6101C57120B00AF96D0 /* FileGraphService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E11C60F1C57120B00AF96D0 /* FileGraphService.m */; };
-		85B8839BE72A60414B6D3635 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A419620F3ABDD1891E51DD0 /* libPods.a */; };
+		0EA3CE681CF82DDD00CABCF0 /* FileGraphService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA3CE671CF82DDD00CABCF0 /* FileGraphService.m */; };
 		8D00AC131A105527009BD104 /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D00AC121A105527009BD104 /* Auth.plist */; };
 		D90A56DE19FA6FFC00F4F476 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D90A56DD19FA6FFC00F4F476 /* office365.png */; };
 		D90A56E419FA73F100F4F476 /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A56E319FA73F100F4F476 /* FileListViewController.m */; };
@@ -25,9 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A419620F3ABDD1891E51DD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E11C60E1C57120B00AF96D0 /* FileGraphService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileGraphService.h; sourceTree = "<group>"; };
-		0E11C60F1C57120B00AF96D0 /* FileGraphService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileGraphService.m; sourceTree = "<group>"; };
+		0EA3CE661CF82DDD00CABCF0 /* FileGraphService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileGraphService.h; sourceTree = "<group>"; };
+		0EA3CE671CF82DDD00CABCF0 /* FileGraphService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileGraphService.m; sourceTree = "<group>"; };
 		0FDBBECEF38A9AB29EA62FC1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		146C7129A084EA00926BE198 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8D00AC121A105527009BD104 /* Auth.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth.plist; sourceTree = "<group>"; };
@@ -56,7 +54,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85B8839BE72A60414B6D3635 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +63,6 @@
 		53529216DC982E3B95567E96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0A419620F3ABDD1891E51DD0 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,8 +87,8 @@
 				D94EB04B19F6DE1200137259 /* ic_launcher-web.png */,
 				D90A56E519FA741E00F4F476 /* FileListCellTableViewCell.h */,
 				D90A56E619FA741E00F4F476 /* FileListCellTableViewCell.m */,
-				0E11C60E1C57120B00AF96D0 /* FileGraphService.h */,
-				0E11C60F1C57120B00AF96D0 /* FileGraphService.m */,
+				0EA3CE661CF82DDD00CABCF0 /* FileGraphService.h */,
+				0EA3CE671CF82DDD00CABCF0 /* FileGraphService.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -272,7 +268,7 @@
 				D90A56E719FA741E00F4F476 /* FileListCellTableViewCell.m in Sources */,
 				D90A571919FA9F1B00F4F476 /* FileDetailsViewController.m in Sources */,
 				D94EB04319F6DDB600137259 /* AppDelegate.m in Sources */,
-				0E11C6101C57120B00AF96D0 /* FileGraphService.m in Sources */,
+				0EA3CE681CF82DDD00CABCF0 /* FileGraphService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
