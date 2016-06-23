@@ -12,7 +12,7 @@ In this exercise you will create a new MVC web application to utilize the Micros
   1. Select **Templates/Visual C#/Web**.
   1. Select **ASP.NET Web Application**.
 
-    ![](Images/01.png)
+    ![Screenshot](Images/01.png)
     > **Note:** Make sure you enter the exact same name for the Visual Studio Project that is specified in these lab instructions.  The Visual Studio Project name becomes part of the namespace in the code.  The code inside these instructions depends on the namespace matching the Visual Studio Project name specified in these instructions.  If you use a different project name the code will not compile unless you adjust all the namespaces to match the Visual Studio Project name you enter when you create the project.
 
   1. Click **OK**.
@@ -27,9 +27,9 @@ In this exercise you will create a new MVC web application to utilize the Micros
   8. Uncheck **Host in the cloud**
   9. Click **OK**.
 
-    ![](Images/03.png)
+    ![Screenshot](Images/03.png)
 
-    ![](Images/02.png)
+    ![Screenshot](Images/02.png)
 
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
@@ -37,7 +37,7 @@ In this exercise you will create a new MVC web application to utilize the Micros
   1. Copy the **SSL URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
-    ![](Images/SslEnabled.png)
+    ![Screenshot](Images/SslEnabled.png)
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
 1. Configure the project to always go to the homepage of the web application when debugging:
@@ -55,7 +55,7 @@ In this exercise you will create a new MVC web application to utilize the Micros
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
 
-    ![](Images/ConsentDialog.png)
+    ![Screenshot](Images/ConsentDialog.png)
 
   1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
@@ -86,7 +86,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     * **Read user calendars**    
   1. Click the **Save** button at the bottom of the page.
 
-     ![](Images/AzurePermission.png)
+     ![Screenshot](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
   1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
