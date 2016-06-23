@@ -10,23 +10,23 @@ In this lab you will get hands-on experience working with the new Office Add-in 
 
 1. Launch Visual Studio 2015 as administrator.
 2. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Office Add-in** project template from the **Office/SharePoint** template folder as shown below. Name the new project **ContentGenerator** and click **OK** to create the new project.
-<br/>![](Images/Fig01.png)
+<br/>![Screenshot of Visual Studio](Images/Fig01.png)
 
 3. When you create a new Office Add-in project, Visual Studio prompts you with the **Choose the Add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue.
-<br/>![](Images/Fig02.png)
+<br/>![Screenshot of Visual Studio](Images/Fig02.png)
 
 4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office application except for **Word** and then click **Finish** to create the new Visual Studio solution. 
-<br/>![](Images/Fig03.png)
+<br/>![Screenshot of Visual Studio](Images/Fig03.png)
 
 5. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **ContentGenerator** and **ContentGeneratorWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **ContentGeneratorManifest** which contains a single file named **ContentGenerator.xml**.
-<br/>![](Images/Fig04.png)
+<br/>![Screenshot of Visual Studio](Images/Fig04.png)
 
 6. In the Solution Explorer, double-click on the node named **ContentGeneratorManifest** to open the Add-in manifest file in the Visual Studio designer. Update the **Display Name** settings in the Add-in manifest from **ContentGenerator** to **Content Generator**.
-<br/>![](Images/Fig05.png)
+<br/>![Screenshot of Visual Studio](Images/Fig05.png)
 
 7. Save and close **ContentGeneratorManifest**.
 8. Over the next few steps you will walk through the default Add-in implementation that Visual Studio generated for you when the Add-in project was created. Begin by looking at the structure of the **AddIn** folder which has two important files named **app.css** and **app.js** which contain CSS styles and JavaScript code which is to be used on an app-wide basis.
-<br/>![](Images/Fig06.png)
+<br/>![Screenshot of Visual Studio](Images/Fig06.png)
 
 9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**.
  
@@ -137,10 +137,10 @@ In this lab you will get hands-on experience working with the new Office Add-in 
 	````        
         
 17. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2013 and you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
-<br/>![](Images/Fig07.png)
+<br/>![Screenshot of Visual Studio](Images/Fig07.png)
 
 18. Now test the functionality of the Add-in. Begin by typing some text in the Word document and selecting it as shown in the following screenshot. Once you have selected some text, click the **Get data from select button**. You should see a copy of the selected text appear in a gray box at the bottom of the task pane.
-<br/>![](Images/Fig08.png)
+<br/>![Screenshot of the Word Add-in](Images/Fig08.png)
 
 19. You have now successfully run and tested the Add-in using the Visual Studio debugger. Close Microsoft Word to stop the debugging session and return to Visual Studio.
 
@@ -282,10 +282,10 @@ In this lab you will get hands-on experience working with the new Office Add-in 
     ````
     
 12. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2013 and you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
-<br/>![](Images/Fig09.png)
+<br/>![Screenshot of the Word Add-in](Images/Fig09.png)
 
 13. Now test the functionality of the Add-in by clicking the **Get Content** button. Each time you click this button you should see a different quote appear below as shown in the following screenshot.
-<br/>![](Images/Fig10.png)
+<br/>![Screenshot of the Word Add-in](Images/Fig10.png)
 
 14. You have now successfully implemented a custom user experience for the Add-in using HTML, CSS and JavaScript. Close Microsoft Word to stop the debugging session and return to Visual Studio.
 
@@ -306,6 +306,6 @@ In this lab you will get hands-on experience working with the new Office Add-in 
     ````
     
 4. Now test the functionality of the Add-in by pressing the {**{F5}** key to start a debugging session. Begin your testing by clicking the **Get Content** button to display a new quote inside the Add-in's user interface in the task pane. Next, click the "Insert Content** button to insert the quote into the current Word document as shown in the following screenshot.
-<br/>![](Images/Fig11.png)
+<br/>![Screenshot of the Word Add-in](Images/Fig11.png)
 
 5. You have now successfully implemented the Add-in logic required in this lab exercise. Close Microsoft Word to stop the debugging session and return to Visual Studio.
