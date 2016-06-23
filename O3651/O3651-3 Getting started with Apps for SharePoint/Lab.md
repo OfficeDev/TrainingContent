@@ -10,15 +10,15 @@ In this lab you will get hands-on experience working with the new SharePoint Add
 1. Create a new project in Visual Studio 2015 by selecting the menu command **File > New > Project**.
 1. In the **New Project** dialog, find the **SharePoint Add-in** project template under the **Templates > Visual C# > Office / SharePoint > Office Add-ins** section. Enter a name of **MyHelloWorldApp**, a location of **C:\DevProjects** and a Solution name of **MyHelloWorldApp** and then click **OK** button.
 
-	![](Images/Fig01.png)
+	![Screenshot](Images/Fig01.png)
 
 1. In the **New SharePoint Add-in** wizard, enter the URL for your Office 365 Developer site and select **SharePoint-hosted** for the Add-in hosting model. Click **Next**, In the **Specify the target SharePoint version** tab, select **SharePoint Online**. When done, complete the wizard by clicking the **Finish** button.
 
-	![](Images/Fig02.png)
+	![Screenshot](Images/Fig02.png)
 
 1. Examine the default project setup for a SharePoint-hosted Add-in . As you can see, it is like a traditional SharePoint solution-based project because you have a Features and Packages node.
 
-	![](Images/Fig03.png)
+	![Screenshot](Images/Fig03.png)
 
 1. Note that there are project folders named Content, Images & Pages are actually SharePoint Project Items (SPI) that are Modules and will provision their contents to the respective folders in the Add-in web that will be generated upon installing the Add-in.
    - **Content/App.css**: main Cascading Style Sheet used for the Add-in.
@@ -57,7 +57,7 @@ In this lab you will get hands-on experience working with the new SharePoint Add
 1.	Once the Add-in has been installed, Internet Explorer will launch and navigate to the Add-in's start page **default.aspx** page.
 1.	When the page loads, click the **Push me** button to see your text get written to the page:
 
-	![](Images/Fig04.png)
+	![Screenshot](Images/Fig04.png)
 	
 1.	Once you have tested the Add-in, close the browser to stop the debugging session and return to Visual Studio.
 1.	In Visual Studio, save all changes using **File > Save All**.
@@ -161,7 +161,7 @@ In this lab you will get hands-on experience working with the new SharePoint Add
 1. When the page loads, you should see the message **"Hello from the document ready event handler"** on the page.
 1. Click the **Push me** button to see your text get written to the page with your custom font styles.
 
-	![](Images/Fig05.png)
+	![Screenshot](Images/Fig05.png)
 
 1.	Once you have tested the Add-in, close the browser to stop the debugging session and return to Visual Studio.
 1.	In Visual Studio, save all changes using **File > Save All**.
@@ -175,26 +175,26 @@ In this lab you will get hands-on experience working with the new SharePoint Add
 1.	In the New Project dialog select the **SharePoint Add-in** template under the **Templates > Visual C# > Office / SharePoint > Office Add-ins** section.
 1.	Enter a **Name** of **MyFirstCloudHostedApp** and a **Location** of **C:\DevProjects\** and then click **OK** when you are done.
 
-	![](Images/Fig06.png)
+	![Screenshot](Images/Fig06.png)
 
 1.	Next, you will see the **New SharePoint Add-in wizard** which begins by prompting you with the **Specify the SharePoint Add-in settings** page. Enter the URL to your Office 365 developer site, configure the Add-in's hosting model to be **Provider-hosted** and click **Next**.
 
-	![](Images/Fig07.png)
+	![Screenshot](Images/Fig07.png)
 
 1. On the **Specify the target SharePoint version** page, select **SharePoint Online** setting and click **Next**.
-    ![](Images/Fig_SpecifySharePointVersion.png) 
+    ![Screenshot](Images/Fig_SpecifySharePointVersion.png) 
 
 1. On the **Specify the web project type** page, select the **ASP.NET Web Forms Application** setting and click **Next**.
 
-	![](Images/Fig08.png)
+	![Screenshot](Images/Fig08.png)
 
 1.	On the **Configure authentication settings** page, accept the default settings and click **Finish**.
 
-	![](Images/Fig09.png)
+	![Screenshot](Images/Fig09.png)
 
 1.	Examine the structure of the Visual Studio solution that has been created. As you can see, the Visual Studio solution created for a Provider-hosted Add-in has two projects and is very different from the Visual Studio solution for a SharePoint-hosted Add-in which has only one project.
 
-	![](Images/Fig10.png)
+	![Screenshot](Images/Fig10.png)
 
 1. Observe that top project named **MyFirstCloudHostedApp** contains only two files: **AppManifest.xml** and **AppIcon.png**. This effectively means the Add-in will not install any resources into the SharePoint host such as pages. This project only contains Add-in metadata and an image file that get added to the SharePoint host when the Add-in gets installed.
 1. Take a look at the project below named **MyFirstCloudHostedAppWeb** which will provide the implementation of the Add-in's remote web. This project is a standard ASP.NET Web application but it contains a little extra stuff in it:
@@ -235,7 +235,7 @@ In this lab you will get hands-on experience working with the new SharePoint Add
 1. Once the solution has been deployed, Internet Explorer will launch and navigate to the start page of the Add-in in the remote web.
 1. Notice when the page loads it is just a plain white page with the text you added and a link back to the hosting site.
 
-	![](Images/Fig11.png)
+	![Screenshot](Images/Fig11.png)
 
 1. Test the **Back to host web** link to make sure it correctly redirects you back to the host web which should be your Office 365 developers site.
 1. Close the browser to stop the debugger and go back to Visual Studio.
