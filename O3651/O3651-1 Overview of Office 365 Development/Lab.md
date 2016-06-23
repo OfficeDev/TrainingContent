@@ -15,47 +15,47 @@ In this exercise you will get user profile, Office 365 Group and OneDrive inform
   3. Select **GET** and input this URL https://graph.microsoft.com/v1.0/me
   4. Press **Enter** to get the current user's profile information.
 
-     ![](Images/graph01.png)
+     ![Screenshot of Graph Explorer](Images/graph01.png)
 
 2. Get Office 365 Groups by using the Microsoft Graph
   1. Navigate to the [Office 365 login page](https://login.microsoftonline.com).
   2. Sign in with your Microsoft account     
   3. Click **People**
 
-     ![](Images/graph02.png)
+     ![Screenshot of Office 365 Portal](Images/graph02.png)
 
   4. Click **Create** in the Groups section.   
   
-     ![](Images/graph03.png)
+     ![Screenshot of creating a group](Images/graph03.png)
 
   5. Input a new Office 365 Group name and click **Create**
   
-     ![](Images/graph04.png)
+     ![Screenshot of creating a group](Images/graph04.png)
 
   6. Navigate to the [Graph Explorer](http://graphexplorer2.azurewebsites.net/)
   7. Log in with your Microsoft account.   
   8. Select **GET** and input this URL https://graph.microsoft.com/v1.0/groups
   9. Press **Enter** to get all of the Office 365 Groups.  Locate the Office 365 Group you just created in the list.
 
-     ![](Images/graph05.png)
+     ![Screenshot of creating a group](Images/graph05.png)
 
 3. Get files from OneDrive by using the Microsoft Graph
   1. Navigate to the [Office 365 login page](https://login.microsoftonline.com)    
   2. Sign in with your Microsoft Account.
   3. Click **OneDrive**
      
-	![](Images/graph06.png)
+	![Screenshot of OneDrive](Images/graph06.png)
 
   4. Click **Upload** -> **Files** in the ribbon. Choose a local file and click **Open** to upload a file into OneDrive.
      
-	![](Images/graph07.png)
+	![Screenshot of OneDrive](Images/graph07.png)
 
   5. Navigate to the [Graph Explorer](http://graphexplorer2.azurewebsites.net/).
   6. Log in with your Microsoft account.
   7. Select **GET** and input this URL https://graph.microsoft.com/v1.0/me/drive/root/children
   8. Press **Enter** to get a list of all of the files in OneDrive.  Notice the new file you uploaded is in the list.
 
-     ![](Images/graph08.png)
+     ![Screenshot of Graph Explorer](Images/graph08.png)
 
 ## Exercise 2: Add-ins for SharePoint 
 In this exercise you will download, install and investigate an existing Add-in for SharePoint.
@@ -65,28 +65,28 @@ In this exercise you will download, install and investigate an existing Add-in f
 2. Install an existing Add-in for SharePoint
   1. Click **Site Contents**.
   2. Click **Add an App**<br/>
-     ![](Images/01.png "Figure 1")
+     ![Screenshot for Add-in for SharePoint](Images/01.png "Figure 1")
   3. Click **SharePoint Store**
   4. Search the SharePoint Store for **World Clock and Weather**<br/>
-     ![](Images/02.png "Figure 2")
+     ![Screenshot for Add-in for SharePoint](Images/02.png "Figure 2")
   5. Click the **World Clock and Weather**
   6. Click **Add it**<br/>
-     ![](Images/03.png "Figure 3")
+     ![Screenshot for Add-in for SharePoint](Images/03.png "Figure 3")
   7. When prompted, click **Continue**.<br/>
-     ![](Images/04.png "Figure 4")
+     ![Screenshot for Add-in for SharePoint](Images/04.png "Figure 4")
   8. Click **Return to site**.<br/>
-     ![](Images/26.png "Figure 26")
+     ![Screenshot for Add-in for SharePoint](Images/26.png "Figure 26")
 
 
   9. Click **Trust It**.<br/>
-     ![](Images/27.png "Figure 27")
+     ![Screenshot for Add-in for SharePoint](Images/27.png "Figure 27")
 
 3. Use the new Add-in
   1. Launch the **World Clock and Weather** Add-in.<br/>
-     ![](Images/05.png "Figure 5")
+     ![Screenshot for Add-in for SharePoint](Images/05.png "Figure 5")
   2. Note that the Add-in launches into a full-screen experience.
   3. Note that the Add-in also provides a link to return to the SharePoint host web.<br/>
-     ![](Images/06.png "Figure 6")
+     ![Screenshot for Add-in for SharePoint](Images/06.png "Figure 6")
   4. Navigate the Add-in to review its content.
   5. Click **Your Site Name** to return to the host web.
 
@@ -96,27 +96,27 @@ In this exercise, you will download, install and investigate an Office Add-in  h
 1. Install an existing Add-in for Office
   1. Launch **Word 2013**.
   2. When Word 2013 starts, click **Blank Document**.<br/>
-     ![](Images/07.png "Figure 7")
+     ![Screenshot of Word Add-in](Images/07.png "Figure 7")
   3. Click the **Insert** tab.
   4. In the **Add-Ins** group, click **Store**.<br/>
-     ![](Images/08.png "Figure 8")
+     ![Screenshot of Word Add-in](Images/08.png "Figure 8")
   5. In the store, search for **Wikipedia**.
   6. Select the App title **Wikipedia**.<br/>
-     ![](Images/09.png "Figure 9")
+     ![Screenshot of Word Add-in](Images/09.png "Figure 9")
   7. When prompted, click **Trust It**.<br/>
-     ![](Images/10.png "Figure 10")
+     ![Screenshot of Word Add-in](Images/10.png "Figure 10")
 2. Use the new Add-in
   1. In the Wikipedia task pane, search for **Azure**.
   2. Click **EXPAND ARTICLE**.<br/>
-     ![](Images/28.png "Figure 28")
+     ![Screenshot of Word Add-in](Images/28.png "Figure 28")
   2. Click **Microsoft Azure**.<br/>
-     ![](Images/11.png "Figure 11")
+     ![Screenshot of Word Add-in](Images/11.png "Figure 11")
   3. Click **Sections**.
   5. Click **History**.<br/>
-     ![](Images/12.png "Figure 12")
+     ![Screenshot of Word Add-in](Images/12.png "Figure 12")
   5. Highlight the first few paragraphs.
   6. Click the **Plus** symbol (+) to insert the text.<br/>
-     ![](Images/13.png "Figure 13")
+     ![Screenshot of Word Add-in](Images/13.png "Figure 13")
 3. Close Word 2013.
 
 ## Exercise 4: Add-in for Office (Excel)
@@ -127,17 +127,17 @@ In this exercise, you will download, install and investigate an Office Add-in ho
   2. Sign in with your Microsoft account.
   3. Search for **crime**.
   4. Click **2006-2008 Crime in the United States**<br/>
-     ![](Images/18.png "Figure 18")
+     ![Screenshot of Excel Add-in](Images/18.png "Figure 18")
   5. Click **Sign Up**<br/>
-     ![](Images/19.png "Figure 19")
+     ![[Screenshot of Excel Add-in](Images/19.png "Figure 19")
   6. When complete, click **Explore this Dataset**.<br/>
-     ![](Images/20.png "Figure 20")
+     ![Screenshot of Excel Add-in](Images/20.png "Figure 20")
   7. Click **Show** to display the **Primary Account Key**<br/>
-     ![](Images/21.png "Figure 21")
+     ![Screenshot of Excel Add-in](Images/21.png "Figure 21")
 2. Import data into the Excel spreadsheet
   1. In Excel 2013, click the **Data** tab.
   2. In the **Get External Data** group, click **From Web**.<br/>
-     ![](Images/22.png "Figure 22")
+     ![Screenshot of Excel Add-in](Images/22.png "Figure 22")
   3. Enter the following URL  and click **GO**. When prompted for a user name and password, use your **Primary Account Key** for both.
      ```
      https://api.datamarket.azure.com/data.gov/Crimes/v1/CityCrime
@@ -145,21 +145,21 @@ In this exercise, you will download, install and investigate an Office Add-in ho
   4. Click **Import**. When prompted for a user name and password, use your **Primary Account Key** for both.
   5. In the spreadsheet, locate the data for **Alaska**.
   6. Hide the columns so that **State**, **City**, and **Viloent Crime** columns are next to each other . <br/>
-     ![](Images/23.png "Figure 23")
+     ![Screenshot of Excel Add-in](Images/23.png "Figure 23")
 3. Install an existing Office Add-in
   1. Click the **Insert** tab.
   2. In the **Add-Ins** group, click **Store**.<br/>
-     ![](Images/08.png "Figure 15")
+     ![Screenshot of Excel Add-in](Images/08.png "Figure 15")
   3. In the store, search for **Modern Trend**.
   4. Select the App title **Modern Trend**.<br/>
-     ![](Images/16.png "Figure 16")
+     ![Screenshot of Excel Add-in](Images/16.png "Figure 16")
   5. When prompted, click **Trust It**.<br/>
-     ![](Images/17.png "Figure 17")
+     ![Screenshot of Excel Add-in](Images/17.png "Figure 17")
 4. Use the Office Add-in
   1. In the app, click **Select Your Data**. <br/>
-     ![](Images/24.png "Figure 24")
+     ![Screenshot of Excel Add-in](Images/24.png "Figure 24")
   2. Select the cities and crime statistices.<br/>
-     ![](Images/25.png "Figure 25")
+     ![Screenshot of Excel Add-in](Images/25.png "Figure 25")
   3. Click **Create**.
 
 **Congratulations! You have completed investigating Add-ins for SharePoint and Office.**
