@@ -63,7 +63,7 @@ In this exercise you will use an existing application with the AzureAD  included
     -   **redirectUriString**       - The redirect URL configured in Azure AD, e.g. "http://example.com/redirect"
     -   **clientId**                - The client Id obtained from Azure AD
     
-    ![](img/fig.01.png)
+    ![Screenshot of the previous step](img/fig.01.png)
 
 06. Build and Run the project in an iOS Simulator to check the views
 
@@ -76,7 +76,7 @@ In this exercise you will use an existing application with the AzureAD  included
     Environment:
     To access the files, in the Office 365 Sharepoint tenant there is a Default space to store documents called "Shared Documents". We will use the o365-files-sdk to access these files, download them, and show a preview in the iOS application.
 
-    ![](img/fig.02.png)
+    ![Screenshot of the previous step](img/fig.02.png)
 
 <a name="exercise2"></a>
 ## Exercise 2: Create a FileGraphService to get access to OneDrive
@@ -85,15 +85,15 @@ In this exercise you will use an existing application with the AzureAD  included
 select **New File**. You will see the **New File wizard**. Click on the **iOS** 
 section, select **Cocoa Touch Class** and click **Next**.
 
-    ![](img/fig.10.png)
+    ![Screenshot of the previous step](img/fig.10.png)
 
 02. In this section, configure the new class giving it a name (**FileGraphService**), and make it a subclass of **NSObject**. Make sure that the language dropdown is set with **Objective-C** because our o365-lists library is written in that programming language. Finally click on **Next**.
 
-    ![](img/fig.11.png)    
+    ![Screenshot of the previous step](img/fig.11.png)    
 
 03. Now we are going to select where the new class sources files (.h and .m) will be stored. In this case we can click on **Create** directly. This will create a **.h** and **.m** files for our new class.
 
-    ![](img/fig.12.png)
+    ![Screenshot of the previous step](img/fig.12.png)
 
 04. Open the **FileGraphService.h** and add the header for the **getGraphServiceClient** method to get **MSGraphServiceClient**.
 
@@ -330,7 +330,7 @@ We need to connect this event methods to the o365-files-sdk.
     
 04. Build and Run the application. Check everything is OK. Now you will be able to see the Files list from the Office 365 SharePoint tenant and navigate the folders
 
-    ![](img/fig.13.png)
+    ![Screenshot of the previous step](img/fig.13.png)
 
 
 ### Task2 - Wiring up FilesDetailsView
@@ -414,10 +414,10 @@ We need to connect this event methods to the o365-files-sdk.
 06. Build and Run the app, and check everything is ok. Now you can see the File details and when tapping the action button, you can see a preview of the document.
 
     File details                                                                        
-    ![](img/fig.14.png)
+    ![Screenshot of the previous step](img/fig.14.png)
 
     File preview                                                                      
-    ![](img/fig.15.png)
+    ![Screenshot of the previous step](img/fig.15.png)
 
 
 ## Summary

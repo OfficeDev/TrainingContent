@@ -19,7 +19,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
   1. In the next page of the wizard, enter the URL of a SharePoint 2013 Developer site to use for testing & set the type of app as a **SharePoint-hosted** app.
   1. Finally click **Finish**
 
-    ![](Images/01.png)
+    ![Screenshot of the previous step](Images/01.png)
 
 1. Before creating the workflow, you need a list to attach it to. Therefore, create a list that will be used for testing the workflow:
   1. Right-click the project **UpdateListItem** in the **Solution Explorer** tool widow and select **Add / New Item**.
@@ -27,7 +27,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
   1. Give the list a name of **SalesLeads** and click **Add**.
   1. On the **SharePoint Customization Wizard** page, set the name of the list to **Sales Leads**, select a **customizable list template** and pick **Default (Custom List)**.
 
-    ![](Images/02.png)
+    ![Screenshot of the previous step](Images/02.png)
 
   1. Click **Finish**.
   1. After Visual Studio creates the list, it will open the list designer.
@@ -41,7 +41,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
     1. Add **Country/Region** (type = Single Line of Text).
     1. Add **Business Phone** (type = Single Line of Text).
 
-    ![](Images/03.png)
+    ![Screenshot of the previous step](Images/03.png)
 
 1. Because this app will test a workflow using a SharePoint list, simplify the startup experience of the app by changing the start page.
   1. Open the `AppManifest.xml` file.
@@ -52,7 +52,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
   1. Click **Add**.
   1. In the **SharePoint Customization Wizard**, set the name to **Update Contact From Service** and set it to a **List Workflow**, then click **Next**.
 
-    ![](Images/04.png)
+    ![Screenshot of the previous step](Images/04.png)
 
   1. On the next page in the wizard, do the following:
     1. Check the box for **Would you like Visual Studio to automatically associate the workflow**. 
@@ -68,7 +68,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
       > This is a good practice to follow as you will see that most workflows contain multiple nested sequences. Just above the design surface where it says *workflow* is a breadcrumb-like navigation that will fill up the more nested you are in the workflow. If it said *Sequence* multiple times, it would provide zero value. Therefore starting with *ROOT* is clear that this is the top-most part of the workflow.
   1. Now add some variables that will be used throughout the workflow. At the bottom of the designer, click the **Variables** tab to bring up a new pane to create variables.
 
-    ![](Images/05.png)
+    ![Screenshot of the previous step](Images/05.png)
 
   1. Add the following variables with the specified data types and default values:
     1. **PersonName** (string)
@@ -80,13 +80,13 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
     1. **PersonID** (string), Default = **"-1"**
     1. **WebServiceUri** (string), Default = **"http://services.odata.org/V3/OData/OData.svc" **
 
-    ![](Images/06.png)
+    ![Screenshot of the previous step](Images/06.png)
 
 1. Add the first sequence (step) to the workflow to retrieve the name of the person entered into the list item that you will search for in the remote web service:
   1. Using the **Toolbox**, drag a **Sequence** activity to the design surface and place it into the existing **Root** sequence.
   1. Rename the new sequence to **Get Person Name from ListItem** using the technique you used to rename the default sequence.
 
-    ![](Images/07.png)
+    ![Screenshot of the previous step](Images/07.png)
 
   1. Using the **Toolbox**, drag a **LookupSPListItem** activity into the sequence you just created.
   1. Select the **LookupSPListItem** activity and using the **Properties** tool window, set the following values:
@@ -102,11 +102,11 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
       1. Set the **Entity Type** to **List Item of SalesLeads**.
       1. Select the property **Name** and assign it to the **PersonName** variable as shown in the following figure:
 
-        ![](Images/08.png)
+        ![Screenshot of the previous step](Images/08.png)
 
   At this point your workflow should look like he following figure:
 
-    ![](Images/09.png)
+    ![Screenshot of the previous step](Images/09.png)
 
 1. Add a second sequence that will query the web service for a matching name entered in the list item.
   1. Add a new **Sequence** activity immediately after the existing **Get Person Name from List Item** activity.
@@ -142,7 +142,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
 
   At this point, if you minimized the first sequence using the little down arrows in the upper-right corner, your workflow should look like the following figure:
 
-    ![](Images/10.png)
+    ![Screenshot of the previous step](Images/10.png)
 
 1. The last step is to add a sequence that will update the item in the SharePoint list if a match was found in the web service.
   
@@ -184,11 +184,11 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
       1. Change the **Entity Type** to **List Item of SalesLeads**.
       2. For each variable you retrieved in the last activity, use the selectors to associate each field in the last with those values as shown from the following figure:
 
-        ![](Images/11.png)
+        ![Screenshot of the previous step](Images/11.png)
 
   At this point the workflow is now complete. The final big **If** statement should look like the following figure
 
-    ![](Images/12.png)
+    ![Screenshot of the previous step](Images/12.png)
 
 1. With the workflow complete, in Visual Studio, select **Debug / Start Debugging** to launch the workflow.
   
@@ -200,7 +200,7 @@ In this lab you will create two workflows for your SharePoint 2013 site that wil
 
    Once the workflow starts, go back to the list item and keep refreshing the page... after a few moments you should see all of the user's details are updated as seen in the following figure: 
 
-    ![](Images/13.png)
+    ![Screenshot of the previous step](Images/13.png)
 
 Congratulations! In this exercise you created a sequential workflow that queried an OData / REST web service for a specific person & used that data to update a SharePoint list item.
 
@@ -214,7 +214,7 @@ Congratulations! In this exercise you created a sequential workflow that queried
   1. Select the **App for SharePoint** from the **Visual C#/Office-SharePoint/Apps** template category.
   1. Set the name of the project to **StateMachineInitForm** and click **OK**.
 
-    ![](Images/01.png)
+    ![Screenshot of the previous step](Images/01.png)
 
   1. In the next page of the wizard, enter the URL of a SharePoint 2013 Developer site to use for testing & set the type of app as a **SharePoint-hosted** app.
   1. Finally click **Finish**
@@ -313,7 +313,7 @@ Congratulations! In this exercise you created a sequential workflow that queried
   1. First, select and delete the default **Sequence** that was added by Visual Studio to the workflow design surface.
   1. Using the **Toolbox**, add a **StateMachine** activity to the designer. This will add a single state **State1** and a transition (the line) going from the start of the state machine to the first state:
 
-    ![](Images/14.png)
+    ![Screenshot of the previous step](Images/14.png)
 
   1. Rename the **State1** to **Initial State**.
 
@@ -332,7 +332,7 @@ Congratulations! In this exercise you created a sequential workflow that queried
     1. Add a **Sequence** activity and rename it to **Get List Item Creator**.
     1. Add another **Sequence** activity to the right of the one you just added and name it **Update List Item w/ Init Form**
 
-      ![](Images/15.png)
+      ![Screenshot of the previous step](Images/15.png)
 
   1. In the **Update List item w/ Init Form** sequence, add a **UpdateListItem** activity & set the following properties on it:
     1. ItemId: **(current item)**
@@ -360,13 +360,13 @@ Congratulations! In this exercise you created a sequential workflow that queried
 
   At this point the **Initial State** should look like the following figure:
 
-    ![](Images/16.png)
+    ![Screenshot of the previous step](Images/16.png)
 
 1. Back up to the top-level of the workflow designer by clicking **Workflow** in the breadcrumb in the top-left part of the workflow designer.
 1. Using the **Toolbox**, drag a **State** activity onto the design surface & rename it to **Create Task**.
 1. Now you need to define a path, or *transition*, from one state to another. Do this by hovering the cursor over the edge of the **Initial State**, grabbing one of the little tabs that hangs off it and connect it to a tab on the **Create Task** state:
 
-  ![](Images/17.png)
+  ![Screenshot of the previous step](Images/17.png)
 
   Double-click the transition you just created and examine it's contents. Notice it has a *Trigger* where you can specify conditions when this trigger should execute, such as a delay or an item getting updated. You can also specify a *Condition* that will either block or permit the transition to fire regardless of the trigger. And finally, notice the *Action* where you can add activities to execute when the trigger fires. At the bottom of the trigger you can see that the destination of this trigger is the **Create Task** state.
 

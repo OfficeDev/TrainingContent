@@ -44,7 +44,7 @@ In this exercise, you will examine and customize the **Starter Project** for the
   1. Open a **Terminal** window (on OS X) or **Command Prompt** (on Windows).
   1. Navigate to the root folder of the **Starter Project** located at [\\\O3657\O3657-4 Building Office Apps for Excel Using Angular and Material Design\Starter Project](Starter Project) in the Terminal window.
   
-    ![](Images/terminal01.png)  
+    ![Screenshot of the previous step](Images/terminal01.png)  
   
   1. Run the following command to download all packages. This will create a new folder `node_modules` in the **Starter Project** located at [\\\O3657\O3657-4 Building Office Apps for Excel Using Angular and Material Design\Starter Project](Starter Project).
 
@@ -52,11 +52,11 @@ In this exercise, you will examine and customize the **Starter Project** for the
     $ npm install
     ````
 
-    ![](Images/terminal02.png)    
+    ![Screenshot of the previous step](Images/terminal02.png)    
 
 6. At the prompt to choose a suitable version of angular, select **2**.
 
-    ![](Images/choose-angular-version.png)
+    ![Screenshot of the previous step](Images/choose-angular-version.png)
 
 1. Now test to make sure the sample add-in is working.
   1. From the command line, ensure you are in the root of the **Starter Project** folder located at [\\\O3657\O3657-4 Building Office Apps for Excel Using Angular and Material Design\Starter Project](Starter Project) and enter the following command to start the web server:
@@ -68,10 +68,10 @@ In this exercise, you will examine and customize the **Starter Project** for the
   1. Open a browser and navigate to **https://localhost:8443/index.html**. Ignore any certificate warnings & errors the browser may display.
     1. You should see a page that displays a single rendered HTML `<h1>` tag: **Invoice Creator**.
   
-    ![](Images/ssl-no-trusted.png)
+    ![Screenshot of the previous step](Images/ssl-no-trusted.png)
   1. This HTTPS server used a self-signed SSL cert. Follow this [document](https://github.com/OfficeDev/generator-office/blob/master/docs/trust-self-signed-cert.md) to add self-signed certificate as trusted root certificate. 
   
-    ![](Images/ssl-trusted.png)
+    ![Screenshot of the previous step](Images/ssl-trusted.png)
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 
 In this exercise you downloaded all external package dependencies and tested the local web server that will host the Office Add-in for Excel.
@@ -112,7 +112,7 @@ In this exercise you will, deploy & test a skeleton implementation of the Office
   1. When the **SharePoint Admin Center** page loads, select the **Apps** option in the left-hand menu.
   1. Then select the **App Catalog** link.
 
-    ![](Images/app-catalog.png)
+    ![Screenshot of the previous step](Images/app-catalog.png)
 
     > If you do not already have an app catalog you will need to run through the process of creating one. The name & URL of the catalog, while required fields, are not important.
 
@@ -126,20 +126,20 @@ In this exercise you will, deploy & test a skeleton implementation of the Office
   1. Using the browser, navigate to your default SharePoint team site.
   1. Click the **Documents** link in the left-hand menu.
 
-    ![](Images/ql-documents.png)
+    ![Screenshot of the previous step](Images/ql-documents.png)
 
   1. Create a new workbook by selecting the **New** link and then selecting **Excel workbook**.
 
-    ![](Images/new-excel-workbook.png)
+    ![Screenshot of the previous step](Images/new-excel-workbook.png)
 
   1. After the workbook loads, click the **Insert** tab in the ribbon.
   1. Click the **Office Add-ins** button in the ribbon.
 
-    ![](Images/app-for-office.png)
+    ![Screenshot of the previous step](Images/app-for-office.png)
 
   1. A dialog will open and show you a list of all available add-ins you can add to the workbook. Find the one you previously created, select it and click **Insert**.
 
-    ![](Images/add-excel-app.png)
+    ![Screenshot of the previous step](Images/add-excel-app.png)
 
 1. Test the Office Add-in for Excel.
   1. Start the local server that is hosting the application.
@@ -154,7 +154,7 @@ In this exercise you will, deploy & test a skeleton implementation of the Office
   1. Do a hard-refresh of the browser to clear the cache. 
   1. After a few seconds, you should notice the add-in loads in the right margin of the workbook.
   
-    ![](Images/ex02_result.png)
+    ![Screenshot of the previous step](Images/ex02_result.png)
   
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 
@@ -653,11 +653,11 @@ In this exercise you will update the Angular part of the application to enable f
   1. Do a hard-refresh of the browser to clear the cache. 
   1. Notice how you can now apply filters based on the supplier or category and the product list changes.
 
-    ![](Images/excel-task-pane-01.png)
+    ![Screenshot of the previous step](Images/excel-task-pane-01.png)
 
     Now select a few products and click the **Add Products** button to see them get added to the spreadsheet:
 
-    ![](Images/excel-task-pane-02.png)
+    ![Screenshot of the previous step](Images/excel-task-pane-02.png)
 
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 

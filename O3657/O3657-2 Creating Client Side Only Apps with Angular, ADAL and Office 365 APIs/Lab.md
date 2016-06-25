@@ -19,7 +19,7 @@ In this exercise, you will examine and customize the **Starter Project** for the
 1. Locate the starter project found in the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles).
 1. Open the project folder in any text editor, such as [Visual Studio Code](https://code.visualstudio.com/) or [Brackets](http://www.brackets.io) or [WebStorm](https://www.jetbrains.com/webstorm/).
 
-    ![](Images/OpenProject01.png)
+    ![Screenshot of the previous step](Images/OpenProject01.png)
   
 1. Download all NPM packages (used to build & self-host the project) and bower packages (used for external 3rd party script libraries).
   1. Open a command window and navigate to the [\\\O3657\O3657-2 Creating Client Side Only Apps with Angular, ADAL and Office 365 APIs\StarterFiles](StarterFiles) folder.
@@ -53,7 +53,7 @@ In this exercise, you will examine and customize the **Starter Project** for the
 
   This will host the site at [http://localhost:8000](http://localhost:8000). The file [superstatic.json](StarterFiles/superstatic.json) configures *superstatic* to load the site starting with `/src` as the web root.
   
-    ![](Images/StartProject01.png)
+    ![Screenshot of the previous step](Images/StartProject01.png)
     
 ## Exercise 2: Setup the SharePoint Site & OneDrive for Business Dependencies
 In this exercise you will create a new SharePoint site with sample data that the app relies on using the pre-built site template & upload some files to your OneDrive for Business account.
@@ -91,7 +91,7 @@ In this exercise you will create an Azure AD application that will be used by th
 1. In the left-hand navigation, scroll down to and click on **Active Directory**.
 1. Click on the name of your Azure AD directory & then click **Applications** in the toolbar. 
 
-  ![](Images/AzureAdApp01.png)
+  ![Screenshot of the previous step](Images/AzureAdApp01.png)
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
@@ -102,14 +102,14 @@ In this exercise you will create an Azure AD application that will be used by th
   > NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
 1. Click the **check** image in the lower right of the wizard to create the application. The application **Quick Start** page will display once the application is created.
 
-  ![](Images/AzureAdApp02.png)
+  ![Screenshot of the previous step](Images/AzureAdApp02.png)
 
 1. Obtain and store the Azure AD tenant ID.
   1. On the **Quick Start** page, expand the **Get Started** / **Enable Users to Sign On**. 
   1. Locate the field **Federation Metadata Document URL**. Within that field value you will see a GUID immediately after the `login.windows.net` part of the URL. 
   1. Copy just the GUID value to the clipboard.
 
-    ![](Images/TenantId.png)
+    ![Screenshot of the previous step](Images/TenantId.png)
 
 1. On the application Quick Start page, click on **CONFIGURE** in the toolbar.
 1. Copy the **Client ID** value for later use. You will need this later.
@@ -117,7 +117,7 @@ In this exercise you will create an Azure AD application that will be used by th
 1. Click **Add application**
   1. In the **Permissions to other applications** dialog, select **Microsoft Graph** and **Office 365 SharePoint Online** and save changes.
   
-    ![](Images/AzureAdApp03.png)
+    ![Screenshot of the previous step](Images/AzureAdApp03.png)
     
   1. In the **Delegated Permissions** dropdown for **Microsoft Graph**, check the following permissions:
   
@@ -448,7 +448,7 @@ Next, update the controller used in the top navigation to add login/logout capab
 
 In this exercise you added authentication, login & logout controls to the Angular app using the ADAL JS Angular provided service.
 
-  ![](Images/StartProject02.png)
+  ![Screenshot of the previous step](Images/StartProject02.png)
 
 ## Exercise 5: Utilize Microsoft Graph & SharePoint Online REST Services
 In this exercise you will create a SharePoint site using the provided site template that includes sample data. After creating the site, you will update the starter app to use the live services in Office 365 & SharePoint Online instead of the static sample files.

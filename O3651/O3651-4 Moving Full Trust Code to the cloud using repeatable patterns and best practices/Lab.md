@@ -17,13 +17,13 @@ In this exercise you will create an app security principle in your Office 365 te
 	3. Enter an **App Title** of **SimpleTimerJob**
 	4. Enter an **App Domain** of **localhost** which will effectively allow request to come from any URL during your testing. Note that the special domain of **localhost** should only be used in non-production environments in which you are testing and developing.
 	5. Finally, click the **Create** button to create the new app security principle.<br/>
-	![](Images/Fig4.png)
+	![Screenshot of the previous step](Images/Fig4.png)
 4. After creating the new app security principle, you will see a confirmation page like the one shown in the following screenshot which lists both the **Client Id** and the **Client Secret**. Copy and paste the the **Client Id** and the **Client Secret** into a new text document using a utility such as Notepad so you can copy-and-paste these values in later steps.<br/>
-  ![](Images/Fig5.png)
+  ![Screenshot of the previous step](Images/Fig5.png)
 
 5. Navigate to the application page in a SharePoint site which allows you to configure an existing app security principles by typing directly into the address bar of the browser to add an relative URL of **/_layouts/15/appinv.aspx** to the end of the root URL of your developer site.
 6. Copy and paste the **Client Id** of the app security principle you just created into the **App Id** textbox and click **Lookup**. When you do this, the page will retrieve other information about the app such as the **App Title** and the **App Domain**.<br/>
-  ![](Images/Fig6.png)
+  ![Screenshot of the previous step](Images/Fig6.png)
 
 7. Enter the following XML snippet into the **Permission Request XML** textbox. If you would rather, you can copy-and-paste this XML from a text file named **PermissionRequestXML.txt** in the **Starter Files** folder for this lab.<br/>
 
@@ -33,10 +33,10 @@ In this exercise you will create an app security principle in your Office 365 te
 				Right="Manage" />
 		</AppPermissionRequests>
 8. You will notice that the XML you enter does not format inside the textbox in an elegant way but it will still work. Click the **Create** button to save the XML with the app permission configuration back to the SharePoint tenancy.<br/>
-  ![](Images/Fig7.png)
+  ![Screenshot of the previous step](Images/Fig7.png)
 
 9. When you attempt to save the app security changes, SharePoint prompts you with a page titled **Do you trust Simple Timer Job?**. Click **Trust It** to confirm you want to save the app security configuration changes.<br/>
-  ![](Images/Fig8.png)
+  ![Screenshot of the previous step](Images/Fig8.png)
 
 10. You have now successfully created and configured a new app security principle for your Office 365 site.
 
@@ -46,13 +46,13 @@ In this exercise you will use Visual Studio to create a simple console applicati
 
 1. In Visual Studio, click **Flie/New/Project**.
 2. In the **New Project** dialog, select **Templates/Visual C#/Windows Desktop**. Then select **Console Application** and give the project a name of **SimpleTimerJob**. Click **OK** when you are done.<br/>
-     ![](Images/Fig1.png)
+     ![Screenshot of the previous step](Images/Fig1.png)
 3. Once the **SimpleTimerJob** project has been created, right-click its project node in Solution Explorer and select **Manage NuGet Packages**. 
 4. In the **Manage NuGet Packages** dialog, search for *"sharepoint app"* to find and install the package named **App for SharePoint Web Toolkit**.<br/>
-  ![](Images/Fig2.png)
+  ![Screenshot of the previous step](Images/Fig2.png)
 
 5. After adding the **App for SharePoint Web Toolkit** package, you should be able to examine the project references and verify that the project now has references to the two core assemblies of the SharePoint Client Object Model (CSOM) named **Microsoft.SharePoint.Client.dll** and **Microsoft.SharePoint.Client.Runtime.dll**<br/>
-  ![](Images/Fig3.png)
+  ![Screenshot of the previous step](Images/Fig3.png)
 
 6. Locate and open the app configuration file named **App.config** file.
 7. Add an **appSettings** section with values for **ClientId** and the **ClientSecret** and configure them with the correct values for the app security principle created in earlier steps.<br/>
@@ -62,7 +62,7 @@ In this exercise you will use Visual Studio to create a simple console applicati
 			<add key="ClientSecret" value="[[YOUR_VALUE]]"/>
 		</appSettings>
 8. When you are done, your **app.config** file should look like the following screenshot with the exception of the values of the **ClientId** and the **ClientSecret**.<br/>
-  ![](Images/Fig9.png)
+  ![Screenshot of the previous step](Images/Fig9.png)
 
 9. Open the console application's main logic file named **Program.cs**.
 10. Add a **using** statement for **Microsoft.SharePoint.Client** namespace.
@@ -127,25 +127,25 @@ In this exercise you will create a new Windows Azure Web Site and configure it w
    1. Launch Windows Explorer and navigate to the root folder of the **SimpleTimerJob** project that you created in the previous exercise.
    2. Navigate to the child folder inside the root project directory at the relative path of **SimpleTimerJob\bin\Debug**.
    3. Inspect the files that Visual Studio has added to the **Debug** folder. You should see the main EXE file named **SimpleTimerJob.exe** and an associated set of DLLs.<br/>
-     ![](Images/Fig15.png)
+     ![Screenshot of the previous step](Images/Fig15.png)
    4. In Windows Explorer, right-click on the **Debug** folder and select the **Send To > Compressed (zipped) file** command to create a new zip archive named **Debug.zip** which contains all the files required to deploy the Console app to Windows Azure.<br/>
-   ![](Images/Fig16.png)
+   ![Screenshot of the previous step](Images/Fig16.png)
 
 2. Log onto the Windows Azure manage portal at **https://manage.windowsazure.com** using your Azure account credentials.
 3. Create a new Azure Web Site with a URL such as **SimpleTimerJobazurewebsites.net**.<br/>
-  ![](Images/Fig10.png)
+  ![Screenshot of the previous step](Images/Fig10.png)
 
 4. Once the new Web Site has been created, you should see the Web Site configuration page as shown in the following screenshot. Click the **WEBJOBS** link to display the empty list of WebJobs for the new Web Site.<br/>
-  ![](Images/Fig11.png)
+  ![Screenshot of the previous step](Images/Fig11.png)
 
 5. Create a new WebJob named **RunSimpleTimerJob**. Add the **Debug.zip** file created earlier in this exercise as the **CONTENT** file and configure the **How To Run** setting as **Run on demand** as shown in the following screenshot. When you are done, click the button with the check mark in the bottom right of the page to save your changes and create the new WebJob.<br/>
-  ![](Images/Fig12.png)
+  ![Screenshot of the previous step](Images/Fig12.png)
 
 6. Run the **RunSimpleTimerJob** WebJob by selecting it and clicking the **RUN ONCE** button with the right arrow icon at the bottom center of the screen.<br/>
-  ![](Images/Fig14.png)
+  ![Screenshot of the previous step](Images/Fig14.png)
 
 7. Inside the Windows Azure portal, verify that the WebJob ran successfully.<br/>
-  ![](Images/Fig13.png)
+  ![Screenshot of the previous step](Images/Fig13.png)
 
 8. In the browser, navigate to your Office 365 developers site. You should see that the theme of the site has been changed. That means your code ran successfully from inside Windows Azure.
 9. In your Office 365 developer site, change the theme back to the original out-of-the-box look and feel. Accomplish this by using the **Change the look** option in the **Site Settings** menu to change the site's look and feel back to the original **Office** theme.

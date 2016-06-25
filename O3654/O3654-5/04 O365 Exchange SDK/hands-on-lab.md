@@ -66,7 +66,7 @@ authentication included, to add Microsoft Graph SDK library in the project.
     -   **redirectUriString**       - The redirect URL configured in Azure AD, e.g. "http://example.com/redirect"
     -   **clientId**                - The client Id obtained from Azure AD
     
-    ![](img/fig.01.png)
+    ![Screenshot of the previous step](img/fig.01.png)
 
 03. Build and Run the project in an iOS Simulator to check the views
 
@@ -77,7 +77,7 @@ authentication included, to add Microsoft Graph SDK library in the project.
     Environment:
     With the credentials settings we can access to the client user mailbox through the Outlook Exchange tenant, and will be able to implement every single details of a complete email app, only using Microsoft Graph SDK
     
-    ![](img/fig.02.png)
+    ![Screenshot of the previous step](img/fig.02.png)
 
 <a name="exercise2"></a>
 ## Exercise 2: Create a ExchangeGraphService to get access to Exchange
@@ -87,15 +87,15 @@ In this exercise you will connect your application to get a **MSGraphServiceClie
 select **New File**. You will see the **New File wizard**. Click on the **iOS** 
 section, select **Cocoa Touch Class** and click **Next**.
 
-    ![](img/fig.03.png)
+    ![Screenshot of the previous step](img/fig.03.png)
 
 02. In this section, configure the new class giving it a name (**ExchangeGraphService**), and make it a subclass of **NSObject**. Make sure that the language dropdown is set with **Objective-C** because our o365-lists library is written in that programming language. Finally click on **Next**.
 
-    ![](img/fig.04.png)    
+    ![Screenshot of the previous step](img/fig.04.png)    
 
 03. Now we are going to select where the new class sources files (.h and .m) will be stored. In this case we can click on **Create** directly. This will create a **.h** and **.m** files for our new class.
 
-    ![](img/fig.05.png)
+    ![Screenshot of the previous step](img/fig.05.png)
 
 04. Open the **ExchangeGraphService.h** and add the header for the **getGraphServiceClient** method to get **MSGraphServiceClient**.
 
@@ -278,7 +278,7 @@ The verb is composed by an aggregation of commands that will generate a single s
 
 06. Build and Run the application. Check everything is ok. Now you can see the list with all the folders from the Outlook account.
 
-    ![](img/fig.06.png)
+    ![Screenshot of the previous step](img/fig.06.png)
 
 ### Task2 - Wiring up FolderContentView
 
@@ -379,7 +379,7 @@ The verb is composed by an aggregation of commands that will generate a single s
 
 06. Build and Run the application. Check everything is ok. Now you can see the list with all the messages of a Folder.
 
-    ![](img/fig.07.png)
+    ![Screenshot of the previous step](img/fig.07.png)
 
 ### Task3 - Wiring up EmailDetailView
 
@@ -419,7 +419,7 @@ The verb is composed by an aggregation of commands that will generate a single s
 
 04. Build and Run the application. Check everything is ok. Now you can see the email and its details
 
-    ![](img/fig.08.png)
+    ![Screenshot of the previous step](img/fig.08.png)
 
 ## Summary
 

@@ -17,7 +17,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 1. In the left-hand navigation, scroll down to and click on Active Directory.
 1. Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click **Applications** in the toolbar. 
 
-	![](Images/Figure01.png)
+	![Screenshot of the previous step](Images/Figure01.png)
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
@@ -29,7 +29,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 1. Click the **check** image in the lower right of the wizard to create the application. The application Quick Start page will display once the application is created.
 
-	![](Images/Figure02.png)
+	![Screenshot of the previous step](Images/Figure02.png)
 
 1. On the application Quick Start page, click on **CONFIGURE** in the toolbar.
 1. Scroll down to the **Keys** section. 
@@ -40,7 +40,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 
 1. For both the **Client ID** and **Key**, copy these values to a text file as you will need them later in this lab.
 
-	![](Images/Figure03.png)
+	![Screenshot of the previous step](Images/Figure03.png)
 
 ### Grant App Necessary Permissions to the Microsoft Graph
 1. Scroll down to the **permissions to other applications** section. 
@@ -59,7 +59,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 1. Click on the **View Endpoints** button in the gutter at the bottom of the page.
 1. The dialog that appears you will see a list of a number of different endpoints. All of them contain a GUID which is the unique ID of the Azure AD tenant for the application as shown in the following figure:
 
-	![](Images/Figure04.png)
+	![Screenshot of the previous step](Images/Figure04.png)
 
 	Copy the GUID from any of the URLs and save them to a text file, just like you did for the client ID & key earlier, as you will need this later. 
 
@@ -88,7 +88,7 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
 	1. After logging in you will be taken to a non-existent page. This is not an error, there is just no site setup for this application yet. The important information is in the actual data sent to the page.
 1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
 
-	![](Images/Figure05.png)
+	![Screenshot of the previous step](Images/Figure05.png)
 
 	> NOTE: To simplify the screenshot, session requests for script & image files have been removed.
 
@@ -130,14 +130,14 @@ Use the Azure AD token endpoint to obtain an access token for the Microsoft Grap
 
 1. Take the resulting string from all the previous changes and paste it into the **Request Body** box within the **Composer** tab. Be sure to remove all line breaks form the string so you are left with something that looks like the following:
 
-	![](Images/Figure06.png)  
+	![Screenshot of the previous step](Images/Figure06.png)  
 
 1. Click the **Execute** button to make the request.
 1. Select the session that was just created and click the **Inspectors** tab. Here you see the all the values that were submitted in the request.
 1. Click the **JSON** button in the lower part of the **Inspector** tab. This contains the access and refresh tokens from the successful request. 
 1. Copy & save the access token just like you've done with the client ID, secret & tenant ID in the previous exercise.
 
-	![](Images/Figure07.png)  
+	![Screenshot of the previous step](Images/Figure07.png)  
 
 ### Issue Requests to the Microsoft Graph REST Endpoint
 Now that you have an access token, create a few requests to the Microsoft Graph REST endpoint.

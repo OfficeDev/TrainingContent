@@ -66,7 +66,7 @@ In this task we'll get the test application up and running.
     
 04. Click **OK** to import the project.
 
-    ![](img/0010_import_exchange_app.png)
+    ![Screenshot of the previous step](img/0010_import_exchange_app.png)
 
     Wait for Android Studio to finish importing the test project.
 
@@ -75,13 +75,13 @@ In this task we'll get the test application up and running.
 06. Find the string resource named **app_name**, and change it to **O365 Exchange
     Test App**.
 
-    ![](img/0015_edit_app_name.png)
+    ![Screenshot of the previous step](img/0015_edit_app_name.png)
     
     This resource is used in a number of places, including as the App's name    in the Launcher.
 
 07. Open the `Constants` class. It can be found under `app/src/main/java`.
 
-    ![](img/0020_open_constants_class.png)
+    ![Screenshot of the previous step](img/0020_open_constants_class.png)
 
 08. This class hosts a number of static constants which we must update.
     
@@ -91,11 +91,11 @@ In this task we'll get the test application up and running.
 
     - **REDIRECT_URI:** Set to the Redirect URI configured in AD in the        Prerequisites module
 
-    ![](img/0025_update_constants.png)
+    ![Screenshot of the previous step](img/0025_update_constants.png)
 
 09. Finally, let's test out the app and your changes. Start up the application in the Emulator with **Run > Debug App**.
 
-    ![](img/0030_test_app_running.png)
+    ![Screenshot of the previous step](img/0030_test_app_running.png)
 
 10. Tap the **Sign in** button. Sign in using credentials for a user in your    Office 365 Tenant. If successful, the blank `MainActivity` will be launched.
 
@@ -107,7 +107,7 @@ In this task you will add the **Microsoft Graph SDK** to the app, and then confi
 
 01. Open the `app/build.gradle` file.
 
-    ![](img/0033_app_build_gradle.png)
+    ![Screenshot of the previous step](img/0033_app_build_gradle.png)
 
 02. Find the `dependencies` section. Currently it has a reference to the ADAL.
 
@@ -122,11 +122,11 @@ In this task you will add the **Microsoft Graph SDK** to the app, and then confi
     compile 'com.microsoft.services:graph-services:0.8.0'
     ```
   
-    ![](img/0034_update_app_gradle_file.png)
+    ![Screenshot of the previous step](img/0034_update_app_gradle_file.png)
 
 04. Click **Sync Now**.
     
-    ![](img/0035_start_gradle_sync.png)
+    ![Screenshot of the previous step](img/0035_start_gradle_sync.png)
 
 05. Open the `MainActivity` class. It can be found under `app/src/main/java`.
 
@@ -297,11 +297,11 @@ In this task we will make a call to the Microsoft Graph to retrieve the contents
 
 05. Launch the app in the debugger with **Run > Debug App**. Sign in with a user from your Office 365 Tenant, and click **Retrieve Inbox**.
 
-    ![](img/0041_test_retrieve_inbox.png)
+    ![Screenshot of the previous step](img/0041_test_retrieve_inbox.png)
 
-	![](img/0042_test_retrieve_inbox.png)
+	![Screenshot of the previous step](img/0042_test_retrieve_inbox.png)
 
-	![](img/0043_test_retrieve_inbox.png)
+	![Screenshot of the previous step](img/0043_test_retrieve_inbox.png)
 
 In this task we made a call to the Microsoft Graph to retrieve the contents of the user's Inbox. There is a lot of boilerplate code here, so let's review the interesting parts:
 
@@ -412,7 +412,7 @@ In this task we will modify the previous code to retrieve a filtered view of the
 
 03. Launch the app in the debugger with **Run > Debug App**. Sign in and click **Retrieve Inbox**.
 
-    ![](img/0045_test_retrieve_inbox_filtered.png)
+    ![Screenshot of the previous step](img/0045_test_retrieve_inbox_filtered.png)
     
     If there aren't any messages in your inbox for today, try sending yourself an email!
 
@@ -524,7 +524,7 @@ In this task we will enumerate the user's top-level Folders. The technique used 
 
 05. Launch the app in the debugger with **Run > Debug App**. Sign in with a user from your Office 365 Tenant, and click "Retrieve Folders"
 
-    ![](img/0050_test_retrieve_folders.png)
+    ![Screenshot of the previous step](img/0050_test_retrieve_folders.png)
 
 The interesting code in the `startRetrieveInbox` function is the following snippet:
 
@@ -665,7 +665,7 @@ This task will step you through sending a message through the Microsoft Graph.
 
 06. Launch the app in the debugger with **Run > Debug App**. Sign in and click "Send a Message"
 
-    ![](img/0055_test_send_message.png)
+    ![Screenshot of the previous step](img/0055_test_send_message.png)
 
 07. You can then click "Retrieve Inbox" to see the new message in your Inbox.
 
@@ -817,7 +817,7 @@ You can use the same pattern for any other creatable, updatable or deletable ent
 
 06. Enter a new folder name and click "OK".
 
-    ![](img/0060_test_create_folder.png)
+    ![Screenshot of the previous step](img/0060_test_create_folder.png)
 
 In this task we created a new folder within the user's Inbox. There are two methods at work in the code above. The first method (`promptUserForFolderName()`) is just Android boilerplate to prompt the user for a new folder name.
 

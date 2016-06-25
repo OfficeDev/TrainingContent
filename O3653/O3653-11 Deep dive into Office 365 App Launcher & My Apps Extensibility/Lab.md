@@ -15,7 +15,7 @@ In this exercise you will configure and explore the single sign-on capability wi
   1. Navigate to http://portal.office.com and login using an account in your Office 365 tenant.
   1. Click the *waffle* icon in the top-left corner of the page to activate the **App Launcher**:
 
-    ![](Images/Fig01.png)
+    ![Screenshot of the previous step](Images/Fig01.png)
 
   1. Notice that GitHub is not listed on this page.
   1. Click the **My Apps** link in the lower-right corner of the App Launcher.
@@ -31,7 +31,7 @@ In this exercise you will configure and explore the single sign-on capability wi
   1. Using the search box in the top-right corner of the application browser, enter *github* and click the search icon to execute a search.
   1. Select **GitHub** in the search result and click the check button in the lower right:
 
-    ![](Images/Fig02.png)
+    ![Screenshot of the previous step](Images/Fig02.png)
 
 1. Configure GitHub for the organization:
   1. On the **Applications** page in the Azure AD directory, click the **GitHub** entry.
@@ -50,17 +50,17 @@ In this exercise you will configure and explore the single sign-on capability wi
   1. Navigate back to the **My Apps** page in Office 365 by going back to Office 365, clicking on the *waffle* icon & then clicking on the **My Apps** link.
   1. Notice GitHub now appears on the user's *My Apps* page. Clicking on this will take you to GitHub and automatically log you into the site.
 
-    ![](Images/Fig03.png)
+    ![Screenshot of the previous step](Images/Fig03.png)
 
 1. Add GitHub to the App Launcher:
   1. While still on the My Apps page, hover over the GitHub tile & select the **...** menu.
   1. Select the menu item **Pin to app launcher**.
 
-    ![](Images/Fig04.png)
+    ![Screenshot of the previous step](Images/Fig04.png)
 
   1. Now, click the *waffle* icon to see the GitHub app is now listed on your app launcher.
 
-    ![](Images/Fig05.png)
+    ![Screenshot of the previous step](Images/Fig05.png)
 
 In this exercise you added an application that uses username and password for authentication to your Office 365 App Launcher and My Apps page for single sign-on.
 
@@ -71,11 +71,11 @@ In this exercise you will sign up for an application that supports Azure AD fede
 1. Click the **login** button on the homepage.
 1. On the login page, click the icon for the Azure AD / Organization Account login:
 
-    ![](Images/Fig06.png)
+    ![Screenshot of the previous step](Images/Fig06.png)
 
 1. Smartsheet will redirect you back to the Azure AD signon page. Once you've signed in, you will be prompted to grant Smartsheet the ability to sign you in and read your profile. Click **Accept** to continue:
 
-    ![](Images/Fig07.png)
+    ![Screenshot of the previous step](Images/Fig07.png)
 
 1. After signing in, Smartsheet will prompt you to confirm your account by clicking on a link they sent to your account in email. Complete this confirmation process.
 1. Once you have completed the signup process and are logged into Smartsheet, click the **Account => Personal Settings..** menu item.
@@ -97,7 +97,7 @@ In this exercise you will create a custom Azure AD application and see how to ad
   1. In the left-hand navigation, scroll down to and click on **Active Directory**.
   1. Click on the name of your Azure AD directory & then click **Applications** in the toolbar. 
 
-    ![](Images/AzureAdApp01.png)
+    ![Screenshot of the previous step](Images/AzureAdApp01.png)
 
   1. Click the **Add** button at the bottom of the display.
   1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
@@ -108,7 +108,7 @@ In this exercise you will create a custom Azure AD application and see how to ad
     > NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
   1. Click the **check** image in the lower right of the wizard to create the application. The application **Quick Start** page will display once the application is created.
 
-    ![](Images/AzureAdApp02.png)
+    ![Screenshot of the previous step](Images/AzureAdApp02.png)
 
   1. Click the **Save** button at the bottom of the page.
 

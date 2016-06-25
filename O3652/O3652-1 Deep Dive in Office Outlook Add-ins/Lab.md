@@ -15,11 +15,11 @@ In this exercise, you will create a new Outlook Add-in for reading and creating 
 1. On the **Create Office Add-in / Choose the Add-in type** dialog, select **Mail** and click **Next**.
 1. On the **Create Office Add-in / Choose where you want the Add-in to appear**, check only the two options for **Email message** and click **Finish**.
 
-  ![](Images/NewAppDialog01.png)
+  ![Screenshot of the previous step](Images/NewAppDialog01.png)
 
 1. Take a moment to examine the project structure:
 
-  ![](Images/ProjectStructure.png)
+  ![Screenshot of the previous step](Images/ProjectStructure.png)
 
   1. First, the Outlook Add-in's manifest file is located in the Office Add-in project at the top of the **Solution Explorer** window. This is the file that will tell the hosting Office client application, Outlook, about the Add-in and where the web application that implements the Add-in resides.
   1. Next locate the **AddInCompose** and **AddInRead** folders. These contain the client-side applications that host the two different experiences for the Add-in you created. 
@@ -42,7 +42,7 @@ In this exercise, you will create a new Outlook Add-in for reading and creating 
 
     The **Activation** section allows you to specify under which conditions the Add-in will be available. By default it already has the *Item is a message* rule entered.
 
-    ![](Images/ManifestReadForm01.png)
+    ![Screenshot of the previous step](Images/ManifestReadForm01.png)
 
     The other tabs are used to configure other forms and remote domains that can be accessed within the Add-in.
 
@@ -50,21 +50,21 @@ In this exercise, you will create a new Outlook Add-in for reading and creating 
   1. Select the **FirstMailAddin** project within the **Solution Explorer** tool window.
   1. Within the **Properties** window there's a **Start Action** selector. Select one of the browser options and press **F5** to start the project.
 
-    ![](Images/Properties01.png)
+    ![Screenshot of the previous step](Images/Properties01.png)
 
   1. Visual Studio will prompt you to login using your Office 365 credentials. Do this and click **Connect**.
   1. Check to the **AddInRead** experience by selecting an email. The Add-in will appear just below the header of the email and if you click on it, it will expand:
 
-    ![](Images/AppRead01.png)
+    ![Screenshot of the previous step](Images/AppRead01.png)
 
   1. Now create a new email to see the **AddInCompose** experience when creating an email.
   1. Add-ins on the compose form are shown in a task pane. Click the **Add-ins** button to get the task pane to appear.
 
-    ![](Images/AppCompose01.png)
+    ![Screenshot of the previous step](Images/AppCompose01.png)
 
   1. Click the Add-in **FirstMailAdd** and the task pane will refresh with the Add-in. Click a few buttons to see how it works.
 
-    ![](Images/AppCompose02.png)
+    ![Screenshot of the previous step](Images/AppCompose02.png)
 
   1. Go back to Visual Studio and stop debugging.
 
@@ -74,18 +74,18 @@ In this exercise, you will create a new Outlook Add-in for reading and creating 
   1. Visual Studio will launch the Outlook desktop client.
   1. Check to the **AddInRead** experience by selecting an email. The Add-in will appear just below the header of the email and if you click on it, it will expand:
 
-    ![](Images/AppRead02.png)
+    ![Screenshot of the previous step](Images/AppRead02.png)
 
   1. Now create a new email to see the **AddInCompose** experience when creating an email.
   1. Add-ins on the compose form are shown in a task pane. Click the **Office Add-ins** button to get the **Office Add-ins** dialog to appear. 
     
     Select the **FirstMailAddin** and click the **Start** button to launch the Add-in.
 
-    ![](Images/AppCompose03.png)
+    ![Screenshot of the previous step](Images/AppCompose03.png)
 
   1. The Add-in will launch in a task pane in the email:
 
-    ![](Images/AppCompose04.png)
+    ![Screenshot of the previous step](Images/AppCompose04.png)
 
   1. Go back to Visual Studio and stop debugging.
 
@@ -254,7 +254,7 @@ The functions used in this Add-in, `getSelectedDataAsync()` & `setSelectedDataAs
 
   > The two functions `setSelectedDataAsync()` & `getSelectedDataAsync()` were introduced in **Office.js** version 1.2.
 
-  ![](Images/ManifestOfficeJs12.png)
+  ![Screenshot of the previous step](Images/ManifestOfficeJs12.png)
 
 ### Test the Compose Form
 1. Press **F5** to build and launch the browser (or Outlook client) to test the compose form.

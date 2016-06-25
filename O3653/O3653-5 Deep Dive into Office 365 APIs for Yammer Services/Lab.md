@@ -11,18 +11,18 @@ In this exercise, you will add Yammer code, web parts amd apps to your SharePoin
 
 1. Log into Yammer and get the feed embed information.
   1. Navigate to Yammer [https://www.yammer.com] and log in with your **Organizational Account**.<br/>
-       ![](Images/01.png?raw=true "Figure 1")
+       ![Screenshot of the previous step](Images/01.png?raw=true "Figure 1")
   2. Click the **All Company** group.
   3. In the **Access Options** click **Embed this group in your site**.<br/>
-       ![](Images/02.png?raw=true "Figure 2")
+       ![Screenshot of the previous step](Images/02.png?raw=true "Figure 2")
   4. Copy the code and save it for use later.<br/>
-       ![](Images/03.png?raw=true "Figure 3")
+       ![Screenshot of the previous step](Images/03.png?raw=true "Figure 3")
 2. Embed a Yammer feed into SharePoint online.
   1. Log into your SharePoint online site with your **Organizational Account**.
   2. Place the home page in **Edit** mode.<br/>
-       ![](Images/04.png?raw=true "Figure 4")
+       ![Screenshot of the previous step](Images/04.png?raw=true "Figure 4")
   3. Click **Insert/Embed Code**.<br/>
-       ![](Images/05.png?raw=true "Figure 5")
+       ![Screenshot of the previous step](Images/05.png?raw=true "Figure 5")
   4. Paste the code you copied from Yammer.
   5. Click **Insert**.
   6. Verify the Yammer feed displays.
@@ -36,30 +36,30 @@ In this exercise, you will add Yammer code, web parts amd apps to your SharePoin
   7. Click **Trust It**.
   8. Go to the home page of your SharePoint site.
   9. CLick **Insert/App Part**.<br/>
-       ![](Images/06.png?raw=true "Figure 6")
+       ![Screenshot of the previous step](Images/06.png?raw=true "Figure 6")
   10. Select the **Yammer Feed** app part.
   11. Click **Add**.<br/>
-       ![](Images/07.png?raw=true "Figure 7")
+       ![Screenshot of the previous step](Images/07.png?raw=true "Figure 7")
   12. Click **Home Feed**. <br/>
-       ![](Images/08.png?raw=true "Figure 8")
+       ![Screenshot of the previous step](Images/08.png?raw=true "Figure 8")
   13. Enter your **network** name.
   14. Click  **Save**.<br/>
-       ![](Images/09.png?raw=true "Figure 9")
+       ![Screenshot of the previous step](Images/09.png?raw=true "Figure 9")
   15. Save the changes to the home page.
 4. Use the Social Nucleus app.
   1. Click **Site Contents**.
   2. Click **Add an App**.
   3. Click **SharePoint Store**.
   4. Type **Nucleus** in the search box and search the available apps.<br/>
-       ![](Images/10.png?raw=true "Figure 10")
+       ![Screenshot of the previous step](Images/10.png?raw=true "Figure 10")
   5. Click on the **Social Nucleus** app.
   6. Click **Add It**.<br/>
-       ![](Images/11.png?raw=true "Figure 11")
+       ![Screenshot of the previous step](Images/11.png?raw=true "Figure 11")
   7. Click **Trust It**.<br/>
-       ![](Images/12.png?raw=true "Figure 12")
+       ![Screenshot of the previous step](Images/12.png?raw=true "Figure 12")
   8. When the app installs, launch it.
   9. Pick **Yammer** as your social platform for the app.<br/>
-       ![](Images/13.png?raw=true "Figure 13")
+       ![Screenshot of the previous step](Images/13.png?raw=true "Figure 13")
   10. If prompted, log into Yammer with your **Organizational Account**.
   11. Use the app to navigate your relationships in Yammer.
 
@@ -72,23 +72,23 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
   3. In the **New Project** dialog, select **Templates/Visual C#/Web**.
   4. Name the new project **YammerSDKApp**.
   5. Click **OK**.<br/>
-       ![](Images/16.png?raw=true "Figure 16")
+       ![Screenshot of the previous step](Images/16.png?raw=true "Figure 16")
   6. In the **New ASP.NET Project** dialog:
     1. Click **Web Forms**.
     2. Click **Change Authentication**.
     3. Select **No Authentication**.
     4. Click **OK**.<br/>
-       ![](Images/17.png?raw=true "Figure 17")
+       ![Screenshot of the previous step](Images/17.png?raw=true "Figure 17")
     5. Click **OK**.<br/>
-       ![](Images/18.png?raw=true "Figure 18")
+       ![Screenshot of the previous step](Images/18.png?raw=true "Figure 18")
   7. In the **Solution Explorer**, click the **YammerSDKApp** project and note the value of the **URL** in the **Properties** window. Save this value for later when you register a new app with Yammer.
 2. Register a new app
   1. Open a browser to https://www.yammer.com/client_applications
   2. Click **Register New App**.<br/>
-       ![](Images/14.png?raw=true "Figure 14")
+       ![Screenshot of the previous step](Images/14.png?raw=true "Figure 14")
   3. Fill out the form with information about the new app.
   4. Click **Continue**.<br/>
-       ![](Images/15.png?raw=true "Figure 15")
+       ![Screenshot of the previous step](Images/15.png?raw=true "Figure 15")
   5. Copy the **Client ID** and save it for later use.
   6. Click **Basic Info**.
   7. Enter the URL of the **YammerSDKApp** you saved earlier into the **Redirect URI** field.
@@ -137,7 +137,7 @@ In this exercise, you will use the Yammer JavaScript SDK to search Yammer data.
   1. Press **F5** to debug your application.
   2. When the application starts, click **Login with Yammer**.
   3. Click **Allow**.<br/>
-       ![](Images/19.png?raw=true "Figure 19")
+       ![Screenshot of the previous step](Images/19.png?raw=true "Figure 19")
   4. Verify that you receive the "Welcome to Yammer!" message.
   5. Stop debugging.
 5. Build the Search Code
@@ -215,15 +215,15 @@ In this exercise, you will create an application that uses the OpenGraph protoco
   3. In the **New Project** dialog, select **Templates/Visual C#/Web**.
   4. Name the new project **YammerOGApp**.
   5. Click **OK**.<br/>
-       ![](Images/20.png?raw=true "Figure 20")
+       ![Screenshot of the previous step](Images/20.png?raw=true "Figure 20")
   6. In the **New ASP.NET Project** dialog:
     1. Click **Web Forms**.
     2. Click **Change Authentication**.
     3. Select **No Authentication**.
     4. Click **OK**.<br/>
-       ![](Images/21.png?raw=true "Figure 21")
+       ![Screenshot of the previous step](Images/21.png?raw=true "Figure 21")
     5. Click **OK**.<br/>
-       ![](Images/22.png?raw=true "Figure 22")
+       ![Screenshot of the previous step](Images/22.png?raw=true "Figure 22")
   7. In the **Solution Explorer**, click the **YammerOGApp** project and note the value of the **URL** in the **Properties** window. Save this value for later when you register a new app with Yammer.
   8. Right click the **References** node and select **Add Reference**.
   9. Add references to the following assemblies:
@@ -243,7 +243,7 @@ In this exercise, you will create an application that uses the OpenGraph protoco
 3. Code the Yammer Authentication
   1. In the **Solution Explorer**, open **Default.aspx** for editing.
   2. In the **Page** directive, **add** the **Async** attribute to support asynchronous operations as shown<br/>
-       ![](Images/23.png?raw=true "Figure 23")
+       ![Screenshot of the previous step](Images/23.png?raw=true "Figure 23")
   3. In the **Solution Explorer**, open **Default.aspx.cs** for editing.
   4. **Add** the following **using** statements at the top of the file:
   ```C#
@@ -529,16 +529,16 @@ In this exercise, you will create an application that uses the OpenGraph protoco
   2. In **Visual Studio 2013**, press **F5** to start debugging your app.
   3. When the application starts, look for the call to the **access_token.json** endpoint in Fiddler.
   4. Review the response to see the returned access token.<br/>
-       ![](Images/24.png?raw=true "Figure 24")
+       ![Screenshot of the previous step](Images/24.png?raw=true "Figure 24")
   5. Edit the form data in the application to use your name and your Yammer e-mail account.
   6. Click **Create Activity**.<br/>
-       ![](Images/25.png?raw=true "Figure 25")
+       ![Screenshot of the previous step](Images/25.png?raw=true "Figure 25")
   7. When the post completes, look for the call to the **activity.json** endpoint in Fiddler.
   8. Review the request to see the activity data.<br/>
-       ![](Images/26.png?raw=true "Figure 26")
+       ![Screenshot of the previous step](Images/26.png?raw=true "Figure 26")
   9. Log into https://www.yammer.com
   10. Examine your **Recent Activity** to see the new activity post.<br/>
-       ![](Images/27.png?raw=true "Figure 27")
+       ![Screenshot of the previous step](Images/27.png?raw=true "Figure 27")
   11. Hover over the activity and open it from the link in the corresponding flyout.
 
 Congratulations! You have completed working with the Yammer APIs.

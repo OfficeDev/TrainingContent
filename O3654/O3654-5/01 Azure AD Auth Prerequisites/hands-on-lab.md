@@ -36,27 +36,27 @@ This gives you the ability to manage the Office 365 directory using the Azure po
 
 02. Click **+ New**
 
-    ![](img/0001_azure_portal_new_button.png)
+    ![Screenshot of the previous step](img/0001_azure_portal_new_button.png)
 
 03. Select **App Services > Active Directory > Directory > Custom Create**
 
-    ![](img/0005_custom_create_active_directory.png)
+    ![Screenshot of the previous step](img/0005_custom_create_active_directory.png)
 
 04. Select **Use existing directory**, and then **I am ready to be signed out now**
 
-    ![](img/00010_use_existing_directory.png)
+    ![Screenshot of the previous step](img/00010_use_existing_directory.png)
 
 05. You will be signed out of the portal and redirected to a sign-in page. Sign in using the credentials for a global administrator in your Office 365 tenant.
 
-    ![](img/00015_sign_in_as_directory_global_admin.png)
+    ![Screenshot of the previous step](img/00015_sign_in_as_directory_global_admin.png)
 
 06. When authenticated click **continue**. This will add your Azure account as a global administrator of the Office 365 directory.
 
-    ![](img/00020_accept_confirmation_dialog.png)
+    ![Screenshot of the previous step](img/00020_accept_confirmation_dialog.png)
 
 07. Click **Sign out now** and when prompted sign back into your Azure account.
 
-    ![](img/00025_sign_out_and_sign_back_in.png)
+    ![Screenshot of the previous step](img/00025_sign_out_and_sign_back_in.png)
 
 You have successfully associated your Azure account with your Office 365 tenant as a global administrator.
 This gives you the ability to manage the Office 365 directory using the Azure portal.
@@ -68,23 +68,23 @@ Here we will create an Application in your Office 365 directory to allow your An
 
 01. When you're signed back in, navigate to your Office 365 directory in the Active Directory extension.
 
-    ![](img/00030_navigate_to_active_directory.png)
+    ![Screenshot of the previous step](img/00030_navigate_to_active_directory.png)
 
 02. And then navigate to the **Applications** tab.
 
-    ![](img/00035_navigate_to_applications_tab.png)
+    ![Screenshot of the previous step](img/00035_navigate_to_applications_tab.png)
 
 03. Select **Add** from the action bar to add a new Application.
     
-    ![](img/00040_add_new_application.png)
+    ![Screenshot of the previous step](img/00040_add_new_application.png)
 
 04. Select **Add an application from my Organization**. Click **Next**.
     
-    ![](img/00045_add_application_by_my_org.png)
+    ![Screenshot of the previous step](img/00045_add_application_by_my_org.png)
 
 05. Enter a name for the application, and select **Native Client Application**. Click **Next**.
 
-    ![](img/00050_add_native_application.png)
+    ![Screenshot of the previous step](img/00050_add_native_application.png)
 
 06. Enter the following redirect URI for the application:
 
@@ -92,17 +92,17 @@ Here we will create an Application in your Office 365 directory to allow your An
 
     > **NOTE:** this url does not need to resolve to anything, but we will later configure our mobile app with this same url.
 
-    ![](img/00055_add_redirect_uri.png)
+    ![Screenshot of the previous step](img/00055_add_redirect_uri.png)
 
 07. Click **Next**.
 
 08. The application is created. Navigate to the **Configure** tab.
 
-    ![](img/00060_navigate_to_configure_tab.png)
+    ![Screenshot of the previous step](img/00060_navigate_to_configure_tab.png)
 
 09. And copy down the **Client Id**.
 
-    ![](img/00065_copy_down_client_id.png)
+    ![Screenshot of the previous step](img/00065_copy_down_client_id.png)
 
 10. Scroll down to the **permissions to other applications** section. 
 
@@ -119,7 +119,7 @@ Here we will create an Application in your Office 365 directory to allow your An
     * Have full access to users' contacts
     * Have full access to user files and files shared with user
 
-    ![](img/00070_configure_exchange_permissions.png)
+    ![Screenshot of the previous step](img/00070_configure_exchange_permissions.png)
 
 12. Again from the Select application dropdown, add **Office 365 SharePoint Online**.
 
@@ -129,10 +129,10 @@ Here we will create an Application in your Office 365 directory to allow your An
 
     This configures your app to have delegated permission to access user data in SharePoint.
 
-    ![](img/00075_configure_sharepoint_permissions.png)
+    ![Screenshot of the previous step](img/00075_configure_sharepoint_permissions.png)
 
 14. Click **Save** to save the changes.
 
-    ![](img/00080_save_the_changes.png)
+    ![Screenshot of the previous step](img/00080_save_the_changes.png)
 
 You have successfully created an Application in your Office 365 directory to allow your Android or iOS app to authenticate and interact with the Microsoft Graph and SharePoint APIs

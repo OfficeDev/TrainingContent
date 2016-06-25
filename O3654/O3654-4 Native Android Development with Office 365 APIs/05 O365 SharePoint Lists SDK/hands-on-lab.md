@@ -67,7 +67,7 @@ Research Tracker example app.
 
 05. Click **OK** to import the project.
 
-    ![](img/00010_import_research_tracker_app.png)
+    ![Screenshot of the previous step](img/00010_import_research_tracker_app.png)
 
 Wait for Android Studio to finish importing the test project.
 
@@ -89,12 +89,12 @@ We're not finished yet - the app is currently not compiling. Next we will add a 
 
     E.g.
 
-    ![](img/00015_add_gradle_dependencies.png)
+    ![Screenshot of the previous step](img/00015_add_gradle_dependencies.png)
 
 03. Click **Sync Now**. This will sync the Android Studio project files with
     the Gradle build files.
 
-    ![](img/0020_start_gradle_sync.png)
+    ![Screenshot of the previous step](img/0020_start_gradle_sync.png)
 
 In this task you added the SharePoint Lists SDK. The app is almost ready to go!
 
@@ -116,13 +116,13 @@ In this task you added the SharePoint Lists SDK. The app is almost ready to go!
 
 04. The app starts on the Launch screen. Click **Sign In** to sign in.
     
-    ![](img/0025_launch_screen.png)
+    ![Screenshot of the previous step](img/0025_launch_screen.png)
 
 05. Sign in with a user from your tenancy who has access to your SharePoint site.
 
 06. If you're able to sign in successfully, you will be greeted with a an error message: "There was an error while retrieving your projects".
 
-    ![](img/0030_projects_screen_error.png)
+    ![Screenshot of the previous step](img/0030_projects_screen_error.png)
 
     This is because all the data functions in this app are only stubbed out but they are not implemented yet.
 
@@ -162,7 +162,7 @@ Before we do anything we must sort out authentication with the SharePoint Lists 
     You can use Android Studio's "Import Class" function to do this automatically 
     by placing the cursor on a missing type, pressing **Alt + Enter** and selecting **Import Class**
 
-    ![](img/0035_import_missing_types.png)
+    ![Screenshot of the previous step](img/0035_import_missing_types.png)
 
     Use this technique for any other missing types you encounter during this lab.
 
@@ -265,7 +265,7 @@ The first screen of the application - the "List Projects Activity" - uses only o
 
     (If you've already signed in before you should be signed in automatically.)
 
-    ![](img/0040_view_projects_activity.png)
+    ![Screenshot of the previous step](img/0040_view_projects_activity.png)
 
 ### Task 3 - Retrieving a single Research Project (and its References)
 
@@ -339,7 +339,7 @@ The second screen of the application - the "View Project Activity" - needs two f
 
 09. Pick one of the Research Projects in the list to go to the View Project activity. Here you can see details about the Project and its References. 
 
-    ![](img/0045_view_project_activity.png)
+    ![Screenshot of the previous step](img/0045_view_project_activity.png)
 
 This task introduced building Filter expressions using the `Query` class. We don't really exercise it much here - but it can be used to build complex expressions like the following:
 
@@ -393,7 +393,7 @@ The third screen of the application - the "View Reference Activity" - needs just
 
 06. Pick a Reference from the list to go to the View Reference activity. Here you can see details about the reference including a Url which will launch the system web browser when tapped by the user.
     
-    ![](img/0046_view_reference_activity.png)
+    ![Screenshot of the previous step](img/0046_view_reference_activity.png)
 
 ### Task 5 - Modifying a Research Project
 
@@ -447,29 +447,29 @@ In this task we'll implement the data functions required to **create**, **edit**
 
 08. First let's create a new Project. Click the **Add** in the action bar.
     
-    ![](img/0050_add_new_project.png)
+    ![Screenshot of the previous step](img/0050_add_new_project.png)
 
 09. Fill out a new Project name, and click **Ok**.
 
-    ![](img/0055_create_project_form.png)
+    ![Screenshot of the previous step](img/0055_create_project_form.png)
 
 10. The project is created an you are returned to the project list. Find your project in the list and tap on it.
 
-    ![](img/0060_select_project_from_list.png)
+    ![Screenshot of the previous step](img/0060_select_project_from_list.png)
 
 10. Select **Edit** in the action bar.
 
-    ![](img/0065_edit_project_action.png)
+    ![Screenshot of the previous step](img/0065_edit_project_action.png)
 
 11. Enter a new name and click **Ok**.
 
-    ![](img/0066_edit_project_form.png)
+    ![Screenshot of the previous step](img/0066_edit_project_form.png)
 
 12. Finally, select **Delete** in the action bar. When prompted, select **Delete** again to confirm.
 
-    ![](img/0070_delete_project_action.png)
+    ![Screenshot of the previous step](img/0070_delete_project_action.png)
 
-    ![](img/0075_confirm_delete_project.png)
+    ![Screenshot of the previous step](img/0075_confirm_delete_project.png)
 
 In this task you implemented the boilerplate code required to **create**, 
 **edit** and **delete** a Project list item.
@@ -515,29 +515,29 @@ In this task we'll implement the data functions required to **create**, **edit**
 
 06. First lets create a new Reference. Click **Add** in the action bar.
 
-    ![](img/0080_add_new_reference.png)
+    ![Screenshot of the previous step](img/0080_add_new_reference.png)
 
 07. Fill out the form. Only the **Url** field is required. Click **Ok** to save the changes.
     
-    ![](img/0085_add_new_reference_form.png)
+    ![Screenshot of the previous step](img/0085_add_new_reference_form.png)
 
 08. Select the reference you just created from the list.
     
-    ![](img/0090_select_reference_from_list.png)
+    ![Screenshot of the previous step](img/0090_select_reference_from_list.png)
 
 09. Select **Edit** from the action bar.
 
-    ![](img/0095_edit_reference.png)
+    ![Screenshot of the previous step](img/0095_edit_reference.png)
 
 10. Make a change to the reference and click **Ok** to save the changes.
     
-    ![](img/0100_edit_reference_form.png)
+    ![Screenshot of the previous step](img/0100_edit_reference_form.png)
 
 11. Finally, select **Delete** from the action bar. When prompted, click **Delete** again to confirm.
 
-    ![](img/0105_delete_reference.png)
+    ![Screenshot of the previous step](img/0105_delete_reference.png)
 
-    ![](img/0110_delete_reference_confirm.png)
+    ![Screenshot of the previous step](img/0110_delete_reference_confirm.png)
 
 In this task you implemented the boilerplate code required to **create**, **edit** and **delete** a Reference list item.
 

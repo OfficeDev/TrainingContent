@@ -9,31 +9,31 @@ In this exercise you will create a new Provider-Hosted app that will use CSOM an
 2.	Create a new project in Visual Studio 2013 for hosting your app by selecting **File > New > Project**.
 3.	In the **New Project** dialog, find the **App for SharePoint** template under the **Templates > Visual C# > Office / SharePoint > Apps** section.
 4.	Enter a project name of **MyCSOMApp** and then click the **OK** button.     
-![](Images/Figure01.png)
+![Screenshot of the previous step](Images/Figure01.png)
 5.	In the **New app for SharePoint** wizard, enter the URL for your Office 365 developer site for the debugging site and select the option to create a Provider-hosted app.
-![](Images/Figure02.png)  
+![Screenshot of the previous step](Images/Figure02.png)  
 6.	On the **Specify the web project type** screen select the **ASP.NET Web Forms Application** choice and click the **Next** button to move to the next screen. Do not click the Finish button until you have gone through all the pages of the wizard. 
 7.	You should now be at the **Configure authentication** settings page. Fill this page out as shown in the following screenshot by selecting the **Use Windows Azure Access Control Service** option and then click Finish to complete the wizard and create the new provider-hosted app project.  
-![](Images/Figure03.png)  
+![Screenshot of the previous step](Images/Figure03.png)  
 8.	Once the Visual Studio solution has been created, you should see it contains two projects named **MyCsomApp** and **MyCsomAppWeb**.  
-![](Images/Figure04.png)  
+![Screenshot of the previous step](Images/Figure04.png)  
 9.	Now it's time to make some modification to the App project named **MyCsomApp**. Start by replacing the **AppIcon.png** file with a custom image file also named the **AppIcon.png** in the **StarterFiles** folder for this project.
 10.	In Solution Explorer, double-click on **AppManifest.xml** open it in Visual Studio's App Manifest Designer. Update the **Title** property from **MyCsomApp** to **My CSOM App**.
-![](Images/Figure05.png)  
+![Screenshot of the previous step](Images/Figure05.png)  
 11.	Click on the **Permissions** tab and then add a permission with a **Scope** of **Web** and a **Permission level** of **Manage**. This permissions is required so that your app will be able to read site properties as well as query and create lists.
-![](Images/Figure06.png)  
+![Screenshot of the previous step](Images/Figure06.png)  
 12.	Save your changes and close **AppManifest.xml**.
 13.	In Solution Explorer, move down to the Web Project named **MyCsomAppWeb**.  
-![](Images/Figure07.png)  
+![Screenshot of the previous step](Images/Figure07.png)  
 14.	Over the next few steps you will add a custom CSS file and an image file for the start page.
 15.	Inside the **MyCsomAppWeb** project, add a new top-level folder named **Content**.  
-![](Images/Figure08.png)  
+![Screenshot of the previous step](Images/Figure08.png)  
 16.	Using Windows Explorer, locate the CSS file in the **StarterFiles** folder at the following path of **StarterFiles\Content\App.css**. 
 17.	Add the **App.css** file from the **StarterFiles** folder into the new **Content **folder in the MyCsomApp project.
 18.	Create a child folder named **img** inside the **Content** folder.
 19.	Using Windows Explorer, locate the GIF file in the **StarterFiles** folder at the following path of **StarterFiles\Content\img\AppIcon.gif**. 
 20.	Add the **AppIcon.gif** file from the **StarterFiles** folder into the new **img** folder in the **MyCsomApp** project.  
-![](Images/Figure09.png)  
+![Screenshot of the previous step](Images/Figure09.png)  
 21.	Open the CSS file named **App.css** and have a quick look at the set of CSS rules inside. Note there is no need for you to modify the CSS rules in this lab. You are just looking.
 22.	When you are done, close the **App.css** file without saving any changes.
 23.	Now you will modify the app's start page named **Default.aspx**. Using the Solution Explorer, look inside the **Pages** folder of the **MyCsomAppWeb** project and locate **Default.aspx**.
@@ -122,9 +122,9 @@ In this exercise you will create a new Provider-Hosted app that will use CSOM an
 		
 		}
 43.	Test out your work by running the app in the Visual Studio Debugger. Press the **{F5}** key in Visual Studio to begin a debugging session for the app project. As Visual Studio installs the app in the test site, you will be prompted whether you trust the app. Click **Trust It**.  
-![](Images/Figure10.png)  
+![Screenshot of the previous step](Images/Figure10.png)  
 44.	The start page of the app should appear as the page in the following screenshot.  
-![](Images/Figure11.png)    
+![Screenshot of the previous step](Images/Figure11.png)    
 45.	Test it out the Back to Host Web link to make sure the it works.
 46.	Close the browser and quit the debugging session.
 
@@ -170,9 +170,9 @@ In this exercise you will use CSOM to program against the host web.
 		  }
 		
 		}
-8.	Test your work to ensure the CSOM call executes successful without any errors by pressing the **{F5}** key to start another debugging session. If you are prompted to trust the app, click the **Trust It** button to complete the app installation. After the app has been installed, the Visual Studio debugger should redirect you to the app’s start page in the remote web.
+8.	Test your work to ensure the CSOM call executes successful without any errors by pressing the **{F5}** key to start another debugging session. If you are prompted to trust the app, click the **Trust It** button to complete the app installation. After the app has been installed, the Visual Studio debugger should redirect you to the app???s start page in the remote web.
 9.	Click the Get Properties button. When you click this button, the page should display a message with the title of the host web as shown in the following screenshot.  
-![](Images/Figure12.png)    
+![Screenshot of the previous step](Images/Figure12.png)    
 10.	Close the browser window to stop the debugging and return to Visual Studio.
 11.	Modify the code in **cmdGetSiteProperties_Click** to display the **Url** property and the **Id** property of the host web in addition to the Title as shown in the following code.
 		
@@ -196,7 +196,7 @@ In this exercise you will use CSOM to program against the host web.
 		                                "<div>Host web ID:    " + clientContext.Web.Id + "</div>";
 		}
 13.	Test the app in the debugger and make sure you can see all three site properties when clicking the **Get Site Properties** button.
-![](Images/Figure13.png)  
+![Screenshot of the previous step](Images/Figure13.png)  
 14.	When you have finished testing, close the browser window to stop the debugging and return to Visual Studio.
 
 ##Exercise 3: Program CSOM to Query the Set of Lists in the Host Web
@@ -206,7 +206,7 @@ In this exercise you will write the CSOM code required to query the host web to 
 2.	Add the following using statement at the top of the file directly following the using statements that are already there.
 
 		using Microsoft.SharePoint.Client;
-3.	Modify the code in **cmdGetLists_Click** to retrieve the set of lists on the host web and to display them on the app’s starts page.
+3.	Modify the code in **cmdGetLists_Click** to retrieve the set of lists on the host web and to display them on the app???s starts page.
 
 		protected void cmdGetLists_Click(object sender, EventArgs e) {
 		  
@@ -230,7 +230,7 @@ In this exercise you will write the CSOM code required to query the host web to 
 		
 		}
 4.	Test your code by pressing **{F5}** and starting a debugging session. You should be able to see that your query has returned many lists including several hidden lists such as **appdata**, **Composed Looks** and **Converted Forms**.
-![](Images/Figure14.png)  
+![Screenshot of the previous step](Images/Figure14.png)  
 5.	Close the browser window to stop the debugging and return to Visual Studio.
 6.	Improve the code in **cmdGetLists_Click** to optimize the retrieval site properties by modifying the call to **ClientContent.Load** as shown in the following code.
 		
@@ -259,7 +259,7 @@ In this exercise you will write the CSOM code required to query the host web to 
 		
 		}
 7.	Test your code by pressing **{F5}** and starting a debugging session. You should be able to see that your query has returned just the lists than are not hidden.  
-![](Images/Figure15.png)  
+![Screenshot of the previous step](Images/Figure15.png)  
 8.	Close the browser window to stop the debugging and return to Visual Studio.
 
 ##Exercise 4: Using CSOM to Create a List in the Host Web
@@ -337,7 +337,7 @@ In this exercise, you will continue your work with CSOM by creating a new list i
 		clientContext.ExecuteQuery();
 7.	Finally, add the following code to display a message to the user that a new list has been created.
 
-		// add message to app’s start page        
+		// add message to app???s start page        
 		placeholderMainContent.Text = "New list created";
 8. After you have completed the previous step, you should have a **cmdCreateCustomersList_Click** function that matches the following code listing. Make sure the structure of your code matches what you see here.
 
@@ -395,15 +395,15 @@ In this exercise, you will continue your work with CSOM by creating a new list i
 		    // send add commands to server
 		    clientContext.ExecuteQuery();
 		
-		    // add message to app’s start page        
+		    // add message to app???s start page        
 		    placeholderMainContent.Text = "New list created";
 		  }
 		
 		}
 9.	Test your code by pressing **{F5}** and starting a debugging session. Once the app start page has displayed, click the **Create List** button. After a second or two, you should see a message indicating that the list has been created.  
-![](Images/Figure16.png)  
+![Screenshot of the previous step](Images/Figure16.png)  
 10.	Next, click the **Get Lists** button and verify that you can see the new **Customers** list in the list of lists.
 11.	Click the **Back to Host** Web link to navigate to the host web.
 12.	Click the Customers link in the Quick Launch bar of the Host Web and inspect the new Customers list. You should be able to see your sample items.  
-![](Images/Figure17.png)  
+![Screenshot of the previous step](Images/Figure17.png)  
 13.	When you are done with your testing, close the browser to end the debugging sessions and close the project in Visual Studio.

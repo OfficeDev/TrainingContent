@@ -12,32 +12,32 @@ In this lab you will get hands-on experience developing an App for Office which 
 1. Launch Visual Studio 2013 as administrator.
 1. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **App for Office** project template from the **Office/SharePoint** template folder as shown below. Name the new project **PowerPointTV** and click **OK** to create the new project.  
 
-	![](Images/Fig01.png)
+	![Screenshot of the previous step](Images/Fig01.png)
 
 1. When you create a new App for Office project, Visual Studio prompts you with the **Choose the app type** page of the **Create app for Office** dialog. This is the point where you select the type of App for Office you want to create. Select the setting with the radio button titled **Content** and select **Next** to continue.  
 	
-	![](Images/Fig02.png)
+	![Screenshot of the previous step](Images/Fig02.png)
 
 1. On the **Choose the host applications** page of the **Create app for Office** dialog, uncheck all the Office application except for **PowerPoint** and then click **Finish** to create the new Visual Studio solution.  
 
-	![](Images/Fig03.png)
+	![Screenshot of the previous step](Images/Fig03.png)
 
 1. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **PowerPointTV** and **PowerPointTVWeb**. You should also observe that the top project contains a top-level manifest for the app named **PowerPointTVManifest** which contains a single file named **PowerPointTV.xml**.  
 
-	![](Images/Fig04.png)
+	![Screenshot of the previous step](Images/Fig04.png)
 
 1. In the Solution Explorer, double-click on the node named **PowerPointTVManifest** to open the app manifest file in the Visual Studio designer. Update the **Display Name** settings in the app manifest from **PowerPointTV** to **PowerPoint TV App**.  
 
-	![](Images/Fig05.png)  
+	![Screenshot of the previous step](Images/Fig05.png)  
 
 1. Move down in **PowerPointTVManifest** and locate the **Requested width** setting. Modify **Requested width** to *1000* pixels.  
 
-	![](Images/Fig06.png)
+	![Screenshot of the previous step](Images/Fig06.png)
 
 1. Save and close **PowerPointTVManifest**.
 1. Over the next few steps you will walk through the default app implementation that Visual Studio generated for you when the app project was created. Begin by looking at the structure of the **app** folder which has two important files named **app.css** and **app.js** which contain CSS styles and JavaScript code which is to be used on an app-wide basis.
 
-	![](Images/Fig07.png)
+	![Screenshot of the previous step](Images/Fig07.png)
 
 1. You can see that inside the **app** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the app project is currently configured to use **Home.html** as the app's start page and that **Home.html** is linked to both **Home.css** and **Home.js**. 
 1. Double-click on **app.js** to open it in a code editor window. you should be able to see that the code creates a global variable named **app** based on the JavaScript *Closure* pattern. The global **app** object defines a method named **initialize** but it does not execute this method. 
@@ -177,20 +177,20 @@ In this lab you will get hands-on experience developing an App for Office which 
 
 1. Now it's time to test the app using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft PowerPoint 2013 and you should see your **PowerPointTV** app in the task pane on the right side of a new PowerPoint presentation as shown in the following screenshot.
 
-	![](Images/Fig08.png)
+	![Screenshot of the previous step](Images/Fig08.png)
 
 1.	Inside the PowerPoint slide, select the content app and center it in the middle of the slide. If you'd like, change the PowerPoint presentation theme to give the slide background some color.  
 
-	![](Images/Fig09.png)
+	![Screenshot of the previous step](Images/Fig09.png)
 
 1.	Save the PowerPoint presentation as a file named **TestDec.pptx** and make sure to save this file in the root folder of the **PowerPointTV** project.
 1.	In Visual Studio, add the file **TestDec.pptx** into **PowerPointTV** project.
 
-	![](Images/Fig10.png)
+	![Screenshot of the previous step](Images/Fig10.png)
 
 1.	Select the **PowerPointTV** project and then navigate to the property sheet and change the **Start Document** setting to **TestDeck.pptx**. 
 
-	![](Images/Fig11.png) 
+	![Screenshot of the previous step](Images/Fig11.png) 
 
 1. Test your work by pressing **{F5}** and starting a debugging session. The debugging session should load and initialize the app using **TestDeck.pptx** instead of a new PowerPoint presentation.
 1. Close PowerPoint to terminate your debugging session and return to Visual Studio.
@@ -251,7 +251,7 @@ In this lab you will get hands-on experience developing an App for Office which 
 1. Save your changes to **Home.js**.
 1. Test your work by pressing **{F5}** to start a debugging session. You should see that the app displays and plays a video from youtube.  
 
-	![](Images/Fig12.png)
+	![Screenshot of the previous step](Images/Fig12.png)
 
 1. Open **Home.html** and update the body element with the following HTML.
 
@@ -339,7 +339,7 @@ In this lab you will get hands-on experience developing an App for Office which 
 
 1. Test your work by pressing **{F5}** to start a debugging session. You should see that the app displays and plays a video from youtube just as before. However, now the three buttons should work and allow you to play, pause and stop the video.  
 
-	![](Images/Fig13.png)
+	![Screenshot of the previous step](Images/Fig13.png)
 
 1. Close PowerPoint to terminate your debugging session and return to Visual Studio.
 
@@ -350,20 +350,20 @@ In this lab you will get hands-on experience developing an App for Office which 
 1. Make sure you have the **PowerPointTV** app open in Visual Studio. If the project is not open, open it now.
 1. Add a new folder the **PowerPointTVWeb** project named **Controllers**.  
 
-	![](Images/Fig14.png)  
+	![Screenshot of the previous step](Images/Fig14.png)  
 
 1. Right-click on the **Controllers** folder and select **Add > Controller**.
 1. In the **Add Scaffold** dialog, select **Web API 2 Controller - Empty** and click the **Add** button.  
 
-	![](Images/Fig15.png)    
+	![Screenshot of the previous step](Images/Fig15.png)    
 
 1. On the **AddController** dialog, enter a name of **VideosController** and click the **Add** button.  
 
-	![](Images/Fig16.png)  
+	![Screenshot of the previous step](Images/Fig16.png)  
 
 1. You should now see that the Web API controller has been added to a file named **VideosController.cs**. You can also see that Visual Studio has added a few extra files such as **Global.asax** and **WebApiConfig.cs** to provide support for the Web API.  
 
-	![](Images/Fig17.png)
+	![Screenshot of the previous step](Images/Fig17.png)
 
 1. Examine what's inside **VideosController.cs**. You can see that there is an **ApiController**-derived class named **VideosController** which is initially empty.
 
@@ -469,6 +469,6 @@ In this lab you will get hands-on experience developing an App for Office which 
 
 1. Test your work by pressing **{F5}** to start a debugging session. The app should fill the select element with a list of videos using data retrieved from the web service call. You should also be able to change the currently playing video by clicking one of the videos titles in the list of videos.  
 
-	![](Images/Fig18.png)
+	![Screenshot of the previous step](Images/Fig18.png)
 
 Congratulations! You have now completed this lab.

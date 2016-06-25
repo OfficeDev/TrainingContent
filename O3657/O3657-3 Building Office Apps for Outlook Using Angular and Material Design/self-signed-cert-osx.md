@@ -34,7 +34,7 @@ For this to work, you need to either obtain a certificate and key from a **Trust
 
 In addition the browser will still report that the certificate is not trusted and thus some applications that validate the certificate will reject the requests. 
 
-![](Images/ssl-error.png)
+![Screenshot of the previous step](Images/ssl-error.png)
 
 To fix this you must configure the certificate as a Trusted Root Authority on your development environment.
 
@@ -85,7 +85,7 @@ At this point you have the public-private key pair for the certificate.
 
 You can use these in the files in the script at the top of these instructions. However you will notice that, as stated previous, the browser won't respect the certificate. You will see a **Your connection is not private** message in Chrome and the URL will show an error with the certificate:
 
-  ![](Images/ssl-error.png)
+  ![Screenshot of the previous step](Images/ssl-error.png)
 
 To fix this, you need to add the certificate as a trusted root authority.
 
@@ -97,23 +97,23 @@ In this exercise you will add the self-signed certificate to your local machine 
   1. In the address bar, click the little lock with the X. This will bring up a small information screen. Click the button that says "Certificate Information."
   1. Click and drag the image to your desktop. It looks like a little certificate.
 
-    ![](Images/ssl-get-cert.png)
+    ![Screenshot of the previous step](Images/ssl-get-cert.png)
 
 1. Open the **Keychain Access** utility in OS X.
   1. Select the **System** option on the left.
   1. Click the lock icon in the upper-left corner to enable changes.
 
-    ![](Images/ssl-keychain-01.png)
+    ![Screenshot of the previous step](Images/ssl-keychain-01.png)
 
   1. Click the plus button at the bottom and select the **localhost.cer** file you copied to the desktop.
   1. In the dialog that comes up, click **Always Trust**.
   1. After **localhost** gets added to the **System** keychain, double-click it to open it again.
   1. Expand the **Trust** section and for the first option, pick **Always Trust**.
 
-    ![](Images/ssl-keychain-02.png)
+    ![Screenshot of the previous step](Images/ssl-keychain-02.png)
 
 At this point everything has been configured. Quick Chrome and all other browsers and try again to navigate to the local HTTPS site. The browser should report it as a valid certificate:
 
-![](Images/ssl-good.png)
+![Screenshot of the previous step](Images/ssl-good.png)
 
 At this point you now have a self-signed certificate installed on your machine.

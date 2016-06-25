@@ -9,24 +9,24 @@ In this lab you will get hands-on experience developing an Office Add-in with th
 1. Launch Visual Studio 2015 as an administrator.
 1. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Office Add-in** project template from the **Office/SharePoint** template folder as shown below. Name the new project **FabricUISample** and click **OK** to create the new project.
 
-	![](Images/Fig01.png)
+	![Screenshot of the previous step](Images/Fig01.png)
     > NOTE: Make sure you enter the exact same name for the Visual Studio Project that is specified in these lab instructions.  The Visual Studio Project name becomes part of the namespace in the code.  The code inside these instructions depends on the namespace matching the Visual Studio Project name specified in these instructions.  If you use a different project name the code will not compile unless you adjust all the namespaces to match the Visual Studio Project name you enter when you create the project.
 
 1. When you create a new Office Add-in project, Visual Studio prompts you with the **Choose the add-in type** page in the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue.
 
-	![](Images/Fig02.png)
+	![Screenshot of the previous step](Images/Fig02.png)
 
 1. On the **Choose the host applications** page in the **Create Office Add-in** dialog, there is nothing to change.  Simply click **Finish** to create the new Visual Studio solution. 
 
-	![](Images/Fig03.png)
+	![Screenshot of the previous step](Images/Fig03.png)
 
 1. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **FabricUISample** and **FabricUISampleWeb**. You should also observe that the top project contains a top-level manifest for the app named **FabricUISampleManifest** which contains a single file named **FabricUISample.xml**.
 
-	![](Images/Fig04.png)
+	![Screenshot of the previous step](Images/Fig04.png)
 
 1. In the Solution Explorer, double-click on the node named **FabricUISampleManifest** to open the app manifest file in the Visual Studio designer. Update the **Display Name** settings in the Add-in manifest from **FabricUISample** to **Citations Sample**.
 
-	![](Images/Fig05.png)
+	![Screenshot of the previous step](Images/Fig05.png)
 
 1. Save and close **FabricUISampleManifest**.
 1. Clean up the existing code and styles.
@@ -107,7 +107,7 @@ In this lab you will get hands-on experience developing an Office Add-in with th
    4. In Visual Studio select the **FabricUISampleWeb** project.
    5. Click the **Show All Files** button.
 
-		![](Images/Fig06.png)
+		![Screenshot of the previous step](Images/Fig06.png)
 
    6. For each folder in the list below, right-click the folder in the Solution Explorer and select **Include In Project**.
    
@@ -120,7 +120,7 @@ In this lab you will get hands-on experience developing an Office Add-in with th
 
 1. Now in Visual Studio, press the **F5** key to begin a debugging session. An Excel file with a task pane Add-in opens. Click the stop button in Visual Studio to stop the debugging session.
 
-    ![](Images/Fig07.png)
+    ![Screenshot of the previous step](Images/Fig07.png)
 
 ##  Exercise 2: Apply Office UI Fabric to Office Add-in
 *In this Exercise, we will add web components and apply Office UI Fabric styles to the Office Add-in*.
@@ -349,7 +349,7 @@ In this lab you will get hands-on experience developing an Office Add-in with th
 
 1. Now in Visual Studio, press the **F5** key to begin a debugging session. An Excel file with a task pane Add-in opens. The Add-in uses the Office UI Fabric.  Take some time to explore the components. 
 
-    ![](Images/Fig08.png)
+    ![Screenshot of the previous step](Images/Fig08.png)
     
 Congratulations! You've now written an Office Add-in that uses the Office UI Fabric.
 
