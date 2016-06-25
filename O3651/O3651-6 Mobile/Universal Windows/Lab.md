@@ -14,22 +14,22 @@ In this lab, you will authenticate with Azure AD and get the access token, then 
 4. Click **Add** from the bottom menu.
 5. On the **What do you want to do** page, click **Add an application my organization is developing**.
 6. On the **Tell us about your application** page, specify **WinOffice365Calendar** for the application name and select **NATIVE CLIENT APPLICATION** for Type.
-![](img/01.png)
+![Screenshot of the previous step](img/01.png)
 7. Click the **arrow icon** on the bottom-right corner of the page.
 8. On the Application information page, specify a Redirect URI, for this example enter **http://WinOffice365Calendar**. Make note of the URI, since you'll need this later when coding the WinOffice365Calendar project. Click the **checkmark** on the bottom-right corner of the page.
-![](img/02.png)
+![Screenshot of the previous step](img/02.png)
 9. Once the application has been successfully added, you will be taken to the Quick Start page for the application. From here, click **Configure** on the top menu.
-![](img/03.png)
+![Screenshot of the previous step](img/03.png)
 10. On **permissions to other applications**, click **Add application**.
-![](img/04.png)
+![Screenshot of the previous step](img/04.png)
 11. Click **Microsoft Graph**, and then click the **check mark icon**. 
-![](img/05.png)
+![Screenshot of the previous step](img/05.png)
 12. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
 - Select **Read User Calendars**.
 - Select **Sign in and read user profile**
 13. Click **Save**
 14. Copy the value specified for **Client ID**; you will need this later when coding the WinOffice365Calendar project.
-![](img/06.png)
+![Screenshot of the previous step](img/06.png)
 
 
 ## Exercise 1: Create a Windows 10 Universal Application and authenticate with Azure AD to get the access token
@@ -40,7 +40,7 @@ An access token is required to access the Microsoft Graph, so your application n
 2. In Visual Studio select **File/New/Project**.
 3. In the **New Project** dialog, select **Templates/Visual C#/Windows/Universal** and click **Blank App (Universal Windows)**. Name the new project **WinOffice365Calendar** and then click **OK**.  
 
-	![](img/07.png)
+	![Screenshot of the previous step](img/07.png)
 
 4. Now you need a few NuGet packages to Connect authentication in the application.  Execute the following commands in the Nuget Package Manager Console.
 
@@ -52,11 +52,11 @@ An access token is required to access the Microsoft Graph, so your application n
 5. Copy the file **AuthenticationHelper.cs** located the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into **WinOffice365Calendar** project root folder.
 6. Include the **AuthenticationHelper.cs** in the project.
 
-	![](img/08.png)
+	![Screenshot of the previous step](img/08.png)
 
 7. Open the **AuthenticationHelper.cs** file, and enter your redirect URL.
 
-	![](img/09.png)
+	![Screenshot of the previous step](img/09.png)
 
 8. Open **App.xaml**, and add the following code inside the Application element.
    
@@ -72,11 +72,11 @@ An access token is required to access the Microsoft Graph, so your application n
     </Application.Resources>
     ```
     
-    ![](img/10.png)
+    ![Screenshot of the previous step](img/10.png)
 
 9. Enter your **Client ID**
 
-    ![](img/11.png)
+    ![Screenshot of the previous step](img/11.png)
 
 10. Copy the file **MainPage** located in the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into the **WinOffice365Calendar** project root folder and replace the existing file.
 11. Open the file **MainPage.xaml.cs**
@@ -156,24 +156,24 @@ An access token is required to access the Microsoft Graph, so your application n
 
 16. Configure the following settings for VS.
 
-    ![](img/13.png)
+    ![Screenshot of the previous step](img/13.png)
 
 17. Press **F5** to run the app.
 
-    ![](img/12.png)
+    ![Screenshot of the previous step](img/12.png)
 
 18. Click the **Connect** button.
 
-    ![](img/14.png)
+    ![Screenshot of the previous step](img/14.png)
 
 19. Enter your email and password, then click the **Sign In** button.
 20. The message box will confirm a successful log in.  Click **OK**.
 
-    ![](img/15.png)
+    ![Screenshot of the previous step](img/15.png)
 
 21. You can find debug message about access token in VS output window. 
 
-    ![](img/21.png)
+    ![Screenshot of the previous step](img/21.png)
 
 22. Now you have authenticated successfully with Azure AD.
 22. Click the **Disconnect** button to sign out.
@@ -189,7 +189,7 @@ After returning the access token, we can access the Microsoft Graph to list cale
 05. Copy the file **UserOperations.cs** located in the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into the **WinOffice365Calendar** project's root folder. 
 06. Include the **UserOperations.cs** file in the **WinOffice365Calendar** project. 
     
-    ![](img/16.png)
+    ![Screenshot of the previous step](img/16.png)
 
 07. Add the following code to the **GetMyEvents** method in the **UserOperations.cs** class.
 
@@ -228,7 +228,7 @@ After returning the access token, we can access the Microsoft Graph to list cale
 	return retEvents;
    ```
    
-   ![](img/17.png)
+   ![Screenshot of the previous step](img/17.png)
 
 08. Open the **MainPage.xaml.cs** file and add the following `using` statement after the existing `using` statements.
 
@@ -242,7 +242,7 @@ After returning the access token, we can access the Microsoft Graph to list cale
     private UserOperations _userOperations = new UserOperations();
     ```
     
-    ![](img/19.png)
+    ![Screenshot of the previous step](img/19.png)
 
 11. Add the following code to the **ReloadButton_Click** method.
 
@@ -257,7 +257,7 @@ After returning the access token, we can access the Microsoft Graph to list cale
     ProgressBar.Visibility = Visibility.Collapsed;
 	```
 
-   ![](img/18.png)
+   ![Screenshot of the previous step](img/18.png)
 
 09. Add the **ReloadEvents** method to the **MainPage** class
 
@@ -310,7 +310,7 @@ After returning the access token, we can access the Microsoft Graph to list cale
 13. After authenticating successfully, click the **Load Events** button.
 14. You will find the events in your calendar for the last 30 days.
 
-    ![](img/20.png)
+    ![Screenshot of the previous step](img/20.png)
 
 15. Close the Windows Universal Application, terminate the debugging session and return to Visual Studio.
 

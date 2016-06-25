@@ -36,11 +36,11 @@ Then check everything is ok by starting up the app.
 
 01. Launch XCode and create a new **Single View Application**
 
-    ![](img/fig.1.png)
+    ![Screenshot of the previous step](img/fig.1.png)
 
 02. Fill the inputs with the application info
      
-    ![](img/fig.2.png)
+    ![Screenshot of the previous step](img/fig.2.png)
 
 03. Using Finder, on the project folder, create a new text file called **Podfile** (without a file extension), and add the lines
 
@@ -70,40 +70,40 @@ In this exercise you will add the action buttons to the application, connect the
 
 01. Using the storyboard feature, open the Main.storyboard file and add two buttons for Login and Clear actions
 
-    ![](img/fig.13.png)
+    ![Screenshot of the previous step](img/fig.13.png)
 
 02. Change the storyboard size to have a real reference of the screen. Do this selecting the view controller and changing the size settings from the right panel
         
-    ![](img/fig.15.png)
+    ![Screenshot of the previous step](img/fig.15.png)
 
 03. Open **Assistant Editor on Right** This will show the counterparts of a file.
 
-    ![](img/fig.25.png)
+    ![Screenshot of the previous step](img/fig.25.png)
 
 04. Select the **ViewController.h** file to connect the buttons
 
-    ![](img/fig.16.png)
+    ![Screenshot of the previous step](img/fig.16.png)
 
 05. Right click on the buttons and drag the line to the header file of the controller.
 
-    ![](img/fig.18.png)
+    ![Screenshot of the previous step](img/fig.18.png)
 
 06. Select the **ViewController.m** in the right editor to connect actions with this counterpart
 
-    ![](img/fig.20.png)
+    ![Screenshot of the previous step](img/fig.20.png)
 
 07. Right click on the buttons and drag the line to the implementation file of the controller for **Touch Down** event.
 
-    ![](img/fig.21.png)
-    ![](img/fig.22.png)
+    ![Screenshot of the previous step](img/fig.21.png)
+    ![Screenshot of the previous step](img/fig.22.png)
 
 08. Add **ic_launcher-web.png** to **AD-Auth-iOS-App** project.
 
-     ![](img/fig.29.png)
+     ![Screenshot of the previous step](img/fig.29.png)
      
 09. Finally add an Image and a Label in the main screen, then adjust button position.
 
-    ![](img/fig.24.png)
+    ![Screenshot of the previous step](img/fig.24.png)
 
 
 ### Task 2 - Add behavior to the buttons and use ADALiOS methods
@@ -129,7 +129,7 @@ In this exercise you will add the action buttons to the application, connect the
 
 04. Open the file and fill it with the following properties:
 
-    ![](img/fig.28.png)
+    ![Screenshot of the previous step](img/fig.28.png)
 
     > **Note:** You can find the clientId/redirectUriString in [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites\hands-on-lab.md](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites/hands-on-lab.md)
 
@@ -235,23 +235,23 @@ In this exercise you will add the action buttons to the application, connect the
 
 09. Build and run application with the **Play** button in the left corner of the screen
 
-     ![](img/fig.30.png)
+     ![Screenshot of the previous step](img/fig.30.png)
     
 10. The following screen will display.
  
-     ![](img/fig.23.png)
+     ![Screenshot of the previous step](img/fig.23.png)
 
 11. Tap **Login** to Authentication with Azure AD.
 
-     ![](img/fig.31.png)
+     ![Screenshot of the previous step](img/fig.31.png)
      
 12. Login Successfully.
 
-     ![](img/fig.32.png)
+     ![Screenshot of the previous step](img/fig.32.png)
    
 13. Tap **Clear** to sign out.
    
-    ![](img/fig.33.png)
+    ![Screenshot of the previous step](img/fig.33.png)
 
 ## Summary
 

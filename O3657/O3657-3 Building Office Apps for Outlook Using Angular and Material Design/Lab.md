@@ -42,7 +42,7 @@ In this exercise, you will examine and customize the **Starter Project** for the
   1. Open a **Terminal** window (on OS X) or **Command Prompt** (on Windows).
   1. Navigate to the root folder of the **Starter Project** located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project) in the Terminal window.
   
-    ![](Images/terminal01.png)  
+    ![Screenshot of the previous step](Images/terminal01.png)  
   
   1. Run the following command to download all packages. This will create the new folder `node_modules`in the **Starter Project** located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project).
 
@@ -50,11 +50,11 @@ In this exercise, you will examine and customize the **Starter Project** for the
     $ npm install
     ````
 
-    ![](Images/terminal02.png)    
+    ![Screenshot of the previous step](Images/terminal02.png)    
 
 6. At the prompt to choose a suitable version of angular, select **2**.
 
-    ![](Images/choose-angular-version.png)
+    ![Screenshot of the previous step](Images/choose-angular-version.png)
 
 1. Now test to make sure the sample add-in is working.
   1. From the command line, ensure you are in the root of the **Starter Project** folder located at [\\\O3657\O3657-3 Building Office Apps for Outlook Using Angular and Material Design\Starter Project](Starter Project) and enter the following command to start the web server:
@@ -66,10 +66,10 @@ In this exercise, you will examine and customize the **Starter Project** for the
   1. Open a browser and navigate to **https://localhost:8443/appread/index.html**. Ignore any certificate warnings & errors the browser may display.
   1. You should see a page that displays a single rendered HTML `<h1>` tag: **Customer Lookup**.
   
-    ![](Images/ssl-no-trusted.png)
+    ![Screenshot of the previous step](Images/ssl-no-trusted.png)
   1. This HTTPS server used a self-signed SSL cert. Follow this [document](https://github.com/OfficeDev/generator-office/blob/master/docs/trust-self-signed-cert.md) to add self-signed certificate as trusted root certificate. 
   
-    ![](Images/ssl-trusted.png)
+    ![Screenshot of the previous step](Images/ssl-trusted.png)
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 
 In this exercise you downloaded all external package dependencies and tested the local web server that will host the Office Add-in for Outlook.
@@ -124,16 +124,16 @@ In this exercise you will deploy & test a skeleton implementation of the Office 
   1. Using the browser, navigate to https://mail.office365.com and login to your Office 365 developer tenant.
   1. Using the "cog" icon in the top right, select **Manage add-ins**.
 
-    ![](Images/manage-addins.png)
+    ![Screenshot of the previous step](Images/manage-addins.png)
 
   1. Click the **plus** icon to add a new add-in & select **add from file**.
 
-    ![](Images/add-addin.png)
+    ![Screenshot of the previous step](Images/add-addin.png)
 
   1. Select the option to upload a file, find the `manifest-customer-lookup.xml` file you just modified and upload it.
   1. When prompted, accept any security warnings.
   
-    ![](Images/confirm-addins.png)
+    ![Screenshot of the previous step](Images/confirm-addins.png)
   
 1. Test the Office Add-in for Outlook.
   1. Start the local server that is hosting the application.
@@ -150,7 +150,7 @@ In this exercise you will deploy & test a skeleton implementation of the Office 
 
     Click the **Customer Lookup** button to open the add-in. You should see the add-in display the single `<h1>` tag in our add-in to demonstrate the add-in is not only loading, but it is showing the contents from our local server.
 
-    ![](Images/customer-lookup-01.png)
+    ![Screenshot of the previous step](Images/customer-lookup-01.png)
 
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 
@@ -626,11 +626,11 @@ In this exercise you will update the Angular part of the application to enable f
 
     Click the **Customer Lookup** button to open the add-in. You should see the add-in displaying matching people.
 
-    ![](Images/customer-lookup-02.png)
+    ![Screenshot of the previous step](Images/customer-lookup-02.png)
 
     Now click one of the people to ensure the add-in takes them to the next screen:
 
-    ![](Images/customer-lookup-03.png)
+    ![Screenshot of the previous step](Images/customer-lookup-03.png)
 
   1. Stop the web server by pressing `CTRL+C` in Terminal.
 

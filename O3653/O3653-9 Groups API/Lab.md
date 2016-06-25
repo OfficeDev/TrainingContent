@@ -25,21 +25,21 @@ Using these accounts, create and interact with some groups using the web interfa
 1. Create a new group named **Contoso Merger Working Group**.
    1. In the left navigation, locate & click the **PLUS** icon.
 
-      ![](Images/Figure01.png)
+      ![Screenshot of the previous step](Images/Figure01.png)
 
    1. Set the name to **Contoso Merger Working Group** & give it a description as shown in the following figure.
-      ![](Images/Figure02.png)
+      ![Screenshot of the previous step](Images/Figure02.png)
 
    1. Click the **Create** button at the top to create the group.
 
 1. After creating the group, you will be prompted to add a user as a member to the group. Add one of your test users to the group *(in this step we used Janice Galvin)*.
 1. After creating the group it will appear in the left-hand navigation and indicated with a tile that contains letters from the group's name. 
    1. Update the logo for the group to be more descriptive. Click the pencil icon in the center of the group logo.
-      ![](Images/Figure03.png)	
+      ![Screenshot of the previous step](Images/Figure03.png)	
 
    1. Then Click the pencil icon to change group icon.
 
-      ![](Images/Figure27.png)	       
+      ![Screenshot of the previous step](Images/Figure27.png)	       
                
    1. Select the **contoso.png** file in the [\\\O3653\O3653-9 Groups API\Lab Files](Lab Files) folder within this lab as the new icon for the group.
    1. Click **Save** button. 
@@ -50,12 +50,12 @@ Using these accounts, create and interact with some groups using the web interfa
 	  ```
 	
    1. Once you save the message, you will see the message appear in the list of conversations:
-      ![](Images/Figure04.png)	
+      ![Screenshot of the previous step](Images/Figure04.png)	
 
 1. At this point the current user (*Rob Walters*) is not subscribed to the group. Ideally all messages to this group should show up in his mailbox. To do this, click the **Subscribe to this group by email** link.
     > Conversations are just one of the features available in groups. In addition to conversations there is a shared calendar, files, notebook and other options. Feel free to explore and add additional content.
 	
-    ![](Images/Figure28.png)	
+    ![Screenshot of the previous step](Images/Figure28.png)	
 
 ### Interact with the Group as a Member
 1. In the last section you added another user (*Janice Galvin*) as a member when you created the group. Login as this user on the same **https://mail.office365.com** site.
@@ -67,7 +67,7 @@ Using these accounts, create and interact with some groups using the web interfa
 
 1. You will see the conversation update with the message you just added.
 1. Logout of **https://mail.office365.com** and login as the original user (*Rob Walters*).
-    ![](Images/Figure05.png)
+    ![Screenshot of the previous step](Images/Figure05.png)
 
 1. Notice that when you login, the message will appear in their email inbox, not just in the group's conversations view. This is because you subscribed to the conversations.
 
@@ -75,10 +75,10 @@ Using these accounts, create and interact with some groups using the web interfa
 1. Now let's try to find the group as another user. Login as a new user (*in this step we used **Thomas Hardy**).
 1. Once logged in, click the **Browse** link in the left-hand navigation.
     
-    ![](Images/Figure29.png)
+    ![Screenshot of the previous step](Images/Figure29.png)
 
 1. Enter **contoso** as the search term and press **ENTER**.
-    ![](Images/Figure06.png)
+    ![Screenshot of the previous step](Images/Figure06.png)
 
 1. Select the group **Contoso Merger Working Group** & click the **Join** button in the right-hand navigation to join the group.
 1. You should now be able to go back to main page for your inbox and see the group listed in the left-hand pane. Notice that you can see all the conversations and other aspects of the group.
@@ -92,7 +92,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 1. Enter the email address and password of an account that have permissions to manage the directory of the Azure AD tenant (e.g. admin@sample.onmicrosoft.com).
 1. In the left-hand navigation, scroll down and click on Active Directory.
 1. Click on the name of a directory to select it and display. Depending on the state of your portal, you will see the Quick Start page, or the list of Users. On either page, click **Applications** in the toolbar. 
-    ![](Images/Figure07.png)
+    ![Screenshot of the previous step](Images/Figure07.png)
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
@@ -102,7 +102,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
     > NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
 
 1. Click the **check** image in the lower right of the wizard to create the application. The application Quick Start page will display once the application is created.
-    ![](Images/Figure08.png)
+    ![Screenshot of the previous step](Images/Figure08.png)
 
 1. On the application Quick Start page, click on **CONFIGURE** in the toolbar.
 1. Scroll down to the **Keys** section. 
@@ -111,7 +111,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
       *The page will refresh and include the value of the key. In addition, a message is displayed advising that the key will not be shown a second time.*
 
 1. For both the **Client ID** and **Key**, copy these values to a text file as you will need them later in this lab.
-    ![](Images/Figure09.png)
+    ![Screenshot of the previous step](Images/Figure09.png)
 
 ### Grant App Necessary Permissions
 1. Scroll down to the **permissions to other applications** section. 
@@ -130,7 +130,7 @@ In this exercise, you will create an Azure AD application using the Azure Manage
 ### Get the Azure AD Tenant ID
 1. Click on the **View Endpoints** button in the gutter at the bottom of the page.
 1. The dialog that appears you will see a list of a number of different endpoints. All of them contain a GUID which is the unique ID of the Azure AD tenant for the application as shown in the following figure:
-    ![](Images/Figure10.png)
+    ![Screenshot of the previous step](Images/Figure10.png)
 
 	**Copy the GUID from any of the URLs and save them to a text file, just like you did for the client ID & key earlier, as you will need this later.** 
 
@@ -158,7 +158,7 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
     > You will be prompted to login using the same account you used to create the Azure AD application.
 
 1. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
-    ![](Images/Figure11.png)
+    ![Screenshot of the previous step](Images/Figure11.png)
 
 	> NOTE: To simplify the screenshot, session requests for script & image files have been removed.
 
@@ -199,13 +199,13 @@ Use the Azure AD token endpoint to obtain an access token for the Microsoft Grap
 	````
 
 1. Take the resulting string from all the previous changes and paste it into the **Request Body** box within the **Composer** tab. Be sure to remove all line breaks form the string so you are left with something that looks like the following:
-	![](Images/Figure12.png)  
+	![Screenshot of the previous step](Images/Figure12.png)  
 
 1. Click the **Execute** button to make the request.
 1. Select the session that was just created and click the **Inspectors** tab. Here you see the all the values that were submitted in the request.
 1. Click the **JSON** button in the lower part of the **Inspector** tab. This contains the access and refresh tokens from the successful request. 
 1. Copy & save the access token just like you've done with the client ID, secret & tenant ID in the previous exercise.
-	![](Images/Figure13.png)  
+	![Screenshot of the previous step](Images/Figure13.png)  
 
 ### Issue Requests to the Group API's REST Endpoint via the Microsoft Graph
 Now that you have an access token, create a few requests to the Microsoft Graph's REST endpoint.
@@ -289,27 +289,27 @@ In this exercise, you used the raw REST API interface of the Groups API by Fiddl
 In this exercise, you will use MVC web app to access the Microsoft Graph for Office 365 Groups.
 
 1. Within a browser, navigate to the **Azure Management Portal**: https://manage.windowsazure.com, find the application that you created in Exercise 2.
-    ![](Images/Figure30.png) 
+    ![Screenshot of the previous step](Images/Figure30.png) 
 
 1. Select the application, go to the configure table.
-    ![](Images/Figure31.png) 
+    ![Screenshot of the previous step](Images/Figure31.png) 
 
 1. Modify **SIGN-ON URL** using **https://localhost:44300/**.
-    ![](Images/Figure16.png) 
+    ![Screenshot of the previous step](Images/Figure16.png) 
 
 1. Modify **REPLY URL** using **https://localhost:44300/**.
-    ![](Images/Figure17.png) 
+    ![Screenshot of the previous step](Images/Figure17.png) 
 
 1. Click the **Save** button at the bottom of the page.
 1. Locate the [\\\O3653\O3653-9 Groups API\StarterFiles](StarterFiles) folder that contains a starter project.  The starter project is an ASP.NET MVC5 web application that you will update to call the Microsoft Graph.
 1. Open the **Office365Group** Visual Studio solution as an administrator.
 1. Open the **Web.config** file.
-    ![](Images/Figure14.png) 
+    ![Screenshot of the previous step](Images/Figure14.png) 
 
    1. Enter the value for **client id** that you got from Exercise 2.
    1. Replace the value for **ClientSecret** with the **key** that you got form Exercise 2.
    1. Replace the value for **TenantId** with the **Tenant Id** that you got form Exercise 2.
-    ![](Images/Figure15.png) 
+    ![Screenshot of the previous step](Images/Figure15.png) 
 
 1. Add the code to get Graph Access token.
    1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGraphAccessTokenAsync** function.
@@ -360,7 +360,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
        > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
       1. On the **Home** page, click **Group** menu, then click **About Me** button, you will find **About Me** page like the following screenshot:
-         ![](Images/Figure20.png) 
+         ![Screenshot of the previous step](Images/Figure20.png) 
 
 1. Add the **my organization groups** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **MyOrganizationGroups** function.
@@ -398,7 +398,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
        > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
       2. On the **Home** page, click **Group** menu, then click **My Organization Groups** button, you will find **My Organization Groups** page like the following screenshot:
-         ![](Images/Figure18.png) 
+         ![Screenshot of the previous step](Images/Figure18.png) 
 
 1. Add the **joined groups** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **JoinedGroups** function.
@@ -439,7 +439,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
        > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, you will find **Joined Groups** page like the following screenshot:
-         ![](Images/Figure19.png) 
+         ![Screenshot of the previous step](Images/Figure19.png) 
 
 1. Add the **search for a specific group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **SearchGroup** function.
@@ -477,7 +477,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
        > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
       2. On the **Home** page, click **Group** menu, enter a **search term** that matches the name of one of your Office 365 Groups, then click **Search For a Specific Group** button, you will find the **search results** page like the following screenshot:
-         ![](Images/Figure21.png) 
+         ![Screenshot of the previous step](Images/Figure21.png) 
 
 1. Add the **conversations within the specified group** interface.
     1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupConversations** function.
@@ -518,7 +518,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Conversations** link for any group, you will find **Group Conversations** like the following screenshot.
-         ![](Images/Figure22.png)
+         ![Screenshot of the previous step](Images/Figure22.png)
 
 1. Add the **group threads** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupThreads** function.
@@ -560,7 +560,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Threads** link for any group, you will find **Group Threads** page like the following screenshot.
-         ![](Images/Figure23.png)
+         ![Screenshot of the previous step](Images/Figure23.png)
 
 1. Add the **all the posts within a thread** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupThreadPosts** function.
@@ -608,7 +608,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click **Threads** link of any group.
       4. On **Groups Threads** page, click the **Post** link for any thread, you will find **posts list** like the following screenshot. 
-         ![](Images/Figure24.png)
+         ![Screenshot of the previous step](Images/Figure24.png)
 
 1. Add the **events associated with the group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupEvents** function.
@@ -664,7 +664,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Events** link for any group, you will find **Group Events** page like the following screenshot. 
-         ![](Images/Figure25.png)
+         ![Screenshot of the previous step](Images/Figure25.png)
 
 1. Add the **files associated with the group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupFiles** function.
@@ -703,7 +703,7 @@ In this exercise, you will use MVC web app to access the Microsoft Graph for Off
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Files** link for any group, you will find **Group Files** page like the following screenshot. 
-         ![](Images/Figure26.png)
+         ![Screenshot of the previous step](Images/Figure26.png)
 
 19. Close the browser window, terminate the debugging session, and return to Visual Studio.
 

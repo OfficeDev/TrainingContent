@@ -16,12 +16,12 @@ In this exercise you will create an External Content Type based on an OData sour
     2. Select **App for SharePoint**.
     3. Name the new project **AppLevelEct**.
     4. Click **OK**.<br/>
-      ![](Images/01.png?raw=true "Figure 1")
+      ![Screenshot of the previous step](Images/01.png?raw=true "Figure 1")
   4. In the **New App for SharePoint** wizard:
     1. Enter the URL of your tenancy.
     2. Select **Provider-Hosted**.
     3. Click **Next**.
-      ![](Images/02.png?raw=true "Figure 2")  
+      ![Screenshot of the previous step](Images/02.png?raw=true "Figure 2")  
     4. Select **ASP.NET MVC Web Application**.
     5. Click **Finish**.
   5. When prompted, enter your **Organizational Account** credentials.
@@ -32,10 +32,10 @@ In this exercise you will create an External Content Type based on an OData sour
     1. Enter **http://services.odata.org/Northwind/Northwind.svc/** in the field labeled **What OData Service URL do you want to use to create the external data source?**.
     2. Enter **Northwind** in the field labeled **What do you want to name your new data source?**
     3. Click **Next**.<br/>
-      ![](Images/03.png?raw=true "Figure 3")  
+      ![Screenshot of the previous step](Images/03.png?raw=true "Figure 3")  
     4. Check **Employees**.
     5. Click **Finish**.<br/>
-      ![](Images/04.png?raw=true "Figure 4") 
+      ![Screenshot of the previous step](Images/04.png?raw=true "Figure 4") 
 
 3. Code the Remote web
   1. In the **Solution Explorer**, right click the **Models** folder and select **Add/Existing Item**.
@@ -177,7 +177,7 @@ In this exercise you will create an External Content Type based on an OData sour
 4. Test the app
   1. Press **F5** to debug the app.
   2. Verify that employee names appear in the app.
-      ![](Images/05.png?raw=true "Figure 5") 
+      ![Screenshot of the previous step](Images/05.png?raw=true "Figure 5") 
 
 
 ## Exercise 2: Create a Remote Event Receiver
@@ -186,13 +186,13 @@ In this exercise you will configure a Remote Event Receiver sample
 1. Create a SQl Azure database.
   1. Log into the [Azure Portal](https://manage.windowsazure.com) as an administrator.
   2. Select **New/Data Services/SQL Database/Quick Create**.<br/>
-      ![](Images/06.png?raw=true "Figure 6") 
+      ![Screenshot of the previous step](Images/06.png?raw=true "Figure 6") 
     1. Enter **MiniCRM** for the **Database Name**.
     2. Create a new SQL database server in an appropriate region
     3. Enter **MiniCRMAdmin** for the **Login Name**.
     4. Enter a **Password**.
     5. Click **Create SQL database**.<br/>
-      ![](Images/07.png?raw=true "Figure 7") 
+      ![Screenshot of the previous step](Images/07.png?raw=true "Figure 7") 
 
 2. Upload test data to SQL Azure:
   1. In the Azure portal, click **SQL database**.
@@ -200,13 +200,13 @@ In this exercise you will configure a Remote Event Receiver sample
     1. Click **Manage allowed IP addresses**.
     2. **Add** a new rule to allow addresses **0.0.0.0** through **255.255.255.255**.
     3. Click **Save**.
-      ![](Images/07a.png?raw=true "Figure 7a") 
+      ![Screenshot of the previous step](Images/07a.png?raw=true "Figure 7a") 
   3. Click **MiniCRM** and copy down your database server name.
   4. Click **Run Transact SQL Queries Against Your Database**.
   5. If prompted to add a firewall rule, click **Yes**.
   6. If prompted, select to manage the **MiniCRM** database.
   7. Log in to the database server using the credentials you created earlier.
-      ![](Images/08.png?raw=true "Figure 8") 
+      ![Screenshot of the previous step](Images/08.png?raw=true "Figure 8") 
   8. Paste the contents of the following script into the query window. 
  
      ```
@@ -257,10 +257,10 @@ In this exercise you will configure a Remote Event Receiver sample
 3. Create a Secure Store application definition
   1. Log into your SharePoint tenancy using your **Organizational Account**.
   2. Select **SharePoint/Admin**.<br/>
-      ![](Images/09.png?raw=true "Figure 9")  
+      ![Screenshot of the previous step](Images/09.png?raw=true "Figure 9")  
   3. Click **Secure Store**.
   4. Click **New**.<br/>
-      ![](Images/10.png?raw=true "Figure 10")  
+      ![Screenshot of the previous step](Images/10.png?raw=true "Figure 10")  
     1. Enter **MiniCRM** for the **Target Application ID**.
     2. Enter **MiniCRM** for the **Display Name**.
     3. Enter your e-mail address for the **Contact e-mail**.
@@ -269,25 +269,25 @@ In this exercise you will configure a Remote Event Receiver sample
     6. Enter your account for the **Target Application Administrators**.
     7. Enter **Everyone** for the **Members**.
     8. Click **OK**.<br/>
-      ![](Images/11.png?raw=true "Figure 11")
+      ![Screenshot of the previous step](Images/11.png?raw=true "Figure 11")
   5. Click **Set Credentials**.<br/>
-    ![](Images/12.png?raw=true "Figure 12")  
+    ![Screenshot of the previous step](Images/12.png?raw=true "Figure 12")  
     1. Enter **MiniCRMAdmin** for the **SQL Azure Username**.
     2. Enter your password for **SQL Azure Password**.
     3. Click **OK**.<br/>
-      ![](Images/13.png?raw=true "Figure 13")
+      ![Screenshot of the previous step](Images/13.png?raw=true "Figure 13")
 
 4. Configure BCS Permissions.
   1. Click **BCS**.
   2. Click **Manage BDC Models and external Content Types**.<br/>
-      ![](Images/14.png?raw=true "Figure 14")  
+      ![Screenshot of the previous step](Images/14.png?raw=true "Figure 14")  
   3. Click **Set Metadata Store Permissions**.<br/>
-      ![](Images/15.png?raw=true "Figure 15")  
+      ![Screenshot of the previous step](Images/15.png?raw=true "Figure 15")  
     1. Resolve your name and click **Add**.
     2. Check all of the permissions.
     3. Check the box to **Propogate permissions**.
     4. Click **OK**.<br/>
-      ![](Images/16.png?raw=true "Figure 16")  
+      ![Screenshot of the previous step](Images/16.png?raw=true "Figure 16")  
 
 5. Configure External Content Type
   1. Navigate to the **Lab Files** folder and Open **MiniCRMCustomerModel.bdcm.xml**.
@@ -297,7 +297,7 @@ In this exercise you will configure a Remote Event Receiver sample
   5. Click **BCS**.
   6. Click **Manage BDC Models and external Content Types**.
   7. Click **Import**.<br/>
-      ![](Images/17.png?raw=true "Figure 17")
+      ![Screenshot of the previous step](Images/17.png?raw=true "Figure 17")
   8. Browse to the edited **MiniCRMCustomerModel.bdcm.xml** file and click **Import**.
 
 6. Create an External List
@@ -308,19 +308,19 @@ In this exercise you will configure a Remote Event Receiver sample
     1. Name the new list **Customers**.
     2. Select **Customer** for the **External Content Type**.
     3. Click **Create**.<br/>
-      ![](Images/18.png?raw=true "Figure 18")
+      ![Screenshot of the previous step](Images/18.png?raw=true "Figure 18")
 
 7. Add a Subscription
   1. In the Team Site where you created the Customers list, select **Site Settings**.
   2. Click **Manage Site Features**.
   3. **Activate** the **External System Events** feature.<br/>
-      ![](Images/19.png?raw=true "Figure 19")
+      ![Screenshot of the previous step](Images/19.png?raw=true "Figure 19")
   4. Navigate to the **Customers** list.
   5. Click **List**.
   6. Click **Alert Me** and then **Set an Alert on this List**. This will create a new subscription in the External System.<br/>
-      ![](Images/20.png?raw=true "Figure 20")
+      ![Screenshot of the previous step](Images/20.png?raw=true "Figure 20")
   7. In the alert dialog, simply click **OK** to accept the defaults.<br/>
-      ![](Images/21.png?raw=true "Figure 21")
+      ![Screenshot of the previous step](Images/21.png?raw=true "Figure 21")
   8. Return to the Azure portal and click **SQL database**.
   9. Click **MiniCRM**.
   10. Click **Run Transact SQL Queries Against Your Database**.
@@ -332,21 +332,21 @@ In this exercise you will configure a Remote Event Receiver sample
     ```
   13. Click **Run**.
   14. Verify that the notification endpoints are present in the table for the create, update, and delete operations.<br/>
-      ![](Images/22.png?raw=true "Figure 22")
+      ![Screenshot of the previous step](Images/22.png?raw=true "Figure 22")
 
 8. Send a Notification
   1. Locate the Project **MiniCRMApp** located in the **Lab Files** folder.
   2. Open **MiniCRMApp** in **Visual Studio 2013**.
   3. Update the **SiteUrl** property of the **MiniCRMApp** project to refer to your tenancy.<br/>
-      ![](Images/23.png?raw=true "Figure 23")
+      ![Screenshot of the previous step](Images/23.png?raw=true "Figure 23")
   4. In the **Solution Explorer**, expand the **Controllers** folder.
   5. Open **HomeController.cs** for editing.
   6. **Replace** the placeholder **[YOUR CONNECTION STRING]** with the connection string for your SQL Azure database.
   7. Press **F5** to start debugging.
   8. When the app starts, you will see a form for adding a customer to the database.<br/>
-      ![](Images/24.png?raw=true "Figure 24")
+      ![Screenshot of the previous step](Images/24.png?raw=true "Figure 24")
   9. Fill out the form and create a new entry. After a little time, you should receive an alert notification in your inbox.<br/>
-      ![](Images/25.png?raw=true "Figure 25")
+      ![Screenshot of the previous step](Images/25.png?raw=true "Figure 25")
 
 Congratulations! You have finished creating solutions with Business Connectivity Services. 
 

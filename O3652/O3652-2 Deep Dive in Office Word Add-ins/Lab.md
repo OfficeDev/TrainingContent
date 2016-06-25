@@ -12,28 +12,28 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 1. Launch Visual Studio 2015 as an administrator.
 2. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Office Add-in** project template from the **Office/SharePoint** template folder as shown below. Name the new project **ContentWriter** and click **OK** to create the new project.
 
-	![](Images/Fig01.png)
+	![Screenshot of the previous step](Images/Fig01.png)
 
 3. When you create a new Office Add-in project, Visual Studio prompts you with the **Choose the Add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue.
 
-	![](Images/Fig02.png)
+	![Screenshot of the previous step](Images/Fig02.png)
 
 4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office applications except for **Word** and then click **Finish** to create the new Visual Studio solution. 
 
-	![](Images/Fig03.png)
+	![Screenshot of the previous step](Images/Fig03.png)
 
 5. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **ContentWriter** and **ContentWriterWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **ContentWriterManifest** which contains a single file named **ContentWriter.xml**.
 
-	![](Images/Fig04.png)
+	![Screenshot of the previous step](Images/Fig04.png)
 
 6. In the Solution Explorer, double-click on the node named **ContentWriterManifest** to open the Add-in manifest file in the Visual Studio designer. Update the **Display Name** settings in the Add-in manifest from **ContentWriter** to **Content Writer Add-in**.
 
-	![](Images/Fig05.png)
+	![Screenshot of the previous step](Images/Fig05.png)
 
 7. Save and close **ContentWriterManifest**.
 8. Over the next few steps you will walk through the default Add-in implementation that Visual Studio generated for you when the Add-in project was created. Begin by looking at the structure of the **AddIn** folder which has two important files named **app.css** and **app.js** which contain CSS styles and JavaScript code which is to be used on an app-wide basis.
 
-	![](Images/Fig06.png)
+	![Screenshot of the previous step](Images/Fig06.png)
 
 9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**.
  
@@ -194,7 +194,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 21. Right click the ContentWriter project in the Visual Studio Solution and select **Set as Startup Project**.
 22. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2016 and you should see your Office Add-in in the task pane on the right side of a new Word document as shown in the following screenshot.
 
-	![](Images/Fig07.png)
+	![Screenshot of the previous step](Images/Fig07.png)
 
 23. Close Microsoft Word to terminate your debugging session and return to Visual Studio.
 24. Return to the source file named **Home.js** or open it if it is not already open.
@@ -260,7 +260,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 29. Save your changes to **Home.js**.
 30. Now test the functionality of the Add-in. Press the **{F5}** key to begin a debugging session and click the **Hello World** button. You should see that "Hello World" has been added into the cursor position of the Word document.
 
-	![](Images/Fig08.png)
+	![Screenshot of the previous step](Images/Fig08.png)
 
 31. You have now successfully run and tested the Add-in and its JavaScript logic using the Visual Studio debugger. Close Microsoft Word to stop the debugging session and return to Visual Studio.
 
@@ -322,7 +322,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 6. Test your work by pressing F5 to start a debug session and then click the **HTML** button. When you click the button, you should see that the HTML content has been added to the Word document.
 
-	![](Images/Fig09.png)
+	![Screenshot of the previous step](Images/Fig09.png)
 
 7. Implement **onAddContentMatrix** by creating an array of arrays and then by writing the matrix to the Word document using the matrix coercion type as shown in the following code listing.
 
@@ -341,7 +341,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 8. Test your work by pressing F5 to start a debug session and then click the **Matrix** button. When you click the button, you should see that the content from the matrix has been added to the Word document as a table.
 
-	![](Images/Fig10.png)
+	![Screenshot of the previous step](Images/Fig10.png)
 
 9. Implement **onAddContentOfficeTable** by creating a new Office.TableData object and then by writing it to the Word document using the table coercion type as shown in the following code listing.
 
@@ -360,7 +360,7 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 10. Test your work by pressing F5 to start a debug session and then click the **Office Table** button. When you click the button, you should see that the content from the Office Table object has been added to the Word document as a table.
 
-	![](Images/Fig10.png)
+	![Screenshot of the previous step](Images/Fig10.png)
 
 11. You have now finished exercise 2 and it is time to move on to exercise 3.
 
@@ -369,11 +369,11 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 1. Look inside the folder for this lab and locate **Starter Files** folder within this lab located at [\\\O3652\O3652-2 Deep Dive in Office Word Add-ins](.). You should see that this folder contains four XML files as shown in the following screenshot.
 
-	![](Images/Fig11.png)
+	![Screenshot of the previous step](Images/Fig11.png)
 
 2. Add the four XML files into the Visual Studio project into the same folder as the HTML start page named **Home.html**.
 
-	![](Images/Fig12.png)
+	![Screenshot of the previous step](Images/Fig12.png)
 
 3. Quickly open and review the XML content inside each of these four XML files. This will give you better idea of what Open Office XML looks like when targeting Microsoft Word. 
 4. Open **Home.html** and locate the button element with the id of **addContentOfficeOpenXml**. Directly under this button, add a new HTML **select** element as shown in the following code listing.
@@ -411,19 +411,19 @@ In this lab you will get hands-on experience developing an Office Word Add-in.
 
 8. Test your work by starting a debug session and clicking the **Office Open XML** button when the select element has the default selected value of **Paragraph**. You should see that the Open Office XML content has been used to created a formatted paragraph.
 
-	![](Images/Fig13.png)
+	![Screenshot of the previous step](Images/Fig13.png)
 
 9. Change the value of the select element to **Picture** and click the **Office Open XML** button. You should see that the Open Office XML content has been used to insert a image into the document.
 
-	![](Images/Fig14.png)
+	![Screenshot of the previous step](Images/Fig14.png)
 
 10. Change the value of the select element to **Chart** and click the **Office Open XML** button. You should see that the Open Office XML content has been used to created a simple bar chart.
 	
-	![](Images/Fig15.png)
+	![Screenshot of the previous step](Images/Fig15.png)
 
 11. Change the value of the select element to **Table** and click the **Office Open XML** button. You should see that the Open Office XML content has been used to created a formatted table.
 
-	![](Images/Fig16.png)
+	![Screenshot of the previous step](Images/Fig16.png)
 
 Congratulations! In this exercise you extended the Add-in's capabilities by adding JavaScript code to insert content into the active Word document using Open Office XML.
 
@@ -437,11 +437,11 @@ In this exercise you will create a Word Add-in that uses the v2 JavaScript API i
 
 3. When you create a new Office Add-in project, Visual Studio prompts you with the **Choose the Add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue.
 
-	![](Images/Fig02.png)
+	![Screenshot of the previous step](Images/Fig02.png)
 
 4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office application except for **Word** and then click **Finish** to create the new Visual Studio solution. 
 
-	![](Images/Fig03.png)
+	![Screenshot of the previous step](Images/Fig03.png)
 
 5. Now update the user interface for the Add-in:
 	1. Locate the `<body>` section of the page within the `home.html` file.

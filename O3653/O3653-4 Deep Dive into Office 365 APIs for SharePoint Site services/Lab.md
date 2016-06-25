@@ -19,7 +19,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
     1. Name the new project **TasksWeb**.
     1. Click **OK**.
 
-       ![](Images/01.png)
+       ![Screenshot of the previous step](Images/01.png)
 
   1. In the **New ASP.NET Project** dialog:
     1. Click **MVC**.
@@ -27,11 +27,11 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
     1. Select **No Authentication**.
     1. Click **OK**.
        
-       ![](Images/02.png)
+       ![Screenshot of the previous step](Images/02.png)
     
     1. Click **OK**.
 
-       ![](Images/03.png)
+       ![Screenshot of the previous step](Images/03.png)
 
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
@@ -39,7 +39,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Copy the **SSL URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
-    ![](Images/SslEnabled.png)
+    ![Screenshot of the previous step](Images/SslEnabled.png)
 
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
@@ -65,11 +65,11 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
       1. Check **Read Items in All Site Collections**.
       1. Click **Apply**.
      
-       ![](Images/04.png)
+       ![Screenshot of the previous step](Images/04.png)
 
     1. Click **OK**.
     
-       ![](Images/05.png)
+       ![Screenshot of the previous step](Images/05.png)
 
 ## Exercise 2: Configure Web Application to use Azure AD and OWIN
 In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Office 365 APIs.
@@ -81,11 +81,11 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Select the application you created for this lab. This is the name of the application in the **App Properties** dialog when you were adding the **Connected Service** in the last exercise.
   1. Select the **Quick Start** page for the in the top navigation... that's the left-most menu item that looks like a lightning bolt in a cloud:
 
-    ![](Images/AppQuickStart.png)
+    ![Screenshot of the previous step](Images/AppQuickStart.png)
  
   1. On the Quick Start page, expand the **Get Started** / **Enable Users to Sign On**. Locate the field **Federation Metadata Document URL**. Within that field value you will see a GUID immediately after the `login.windows.net` part of the URL. Copy just the GUID value to the clipboard.
 
-    ![](Images/TenantId.png)
+    ![Screenshot of the previous step](Images/TenantId.png)
 
   1. Open the `web.config` file in the project.
   1. Add the following node to the `<appSettings>` section, setting the value equal to the **directory tenant ID** you acquired in the previous step:
@@ -353,7 +353,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     1. Right-click the folder and select **Add/View**.
     1. Complete the **Add View** dialog as shown in the following picture, then click **Add**:
       
-      ![](Images/LoginPartial.png)
+      ![Screenshot of the previous step](Images/LoginPartial.png)
 
     1. Add the following code to the **_LoginPartial.cshtml** file:
 
@@ -427,7 +427,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
 
-    ![](Images/ConsentDialog.png)
+    ![Screenshot of the previous step](Images/ConsentDialog.png)
 
   1. Click **OK** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
@@ -814,7 +814,7 @@ With the data access code complete, now you need to add a controller and views t
     1. Model class: **SpTask (TasksWeb.Models)**.
     1. Click **Add**.
 
-      ![](Images/AddDetailsView.png)
+      ![Screenshot of the previous step](Images/AddDetailsView.png)
 
 1. Add the following method to the controller to create a specific task:
 
@@ -843,7 +843,7 @@ With the data access code complete, now you need to add a controller and views t
     1. Model class: **SpTask (TasksWeb.Models)**.
     1. Click **Add**.
 
-      ![](Images/AddCreateView.png)
+      ![Screenshot of the previous step](Images/AddCreateView.png)
 
 1. Add the following method to the controller to edit a specific task:
 
@@ -873,7 +873,7 @@ With the data access code complete, now you need to add a controller and views t
     1. Model class: **SpTask (TasksWeb.Models)**.
     1. Click **Add**.
 
-      ![](Images/AddEditView.png)
+      ![Screenshot of the previous step](Images/AddEditView.png)
 
 1. Press **F5** to begin debugging.
 1. Test the list, detail, paging, creation, edit and delete functionality of the application.
@@ -1321,11 +1321,11 @@ With the data access implemented, the next step is to create the controller and 
   1. Once the browser loads the page, click the **Sign In** link in the upper right corner & login to Azure AD.
   1. When the application loads, click the **Terms** link to see a list of all the top-level terms within your term set, similar to the following figure:
 
-    ![](Images/Level1Terms.png)
+    ![Screenshot of the previous step](Images/Level1Terms.png)
 
   1. Then click on one of the terms to see its child terms:
 
-    ![](Images/Level2Terms.png)
+    ![Screenshot of the previous step](Images/Level2Terms.png)
 
   1. Finally, click the **Create New** link to jump to the create form and create a new term. You will be taken back to the **Terms** `Index()` action, but if you navigate back to where the term was created, you should see the new term.
 

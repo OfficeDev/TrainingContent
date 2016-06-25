@@ -10,7 +10,7 @@ The required prerequisite for this course are:
 * Basic skill set on managing Office365
 * Access to an Office365 tenant with an existing developer site. (The [pre-requisite lab](../1 Introduction to app model transition/Lab.md) provides directions to complete this task.)
 * Visual Studio 2013 Ultimate with Azure SDK v2.5
-* Ensure you have configured a local NuGet package repository: [](http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore)
+* Ensure you have configured a local NuGet package repository: [Screenshot of the previous step](http://www.mbgreen.com/blog/2014/8/8/sharepoint-2013-apps-fail-on-nuget-package-restore)
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
 * Download and install the latest version of the SharePoint online client SDK from following link - http://aka.ms/spocsom

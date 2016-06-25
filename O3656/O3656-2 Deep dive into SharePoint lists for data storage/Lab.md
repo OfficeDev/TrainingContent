@@ -9,15 +9,15 @@ In this exercise you will create a new Visual Studio project for a SharePoint-ho
 1. Launch Visual Studio 2013.
 2. Create a new project by selecting the **File > New Project** command.
 3. In the **New Project** dialog, select the **App for SharePoint** project template, enter a project name of **ProductManager** and click **OK**.
-![](Images/Figure01.png)  
+![Screenshot of the previous step](Images/Figure01.png)  
 4. In the **New app for SharePoint** dialog, enter the URL for your Office 365 developer site, select the app hosting type of **SharePoint-hosted App** and click **Finish** to create the new project.
-![](Images/Figure02.png)  
+![Screenshot of the previous step](Images/Figure02.png)  
 5. You should now have a new project with a project structure that matches the following screenshot.  
-![](Images/Figure03.png)  
+![Screenshot of the previous step](Images/Figure03.png)  
 6. Now you will create a new set of site columns. Start by right-clicking the top-level project node in Solution Explorer and selecting the **Add > New Item** command.  
-![](Images/Figure04.png)  
+![Screenshot of the previous step](Images/Figure04.png)  
 7. In the **Add New Item** dialog, select the **Empty Element** item template, enter a name of **CustomSiteColumns** and click **OK**.
-![](Images/Figure05.png)  
+![Screenshot of the previous step](Images/Figure05.png)  
 8. You should now have a new folder in your project named CustomSiteColumns with a file named **Elements.xml**.
 9. Inside the **Elements** elements within **Elements.xml**, add a set of site columns by copying-and-pasting the following **Field** elements.
 
@@ -80,11 +80,11 @@ In this exercise you will create a new Visual Studio project for a SharePoint-ho
 10. Close **Elements.xml**.
 11. Right-click on the **ProductManager** project node and select **Add > New Item**.
 12. In the **Add New Item** dialog, select the **Content Type** item template, enter a name of **Product** and click **Add**.
-![](Images/Figure06.png)  
+![Screenshot of the previous step](Images/Figure06.png)  
 13. When prompted to **Choose Content Type Settings** by the **SharePoint Customization Wizard** dialog, select a base content type of **Item** and click **Finish**.
-![](Images/Figure07.png)  
+![Screenshot of the previous step](Images/Figure07.png)  
 14. On the **Columns** tab of the Content Type Designer, add the five custom site columns created in the previous exercise.
-![](Images/Figure08.png)  
+![Screenshot of the previous step](Images/Figure08.png)  
 15. Close the **Elements.xml** file associated with the **Product** content type.
 
 Now that you have created a custom content type, you will now use it to create a custom list definition.
@@ -94,17 +94,17 @@ In this exercise, you will create a custom list which uses the custom site colum
 
 1.  Right-click on the **ProductManager** project node and select **Add > New Item**.
 2. In the **Add New Item** dialog, select the **List** item template, enter a name of **Products** and click **Add**.
-![](Images/Figure09.png)  
+![Screenshot of the previous step](Images/Figure09.png)  
 3. When you are prompted to **Choose List Settings** by the SharePoint Customization Wizard, enter a display name of **Products**. Also select the first option to **Create a customizable  list template** based on the **Default (Custom List)** template as shown in the following screenshot. Click **Finish**.
-![](Images/Figure10.png)  
+![Screenshot of the previous step](Images/Figure10.png)  
 4. You should now see that Visual Studio has created a new top-level project node named **Products** which contains the files to create a new list definition and additionally a new list instance based on the new list definition.  
-![](Images/Figure11.png)  
+![Screenshot of the previous step](Images/Figure11.png)  
 5. After you have created the new **Products** list, you should see the customizable **Products** list in the Visual Studio list designer. Click on the **Content Types** button to display the **Content Types Settings** dialog.
-![](Images/Figure12.png)  
+![Screenshot of the previous step](Images/Figure12.png)  
 6. In the **Content Type Settings** dialog, remove the two existing content types and replace them with **Product** content type. Click **OK** when you are done to apply your changes. 
-![](Images/Figure13.png)  
+![Screenshot of the previous step](Images/Figure13.png)  
 7. After adding the **Product** content type, you should now see the five custom site columns in the Columns collections of the **Products** list.  
-![](Images/Figure14.png)  
+![Screenshot of the previous step](Images/Figure14.png)  
 8. Close the designer window with the **Products** list.
 9. Open the **Elements.xml** file which is located at the root of the **Products** node. This file contains a **ListTemplate** element to define a list template in a SharePoint site. However, you must update the value of the **Type** attribute so you do not use the default value of **100** which is used by the built-in SharePoint list type for custom lists.
 
@@ -197,12 +197,12 @@ In this exercise, you will create a custom list which uses the custom site colum
 		</asp:Content>
 18. Save your changes and close **default.aspx**.
 19. Open the app manifest file **AppManifest.xml** in the SharePoint app manifest designer. Update the **Title** property to **Product Manager - Enterprise Edition**
-![](Images/Figure15.png)  
+![Screenshot of the previous step](Images/Figure15.png)  
 20. Save your changes and close **AppManifest.xml**.
 21. Now it's time to test your app. Press the **{F5}** key to install the app in your Office 365 developer's site and begin a debugging session. When the app has been launched, the start page should load and display the **Products** list which should contain a single Product item as shown in the following screenshot.
-![](Images/Figure16.png)  
+![Screenshot of the previous step](Images/Figure16.png)  
 22. Click on the **new item** link and create a second Product item. Fill out the New Item page using sample data like the product information shown in the following screenshot. Click Save when you are done to save the new item.
-![](Images/Figure17.png)  
+![Screenshot of the previous step](Images/Figure17.png)  
 23. Verify that a new Product item has been created.
-![](Images/Figure18.png)  
+![Screenshot of the previous step](Images/Figure18.png)  
 24. When you are done with your test, close the browser and terminate the debugging session.

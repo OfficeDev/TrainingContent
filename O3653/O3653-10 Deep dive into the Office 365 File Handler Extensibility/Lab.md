@@ -14,11 +14,11 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 1. In the **New ASP.NET Project** dialog, click **MVC** and then click **Change Authentication**.
 1. Select **No Authentication** and click **OK**.
 
-	![](Images/Figure01.png)
+	![Screenshot of the previous step](Images/Figure01.png)
 
 1. Once the **New ASP.NET Project** dialog appears like the following screenshot, click **OK**. 
 
-	![](Images/Figure02.png)
+	![Screenshot of the previous step](Images/Figure02.png)
 
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
@@ -26,7 +26,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Copy the **SSL URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
-    ![](Images/Figure03.png)
+    ![Screenshot of the previous step](Images/Figure03.png)
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
 1. Configure the project to always go to the homepage of the web application when debugging:
@@ -73,11 +73,11 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Select the application you created for this lab. This is the name of the application in the **App Properties** dialog when you were adding the **Connected Service** in the last exercise.
   1. Select the **Quick Start** page for the in the top navigation... that's the left-most menu item that looks like a lightning bolt in a cloud:
 
-    ![](Images/AppQuickStart.png)
+    ![Screenshot of the previous step](Images/AppQuickStart.png)
  
   1. On the Quick Start page, expand the **Get Started** / **Enable Users to Sign On**. Locate the field **Federation Metadata Document URL**. Within that field value you will see a GUID immediately after the `login.windows.net` part of the URL. Copy just the GUID value to the clipboard.
 
-    ![](Images/TenantId.png)
+    ![Screenshot of the previous step](Images/TenantId.png)
 
   1. Open the `web.config` file in the project.
   1. Add the following node to the `<appSettings>` section, setting the value equal to the **directory tenant ID** you acquired in the previous step:
@@ -335,7 +335,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     1. Right-click the folder and select **Add/View**.
     1. Complete the **Add View** dialog as shown in the following picture, then click **Add**:
       
-      ![](Images/LoginPartial.png)
+      ![Screenshot of the previous step](Images/LoginPartial.png)
 
     1. Add the following code to the **_LoginPartial.cshtml** file:
 
@@ -390,7 +390,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
 
-    ![](Images/ConsentDialog.png)
+    ![Screenshot of the previous step](Images/ConsentDialog.png)
 
   1. Click **OK** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
@@ -617,15 +617,15 @@ The last step is to test the file handler.
 1. Locate a document library and upload the text file **office365.blog**.
 1. After uploading the file, notice the icon for your file handler is showing:
 
-  ![](Images/Figure04.png)
+  ![Screenshot of the previous step](Images/Figure04.png)
 
 1. Hover over the file & click the "dot-dot-dot" menu to see the preview handler... it look similar to the following figure that renders a preview of the file.
 
-  ![](Images/Figure05.png)
+  ![Screenshot of the previous step](Images/Figure05.png)
 
 1. Now click the file to open it... you should see the open action for your custom file handler kick in to render the feed:
 
-  ![](Images/Figure06.png)
+  ![Screenshot of the previous step](Images/Figure06.png)
 
 Congratulations! In this exercise you coded, deployed and tested your custom file handler for Office 365.
 

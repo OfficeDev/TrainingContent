@@ -15,7 +15,7 @@ In this lab you will configure your SharePoint 2013 development environment to s
 5. In the Active Directory Zone Replication Scope page, click Next.
 6. In the Zone Name page, in the Zone name box type **wingtipapps.com**, and then click Next.
 <br/>
-![](Images/Fig01.png)
+![Screenshot of the previous step](Images/Fig01.png)
 
 7. On the Dynamic Update page, click Next.
 8. On the Completing the New Zone Wizard page, click Finish.
@@ -25,14 +25,14 @@ In this lab you will configure your SharePoint 2013 development environment to s
 2. In the New Resource Record dialog box, in the Alias name (uses parent domain if left blank) box, type *. The Fully qualified domain name (FQDN) box will display *.wingtipapps.com.
 3. Next to the Fully qualified domain name (FQDN) for target host box, type **wingtipserver.wingtip.com**.
 4. Click OK.
-<br />![](Images/Fig02.png)
+<br />![Screenshot of the previous step](Images/Fig02.png)
 
 ## Exercise 2: Configure SharePoint Service Applications
 1. Launch SharePoint Central Administration
 2. In SharePoint Central Administration, in the **Application Management** group, click **Manage service applications**.
 3. Look for a service application with the type **App Management Service Application**. If the application is found, proceed to step 9.
 4. If no service application with the type of **App Management Service Application** is found, click on the **New** button in the SharePoint ribbon.
-<br />![](Images/Fig03.png)
+<br />![Screenshot of the previous step](Images/Fig03.png)
 5. Choose App Management Service.
 6. In the Service Application Name box enter **App Management Service**.
 7. In the Application Pool section, choose **Use existing app pool** and select **SharePoint Web Services Default**.
@@ -45,7 +45,7 @@ In this lab you will configure your SharePoint 2013 development environment to s
 		New-SPSubscriptionSettingsServiceApplicationProxy -ServiceApplication $subscriptionSettingsServiceApplication
 
 12. Review the Service Applications page to ensure both Service Applications have been created.
-<br/>![](Images/Fig04.png)
+<br/>![Screenshot of the previous step](Images/Fig04.png)
 13. Ensure that the services are started. Launch **SharePoint 2013 Management Studio** and enter the following command:
  
 		Get-SPServiceInstance | where{$_.GetType().Name -eq "AppManagementServiceInstance" -or $_.GetType().Name -eq "SPSubscriptionSettingsServiceInstance"} | Start-SPServiceInstance
@@ -62,14 +62,14 @@ In this lab you will configure your SharePoint 2013 development environment to s
 2. On your developer workstation, launch Visual Studio as administrator.
 3. Create a new project in Visual Studio 2013 by selecting the menu command **File > New > Project**.
 4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **Test SharePoint-Hosted app**, a location of **C:\DevProjects** and a Solution name of **Test SharePoint-Hosted app** and then click **OK** button.
-<br />![](Images/Fig05.png)
+<br />![Screenshot of the previous step](Images/Fig05.png)
 
 5. In the **New app for SharePoint** wizard, enter the URL for your on-premises Developer site and select **SharePoint-hosted** for the app hosting model. When done, complete the wizard by clicking the **Finish** button.
-<br />![](Images/Fig06.png)
+<br />![Screenshot of the previous step](Images/Fig06.png)
 6.	Build and Test the Project by pressing **[F5]** or **Debug > Start Debugging**.
 7.	The installation process for an app will take a moment to complete. If you watch the lower-left corner of Visual Studio, it will tell you what it is currently doing. If you want more information, click the Output tab at the bottom of Visual Studio to see a log of what is going on. If the Output tab isn’t present, select the window from the menu in Visual Studio 2013 using the menu command **View > Output**.
 16.	Once the app has been installed, Internet Explorer will launch and navigate to the app’s start page **default.aspx** page.
-<br />![](Images/Fig07.png)
+<br />![Screenshot of the previous step](Images/Fig07.png)
 1. You have completed the configuration for SharePoint-hosted Apps.
 
 ## Exercise 4: Configure SharePoint for High-Trust Apps
@@ -154,13 +154,13 @@ In this lab you will configure your SharePoint 2013 development environment to s
 2. On your developer workstation, launch Visual Studio as administrator.
 3. Create a new project in Visual Studio 2013 by selecting the menu command **File > New > Project**.
 4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **Test High-Trust App**, a location of **C:\DevProjects** and a Solution name of **Test High-Trust App** and then click **OK** button.
-<br />![](Images/Fig08.png)
+<br />![Screenshot of the previous step](Images/Fig08.png)
 
 5.	Next, you will see the **New app for SharePoint wizard** which begins by prompting you with the **Specify the App for SharePoint Settings** page. Enter the URL to your on-premises developer site, configure the app's hosting model to be **Provider-hosted** and click **Next**.
-<br /> ![](Images/Fig09.png)
+<br /> ![Screenshot of the previous step](Images/Fig09.png)
 
 6. On the **Specify the web project type** page, select the **ASP.NET Web Forms Application** setting and click **Next**.
-<br /> ![](Images/Fig10.png)
+<br /> ![Screenshot of the previous step](Images/Fig10.png)
 
 7.	On the **Configure authentication settings** page, complete the form as follows:
 
@@ -173,18 +173,18 @@ In this lab you will configure your SharePoint 2013 development environment to s
 	* Issuer ID: **11111111-1111-1111-1111-111111111111**
 
 	Click **Finish**.
-<br /> ![](Images/Fig11.png)
+<br /> ![Screenshot of the previous step](Images/Fig11.png)
 
 8.	Build and Test the Project by pressing **[F5]** or **Debug > Start Debugging**.
 9.	The installation process for an app will take a moment to complete. If you watch the lower-left corner of Visual Studio, it will tell you what it is currently doing. If you want more information, click the Output tab at the bottom of Visual Studio to see a log of what is going on. If the Output tab isn’t present, select the window from the menu in Visual Studio 2013 using the menu command **View > Output**.
 10.	Once the app has been installed, Visual Studio will display a Security Alert. Click **Yes** to trust the self-signed certificate on the machine and unblock the app for debugging.
-<br />![](Images/Fig12.png)
+<br />![Screenshot of the previous step](Images/Fig12.png)
 11.	Windows will display a Security Alert as Visual Studio installs the self-signed certificate. Click **Yes**
-<br />![](Images/Fig13.png)
+<br />![Screenshot of the previous step](Images/Fig13.png)
 12.	Internet Explorer will launch and navigate to the app’s start page **default.aspx** page. You may be prompted to trust the app. If so, click **Trust it**
-<br />![](Images/Fig14.png)
+<br />![Screenshot of the previous step](Images/Fig14.png)
 13. The app home page will display, which simply displays the name of the developer site.
-<br />![](Images/Fig15.png)
+<br />![Screenshot of the previous step](Images/Fig15.png)
 14. You have completed the configuration for High-trust, provider-hosted Apps.
 
 
@@ -315,7 +315,7 @@ In this lab you will configure your SharePoint 2013 development environment to s
 	**Note:** The URL specified for the -AADDomain parameter should match the Office 365 site mentioned in the prerequisites and the URL specified for the -SharePointWeb parameter must be the URL of the on-premises SharePoint web application in which you will be installing apps.
 
 5. The script will prompt for the administrator credentials of the Office 365 Site. Enter the user account with the *.onmicrosoft.com domain.
-<br />![](Images/Fig16.png)
+<br />![Screenshot of the previous step](Images/Fig16.png)
 
 6. The script will configure Office 365 and Azure ACS to issue app authentication tokens and will configure the on-premises farm to accept tokens issued by ACS.
 
@@ -325,25 +325,25 @@ In this lab you will configure your SharePoint 2013 development environment to s
 2. On your developer workstation, launch Visual Studio as administrator.
 3. Create a new project in Visual Studio 2013 by selecting the menu command **File > New > Project**.
 4. In the **New Project** dialog, find the **App for SharePoint 2013** project template under the **Templates > Visual C# >   Office / SharePoint > Apps** section. Enter a name of **Test ACS Auth App**, a location of **C:\DevProjects** and a Solution name of **Test ACS Auth App** and then click **OK** button.
-<br />![](Images/Fig18.png)
+<br />![Screenshot of the previous step](Images/Fig18.png)
 
 5.	Next, you will see the **New app for SharePoint wizard** which begins by prompting you with the **Specify the App for SharePoint Settings** page. Enter the URL to your on-premises developer site, configure the app's hosting model to be **Provider-hosted** and click **Next**.
-<br /> ![](Images/Fig09.png)
+<br /> ![Screenshot of the previous step](Images/Fig09.png)
 
 6. On the **Specify the web project type** page, select the **ASP.NET Web Forms Application** setting and click **Next**.
-<br /> ![](Images/Fig10.png)
+<br /> ![Screenshot of the previous step](Images/Fig10.png)
 
 7.	On the **Configure authentication settings** page, accept the default settings and click **Finish**.
-<br /> ![](Images/Fig17.png)
+<br /> ![Screenshot of the previous step](Images/Fig17.png)
 
 8.	Build and Test the Project by pressing **[F5]** or **Debug > Start Debugging**.
 9.	The installation process for an app will take a moment to complete. If you watch the lower-left corner of Visual Studio, it will tell you what it is currently doing. If you want more information, click the Output tab at the bottom of Visual Studio to see a log of what is going on. If the Output tab isn’t present, select the window from the menu in Visual Studio 2013 using the menu command **View > Output**.
 10.	Once the app has been installed, Visual Studio may display a Security Alert. Click **Yes** to trust the self-signed certificate on the machine and unblock the app for debugging. 
-<br />![](Images/Fig12.png)
+<br />![Screenshot of the previous step](Images/Fig12.png)
 11.	Windows may display a Security Alert if Visual Studio installs the self-signed certificate. Click **Yes**
-<br />![](Images/Fig13.png)
+<br />![Screenshot of the previous step](Images/Fig13.png)
 12.	Internet Explorer will launch and navigate to the app’s start page **default.aspx** page. You may be prompted to trust the app. If so, click **Trust it**
-<br />![](Images/Fig19.png)
+<br />![Screenshot of the previous step](Images/Fig19.png)
 13. The app home page will display, which simply displays the name of the developer site.
-<br />![](Images/Fig15.png)
+<br />![Screenshot of the previous step](Images/Fig15.png)
 14. You have completed the configuration for connecting an on-premises farm to ACS.

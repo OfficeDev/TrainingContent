@@ -19,23 +19,23 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 4. Click **Add** from the bottom menu.
 5. On the **What do you want to do** page, click **Add an application my organization is developing**.
 6. On the **Tell us about your application** page, specify **O36531Win10App** for the application name and select **NATIVE CLIENT APPLICATION** for Type.
-![](Images/1.png)
+![Screenshot of the previous step](Images/1.png)
 7. Click the arrow icon on the bottom-right corner of the page.
 8. On the Application information page, specify a Redirect URI, for this example, you can specify http://O36531Win10App/microsoftgraphapi. Click the checkbox on the bottom-right corner of the page.
-![](Images/2.png)
+![Screenshot of the previous step](Images/2.png)
 9. Once the application has been successfully added, you will be taken to the Quick Start page for the application. From here, click **Configure** on the top menu.
-![](Images/3.png)
+![Screenshot of the previous step](Images/3.png)
 10. In **permissions to other applications**, click **Add application**.
-![](Images/4.png)
+![Screenshot of the previous step](Images/4.png)
 11. Click **Microsoft Graph**, and then click the check mark icon. 
-![](Images/5.png)
+![Screenshot of the previous step](Images/5.png)
 12. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
     - Read files that the user selects
 	- Read user files and files shared with user	
 	- Sign in and read user profile
 13. Click **Save**
 14. Copy the value specified for **Client ID** and **REDIRECT URIS**; you will need this later when coding the **MyFilesWin10** project.
-![](Images/6.png)
+![Screenshot of the previous step](Images/6.png)
 
 ### Prepare the Visual Studio Solution
 
@@ -49,7 +49,7 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 1. Click **OK**.
 1. Click **I Accept**.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Enter your Client ID.
-![](Images/7.png)
+![Screenshot of the previous step](Images/7.png)
 
 ## Exercise 2: Add class to implement authentication and represent the data returned from the Microsoft Graph.
 In this exercise, you will add an authentication class to get access token for Microsoft Graph. Then use this access token to get my files.
@@ -137,15 +137,15 @@ In this exercise, you will add an authentication class to get access token for M
     
 1. Configure the debug mode in VS to match the screenshot below and press **F5** to run the program.
 
-   ![](Images/8.png)
+   ![Screenshot of the previous step](Images/8.png)
 
 1. Click the **Get token** button. The access token is printed in the output box.
 
-   ![](Images/9.png)
+   ![Screenshot of the previous step](Images/9.png)
 
 1. Click the **Get files** button. Explore the file list in the output box.
 
-   ![](Images/10.png)
+   ![Screenshot of the previous step](Images/10.png)
 
 
 You have completed the lab for this module.

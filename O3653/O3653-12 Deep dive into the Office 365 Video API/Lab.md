@@ -14,14 +14,14 @@ In this exercise, you will use the Video Portal's Web interface to create some c
 1. Open a browser, navigate to https://portal.office.com and login using your Office 365 credentials.
 1. Using the waffle menu in the top-left corner, open the App Launcher and select the **Video** tile to navigate to the Video Portal for your tenant.
 
-  ![](Images/Fig01.png)
+  ![Screenshot of the previous step](Images/Fig01.png)
 
 1. Create two new channels:
   1. Click the **Channels** menu item in the top horizontal navigation.
   1. Click the **New Channel** menu item in the top horizontal navigation.
   1. Give the channel a name & assign it a unique color, then click the **Create** button. For this first channel we are using **Build 2015** and the color **blue**:
 
-    ![](Images/Fig02.png)
+    ![Screenshot of the previous step](Images/Fig02.png)
 
   1. Repeat the process creating a second channel. For the second channel, we used the name **Ignite 2015** and the color **red**.
 
@@ -30,12 +30,12 @@ In this exercise, you will use the Video Portal's Web interface to create some c
   1. Click the **Upload** menu item in the top horizontal navigation.
   1. Next, click the icon on the **Select videos to upload** box and select a few videos from your computer to upload.
 
-    ![](Images/Fig03.png)
+    ![Screenshot of the previous step](Images/Fig03.png)
 
   1. Repeat the process to upload additional videos to the second channel.
   1. Once some videos have been uploaded when you navigate to a channel you should see a list of the videos you uploaded.
 
-    ![](Images/Fig04.png)
+    ![Screenshot of the previous step](Images/Fig04.png)
 
   > They may take some time to show up while they are processed by the system so be patient. The size of the videos will also impact the time it takes for them to be processed.
 
@@ -57,7 +57,7 @@ In this exercise, you will take an existing ASP.NET MVC application and make som
   1. Copy the **SSL URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
-    ![](Images/Fig05.png)
+    ![Screenshot of the previous step](Images/Fig05.png)
 
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
@@ -96,11 +96,11 @@ In this exercise, you will take an existing ASP.NET MVC application and make som
   1. Select the application you created for this lab. This is the name of the application in the **App Properties** dialog when you were adding the **Connected Service** in the last exercise.
   1. Select the **Quick Start** page for the in the top navigation... that's the left-most menu item that looks like a lightning bolt in a cloud:
 
-    ![](Images/Fig06.png)
+    ![Screenshot of the previous step](Images/Fig06.png)
  
   1. On the Quick Start page, expand the **Get Started** / **Enable Users to Sign On**. Locate the field **Federation Metadata Document URL**. Within that field value you will see a GUID immediately after the `login.windows.net` part of the URL. Copy just the GUID value to the clipboard.
 
-    ![](Images/Fig07.png)
+    ![Screenshot of the previous step](Images/Fig07.png)
 
   1. Open the `web.config` file in the project.
   1. Add the following node to the `<appSettings>` section, setting the value equal to the **directory tenant ID** you acquired in the previous step:
@@ -353,7 +353,7 @@ Now you will create a repository object that will be used for all data access be
 1. When the web application loads, click the **Sign In** link in the top right navigation.
 1. Once you've successfully signed into AzureAD, you will be taken back to your application. Click the **Channels** link in the navigation and after a few seconds you should see a list of your channels:
 
-  ![](Images/Fig08.png)
+  ![Screenshot of the previous step](Images/Fig08.png)
 
 In this exercise you extended the ASP.NET MVC project to add support for browsing the channels in your Office 365 Video Portal.
 
@@ -801,17 +801,17 @@ Create a controller for handing the listing, creation and deleting of videos in 
 1. Once you've successfully signed into AzureAD, you will be taken back to your application. Click the **Channels** link in the navigation and after a few seconds you should see a list of your channels:
 1. Then click the **Videos** link to see a list of all the videos in that channel.
 
-  ![](Images/Fig09.png)
+  ![Screenshot of the previous step](Images/Fig09.png)
 
 1. Now try uploading a video. Click the **Create new** link and upload a video. 
 
-  ![](Images/Fig10.png)
+  ![Screenshot of the previous step](Images/Fig10.png)
 
   > For this lab, it's recommend trying to upload a small video, one less than 10 MB as this lab was written to upload the video in one chunk. The API does support uploading chunks, but this lab was written to upload a single chunk for simplicity. Refer to the Video REST API for more information on uploading chunks.
 
 1. Once the video has uploaded you will be taken to the video list page. If you click on the video you just uploaded, you will be taken it's page in the Video Portal:
 
-  ![](Images/Fig11.png)
+  ![Screenshot of the previous step](Images/Fig11.png)
 
 1. Go back to the list of all the videos in a channel and click the **Delete** link next to the video you uploaded. Within a few seconds you should see the video is deleted and removed from the list.
 

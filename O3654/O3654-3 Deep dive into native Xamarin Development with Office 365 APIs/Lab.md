@@ -20,24 +20,24 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 1. Launch **Visual Studio 2013** as administrator. 
 2. In Visual Studio select **File/New/Project**.
 3. In the **New Project** dialog, select **Templates > Visual C# > Android** and click **Blank App (Android)**. Name the project **XamarinLab** and click **OK**.    
-![](Images/Fig01.png)  
+![Screenshot of the previous step](Images/Fig01.png)  
 4. Inspect the high-level structure of the new project that has just been created. Note that the source file at the root of the project named **MainActivity.cs** contains the code which initializes the app's user interface. You should also understand that the source file in the **Resources/layouts** folder named **Main.axml** provides a layout of controls that is used by the app's user interface.  
-![](Images/Fig02.png)  
+![Screenshot of the previous step](Images/Fig02.png)  
 5. Right-click on the **XamarinLab** project and select Properties to display the project property dialog. On the **Application** tab, you should see that are three settings named (1) **Compile using Android version**, (2) **Minimum Android to target**, and (3) **Target Android version**. Configure each of these three settings with a value of **API Level 19 (Xamarin.Android v4.4 support)**.  
-![](Images/Fig03.png)  
+![Screenshot of the previous step](Images/Fig03.png)  
 6. Navigate to the **Android Manifest** tab and update the **Application name** from **XamarinLab** to **Xamarin Lab**.   
-![](Images/Fig04.png)  
+![Screenshot of the previous step](Images/Fig04.png)  
 7. Navigate to the **Android Option** tab and take a quick look at the default settings. There is no need to actually change anything.  
-![](Images/Fig05.png)
+![Screenshot of the previous step](Images/Fig05.png)
 8. Save your changes and close the project properties dialog.
 9. Locate the Android layout file named **Main.axml** in the **Resources/layouts** folder. 
 10. Double-click on **Main.axml** to open it in the Xamarin Android layout designer.  
-![](Images/Fig06.png)  
+![Screenshot of the previous step](Images/Fig06.png)  
 11. Select the button in the layout designer and then display the Visual Studio property sheet so you can view the button's properties. using the property sheet, update the **id** property of the button to **@+id/cmdGetContacts** and also update the **text** property to **Get Contacts** as shown in the following screenshot.     
-![](Images/Fig07.png)
+![Screenshot of the previous step](Images/Fig07.png)
 12. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
 13. Click the **Get Contacts** button and make sure you see the "hello world" message.
-![](Images/Fig08.png)  
+![Screenshot of the previous step](Images/Fig08.png)  
 14. Switch over to code view in the Android layout designer. The final AXML code that has been generated should match the AXML in the following code listing.
 		
 		<?xml version="1.0" encoding="utf-8"?>
@@ -59,7 +59,7 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 		</LinearLayout>
 16. Save and close **Main.axml**.
 17. Open **MainActivity.cs** on a code editor and take note that the **MainActivty** class is defined with the **Activity** attribute. Update the **Label** parameter of the **Activity** attribute from **XamarinLab** to **Xamarin Lab**.
-![](Images/Fig09.png)
+![Screenshot of the previous step](Images/Fig09.png)
 17. Update the code in **MainActivity** class to match the following code listing.
 		
 		using System;
@@ -89,9 +89,9 @@ In this exercise, you will create a new Visual Studio project for a Xamarin app.
 		  }
 		}
 18. Now it's time to test out your work. Press **{F5}** to start a debugging session with the Android emulator. After a bit, you should be able to see the app running in Android emulator.  You should see the **Hello World** message on the screen.
-![](Images/Fig10.png)
+![Screenshot of the previous step](Images/Fig10.png)
 19. When you click the **Get Contacts** button you should see the message **Hello from C#**.
-![](Images/Fig11.png)
+![Screenshot of the previous step](Images/Fig11.png)
 20. Close the Android emulator, return to Visual Studio and make sure the debugging session has been terminated.
 
 ## Exercise 2: Creating an Android Adapter Class
@@ -99,7 +99,7 @@ In this exercise, you will work with the Activity-based UI model that is the fou
 
 1. In the Solution Explorer, expand the project node to show **Resources/layouts**.
 2. Right-click and the **layouts** node and select **Add > New Item**. In the **Add New Item** dialog, select the **Android Layout** item template and give it a name of **ContactListItem.axml**. Click **OK** to add the new layout into the **layouts** folder.
-![](Images/Fig12.png)
+![Screenshot of the previous step](Images/Fig12.png)
 3. In the Android layout designer for **ContactListItem.axml**, switch to code view and copy and paste the XAML code below to create the new layout.
 		
 		<?xml version="1.0" encoding="utf-8"?>
@@ -130,9 +130,9 @@ In this exercise, you will work with the Activity-based UI model that is the fou
 		</RelativeLayout>
 4. Save and close the Android layout **ContactListItem.axml**.
 5. In the Solution Explorer, create a new top-level folder named **Model**.    
-![](Images/Fig13.png)  
+![Screenshot of the previous step](Images/Fig13.png)  
 6. Right-click the **Model** folder and add a class named **MyContacts**.  
-![](Images/Fig14.png)  
+![Screenshot of the previous step](Images/Fig14.png)  
 7. Implement the **MyContacts** class using the class definition shown in the following code listing.
 
 		namespace XamarinLab.Model {
@@ -143,7 +143,7 @@ In this exercise, you will work with the Activity-based UI model that is the fou
 		  }
 		}
 8. Right-click the **Model** folder and add a second class named **MyContactsAdapter**.    
-![](Images/Fig15.png)
+![Screenshot of the previous step](Images/Fig15.png)
 9. Copy-and-paste the following code listing into **MyContactsAdapter.cs** to provide the boilerplate starting point for an Android adapter class.
 
 		
@@ -234,7 +234,7 @@ In this exercise, you will work with the Activity-based UI model that is the fou
 		  }
 		}
 17. Test out your work by pressing **{F5}** and starting a debugging session with the Android emulator. You should be able to click the **Get Contacts** button and see the three sample contacts that were added to the adapter in **MainActivity.cs**.  
-![](Images/Fig16.png)
+![Screenshot of the previous step](Images/Fig16.png)
 18. Close the Android emulator, return to Visual Studio and make sure the debugging session has been terminated.
 
 ## Exercise 3: Adding a Connected Service to a Xamarin App
@@ -242,16 +242,16 @@ In this exercise, you will add a Connected Service to the project in order to pr
 
 
 1. In the **Solution Explorer**, right click the **XamarinLab** project and select **Add/Connected Service**.    
-![](Images/Fig17.png)
+![Screenshot of the previous step](Images/Fig17.png)
 2. In the **Services Manager** dialog, click **Register Your App**.
 3. When prompted, login with your **Organizational Account**. After you have logged in, you should be able to see services for which you can configure permission requests.    
-![](Images/Fig18.png)
+![Screenshot of the previous step](Images/Fig18.png)
 4. Select **Contacts** and then click **Permissions**.
 5. Check both check boxes and then click **Apply**.  
-![](Images/Fig19.png)
+![Screenshot of the previous step](Images/Fig19.png)
 6. Click **OK** to save your changes and dismiss the **Services Manager** dialog.
 7. Inspect the Office 365 API assembly references that were automatically been added to your project when you added the Connected Service.  
-![](Images/Fig20.png)
+![Screenshot of the previous step](Images/Fig20.png)
 8. You will also notice a C# file named **ContactsApiSample.cs** has been added to your project. Open that file and inspect the C# code inside to get an idea of how to program against the Office 365 APIs to authenticate and retrieve Office 365 contacts.
 9. When you are done, close **ContactsApiSample.cs** and move on to the next exercise.
 
@@ -334,11 +334,11 @@ In this final exercise, you will make use of the Connected Service you added in 
 		  myContactsAdapter.NotifyDataSetChanged();             
 		};
 5. Now it's time to test your work by pressing the **{F5}** key to start a debugging session in the Android emulator. Wait until the app has initialized and then click the **Get Contacts** button. After a few second, you should be prompted to sign into Office 365 with your organization account credentials.
-![](Images/Fig21.png) 
+![Screenshot of the previous step](Images/Fig21.png) 
 6. Once you have signed in using your credentials, you should be prompted with a page that shows you the requested permissions and asks you to confirm that you trust the app. Click **OK** to continue. 
-![](Images/Fig22.png)
+![Screenshot of the previous step](Images/Fig22.png)
 7. At this point, you should see a set of contacts from Office 365 account.
-![](Images/Fig23.png)
+![Screenshot of the previous step](Images/Fig23.png)
 Congratulations! You have completed a simple hybrid app project using Xamarin and the Office 365 APIs.
 
 

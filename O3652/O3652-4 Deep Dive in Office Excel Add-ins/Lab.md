@@ -13,28 +13,28 @@ In this exercise you will create a new Office Add-in project in Visual Studio so
 1. Launch Visual Studio 2015 as an administrator.
 2. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Office Add-in** project template from the **Office/SharePoint** template folder as shown below. Name the new project **LoanAppraisal** and click **OK** to create the new project.  
 
-	![](Images/Fig01.png)
+	![Screenshot of the previous step](Images/Fig01.png)
 
 3. When you create a new Add-in for Office project, Visual Studio prompts you with the **Choose the add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue. 
 
-	![](Images/Fig02.png)
+	![Screenshot of the previous step](Images/Fig02.png)
 
 4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office application except for **Excel** and then click **Finish** to create the new Visual Studio solution.  
 
-	![](Images/Fig03.png)
+	![Screenshot of the previous step](Images/Fig03.png)
 
 5. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **LoanAppraisal** and **LoanAppraisalWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **LoanAppraisalManifest** which contains a single file named **LoanAppraisal.xml**.  
 
-	![](Images/Fig04.png)
+	![Screenshot of the previous step](Images/Fig04.png)
 
 6. In the Solution Explorer, double-click on the node named **LoanAppraisalManifest** to open the add-in manifest file in the Visual Studio designer. Update the **Display Name** settings in the Add-in manifest from **LoanAppraisal** to **Loan Appraisal Add-in**.  
 
-	![](Images/Fig05.png)
+	![Screenshot of the previous step](Images/Fig05.png)
 
 7. Save and close **LoanAppraisalManifest**.
 8. Over the next few steps you will walk through the default Add-in implementation that Visual Studio generated for you when the Add-in project was created. Begin by looking at the structure of the **AddIn** folder which has two important files named **app.css** and **app.js** which contain CSS styles and JavaScript code which is to be used on an app-wide basis.
 
-	![](Images/Fig06.png)
+	![Screenshot of the previous step](Images/Fig06.png)
 
 9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**. 
 10. Double-click on **app.js** to open it in a code editor window. you should be able to see that the code creates a global variable named **app** based on the JavaScript *Closure* pattern. The global **app** object defines a method named **initialize** but it does not execute this method. 
@@ -175,7 +175,7 @@ In this exercise you will create a new Office Add-in project in Visual Studio so
 
 20. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Excel 2016 and you should see your **LoanAppraisal** Add-in in the task pane on the right side of a new Excel workbook as shown in the following screenshot.  
 
-	![](Images/Fig07.png)
+	![Screenshot of the previous step](Images/Fig07.png)
 
 21. Close Microsoft Excel to terminate your debugging session and return to Visual Studio.
 
@@ -186,30 +186,30 @@ In this exercise you will create a new Office Add-in project in Visual Studio so
 2. Download [**TestDoc.xlsx**](Starter Files/TestDoc.xlsx?raw=true).
 3. Double-click on **TestDoc.xlsx** to open the workbook in Microsoft Excel.  You should see that the workbook provides mortgage loan information and a chart as shown in the following screenshot.  
 
-	![](Images/Fig08.png)  
+	![Screenshot of the previous step](Images/Fig08.png)  
 
 4. Close **TestDoc.xlsx** and also close Microsoft Excel.
 5.	Add the file **TestDoc.xlsx** into the **LoanAppraisal** project. The easiest way to do this is to copy the file to the clipboard in Windows Explorer and then to paste it into the root of the the **LoanAppraisal** project and then include it in the project. When you are done, you should be able to see **TestDoc.xlsx** at the root of the **LoanAppraisal** project right below **LoanAppraisalManifest** as shown in the following screenshot.
 
-	![](Images/Fig09.png)  
+	![Screenshot of the previous step](Images/Fig09.png)  
 
 6.	With the **LoanAppraisal** project selected in the Solution Explorer, locate the properties window and modify the **Start Document** property to **TestDoc.xslx**.  
 
-	![](Images/Fig10.png)  
+	![Screenshot of the previous step](Images/Fig10.png)  
 
 7.	Press **{F5}** to begin a debugging session. You should see that Visual Studio initialize the debugging session with **TestDoc.xlsx** instead of using a new Excel workbook. However, you might notice that the **LoanAppraisal** Add-in has not be activated. In the Excel ribbon, navigate to the **Insert** tab and select **Loan Appraisal Add-in** from the **My Add-ins** drop down menu.
 
-	![](Images/Fig11.png)
+	![Screenshot of the previous step](Images/Fig11.png)
 
 8.	You should now see that the Add-in has activated over in the task pane.  
 
-	![](Images/Fig12.png)
+	![Screenshot of the previous step](Images/Fig12.png)
 
 9.	Inside Excel, save your changes to **TestDoc.xlsx** to update the test file to include the Add-in in future debugging sessions.
 10.	Close **TestDoc.xlsx** and then close Microsoft Excel.
 11.	Return to Visual Studio and press **{F5}** to start another debugging session. Now the Add-in should be initialized automatically when Visual Studio initialize a debugging session.  
 
-	![](Images/Fig12.png)
+	![Screenshot of the previous step](Images/Fig12.png)
 
 12.	Now that you have integrated the test document into your project, it is time to move ahead to the next exercise where you will write code to bind to name ranges in the workbook.
 
@@ -258,7 +258,7 @@ In this exercise you will write code to create bindings on named ranges within t
 
 10. Start a debugging session by pressing the **{F5}** key to inspect the Add-in's new HTML layout. You should see the user interface appears like the one in the following screenshot.
 
-	![](Images/Fig13.png)    
+	![Screenshot of the previous step](Images/Fig13.png)    
 
 11.	Close Excel and return to Visual Studio.
 12.	Inside **Home.js**, place the cursor under the **"use strict;"** statement at the top of the closure and add the following code. 
@@ -433,7 +433,7 @@ In this exercise you will write code to create bindings on named ranges within t
 
 20. Now it's again time to test the Add-in in the Visual Studio. Press the **{F5}** key and wait for the debugging session and the Add-in to initialize. Once the Add-in has activated, you should be able to see it is displaying information about a loan for the current applicant as shown in the following screenshot. Also note that the UI for the Add-in will automatically update when you change the interest rate or the loan applicant.  
 
-	![](Images/Fig14.png)  
+	![Screenshot of the previous step](Images/Fig14.png)  
 
 21. Close Excel and return to Visual Studio.
 22. Inside **Home.js** directly below the **onApplicantChanged** function, add six new functions named **createBindings**, **onAllBindingCreated**, **updateBindingsToDocument**, **onBindingUpdated**, **updateBindingsFromDocument** and **onBindingReadFromDocument**.
@@ -599,7 +599,7 @@ In this exercise you will write code to create bindings on named ranges within t
 
 31. Now it's again time to test the Add-in in the Visual Studio. Press the **{F5}** key and wait for the debugging session and the Add-in to initialize. Once the Add-in has activated, test how the Add-in behaves when you change the Interest Rate or the Loan Applicant using the radio button at the bottom of the task pane. You should see that the Add-in updates information in the workbook and then retrieves values from the workbook for Monthly Payment and Yearly Mortgage and updates the UI in the task pane.
 
-	![](Images/Fig15.png)  
+	![Screenshot of the previous step](Images/Fig15.png)  
 
 Congratulations! In exercise you wrote code to create bindings on named ranges within the the Excel workbook named TestDoc.xlsx. You also created event handlers so that the Add-in responds to the user when interacting with the Add-in user interface.
 
@@ -613,11 +613,11 @@ In this exercise you will create a Excel Add-in that uses the v2 JavaScript API 
 
 3. When you create a new Office Add-in project, Visual Studio prompts you with the **Choose the add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue.
 
-	![](Images/Fig02.png)
+	![Screenshot of the previous step](Images/Fig02.png)
 
 4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office application except for **Excel** and then click **Finish** to create the new Visual Studio solution. 
 
-	![](Images/Fig03.png)
+	![Screenshot of the previous step](Images/Fig03.png)
 
 5. Now update the user interface for the Add-in:
 	1. Locate the `<body>` section of the page within the `home.html` file.

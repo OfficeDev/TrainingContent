@@ -6,22 +6,22 @@ In this exercise, you will create a Windows Azure service bus namespace to use w
 
 1.	In order to complete your work for this lab you must install support for the PowerShell cmdlets that are provided by Microsoft Azure PowerShell. Go to the [Microsoft Azure PowerShell Download Page](http://azure.microsoft.com/en-us/documentation/articles/install-configure-powershell/ "Install Windows Azure PowerShell page.") and install **Microsoft Azure PowerShell** support before moving on to the next step.  
 2.	At this point you should have **Microsoft Azure PowerShell** support installed on your local developer workstation.  
-![](Images/Figure01.png)
+![Screenshot of the previous step](Images/Figure01.png)
 3.	Press the **Windows** key to navigate to the Windows start page. and type "Azure PowerShell". Click on the **Microsoft Azure PowerShell** tile to launch the Azure PowerShell Console window.  
-![](Images/Figure01B.png)
+![Screenshot of the previous step](Images/Figure01B.png)
 4. In the Azure PowerShell Console window, execute the **Add-AzureAccount** cmdlet. When you execute this cmdlet, you will be prompted for login credentials. Log in with the credentials for your organizational account.
 5. In the Azure PowerShell Console window, execute the the **New-AzureSBNamespace** cmdlet to create a service bus namespace with a name such as **DeveloperTesting**.  You should replace **East US 2** with a different Azure location if that is more appropriate for your geographical location.  
 
 		New-AzureSBNamespace DeveloperTesting "East US 2" -CreateACSNamespace $true -NamespaceType Messaging
 6. When you execute the **New-AzureSBNamespace** cmdlet, you should be able to observe that the cmdlet has executed successfully and created a new service bus namespace with ACS support.  
-![](Images/Figure02.png)
+![Screenshot of the previous step](Images/Figure02.png)
 7.	Switch over to the browser and navigate to the **Azure Management Portal** at [https://manage.windowsazure.com](https://manage.windowsazure.com). Log in using the credentials associated with your organizational account. At this point, the Azure Management Portal should display the Azure objects that are associated with your Azure subscription.
 8. Locate and click the **Service Bus** link in the left-hand navigation menu.  
-![](Images/Figure03.png) 
+![Screenshot of the previous step](Images/Figure03.png) 
 9. On the **service bus** page, you should be able to see the service bus namespace you just created using Azure Powershell. Select this namespace and then click the **CONNECTION INFORMATION** button.
-![](Images/Figure03A.png)
+![Screenshot of the previous step](Images/Figure03A.png)
 10.	On the **Access connection information** page, locate the **ACS CONNECTION STRING** setting and copy its value to the Windows clipboard.   
-![](Images/Figure04.png)
+![Screenshot of the previous step](Images/Figure04.png)
 11. Open NOTEPAD.EXE and paste the value of the **ACS CONNECTION STRING** setting into a new text file. Save this file so that you can use this value in the following exercise.
 
 
@@ -31,29 +31,29 @@ In this exercise you will create a provider-hosted app which includes a remote e
 1.	Launch Visual Studio as Administrator.
 2.	Create a new project in Visual Studio 2013 by selecting **File > New > Project**.
 3.	In the **New Project** dialog, select the **App for SharePoint 2013** template under the **Templates > Visual C# > Office / SharePoint > Apps** section. Give the new app project a name of **RemoteEventsLab** and click **OK** to create the project.  
-![](Images/Figure05.png)  
+![Screenshot of the previous step](Images/Figure05.png)  
 4.	On the **Specify the app for SharePoint settings** page of the **New App for SharePoint** wizard, enter the URL of your Office 365 developer site and select the app hosting option of **Provider-hosted**. Click **Next** when you are done.  
-![](Images/Figure06.png)  
+![Screenshot of the previous step](Images/Figure06.png)  
 5.	On the **Specify the web project type** page, select **ASP.NET MVC Web Application** and click **Next**.  
-![](Images/Figure07.png)  
+![Screenshot of the previous step](Images/Figure07.png)  
 6.	On the **Configure authentication settings** page, select **Use Windows Azure Access Control Service** and click **Finish**.  
-![](Images/Figure08.png)  
+![Screenshot of the previous step](Images/Figure08.png)  
 7.	Visual Studio has now created a new solution with two projects named **RemoteEventsLab** and **RemoteEventsLabWeb**.  
-![](Images/Figure09.png)  
+![Screenshot of the previous step](Images/Figure09.png)  
 8.	In the top project, locate and double-click on **AppManifest.xml** to open the app manifest in the Visual Studio app manifest designer.  
-![](Images/Figure10.png)  
+![Screenshot of the previous step](Images/Figure10.png)  
 9.	On the **General** tab of the App Manifest Designer, modify the app **Title** property **Remote Events Lab**.  
-![](Images/Figure11.png)  
+![Screenshot of the previous step](Images/Figure11.png)  
 10.	On the **Permissions** tab of the App Manifest Designer, make sure the checkbox for the **Allow the app to make app-only calls** setting is checked. Add a permission request that is scoped to **Web** and configured with **Manage** permissions as shown in the following screenshot.  
-![](Images/Figure12.png)  
+![Screenshot of the previous step](Images/Figure12.png)  
 11.	Save and close **AppManifest.xml**.
 12.	In the Solution Explorer, right-click on the **RemoteEventLabs** project node and select **Properties**.
 13.	Select the **SharePoint** tab of the Project Properties page. Check the checkbox with the **Enable debugging via Microsoft Azure Service Bus** option.  Paste the ACS connection string you obtained in the previous exercise into the textbox as shown in the following screenshot.  
-![](Images/Figure14.png)  
+![Screenshot of the previous step](Images/Figure14.png)  
 14.	In Solution Explorer, select the top-level node for the **RemoteEventsLab** project and then inspect the project's property sheet.  Locate The **Handle App Installed** project property in the **App for SharePoint Events** section and change its value to True.  
-![](Images/Figure15.png)  
+![Screenshot of the previous step](Images/Figure15.png)  
 15.	Move down to the bottom project named **RemoteEventsLabWeb**. You should see the C# file named **HomeController.cs** which provides the MVC controller for the app. You should also notice that the project contains a new web service file named **AppEventReceiver.svc** along with an associated code-behind file named **AppEventReceiver.svc.cs** that were created when you configured support for the **AppInstalled** event handler.  
-![](Images/Figure13.png)  
+![Screenshot of the previous step](Images/Figure13.png)  
 16.	Open **HomeController.cs** and replace the existing implementation of the **Index** method with the following code which uses CSOM to obtain the set of non-hidden lists that exist within the host web and to pass this set of lists to the associated MVC view using the MVC **ViewBag** object.  
 
 		[SharePointContextFilter]
@@ -84,7 +84,7 @@ In this exercise you will create a provider-hosted app which includes a remote e
 		}
 17.	Save and close **HomeController.cs**.
 18.	Expand the **Views** folder and the two child folders inside so that you can see all the razor view files.  
-![](Images/Figure16.png)  
+![Screenshot of the previous step](Images/Figure16.png)  
 19.	Open the _**Layouts.cshtml** file in the **Shared** view folder and replace its contents with the following razor code.
 		
 		<!DOCTYPE html>
@@ -174,7 +174,7 @@ In this exercise you will create a provider-hosted app which includes a remote e
 		  return result;
 		}
 25. Test your work by pressing the **{F5}** key and launching the app in the Visual Studio debugger. When the app loads and displays the start page, you should see that Customers list created by the event handler for the AppInstalled event.
-![](Images/Figure17.png)  
+![Screenshot of the previous step](Images/Figure17.png)  
 26. Click on the link for the **Customers** list to navigate to the default view of this list..
-![](Images/Figure18.png)  
+![Screenshot of the previous step](Images/Figure18.png)  
 27. Close the browser and terminate the debugging session.

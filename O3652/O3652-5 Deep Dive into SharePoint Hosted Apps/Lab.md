@@ -14,17 +14,17 @@ In this exercise you will create a basic SharePoint-Hosted app that you can enha
     1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
     2. Click **App for SharePoint 2013**.
     3. Name the new project **DeepDiveSPApp** and click **OK**.<br/>
-       ![](Images/01.png?raw=true "Figure 1")
+       ![Screenshot of the previous step](Images/01.png?raw=true "Figure 1")
   4. In the New App for SharePoint wizard:
     1. Enter the address of a SharePoint site to use for testing the app (***NOTE:*** The targeted site must be based on a Developer Site template)
     2. Select **SharePoint Hosted** as the hosting model.
     3. Click **Finish**.<br/>
-       ![](Images/02.png?raw=true "Figure 2")
+       ![Screenshot of the previous step](Images/02.png?raw=true "Figure 2")
     4. When prompted, log in using your O365 administrator credentials.
 2. Test the app
   1. After the project is created, press **F5** to debug the app.
   2. Verify that the app launches and greets you.<br/>
-       ![](Images/03.png?raw=true "Figure 3")
+       ![Screenshot of the previous step](Images/03.png?raw=true "Figure 3")
   3. Stop debugging.
 3. The code in the project template utilizes the client-side object model (CSOM). However, it can be rewritten to utilize the equivalent REST calls.
   1. Open the **app.js** file located in the **scripts** folder.
@@ -65,10 +65,10 @@ In this exercise you will add an app part to your project for displaying song ti
   1. In **Visual Studio 2013**, right click the **DeepDiveSPApp** project and select **Add/New Item**.
   2. In the **New Item** dialog, select **Client Web Part (Host Web)**.
   3. Name the new app part **MusicPart** and click **Add**.<br/>
-       ![](Images/04.png?raw=true "Figure 4")
+       ![Screenshot of the previous step](Images/04.png?raw=true "Figure 4")
   4. In the **Specify the Client Web Part Page** dialog, select **Create a New App Web Page for the Client Web Part Content**.
   5. Click **Finish**</br>
-       ![](Images/05.png?raw=true "Figure 5")
+       ![Screenshot of the previous step](Images/05.png?raw=true "Figure 5")
   6. In the **Element.xml** file that describes the Client web part, **replace** the **ClientWebPart** element with the following code.
   ```xml
   <ClientWebPart 
@@ -113,7 +113,7 @@ In this exercise you will add an app part to your project for displaying song ti
   2. In the **Add New Item** dialog, select **Web** and then **JavaScript File**.
   3. Name the new file **apppart.js**.
   4. Click **Add**.<br/>
-       ![](Images/06.png?raw=true "Figure 6")
+       ![Screenshot of the previous step](Images/06.png?raw=true "Figure 6")
   5. *Add** the following code to **apppart.js** to call the MusicBrainz service and display songs for the designated artist.
   ```javascript
   (function () {
@@ -165,13 +165,13 @@ In this exercise you will add an app part to your project for displaying song ti
   1. Open **AppManifest.xml**
   2. Click **Remote Endpoints**
   3. Add the endpoint **http://www.musicbrainz.org** and click **Add**<br/>
-       ![](Images/07.png?raw=true "Figure 7")
+       ![Screenshot of the previous step](Images/07.png?raw=true "Figure 7")
   4. Press **F5** to start debugging.
   5. When the app launches, navigate away from the app home page to the home page of the **host web**.
   6. Place the page in edit mode.
   7. Click **Insert/App Part**.
   8. Select the **Music App Part** and click **Add**<br/>
-       ![](Images/08.png?raw=true "Figure 8")
+       ![Screenshot of the previous step](Images/08.png?raw=true "Figure 8")
   9. Hover over the app part and select **Edit Web Part** from the menu.
   10. In the **Web Part Properties**, change the **Artist** property to a different value.
   11. Click **OK** and verify that songs appear in the app part.
@@ -184,18 +184,18 @@ In this exercise you will add a Menu Item custom action to invoke the song searc
   1. In **Visual Studio 2013**, right click the **DeepDiveSPApp** project and select **Add/New Item**.
   2. In the **New Item** dialog, select **Menu Item Custom Action**.
   3. Name the new app part **SongSearchAction** and click **Add**.<br/>
-       ![](Images/09.png?raw=true "Figure 9")
+       ![Screenshot of the previous step](Images/09.png?raw=true "Figure 9")
   4. In the **Specify the Properties to Create Custom Action for menu Item** dialog
     1. Select **Host Web**
     2. Select **List Template**
     3. Select **Custom List**<br/>
     4. Click **Next**</br>
-       ![](Images/10.png?raw=true "Figure 10")
+       ![Screenshot of the previous step](Images/10.png?raw=true "Figure 10")
   5. In the **Specify the Properties to Create Custom Action for menu Item** dialog
     1. Enter **Song Search** as the title
     2. Enter **DeepDiveSPApp\Pages\MusicPart.aspx** as the target page
     3. Click **Finish**<br/>
-       ![](Images/11.png?raw=true "Figure 11")
+       ![Screenshot of the previous step](Images/11.png?raw=true "Figure 11")
   6. Open **MusicPart.aspx** for editing.
   7. **Add** the following script reference to the **head** section just before the **apppart.js** reference.
   ```javascript
@@ -251,7 +251,7 @@ In this exercise you will add a Menu Item custom action to invoke the song searc
   2. Click **Permissions**
   3. Select **Web** for the **Scope**.
   4. Select **Read** for the **Right**<br/>
-       ![](Images/12.png?raw=true "Figure 12")
+       ![Screenshot of the previous step](Images/12.png?raw=true "Figure 12")
   5. Press **F5** to start debugging.
   6. When the app launches, navigate away from the app home page to the home page of the **host web**.
   7. On the host web home page, click **Site Contents**.
@@ -259,7 +259,7 @@ In this exercise you will add a Menu Item custom action to invoke the song searc
   9. Click **Custom List**.
   10. Name the new list **Artists**.
   11. Click **Create**<br/>
-       ![](Images/13.png?raw=true "Figure 13")
+       ![Screenshot of the previous step](Images/13.png?raw=true "Figure 13")
   12. Add a new artist name to the list.
   13. Using the item menu, select **Song Search**.
 

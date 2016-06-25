@@ -12,7 +12,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 1. In the **New Project** dialog
   1. Select **Templates/Visual C#/Web**.
   1. Select **ASP.NET Web Application**.
-    ![](Images/01.png)
+    ![Screenshot of the previous step](Images/01.png)
   > **Note:** Make sure you enter the exact same name for the Visual Studio Project that is specified in these lab instructions. The Visual Studio Project name becomes part of the namespace in the code. The code inside these instructions depends on the namespace matching the Visual Studio Project name specified in these instructions. If you use a different project name the code will not compile unless you adjust all the namespaces to match the Visual Studio Project name you enter when you create the project.  
   1. Click **OK**.
 1. In the **New ASP.NET Project** dialog
@@ -26,9 +26,9 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   5. Uncheck **Host in the cloud**
   5. Click **OK**.
 
-    ![](Images/03.png)
+    ![Screenshot of the previous step](Images/03.png)
 
-    ![](Images/02.png)
+    ![Screenshot of the previous step](Images/02.png)
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
   
@@ -38,7 +38,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
 
-    ![](Images/ConsentDialog.png)
+    ![Screenshot of the previous step](Images/ConsentDialog.png)
 
   1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
@@ -54,22 +54,22 @@ In this exercise you will take the ASP.NET MVC web application you created in th
   1. Open **Office365PlannerTask** solution that you created in Exercise 1.
   1. Open **Web.config** file.
   
-     ![](Images/20.png)
+     ![Screenshot of the previous step](Images/20.png)
 
   1. Find **ida:ClientId**, then copy value to use later.
      
-     ![](Images/21.png)
+     ![Screenshot of the previous step](Images/21.png)
   
   1. Browse to the [Azure Management Portal](https://manage.windowsazure.com) and sign in with your **Organizational Account**.
   1. In the left-hand navigation, click **Active Directory**.
   1. Select the directory you share with your Office 365 subscription.
   1. Go to **APPLICATIONS** tab.
      
-     ![](Images/22.png)
+     ![Screenshot of the previous step](Images/22.png)
 
   1. Type **ClientId** value that you copied above and search.
   
-     ![](Images/23.png)
+     ![Screenshot of the previous step](Images/23.png)
 
   1. Select the application.
   1. Open **Configure** tab
@@ -81,7 +81,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     * **Read and write all groups**    
   1. Click the **Save** button at the bottom of the page.
 
-     ![](Images/AzurePermission.png)
+     ![Screenshot of the previous step](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
   1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
@@ -763,7 +763,7 @@ In this exercise, you will code the **PlanController** and **TaskController** of
 
   1. Verify that your application displays plans from your Office 365 account.  
 
-    ![](Images/04.png)
+    ![Screenshot of the previous step](Images/04.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -844,16 +844,16 @@ In this exercise, you will code the **PlanController** and **TaskController** of
   	> **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
 
   4. Click the **Create New** link. You should see the form below. Fill the form out to add a new item and click the **Create** button.
-    ![](Images/05.png)
+    ![Screenshot of the previous step](Images/05.png)
 
 	  > **Note:** You can't see this new Plan in the plan list immediately. Please go to the Planner page on the Office 365 site to sync it manually following these steps:
 	  > 1. Log in Office 365 site: https://login.microsoftonline.com/
 	  > 2. Go to the Planner page by clicking the **Planner** button. This may take a few days to appear after your tenancy is flighted with the Planner service. 
-	    ![](Images/O365HomePage.png) 
+	    ![Screenshot of the previous step](Images/O365HomePage.png) 
 	  > 3. Find the new plan in the planner page and click it to sync it.
-	    ![](Images/SyncNewPlan.png)
+	    ![Screenshot of the previous step](Images/SyncNewPlan.png)
 	  > 4. Then you can see the new plan by clicking the **Plans link** in the top menu bar.
-	    ![](Images/DisplayNewPlan.png)
+	    ![Screenshot of the previous step](Images/DisplayNewPlan.png)
   
   5. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -938,7 +938,7 @@ In this exercise, you will code the **PlanController** and **TaskController** of
 
   1. Click the **Update** link for one of the items. You should see the form below. Fill the form out to update the item, then click the **Save** button.
 
-    ![](Images/06.png)
+    ![Screenshot of the previous step](Images/06.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -1002,7 +1002,7 @@ In this exercise, you will code the **PlanController** and **TaskController** of
   1. Once the application is loaded click the **Plans link** in the top menu bar.
   1. Click the **Details** link for one of the items. 
 
-    ![](Images/07.png)
+    ![Screenshot of the previous step](Images/07.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -1090,7 +1090,7 @@ In this exercise, you will code the **PlanController** and **TaskController** of
 
   1. Click the **Tasks** link for one of the items. Verify that your application displays tasks from your selected plan.  
 
-    ![](Images/08.png)
+    ![Screenshot of the previous step](Images/08.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -1184,7 +1184,7 @@ In this exercise, you will code the **PlanController** and **TaskController** of
 
   1. Click the **Tasks** link for one of the plans. Click the **Create New** link. You should see the form below. Fill the form out to add a new item, then click the **Create** button.
 
-    ![](Images/09.png)
+    ![Screenshot of the previous step](Images/09.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -1279,7 +1279,7 @@ In this exercise, you will code the **PlanController** and **TaskController** of
 
   1. Click the **Tasks** link for one of the plans. Click the **Update** link for one of the items. You should see the form below. Fill the form out to update the item, then click the **Save** button.:
 
-    ![](Images/10.png)
+    ![Screenshot of the previous step](Images/10.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -1367,7 +1367,7 @@ In this exercise, you will code the **PlanController** and **TaskController** of
   1. Once the application is loaded click the **Plans link** in the top menu bar.
   1. Click the **Tasks** link for one of the plans. Click the **Details** link for one of the items. 
 
-    ![](Images/11.png)
+    ![Screenshot of the previous step](Images/11.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 

@@ -61,7 +61,7 @@ In this task we'll get the test application up and running.
     
 05. Click **OK** to import the project.
 
-    ![](img/0010_import_onedrive_app.png)
+    ![Screenshot of the previous step](img/0010_import_onedrive_app.png)
 
     Wait for Android Studio to finish importing the test project
 
@@ -69,13 +69,13 @@ In this task we'll get the test application up and running.
 
 07. Find the string resource named **app_name**, and change it to **O365 OneDrive Test App**.
 
-    ![](img/0015_edit_app_name.png)
+    ![Screenshot of the previous step](img/0015_edit_app_name.png)
     
     This resource is used in a number of places, including as the App's name in the Launcher.
 
 08. Open the `app/src/main/java/Constants.java` class.
 
-    ![](img/0020_open_constants_class.png)
+    ![Screenshot of the previous step](img/0020_open_constants_class.png)
 
 09. This class hosts a number of static constants which we must update.
     
@@ -88,7 +88,7 @@ In this task we'll get the test application up and running.
 10. Finally, let's test out the app and your changes. 
     Start up the application in the Emulator with **Run > Debug App**.
 
-    ![](img/0025_app_launch_screen.png)
+    ![Screenshot of the previous step](img/0025_app_launch_screen.png)
 
 11. Tap the **Sign in** button. Sign in using credentials for a user in your Office 365 Tenant. If successful, the blank `MainActivity` will be launched.
 
@@ -100,7 +100,7 @@ In this task you will add the **Microsoft Graph SDK** to the app and then config
 
 01. Open the `app/build.gradle` file.
 
-    ![](img/0030_app_build_gradle.png)
+    ![Screenshot of the previous step](img/0030_app_build_gradle.png)
 
 02. Find the `dependencies` section. Currently it has a reference to the ADAL.
 
@@ -117,11 +117,11 @@ In this task you will add the **Microsoft Graph SDK** to the app and then config
 
     E.g.
     
-    ![](img/0034_update_app_gradle_file.png)
+    ![Screenshot of the previous step](img/0034_update_app_gradle_file.png)
 
 04. Click **Sync Now**.
     
-    ![](img/0035_start_gradle_sync.png)
+    ![Screenshot of the previous step](img/0035_start_gradle_sync.png)
 
 05. Open the `MainActivity` class. It can be found under `app/src/main/java`.
 
@@ -311,7 +311,7 @@ In this exercise we will take a look at enumerating Files and Folders.
 
 05. Launch the app in the debugger with **Run > Debug App**. Sign in with a user from your Office 365 Tenant, and click **Retrieve Files**.
 
-    ![](img/0040_retrieve_files.png)
+    ![Screenshot of the previous step](img/0040_retrieve_files.png)
 
 06. Here's a list of the Files and Folders in the user's root OneDrive folder.
 
@@ -529,11 +529,11 @@ In this task we'll go through the steps required to download a file.
 
 06. Pick a file from the list.
 
-    ![](img/0045_pick_an_image_file.png)
+    ![Screenshot of the previous step](img/0045_pick_an_image_file.png)
 
 07. Here I picked an image file, and the app has successfully downloaded and rendered it:
 
-    ![](img/0050_image_file.png)
+    ![Screenshot of the previous step](img/0050_image_file.png)
 
 The interesting piece of code is the following statement:
 
@@ -656,7 +656,7 @@ content.
 
 06. Fill out the dialog and click **OK**.
 
-    ![](img/0055_create_new_folder.png)
+    ![Screenshot of the previous step](img/0055_create_new_folder.png)
 
 These functions prompt the user for a Folder name, and then create a folder through the Microsoft Graph.
 
@@ -832,7 +832,7 @@ The code creates a simple `Folder` model, and then adds it to the `root` folder.
 
 06. Fill out the dialog and click **OK**.
 
-    ![](img/0060_create_new_file.png)
+    ![Screenshot of the previous step](img/0060_create_new_file.png)
 
 These functions prompt the user for a File name, and then create a folder through the OneDrive API. Finally, they upload some UTF-8 encoded data.
 

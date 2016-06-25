@@ -15,33 +15,33 @@ In this exercise you will create an Outlook Add-in that will show a task pane wi
   1. You will be prompted to login using your Microsoft Account so go ahead and login.
   1. On the **What Type of Add-in do you want to build?** page, select a **Mail Add-in for Office** and give it a name of **MsftBuildings**:
 
-    ![](Images/Figure01.png)
+    ![Screenshot of the previous step](Images/Figure01.png)
 
   1. Click **Create**.
 1. At this point you have a new mail Outlook Add-in created. This add-in includes controls for both the email compose and read forms:
 
-  ![](Images/NapaAddin.png)
+  ![Screenshot of the previous step](Images/NapaAddin.png)
 
 ### Deploy and Test the Add-in
 1. Without working in the code, let's see how the deployment story works. In the left-hand navigation, click the play button to start the deployment:
 
-  ![](Images/NapaAddin-Play.png)
+  ![Screenshot of the previous step](Images/NapaAddin-Play.png)
 
 1. Napa will prompt you for your Office 365 credentials where it will deploy the add-in for you to debug. Enter the credentials for your Office 365 account.
 
-  ![](Images/LoginToO365.png)
+  ![Screenshot of the previous step](Images/LoginToO365.png)
 
   After logging in, it will upload your add-in to Office 365:
 
-  ![](Images/UploadingAddin.png)
+  ![Screenshot of the previous step](Images/UploadingAddin.png)
 
   Once the add-in is uploaded, Napa will try to launch a new browser window to your Outlook Web App environment. Your browser's pop-up blocker may impact this... if so you can manually launch it by clicking the provided link. In the future you may want to grant Napa access to open windows in your browser's pop-up blocker:
 
-  ![](Images/LaunchAddin.png)
+  ![Screenshot of the previous step](Images/LaunchAddin.png)
 
 1. Once the Outlook Web App loads, select an existing email. You will see the **MsftBuildings** add-in appear in the add-in bar below the email header:
 
-  ![](Images/DefaultAddin.png)
+  ![Screenshot of the previous step](Images/DefaultAddin.png)
 
 1. Close the browser that opened the Outlook Web App.
 
@@ -52,7 +52,7 @@ How would you stop working on the add-in and come back to it at a later date?
 
    Notice the app you created is shown as a tile on the page. This is how you can get back to your project at a later date.
 
-  ![](Images/Napa01.png)
+  ![Screenshot of the previous step](Images/Napa01.png)
 
 ### Share the Outlook Add-in
 In Napa you can also share a project with someone else that you are currently working on. 
@@ -60,11 +60,11 @@ In Napa you can also share a project with someone else that you are currently wo
 1. From the Napa homepage, select the add-in project **MsftBuildings**.
 1. In the left-hand navigation, click the share icon which looks like a little three-way broken circle:
 
-  ![](Images/NapaAddin-Play.png)
+  ![Screenshot of the previous step](Images/NapaAddin-Play.png)
 
 1. This will bring up the **Share this project** dialog. Click the **Share** button.
 
-  ![](Images/ShareAddin.png)
+  ![Screenshot of the previous step](Images/ShareAddin.png)
 
 1. When Napa complets sharing the project, it will present you with a URL. What Napa did was save the project to your OneDrive Consumer store to a folder named the Add-in within a new / existing folder named **Napa**. 
 
@@ -101,7 +101,7 @@ In this exercise you will build off the add-in you created in the previous exerc
     - **Check** the **Enable this app on phones** option.
       - Select the file `AppCompose/Home/Home.html` for the **Start Page**.
 
-  ![](Images/AddinProperties.png)
+  ![Screenshot of the previous step](Images/AddinProperties.png)
 
   1. At the bottom of the **Properties** pane, click **Apply** to save your changes.
   1. Go back to the Add-in code view by selecting the first icon (**Explore**) at the top of the left-hand navigation.
@@ -193,23 +193,23 @@ loadBuildings();
 1. In the left-hand navigation, click the **Run Project** button to deploy the Add-in.
 1. When the Outlook Web App loads, click **New** to create a new email.
 
-  ![](Images/NewEmail.png)
+  ![Screenshot of the previous step](Images/NewEmail.png)
 
 1. In the new email interface, click the **Add-ins** button.
 1. In the task pane, select the **Microsoft Buildings** form the list of Outlook Add-ins:
 
-  ![](Images/AddinButton.png)
+  ![Screenshot of the previous step](Images/AddinButton.png)
 
 1. Because this is the first time the Outlook Add-in has been run in this experience, you may be prompted to login & trust the application as shown in the following figure. If so, just follow the two-step instructions:
 
-  ![](Images/AuthorizeDevice.png)
+  ![Screenshot of the previous step](Images/AuthorizeDevice.png)
 
 1. Once trusted, you should see the the **Microsoft Buildings** Add-in load as shown in the following figure:
 
-  ![](Images/AddinLoaded.png)
+  ![Screenshot of the previous step](Images/AddinLoaded.png)
 
 1. Select one of the buildings and click the **Insert** button to see the project get added to the body of the email:
 
-  ![](Images/AddinWorking.png)
+  ![Screenshot of the previous step](Images/AddinWorking.png)
 
 Congratulations! You have created your first Outlook Add-in using the Napa tools!

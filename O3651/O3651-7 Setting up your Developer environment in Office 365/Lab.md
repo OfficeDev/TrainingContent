@@ -7,7 +7,7 @@ In this exercise you obtain trial subscriptions to Office 365 and Azure. If you 
 1. Sign up for an Office 365 developer subscription.
   1. Navigate to the [Office Dev Center](http://msdn.microsoft.com/en-us/library/office/fp179924(v=office.15).aspx)
   2. Under the heading **Sign up for an Office 365 Developer Site** click **Try It Free**.<br/>
-     ![](Images/1.png?raw=true "Figure 1")
+     ![Screenshot of the previous step](Images/1.png?raw=true "Figure 1")
   3. Fill out the form to obtain your trial O365 subscription.
   4. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
 2. Enable Yammer for Social Expereince
@@ -19,7 +19,7 @@ In this exercise you obtain trial subscriptions to Office 365 and Azure. If you 
   1. Navigate to the [Azure Portal](https://manage.windowsazure.com)
   2. If prompted, log in using the credentials you created for your O365 subscription.
   3. After logging in, you should see a screen notifying you that you do not have a subscription<br/>
-     ![](Images/2.png?raw=true "Figure 2")
+     ![Screenshot of the previous step](Images/2.png?raw=true "Figure 2")
   4. Click Sign Up for Windows Azure.
   5. Fill out the form to obtain your free trial.
 
@@ -33,26 +33,26 @@ In this exercise you create a new provider-hosted app for your O365 subscription
     1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
     2. Click **App for SharePoint 2013**.
     3. Name the new project **AzureCloudApp** and click **OK**.<br/>
-       ![](Images/3.png?raw=true "Figure 3")
+       ![Screenshot of the previous step](Images/3.png?raw=true "Figure 3")
   4. In the New App for SharePoint wizard:
     1. Enter the address of a SharePoint site to use for testing the app (***NOTE:*** The targeted site must be based on a Developer Site template)
     2. Select **Provider-Hosted** as the hosting model.
     3. Click **Next**.<br/>
-       ![](Images/4.png?raw=true "Figure 4")
+       ![Screenshot of the previous step](Images/4.png?raw=true "Figure 4")
     4. Select **ASP.NET MVC Web Application**.
     5. Click **Next**.<br/>
-       ![](Images/5.png?raw=true "Figure 5")
+       ![Screenshot of the previous step](Images/5.png?raw=true "Figure 5")
     6. Select the option labeled **Use Windows Azure Access Control Service (for SharePoint cloud apps)**.
     7. Click **Finish**.<br/>
-       ![](Images/6.png?raw=true "Figure 6")
+       ![Screenshot of the previous step](Images/6.png?raw=true "Figure 6")
     8. When prompted, log in using your O365 administrator credentials.
 2. Test your app
   1. Press F5 to begin debugging.
   2. When prompted, log in using your O365 administrator credentials.
   3. When prompted, click **Trust it**.<br/>
-       ![](Images/7.png?raw=true "Figure 7")
+       ![Screenshot of the previous step](Images/7.png?raw=true "Figure 7")
   4. Verify that the app home page shows and that it properly welcomes you by name.<br/>
-       ![](Images/8.png?raw=true "Figure 8")
+       ![Screenshot of the previous step](Images/8.png?raw=true "Figure 8")
  
 ## Exercise 3: Access a Database using MVC5
 In this exercise, you will add additional functionality to the app to read data from a SQL Azure database.
@@ -62,21 +62,21 @@ In this exercise, you will add additional functionality to the app to read data 
   2. Click **Web Sites**.
   3. Click **New**.
   4. Click **Custom Create**.<br/>
-       ![](Images/18.png?raw=true "Figure 9")
+       ![Screenshot of the previous step](Images/18.png?raw=true "Figure 9")
   5. Enter a URL for the application. (**NOTE:** URLs must be globally unique, so you will have to choose one not used by another.)
   6. Select **Create New Web Hosting Plan**.
   7. Select an appropriate Region.
   8. Select Create a free 20MB SQL Database.
   10. Name the database connection string **AzureCloudData**.
   11. Click the Right Arrow.<br/>
-       ![](Images/19.png?raw=true "Figure 10")
+       ![Screenshot of the previous step](Images/19.png?raw=true "Figure 10")
   13. In the **Specify Database Settings**, name the new database **AzureCloudData**.
     1. Select **New SQL database server**.
     2. Name the administrator **AzureCloudAdmin** and enter a password.
     3. Write down the credentials for later!
     4. Pick an appropriate Region.
     5. Click the checkmark.<br/>
-       ![](Images/20.png?raw=true "Figure 11")
+       ![Screenshot of the previous step](Images/20.png?raw=true "Figure 11")
 2. Upload test data to SQL Azure:
   1. In the Azure portal, click **SQL database**.
   2. Click **AzureCloudData** and copy down your database server information.
@@ -122,7 +122,7 @@ In this exercise, you will add additional functionality to the app to read data 
   1. Right click the **AzureCloudAppWeb** project and select **Manage NuGet Packages**.
   2. Type **Entity Framework** in the search box.
   3. Click the **Install** button for Entity Framework version 6.<br/>
-       ![](Images/9.png?raw=true "Figure 12")
+       ![Screenshot of the previous step](Images/9.png?raw=true "Figure 12")
   4. After the package is installed, click **Close**.
 4. Add an Entity Framework model.
   1. In the **Solution Explorer**, right-click the **Models** folder in the **AzureCloudAppWeb** project.
@@ -131,11 +131,11 @@ In this exercise, you will add additional functionality to the app to read data 
     1. Select **Visual C#/Data/ASP.NET Entity Data Model**.
     2. Name the new model **AzureCloudDataModel.edmx**.
     3. Click **Add**.<br/>
-         ![](Images/10.png?raw=true "Figure 13")
+         ![Screenshot of the previous step](Images/10.png?raw=true "Figure 13")
   4. In the Entity Data Model wizard:
     1. Click **EF Designer from Database**.
     2. Click **Next**.<br/>
-         ![](Images/11.png?raw=true "Figure 14")
+         ![Screenshot of the previous step](Images/11.png?raw=true "Figure 14")
     3. Click **New Connection**.
     4. In the Connection Properties dialog:
       1. Enter the database server information you obtained earlier into the **Server Name** field.
@@ -147,18 +147,18 @@ In this exercise, you will add additional functionality to the app to read data 
     5. Select **Yes, include the sensitive data in the connection string**.
     6. Click **Next**.
     7. Check **Tables**.<br/>
-         ![](Images/12.png?raw=true "Figure 15")
+         ![Screenshot of the previous step](Images/12.png?raw=true "Figure 15")
     8. Click **Finish**.
 5. Add a controller.
   1. **Build** the AzureCloudAppWeb project.
   2. Right-click the Controllers folder and select **Add/Controller**.
     1. Select **MVC5 Controller with views using Entity Framework**.
     2. Click **Add**.<br/>
-         ![](Images/14.png?raw=true "Figure 16")
+         ![Screenshot of the previous step](Images/14.png?raw=true "Figure 16")
     3. Select **Customer** as the Model Class. 
     4. Select **AzureCloudDataEntities** as the Data Context Class.
     5. Click **Add**.<br/>
-         ![](Images/15.png?raw=true "Figure 17")
+         ![Screenshot of the previous step](Images/15.png?raw=true "Figure 17")
 6. Update the App Manifest
   1. In the **AzureCloudApp** project, double-click the **AppManifest.xml** file.
   2. Update the Start Page to be **AzureCloudAppAWeb/Customers**.
@@ -181,11 +181,11 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   7. Enter the **Redirect URI** as the reference for the Customers page (e.g. https://azurecloudapp.azurewebsites.net/Customers).
   8. Click **Create.**
     1. Save the **Client ID** and **Client Secret** separately for later use.<br/>
-         ![](Images/25.png?raw=true "Figure 18")
+         ![Screenshot of the previous step](Images/25.png?raw=true "Figure 18")
 2.  Update the provider-hosted app
   1. In the **AzureCloudApp** project open the **AppManifest.xml** file in a text editor.
   2. Update the **Client ID** and **App Start page** to reflect the values you created earlier.<br/>
-         ![](Images/26.png?raw=true "Figure 19")
+         ![Screenshot of the previous step](Images/26.png?raw=true "Figure 19")
   3. Open the **web.config** file for the **AzureCloudAppWeb** project.
   4. Update the **Client ID** and **Client Secret** to use the generated values.
 3. Publish the remote web
@@ -201,18 +201,18 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   5. In the **App Settings** section, add a **ClientId** and **ClientSecret** setting.
   6. Set the values to the values you generated earlier.
   7. Click **Save**.<br/>
-         ![](Images/28.png?raw=true "Figure 20")
+         ![Screenshot of the previous step](Images/28.png?raw=true "Figure 20")
 5. Package the SharePoint App
   1. Right click the **AzureCloudApp** project and select **Publish**.
   2. Click **Package the App**.
   3. Enter the **Start URL** and **Client ID** for the app.
   4. Click **Finish**.<br/>
-         ![](Images/29.png?raw=true "Figure 21")
+         ![Screenshot of the previous step](Images/29.png?raw=true "Figure 21")
 6. Publish the App to the Corporate Catalog
   1. Return to the O365 tenant and select **Admin/SharePoint**.<br/>
-         ![](Images/30.png?raw=true "Figure 22")
+         ![Screenshot of the previous step](Images/30.png?raw=true "Figure 22")
   2. Click **Apps/App Catalog**.<br/>
-         ![](Images/31.png?raw=true "Figure 23")
+         ![Screenshot of the previous step](Images/31.png?raw=true "Figure 23")
   3.Select **Create new app catalog site**.
   4. Click **OK**.
   5. Fill out the required information for the new app catalog site and click **OK**.
@@ -223,10 +223,10 @@ In this exercise, you will deploy the database and app to the O365/Azure environ
   10. **Add** the app package to the Apps for SharePoint library.
 7. Add the app to a SharePoint site
   1. Navigate to a site in your O365 tenancy.
-  2. Click **Site Contents**. (**NOTE:** If you are using the Developer site, it may have an older version of the app still installed from testing. You must remove the app from the site AND remove the entry from the “Apps in Testing” list or the new app will not install.)
+  2. Click **Site Contents**. (**NOTE:** If you are using the Developer site, it may have an older version of the app still installed from testing. You must remove the app from the site AND remove the entry from the ?Apps in Testing? list or the new app will not install.)
   3. Click **Add an App**.
   4. Click **From Your Organization**.<br/>
-         ![](Images/32.png?raw=true "Figure 24")
+         ![Screenshot of the previous step](Images/32.png?raw=true "Figure 24")
   5. Click the app installer.
   6. When prompted, click **Trust It**.
 8. Test the App

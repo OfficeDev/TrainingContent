@@ -17,13 +17,13 @@ In this exercise you will create an app security principle in your Office 365 te
 	3. Enter an **App Title** of **My Termset Creator App**
 	4. Enter an **App Domain** of **localhost** which will effectively allow request to come from any URL during your testing. Note that the special domain of **localhost** should only be used in non-production environments in which you are testing and developing.
 	5. Finally, click the **Create** button to create the new app security principle.<br/>
-	![](Images/Figure02.png)
+	![Screenshot of the previous step](Images/Figure02.png)
 4. After creating the new app security principle, you will see a confirmation page like the one shown in the following screenshot which lists both the **Client Id** and the **Client Secret**. Copy and paste the the **Client Id** and the **Client Secret** into a new text document using a utility such as Notepad so you can copy-and-paste these values in later steps.<br/>
-  ![](Images/Figure03.png)
+  ![Screenshot of the previous step](Images/Figure03.png)
 
 5. Navigate to the application page in a SharePoint site which allows you to configure an existing app security principles by typing directly into the address bar of the browser to add an relative URL of **/_layouts/15/appinv.aspx** to the end of the root URL of your developer site.
 6. Copy and paste the **Client Id** of the app security principle you just created into the **App Id** textbox and click **Lookup**. When you do this, the page will retrieve other information about the app such as the **App Title** and the **App Domain**.<br/>
-  ![](Images/Figure04.png)
+  ![Screenshot of the previous step](Images/Figure04.png)
 
 7. Enter the following XML snippet into the **Permission Request XML** textbox. If you would rather, you can copy-and-paste this XML from a text file named **PermissionRequestXML.txt** in the **Starter Files** folder for this lab.<br/>
 
@@ -37,7 +37,7 @@ In this exercise you will create an app security principle in your Office 365 te
 		</AppPermissionRequests>
 8. You will notice that the XML you enter does not format inside the textbox in an elegant way but it will still work. Click the **Create** button to save the XML with the app permission configuration back to the SharePoint tenancy.
 9. When you attempt to save the app security changes, SharePoint prompts you with a page titled **Do you trust My Termset Creator App?**. Click **Trust It** to confirm you want to save the app security configuration changes.<br/>
-  ![](Images/Figure05.png)
+  ![Screenshot of the previous step](Images/Figure05.png)
 
 You have now successfully created and configured a new app security principle for your Office 365 site.
 
@@ -47,14 +47,14 @@ In this exercise you will use Visual Studio to create a simple console applicati
 
 1. In Visual Studio, click **Flie/New/Project**.
 2. In the **New Project** dialog, select **Templates/Visual C#/Windows Desktop**. Then select **Console Application** and give the project a name of **MyTermsetCreator**. Click **OK** when you are done.<br/>
-![](Images/Figure06.png)
+![Screenshot of the previous step](Images/Figure06.png)
 3. Once the **MyTermsetCreator** project has been created, right-click its project node in Solution Explorer and select **Manage NuGet Packages**. 
 4. In the **Manage NuGet Packages** dialog, search for *"sharepoint app"* to find and install the package named **App for SharePoint Web Toolkit**.<br/>
-![](Images/Figure07.png)
+![Screenshot of the previous step](Images/Figure07.png)
 5. After adding the **App for SharePoint Web Toolkit** package, you should be able to examine the project references and verify that the project now has references to the two core assemblies of the SharePoint Client Object Model (CSOM) named **Microsoft.SharePoint.Client.dll** and **Microsoft.SharePoint.Client.Runtime.dll**   
-![](Images/Figure08.png)  
+![Screenshot of the previous step](Images/Figure08.png)  
 6. There is an issue in that the references to the assemblies **Microsoft.SharePoint.Client.dll** and **Microsoft.SharePoint.Client.Runtime.dll** are based on an older version 15.0.0.0 instead of the more recent version which is 16.0.0.0. Therefore, you should delete the two references to **Microsoft.SharePoint.Client.dll** and **Microsoft.SharePoint.Client.Runtime.dll** and replace them with references to the 16.0.0.0 version of the same two assemblies. Also add a third reference to the 16.0.0.0 version of **Microsoft.SharePoint.Client.Taxonomy.dll**.   
-![](Images/Figure09.png)  
+![Screenshot of the previous step](Images/Figure09.png)  
 7. Locate and open the app configuration file named **App.config** file.
 8. Add an **appSettings** section with values for **ClientId** and the **ClientSecret** and configure them with the correct values for the app security principle created in earlier steps.<br/>
 
@@ -178,8 +178,8 @@ In this exercise you will use Visual Studio to create a simple console applicati
 19. In the browser, navigate to your Office 365 developers site.
 20. Navigate to the **Site Settings** page using the **Site Actions** menu with the gear in the top-right section of the page.
 21. On the **Site Settings** page, locate and click the **Term store management** link in the **Site Administration** section.  
-![](Images/Figure01.png)   
+![Screenshot of the previous step](Images/Figure01.png)   
 22. You should see a group whose title is "Site Collection" combined together with the URL to your Office 365 developers site. This is the local term group that was created by your code. If you expand the node for this term group, you should be able to see the **Geography** termset. If you further expand nodes, you should be able to see top-level terms for Europe and North America as the child nodes inside.  
-![](Images/Figure10.png)
+![Screenshot of the previous step](Images/Figure10.png)
 
 You have now gone through the process of creating a managed termset using custom C# code and CSOM.

@@ -43,7 +43,7 @@ Then, we'll use the ADAL to authenticate and obtain an access token.
 
 01. Launch Android Studio and create a new project.
 
-    ![](img/0000_create_new_project.png)
+    ![Screenshot of the previous step](img/0000_create_new_project.png)
 
 02. Fill out the new project wizard, selecting the following:
 
@@ -51,10 +51,10 @@ Then, we'll use the ADAL to authenticate and obtain an access token.
     * API 23: Android 6.0 (Marshmallow)
     * Empty Activity
 
-    ![](img/0005_create_new_project_form.png)
-    ![](img/0010_create_new_project_form_2.png)
-    ![](img/0015_create_new_project_form_3.png)
-	![](img/0016_create_new_project_form_3.png)
+    ![Screenshot of the previous step](img/0005_create_new_project_form.png)
+    ![Screenshot of the previous step](img/0010_create_new_project_form_2.png)
+    ![Screenshot of the previous step](img/0015_create_new_project_form_3.png)
+	![Screenshot of the previous step](img/0016_create_new_project_form_3.png)
 
 04. Click **Finish** to complete the wizard and create your new Android project.
 
@@ -66,27 +66,27 @@ AVD you may skip this Task.
 
 01. Launch the AVD Manager and click **Create Virtual Device...**.
 
-    ![](img/0020_launch_avd_manager.png)
-	![](img/0021_click_create.png)
+    ![Screenshot of the previous step](img/0020_launch_avd_manager.png)
+	![Screenshot of the previous step](img/0021_click_create.png)
 
 02. Fill out the new AVD wizard, selecting the following:
 
-	![](img/0022_create_AVD.png)
-	![](img/0023_create_AVD.png)
-	![](img/0024_create_AVD.png)
-	![](img/0025_create_AVD.png)
+	![Screenshot of the previous step](img/0022_create_AVD.png)
+	![Screenshot of the previous step](img/0023_create_AVD.png)
+	![Screenshot of the previous step](img/0024_create_AVD.png)
+	![Screenshot of the previous step](img/0025_create_AVD.png)
 
 03. Select the newly created AVD and click **Start** to start it.
 
-	![](img/0026_run_AVD.png)
+	![Screenshot of the previous step](img/0026_run_AVD.png)
 
 04. When the emulator is running, return to Android Studio and select **Run > Debug 'app'**.
 
-    ![](img/0030_launch_app.png)
+    ![Screenshot of the previous step](img/0030_launch_app.png)
 
 05. When prompted, select your emulator from the list and click **OK** to deploy the app and start debugging it.
 
-    ![](img/0035_emulator_running.png)
+    ![Screenshot of the previous step](img/0035_emulator_running.png)
 
 Done! The emulator runs separately from Android Studio and can be shared between multiple instances of 
 Android Studio, Eclipse and even Visual Studio with Xamarin for Android.
@@ -95,7 +95,7 @@ Android Studio, Eclipse and even Visual Studio with Xamarin for Android.
 
 01. Open the `build.gradle` file for the ADAL test app.
 
-    ![](img/0040_build_gradle.png)
+    ![Screenshot of the previous step](img/0040_build_gradle.png)
 
 02. Add the following line to the `dependencies` section:
 
@@ -107,12 +107,12 @@ Android Studio, Eclipse and even Visual Studio with Xamarin for Android.
 
     This triggers Android Studio to automatically download and configure the ADAL library from the Maven repository.
     
-    ![](img/0045_start_gradle_sync.png)
+    ![Screenshot of the previous step](img/0045_start_gradle_sync.png)
 
 04. Next we must add the `android.permission.INTERNET` permission to the Android Manifest. From the `src/main`
     folder, open the **AndroidManifest.xml** file.
 
-    ![](img/0046_open_android_manifest.png)
+    ![Screenshot of the previous step](img/0046_open_android_manifest.png)
 
 05. Add the following XML block to the `<manifest />` element:
 
@@ -120,7 +120,7 @@ Android Studio, Eclipse and even Visual Studio with Xamarin for Android.
 
     The result should look like this:
 
-    ![](img/0047_add_internet_permission.png)
+    ![Screenshot of the previous step](img/0047_add_internet_permission.png)
 
 
 You've now completed the basic steps required to prepare your app to use the ADAL library. In the next task,
@@ -135,7 +135,7 @@ Now that we've got the library, let's add some code to authenticate a user.
 
 01. Navigate to the **activity_my.xml** layout file. You can find layouts in the `src/main/res/layout` folder.
 
-    ![](img/0048_navigate_to_activity_my_xml.png)
+    ![Screenshot of the previous step](img/0048_navigate_to_activity_my_xml.png)
 
 02. Replace the "Hello world" TextView with the following Button definition:
 
@@ -149,7 +149,7 @@ Now that we've got the library, let's add some code to authenticate a user.
 
 03. Next, navigate to the **MyActivity** class. You can find activities in the `src/main/java` folder.
 
-    ![](img/0050_navigate_to_my_activity.png)
+    ![Screenshot of the previous step](img/0050_navigate_to_my_activity.png)
 
 04. Add the following member fields to the class:
 
@@ -189,7 +189,7 @@ Now that we've got the library, let's add some code to authenticate a user.
 	import javax.crypto.NoSuchPaddingException;
 	```
 
-    ![](img/0055_quick_fix_import_class.png)
+    ![Screenshot of the previous step](img/0055_quick_fix_import_class.png)
 
 06. Add the following code to the `onCreate` method.
 
@@ -288,12 +288,12 @@ Now that we've got the library, let's add some code to authenticate a user.
 
 12. When prompted, sign in with a user from your tenant (e.g. the Admin account).
 
-    ![](img/0060_sign_in.png)
+    ![Screenshot of the previous step](img/0060_sign_in.png)
 
 13. Success! Here we're printing the User's Id, the access token expiry date, also the first ten characters of 
     the Access and Refresh tokens.
 
-    ![](img/0065_success.png)
+    ![Screenshot of the previous step](img/0065_success.png)
 
 The Access Token here can be attached to any request made to an O365 API in order to authenticate as this user.
 
@@ -390,7 +390,7 @@ To authenticate the user without prompting them for credentials, we use the `acq
 
 07. When the app has launched, tap **Refresh Access Token**.
     
-    ![](img/0070_error_no_cached_user_id.png)
+    ![Screenshot of the previous step](img/0070_error_no_cached_user_id.png)
 
     This fails because we haven't authenticated yet and do not have a user Id.
 

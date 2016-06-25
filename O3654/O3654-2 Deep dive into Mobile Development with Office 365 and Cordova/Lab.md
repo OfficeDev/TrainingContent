@@ -18,18 +18,18 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 1. Launch **Visual Studio 2013** as administrator. 
 2. In Visual Studio select **File/New/Project**.
 3. In the **New Project** dialog, select **Templates > JavaScript > Multi-device Hybrid App** and click **Blank App (Apache Cordova)**. Name the new project **CordovaLab** and then click **OK**.    
-![](Images/Fig01.png)  
+![Screenshot of the previous step](Images/Fig01.png)  
 4. Inspect the high-level structure of the new project that has just been created.
 5. Note that the HTML page at the root of the project named **Index.html** contains the user interface that will be used when the app is launched. You should also understand that the JavaScript file in the **scripts** folder named **index.js** provides the JavaScript code which executes as the app is being initialized.  
-![](Images/Fig02.png)  
+![Screenshot of the previous step](Images/Fig02.png)  
 6. Take a quick look at the **merges** folder. Notice it contains a child folder for each platform where you can add files and scripts that should only be added to specific platforms such as Android, iOS, Windows 8 or Windows Phone 8.  
-![](Images/Fig03.png)  
+![Screenshot of the previous step](Images/Fig03.png)  
 7. Right-click on the top-level project node for the **CordovaLab** project and select **Manage Nuget Packages...**.   
-![](Images/Fig04.png)  
+![Screenshot of the previous step](Images/Fig04.png)  
 8. Install the Nuget Package for **jQuery**.     
-![](Images/Fig05.png)
+![Screenshot of the previous step](Images/Fig05.png)
 9. You should now see script files for the jQuery library along side **index.js** in the **scripts** folder.   
-![](Images/Fig06.png)  
+![Screenshot of the previous step](Images/Fig06.png)  
 10. Open the HTML file named **index.html**. Inspect the code that was added by Visual studio which should match the following code listing.
 
 		<!DOCTYPE html>
@@ -100,15 +100,15 @@ In this exercise, you will create a new Visual Studio project for a Cordova app.
 		
 		})();
 14. Now it's time to test out the app in the Visual Studio debugger. However, you must think about what target platform you'd like to use. Begin by selected **Android** in the **Solutions Platform** drop down and then selecting **Ripple - Nexus (Galaxy)** as the selected Android emulator.    
-![](Images/Fig07.png)
+![Screenshot of the previous step](Images/Fig07.png)
 15. Press the **{F5}** key to begin a debugging session. The app should take a bit to start but then it should begin to run in the Ripple Android emulator which runs inside the Chrome browser.
 16. Click the **Get Contacts** button and make sure you see the "hello world" message.
-![](Images/Fig08.png)  
+![Screenshot of the previous step](Images/Fig08.png)  
 17. After you have played with the app in the Ripple emulator, close the Chrome browser. Return to Visual Studio and terminate the debugging session.
 18. Now try debugging with a Windows Phone emulator. Select **Windows Phone** in the Platform Solutions drop down and select **Emulator WGVA** in the emulator drop down.
-![](Images/Fig09.png)
+![Screenshot of the previous step](Images/Fig09.png)
 19. Press **{F5}** to start a debugging session with the Windows Phone emulator. after a bit, you should be able to see the app running in Windows Phone emulator.  
-![](Images/Fig10.png)
+![Screenshot of the previous step](Images/Fig10.png)
 20. After you have tested the app, terminate the debugging session and return to Visual Studio.
 
 
@@ -117,16 +117,16 @@ In this exercise, you will add a Connected Service to the project in order to pr
 
 
 1. In the **Solution Explorer**, right click the **CordovaLab** project and select **Add/Connected Service**.    
-![](Images/Fig11.png)
+![Screenshot of the previous step](Images/Fig11.png)
 2. In the **Services Manager** dialog, click **Register Your App**.
 3. When prompted, login with your **Organizational Account**. After you have logged in, you should be able to see services for which you can configure permission requests.  
-![](Images/Fig12.png)
+![Screenshot of the previous step](Images/Fig12.png)
 4. Select **Contacts** and then click **Permissions**.
 5. Check both check boxes and then click **Apply**.  
-![](Images/Fig13.png)
+![Screenshot of the previous step](Images/Fig13.png)
 6. Click **OK** to save your changes and dismiss the **Services Manager** dialog.
 7. Take a moment to see what effect adding the Connected Service has had on your project. Begin by looking the the JavaScript library files such as **o365auth.js**, **o365discovery.js** and **exchange.js** that have been added to your project at the path of **services/office365/scripts**.  
-![](Images/Fig14.png)  
+![Screenshot of the previous step](Images/Fig14.png)  
 8. Locate the file named **settings.js** which is located in the folder at the path of **services/office365/settings**.
 9. Open **settings.js** and examine what's inside. As you can see that are values specific to your application. This script file will need to be referenced in the index.html page.  
 			
@@ -202,11 +202,11 @@ In this exercise, you will make use of the Connected Service you added in the pr
 		};
 3. Now begin a debugging session using Windows Phone. Press the **{F5}** key to begin a debugging session.
 4. After the app has started, press the **Get Contacts** button. You should then see a prompt to Sing In. Sign into Office 365 using your organizational account.    
-![](Images/Fig15.png)  
+![Screenshot of the previous step](Images/Fig15.png)  
 5. Once you are signed in, you will be prompted as to whether you trust the app. Click **OK** to continue.  
-![](Images/Fig16.png)
+![Screenshot of the previous step](Images/Fig16.png)
 6. After you have trusted the app, you code should run and display a list off contacts from your Office 365 account.
-![](Images/Fig17.png)
+![Screenshot of the previous step](Images/Fig17.png)
 
  
 Congratulations! You have completed a simple hybrid app project using the Cordova platform and the Office 365 APIs.

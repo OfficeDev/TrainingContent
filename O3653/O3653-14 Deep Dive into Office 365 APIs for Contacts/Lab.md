@@ -19,7 +19,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Select **Templates/Visual C#/Web**.
   1. Select **ASP.NET Web Application**.
 
-    ![](Images/01.png)
+    ![Screenshot of the previous step](Images/01.png)
 
   1. Give the project the name **Office365Contact** and Click **OK**.
 1. In the **New ASP.NET Project** dialog
@@ -33,9 +33,9 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   8. Uncheck **Host in the cloud**
   9. Click **OK**.
 
-    ![](Images/02.png)
+    ![Screenshot of the previous step](Images/02.png)
 
-    ![](Images/03.png)
+    ![Screenshot of the previous step](Images/03.png)
 
 1. Ensure the web project uses SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
@@ -43,7 +43,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Copy the **SSL URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
-    ![](Images/SslEnabled.png)
+    ![Screenshot of the previous step](Images/SslEnabled.png)
     > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
     
 1. Configure the project to always go to the homepage of the web application when debugging:
@@ -62,7 +62,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
 
-    ![](Images/ConsentDialog.png)
+    ![Screenshot of the previous step](Images/ConsentDialog.png)
 
   1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
@@ -86,7 +86,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
     * **Have full access to user contacts**    
   1. Click the **Save** button at the bottom of the page.
 
-     ![](Images/AzurePermission.png)
+     ![Screenshot of the previous step](Images/AzurePermission.png)
 1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
   1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
@@ -550,7 +550,7 @@ In this exercise, you will code the **ContactController** of the MVC application
   1. Once the application is loaded click the **Contacts link** in the top menu bar.
   1. Verify that your application displays Contacts from your Office 365 account.  
 
-    ![](Images/04.png)
+    ![Screenshot of the previous step](Images/04.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -684,7 +684,7 @@ In this exercise, you will code the **ContactController** of the MVC application
   1. Once the application is loaded click the **Contacts link** in the top menu bar.
   1. Click the **Create New** link. You should see the form below. Fill the form out to add a new contact and click the **Create button**.
 
-    ![](Images/05.png)
+    ![Screenshot of the previous step](Images/05.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
@@ -773,7 +773,7 @@ In this exercise, you will code the **ContactController** of the MVC application
   1. Once the application is loaded click the **Contacts link** in the top menu bar.
   1. Click the **Details** link for one of the contacts and verify the information about the contact is displayed. 
 
-    ![](Images/06.png)
+    ![Screenshot of the previous step](Images/06.png)
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 

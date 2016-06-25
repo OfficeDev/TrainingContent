@@ -26,7 +26,7 @@ $ npm install
 1. In the left-hand navigation, scroll down to and click on **Active Directory**.
 1. Click on the name of your Azure AD directory & then click **Applications** in the toolbar. 
 
-  ![](../Images/AzureAdApp01.png)
+  ![Screenshot of the previous step](../Images/AzureAdApp01.png)
 
 1. Click the **Add** button at the bottom of the display.
 1. On the **What do you want to do** page, click **Add an application my organization is developing**. This will start the **Add Application** wizard.
@@ -37,7 +37,7 @@ $ npm install
   > NOTE: The App ID Uri must be unique within the Azure tenancy. Using a host name that matches your tenant name helps to prevent confusion, and using a value for the path that matches the app name helps to enforce uniqueness. This value can be changed if the app name or purpose changes.
 1. Click the **check** image in the lower right of the wizard to create the application. The application **Quick Start** page will display once the application is created.
 
-  ![](../Images/AzureAdApp02.png)
+  ![Screenshot of the previous step](../Images/AzureAdApp02.png)
 
 1. On the application Quick Start page, click on **CONFIGURE** in the toolbar.
 1. Scroll down to the **Keys** section. 

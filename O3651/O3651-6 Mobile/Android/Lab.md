@@ -9,19 +9,19 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 ## Create Android project ##
 1. Open **Android Studio**.
 2. Click **Start a new Android Studio project**.<br/>
-	![](Images/01.png)
+	![Screenshot of the previous step](Images/01.png)
 3. Type your **Application name** and **Company Domain** and specify the **Project location**, then click **Next**.<br/>
-	![](Images/02.png)
+	![Screenshot of the previous step](Images/02.png)
 4. Select **Minimum SDK API 23** and leave the other settings as default, then click **Next**.<br/>
-	![](Images/03.png)
+	![Screenshot of the previous step](Images/03.png)
 5. Select **Blank Activity**, then click **Next**.<br/>
-	![](Images/04.png)
+	![Screenshot of the previous step](Images/04.png)
 6. Make sure all settings the same as below, then click **Finish**.<br/>
-	![](Images/05.png)
+	![Screenshot of the previous step](Images/05.png)
 7. The **Android Studio** window will be displayed.<br/>
-	![](Images/06.png)
+	![Screenshot of the previous step](Images/06.png)
 8. Open **Project** tab and click **build.gradle (Module: app)**<br/>
-	![](Images/07.png)
+	![Screenshot of the previous step](Images/07.png)
 9. Add the below code in **dependencies** note.
 
 	````java
@@ -36,32 +36,32 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	compile group: 'com.microsoft.services', name: 'graph-services', version: '+'
 	````
 
-	![](Images/08.png)
+	![Screenshot of the previous step](Images/08.png)
 10. Save the file and click **Sync Project with Gradle Files** in the top tool bar.<br/>
-	![](Images/09.png)
+	![Screenshot of the previous step](Images/09.png)
 
 ## Integrate Office 365 services ##
 1. Sign in to the [Azure Management Portal](https://manage.windowsazure.com/) with your Office 365 credentials.
 2. Click **ACTIVE DIRECTORY** on the left menu, go to the **DIRECTORY** tab, and then click your directory.<br/>
-	![](Images/10.png)
+	![Screenshot of the previous step](Images/10.png)
 3. Go to the **APPLICATIONS** tab on the new page.
 4. Click **ADD** button on the bottom menu.<br/>
-	![](Images/11.png)
+	![Screenshot of the previous step](Images/11.png)
 5. On the **What do you want to do** page, click **Add an application my organization is developing**.<br/>
-	![](Images/12.png)
+	![Screenshot of the previous step](Images/12.png)
 6. On the **Tell us about your application** page, specify your application **NAME** (AndroidOffice365Calendar) and select the option **NATIVE CLIENT APPLICATION** under **Type**, and then click the arrow to go to the next step.<br/>
-	![](Images/13.png)
+	![Screenshot of the previous step](Images/13.png)
 8. On the Application information page, specify a **Redirect URI**. For this example, you can specify **http://AndroidOffice365Calendar** and then click the **Checkmark** icon.
 9. Once the application has been successfully added, the Quick Start page for the application is displayed.
 10. Click the **CONFIGURE** tab.<br/>
-	![](Images/14.png)
+	![Screenshot of the previous step](Images/14.png)
 11. Click the **Add application** button.<br/>
-	![](Images/15.png)
+	![Screenshot of the previous step](Images/15.png)
 12. Click the service **Microsoft Graph** (or click the plus symbol to add the service) to add the service to the list on the right, then click the **Checkmark** icon to save your selections.<br/>
-	![](Images/16.png)
+	![Screenshot of the previous step](Images/16.png)
 14. Under **permissions to other applications** section, click the **Delegated Permissions** cell in the **Microsoft Graph** row, and check the **Have full access to user calendars** and **Sign in and read user profile** permissions.
 15. Click the **SAVE** button on the bottom menu.<br/>
-	![](Images/17.png)
+	![Screenshot of the previous step](Images/17.png)
 
 ## Code your app ##
 1. Go back to the **Android Studio**.
@@ -72,12 +72,12 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	````
 	
-	![](Images/18.png)
+	![Screenshot of the previous step](Images/18.png)
 
 3. Right click **com.microsoft.androidoffice365calendar** and select New, then click **Java Class**.<br/>
-	![](Images/19.png)
+	![Screenshot of the previous step](Images/19.png)
 4. Fill in **Constants** and select **Interface**, then click **OK** button.<br/>
-	![](Images/20.png)
+	![Screenshot of the previous step](Images/20.png)
 5. The source code of the file **Constants.java** will be the following, modify the values of **AAD_CLIENT_ID** and **AAD_REDIRECT_URL** to the actual ones.
 
     ````java
@@ -94,9 +94,9 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 
 	**NOTE: You can find the client ID and redirect url in Microsoft Azure**
 
-	![](Images/21.png)
+	![Screenshot of the previous step](Images/21.png)
 6. Add new class file **AuthenticationController.java**.<br/>
-	![](Images/22.png)
+	![Screenshot of the previous step](Images/22.png)
 7. The source code of the file **AuthenticationController.java** will be the following.
 
 	````java
@@ -203,7 +203,7 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	````
 
 8. Create new class file **GraphController.java**.<br/>
-	![](Images/23.png)
+	![Screenshot of the previous step](Images/23.png)
 9. The source code of the file **GraphController.java** will be the following.
 
 	````java
@@ -276,7 +276,7 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	````
 
 10. Open the file **activity_main.xml**.<br/>
-	![](Images/24.png)
+	![Screenshot of the previous step](Images/24.png)
 11. Copy the code below to the file **activity_main.xml**:
 
 	````xml
@@ -353,7 +353,7 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	````
 
 12. Open the file **MainActivity.java**.<br/>
-	![](Images/25.png)
+	![Screenshot of the previous step](Images/25.png)
 13. Copy the code below to the file **MainActivity.java**.
 
 	````java
@@ -497,17 +497,17 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	````
 
 14. Run your app.<br/>
-	![](Images/26.png)
+	![Screenshot of the previous step](Images/26.png)
 15. Select **API 23** emulator and click **OK**.
 	**NOTE: If there is no such emulator please create a new one.**
 
-	![](Images/27.png)
+	![Screenshot of the previous step](Images/27.png)
 16. The emulator will be shown.<br/>
-	![](Images/28.png)
+	![Screenshot of the previous step](Images/28.png)
 17. Click **Sign In**.
 18. Fill in your user name and password, then click **Sign in**.<br/>
-	![](Images/29.png)
+	![Screenshot of the previous step](Images/29.png)
 19. Click the **Load Events** button.<br/>
-	![](Images/30.png)
+	![Screenshot of the previous step](Images/30.png)
 20. The events will be shown.
 

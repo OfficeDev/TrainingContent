@@ -13,28 +13,28 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
 1. On your developer workstation, launch Visual Studio as administrator.
 1. Create a new project in Visual Studio 2015 by selecting the menu command **File > New > Project**.
 1. In the **New Project** dialog, find the **SharePoint Add-in** project template under the **Templates > Visual C# >   Office / SharePoint > Office Add-ins** section. Enter a name of **AngularCRM**, a location of **C:\Demos** and a Solution name of **AngularCRM** and then click the **OK** button.  
-![](Images/Fig01.png)
+![Screenshot of the previous step](Images/Fig01.png)
 
 1. In the **New SharePoint Add-in** wizard, enter the URL for your Office 365 Developer site and select **SharePoint-hosted** for the Add-in hosting model. In the **Specify the target SharePoint version** tab, select **SharePoint Online**. When done, complete the wizard by clicking the **Finish** button.
-![](Images/Fig02.png)  
+![Screenshot of the previous step](Images/Fig02.png)  
 
 1. Examine the default project setup for a SharePoint-hosted Add-in. As you can see, it is like a traditional SharePoint solution-based project because you have a Features and Packages node. Note that there are project folders named **Content**, **Images** & **Pages** are actually SharePoint Project Items (SPI) that are Modules and will provision their contents to the respective folders in the Add-in web when the Add-in is installed.  
-![](Images/Fig03.png)
+![Screenshot of the previous step](Images/Fig03.png)
     
 1. Right-click on the **AngularCRM** project in the solution Explorer and select **Manage NuGet Packages** to display the **Manage NuGet Packages** dialog. 
     
 1. First, install the NuGet package for **AngularJS Core**.  
-![](Images/Fig05.png)
+![Screenshot of the previous step](Images/Fig05.png)
     
 1. Then, install the NuGet package for **AngularJS Route**.  
-![](Images/Fig06.png)
+![Screenshot of the previous step](Images/Fig06.png)
 
 1. Close the the **NuGet Package Manager** Tab.
 1. Your Add-in will not be using anything from the **Pages** folder. Therefore, you should delete the **Pages** folder from your project by right-clicking on it in the solution Explorer and selecting the **Delete** command.
 1. In the solution Explorer, right-click on the top-level node of the **AngularCRM** project and select the **Add > New Folder** command to create a new top-level folder. Name this folder **App**.
 1. Add a new HTML file named **start.html** into the **App** folder.
 1. Add a new JavaScript file named **App.js** into the **App** folder.  
-![](Images/Fig07.png)
+![Screenshot of the previous step](Images/Fig07.png)
 
 1. Open **start.html** in an editor windows and modify the head section to match the following code listing.
 
@@ -107,7 +107,7 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
   ````          
 1. Save and close **start.html**.
 1.	Open up **AppManifest.xml** in the designer and update the Add-in's **Start page** setting to point to **start.html**. Also, update the **Title** to something more readable such as **Angular CRM Add-in**.  
-![](Images/Fig08.png)
+![Screenshot of the previous step](Images/Fig08.png)
 1. Save and close **AppManifest.xml**.
 1. Open **App.js** in an editor window and update its contents to match the following code listing.
 
@@ -119,10 +119,10 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
 		});
   ````  
 1. It's now time to test the Add-in. Press **{F5}** to begin a new debugging session. Once the Add-in has been installed, Visual Studio will start up Internet Explorer and redirect you to the Add-in's start page. You should see the Add-in's navbar and a test message of "Hello World" as shown in the following screenshot.  
-![](Images/Fig09.png)
+![Screenshot of the previous step](Images/Fig09.png)
 
 1.	Your Add-in will need to read query string parameters. Therefore, you will create a simple jQuery extension to add a few helper functions. Begin by creating a new JavaScript file into the **App** folder named **jquery-extensions.js**. 
-![](Images/Fig10.png)
+![Screenshot of the previous step](Images/Fig10.png)
 
 1.	Add the following code to  **jquery-extensions.js** to extend the jQuery library with two helper methods named **getQueryStringValues** and **getQueryStringValue**.
 	
@@ -204,7 +204,7 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
 1. Open the **AngularCRM** project in Visual Studio if it is not already open.
 2. Create a new folder named **views** inside the **App** folder.
 3. Create five new HTML files inside the **views** folder named **about.html**, **edit.html**, **home.html**, **new.html** and **view.html**.  
-![](Images/Fig11.png)
+![Screenshot of the previous step](Images/Fig11.png)
 4. Update the contents of **home.html** to match the following listing and save your changes.
 
 		<h3>Customer List</h3>
@@ -222,7 +222,7 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
 		<h3 ng-bind="title"></h3>		
 		<p ng-bind="description"></p>
 9. Create a new JavaScript file named **controllers.js** in the **App** folder.  
-![](Images/Fig12.png)
+![Screenshot of the previous step](Images/Fig12.png)
 10. Copy and paste the following code into **controllers.js** to provide a controller starting point for each of the views.
 		
 		'use strict';
@@ -368,7 +368,7 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
 22.	Save your changes to **start.html**.
 23. Test the routing scheme of the Add-in by pressing **{F5}** to begin a new debugging session. Once the app has been installed, Visual Studio will start up Internet Explorer and redirect you to the app's start page. At this point, you should be able to click on the navbar links titled **Home**, **Add Customer** and **About** to navigate between these three views.
 24. Click on the **About** link to navigate to the Add-in's **About** page. You should be able to verify that the **about** view is properly displaying the values of the **title** property and the **description** property that were written to the **$scope** variable by **aboutController**.   
-![](Images/Fig13.png)
+![Screenshot of the previous step](Images/Fig13.png)
 25. You have now successfully set up the routing scheme for the Add-in. Close the Internet explorer to terminate the debugging session and return to Visual studio.
 
 ## Exercise 3: Extending the AngularCRM Project with a Custom Service
@@ -376,14 +376,14 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
 
 1. Open the **AngularCRM** project in Visual Studio if it is not already open.
 2. Create a new top-level folder named **Lists** at the root of the **AngularCRM** project.  
-![](Images/Fig14.png) 
+![Screenshot of the previous step](Images/Fig14.png) 
 3. Right-click on the **Lists** folder and select **Add > New Item**.
 4. In the **Add New Item** dialog, click the **Office/SharePoint** group on the left and then select the **List** template. Enter a name of **Customers** and click **Add**.  
-![](Images/Fig15.png) 
+![Screenshot of the previous step](Images/Fig15.png) 
 5. In the **SharePoint Customization Wizard** dialog, enter a list display name of **Customers**. Select the option **Create a list instance based on an existing list template** and set the list template type to **Contacts**.  
-![](Images/Fig16.png)
+![Screenshot of the previous step](Images/Fig16.png)
 6. Click the **Finish** button in the **SharePoint Customization Wizard** to create the new project item for the list.  Inside the **Lists** folder, you should be able to see a **Customers** folder which contains an element manifest named **elements.xml**.  
-![](Images/Fig17.png)
+![Screenshot of the previous step](Images/Fig17.png)
 7. In this step you will modify the **elements.xml** so that the **Customers** list will be created with a pre-populated set of customer items.
 	1.  Using Windows Explorer, look inside the **Starter Files** folder within this lab located at [\\\O3657\O3657-1](.) and locate the file named **Customers_Elements.xml.txt**.
 	2.  Open **Customers_Elements.xml.txt** in NOTEPAD and copy all its contents into the Windows clipboard.
@@ -430,7 +430,7 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
   ````
 9. Save and close **elements.xml**.
 10. In the **App** folder, create a new JavaScript file named **services.js**.  
-![](Images/Fig19.png)
+![Screenshot of the previous step](Images/Fig19.png)
 11. Open **start.html** and add a script link for **services.js** just after the script link to **controllers.js**.
 
 		<script src="App.js"></script>
@@ -528,7 +528,7 @@ In this lab you will get hands-on experience working with Office UI Fabric and A
             </div>
         </div>
 21. Test your work by pressing **{F5}** to begin a debugging session. The Add-in should initialize the start page using the view defined in **Home.html** which should display a table of customers as shown in the following screenshot.  
-![](Images/Fig20.png)
+![Screenshot of the previous step](Images/Fig20.png)
 22. Close Internet Explorer to terminate your debugging session and return to Visual Studio.
 23. Now it is time to implement the remaining functionality needed for the service. Begin by opening **services.js** and positioning your cursor just below the **getCustomers** function you added earlier.
 24. Add the following function implementation to the service for the **getCustomer** function.

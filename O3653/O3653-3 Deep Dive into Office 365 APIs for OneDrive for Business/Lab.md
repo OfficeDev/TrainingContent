@@ -12,17 +12,17 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 1. In Visual Studio select **File/New/Project**.
 1. In the **New Project** dialog, select **Templates/Visual C#/Web** and click **ASP.NET Web Application**. Name the new project **OneDriveWeb** and then click **OK**.  
     
-    ![](Images/01.png)
+    ![Screenshot of the previous step](Images/01.png)
     > **Note:** Make sure you enter the exact same name for the Visual Studio Project that is specified in these lab instructions.  The Visual Studio Project name becomes part of the namespace in the code.  The code inside these instructions depends on the namespace matching the Visual Studio Project name specified in these instructions.  If you use a different project name the code will not compile unless you adjust all the namespaces to match the Visual Studio Project name you enter when you create the project.
     
 1. In the **New ASP.NET Project** dialog, click **MVC** and then click **Change Authentication**.
 1. Select **Work And School Accounts**, check **Read directory data** and click **OK**.
 
-	![](Images/02.png)
+	![Screenshot of the previous step](Images/02.png)
 
 1. Uncheck **Host in the cloud**, once the **New ASP.NET Project** dialog appears like the following screenshot, click **OK**. 
 
-	![](Images/03.png)
+	![Screenshot of the previous step](Images/03.png)
     
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
@@ -33,7 +33,7 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
 
-    ![](Images/ConsentDialog.png)
+    ![Screenshot of the previous step](Images/ConsentDialog.png)
   1. Click **Accept** to approve the app's permission request on your data in Office 365.
   1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address and the **Sign Out** link.
   1. In Visual Studio, press **Shift+F5** to stop debugging.
@@ -46,7 +46,7 @@ Congratulations... at this point your app is configured with Azure AD and levera
 3. Select the directory you share with your Office 365 subscription.
 4. Search for the app with the **ida:ClientId** value that was created in the web.config file in exercise 1.
 
-    ![](Images/04.png)
+    ![Screenshot of the previous step](Images/04.png)
 5. Select the application. 
 6. Open the **Configure** tab.
 7. Scroll down to the **permissions to other applications** section. 
@@ -69,7 +69,7 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
 1. In the **Add New Item** dialog, name the new class **FileRepository.cs**.
 1. Click **Add**.
 
-  ![](Images/07.png)
+  ![Screenshot of the previous step](Images/07.png)
 
 1. **Add** the following references to the top of the `FileRepository` class.
 
@@ -347,7 +347,7 @@ Now you will code the MVC application to allow navigating the OneDrive for Busin
 1. Click the link **Files (Graph)** on the top of the home page.
 1. Verify that your application displays files from the OneDrive for Business library.
 
-  ![](Images/08.png)
+  ![Screenshot of the previous step](Images/08.png)
 
 1. Stop debugging.
 1. In the **FilesController.cs** file, **add** the following code to upload and delete files.

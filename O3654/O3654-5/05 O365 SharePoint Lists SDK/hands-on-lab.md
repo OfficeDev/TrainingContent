@@ -60,7 +60,7 @@ to project.
     -   **redirectUriString**       - The redirect URL configured in Azure AD, e.g. "http://example.com/redirect"
     -   **clientId**                - The client Id obtained from Azure AD
     
-    ![](img/fig.01.png)
+    ![Screenshot of the previous step](img/fig.01.png)
 
 06. Build and Run the project in an iOS Simulator to check the views
 
@@ -70,7 +70,7 @@ to project.
     #### Environment:
     To manage Projects and its References, we have two lists called "Research Projects" and "Research References" in a Office365 Sharepoint tenant. Also we have permissions to add, edit and delete items from a list.
 
-    ![](img/fig.08.png)
+    ![Screenshot of the previous step](img/fig.08.png)
 
 
 <a name="exercise2"></a>
@@ -81,27 +81,27 @@ In this exercise you will create a client class for all the operations related t
 
 01. On the XCode files explorer, under the group **ResearchProjectTrackerApp** you will see a **client** empty folder. Also under **ResearchProjectTrackerExtension/Supporting Files** you have another **client** folder.
 
-    ![](img/fig.09.png)
+    ![Screenshot of the previous step](img/fig.09.png)
 
 02. On the first one, make a right click in the client folder and select **New File**. You will see the **New File wizard**. Click on the **iOS** section, select **Cocoa Touch Class** and click **Next**.
 
-    ![](img/fig.10.png)
+    ![Screenshot of the previous step](img/fig.10.png)
 
 03. In this section, configure the new class giving it a name (**ProjectClient**), and make it a subclass of **NSObject**. Make sure that the language dropdown is set with **Objective-C** because our o365-lists library is written in that programming language. Finally click on **Next**.
 
-    ![](img/fig.11.png)    
+    ![Screenshot of the previous step](img/fig.11.png)    
 
 04. Now we are going to select where the new class sources files (.h and .m) will be stored. In this case we can click on **Create** directly. This will create a **.h** and **.m** files for our new class.
 
-    ![](img/fig.12.png)
+    ![Screenshot of the previous step](img/fig.12.png)
 
 05. Do the same for the other **client** folder under the **ResearchProjectTrackerExtension** in order to create the **ProjectClientEx** class, but in the last step of the wizard, change the target, to add visibility to this scope.
 
-    ![](img/fig.13.png)
+    ![Screenshot of the previous step](img/fig.13.png)
 
 06. Now you will have a file structure like this:
 
-    ![](img/fig.14.png)
+    ![Screenshot of the previous step](img/fig.14.png)
 
 08. Build the project and check everything is OK.
 
@@ -631,7 +631,7 @@ The Application has every event wired up with their respective controller classe
 
 08. Build and Run the app, and check everything is OK. You will see the project lists in the main screen
 
-    ![](img/fig.17.png)
+    ![Screenshot of the previous step](img/fig.17.png)
 
 ### Task 2 - Wiring up CreateProjectView
 
@@ -680,7 +680,7 @@ The Application has every event wired up with their respective controller classe
 
 03. Build and Run the app, and check everything is ok. Now you can create a new project with the plus button in the left corner of the main screen
 
-    ![](img/fig.18.png)
+    ![Screenshot of the previous step](img/fig.18.png)
 
 
 ### Task 3 - Wiring up ProjectDetailsView
@@ -813,7 +813,7 @@ The Application has every event wired up with their respective controller classe
 
 10. Build and Run the app, and check everything is OK. Now you can see the references from a project
 
-    ![](img/fig.19.png)
+    ![Screenshot of the previous step](img/fig.19.png)
 
 ### Task 4 - Wiring up EditProjectView
 
@@ -924,7 +924,7 @@ The Application has every event wired up with their respective controller classe
 
 07. Build and Run the app, and check everything is OK. Now you can edit a project
 
-    ![](img/fig.20.png)
+    ![Screenshot of the previous step](img/fig.20.png)
 
 
 ### Task 5 - Wiring up CreateReferenceView
@@ -989,7 +989,7 @@ The Application has every event wired up with their respective controller classe
 
 04. Build and Run the app, and check everything is OK. Now you can add a reference to a project
 
-    ![](img/fig.21.png)
+    ![Screenshot of the previous step](img/fig.21.png)
 
 ### Task 6 - Wiring up ReferenceDetailsView
 
@@ -1073,7 +1073,7 @@ The Application has every event wired up with their respective controller classe
 
 06. Build and Run the app, and check everything is OK. Now you can see the Reference details.
 
-    ![](img/fig.22.png)
+    ![Screenshot of the previous step](img/fig.22.png)
 
 
 ### Task 7 - Wiring up EditReferenceView
@@ -1200,7 +1200,7 @@ The Application has every event wired up with their respective controller classe
 
 07. Build and Run the app, and check everything is OK. Now you can edit and delete a reference.
 
-    ![](img/fig.23.png)
+    ![Screenshot of the previous step](img/fig.23.png)
 
 ### Task 8 - Wiring up Add Reference Safari Extension
  
@@ -1312,23 +1312,23 @@ The app provides a Safari action extension, that allows the user to share a url 
 03. To Run the app, you should select the correct target. To do so, follow the steps:
 
     On the **Run/Debug panel control**, you will see the target selected
-    ![](img/fig.26.png)
+    ![Screenshot of the previous step](img/fig.26.png)
 
     Click on the target name and select the **Extension Target** and an iOS simulator
-    ![](img/fig.27.png)
+    ![Screenshot of the previous step](img/fig.27.png)
 
     Now you can Build and Run the application, but first we have to select what native application
     will open in order to access the extension. In this case, we select **Safari** 
                                    
-    ![](img/fig.28.png)
+    ![Screenshot of the previous step](img/fig.28.png)
 
 04. Build and Run the application, check everything is OK. Now you can share a reference url from safari and attach it to a Project with our application.
 
     Custom Action Extension                                                                                       
-    ![](img/fig.24.png)
+    ![Screenshot of the previous step](img/fig.24.png)
 
     Simple view to add a Reference to a Project                                                                  
-    ![](img/fig.25.png)
+    ![Screenshot of the previous step](img/fig.25.png)
 
 ## Summary
 
