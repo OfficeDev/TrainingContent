@@ -1,69 +1,63 @@
 package com.example.o365testapp;
 
+import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.microsoft.services.graph.BodyType;
-import com.microsoft.services.graph.EmailAddress;
-import com.microsoft.services.graph.ItemBody;
-import com.microsoft.services.graph.MailFolder;
-import com.microsoft.services.graph.Message;
-import com.microsoft.services.graph.Recipient;
-import com.microsoft.services.graph.fetchers.GraphServiceClient;
-import com.microsoft.services.graph.fetchers.MailFolderFetcher;
-import com.microsoft.services.orc.auth.AuthenticationCredentials;
-import com.microsoft.services.orc.core.DependencyResolver;
-import com.microsoft.services.orc.core.OrcList;
-import com.microsoft.services.orc.http.Credentials;
-import com.microsoft.services.orc.http.impl.OAuthCredentials;
-import com.microsoft.services.orc.http.impl.OkHttpTransport;
-import com.microsoft.services.orc.serialization.impl.GsonSerializer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 import java.util.TimeZone;
+import java.util.List;
+
+import com.microsoft.graph.core.ClientException;
+import com.microsoft.graph.core.IClientConfig;
+import com.microsoft.graph.core.DefaultClientConfig;
+import com.microsoft.graph.extensions.BodyType;
+import com.microsoft.graph.extensions.EmailAddress;
+import com.microsoft.graph.extensions.IMailFolderRequestBuilder;
+import com.microsoft.graph.extensions.IMessageCollectionRequest;
+import com.microsoft.graph.extensions.IMessageCollectionRequestBuilder;
+import com.microsoft.graph.extensions.ItemBody;
+import com.microsoft.graph.extensions.MailFolder;
+import com.microsoft.graph.extensions.Message;
+import com.microsoft.graph.extensions.Recipient;
+import com.microsoft.graph.extensions.MailFolder;
+import com.microsoft.graph.extensions.IMailFolderCollectionPage;
+import com.microsoft.graph.extensions.IMailFolderCollectionRequest;
+import com.microsoft.graph.extensions.GraphServiceClient;
+import com.microsoft.graph.extensions.IGraphServiceClient;
+import com.microsoft.graph.extensions.IMessageCollectionPage;
+import com.microsoft.graph.authentication.IAuthenticationAdapter;
+import com.microsoft.graph.authentication.MSAAuthAndroidAdapter;
+import com.microsoft.graph.extensions.User;
+import com.microsoft.graph.http.IHttpRequest;
+import com.microsoft.graph.concurrency.ICallback;
+import com.microsoft.graph.options.Option;
+import com.microsoft.graph.options.HeaderOption;
+import com.microsoft.graph.options.QueryOption;
 
 public class MainActivity extends Activity {
 
     public static final String PARAM_ACCESS_TOKEN = "param_access_token";
 
-    private DependencyResolver mResolver;
-    private GraphServiceClient graphServiceClient;
+    private IGraphServiceClient graphServiceClient;
 
     /**
-     * OAuth Access Token provided by LaunchActivity.
+     * The OAuth Access Token provided by LaunchActivity.
      */
     private String mAccessToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Access token obtained by LaunchActivity using the Active Directory Authentication Library
-        mAccessToken = getIntent().getStringExtra(PARAM_ACCESS_TOKEN);
-
-        mResolver = new DependencyResolver.Builder(
-                new OkHttpTransport(), new GsonSerializer(),
-                new AuthenticationCredentials() {
-                    @Override
-                    public Credentials getCredentials() {
-                        return new OAuthCredentials(mAccessToken);
-                    }
-                }).build();
-
-        graphServiceClient = new GraphServiceClient("https://graph.microsoft.com/v1.0", mResolver);
 
         findViewById(R.id.retrieve_inbox_button).setOnClickListener(
                 new View.OnClickListener() {
@@ -100,6 +94,63 @@ public class MainActivity extends Activity {
                     }
                 }
         );
+
+        //Access token obtained by LaunchActivity using the Active Directory Authentication Library
+        mAccessToken = getIntent().getStringExtra(PARAM_ACCESS_TOKEN);
+
+        final IAuthenticationAdapter authenticationAdapter = new MSAAuthAndroidAdapter(getApplication()) {
+            @Override
+            public String getClientId() {
+                return Constants.CLIENT_ID;
+            }
+
+            @Override
+            public String[] getScopes() {
+                return new String[] {
+                        "https://graph.microsoft.com/Mail.ReadWrite",
+                        "https://graph.microsoft.com/Mail.Send",
+                        "offline_access",
+                        "openid"
+                };
+            }
+            @Override
+            public void authenticateRequest(final IHttpRequest request) {
+                for (final HeaderOption option : request.getHeaders()) {
+                    if (option.getName().equals(AUTHORIZATION_HEADER_NAME)) {
+                        return;
+                    }
+                }
+                if (mAccessToken != null && mAccessToken.length() > 0){
+                    request.addHeader(AUTHORIZATION_HEADER_NAME, OAUTH_BEARER_PREFIX + mAccessToken);
+                    return;
+                }
+                super.authenticateRequest(request);
+            }
+        };
+        final IClientConfig mClientConfig = DefaultClientConfig.createWithAuthenticationProvider(authenticationAdapter);
+        graphServiceClient  = new GraphServiceClient
+                .Builder()
+                .fromConfig(mClientConfig)
+                .buildClient();
+    }
+
+    /*
+
+        TODO: put lab code here
+
+     */
+
+    private class ErrorHandler implements Runnable {
+        private ProgressDialog progress;
+        private ClientException exception;
+        ErrorHandler(ProgressDialog progress, ClientException exception) {
+            this.progress = progress;
+            this.exception = exception;
+        }
+        public void run() {
+            progress.dismiss();
+            showErrorDialog(exception);
+        }
     }
 
     private void showErrorDialog(Throwable t) {
@@ -117,71 +168,74 @@ public class MainActivity extends Activity {
                 this, "Working", "Retrieving Inbox"
         );
 
-        //Get a reference to the users Inbox
-        MailFolderFetcher inboxFetcher = graphServiceClient.getMe()
-                .getMailFolders()
-                .getById("Inbox");
+        graphServiceClient.
+                getMe().
+                getMailFolders().
+                buildRequest(Arrays.asList(new Option[]{new QueryOption("$filter", "displayName eq 'Inbox'")})).
+                get(new ICallback<IMailFolderCollectionPage>() {
+                        @Override
+                        public void success(IMailFolderCollectionPage foldersPage) {
+                            List< MailFolder > mailFolders = foldersPage.getCurrentPage();
+                            if (mailFolders.size() == 1){
+                                //Get a reference to Inbox
+                                String inboxId = mailFolders.get(0).id;
+                                IMailFolderRequestBuilder mailFolderRequestBuilder = graphServiceClient.
+                                        getMe().
+                                        getMailFolders(inboxId);
+                                //Get a timestamp for today at midnight
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                                calendar.set(Calendar.MINUTE, 0);
+                                calendar.set(Calendar.SECOND, 0);
+                                calendar.set(Calendar.MILLISECOND, 0);
 
-        //Retrieve the messages from the inbox
-        //Get a timestamp for today at midnight
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+                                //Create a filter string
+                                DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                                iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                String receivedDateFilter = String.format(
+                                        "receivedDateTime gt %s",
+                                        iso8601.format(calendar.getTime())
+                                );
 
-        //Create a filter string
-        DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String odataFilter = String.format(
-                "receivedDateTime gt %s",
-                iso8601.format(calendar.getTime())
-        );
+                                // Get messages from Inbox
+                                IMessageCollectionRequest messagesRequest = mailFolderRequestBuilder.
+                                        getMessages().
+                                        buildRequest(Arrays.asList(new Option[]{new QueryOption("$filter", receivedDateFilter)}));
+                                messagesRequest.get(new ICallback<IMessageCollectionPage>() {
+                                    @Override
+                                    public void success(IMessageCollectionPage messagesPage) {
+                                        List<Message> messages = messagesPage.getCurrentPage();
+                                        final String[] items = new String[messages.size()];
+                                        for (int i = 0; i < messages.size(); i++) {
+                                            items[i] = messages.get(i).subject;
+                                        }
+                                        //Launch a dialog to show the results to the user
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progress.dismiss();
+                                                new AlertDialog.Builder(MainActivity.this)
+                                                        .setTitle("Inbox")
+                                                        .setPositiveButton("OK", null)
+                                                        .setItems(items, null)
+                                                        .show();
+                                            }
+                                        });
+                                    }
 
-        // Retrieve the first page of 10 results
-        int pageSize = 10, pageIndex = 0;
+                                    @Override
+                                    public void failure(final ClientException ex) {
+                                        runOnUiThread(new ErrorHandler(progress, ex));
+                                    }
+                                });
+                            }
+                        }
 
-        //Retrieve the messages in the inbox
-        final ListenableFuture<OrcList<Message>> messagesFuture =
-                inboxFetcher.getMessages()
-                        .top(pageSize)
-                        .skip(pageSize * pageIndex)
-                        .read();
-
-        //Attach a callback to handle the eventual result
-        Futures.addCallback(messagesFuture,new FutureCallback<List<Message>>() {
-            @Override
-            public void onSuccess(List<Message> result) {
-                //Transform the results into a collection of strings
-                final String[] items = new String[result.size()];
-                for (int i = 0; i < result.size(); i++) {
-                    items[i] = result.get(i).getSubject();
-                }
-                //Launch a dialog to show the results to the user
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Inbox")
-                                .setPositiveButton("OK", null)
-                                .setItems(items, null)
-                                .show();
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
+                        @Override
+                        public void failure(ClientException ex) {
+                            runOnUiThread(new ErrorHandler(progress, ex));
+                        }
+                    });
     }
 
     private void startRetrieveFolders() {
@@ -191,51 +245,38 @@ public class MainActivity extends Activity {
                 this, "Working", "Retrieving Folders"
         );
 
-        //Retrieve the top-level folders which have child folders
-        int pageSize = 10, pageIndex = 0;
-
         //Retrieve the top-level folders
-        ListenableFuture<OrcList<MailFolder>> foldersFuture =
-                graphServiceClient.getMe()
-                        .getMailFolders()
-                        .filter("ChildFolderCount gt 0")
-                        .top(pageSize)
-                        .skip(pageSize * pageIndex)
-                        .read();
+        graphServiceClient.getMe().
+                getMailFolders().
+                buildRequest().
+                get(new ICallback<IMailFolderCollectionPage>() {
+                    @Override
+                    public void success(IMailFolderCollectionPage mailFoldersPage) {
+                        //Transform the results into a collection of strings
+                        List<MailFolder> mailFolders = mailFoldersPage.getCurrentPage();
+                        final String[] items = new String[mailFolders.size()];
+                        for (int i = 0; i < mailFolders.size(); i++) {
+                            items[i] = mailFolders.get(i).displayName;
+                        }
+                        //Launch a dialog to show the results to the user
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle("Folders")
+                                        .setPositiveButton("OK", null)
+                                        .setItems(items, null)
+                                        .show();
+                            }
+                        });
+                    }
 
-        //Attach a callback to handle the eventual result
-        Futures.addCallback(foldersFuture,new FutureCallback<List<MailFolder>>() {
-            @Override
-            public void onSuccess(List<MailFolder> result) {
-                //Transform the results into a collection of strings
-                final String[] items = new String[result.size()];
-                for (int i = 0; i < result.size(); i++) {
-                    items[i] = result.get(i).getDisplayName();
-                }
-                //Launch a dialog to show the results to the user
-                runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Folders")
-                                .setPositiveButton("OK", null)
-                                .setItems(items, null)
-                                .show();
+                    public void failure(final ClientException ex) {
+                        runOnUiThread(new ErrorHandler(progress, ex));
                     }
                 });
-            }
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
 
     private void startSendMessage() {
@@ -245,57 +286,62 @@ public class MainActivity extends Activity {
                 this, "Working", "Sending a Message"
         );
 
-        //Create an example message
-        ItemBody body = new ItemBody();
-        body.setContentType(BodyType.text);
-        body.setContent("This is a message body");
-
-        EmailAddress recipientAddress = new EmailAddress();
-        recipientAddress.setAddress(PLACEHOLDER_ADDRESS);
-        recipientAddress.setName(PLACEHOLDER_NAME);
-
-        Recipient recipient = new Recipient();
-        recipient.setEmailAddress(recipientAddress);
-
-        Message message = new Message();
-        message.setToRecipients(Arrays.asList(recipient));
-        message.setSubject("This is a test message");
-        message.setBody(body);
-
-        //Send the message through the API
-        boolean saveToSentItems = true;
-        ListenableFuture future =
-                graphServiceClient.getMe()
-                        .getOperations()
-                        .sendMail(message, saveToSentItems);
-
-        Futures.addCallback(future, new FutureCallback() {
-            @Override
-            public void onSuccess(Object result) {
-                runOnUiThread(new Runnable() {
+        graphServiceClient.
+                getMe().
+                buildRequest().
+                get(new ICallback<User>() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Success")
-                                .setMessage("The message was sent")
-                                .setPositiveButton("OK", null)
-                                .show();
+                    public void success(User user) {
+                        //Create an example message
+                        ItemBody body = new ItemBody();
+                        body.contentType = BodyType.text;
+                        body.content = "This is a message body";
+
+                        EmailAddress recipientAddress = new EmailAddress();
+                        recipientAddress.address = user.mail;
+                        recipientAddress.name = user.displayName;
+
+                        Recipient recipient = new Recipient();
+                        recipient.emailAddress = recipientAddress;
+
+                        Message message = new Message();
+                        message.toRecipients = (Arrays.asList(recipient));
+                        message.subject = "This is a test message";
+                        message.body = body;
+
+                        //Send the message through the API
+                        boolean saveToSentItems = true;
+                        graphServiceClient.getMe().
+                                getSendMail(message, saveToSentItems).
+                                buildRequest().
+                                post(new ICallback<Void>() {
+                                    @Override
+                                    public void success(Void aVoid) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progress.dismiss();
+                                                new AlertDialog.Builder(MainActivity.this)
+                                                        .setTitle("Success")
+                                                        .setMessage("The message was sent")
+                                                        .setPositiveButton("OK", null)
+                                                        .show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void failure(final ClientException ex) {
+                                        runOnUiThread(new ErrorHandler(progress, ex));
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void failure(ClientException ex) {
+                        runOnUiThread(new ErrorHandler(progress, ex));
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
 
     private void promptUserForFolderName() {
@@ -319,50 +365,60 @@ public class MainActivity extends Activity {
 
     }
 
-    private void startCreateFolder(String newFolderName) {
+    private void startCreateFolder(final String newFolderName) {
 
         //Show a "work-in-progress" dialog
         final ProgressDialog progress = ProgressDialog.show(
                 this, "Working", "Creating Folder"
         );
 
-        MailFolder newFolder = new MailFolder();
-        newFolder.setDisplayName(newFolderName);
-
         //Create the folder via the API
-        ListenableFuture<MailFolder> newFolderFuture =
-                graphServiceClient.getMe()
-                        .getMailFolders()
-                        .getById("Inbox")
-                        .getChildFolders()
-                        .add(newFolder);
+        graphServiceClient.
+                getMe().
+                getMailFolders().
+                buildRequest(Arrays.asList(new Option[]{new QueryOption("$filter", "displayName eq 'Inbox'")})).
+                get(new ICallback<IMailFolderCollectionPage>() {
+                        @Override
+                        public void success(IMailFolderCollectionPage foldersPage) {
+                            List< MailFolder > mailFolders = foldersPage.getCurrentPage();
+                            if (mailFolders.size() == 1) {
+                                String inboxId = mailFolders.get(0).id;
+                                final MailFolder newFolder = new MailFolder();
+                                newFolder.displayName = newFolderName;
 
-        Futures.addCallback(newFolderFuture, new FutureCallback<MailFolder>() {
-            @Override
-            public void onSuccess(final MailFolder result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Success")
-                                .setMessage("Created folder " + result.getDisplayName())
-                                .setPositiveButton("OK", null)
-                                .show();
-                    }
-                });
-            }
+                                graphServiceClient.
+                                        getMe().
+                                        getMailFolders(inboxId).
+                                        getChildFolders().
+                                        buildRequest().
+                                        post(newFolder, new ICallback<MailFolder>() {
+                                            @Override
+                                            public void success(final MailFolder mailFolder) {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        progress.dismiss();
+                                                        new AlertDialog.Builder(MainActivity.this)
+                                                                .setTitle("Success")
+                                                                .setMessage("Created folder " + mailFolder.displayName)
+                                                                .setPositiveButton("OK", null)
+                                                                .show();
+                                                    }
+                                                });
+                                            }
 
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
+                                            @Override
+                                            public void failure(ClientException ex) {
+                                                runOnUiThread(new ErrorHandler(progress, ex));
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void failure(ClientException ex) {
+                            runOnUiThread(new ErrorHandler(progress, ex));
+                        }
+                    });
     }
 }

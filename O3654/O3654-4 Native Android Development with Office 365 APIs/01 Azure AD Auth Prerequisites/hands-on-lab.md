@@ -8,7 +8,7 @@ The lab steps through the steps required to configure your Office 365 Tenant for
 ## Objectives
 
 - Connect your Office 365 Azure Active Directory to your Azure subscription.
-- Add an Azure Active Directory Application to your Office 365 Tenant's Active Directory to allow authentcation from your Android or iOS app.
+- Add an Azure Active Directory Application to your Office 365 Tenant's Active Directory to allow authentication from your Android or iOS app.
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Azure Subscription to complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
@@ -102,10 +102,10 @@ and interact with the Office 365 Exchange and SharePoint APIs
 12. From **Delegated Permissions** select the following:
 
     * Read and write access to users' mail
-    * Send mail as user
+    * Send mail as a user
     * Have full access to users' calendars
     * Have full access to users' contacts
-    * Have full access to user files and files shared with user
+    * Have full access to all files user can access
 
     This configures your app to have delegated permission to access user data in
     Microsoft Graph.

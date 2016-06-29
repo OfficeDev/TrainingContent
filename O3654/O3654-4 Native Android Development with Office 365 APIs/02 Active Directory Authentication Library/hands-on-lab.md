@@ -45,11 +45,7 @@ Then, we'll use the ADAL to authenticate and obtain an access token.
 
     ![](img/0000_create_new_project.png)
 
-02. Fill out the new project wizard, selecting the following:
-
-    * Phone and Tablet
-    * API 23: Android 6.0 (Marshmallow)
-    * Empty Activity
+02. Fill out the new project wizard according the screenshots below:
 
     ![](img/0005_create_new_project_form.png)
     ![](img/0010_create_new_project_form_2.png)
@@ -74,7 +70,6 @@ AVD you may skip this Task.
 	![](img/0022_create_AVD.png)
 	![](img/0023_create_AVD.png)
 	![](img/0024_create_AVD.png)
-	![](img/0025_create_AVD.png)
 
 03. Select the newly created AVD and click **Start** to start it.
 

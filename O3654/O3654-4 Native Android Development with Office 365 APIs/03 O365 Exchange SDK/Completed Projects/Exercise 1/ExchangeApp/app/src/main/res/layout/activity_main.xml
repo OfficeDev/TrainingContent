@@ -9,4 +9,6 @@
     android:orientation="vertical"
     tools:context="com.example.o365testapp.MainActivity">
 
+    <!-- TODO: put your view elements here -->
+
 </LinearLayout>

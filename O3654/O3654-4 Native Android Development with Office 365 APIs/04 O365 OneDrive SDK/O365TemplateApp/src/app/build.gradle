@@ -25,6 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
 
     //Active Directory Authentication Library
-    compile 'com.microsoft.aad:adal:1.0.+'
+    compile 'com.microsoft.aad:adal:1.0.5'
 
 }

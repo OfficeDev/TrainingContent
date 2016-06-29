@@ -65,7 +65,9 @@ In this task we'll get the test application up and running.
 
     Wait for Android Studio to finish importing the test project
 
-06. Open the `app/src/res/values/strings.xml` resource file.
+06. Open the `app/src/main/res/values/strings.xml` resource file.
+
+	![](img/0011_open_strings_xml.png)
 
 07. Find the string resource named **app_name**, and change it to **O365 OneDrive Test App**.
 
@@ -111,8 +113,11 @@ In this task you will add the **Microsoft Graph SDK** to the app and then config
     compile 'com.microsoft.services:odata-engine-core:0.11.0'
     compile 'com.microsoft.services:odata-engine-android-impl:0.11.0@aar'
 
-    // Microsoft Graph SDK
-    compile 'com.microsoft.services:graph-services:0.8.0'
+    // MSGraph SDK
+    compile 'com.microsoft.graph:msgraph-sdk-android:0.9.2'
+
+    // MSGraph SDK Android MSA Auth for Android Adapter
+    compile 'com.microsoft.graph:msa-auth-for-android-adapter:0.9.0'
     ```
 
     E.g.
@@ -139,55 +144,76 @@ In this task you will add the **Microsoft Graph SDK** to the app and then config
 	import android.widget.EditText;
 	import android.widget.ImageView;
 	import android.widget.TextView;
-	import com.google.common.util.concurrent.FutureCallback;
-	import com.google.common.util.concurrent.Futures;
-	import com.google.common.util.concurrent.ListenableFuture;
-	import com.microsoft.services.graph.DriveItem;
-	import com.microsoft.services.graph.File;
-	import com.microsoft.services.graph.Folder;
-	import com.microsoft.services.graph.fetchers.GraphServiceClient;
-	import com.microsoft.services.orc.auth.AuthenticationCredentials;
-	import com.microsoft.services.orc.core.DependencyResolver;
-	import com.microsoft.services.orc.core.OrcList;
-	import com.microsoft.services.orc.http.Credentials;
-	import com.microsoft.services.orc.http.impl.OAuthCredentials;
-	import com.microsoft.services.orc.http.impl.OkHttpTransport;
-	import com.microsoft.services.orc.serialization.impl.GsonSerializer;
+	
 	import java.io.BufferedReader;
 	import java.io.IOException;
 	import java.io.InputStream;
 	import java.io.InputStreamReader;
 	import java.io.UnsupportedEncodingException;
 	import java.util.List;
+	
+	import com.microsoft.graph.concurrency.ICallback;
+	import com.microsoft.graph.extensions.DriveItem;
+	import com.microsoft.graph.extensions.File;
+	import com.microsoft.graph.extensions.Folder;
+	import com.microsoft.graph.extensions.GraphServiceClient;;
+	import com.microsoft.graph.extensions.IDriveItemCollectionPage;
+	import com.microsoft.graph.extensions.IDriveItemCollectionRequest;
+	import com.microsoft.graph.extensions.IGraphServiceClient;
+	import com.microsoft.graph.core.ClientException;
+	import com.microsoft.graph.core.IClientConfig;
+	import com.microsoft.graph.core.DefaultClientConfig;
+	import com.microsoft.graph.authentication.MSAAuthAndroidAdapter;
+	import com.microsoft.graph.authentication.IAuthenticationAdapter;
+	import com.microsoft.graph.http.IHttpRequest;
+	import com.microsoft.graph.options.HeaderOption;
 	``` 
 
 07. Add the following member fields to the top of the class:
 
     ```java
-    private DependencyResolver mResolver;
-    private GraphServiceClient graphServiceClient;
+    private IGraphServiceClient graphServiceClient;
     ```
 
 08. Add the following code to the end of the `onCreate` function.
 
     ```java
-    mResolver = new DependencyResolver.Builder(
-            new OkHttpTransport(), new GsonSerializer(),
-            new AuthenticationCredentials() {
-                @Override
-                public Credentials getCredentials() {
-                    return new OAuthCredentials(mAccessToken);
-                }
-            }).build();
+    final IAuthenticationAdapter authenticationAdapter = new MSAAuthAndroidAdapter(getApplication()) {
+        @Override
+        public String getClientId() {
+            return Constants.CLIENT_ID;
+        }
 
-    graphServiceClient = new GraphServiceClient("https://graph.microsoft.com/v1.0", mResolver);
+        @Override
+        public String[] getScopes() {
+            return new String[] {
+                    "https://graph.microsoft.com/File.ReadWrite",
+                    "offline_access",
+                    "openid"
+            };
+        }
+        @Override
+        public void authenticateRequest(final IHttpRequest request) {
+            for (final HeaderOption option : request.getHeaders()) {
+                if (option.getName().equals(AUTHORIZATION_HEADER_NAME)) {
+                    return;
+                }
+            }
+            if (mAccessToken != null && mAccessToken.length() > 0){
+                request.addHeader(AUTHORIZATION_HEADER_NAME, OAUTH_BEARER_PREFIX + mAccessToken);
+                return;
+            }
+            super.authenticateRequest(request);
+        }
+    };
+    final IClientConfig mClientConfig = DefaultClientConfig.createWithAuthenticationProvider(authenticationAdapter);
+    graphServiceClient  = new GraphServiceClient
+            .Builder()
+            .fromConfig(mClientConfig)
+            .buildClient();
     ```
 
     >**Note:** The variable `mAccessToken` is obtained by `LaunchActivity` using the Active Directory Authentication Library.
-	>
-	> The first argument to the `GraphServiceClient` is the URL for your Microsoft Graph endpoint. Generally, this will be "https://graph.microsoft.com/v1.0".
-	> 
-    > The "/v1.0" path component is required.
 
 <a name="exercise2"></a>
 ## Exercise 2: Enumerating Files and Folders
@@ -200,7 +226,7 @@ In this exercise we will take a look at enumerating Files and Folders.
 
     This layout file contains an empty `LinearLayout` view, configured to stack its child views vertically.
 
-02. Add the following element to `activity_main.xml`:
+02. Add the following element to `LinearLayout` element of `activity_main.xml`:
 
     ```xml
     <Button
@@ -226,6 +252,19 @@ In this exercise we will take a look at enumerating Files and Folders.
 04. Add the following functions to the `MainActivity` class.
 
     ```java
+    private class ErrorHandler implements Runnable {
+        private ProgressDialog progress;
+        private Throwable throwable;
+        ErrorHandler(ProgressDialog progress, Throwable throwable) {
+            this.progress = progress;
+            this.throwable = throwable;
+        }
+        public void run() {
+            progress.dismiss();
+            showErrorDialog(throwable);
+        }
+    }
+
     private void showErrorDialog(Throwable t) {
         new AlertDialog.Builder(this)
                 .setTitle("Whoops!")
@@ -241,31 +280,35 @@ In this exercise we will take a look at enumerating Files and Folders.
                 this, "Working", "Retrieving Files"
         );
 
-        ListenableFuture<OrcList<DriveItem>> itemsFuture;
-
+        IDriveItemCollectionRequest itemsRequest = null;
         if (folder == null) {
             //Get the files in the root folder
-            itemsFuture = graphServiceClient.getMe().getDrive()
-                    .getRoot()
-                    .getChildren()
-                    .read();
+            itemsRequest = graphServiceClient.
+                    getMe().
+                    getDrive().
+                    getRoot().
+                    getChildren().
+                    buildRequest();
         }
         else {
             //Get the files in this folder
-            itemsFuture = graphServiceClient.getMe().getDrive()
-                    .getItem(folder.getId())
-                    .getChildren()
-                    .read();
+            itemsRequest = graphServiceClient.
+                    getMe().
+                    getDrive().
+                    getItems(folder.id).
+                    getChildren().
+                    buildRequest();
         }
 
-        Futures.addCallback(itemsFuture, new FutureCallback<List<DriveItem>>() {
+        itemsRequest.get(new ICallback<IDriveItemCollectionPage>() {
             @Override
-            public void onSuccess(final List<DriveItem> result) {
+            public void success(IDriveItemCollectionPage driveItemsPage) {
+                final List<DriveItem> driveItems = driveItemsPage.getCurrentPage();
                 //Transform the results into a collection of strings
-                final String[] items = new String[result.size()];
-                for (int i = 0; i < result.size(); i++) {
-                    DriveItem item = result.get(i);
-                    items[i] = "(" + (item.getFolder() != null ? "Folder" : "File") + ") " + item.getName();
+                final String[] items = new String[driveItems.size()];
+                for (int i = 0; i < driveItems.size(); i++) {
+                    DriveItem item = driveItems.get(i);
+                    items[i] = "(" + (item.folder != null ? "Folder" : "File") + ") " + item.name;
                 }
                 //Launch a dialog to show the results to the user
                 runOnUiThread(new Runnable() {
@@ -278,8 +321,8 @@ In this exercise we will take a look at enumerating Files and Folders.
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         //The user picked a file - figure out if it is a file or folder
-                                        DriveItem item = result.get(i);
-                                        if (item.getFolder() == null) {
+                                        DriveItem item = driveItems.get(i);
+                                        if (item.folder == null) {
                                             //download the file contents
                                             //TODO: startDownloadFile(item);
                                         } else {
@@ -295,17 +338,10 @@ In this exercise we will take a look at enumerating Files and Folders.
             }
 
             @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
+            public void failure(ClientException ex) {
+                runOnUiThread(new ErrorHandler(progress, ex));
             }
         });
-
     }
     ```
 
@@ -317,7 +353,7 @@ In this exercise we will take a look at enumerating Files and Folders.
 
     Try clicking on a "(Folder)" in the list - the code will then enumerate the contents of that Folder.
 
-In this task we made a call to the to enumerate the User's Files and Folders. There is a lot of boilerplate code here, so let's take a look at the interesting parts:
+In this task we will call the Graph APIs to enumerate the User's Files and Folders. There is a lot of boilerplate code here, so let's take a look at the interesting parts:
 
 First we have to note that the function `startRetrieveFiles()` has two functions:
 
@@ -326,30 +362,34 @@ First we have to note that the function `startRetrieveFiles()` has two functions
 
 ```java
 //Get the files in the root folder
-itemsFuture = graphServiceClient.getMe().getDrive()
-                    .getRoot()
-                    .getChildren()
-                    .read();
+itemsRequest = graphServiceClient.
+        getMe().
+        getDrive().
+        getRoot().
+        getChildren().
+        buildRequest();
 ```
 
-Here we are using `getChildren().read()` to enumerate the files and folders in the **root** folder.
+Here we are using `getChildren()` to enumerate the files and folders in the **root** folder.
 
 ```java
 //Get the files in this folder
-itemsFuture = graphServiceClient.getMe().getDrive()
-                    .getItem(folder.getId())
-                    .getChildren()
-                    .read();
+itemsRequest = graphServiceClient.
+	    getMe().
+	    getDrive().
+	    getItems(folder.id).
+	    getChildren().
+	    buildRequest();
 ```
 
-Here we are using `getItem()` to retrieve a single item from by its Id. In this case the item is a folder, so we use `getChildren().read()` to enumerate the items in that folder.
+Here we are using `getItems()` to retrieve a single item from by its Id. In this case the item is a folder, so we use `getChildren()` to enumerate the items in that folder.
 
-The `read()` functions starts the query and returns a **Future**, which is a handle to the eventual result of the API call.
+The `buildRequest()` function creates a query request, which is used to execute the query.
 
-We can use the `Futures` helper class to attach a callback to the future which will handle the **Success** or **Failure** of the call. E.g.
+We starts the query asynchronously with a `<callback>`, which is a handle to the eventual result(**Success** or **Failure**) of the API call.
 
 ```java
-Futures.addCallback(itemsFuture, new FutureCallback<List<DriveItem>>() {
+itemsRequest.get(new ICallback<IDriveItemCollectionPage>() {
     @Override
     public void onSuccess(List<DriveItem> result) {
             //Handle success (e.g. 200, 201)
@@ -376,16 +416,15 @@ Alternatively, we could use the `get()` function on the **Future** object. This 
 
 ```java
 try {
-    OrcList<DriveItem> driveItems = graphServiceClient.getMe().getDrive()
-                .getRoot()
-                .getChildren()
-                .read()
-                .get();
+    graphServiceClient.
+        getMe().
+        getDrive().
+        getRoot().
+        getChildren().
+        buildRequest().
+		get();
 }
-catch (InterruptedException e) {
-    //handle error
-}
-catch (ExecutionException e) {
+catch (ClientException e) {
     //handle error
 }
 ```
@@ -395,12 +434,14 @@ catch (ExecutionException e) {
 Finally, take note of this block of code in the middle of the function which looks something like this:
 
 ```java
-DriveItem item = result.get(i);
+DriveItem item = driveItems.get(i);
 if (item.getFolder() == null) {
     //process the item as a File
+	//TODO: startDownloadFile(item);
 }
 else {
     //process the item as a Folder
+	startRetrieveFiles(item);
 }
 ```
 
@@ -430,45 +471,37 @@ In this task we'll go through the steps required to download a file.
         final ProgressDialog progress = ProgressDialog.show(
                 this, "Working", "Retrieving File Contents"
         );
-
-        //Get the contents of the file
-        ListenableFuture<InputStream> resultFuture = graphServiceClient.getMe().getDrive()
-                .getItem(file.getId())
-                .getContent()
-                .getStream();
-
-        Futures.addCallback(resultFuture, new FutureCallback<InputStream>() {
+        new Thread() {
             @Override
-            public void onSuccess(final InputStream result) {
+            public void run() {
+                try {
+                    //Get the contents of the file
+                    InputStream stream = graphServiceClient.
+                            getMe().
+                            getDrive().
+                            getItems(file.id).
+                            getContent().
+                            buildRequest().
+                            get();
+                    final View view = getFileView(stream);
 
-                //Try and parse this data as an image or plain text
-                final View view = getFileView(result);
-
-                //Launch a dialog to show the results to the user
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("File Contents")
-                                .setView(view)
-                                .setPositiveButton("OK", null)
-                                .show();
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
+                    //Launch a dialog to show the results to the user
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progress.dismiss();
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("File Contents")
+                                    .setView(view)
+                                    .setPositiveButton("OK", null)
+                                    .show();
+                        }
+                    });
+                }
+                catch (final Throwable t){
+                    runOnUiThread(new ErrorHandler(progress, t));
+                }
+            }}.start();
     }
 
     private View getFileView(InputStream result) {
@@ -539,15 +572,18 @@ The interesting piece of code is the following statement:
 
 ```java
 //Get the contents of the file
-        ListenableFuture<InputStream> resultFuture = graphServiceClient.getMe().getDrive()
-        .getItem(file.getId())
-        .getContent()
-        .getStream();
+InputStream stream = graphServiceClient.
+        getMe().
+        getDrive().
+        getItems(file.id).
+        getContent().
+        buildRequest().
+        get();
 ```
 
-Here we are navigating the API in the same manner as before, using `getItem()` to get a reference to the file.
+Here we are navigating the API in the same manner as before, using `getItems()` to get a reference to the file.
 
-Next, we use `getContent().getStream()` to start a query to retrieve the actual contents of the file. These are eventually available (via a **future**) as an **InputStream**.
+Next, we use `getContent()` to build a query request to retrieve the actual contents of the file. Executing the query request will retrieve an **InputStream**.
 
 <a name="exercise3"></a>
 ## Exercise 3: Creating Files and Folders
@@ -559,7 +595,7 @@ content.
 
 01. Open the the MainActivity layout file found at `app/src/main/res/layout/activity_main.xml`.
 
-02. Add the the following element to `activity_main.xml`:
+02. Add the the following element to `LinearLayout` element of `activity_main.xml`:
 
     ```xml
     <Button
@@ -613,42 +649,43 @@ content.
         //Create a new folder entity
         DriveItem  item = new DriveItem();
         Folder folder = new Folder();
-        item.setFolder(folder);
-        item.setName(newFolderName);
+        item.folder = folder;
+        item.name = newFolderName;
 
         //Create the folder via the API
-        ListenableFuture<DriveItem> newFolderFuture = graphServiceClient.getMe().getDrive()
-                .getRoot()
-                .getChildren()
-                .add(item);
-
-        Futures.addCallback(newFolderFuture, new FutureCallback<DriveItem>() {
-            @Override
-            public void onSuccess(final DriveItem result) {
-                runOnUiThread(new Runnable() {
+        graphServiceClient.
+                getMe().
+                getDrive().
+                getRoot().
+                getChildren().
+                buildRequest().
+                post(item, new ICallback<DriveItem>() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Success")
-                                .setMessage("Created folder " + result.getName())
-                                .setPositiveButton("OK", null)
-                                .show();
+                    public void success(final DriveItem driveItem) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle("Success")
+                                        .setMessage("Created folder " + driveItem.name)
+                                        .setPositiveButton("OK", null)
+                                        .show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(final ClientException ex) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                showErrorDialog(ex);
+                            }
+                        });
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
     ```
 
@@ -662,25 +699,28 @@ These functions prompt the user for a Folder name, and then create a folder thro
 
 ```java
 //Create a new folder entity
-        DriveItem  item = new DriveItem();
-        Folder folder = new Folder();
-        item.setFolder(folder);
-        item.setName(newFolderName);
+DriveItem  item = new DriveItem();
+Folder folder = new Folder();
+item.folder = folder;
+item.name = newFolderName;
 
-        //Create the folder via the API
-        ListenableFuture<DriveItem> newFolderFuture = graphServiceClient.getMe().getDrive()
-                .getRoot()
-                .getChildren()
-                .add(item);
+//Create the folder via the API
+graphServiceClient.
+        getMe().
+        getDrive().
+        getRoot().
+        getChildren().
+        buildRequest().
+        post(item, <callback>); 
 ```
 
-The code creates a simple `Folder` model, and then adds it to the `root` folder. We await the result using the `newFolderFuture` variable.
+The code creates a simple `Folder` model, and then adds it to the `root` folder. We post the request by the API asynchronously with a `<callback>` which will handle the **success** or **failure** of the call.
 
 ### Task 2 - Creating a File
 
 01. Open the MainActivity layout file found at `app/src/main/res/layout/activity_main.xml`.
 
-02. Add the following element to `activity_main.xml`:
+02. Add the following element to `LinearLayout` element of `activity_main.xml`:
 
     ```xml
     <Button
@@ -735,38 +775,39 @@ The code creates a simple `Folder` model, and then adds it to the `root` folder.
 
         DriveItem item = new DriveItem();
         File file = new File();
-        item.setFile(file);
-        item.setName(newFileName);
+        item.file = file;
+        item.name = newFileName;
 
-        //Create the folder via the API
-        ListenableFuture<DriveItem> newFileFuture = graphServiceClient.getMe().getDrive()
-                .getRoot()
-                .getChildren()
-                .add(item);
-
-        Futures.addCallback(newFileFuture, new FutureCallback<DriveItem>() {
-            @Override
-            public void onSuccess(final DriveItem result) {
-                runOnUiThread(new Runnable() {
+        //Create the file via the API
+        graphServiceClient.
+                getMe().
+                getDrive().
+                getRoot().
+                getChildren().
+                buildRequest().
+                post(item, new ICallback<DriveItem>() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        uploadFileContent(result);
+                    public void success(final DriveItem driveItem) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                uploadFileContent(driveItem);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(final ClientException ex) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                showErrorDialog(ex);
+                            }
+                        });
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
 
     private void uploadFileContent(final DriveItem file) {
@@ -788,43 +829,44 @@ The code creates a simple `Folder` model, and then adds it to the `root` folder.
         }
 
         //Upload the file content
-        ListenableFuture<Void> future = graphServiceClient.getMe().getDrive()
-                .getItem(file.getId())
-                .getContent()
-                .putContent(bytes);
-
-        Futures.addCallback(future, new FutureCallback<Void>() {
-            @Override
-            public void onSuccess(final Void result) {
-                runOnUiThread(new Runnable() {
+        graphServiceClient.
+                getMe().
+                getDrive().
+                getItems(file.id).
+                getContent().
+                buildRequest().
+                put(bytes, new ICallback<DriveItem>() {
                     @Override
-                    public void run() {
+                    public void success(DriveItem driveItem) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progress.dismiss();
+                                        new AlertDialog.Builder(MainActivity.this)
+                                                .setTitle("Success")
+                                                .setMessage("Created file " + file.name)
+                                                .setPositiveButton("OK", null)
+                                                .show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(final ClientException ex) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 progress.dismiss();
-                                new AlertDialog.Builder(MainActivity.this)
-                                        .setTitle("Success")
-                                        .setMessage("Created file " + file.getName())
-                                        .setPositiveButton("OK", null)
-                                        .show();
+                                showErrorDialog(ex);
                             }
                         });
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
     ```
 
@@ -839,18 +881,21 @@ These functions prompt the user for a File name, and then create a folder throug
 ```java
 //Create a new file entity
 DriveItem item = new DriveItem();
-        File file = new File();
-        item.setFile(file);
-        item.setName(newFileName);
+File file = new File();
+item.setFile(file);
+item.setName(newFileName);
 
 //Create the file via the API
-ListenableFuture<DriveItem> newFileFuture = graphServiceClient.getMe().getDrive()
-                .getRoot()
-                .getChildren()
-                .add(item);
+graphServiceClient.
+	    getMe().
+	    getDrive().
+	    getRoot().
+	    getChildren().
+	    buildRequest().
+	    post(item, <callback>) 
 ```
 
-This code creates a simple `File` model, and then adds it to the `root` folder. We await the result using the `newFileFuture` variable.
+This code creates a simple `File` model, and then adds it to the `root` folder. We post the request by the API asynchronously with a `<callback>` which will handle the **success** or **failure** of the call.
 
 ```java
 String content = "This is some file content!";
@@ -858,10 +903,13 @@ String content = "This is some file content!";
 byte[] bytes = content.getBytes("UTF-8");
 
 //Upload the file content
-ListenableFuture<Void> future = graphServiceClient.getMe().getDrive()
-                .getItem(file.getId())
-                .getContent()
-                .putContent(bytes);
+graphServiceClient.
+        getMe().
+        getDrive().
+        getItems(file.id).
+        getContent().
+        buildRequest().
+        put(bytes, <callback>)
 ```
 
 This code uploads new content to an existing file on the server - in this case the file we just created.

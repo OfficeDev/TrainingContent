@@ -14,7 +14,7 @@ public class App extends Application {
     public AuthenticationContext getAuthContext() {
         if (mAuthContext == null) {
             try {
-                mAuthContext = new AuthenticationContext(getApplicationContext(), "https://login.windows.net/common", false);
+                mAuthContext = new AuthenticationContext(getApplicationContext(), "https://login.microsoftonline.com/common", false);
             }
             catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException("Error creating auth context", e);

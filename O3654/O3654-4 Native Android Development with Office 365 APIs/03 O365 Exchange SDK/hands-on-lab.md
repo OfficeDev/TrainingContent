@@ -8,7 +8,7 @@ Office 365 Exchange exposes a RESTful HTTP API which we can consume using the Mi
 The SDK provides asynchronous access to the Microsoft Graph using strongly-typed
 objects and operations.
 
-For more information on the API being consumed in this lab, see [the API documentation][docs-mail-contacts-calendar].
+For more information on the API being consumed in this lab, see [the API documentation](https://graph.microsoft.io/en-us/docs).
 
 [docs-mail-contacts-calendar]: http://graph.microsoft.io/docs/overview/overview
 
@@ -70,7 +70,9 @@ In this task we'll get the test application up and running.
 
     Wait for Android Studio to finish importing the test project.
 
-05. Open the `app/src/res/values/strings.xml` resource file.
+05. Open the `app/src/main/res/values/strings.xml` resource file.
+
+	![](img/0011_open_strings_xml.png)
 
 06. Find the string resource named **app_name**, and change it to **O365 Exchange
     Test App**.
@@ -118,8 +120,11 @@ In this task you will add the **Microsoft Graph SDK** to the app, and then confi
     compile 'com.microsoft.services:odata-engine-core:0.11.0'
     compile 'com.microsoft.services:odata-engine-android-impl:0.11.0@aar'
 
-    // Microsoft Graph SDK
-    compile 'com.microsoft.services:graph-services:0.8.0'
+    // MSGraph SDK
+    compile 'com.microsoft.graph:msgraph-sdk-android:0.9.2'
+
+    // MSGraph SDK Android MSA Auth for Android Adapter
+    compile 'com.microsoft.graph:msa-auth-for-android-adapter:0.9.0'
     ```
   
     ![](img/0034_update_app_gradle_file.png)
@@ -133,64 +138,95 @@ In this task you will add the **Microsoft Graph SDK** to the app, and then confi
 06. Make sure you import the following classes.
 	
 	```java
+	import android.os.Bundle;
 	import android.app.Activity;
 	import android.app.AlertDialog;
 	import android.app.ProgressDialog;
 	import android.content.DialogInterface;
-	import android.os.Bundle;
 	import android.view.View;
 	import android.widget.EditText;
-	import com.google.common.util.concurrent.FutureCallback;
-	import com.google.common.util.concurrent.Futures;
-	import com.google.common.util.concurrent.ListenableFuture;
-	import com.microsoft.services.graph.BodyType;
-	import com.microsoft.services.graph.EmailAddress;
-	import com.microsoft.services.graph.ItemBody;
-	import com.microsoft.services.graph.MailFolder;
-	import com.microsoft.services.graph.Message;
-	import com.microsoft.services.graph.Recipient;
-	import com.microsoft.services.graph.fetchers.GraphServiceClient;
-	import com.microsoft.services.graph.fetchers.MailFolderFetcher;
-	import com.microsoft.services.orc.auth.AuthenticationCredentials;
-	import com.microsoft.services.orc.core.DependencyResolver;
-	import com.microsoft.services.orc.core.OrcList;
-	import com.microsoft.services.orc.http.Credentials;
-	import com.microsoft.services.orc.http.impl.OAuthCredentials;
-	import com.microsoft.services.orc.http.impl.OkHttpTransport;
-	import com.microsoft.services.orc.serialization.impl.GsonSerializer;
+	
 	import java.text.DateFormat;
 	import java.text.SimpleDateFormat;
 	import java.util.Arrays;
 	import java.util.Calendar;
-	import java.util.List;
 	import java.util.TimeZone;
+	import java.util.List;
+	
+	import com.microsoft.graph.core.ClientException;
+	import com.microsoft.graph.core.IClientConfig;
+	import com.microsoft.graph.core.DefaultClientConfig;
+	import com.microsoft.graph.extensions.BodyType;
+	import com.microsoft.graph.extensions.EmailAddress;
+	import com.microsoft.graph.extensions.IMailFolderRequestBuilder;
+	import com.microsoft.graph.extensions.IMessageCollectionRequest;
+	import com.microsoft.graph.extensions.IMessageCollectionRequestBuilder;
+	import com.microsoft.graph.extensions.ItemBody;
+	import com.microsoft.graph.extensions.MailFolder;
+	import com.microsoft.graph.extensions.Message;
+	import com.microsoft.graph.extensions.Recipient;
+	import com.microsoft.graph.extensions.MailFolder;
+	import com.microsoft.graph.extensions.IMailFolderCollectionPage;
+	import com.microsoft.graph.extensions.IMailFolderCollectionRequest;
+	import com.microsoft.graph.extensions.GraphServiceClient;
+	import com.microsoft.graph.extensions.IGraphServiceClient;
+	import com.microsoft.graph.extensions.IMessageCollectionPage;
+	import com.microsoft.graph.authentication.IAuthenticationAdapter;
+	import com.microsoft.graph.authentication.MSAAuthAndroidAdapter;
+	import com.microsoft.graph.extensions.User;
+	import com.microsoft.graph.http.IHttpRequest;
+	import com.microsoft.graph.concurrency.ICallback;
+	import com.microsoft.graph.options.Option;
+	import com.microsoft.graph.options.HeaderOption;
+	import com.microsoft.graph.options.QueryOption;
 	```
 
 07. Add the following member fields to the top of the class:
 
     ```java
-    private DependencyResolver mResolver;
-    private GraphServiceClient graphServiceClient;
+    private IGraphServiceClient graphServiceClient;
     ```
 
 08. Add the following code to the end of the `onCreate` function.
 
     ```java
-    mResolver = new DependencyResolver.Builder(
-            new OkHttpTransport(), new GsonSerializer(),
-            new AuthenticationCredentials() {
-                @Override
-                public Credentials getCredentials() {
-                    return new OAuthCredentials(mAccessToken);
-                }
-            }).build();
+    final IAuthenticationAdapter authenticationAdapter = new MSAAuthAndroidAdapter(getApplication()) {
+        @Override
+        public String getClientId() {
+            return Constants.CLIENT_ID;
+        }
 
-    graphServiceClient = new GraphServiceClient("https://graph.microsoft.com/v1.0", mResolver);
+        @Override
+        public String[] getScopes() {
+            return new String[] {
+                    "https://graph.microsoft.com/Mail.ReadWrite",
+                    "https://graph.microsoft.com/Mail.Send",
+                    "offline_access",
+                    "openid"
+            };
+        }
+        @Override
+        public void authenticateRequest(final IHttpRequest request) {
+            for (final HeaderOption option : request.getHeaders()) {
+                if (option.getName().equals(AUTHORIZATION_HEADER_NAME)) {
+                    return;
+                }
+            }
+            if (mAccessToken != null && mAccessToken.length() > 0){
+                request.addHeader(AUTHORIZATION_HEADER_NAME, OAUTH_BEARER_PREFIX + mAccessToken);
+                return;
+            }
+            super.authenticateRequest(request);
+        }
+    };
+    final IClientConfig mClientConfig = DefaultClientConfig.createWithAuthenticationProvider(authenticationAdapter);
+    graphServiceClient  = new GraphServiceClient
+            .Builder()
+            .fromConfig(mClientConfig)
+            .buildClient();
     ```
 
     The variable `mAccessToken` is obtained by `LaunchActivity` using the Active Directory Authentication Library
-
-    The first argument to the `GraphServiceClient` is the URL for your Microsoft Graph endpoint. Generally, this will be "https://graph.microsoft.com/v1.0". The "/v1.0" path component is required.
 
 
 <a name="exercise2"></a>
@@ -207,7 +243,7 @@ In this task we will make a call to the Microsoft Graph to retrieve the contents
 
     This layout file contains an empty `LinearLayout` view, configured to stack its child views vertically.
 
-02. Add the following element to `activity_main.xml`:
+02. Add the following element to `LinearLayout` element of `activity_main.xml`:
 
     ```xml
     <Button
@@ -233,6 +269,19 @@ In this task we will make a call to the Microsoft Graph to retrieve the contents
 04. Add the following methods to the `MainActivity` class.
 
     ```java
+	private class ErrorHandler implements Runnable {
+        private ProgressDialog progress;
+        private ClientException exception;
+        ErrorHandler(ProgressDialog progress, ClientException exception) {
+            this.progress = progress;
+            this.exception = exception;
+        }
+        public void run() {
+            progress.dismiss();
+            showErrorDialog(exception);
+        }
+    }
+
     private void showErrorDialog(Throwable t) {
         new AlertDialog.Builder(this)
                 .setTitle("Whoops!")
@@ -245,53 +294,63 @@ In this task we will make a call to the Microsoft Graph to retrieve the contents
 
         //Show a "work-in-progress" dialog
         final ProgressDialog progress = ProgressDialog.show(
-            this, "Working", "Retrieving Inbox"
+                this, "Working", "Retrieving Inbox"
         );
-        
-        //Get a reference to the users Inbox
-        MailFolderFetcher inboxFetcher = graphServiceClient.getMe()
-                .getMailFolders()
-                .getById("Inbox");
 
-        //Retrieve the messages from the inbox
-        ListenableFuture<OrcList<Message>> messagesFuture =
-                inboxFetcher.getMessages()
-                .read();
+        graphServiceClient.
+                getMe().
+                getMailFolders().
+                buildRequest(Arrays.asList(new Option[]{new QueryOption("$filter", "displayName eq 'Inbox'")})).
+                get(new ICallback<IMailFolderCollectionPage>() {
+                        @Override
+                        public void success(IMailFolderCollectionPage foldersPage) {
+                            List< MailFolder > mailFolders = foldersPage.getCurrentPage();
+                            if (mailFolders.size() == 1){
+                                //Get a reference to Inbox
+                                String inboxId = mailFolders.get(0).id;
+                                IMailFolderRequestBuilder mailFolderRequestBuilder = graphServiceClient.
+                                        getMe().
+                                        getMailFolders(inboxId);
 
-        //Attach a callback to handle the eventual result
-        Futures.addCallback(messagesFuture,new FutureCallback<List<Message>>() {
-            @Override
-            public void onSuccess(List<Message> result) {
-                //Transform the results into a collection of strings
-                final String[] items = new String[result.size()];
-                for (int i = 0; i < result.size(); i++) {
-                    items[i] = result.get(i).getSubject();
-                }
-                //Launch a dialog to show the results to the user
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Inbox")
-                            .setPositiveButton("OK", null)
-                            .setItems(items, null)
-                            .show();
-                    }
-                });
-            }
-            
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
+                                // Get messages from Inbox
+                                IMessageCollectionRequest messagesRequest = mailFolderRequestBuilder.
+                                        getMessages().
+                                        buildRequest();
+                                messagesRequest.get(new ICallback<IMessageCollectionPage>() {
+                                    @Override
+                                    public void success(IMessageCollectionPage messagesPage) {
+                                        List<Message> messages = messagesPage.getCurrentPage();
+                                        final String[] items = new String[messages.size()];
+                                        for (int i = 0; i < messages.size(); i++) {
+                                            items[i] = messages.get(i).subject;
+                                        }
+                                        //Launch a dialog to show the results to the user
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progress.dismiss();
+                                                new AlertDialog.Builder(MainActivity.this)
+                                                        .setTitle("Inbox")
+                                                        .setPositiveButton("OK", null)
+                                                        .setItems(items, null)
+                                                        .show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void failure(final ClientException ex) {
+                                        runOnUiThread(new ErrorHandler(progress, ex));
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void failure(ClientException ex) {
+                            runOnUiThread(new ErrorHandler(progress, ex));
+                        }
+                    });
     }
     ```
 
@@ -306,38 +365,56 @@ In this task we will make a call to the Microsoft Graph to retrieve the contents
 In this task we made a call to the Microsoft Graph to retrieve the contents of the user's Inbox. There is a lot of boilerplate code here, so let's review the interesting parts:
 
 ```java
-MailFolderFetcher inboxFetcher = graphServiceClient.getMe()
-                .getMailFolders()
-                .getById("Inbox");
+IMailFolderRequestBuilder mailFolderRequestBuilder = graphServiceClient.
+        getMe().
+        getMailFolders(inboxId);
 ```
 
-Here we are using `getById()` to retrieve a single item from a collection by its Id.
+Here we are using parameter `inboxId` to retrieve a single item from a collection by its Id.
 
-The Id passed here is **"Inbox"** which is a well-known name - other well-known names for Folders are **"Drafts"**, **"SentItems"** and **"DeletedItems"**. Alternatively, you would retrieve the Id from an entity using its `getId()` function.
-
-Note that no query has been executed yet - the `MailFolderFetcher` instance represents a potential query to the API. We can call additional functions to modify the query (e.g. add filters to a collection query), or further "navigate" the API.
+Note that there is neither query request has been built, nor query has been executed yet - the `mailFolderRequestBuilder` instance represents a request builder. We can further "navigate" the API.
 
 ```java
-ListenableFuture<OrcList<Message>> messagesFuture = inboxFetcher.getMessages()
-                                                             .read();
+IMessageCollectionRequest messagesRequest = mailFolderRequestBuilder.
+        getMessages().
+        buildRequest();
 ```
 
-Here the `getMessages()` function modifies the query to retrieve messages in the Inbox folder. The `read()` function executes the query asynchronously and returns a **Future**, which is a handle to the eventual result of the API call.
+Here the `getMessages()` function modifies the request builder to create query request to retrieve messages in the Inbox folder. The `buildRequest()` function creates a query request.
 
-We can use the `Futures` helper class to attach a callback to the future which will handle the **Success** or **Failure** of the call. E.g.
+Note that no query has been executed yet - the `messagesRequest` instance represents a potential query to the API. 
 
 ```java
-Futures.addCallback(messagesFuture, new FutureCallback<List<Message>>() {
-    @Override
-    public void onSuccess(List<Message> result) {
-            //Handle success (e.g. 200, 201)
-    }
-    @Override
-    public void onFailure(Throwable t) {
-            //Handle failure (e.g. 404, 500)
-    }
-});
+messagesRequest.get(new ICallback<IMessageCollectionPage>() {
+        @Override
+        public void success(IMessageCollectionPage messagesPage) {
+            List<Message> messages = messagesPage.getCurrentPage();
+            final String[] items = new String[messages.size()];
+            for (int i = 0; i < messages.size(); i++) {
+                items[i] = messages.get(i).subject;
+            }
+            //Launch a dialog to show the results to the user
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progress.dismiss();
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Inbox")
+                            .setPositiveButton("OK", null)
+                            .setItems(items, null)
+                            .show();
+                }
+            });
+        }
+
+        @Override
+        public void failure(final ClientException ex) {
+            runOnUiThread(new ErrorHandler(ex));
+        }
+    });
 ```
+
+Here the `get(<callback>)` function executes the query asynchronously, with a `<callback>` which will handle the **success** or **failure** of the call.
 
 Note that the callback will be executed on a background thread. If your code needs to update the User Interface (e.g. update a view or print a warning), then you must dispatch a **Runnable** back to the UI thread using `Activity.runOnUiThread`:
 
@@ -350,19 +427,17 @@ runOnUiThread(new Runnable() {
 });
 ```
 
-Alternatively, we could use the `get()` function on the **Future** object. This will block the thread until the underlying API call completes and the result is returned. 
+Alternatively, we could use the `get()` function on the **messagesRequest** object. This will block the thread until the underlying API call completes and the result is returned. 
 
 **Warning: do not do this on the UI thread!** You should use an `AsyncTask` to run this code on a background thread.
 
 ```java
-try {
-    OrcList<Message> messages = messagesFuture.get();
+try{
+    IMessageCollectionPage messagesPage = messagesRequest.get();
+    List<Message> messages = messagesPage.getCurrentPage();
 }
-catch (InterruptedException e) {
-    //handle error
-}
-catch (ExecutionException e) {
-    //handle error
+catch (ClientException ex){
+	// handle error
 }
 ```
 
@@ -370,11 +445,13 @@ catch (ExecutionException e) {
 
 In this task we will modify the previous code to retrieve a filtered view of the user's **Inbox**.
 
-01. Return to the `MainActivity` class and find the following line:
+01. Return to the `MainActivity` class and find the following lines:
     
     ```java
-    ListenableFuture<OrcList<Message>> messagesFuture = inboxFetcher.getMessages()
-                                                                 .read();
+    // Get messages from Inbox
+    IMessageCollectionRequest messagesRequest = mailFolderRequestBuilder.
+            getMessages().
+            buildRequest();
     ```
 
 02. We're going to modify it to filter the returned collection of messages to only those which were received today. Replace that line with the following code:
@@ -390,25 +467,24 @@ In this task we will modify the previous code to retrieve a filtered view of the
     //Create a filter string
     DateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String odataFilter = String.format(
+    String receivedDateFilter = String.format(
         "receivedDateTime gt %s",
         iso8601.format(calendar.getTime())
     );
 
-    //Retrieve the messages in the inbox
-    ListenableFuture<OrcList<Message>> messagesFuture =
-        inboxFetcher.getMessages()
-                    .filter(odataFilter)
-                    .read();
+	// Get messages from Inbox
+    IMessageCollectionRequest messagesRequest = mailFolderRequestBuilder.
+            getMessages().
+            buildRequest(Arrays.asList(new Option[]{new QueryOption("$filter", receivedDateFilter)}));
     ```
 
-    There are a few things going on here:
+	There are a few things going on here:
 
-    -   First, we create a `Calendar` instance which refers to midnight tonight in the UTC timezone.
+	-   First, we create a `Calendar` instance which refers to midnight tonight in the UTC timezone.
+	
+	-   Second, we format that date as ISO8601 into an "OData" filter string, comparing it to the `receivedDateFilter` field.
 
-    -   Second, we format that date as ISO8601 into an "OData" filter string, comparing it to the `receivedDateTime` field.
-
-    -   Third, we add that filter to our query using the `filter()` function 
+	-   Third, we add that filter to our query request by adding parameter to `buildRequest` function. 
 
 03. Launch the app in the debugger with **Run > Debug App**. Sign in and click **Retrieve Inbox**.
 
@@ -420,25 +496,27 @@ In this task we made a **filtered** call to the Microsoft Graph to retrieve the 
 
 Filtering with the Microsoft Graph SDK is done using OData filter expressions. See [the API documentation][docs-mail-contacts-calendar] for more information on writing these expressions.
 
-The supported OData query parameters are:
+The supported OData query parameters includes the following and more:
 
-- **$filter** to filter for specific criteria - use `filter()`
-- **$select** to request specific properties - use `select()`
-- **$top** and $skip to page results - use `top()`
-- **$take** and $take to page results - use `take()`
-- **$expand** to expand message attachments and event attachments - use `expand()`
+- **$filter** to filter for specific criteria
+- **$select** to request specific properties
+- **$top** to specify the number of items to return in a result set.
+- **$skip** to sepcify the number of items to skip in a result set.
+- **$expand** to specify relationships to expand and include in the response.
 
-By default, a request for Messages or ChildFolders returns ten entries (up to a maximum of 50). Use `top` to override this. You can also use `top` and `skip` for paging results.
+You can see [here](http://graph.microsoft.io/en-us/docs/overview/query_parameters "Optional OData query parameters") for more OData query parameters.
+
+By default, a request for Messages or ChildFolders returns ten entries (up to a maximum of 50). Use `$top` to override this. You can also use `$top` and `$skip` for paging results.
 
 ```java
 // Retrieve the first page of 10 results
 int pageSize = 10, pageIndex = 0;
-  
-ListenableFuture<OrcList<Message>> messagesFuture = 
-    inboxFetcher.getMessages()
-                .top(pageSize)
-                .skip(pageSize * pageIndex)
-                .read();
+
+IMessageCollectionRequest messagesRequest = mailFolderRequestBuilder.
+	    getMessages().
+	    buildRequest(Arrays.asList(new Option[]{new QueryOption("$top", String.valueOf(pageSize)),
+			 new QueryOption("$skip", String.valueOf(pageSize * pageIndex))})).
+		get();
 ```
 
 ### Task 3 - Enumerating folders
@@ -447,7 +525,7 @@ In this task we will enumerate the user's top-level Folders. The technique used 
 
 01. Open the MainActivity layout file found at `app/src/main/res/layout/activity_main.xml`.
 
-02. Add the following element to `activity_main.xml`:
+02. Add the following element to `LinearLayout` element of `activity_main.xml`:
 
     ```xml
     <Button
@@ -470,55 +548,48 @@ In this task we will enumerate the user's top-level Folders. The technique used 
     );
     ```
 
-04. Add the following method to the `MainActivity` class. Be sure to add an `import` statement for the `MailFolder` class.
+04. Add the following method to the `MainActivity` class. 
 
     ```java
     private void startRetrieveFolders() {
 
         //Show a "work-in-progress" dialog
         final ProgressDialog progress = ProgressDialog.show(
-            this, "Working", "Retrieving Folders"
+                this, "Working", "Retrieving Folders"
         );
 
         //Retrieve the top-level folders
-        ListenableFuture<OrcList<MailFolder>> foldersFuture =
-            graphServiceClient.getMe()
-                          .getMailFolders()
-                          .read();
+        graphServiceClient.getMe().
+                getMailFolders().
+                buildRequest().
+                get(new ICallback<IMailFolderCollectionPage>() {
+                    @Override
+                    public void success(IMailFolderCollectionPage mailFoldersPage) {
+                        //Transform the results into a collection of strings
+                        List<MailFolder> mailFolders = mailFoldersPage.getCurrentPage();
+                        final String[] items = new String[mailFolders.size()];
+                        for (int i = 0; i < mailFolders.size(); i++) {
+                            items[i] = mailFolders.get(i).displayName;
+                        }
+                        //Launch a dialog to show the results to the user
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle("Folders")
+                                        .setPositiveButton("OK", null)
+                                        .setItems(items, null)
+                                        .show();
+                            }
+                        });
+                    }
 
-        //Attach a callback to handle the eventual result
-        Futures.addCallback(foldersFuture,new FutureCallback<List<MailFolder>>() {
-            @Override
-            public void onSuccess(List<MailFolder> result) {
-                //Transform the results into a collection of strings
-                final String[] items = new String[result.size()];
-                for (int i = 0; i < result.size(); i++) {
-                    items[i] = result.get(i).getDisplayName();
-                }
-                //Launch a dialog to show the results to the user
-                runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Folders")
-                            .setPositiveButton("OK", null)
-                            .setItems(items, null)
-                            .show();
+                    public void failure(final ClientException ex) {
+                        runOnUiThread(new ErrorHandler(progress, ex));
                     }
                 });
-            }
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
     ```
 
@@ -526,14 +597,14 @@ In this task we will enumerate the user's top-level Folders. The technique used 
 
     ![](img/0050_test_retrieve_folders.png)
 
-The interesting code in the `startRetrieveInbox` function is the following snippet:
+The interesting code in the `startRetrieveFolders` function is the following snippet:
 
 ```java
 //Retrieve the top-level folders
-ListenableFuture<OrcList<MailFolder>> foldersFuture =
-    graphServiceClient.getMe()
-                  .getMailFolders()
-                  .read();
+graphServiceClient.getMe().
+        getMailFolders().
+        buildRequest().
+        get(<callback>);
 ```
 
 We could add filtering and paging like this:
@@ -541,13 +612,13 @@ We could add filtering and paging like this:
 ```java
 //Retrieve the top-level folders which have child folders
 int pageSize = 10, pageIndex = 0;
-ListenableFuture<OrcList<MailFolder>> filteredFoldersFuture =
-    graphServiceClient.getMe()
-                  .getMailFolders()
-                  .filter("ChildFolderCount gt 0")
-                  .top(pageSize)
-                  .skip(pageSize * pageIndex)
-                  .read();
+graphServiceClient.getMe().
+        getMailFolders().
+        buildRequest(Arrays.asList(new Option[]{
+				new QueryOption("$filter", "childFolderCount gt 0"),
+				new QueryOption("$top", String.valueOf(pageSize)),
+			 	new QueryOption("$skip", String.valueOf(pageSize * pageIndex))})).
+        get(<callback>);
 ```
 
 As you can see here, the pattern for querying for folders is identical to the pattern for querying for messages. This holds true for all other entities available through the API:
@@ -557,13 +628,10 @@ As you can see here, the pattern for querying for folders is identical to the pa
 -   Contacts
 -   ContactFolders
 -   Events
--   FileAttachments
--   Folders
--   ItemAttachments
--   Messages
+-   Attachments
 -   Users
 
-See [the API documentation][docs-mail-contacts-calendar] for more information.
+See [the API documentation](https://graph.microsoft.io/en-us/docs) for more information.
 
 ### Task 4 - Sending messages
 
@@ -571,7 +639,7 @@ This task will step you through sending a message through the Microsoft Graph.
 
 01. Again, open the MainActivity layout file found at `app/src/main/res/layout/activity_main.xml`.
 
-02. Add the following element to `activity_main.xml`:
+02. Add the following element to `LinearLayout` element of `activity_main.xml`:
 
     ```xml
     <Button
@@ -594,7 +662,7 @@ This task will step you through sending a message through the Microsoft Graph.
     );
     ```
 
-04. Add the following method to the `MainActivity` class. Be sure to add `import` statements for any types not already imported.
+04. Add the following method to the `MainActivity` class. 
 
     ```java
     private void startSendMessage() {
@@ -604,64 +672,64 @@ This task will step you through sending a message through the Microsoft Graph.
                 this, "Working", "Sending a Message"
         );
 
-        //Create an example message
-        ItemBody body = new ItemBody();
-        body.setContentType(BodyType.text);
-        body.setContent("This is a message body");
-
-        EmailAddress recipientAddress = new EmailAddress();
-        recipientAddress.setAddress(PLACEHOLDER_ADDRESS);
-        recipientAddress.setName(PLACEHOLDER_NAME);
-
-        Recipient recipient = new Recipient();
-        recipient.setEmailAddress(recipientAddress);
-
-        Message message = new Message();
-        message.setToRecipients(Arrays.asList(recipient));
-        message.setSubject("This is a test message");
-        message.setBody(body);
-
-        //Send the message through the API
-        boolean saveToSentItems = true;
-        ListenableFuture future =
-            graphServiceClient.getMe()
-                          .getOperations()
-                          .sendMail(message, saveToSentItems);
-
-        Futures.addCallback(future, new FutureCallback() {
-            @Override
-            public void onSuccess(Object result) {
-                runOnUiThread(new Runnable() {
+        graphServiceClient.
+                getMe().
+                buildRequest().
+                get(new ICallback<User>() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Success")
-                                .setMessage("The message was sent")
-                                .setPositiveButton("OK", null)
-                                .show();
+                    public void success(User user) {
+                        //Create an example message
+                        ItemBody body = new ItemBody();
+                        body.contentType = BodyType.text;
+                        body.content = "This is a message body";
+
+                        EmailAddress recipientAddress = new EmailAddress();
+                        recipientAddress.address = user.mail;
+                        recipientAddress.name = user.displayName;
+
+                        Recipient recipient = new Recipient();
+                        recipient.emailAddress = recipientAddress;
+
+                        Message message = new Message();
+                        message.toRecipients = (Arrays.asList(recipient));
+                        message.subject = "This is a test message";
+                        message.body = body;
+
+                        //Send the message through the API
+        				boolean saveToSentItems = true;
+                        graphServiceClient.getMe().
+                                getSendMail(message, saveToSentItems).
+                                buildRequest().
+                                post(new ICallback<Void>() {
+                                    @Override
+                                    public void success(Void aVoid) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progress.dismiss();
+                                                new AlertDialog.Builder(MainActivity.this)
+                                                        .setTitle("Success")
+                                                        .setMessage("The message was sent")
+                                                        .setPositiveButton("OK", null)
+                                                        .show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void failure(final ClientException ex) {
+                                        runOnUiThread(new ErrorHandler(progress, ex));
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void failure(ClientException ex) {
+                        runOnUiThread(new ErrorHandler(progress, ex));
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
     ```
-
-05. In the previous code block, replace the two placeholder tokens with values for your test user:
-
-    - `PLACEHOLDER_ADDRESS` - The email address of your Office 365 tenant user
-    - `PLACEHOLDER_NAME` - The name of your Office 365 tenant user
 
 06. Launch the app in the debugger with **Run > Debug App**. Sign in and click "Send a Message"
 
@@ -669,56 +737,54 @@ This task will step you through sending a message through the Microsoft Graph.
 
 07. You can then click "Retrieve Inbox" to see the new message in your Inbox.
 
-In this task we built and sent an email message. Lets take a look at the 
+In this task we built and sent an email message. Let's take a look at the 
 interesting bits of the code:
 
 ```java
 //Create an example message
 ItemBody body = new ItemBody();
-body.setContentType(BodyType.Text);
-body.setContent("This is a message body");
+body.contentType = BodyType.text;
+body.content = "This is a message body";
 
 EmailAddress recipientAddress = new EmailAddress();
-recipientAddress.setAddress("someuser@somedomain.com");
-recipientAddress.setName("Some User");
+recipientAddress.address = user.mail;
+recipientAddress.name = user.displayName;
 
 Recipient recipient = new Recipient();
-recipient.setEmailAddress(recipientAddress);
+recipient.emailAddress = recipientAddress;
 
 Message message = new Message();
-message.setToRecipients(Arrays.asList(recipient));
-message.setSubject("This is a test message");
-message.setBody(body);
+message.toRecipients = (Arrays.asList(recipient));
+message.subject = "This is a test message";
+message.body = body;
 ```
 
 This block of code is building the actual email Message. Here we can also add attachments, add CC and BCC recipients, etc. We can also set an HTML message body, instead of just text.
 
 ```java
 //Send the message through the API
-boolean saveToSentItems = true;
-ListenableFuture future =
-    graphServiceClient.getMe()
-                  .getOperations()
-                  .sendMail(message, saveToSentItems);
+graphServiceClient.getMe().
+        getSendMail(message, true).
+        buildRequest().
+        post(<callback>);
+
 ```
 
-This call sends the actual message to the API. As usual, the call is asynchronous and must be awaited using the `Futures` class.
+This call sends the actual message to the API. As usual, the call is asynchronous and the `<callback>` will be called when it completes.
 
 The `saveToSentItems` flag controls whether the message will be automatically saved to the user's "Sent Items" folder.
 
-Also interesting here is the use of the `getOperations()` function. This method exists on all entities and entity collections, and is used to do things like `delete()` entities, or (as in this case) perform other non-CRUD operations like `sendMail()`.
-
 ### Task 5 - Creating folders (and other CRUD operations)
 
-Finally, lets take a look at a basic [CRUD operation][crud-ops] - creating a folder.
+Finally, let's take a look at a basic [CRUD operation][crud-ops] - creating a folder.
 
 [crud-ops]: http://en.wikipedia.org/wiki/Create,_read,_update_and_delete
 
-You can use the same pattern for any other creatable, updatable or deletable entity on the API. See [the documentation][docs-mail-contacts-calendar] for more details.
+You can use the same pattern for any other creatable, updatable or deletable entity on the API. See [the documentation](https://graph.microsoft.io/en-us/docs) for more details.
 
 01. Open the MainActivity layout file found at `app/src/main/res/layout/activity_main.xml`.
 
-02. Add the following element to `activity_main.xml`:
+02. Add the following element to `LinearLayout` element of `activity_main.xml`:
 
     ```xml
     <Button
@@ -741,7 +807,7 @@ You can use the same pattern for any other creatable, updatable or deletable ent
     );
     ```
 
-04. Add the following methods to the `MainActivity` class. Be sure to add `import` statements for any types not already imported.
+04. Add the following methods to the `MainActivity` class. 
 
     ```java
     private void promptUserForFolderName() {
@@ -765,51 +831,61 @@ You can use the same pattern for any other creatable, updatable or deletable ent
 
     }
 
-    private void startCreateFolder(String newFolderName) {
+    private void startCreateFolder(final String newFolderName) {
 
         //Show a "work-in-progress" dialog
         final ProgressDialog progress = ProgressDialog.show(
-            this, "Working", "Creating Folder"
+                this, "Working", "Creating Folder"
         );
 
-        MailFolder newFolder = new MailFolder();
-        newFolder.setDisplayName(newFolderName);
-
         //Create the folder via the API
-        ListenableFuture<MailFolder> newFolderFuture =
-            graphServiceClient.getMe()
-                          .getMailFolders()
-                          .getById("Inbox")
-                          .getChildFolders()
-                          .add(newFolder);
+        graphServiceClient.
+                getMe().
+                getMailFolders().
+                buildRequest(Arrays.asList(new Option[]{new QueryOption("$filter", "displayName eq 'Inbox'")})).
+                get(new ICallback<IMailFolderCollectionPage>() {
+                        @Override
+                        public void success(IMailFolderCollectionPage foldersPage) {
+                            List< MailFolder > mailFolders = foldersPage.getCurrentPage();
+                            if (mailFolders.size() == 1) {
+                                String inboxId = mailFolders.get(0).id;
+                                final MailFolder newFolder = new MailFolder();
+                                newFolder.displayName = newFolderName;
 
-        Futures.addCallback(newFolderFuture, new FutureCallback<MailFolder>() {
-            @Override
-            public void onSuccess(final MailFolder result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Success")
-                                .setMessage("Created folder " + result.getDisplayName())
-                                .setPositiveButton("OK", null)
-                                .show();
-                    }
-                });
-            }
+                                graphServiceClient.
+                                        getMe().
+                                        getMailFolders(inboxId).
+                                        getChildFolders().
+                                        buildRequest().
+                                        post(newFolder, new ICallback<MailFolder>() {
+                                            @Override
+                                            public void success(final MailFolder mailFolder) {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        progress.dismiss();
+                                                        new AlertDialog.Builder(MainActivity.this)
+                                                                .setTitle("Success")
+                                                                .setMessage("Created folder " + mailFolder.displayName)
+                                                                .setPositiveButton("OK", null)
+                                                                .show();
+                                                    }
+                                                });
+                                            }
 
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
+                                            @Override
+                                            public void failure(ClientException ex) {
+                                                runOnUiThread(new ErrorHandler(progress, ex));
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void failure(ClientException ex) {
+                            runOnUiThread(new ErrorHandler(progress, ex));
+                        }
+                    });
     }
     ```
 
@@ -824,24 +900,19 @@ In this task we created a new folder within the user's Inbox. There are two meth
 The second method (`startCreateFolder()`) does the actual work, and has the following interesting snippet:
 
 ```java
-MailFolder newFolder = new MailFolder();
-newFolder.setDisplayName(newFolderName);
+String inboxId = mailFolders.get(0).id;
+final MailFolder newFolder = new MailFolder();
+newFolder.displayName = newFolderName;
 
-ListenableFuture<MailFolder> newFolderFuture =
-            graphServiceClient.getMe()
-                          .getMailFolders()
-                          .getById("Inbox")
-                          .getChildFolders()
-                          .add(newFolder);
+graphServiceClient.
+        getMe().
+        getMailFolders(inboxId ).
+        getChildFolders().
+        buildRequest().
+        post(newFolder, <callback>);
 ```
 
-Here we are creating a new folder model, then sending it to the API using a chain of calls which build up the request.
-
-- `.getMailFolders().getById("Inbox")` - get a reference to the user's Inbox
-- `.getChildFolders()` - get a reference to the Inbox's child folder collection
-- `.add(newFolder)` - start a query to add the new folder to that child collection.
-
-As usual, the `add()` operation is asynchronous, and we must wait on the result using the `Futures` helper class.
+Here we are creating a new folder model, then sending it to the API.
 
 ## Conclusion
 
@@ -849,7 +920,7 @@ By completing this hands-on lab you have learned:
 
 1. How to add the Microsoft Graph SDK to an Android project
 2. How to query for Messages
-3. How to query for Folders
+3. How to query for Mail Folders
 4. How to send new Messages
 5. How to create a new Folder
 
