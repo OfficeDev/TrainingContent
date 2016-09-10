@@ -6,12 +6,14 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
-using Microsoft.Azure.ActiveDirectory.GraphClient;
+using Microsoft.Graph;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using AuthFlowDemo.Models;
+using AuthFlowDemo.Utils;
+using System.Net.Http.Headers;
 
 namespace AuthFlowDemo.Controllers
 {
@@ -22,7 +24,7 @@ namespace AuthFlowDemo.Controllers
         private string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
         private string appKey = ConfigurationManager.AppSettings["ida:ClientSecret"];
         private string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
-        private string graphResourceID = "https://graph.windows.net";
+        private string graphResourceID = "https://graph.microsoft.com";
 
         // GET: UserProfile
         public async Task<ActionResult> Index()
@@ -31,18 +33,15 @@ namespace AuthFlowDemo.Controllers
             string userObjectID = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
             try
             {
-                Uri servicePointUri = new Uri(graphResourceID);
-                Uri serviceRoot = new Uri(servicePointUri, tenantID);
-                ActiveDirectoryClient activeDirectoryClient = new ActiveDirectoryClient(serviceRoot,
-                      async () => await GetTokenForApplication());
-
-                // use the token for querying the graph to get the user details
-
-                var result = await activeDirectoryClient.Users
-                    .Where(u => u.ObjectId.Equals(userObjectID))
-                    .ExecuteAsync();
-                IUser user = result.CurrentPage.ToList().First();
-
+                var graphToken = await AuthenticationHelper.GetGraphAccessToken();
+                var authenticationProvider = new DelegateAuthenticationProvider(
+                (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", graphToken);
+                    return Task.FromResult(0);
+                });
+                var graphClient = new GraphServiceClient(authenticationProvider);
+                var user = await graphClient.Me.Request().GetAsync();
                 return View(user);
             }
             catch (AdalException)

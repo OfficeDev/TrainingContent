@@ -26,7 +26,8 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
-    self.title = @"Detail";
+    self.title = @"Detail";    
+    
     self.author.text = self.currentMsg.from.emailAddress.name;
     self.subject.text = self.currentMsg.subject;
     

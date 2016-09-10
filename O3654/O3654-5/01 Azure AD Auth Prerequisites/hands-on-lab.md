@@ -42,21 +42,13 @@ This gives you the ability to manage the Office 365 directory using the Azure po
 
     ![Screenshot of the previous step](img/0005_custom_create_active_directory.png)
 
-04. Select **Use existing directory**, and then **I am ready to be signed out now**
+04. Enter **NAME**, **DOMAIN NAME**, and select a **COUNTRY OR REGION**. Click **Checker** button
 
-    ![Screenshot of the previous step](img/00010_use_existing_directory.png)
+    ![Screenshot of the previous step](img/00010_create_directory.png)
 
-05. You will be signed out of the portal and redirected to a sign-in page. Sign in using the credentials for a global administrator in your Office 365 tenant.
+05. Once done, the domain you just created will be listed in **Directory** tab
 
-    ![Screenshot of the previous step](img/00015_sign_in_as_directory_global_admin.png)
-
-06. When authenticated click **continue**. This will add your Azure account as a global administrator of the Office 365 directory.
-
-    ![Screenshot of the previous step](img/00020_accept_confirmation_dialog.png)
-
-07. Click **Sign out now** and when prompted sign back into your Azure account.
-
-    ![Screenshot of the previous step](img/00025_sign_out_and_sign_back_in.png)
+    ![Screenshot of the previous step](img/00015_directory_list.png)
 
 You have successfully associated your Azure account with your Office 365 tenant as a global administrator.
 This gives you the ability to manage the Office 365 directory using the Azure portal.
@@ -94,7 +86,7 @@ Here we will create an Application in your Office 365 directory to allow your An
 
     ![Screenshot of the previous step](img/00055_add_redirect_uri.png)
 
-07. Click **Next**.
+07. Click **Complete**(Check icon button).
 
 08. The application is created. Navigate to the **Configure** tab.
 
@@ -113,12 +105,12 @@ Here we will create an Application in your Office 365 directory to allow your An
 13. Click the **CHECK** icon in the lower left corner.
  
 14. For the new **Microsoft Graph** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
-    * Read and write access to users' mail
-    * Send mail as user
-    * Have full access to users' calendars
-    * Have full access to users' contacts
-    * Have full access to user files and files shared with user
-
+    * Have full access to all files user can access
+	* Have full access to user contacts
+	* Have full access to user calendars
+	* Send mail as a user
+	* Read and write access to user mail
+    
     ![Screenshot of the previous step](img/00070_configure_exchange_permissions.png)
 
 12. Again from the Select application dropdown, add **Office 365 SharePoint Online**.

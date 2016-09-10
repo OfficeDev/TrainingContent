@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Data.Json;
+using System.Net.Http.Headers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Graph;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -62,8 +63,11 @@ namespace MyFilesWin10
 
             try
             {
-                var json = await GetFilesAsJsonAsync();
-                ParseJson(json);
+                var files = await GetFilesAsync();
+                foreach (var file in files)
+                {
+                    this.Status.Text += string.Format("'{0}'\n", file.Name);
+                }
             }
             catch (Exception ex)
             {
@@ -72,13 +76,12 @@ namespace MyFilesWin10
             }
         }
 
-        private async Task<JsonObject> GetFilesAsJsonAsync()
+        private async Task<IEnumerable<DriveItem>> GetFilesAsync()
         {
             try
             {
                 //get my files
 
-                return null;
             }
             catch (Exception ex)
             {
@@ -86,22 +89,18 @@ namespace MyFilesWin10
                 this.Status.Foreground = ErrorBrush;
                 return null;
             }
+            return null;
         }
 
-        private void ParseJson(JsonObject json)
+        private GraphServiceClient GetGraphServiceClient(string token)
         {
-            if (json == null)
-                return;
-            // The JSON responses from SkyDrive and SkyDrive Pro are slightly different
-            JsonArray files = json["value"].GetArray();
-            string name = "name";
-
-            // Traverse the files JsonArray and show the item names 
-            foreach (var file in files)
-            {
-                var nameValue = file.GetObject()[name].GetString();
-                this.Status.Text += string.Format("'{0}'\n", nameValue);
-            }
+            var authenticationProvider = new DelegateAuthenticationProvider(
+                (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    return Task.FromResult(0);
+                });
+            return new GraphServiceClient(authenticationProvider);
         }
         #endregion
     }

@@ -23,14 +23,13 @@ namespace WinOffice365Calendar
         // Office 365. As a convenience, we load that value into a variable called _commonAuthority, adding _common to this Url to signify
         // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
         private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
-        public const string ResourceBetaUrl = "https://graph.microsoft.com/v1.0/";
         public const string ResourceUrl = "https://graph.microsoft.com/";
 
 
         // TODO: Add your redirect URI value here.
         private static Uri redirectUri = new Uri("http://WinOffice365Calendar");
 
-        
+
         //Property for storing the authentication context.
         public static AuthenticationContext _authenticationContext { get; set; }
         public static ApplicationDataContainer _settings = ApplicationData.Current.LocalSettings;
@@ -50,7 +49,8 @@ namespace WinOffice365Calendar
                 {
                     return _settings.Values["LastAuthority"].ToString();
                 }
-                else {
+                else
+                {
                     return string.Empty;
                 }
 
@@ -84,8 +84,7 @@ namespace WinOffice365Calendar
                     authority = LastAuthority;
                 }
 
-                _authenticationContext = new AuthenticationContext(authority);
-                _authenticationContext.UseCorporateNetwork = true;
+                _authenticationContext = new AuthenticationContext(authority, new TokenCache());
 
                 var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
 
@@ -125,16 +124,11 @@ namespace WinOffice365Calendar
         {
             AuthenticationResult result = null;
 
-            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri);
+            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri,
+                new PlatformParameters(PromptBehavior.Auto, true));
 
-            if (result.Status == AuthenticationStatus.Success)
-            {
-                _settings.Values["LastAuthority"] = context.Authority;
-                return result.AccessToken;
-            }
-            else {
-                return null;
-            }
+            _settings.Values["LastAuthority"] = context.Authority;
+            return result.AccessToken;
         }
     }
 }

@@ -1,19 +1,19 @@
 ﻿<div style="margin:25px;">
     <table>
         <tr>
-          <th>Start</th>
-          <th>End</th>
-          <th>Subject</th>
-          <th>Location</th>
-        </</tr>
+            <th>Start</th>
+            <th>End</th>
+            <th>Subject</th>
+            <th>Location</th>
+        </tr>
         @foreach (var Event in ViewBag.Events)
         {
             <tr>
                 <td>
-                    <div style="width:200px;">@Event.Start.ToString()</div>
+                    <div style="width:200px;">@Event.Start.DateTime.ToString()</div>
                 </td>
                 <td>
-                    <div style="width:200px;">@Event.End.ToString()</div>
+                    <div style="width:200px;">@Event.End.DateTime.ToString()</div>
                 </td>
                 <td>
                     <div style="width:200px;">@Event.Subject</div>

@@ -4,8 +4,8 @@ In this lab, you will use the Microsoft Graph as part of a Windows Store Univers
 ## Prerequisites
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 1. You must have Visual Studio 2015.
+1. You must have the [Windows Software Development Kit (SDK) for Windows 10](https://dev.windows.com/en-us/downloads/windows-10-sdk "Windows SDK") (10.0.10586.0) installed.
 1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
-2. You must have Visual Studio 2015 and the Windows Software Development Kit (SDK) for Windows 10 (10.0.10586.0) installed. https://dev.windows.com/en-us/downloads/windows-10-sdk
 
 ## Exercise 1: Use the Microsoft Graph in an Native Client Application and Configure the Starter Project
 In this exercise, you will use the Microsoft Graph within a Windows 10 application. 
@@ -31,7 +31,7 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 ![Screenshot of the previous step](Images/5.png)
 12. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
     - Read files that the user selects
-	- Read user files and files shared with user
+	- Read all files that user can access
 	- Read user calendars 
 	- Sign in and read user profile
 13. Click **Save**
@@ -42,12 +42,7 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 Next, take an existing starter project and get it ready to write code that will use the Microsoft Graph.
 
 1. Locate the [\\\O3654\O3654-1 Deep dive into native Universal Windows App Development with Office 365 APIs\Lab\Starter](Lab\Starter) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph using the native for the Microsoft Graph. Open the solution **HubApp2.sln** in Visual Studio.
-1. In the Solution Explorer, right-click the **HubApp2** solution node and select **Manage Nuget Packages for Solution**.
-1. Click the **Updates** tab.
-1. Select the **Select all Packages** checkbox.
-1. Click the **Update** button.
-1. Click **OK**.
-1. Click **I Accept**.
+1. In the Solution Explorer, right-click the **HubApp2** solution node and select **Restore Nuget Packages**.
 1. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Enter your Client ID.
 ![Screenshot of the previous step](Images/7.png)
 
@@ -236,7 +231,7 @@ In this exercise, you will add classes to the project that will "normalize" the 
 	
 		````powershell
 		PM> Install-Package -Id Microsoft.IdentityModel.Clients.ActiveDirectory
-		PM> Install-Package -Id Newtonsoft.Json		
+		PM> Install-Package -Id Microsoft.Graph		
 		````
 
 1. Add a class to facilitate the authorization to Azure / Office 365:
@@ -246,7 +241,7 @@ In this exercise, you will add classes to the project that will "normalize" the 
 	1. Replace the template code with the following:
 
 		````c#
-        using Windows.Security.Authentication.Web;
+		using Windows.Security.Authentication.Web;
 		using System;
 		using System.Threading.Tasks;
 		using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -254,6 +249,7 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		using System.Diagnostics;
 		using System.Net.Http;
 		using System.Net.Http.Headers;
+		using Microsoft.Graph;
 		
 		namespace HubApp2.O365Helpers
 		{
@@ -264,7 +260,7 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		        // will always be in sync with whatever client id is added to App.xaml.
 		        private static readonly string ClientID = App.Current.Resources["ida:ClientID"].ToString();
 		        private static Uri _returnUri = WebAuthenticationBroker.GetCurrentApplicationCallbackUri();
-		        public static string AccessToken = null;		
+		        public static string AccessToken = null;
 		
 		        // Properties used for communicating with your Windows Azure AD tenant.
 		        // The AuthorizationUri is added as a resource in App.xaml when you register the app with 
@@ -272,8 +268,7 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		        // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
 		
 		        private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
-		        public const string ResourceBetaUrl = "https://graph.microsoft.com/v1.0/";
-		        public const string ResourceUrl = "https://graph.microsoft.com/";		
+		        public const string ResourceUrl = "https://graph.microsoft.com/";
 		
 		        // TODO:s Add your redirect URI value here.
 		        private static Uri redirectUri = new Uri("http://WinOffice36541App/microsoftgraphapi");
@@ -290,7 +285,8 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		                {
 		                    return _settings.Values["LastAuthority"].ToString();
 		                }
-		                else {
+		                else
+		                {
 		                    return string.Empty;
 		                }
 		
@@ -312,7 +308,8 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		                {
 		                    return _settings.Values["TenantId"].ToString();
 		                }
-		                else {
+		                else
+		                {
 		                    return string.Empty;
 		                }
 		
@@ -334,7 +331,8 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		                {
 		                    return _settings.Values["LoggedInUser"].ToString();
 		                }
-		                else {
+		                else
+		                {
 		                    return string.Empty;
 		                }
 		
@@ -356,7 +354,8 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		                {
 		                    return _settings.Values["LoggedInUserEmail"].ToString();
 		                }
-		                else {
+		                else
+		                {
 		                    return string.Empty;
 		                }
 		
@@ -393,13 +392,6 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		
 		                // Create an AuthenticationContext using this authority.
 		                _authenticationContext = new AuthenticationContext(authority);
-		
-		                // Set the value of _authenticationContext.UseCorporateNetwork to true so that you 
-		                // can use this app inside a corporate intranet. If the value of UseCorporateNetwork 
-		                // is true, you also need to add the Enterprise Authentication, Private Networks, and
-		                // Shared User Certificates capabilities in the Package.appxmanifest file.
-		
-		                _authenticationContext.UseCorporateNetwork = true;
 		
 		                var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
 		
@@ -445,45 +437,34 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		        {
 		            string accessToken = null;
 		            AuthenticationResult result = null;
-		            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri);
-		            
-		            if (result.Status == AuthenticationStatus.Success)
+		            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri, new PlatformParameters(PromptBehavior.Auto, true));
+		
+		            accessToken = result.AccessToken;
+		            if (!string.IsNullOrEmpty(accessToken))
 		            {
-		                accessToken = result.AccessToken;
 		                //Store values for logged-in user, tenant id, and authority, so that
 		                //they can be re-used if the user re-opens the app without disconnecting.
 		                _settings.Values["LoggedInUser"] = result.UserInfo.GivenName;
 		                _settings.Values["LoggedInUserEmail"] = result.UserInfo.DisplayableId;
 		                _settings.Values["TenantId"] = result.TenantId;
 		                _settings.Values["LastAuthority"] = context.Authority;
-		               
+		
 		                AccessToken = accessToken;
-		                return accessToken;
 		            }
-		            else {
-		                
-		                return null;
-		            }
+		            return accessToken;
 		        }
 		
-		        public static async Task<string> GetJsonAsync(string url)
+		        public static async Task<GraphServiceClient> GetGraphServiceClientAsync()
 		        {
 		            var accessToken = await GetGraphAccessTokenAsync();
-		            using (HttpClient client = new HttpClient())
-		            {
-		                var accept = "application/json";
-		
-		                client.DefaultRequestHeaders.Add("Accept", accept);
-		                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-		
-		                using (var response = await client.GetAsync(url))
+		            var authenticationProvider = new DelegateAuthenticationProvider(
+		                (requestMessage) =>
 		                {
-		                    if (response.IsSuccessStatusCode)
-		                        return await response.Content.ReadAsStringAsync();
-		                    return null;
-		                }
-		            }
-		        }		
+		                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+		                    return Task.FromResult(0);
+		                });
+		            return new GraphServiceClient(authenticationProvider);
+		        }
 		    }
 		}
 		````
@@ -823,6 +804,7 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		using Newtonsoft.Json.Linq;
 		using System.Text.RegularExpressions;
 		using System.Linq;
+		using Microsoft.Graph;
 		
 		namespace HubApp2.O365Helpers
 		{
@@ -837,38 +819,33 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		
 		            try
 		            {
-		                var restURL = string.Format("{0}/me/calendar/events?$top=10&$filter=End/DateTime ge '{1}'", AuthenticationHelper.ResourceBetaUrl, DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-		                string responseString = await AuthenticationHelper.GetJsonAsync(restURL);
-		                if (responseString != null)
+		                var graphClient = await AuthenticationHelper.GetGraphServiceClientAsync();
+		                var eventsPage = await graphClient.Me.Calendar.Events.Request().Top(10).Filter(string.Format("End/DateTime ge '{0}'", DateTime.Now.ToString("yyyy/MM/dd HH:mm"))).GetAsync();
+		                var events = eventsPage.CurrentPage;
+		                foreach (var item in events)
 		                {
-		                    var jsonresult = JObject.Parse(responseString);
-		
-		                    foreach (var item in jsonresult["value"])
+		                    EventViewModel calendarEventModel = new EventViewModel();
+		                    calendarEventModel.Subject = item.Subject;
+		                    calendarEventModel.Start = DateTime.Parse(item.Start.DateTime);
+		                    calendarEventModel.End = DateTime.Parse(item.End.DateTime);
+		                    calendarEventModel.Id = item.Id;
+		                    calendarEventModel.LocationName = item.Location.DisplayName;
+		                    calendarEventModel.StartTime = calendarEventModel.Start.ToLocalTime().TimeOfDay;
+		                    calendarEventModel.EndTime = calendarEventModel.End.ToLocalTime().TimeOfDay;
+		                    string bodyType = item.Body.ContentType == BodyType.Html ? "html" : "text";
+		                    string bodyContent = item.Body.Content;
+		                    if (item.Body.ContentType == BodyType.Html)
 		                    {
-		                        EventViewModel calendarEventModel = new EventViewModel();
-		                        calendarEventModel.Subject = !string.IsNullOrEmpty(item["subject"].ToString()) ? item["subject"].ToString() : string.Empty;
-		                        calendarEventModel.Start = !string.IsNullOrEmpty(item["start"]["dateTime"].ToString()) ? DateTime.Parse(item["start"]["dateTime"].ToString()) : new DateTime();
-		                        calendarEventModel.End = !string.IsNullOrEmpty(item["end"]["dateTime"].ToString()) ? DateTime.Parse(item["end"]["dateTime"].ToString()) : new DateTime();
-		                        calendarEventModel.Id = !string.IsNullOrEmpty(item["id"].ToString()) ? item["id"].ToString() : string.Empty;
-		                        calendarEventModel.LocationName = !string.IsNullOrEmpty(item["location"]["displayName"].ToString()) ? item["location"]["displayName"].ToString() : string.Empty;
-		                        calendarEventModel.StartTime = calendarEventModel.Start.ToLocalTime().TimeOfDay;
-		                        calendarEventModel.EndTime = calendarEventModel.End.ToLocalTime().TimeOfDay;
-		                        string bodyType = !string.IsNullOrEmpty(item["body"]["contentType"].ToString()) ? item["body"]["contentType"].ToString() : string.Empty;
-		                        string bodyContent = !string.IsNullOrEmpty(item["body"]["content"].ToString()) ? item["body"]["content"].ToString() : string.Empty;
-		                        if (bodyType == "html")
-		                        {
-		                            bodyContent = Regex.Replace(bodyContent, "<[^>]*>", "");
-		                            bodyContent = Regex.Replace(bodyContent, "\n", "");
-		                            bodyContent = Regex.Replace(bodyContent, "\r", "");
-		                        }
-		                        calendarEventModel.BodyContent = bodyContent;
-		
-		                        calendarEventModel.Attendees = !string.IsNullOrEmpty(item["attendees"].ToString()) ? BuildAttendeeList(item["attendees"].ToString()) : string.Empty;
-		
-		                        calendarEventModel.UpdateDisplayString();
-		                        eventsResults.Add(calendarEventModel);
-		
+		                        bodyContent = Regex.Replace(bodyContent, "<[^>]*>", "");
+		                        bodyContent = Regex.Replace(bodyContent, "\n", "");
+		                        bodyContent = Regex.Replace(bodyContent, "\r", "");
 		                    }
+		                    calendarEventModel.BodyContent = bodyContent;
+		
+		                    calendarEventModel.Attendees = BuildAttendeeList(item.Attendees);
+		
+		                    calendarEventModel.UpdateDisplayString();
+		                    eventsResults.Add(calendarEventModel);
 		                }
 		            }
 		            catch (Exception el)
@@ -883,31 +860,19 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		        /// Builds a semi-colon delimted list of attendee email addresses from
 		        /// the Attendee collection of a calendar event
 		        /// </summary>
-		        /// <param name="attendeeList">string attendeeList</param>
+		        /// <param name="attendees">IEnumerable<Attendee> attendees</param>
 		        /// <returns></returns>
-		        internal string BuildAttendeeList(string attendeeList)
+		        internal string BuildAttendeeList(IEnumerable<Attendee> attendees)
 		        {
-		            if (attendeeList == "[]")
-		            {
-		                return string.Empty;
-		            }
 		            StringBuilder attendeeListBuilder = new StringBuilder();
-		            attendeeList = Regex.Replace(attendeeList, "\r", "");
-		            attendeeList = Regex.Replace(attendeeList, "\n", "");
-		            JArray jsonArray = JArray.Parse(attendeeList);
-		            foreach (JObject attendeeObject in jsonArray)
+		            foreach (Attendee attendee in attendees)
 		            {
-		                if (attendeeListBuilder.Length == 0)
-		                {
-		                    attendeeListBuilder.Append(attendeeObject["emailAddress"]["address"].ToString());
-		                }
-		                else {
-		                    attendeeListBuilder.Append(";" + attendeeObject["emailAddress"]["address"].ToString());
-		                }
+		                var address = attendeeListBuilder.Length > 0 ? ";" : string.Empty;
+		                address += attendee.EmailAddress.Address;
+		                attendeeListBuilder.Append(attendee.EmailAddress.Address);
 		            }
-		
 		            return attendeeListBuilder.ToString();
-		        }        
+		        }
 		    }
 		}
 		````
@@ -1024,22 +989,17 @@ In this exercise, you will add classes to the project that will "normalize" the 
 		
 		            try
 		            {
-		                var restURL = string.Format("{0}me/drive/root/children", AuthenticationHelper.ResourceBetaUrl);
-		                string responseString = await AuthenticationHelper.GetJsonAsync(restURL);
-		                if (responseString != null)
+		                var graphClient = await AuthenticationHelper.GetGraphServiceClientAsync();
+		                var driveItems = await graphClient.Me.Drive.Root.Children.Request().GetAsync();
+		                foreach (var item in driveItems)
 		                {
-		                    var jsonresult = JObject.Parse(responseString);
-		
-		                    foreach (var item in jsonresult["value"])
-		                    {
-		                        FileSystemItemViewModel fileItemModel = new FileSystemItemViewModel();
-		                        fileItemModel.Name = !string.IsNullOrEmpty(item["name"].ToString()) ? item["name"].ToString() : string.Empty;
-		                        fileItemModel.LastModifiedBy = !string.IsNullOrEmpty(item["lastModifiedBy"]["user"]["displayName"].ToString()) ? item["lastModifiedBy"]["user"]["displayName"].ToString() : string.Empty;
-		                        fileItemModel.LastModifiedDateTime = !string.IsNullOrEmpty(item["lastModifiedDateTime"].ToString()) ? DateTime.Parse(item["lastModifiedDateTime"].ToString()) : new DateTime();
-		                        fileItemModel.Id = !string.IsNullOrEmpty(item["id"].ToString()) ? item["id"].ToString() : string.Empty;
-		                        fileItemModel.Folder = item["folder"] != null ? item["folder"].ToString() : string.Empty;
-		                        fileResults.Add(fileItemModel);
-		                    }
+		                    FileSystemItemViewModel fileItemModel = new FileSystemItemViewModel();
+		                    fileItemModel.Name = item.Name;
+		                    fileItemModel.LastModifiedBy = item.LastModifiedBy.User.DisplayName;
+		                    fileItemModel.LastModifiedDateTime = item.LastModifiedDateTime.GetValueOrDefault(new DateTimeOffset());
+		                    fileItemModel.Id = item.Id;
+		                    fileItemModel.Folder = item.Folder != null ? item.Folder.ToString() : string.Empty;
+		                    fileResults.Add(fileItemModel);
 		                }
 		            }
 		            catch (Exception el)
@@ -1084,7 +1044,7 @@ In this exercise, you will replace calls to the sample data source with calls to
 		this.Frame.Navigate(typeof(SectionPage), ((SampleDataGroup)group).UniqueId);
 		````
 
-		Replace the **SampleDataGroup** class with the **O365DateGroup** class.
+		Replace the **SampleDataGroup** class with the **O365DataGroup** class.
 
 		````c#
 		this.Frame.Navigate(typeof(SectionPage), ((O365DataGroup)group).UniqueId);
@@ -1096,7 +1056,7 @@ In this exercise, you will replace calls to the sample data source with calls to
 		var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
 		````
 
-		Replace the **SampleDataGroup** class with the **O365DateGroup** class.
+		Replace the **SampleDataItem** class with the **O365DataItem** class.
 
 		````c#
 		var itemId = ((O365DataItem)e.ClickedItem).UniqueId;
@@ -1121,7 +1081,7 @@ In this exercise, you will replace calls to the sample data source with calls to
 		var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
 		````
 
-		Replace the **SampleDataGroup** class with the **O365DateGroup** class.
+		Replace the **SampleDataItem** class with the **O365DateItem** class.
 
 		````c#
 		var itemId = ((O365DataItem)e.ClickedItem).UniqueId;

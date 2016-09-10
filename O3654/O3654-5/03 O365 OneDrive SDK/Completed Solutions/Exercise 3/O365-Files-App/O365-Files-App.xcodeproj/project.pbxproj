@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E11C6101C57120B00AF96D0 /* FileGraphService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E11C60F1C57120B00AF96D0 /* FileGraphService.m */; };
-		85B8839BE72A60414B6D3635 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A419620F3ABDD1891E51DD0 /* libPods.a */; };
+		3FA4EEC8996D5B2252982026 /* libPods-O365-Files-App.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 403D39ABA4B46E474BBCF891 /* libPods-O365-Files-App.a */; };
 		8D00AC131A105527009BD104 /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D00AC121A105527009BD104 /* Auth.plist */; };
+		B7DBC0F71D0E9B4100D2F543 /* FileGraphService.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DBC0F61D0E9B4100D2F543 /* FileGraphService.m */; };
 		D90A56DE19FA6FFC00F4F476 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D90A56DD19FA6FFC00F4F476 /* office365.png */; };
 		D90A56E419FA73F100F4F476 /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A56E319FA73F100F4F476 /* FileListViewController.m */; };
 		D90A56E719FA741E00F4F476 /* FileListCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A56E619FA741E00F4F476 /* FileListCellTableViewCell.m */; };
@@ -25,12 +25,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A419620F3ABDD1891E51DD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E11C60E1C57120B00AF96D0 /* FileGraphService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileGraphService.h; sourceTree = "<group>"; };
-		0E11C60F1C57120B00AF96D0 /* FileGraphService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileGraphService.m; sourceTree = "<group>"; };
 		0FDBBECEF38A9AB29EA62FC1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		10F16F14BA472CD2131233B3 /* Pods-O365-Files-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-O365-Files-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-O365-Files-App/Pods-O365-Files-App.release.xcconfig"; sourceTree = "<group>"; };
 		146C7129A084EA00926BE198 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		403D39ABA4B46E474BBCF891 /* libPods-O365-Files-App.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-O365-Files-App.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		71F607FEBA2E20FB4C48B004 /* Pods-O365-Files-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-O365-Files-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-O365-Files-App/Pods-O365-Files-App.debug.xcconfig"; sourceTree = "<group>"; };
 		8D00AC121A105527009BD104 /* Auth.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth.plist; sourceTree = "<group>"; };
+		B7DBC0F51D0E9B4100D2F543 /* FileGraphService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileGraphService.h; sourceTree = "<group>"; };
+		B7DBC0F61D0E9B4100D2F543 /* FileGraphService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileGraphService.m; sourceTree = "<group>"; };
 		D90A56DD19FA6FFC00F4F476 /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = "<group>"; };
 		D90A56E219FA73F100F4F476 /* FileListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileListViewController.h; sourceTree = "<group>"; };
 		D90A56E319FA73F100F4F476 /* FileListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileListViewController.m; sourceTree = "<group>"; };
@@ -56,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85B8839BE72A60414B6D3635 /* libPods.a in Frameworks */,
+				3FA4EEC8996D5B2252982026 /* libPods-O365-Files-App.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +68,7 @@
 		53529216DC982E3B95567E96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0A419620F3ABDD1891E51DD0 /* libPods.a */,
+				403D39ABA4B46E474BBCF891 /* libPods-O365-Files-App.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,8 +93,8 @@
 				D94EB04B19F6DE1200137259 /* ic_launcher-web.png */,
 				D90A56E519FA741E00F4F476 /* FileListCellTableViewCell.h */,
 				D90A56E619FA741E00F4F476 /* FileListCellTableViewCell.m */,
-				0E11C60E1C57120B00AF96D0 /* FileGraphService.h */,
-				0E11C60F1C57120B00AF96D0 /* FileGraphService.m */,
+				B7DBC0F51D0E9B4100D2F543 /* FileGraphService.h */,
+				B7DBC0F61D0E9B4100D2F543 /* FileGraphService.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -137,6 +139,8 @@
 			children = (
 				146C7129A084EA00926BE198 /* Pods.debug.xcconfig */,
 				0FDBBECEF38A9AB29EA62FC1 /* Pods.release.xcconfig */,
+				71F607FEBA2E20FB4C48B004 /* Pods-O365-Files-App.debug.xcconfig */,
+				10F16F14BA472CD2131233B3 /* Pods-O365-Files-App.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -148,12 +152,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D94220E919E821ED00F0D350 /* Build configuration list for PBXNativeTarget "O365-Files-App" */;
 			buildPhases = (
-				D10DBCE0213B050E1647C052 /* Check Pods Manifest.lock */,
+				D10DBCE0213B050E1647C052 /* 📦 Check Pods Manifest.lock */,
 				D94220C219E821ED00F0D350 /* Sources */,
 				D94220C319E821ED00F0D350 /* Frameworks */,
 				D94220C419E821ED00F0D350 /* Resources */,
-				5F0B8439454D7003473FD87A /* Embed Pods Frameworks */,
-				4AC2B33F598401F4A599D754 /* Copy Pods Resources */,
+				5F0B8439454D7003473FD87A /* 📦 Embed Pods Frameworks */,
+				4AC2B33F598401F4A599D754 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,44 +218,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4AC2B33F598401F4A599D754 /* Copy Pods Resources */ = {
+		4AC2B33F598401F4A599D754 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-O365-Files-App/Pods-O365-Files-App-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5F0B8439454D7003473FD87A /* Embed Pods Frameworks */ = {
+		5F0B8439454D7003473FD87A /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-O365-Files-App/Pods-O365-Files-App-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D10DBCE0213B050E1647C052 /* Check Pods Manifest.lock */ = {
+		D10DBCE0213B050E1647C052 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,7 +276,7 @@
 				D90A56E719FA741E00F4F476 /* FileListCellTableViewCell.m in Sources */,
 				D90A571919FA9F1B00F4F476 /* FileDetailsViewController.m in Sources */,
 				D94EB04319F6DDB600137259 /* AppDelegate.m in Sources */,
-				0E11C6101C57120B00AF96D0 /* FileGraphService.m in Sources */,
+				B7DBC0F71D0E9B4100D2F543 /* FileGraphService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +382,7 @@
 		};
 		D94220EA19E821ED00F0D350 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 146C7129A084EA00926BE198 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 71F607FEBA2E20FB4C48B004 /* Pods-O365-Files-App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -395,7 +399,7 @@
 		};
 		D94220EB19E821ED00F0D350 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0FDBBECEF38A9AB29EA62FC1 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 10F16F14BA472CD2131233B3 /* Pods-O365-Files-App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

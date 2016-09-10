@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
 
     private void loadEvents(){
         process = ProgressDialog.show(this,"Loading","Loading events in the past 30 days...");
-        SettableFuture<List<String>> graphController = GraphController.getInstance().initialize();
+        SettableFuture<List<String>> graphController = GraphController.getInstance().initialize(getApplication());
         Futures.addCallback(graphController, new FutureCallback<List<String>>() {
             @Override
             public void onSuccess(final List<String> result) {
@@ -133,4 +133,5 @@ public class MainActivity extends Activity {
                 .getAuthenticationContext()
                 .onActivityResult(requestCode, resultCode, data);
     }
+
 }

@@ -71,9 +71,9 @@ namespace HubApp2
         {
             var groups = await O365DataSource.GetGroupsAsync();
             this.DefaultViewModel["CalendarItems"] =
-              groups.First(g => g.UniqueId.Equals("calendar"));
+                groups.First(g => g.UniqueId.Equals("calendar"));
             this.defaultViewModel["FileItems"] =
-              groups.First(g => g.UniqueId.Equals("files"));
+                groups.First(g => g.UniqueId.Equals("files"));
         }
 
         /// <summary>

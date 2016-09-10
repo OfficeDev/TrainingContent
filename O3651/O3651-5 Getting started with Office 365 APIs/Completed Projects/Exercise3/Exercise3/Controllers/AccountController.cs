@@ -7,7 +7,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security;
 
-namespace Exercise3.Controllers
+namespace Exercise.Controllers
 {
     public class AccountController : Controller
     {

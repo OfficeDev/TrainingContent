@@ -87,7 +87,6 @@ NSString* token;
             token = t;
             
             FileListViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"fileList"];
-            controller.token = t;
             
             [self.navigationController pushViewController:controller animated:YES];
         });
@@ -106,7 +105,7 @@ NSString* token;
     if (error)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *errorMessage = [@"Clear caché failed. Reason: " stringByAppendingString: error.errorDetails];
+            NSString *errorMessage = [@"Clear cache failed. Reason: " stringByAppendingString: error.errorDetails];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
         });

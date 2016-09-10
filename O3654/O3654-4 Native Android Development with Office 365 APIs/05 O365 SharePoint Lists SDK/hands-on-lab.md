@@ -23,9 +23,7 @@ We'll examine the use of the Lists SDK by retrofitting an existing Android appli
 -   [Git version control tool][git-scm]
 -   [Android Studio][android-studio]
 -   Android API Level 23 installed [using the Android SDK Manager][sdk-manager]
--   Deploy the [Research Tracker code sample](https://github.com/OfficeDev/Research-Project-Code-Sample)
 -   Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\01 Azure AD Auth Prerequisites](../01%20Azure%20AD%20Auth%20Prerequisites) module.
--   Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\02 Active Directory Authentication Library](../02%20Active%20Directory%20Authentication%20Library) module.
 
 [git-scm]: http://git-scm.com
 [android-studio]: http://developer.android.com/sdk/installing/studio.html
@@ -41,15 +39,65 @@ The hands-on lab includes the following exercises:
 <a name="exercise1"></a>
 ## Exercise 1 - Prepare the Research Tracker app
 
-In this exercise we will be importing, configuring and preparing the Android
+In this exercise we will prepare a SharePoint site, and importing, configuring and preparing the Android
 Research Tracker example app.
 
-### Task 1 - Import the Research Tracker app
+### Task 1 - Prepare SharePoint site
 
-01. Make a copy of the Android Research Tracker app template. Found in the
-    [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\05 O365 SharePoint Lists SDK\O365ResearchTrackerApp](O365ResearchTrackerApp) directory.
+01. Login to a SharePoint online site with an account that has appropriate privileges to create lists.
 
-    Name this copy "ResearchTrackerApp". E.g. in PowerShell
+02. Go to Site Contents.
+
+	![](img/000001_go_to_site_contents.png)
+
+03. Click New/List
+
+	![](img/000002_create_list.png)
+
+04. Specify **Research Projects** as the Name of the new list. Click  the **Create** button.
+
+	![](img/000003_input_list_info.png)
+
+05. Create another list named **Research References** the same way.
+
+06. Go to the **Research References**list, click the **List** button, then click the **List Settings** button in the ribbon menu.
+	
+	![](img/000004_list_settings.png)
+
+07. Click **Advanced Settings**.
+
+08. Select **Yes** for the **Allow management of content types?** option. Click **OK** at the bottom of the page .
+
+	![](img/000005_allow_management_of_contenttypes.png)
+
+09. In the List Settings page, in the Content Types section, click **Add from existing site content types**.
+
+	![](img/000006_add_content_type.png)
+
+10. In the Add Content Types page, select the **Link** Content Type, click **Add**, then click **OK**.
+
+	![](img/000007_select_content_type.png)
+
+11. In the List Settings page, locate the Content Types section, click content type **Item**.
+
+12. On the List Content Type page, click **Delete this content type**, then click **OK** on the confirm box.
+
+09. On the List Settings page, click **Create Column**.
+
+	![](img/000008_create_column.png)
+
+10. In the Create Column page, specify **Project** as the Column name. Select **Single line of text** as the Column type. Keep all other settings as default. Click **OK** at the page bottom.
+
+	![](img/000009_new_column_settings.png)
+
+15. Create some list items in the Research Projects list.
+16. Create some list items in the Research References list.
+
+### Task 2 - Import the Research Tracker app
+
+01. Copy the Android Research Tracker app template [O365ResearchTrackerApp\src](.\O365ResearchTrackerApp\src) to a folder named "ResearchTrackerApp".
+
+    You can do it in PowerShell by the following code(Please change the value of $lab_dir, $work_dir to the real path):
 
     ```powershell
     PS C:\> $lab_dir = ".\path\to\the\lab"
@@ -73,9 +121,11 @@ Wait for Android Studio to finish importing the test project.
 
 We're not finished yet - the app is currently not compiling. Next we will add a reference to the Office 365 SharePoint Lists SDK.
 
-### Task 2 - Add the Office 365 SharePoint Lists SDK
+### Task 3 - Add the Office 365 SharePoint Lists SDK
 
-01. Open the `app/src/build.gradle` file.
+01. Open the `app/build.gradle` file.
+
+	![](img/00014_open_build_gradle.png)
 
 02. Locate the `dependencies` section and add the following lines:
     
@@ -98,9 +148,11 @@ We're not finished yet - the app is currently not compiling. Next we will add a 
 
 In this task you added the SharePoint Lists SDK. The app is almost ready to go!
 
-### Task 3 - Configure and test the app
+### Task 4 - Configure and test the app
 
-01. Open the `app/src/main/java/com/microsoft/researchtracker/Constants.java` file.
+01. Open the `app/src/main/java/com.microsoft.researchtracker/Constants.java` file.
+
+	![](img/00024_open_constants_java.png)
 
 02. This class hosts a number of static constants which we must update.
 
@@ -262,6 +314,7 @@ The first screen of the application - the "List Projects Activity" - uses only o
     typed access to the Fields we need: `Id`, `Title`, `Editor`, `Modified`.
 
 06. That's all we need for the first screen of the app. Let's try it out. Click **Run > Debug App** to start the app in the debugger.
+	> **Note:** If the **Research Projects** list contains nothing, you will see a blank list. Please go ahead till you can create projects. 
 
     (If you've already signed in before you should be signed in automatically.)
 
@@ -338,6 +391,7 @@ The second screen of the application - the "View Project Activity" - needs two f
 08. Let's try it out. Click **Run > Debug App** to start the app in the debugger.
 
 09. Pick one of the Research Projects in the list to go to the View Project activity. Here you can see details about the Project and its References. 
+	> **Note:** If the **Research Projects** or **Research References** list contain nothing, you will see a blank project list or blank reference list of the selected project. Please go ahead till you can create project and reference.
 
     ![Screenshot of the previous step](img/0045_view_project_activity.png)
 
@@ -392,7 +446,8 @@ The third screen of the application - the "View Reference Activity" - needs just
 05. Pick one of the Research Projects in the list to go to the View Project activity.
 
 06. Pick a Reference from the list to go to the View Reference activity. Here you can see details about the reference including a Url which will launch the system web browser when tapped by the user.
-    
+    > **Note:** If the **Research Projects** or **Research References** list contain nothing, you will be able to do this. Please go ahead till you can create project and reference.
+
     ![Screenshot of the previous step](img/0046_view_reference_activity.png)
 
 ### Task 5 - Modifying a Research Project

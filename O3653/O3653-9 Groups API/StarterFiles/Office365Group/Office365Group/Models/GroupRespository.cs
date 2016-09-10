@@ -14,38 +14,25 @@ using System.Configuration;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Office365Group.Util;
+using Microsoft.Graph;
 
 
 namespace Office365Group.Models
 {
     public class GroupRespository
     {
-        private string GraphResourceUrl = "https://graph.microsoft.com/V1.0";
-        private string TenantId = ConfigurationManager.AppSettings["ida:TenantId"];
+        public static string GraphResourceUrl = "https://graph.microsoft.com/V1.0";
+        public static string TenantId = ConfigurationManager.AppSettings["ida:TenantId"];
 
+        public static async Task<GraphServiceClient> GetGraphServiceAsync()
+        {
+            return null;
+        }
         public static async Task<string> GetGraphAccessTokenAsync()
         {
             return null;
         }
 
-        public static async Task<string> GetJsonAsync(string url)
-        {
-            string accessToken = await GetGraphAccessTokenAsync();
-            using (HttpClient client = new HttpClient())
-            {
-                var accept = "application/json";
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(url))
-                {
-                    if (response.IsSuccessStatusCode)
-                        return await response.Content.ReadAsStringAsync();
-                    return null;
-                }
-            }
-        }
 
         private static string FormatBytes(long bytes)
         {
@@ -75,7 +62,7 @@ namespace Office365Group.Models
         {
             return null;
         }
-        public async Task<List<GroupModel>> SearchGoupByName(string groupName)
+        public async Task<List<GroupModel>> SearchGroupByName(string groupName)
         {
             return null;
         }

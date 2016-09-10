@@ -12,21 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.microsoft.services.graph.DriveItem;
-import com.microsoft.services.graph.File;
-import com.microsoft.services.graph.Folder;
-import com.microsoft.services.graph.fetchers.GraphServiceClient;
-import com.microsoft.services.orc.auth.AuthenticationCredentials;
-import com.microsoft.services.orc.core.DependencyResolver;
-import com.microsoft.services.orc.core.OrcList;
-import com.microsoft.services.orc.http.Credentials;
-import com.microsoft.services.orc.http.impl.OAuthCredentials;
-import com.microsoft.services.orc.http.impl.OkHttpTransport;
-import com.microsoft.services.orc.serialization.impl.GsonSerializer;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,36 +19,37 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import com.microsoft.graph.concurrency.ICallback;
+import com.microsoft.graph.extensions.DriveItem;
+import com.microsoft.graph.extensions.File;
+import com.microsoft.graph.extensions.Folder;
+import com.microsoft.graph.extensions.GraphServiceClient;;
+import com.microsoft.graph.extensions.IDriveItemCollectionPage;
+import com.microsoft.graph.extensions.IDriveItemCollectionRequest;
+import com.microsoft.graph.extensions.IGraphServiceClient;
+import com.microsoft.graph.core.ClientException;
+import com.microsoft.graph.core.IClientConfig;
+import com.microsoft.graph.core.DefaultClientConfig;
+import com.microsoft.graph.authentication.MSAAuthAndroidAdapter;
+import com.microsoft.graph.authentication.IAuthenticationAdapter;
+import com.microsoft.graph.http.IHttpRequest;
+import com.microsoft.graph.options.HeaderOption;
+
 public class MainActivity extends Activity {
 
     public static final String PARAM_ACCESS_TOKEN = "param_access_token";
+
+    private IGraphServiceClient graphServiceClient;
 
     /**
      * The OAuth Access Token provided by LaunchActivity.
      */
     private String mAccessToken;
 
-    private DependencyResolver mResolver;
-    private GraphServiceClient graphServiceClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Access token obtained by LaunchActivity using the Active Directory Authentication Library
-        mAccessToken = getIntent().getStringExtra(PARAM_ACCESS_TOKEN);
-
-        mResolver = new DependencyResolver.Builder(
-                new OkHttpTransport(), new GsonSerializer(),
-                new AuthenticationCredentials() {
-                    @Override
-                    public Credentials getCredentials() {
-                        return new OAuthCredentials(mAccessToken);
-                    }
-                }).build();
-
-        graphServiceClient = new GraphServiceClient("https://graph.microsoft.com/v1.0", mResolver);
 
         findViewById(R.id.retrieve_files_button).setOnClickListener(
                 new View.OnClickListener() {
@@ -91,6 +77,56 @@ public class MainActivity extends Activity {
                     }
                 }
         );
+
+        //Access token obtained by LaunchActivity using the Active Directory Authentication Library
+        mAccessToken = getIntent().getStringExtra(PARAM_ACCESS_TOKEN);
+
+        final IAuthenticationAdapter authenticationAdapter = new MSAAuthAndroidAdapter(getApplication()) {
+            @Override
+            public String getClientId() {
+                return Constants.CLIENT_ID;
+            }
+
+            @Override
+            public String[] getScopes() {
+                return new String[] {
+                        "https://graph.microsoft.com/File.ReadWrite",
+                        "offline_access",
+                        "openid"
+                };
+            }
+            @Override
+            public void authenticateRequest(final IHttpRequest request) {
+                for (final HeaderOption option : request.getHeaders()) {
+                    if (option.getName().equals(AUTHORIZATION_HEADER_NAME)) {
+                        return;
+                    }
+                }
+                if (mAccessToken != null && mAccessToken.length() > 0){
+                    request.addHeader(AUTHORIZATION_HEADER_NAME, OAUTH_BEARER_PREFIX + mAccessToken);
+                    return;
+                }
+                super.authenticateRequest(request);
+            }
+        };
+        final IClientConfig mClientConfig = DefaultClientConfig.createWithAuthenticationProvider(authenticationAdapter);
+        graphServiceClient  = new GraphServiceClient
+                .Builder()
+                .fromConfig(mClientConfig)
+                .buildClient();
+    }
+
+    private class ErrorHandler implements Runnable {
+        private ProgressDialog progress;
+        private Throwable throwable;
+        ErrorHandler(ProgressDialog progress, Throwable throwable) {
+            this.progress = progress;
+            this.throwable = throwable;
+        }
+        public void run() {
+            progress.dismiss();
+            showErrorDialog(throwable);
+        }
     }
 
     private void showErrorDialog(Throwable t) {
@@ -108,31 +144,35 @@ public class MainActivity extends Activity {
                 this, "Working", "Retrieving Files"
         );
 
-        ListenableFuture<OrcList<DriveItem>> itemsFuture;
-
+        IDriveItemCollectionRequest itemsRequest = null;
         if (folder == null) {
             //Get the files in the root folder
-            itemsFuture = graphServiceClient.getMe().getDrive()
-                    .getRoot()
-                    .getChildren()
-                    .read();
+            itemsRequest = graphServiceClient.
+                    getMe().
+                    getDrive().
+                    getRoot().
+                    getChildren().
+                    buildRequest();
         }
         else {
             //Get the files in this folder
-            itemsFuture = graphServiceClient.getMe().getDrive()
-                    .getItem(folder.getId())
-                    .getChildren()
-                    .read();
+            itemsRequest = graphServiceClient.
+                    getMe().
+                    getDrive().
+                    getItems(folder.id).
+                    getChildren().
+                    buildRequest();
         }
 
-        Futures.addCallback(itemsFuture, new FutureCallback<List<DriveItem>>() {
+        itemsRequest.get(new ICallback<IDriveItemCollectionPage>() {
             @Override
-            public void onSuccess(final List<DriveItem> result) {
+            public void success(IDriveItemCollectionPage driveItemsPage) {
+                final List<DriveItem> driveItems = driveItemsPage.getCurrentPage();
                 //Transform the results into a collection of strings
-                final String[] items = new String[result.size()];
-                for (int i = 0; i < result.size(); i++) {
-                    DriveItem item = result.get(i);
-                    items[i] = "(" + (item.getFolder() != null ? "Folder" : "File") + ") " + item.getName();
+                final String[] items = new String[driveItems.size()];
+                for (int i = 0; i < driveItems.size(); i++) {
+                    DriveItem item = driveItems.get(i);
+                    items[i] = "(" + (item.folder != null ? "Folder" : "File") + ") " + item.name;
                 }
                 //Launch a dialog to show the results to the user
                 runOnUiThread(new Runnable() {
@@ -145,8 +185,8 @@ public class MainActivity extends Activity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         //The user picked a file - figure out if it is a file or folder
-                                        DriveItem item = result.get(i);
-                                        if (item.getFolder() == null) {
+                                        DriveItem item = driveItems.get(i);
+                                        if (item.folder == null) {
                                             //download the file contents
                                             startDownloadFile(item);
                                         } else {
@@ -162,17 +202,10 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
+            public void failure(ClientException ex) {
+                runOnUiThread(new ErrorHandler(progress, ex));
             }
         });
-
     }
 
     private void startDownloadFile(final DriveItem file) {
@@ -180,45 +213,37 @@ public class MainActivity extends Activity {
         final ProgressDialog progress = ProgressDialog.show(
                 this, "Working", "Retrieving File Contents"
         );
-
-        //Get the contents of the file
-        ListenableFuture<InputStream> resultFuture = graphServiceClient.getMe().getDrive()
-                .getItem(file.getId())
-                .getContent()
-                .getStream();
-
-        Futures.addCallback(resultFuture, new FutureCallback<InputStream>() {
+        new Thread() {
             @Override
-            public void onSuccess(final InputStream result) {
+            public void run() {
+                try {
+                    //Get the contents of the file
+                    InputStream stream = graphServiceClient.
+                            getMe().
+                            getDrive().
+                            getItems(file.id).
+                            getContent().
+                            buildRequest().
+                            get();
+                    final View view = getFileView(stream);
 
-                //Try and parse this data as an image or plain text
-                final View view = getFileView(result);
-
-                //Launch a dialog to show the results to the user
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("File Contents")
-                                .setView(view)
-                                .setPositiveButton("OK", null)
-                                .show();
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
+                    //Launch a dialog to show the results to the user
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progress.dismiss();
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("File Contents")
+                                    .setView(view)
+                                    .setPositiveButton("OK", null)
+                                    .show();
+                        }
+                    });
+                }
+                catch (final Throwable t){
+                    runOnUiThread(new ErrorHandler(progress, t));
+                }
+            }}.start();
     }
 
     private View getFileView(InputStream result) {
@@ -269,7 +294,6 @@ public class MainActivity extends Activity {
         }
 
         return sb.toString();
-
     }
 
     private void showCreateFolderDialog() {
@@ -300,42 +324,43 @@ public class MainActivity extends Activity {
         //Create a new folder entity
         DriveItem  item = new DriveItem();
         Folder folder = new Folder();
-        item.setFolder(folder);
-        item.setName(newFolderName);
+        item.folder = folder;
+        item.name = newFolderName;
 
         //Create the folder via the API
-        ListenableFuture<DriveItem> newFolderFuture = graphServiceClient.getMe().getDrive()
-                .getRoot()
-                .getChildren()
-                .add(item);
-
-        Futures.addCallback(newFolderFuture, new FutureCallback<DriveItem>() {
-            @Override
-            public void onSuccess(final DriveItem result) {
-                runOnUiThread(new Runnable() {
+        graphServiceClient.
+                getMe().
+                getDrive().
+                getRoot().
+                getChildren().
+                buildRequest().
+                post(item, new ICallback<DriveItem>() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Success")
-                                .setMessage("Created folder " + result.getName())
-                                .setPositiveButton("OK", null)
-                                .show();
+                    public void success(final DriveItem driveItem) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle("Success")
+                                        .setMessage("Created folder " + driveItem.name)
+                                        .setPositiveButton("OK", null)
+                                        .show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(final ClientException ex) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                showErrorDialog(ex);
+                            }
+                        });
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
 
     private void showCreateFileDialog() {
@@ -367,38 +392,39 @@ public class MainActivity extends Activity {
 
         DriveItem item = new DriveItem();
         File file = new File();
-        item.setFile(file);
-        item.setName(newFileName);
+        item.file = file;
+        item.name = newFileName;
 
-        //Create the folder via the API
-        ListenableFuture<DriveItem> newFileFuture = graphServiceClient.getMe().getDrive()
-                .getRoot()
-                .getChildren()
-                .add(item);
-
-        Futures.addCallback(newFileFuture, new FutureCallback<DriveItem>() {
-            @Override
-            public void onSuccess(final DriveItem result) {
-                runOnUiThread(new Runnable() {
+        //Create the file via the API
+        graphServiceClient.
+                getMe().
+                getDrive().
+                getRoot().
+                getChildren().
+                buildRequest().
+                post(item, new ICallback<DriveItem>() {
                     @Override
-                    public void run() {
-                        progress.dismiss();
-                        uploadFileContent(result);
+                    public void success(final DriveItem driveItem) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                uploadFileContent(driveItem);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(final ClientException ex) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                showErrorDialog(ex);
+                            }
+                        });
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
 
     private void uploadFileContent(final DriveItem file) {
@@ -420,42 +446,43 @@ public class MainActivity extends Activity {
         }
 
         //Upload the file content
-        ListenableFuture<Void> future = graphServiceClient.getMe().getDrive()
-                .getItem(file.getId())
-                .getContent()
-                .putContent(bytes);
-
-        Futures.addCallback(future, new FutureCallback<Void>() {
-            @Override
-            public void onSuccess(final Void result) {
-                runOnUiThread(new Runnable() {
+        graphServiceClient.
+                getMe().
+                getDrive().
+                getItems(file.id).
+                getContent().
+                buildRequest().
+                put(bytes, new ICallback<DriveItem>() {
                     @Override
-                    public void run() {
+                    public void success(DriveItem driveItem) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progress.dismiss();
+                                        new AlertDialog.Builder(MainActivity.this)
+                                                .setTitle("Success")
+                                                .setMessage("Created file " + file.name)
+                                                .setPositiveButton("OK", null)
+                                                .show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(final ClientException ex) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 progress.dismiss();
-                                new AlertDialog.Builder(MainActivity.this)
-                                        .setTitle("Success")
-                                        .setMessage("Created file " + file.getName())
-                                        .setPositiveButton("OK", null)
-                                        .show();
+                                showErrorDialog(ex);
                             }
                         });
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(final Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                        showErrorDialog(t);
-                    }
-                });
-            }
-        });
     }
 }

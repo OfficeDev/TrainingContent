@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
-#import <MSGraph-SDK-iOS/MSGraphServiceClient.h>
+#import <MSGraphSDK.h>
 #import "ExchangeGraphService.h"
+
 @interface EmailDetailViewController : ViewController
 @property (weak, nonatomic) NSString *token;
 @property (weak, nonatomic) IBOutlet UILabel *author;
@@ -16,5 +17,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *date;
 @property (weak, nonatomic) IBOutlet UIWebView *emailBody;
 
-@property (nonatomic) MSGraphServiceMessage *currentMsg;
+@property (nonatomic) MSGraphMessage *currentMsg;
 @end

@@ -25,8 +25,8 @@
     
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    self.title = @"Detail";
     
+    self.title = @"Detail";
     self.author.text = @"authorName";
     self.subject.text = @"aSubjet";
     self.date.text = @"aDate";

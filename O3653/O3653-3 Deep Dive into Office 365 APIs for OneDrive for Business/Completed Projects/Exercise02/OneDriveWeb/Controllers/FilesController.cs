@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-using OneDriveWeb.Models;
+﻿using OneDriveWeb.Models;
 using System.Threading.Tasks;
-using OneDriveWeb.Models.JsonHelpers;
+using System.Web.Mvc;
 
 namespace OneDriveWeb.Controllers
 {
@@ -14,22 +8,19 @@ namespace OneDriveWeb.Controllers
     {
         // GET: Files
         [Authorize]
-        public async Task<ActionResult> Index(int? pageIndex, int? pageSize)
+        public async Task<ActionResult> Index(int? pageIndex)
         {
-
             FileRepository repository = new FileRepository();
 
-            // setup paging defaults if not provided
-            pageIndex = pageIndex ?? 0;
-            pageSize = pageSize ?? 10;
+            const int pageSize = 10;
 
-            // setup paging for the IU
-            ViewBag.PageIndex = (int)pageIndex;
-            ViewBag.PageSize = (int)pageSize;
+            if (pageIndex == null)
+                pageIndex = 1;
 
-            var results = await repository.GetMyFiles((int)pageIndex, (int)pageSize);
-
-            return View(results);
+            var files = await repository.GetMyFiles((int)pageIndex - 1, pageSize);
+            ViewBag.pageIndex = pageIndex;
+            ViewBag.morePagesAvailable = files.Count < pageSize ? false : true;
+            return View(files);
         }
 
         [Authorize]
@@ -52,13 +43,13 @@ namespace OneDriveWeb.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> Delete(string name, string etag)
+        public async Task<ActionResult> Delete(string name)
         {
             FileRepository repository = new FileRepository();
 
             if (name != null)
             {
-                await repository.DeleteFile(name, etag);
+                await repository.DeleteFile(name);
             }
 
             return Redirect("/Files");

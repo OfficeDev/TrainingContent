@@ -35,19 +35,8 @@
     self.spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:self.spinner];
     self.spinner.hidesWhenStopped = YES;
-    self.title =@"Folder List";
-}
--(void)getFolders{
-    [self.spinner startAnimating];
     
-    ExchangeGraphService *exchangeService =[[ExchangeGraphService alloc] init];
-    [exchangeService getFolders:^(NSArray *folders, NSError *error) {
-        self.folders = folders;
-        dispatch_async(dispatch_get_main_queue(),^{
-            [self.spinner stopAnimating];
-            [self.tableView reloadData];
-        });
-    }];
+    self.title =@"Folder List";
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -78,11 +67,16 @@
     NSString* identifier = @"folderListCell";
     EmailListTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    MSGraphServiceMailFolder *cellFolder = (MSGraphServiceMailFolder*)[self.folders objectAtIndex: indexPath.row];
+    MSGraphMailFolder *cellFolder = (MSGraphMailFolder*)[self.folders objectAtIndex: indexPath.row];
     cell.title.text = cellFolder.displayName;
     
     return cell;
 }
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
@@ -90,6 +84,7 @@
     controller.currentFolder = self.currentFolder;
     
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.currentFolder= [self.folders objectAtIndex:indexPath.row];
@@ -100,9 +95,18 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     return true;
 }
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
 
+-(void)getFolders{
+    [self.spinner startAnimating];
+    
+    ExchangeGraphService *exchangeService =[[ExchangeGraphService alloc] init];
+    [exchangeService getFolders:^(NSArray *folders, NSError *error) {
+        self.folders = folders;
+        dispatch_async(dispatch_get_main_queue(),^{
+            [self.spinner stopAnimating];
+            [self.tableView reloadData];
+        });
+    }];
+}
 
 @end

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65D5BFF75E19BD4266618485 /* libPods-O365-Exchange-App.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2022481FA0CC592F18A9871B /* libPods-O365-Exchange-App.a */; };
 		7DBBE0101A028D7E00CF7D7F /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DBBE00F1A028D7E00CF7D7F /* Auth.plist */; };
-		A8466F035E1F43AECC4DF0F7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF31209A9BC3C342CF885946 /* libPods.a */; };
 		D90A56DE19FA6FFC00F4F476 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D90A56DD19FA6FFC00F4F476 /* office365.png */; };
 		D90A56E419FA73F100F4F476 /* FolderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A56E319FA73F100F4F476 /* FolderListViewController.m */; };
 		D90A56E719FA741E00F4F476 /* EmailListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A56E619FA741E00F4F476 /* EmailListTableViewCell.m */; };
@@ -28,10 +28,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3266C91E288535F6C49C31D8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		54A18D7B1152870F54F38C7B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		168FADB494C09321E4403D99 /* Pods-O365-Exchange-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-O365-Exchange-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-O365-Exchange-App/Pods-O365-Exchange-App.debug.xcconfig"; sourceTree = "<group>"; };
+		2022481FA0CC592F18A9871B /* libPods-O365-Exchange-App.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-O365-Exchange-App.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBBE00F1A028D7E00CF7D7F /* Auth.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth.plist; sourceTree = "<group>"; };
-		AF31209A9BC3C342CF885946 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC04ACA951C0129203A8EA30 /* Pods-O365-Exchange-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-O365-Exchange-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-O365-Exchange-App/Pods-O365-Exchange-App.release.xcconfig"; sourceTree = "<group>"; };
 		D90A56DD19FA6FFC00F4F476 /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = "<group>"; };
 		D90A56E219FA73F100F4F476 /* FolderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderListViewController.h; sourceTree = "<group>"; };
 		D90A56E319FA73F100F4F476 /* FolderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderListViewController.m; sourceTree = "<group>"; };
@@ -62,28 +62,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8466F035E1F43AECC4DF0F7 /* libPods.a in Frameworks */,
+				65D5BFF75E19BD4266618485 /* libPods-O365-Exchange-App.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3CB61CF399271F3172DE08B4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				3266C91E288535F6C49C31D8 /* Pods.debug.xcconfig */,
-				54A18D7B1152870F54F38C7B /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		79A6397CB9C880D5E81B16CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AF31209A9BC3C342CF885946 /* libPods.a */,
+				2022481FA0CC592F18A9871B /* libPods-O365-Exchange-App.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D25E75EF6423835A5F3EA84D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				168FADB494C09321E4403D99 /* Pods-O365-Exchange-App.debug.xcconfig */,
+				CC04ACA951C0129203A8EA30 /* Pods-O365-Exchange-App.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		D90A56E819FA747F00F4F476 /* Controllers */ = {
@@ -121,7 +121,7 @@
 				D94EB03619F6DDB600137259 /* O365-Exchange-App */,
 				D94220C719E821ED00F0D350 /* Products */,
 				79A6397CB9C880D5E81B16CE /* Frameworks */,
-				3CB61CF399271F3172DE08B4 /* Pods */,
+				D25E75EF6423835A5F3EA84D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,12 +157,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D94220E919E821ED00F0D350 /* Build configuration list for PBXNativeTarget "O365-Exchange-App" */;
 			buildPhases = (
-				A5B240776A65FC5E8319F8AD /* Check Pods Manifest.lock */,
+				E45641C25D5D7B5251BE3A9E /* 📦 Check Pods Manifest.lock */,
 				D94220C219E821ED00F0D350 /* Sources */,
 				D94220C319E821ED00F0D350 /* Frameworks */,
 				D94220C419E821ED00F0D350 /* Resources */,
-				709111314678C866CFF55769 /* Embed Pods Frameworks */,
-				DFDE554A18D7E3ED80E42239 /* Copy Pods Resources */,
+				491DC03EFBFF1650B14DF627 /* 📦 Embed Pods Frameworks */,
+				3E97AED249571777B63B6517 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,49 +226,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		709111314678C866CFF55769 /* Embed Pods Frameworks */ = {
+		3E97AED249571777B63B6517 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-O365-Exchange-App/Pods-O365-Exchange-App-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A5B240776A65FC5E8319F8AD /* Check Pods Manifest.lock */ = {
+		491DC03EFBFF1650B14DF627 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-O365-Exchange-App/Pods-O365-Exchange-App-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E45641C25D5D7B5251BE3A9E /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		DFDE554A18D7E3ED80E42239 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -390,7 +390,7 @@
 		};
 		D94220EA19E821ED00F0D350 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3266C91E288535F6C49C31D8 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 168FADB494C09321E4403D99 /* Pods-O365-Exchange-App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -412,7 +412,7 @@
 		};
 		D94220EB19E821ED00F0D350 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54A18D7B1152870F54F38C7B /* Pods.release.xcconfig */;
+			baseConfigurationReference = CC04ACA951C0129203A8EA30 /* Pods-O365-Exchange-App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

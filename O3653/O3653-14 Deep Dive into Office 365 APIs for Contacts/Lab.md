@@ -55,9 +55,11 @@ In this exercise, you will create the ASP.NET MVC5 application and register it w
 1. At this point you can test the authentication flow for your application.
   1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
 
-   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
-
-
+   > **Note:** 
+   > 1. If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+   > 2. If you receive an error of assembly 'System.Spatial', please right click the project, select **Manage Nuget Packages**, then update System.Spatial to the latest version.
+   	
+       
   1. To sign in, click the **Sign In** link in the upper-right corner.
   1. Login using your **Organizational Account**.
   1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
@@ -154,54 +156,33 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
 	}
     ````
 
-1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **Contact** and click **Add** to create the new source file for the class. Implement the new class **Contact** using the following class definition.
-
-    ````c#
-    public class Contact
-    {
-        public string id { get; set; }
-        public string givenName { get; set; }
-        public string surname { get; set; }
-        public string companyName { get; set; }
-        public List<string> businessPhones { get; set; }
-        public List<string> homePhones { get; set; }
-        public List<EmailAddress> emailAddresses { get; set; }
-    }
-
-    public class EmailAddress
-    {
-        public string name { get; set; }
-        public string address { get; set; }
-    }
-    ````
 1. Assembly references are not added to the shared projects in ASP.NET MVC, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
 	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
 	1. Enter each line below in the console, one at a time, pressing **ENTER** after each one. NuGet will install the package and all dependent packages:
 	
 		````powershell
-		PM> Install-Package -Id Microsoft.IdentityModel.Clients.ActiveDirectory
-		PM> Install-Package -Id Newtonsoft.Json		
+        Install-Package Microsoft.Graph	
 		````
 
 1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyContactRepository** and click **Add** to create the new source file for the class.    
-    1. **Add** the following using statements to the top of the **MyContactRepository** class.
+    1. **Use** the following using statements instead of the **MyContactRepository** class old using statements.
 		
 	````c#
+	using System;
+	using System.Collections.Generic;
 	using System.Security.Claims;
 	using System.Threading.Tasks;
 	using Office365Contact.Utils;
-	using System.Net.Http;
-    using System.Net.Http.Headers;
+	using System.Net.Http.Headers;
 	using Microsoft.IdentityModel.Clients.ActiveDirectory;
-    using Newtonsoft.Json.Linq;
-	using Newtonsoft.Json;
-	using System.Text;
+	using System.Linq;
+	using Microsoft.Graph;
 	````
 
     1. **Add** a function named **GetGraphAccessTokenAsync** to the **MyContactRepository** class with the following implementation to get access token for Microsoft Graph Authentication.
 		
     ````c#
-    public async Task<string> GetGraphAccessTokenAsync()
+    private async Task<string> GetGraphAccessTokenAsync()
     {
         var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
         var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
@@ -209,69 +190,55 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
         var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
         var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
 
-        // create auth context
         AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureAdAuthority, new ADALTokenCache(signInUserId));
         var result = await authContext.AcquireTokenSilentAsync(SettingsHelper.AzureAdGraphResourceURL, clientCredential, userIdentifier);
-
         return result.AccessToken;
     }
     ````
 
-    1. **Add** a public property named **MorePagesAvailable** to the **MyContactRepository** class to indicate if there are more pages.
+    1. **Add** a function named **GetGraphServiceAsync** to the **MyContactRepository** class with the following implementation to get Graph service client.
     
-	````c#
-	public bool MorePagesAvailable { get; private set; }
-	````
+    ````c#
+    private async Task<GraphServiceClient> GetGraphServiceAsync()
+    {
+        var accessToken = await GetGraphAccessTokenAsync();
+        var graphserviceClient = new GraphServiceClient(SettingsHelper.GraphResourceUrl,
+                                      new DelegateAuthenticationProvider(
+                                                    (requestMessage) =>
+                                                    {
+                                                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+                                                        return Task.FromResult(0);
+                                                    }));
+
+        return graphserviceClient;
+    }
+    ````
 
     1. **Add** a function named **GetContacts** to the **MyContactRepository** class to retrieve and return a list of **MyContact** objects.
 		
     ````c#
     public async Task<List<MyContact>> GetContacts(int pageIndex, int pageSize)
     {
-        var contactsResults = new List<MyContact>();
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/contacts?$top={1}&$skip={2}", SettingsHelper.GraphResourceUrl, pageSize, pageIndex * pageSize);
-        try
-        {
-            using (HttpClient client = new HttpClient())
+         try
             {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(restURL))
+                var graphServiceClient = await GetGraphServiceAsync();
+                var requestContacts = await graphServiceClient.Me.Contacts.Request().Top(pageSize).Skip(pageIndex * pageSize).GetAsync();
+                var contactsResults = requestContacts.CurrentPage.Select(x => new MyContact
                 {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var jsonresult = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                        foreach (var item in jsonresult["value"])
-                        {
-                            contactsResults.Add(new MyContact
-                            {
-                                Id = !string.IsNullOrEmpty(item["id"].ToString()) ? item["id"].ToString() : string.Empty,
-                                GivenName = !string.IsNullOrEmpty(item["givenName"].ToString()) ? item["givenName"].ToString() : string.Empty,
-                                Surname = !string.IsNullOrEmpty(item["surname"].ToString()) ? item["surname"].ToString() : string.Empty,
-                                CompanyName = !string.IsNullOrEmpty(item["companyName"].ToString()) ? item["companyName"].ToString() : string.Empty,
-                                EmailAddress = item["emailAddresses"] != null && item["emailAddresses"].Count() > 0 ? item["emailAddresses"][0]["address"].ToString() : string.Empty,
-                                BusinessPhone = item["businessPhones"] != null && item["businessPhones"].Count() > 0 ? item["businessPhones"][0].ToString() : string.Empty,
-                                HomePhone = item["homePhones"] != null && item["homePhones"].Count() > 0 ? item["homePhones"][0].ToString() : string.Empty
-                            });
-                        }
-                    }
-                }
+                    Id = x.Id,
+                    GivenName = x.GivenName,
+                    Surname = x.Surname,
+                    CompanyName = x.CompanyName,
+                    EmailAddress = x.EmailAddresses.Count() > 0 ? x.EmailAddresses.First().Address: string.Empty,
+                    BusinessPhone = x.BusinessPhones.Count() > 0 ? x.BusinessPhones.First() : string.Empty,
+                    HomePhone = x.HomePhones.Count() > 0 ? x.HomePhones.First() : string.Empty
+                }).ToList();
+                return contactsResults;
             }
-        }
-        catch (Exception el)
-        {
-            el.ToString();
-        }
-
-        // indicate if more results available
-        MorePagesAvailable = contactsResults.Count < pageSize ? false : true;
-
-        return contactsResults;
+            catch (Exception el)
+            {
+                return null;
+            }
     }
     ````
 
@@ -280,44 +247,26 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     ````c#
     public async Task<MyContact> GetContact(string id)
     {
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/contacts/{1}", SettingsHelper.GraphResourceUrl, id);
-        var co = new MyContact();
         try
         {
-            using (HttpClient client = new HttpClient())
+            var graphServiceClient = await GetGraphServiceAsync();
+            var requestContact = await graphServiceClient.Me.Contacts[id].Request().GetAsync();
+            var contactResult = new MyContact
             {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.GetAsync(restURL))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var item = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                        if (item != null)
-                        {
-                            co.Id = !string.IsNullOrEmpty(item["id"].ToString()) ? item["id"].ToString() : string.Empty;
-                            co.GivenName = !string.IsNullOrEmpty(item["givenName"].ToString()) ? item["givenName"].ToString() : string.Empty;
-                            co.Surname = !string.IsNullOrEmpty(item["surname"].ToString()) ? item["surname"].ToString() : string.Empty;
-                            co.CompanyName = !string.IsNullOrEmpty(item["companyName"].ToString()) ? item["companyName"].ToString() : string.Empty;
-                            co.EmailAddress = item["emailAddresses"] != null && item["emailAddresses"].Count() > 0 ? item["emailAddresses"][0]["address"].ToString() : string.Empty;
-                            co.BusinessPhone = item["businessPhones"] != null && item["businessPhones"].Count() > 0 ? item["businessPhones"][0].ToString() : string.Empty;
-                            co.HomePhone = item["homePhones"] != null && item["homePhones"].Count() > 0 ? item["homePhones"][0].ToString() : string.Empty;
-                        }
-                    }
-                }
-            }
+                Id = requestContact.Id,
+                GivenName = requestContact.GivenName,
+                Surname = requestContact.Surname,
+                CompanyName = requestContact.CompanyName,
+                EmailAddress = requestContact.EmailAddresses.Count() > 0 ? requestContact.EmailAddresses.First().Address : string.Empty,
+                BusinessPhone = requestContact.BusinessPhones.Count() > 0 ? requestContact.BusinessPhones.First() : string.Empty,
+                HomePhone = requestContact.HomePhones.Count() > 0 ? requestContact.HomePhones.First() : string.Empty
+            };
+            return contactResult;
         }
         catch (Exception el)
         {
-            el.ToString();
+            return null;
         }
-
-        return co;
     }
     ````
 
@@ -326,30 +275,15 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     ````c#
     public async Task DeleteContact(string id)
     {
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/contacts('{1}')", SettingsHelper.GraphResourceUrl, id);
         try
         {
-            using (HttpClient client = new HttpClient())
-            {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                using (var response = await client.DeleteAsync(restURL))
-                {
-                    if (response.IsSuccessStatusCode)
-                        return;
-                    else
-                        throw new Exception("delete contact error: " + response.StatusCode);
-                }
-            }
+            var graphServiceClient = await GetGraphServiceAsync();
+            await graphServiceClient.Me.Contacts[id].Request().DeleteAsync();
         }
         catch (Exception el)
         {
-            el.ToString();
         }
+        return;
     }
     ````
 
@@ -358,67 +292,34 @@ In this exercise, you will create a repository object for wrapping CRUD operatio
     ````c#
     public async Task AddContact(MyContact myContact)
     {
-        var accessToken = await GetGraphAccessTokenAsync();
-        var restURL = string.Format("{0}me/contacts", SettingsHelper.GraphResourceUrl);
         try
         {
-            using (HttpClient client = new HttpClient())
+            var graphServiceClient = await GetGraphServiceAsync();
+            var requestContact = new Microsoft.Graph.Contact
             {
-                var accept = "application/json";
-
-                client.DefaultRequestHeaders.Add("Accept", accept);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                List<EmailAddress> varEmailAddresses = null;
-                if(myContact.EmailAddress!=null)
-                {
-                    varEmailAddresses = new List<EmailAddress>();
-                    varEmailAddresses.Add(new EmailAddress { name = myContact.EmailAddress, address = myContact.EmailAddress });
-                }
-
-                List<string> varBusinessPhones = null;
-                if(myContact.BusinessPhone!=null)
-                {
-                    varBusinessPhones = new List<string>();
-                    varBusinessPhones.Add(myContact.BusinessPhone);
-                }
-
-                List<string> varHomePhones = null;
-                if (myContact.HomePhone != null)
-                {
-                    varHomePhones = new List<string>();
-                    varHomePhones.Add(myContact.HomePhone);
-                }
-
-                var co = new Contact
-                {
-                    givenName = myContact.GivenName,
-                    surname = myContact.Surname,
-                    companyName = myContact.CompanyName,
-                    emailAddresses = varEmailAddresses,
-                    businessPhones = varBusinessPhones,
-                    homePhones = varHomePhones
-                };
-
-                string postBody = JsonConvert.SerializeObject(co);
-
-                using (var response = await client.PostAsync(restURL, new StringContent(postBody, Encoding.UTF8, "application/json")))
-                {
-                    if (response.IsSuccessStatusCode)
-                        return;
-                    else
-                        throw new Exception("add contact error: " + response.StatusCode);
-                }
-            }
+                GivenName = myContact.GivenName,
+                Surname = myContact.Surname,
+                CompanyName = myContact.CompanyName,
+            };
+            var emailList = new List<EmailAddress>();
+            emailList.Add(new EmailAddress { Address = myContact.EmailAddress, Name = myContact.EmailAddress });
+            requestContact.EmailAddresses = emailList;
+            var businessPhonesList = new List<string>();
+            businessPhonesList.Add(myContact.BusinessPhone);
+            requestContact.BusinessPhones = businessPhonesList;
+            var homePhonesList = new List<string>();
+            homePhonesList.Add(myContact.HomePhone);
+            requestContact.HomePhones = homePhonesList;
+            await graphServiceClient.Me.Contacts.Request().AddAsync(requestContact);
         }
         catch (Exception el)
         {
-            el.ToString();
         }
+        return;
     }
     ````    
 
-At this point you have created the repository that will be used to talk to the Microsoft Graph.
+At this point you have created the repository that will be used to talk to the Microsoft Graph SDK.
 
 ## Exercise 4: Code the MVC Application
 In this exercise, you will code the **ContactController** of the MVC application to display contacts as well as adding behavior for adding and deleting contacts.
@@ -428,16 +329,16 @@ In this exercise, you will code the **ContactController** of the MVC application
   1. Click **Add**.
   1. When prompted for a name, enter **ContactController**.
   1. Click **Add**.
-1. Within the **ContactController** file, add the following `using` statements to the top of the file:
+1. Within the **ContactController** file, use the following `using` statements instead of the old using statements :
 
     ````c#
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
-    using Office365Contact.Models; 
-    using System.Threading.Tasks;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Web;
+	using System.Web.Mvc;
+	using Office365Contact.Models;
+	using System.Threading.Tasks;
     ````
 
 1. Within the `ContactController` class, add the following field to get a reference to the repository you previously created:
@@ -453,25 +354,24 @@ In this exercise, you will code the **ContactController** of the MVC application
     [Authorize]
     public async Task<ActionResult> Index(int? pageNumber)
     {
-        // setup paging
+		// setup paging
         const int pageSize = 5;
         if (pageNumber == null)
             pageNumber = 1;
 
-        // get list of entities
         List<MyContact> contacts = null;
         contacts = await _repo.GetContacts((int)pageNumber - 1, pageSize);
 
         ViewBag.pageNumber = pageNumber;
-        ViewBag.morePagesAvailable = _repo.MorePagesAvailable;
+        if (contacts != null)
+            ViewBag.morePagesAvailable = contacts.Count < pageSize ? false : true;
 
         return View(contacts);
-
     }
     ````
 
-    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes. Also notice how the repository has a public property `ModePagesAvailable` that indicates if there are more pages of results as reported by the Microsoft Graph.
-
+    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes.
+ 
   1. Finally, update the view to display the results.
     1. Within the `ContactController` class, right click the `View()` at the end of the `Index()` method and select **Add View**.
     1. Within the **Add View** dialog, set the following values:
@@ -682,6 +582,7 @@ In this exercise, you will code the **ContactController** of the MVC application
 
   1. When Prompted, log in with your **Organizational Account**.  
   1. Once the application is loaded click the **Contacts link** in the top menu bar.
+  1. Click the **Delete** link. The contact would be deleted successfully. 
   1. Click the **Create New** link. You should see the form below. Fill the form out to add a new contact and click the **Create button**.
 
     ![Screenshot of the previous step](Images/05.png)
@@ -777,4 +678,4 @@ In this exercise, you will code the **ContactController** of the MVC application
 
   1. Close the browser window, terminate the debugging session and return to Visual Studio.
 
-Congratulations! You have completed working with the the Microsoft Graph and Contacts.
+Congratulations! You have completed working with the Microsoft Graph SDK and Contacts.

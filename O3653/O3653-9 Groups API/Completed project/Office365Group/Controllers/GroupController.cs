@@ -60,8 +60,8 @@ namespace Office365Group.Controllers
 
         public async Task<ActionResult> GroupEvents(string id)
         {
-            var conversations = await _repo.GetGroupEvents(id);
-            return View("GroupEvents", conversations);
+            var groupEvents = await _repo.GetGroupEvents(id);
+            return View("GroupEvents", groupEvents);
         }
         public async Task<ActionResult> GroupFiles(string id)
         {
@@ -71,7 +71,7 @@ namespace Office365Group.Controllers
 
         public async Task<ActionResult> SearchGroup(string groupName)
         {
-            var groups = await _repo.SearchGoupByName(groupName);
+            var groups = await _repo.SearchGroupByName(groupName);
             return View("List", groups);
         }
     }

@@ -28,7 +28,7 @@ namespace MyFilesWin10
 
 
         // TODO:s Add your redirect URI value here.
-        private static Uri redirectUri = new Uri("http://O36531Win10App/microsoftgraphapi");
+        private static Uri redirectUri = new Uri(" ");
 
         public static ApplicationDataContainer _settings = ApplicationData.Current.LocalSettings;
 
@@ -151,8 +151,6 @@ namespace MyFilesWin10
                 // is true, you also need to add the Enterprise Authentication, Private Networks, and
                 // Shared User Certificates capabilities in the Package.appxmanifest file.
 
-                _authenticationContext.UseCorporateNetwork = true;
-
                 var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
 
                 return token;
@@ -197,26 +195,19 @@ namespace MyFilesWin10
         {
             string accessToken = null;
             AuthenticationResult result = null;
-            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri);
-            
-            if (result.Status == AuthenticationStatus.Success)
+            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri, new PlatformParameters(PromptBehavior.Auto, true));
+            accessToken = result.AccessToken;
+
+            if (!string.IsNullOrEmpty(accessToken))
             {
-                accessToken = result.AccessToken;
                 //Store values for logged-in user, tenant id, and authority, so that
                 //they can be re-used if the user re-opens the app without disconnecting.
                 _settings.Values["LoggedInUser"] = result.UserInfo.GivenName;
                 _settings.Values["LoggedInUserEmail"] = result.UserInfo.DisplayableId;
                 _settings.Values["TenantId"] = result.TenantId;
                 _settings.Values["LastAuthority"] = context.Authority;
-               
-                AccessToken = accessToken;
-                return accessToken;
             }
-            else {
-                
-                return null;
-            }
+            return accessToken;
         }
-
     }
 }

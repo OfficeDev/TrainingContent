@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 
-namespace Exercise1
+namespace Exercise
 {
     public partial class Startup
     {

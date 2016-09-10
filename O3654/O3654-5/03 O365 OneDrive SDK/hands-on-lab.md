@@ -14,10 +14,10 @@ The lab lets students use an AzureAD account to manage files in a Office 365 Sha
 - OSX 10.X environment
 - [XCode 7][xcode-7]
 - [Cocoapods dependency manager][cocoapods]
-- Complete the  [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites) module.
+- Complete the  [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites](../01 Azure AD Auth Prerequisites) module.
 
 [xcode-7]: https://itunes.apple.com/nz/app/xcode/id497799835?mt=12
-[cocoapods]: cocoapods.org
+[cocoapods]: https://cocoapods.org
 
 ## Exercises
 
@@ -34,11 +34,11 @@ In this exercise you will use an existing application with the AzureAD  included
 ### Open the Project and importing the library
 01. Clone this git repository in your machine
 
-02. In Finder, open the **[\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\03 O365 OneDrive SDK\src\O365-Files-App\Podfile](/O3654/O3654-5 Native iOS Development with Office 365 APIs/03 O365 OneDrive SDK/src/O365-Files-App/Podfile)** file under the root folder of the project and add the line:
+02. In Finder, open the **[\\\O3654\O3654-5\03 O365 OneDrive SDK\src\O365-Files-App\Podfile](./src/O365-Files-App/Podfile)** file under the root folder of the project and add the lines inside the **target ... do ... end** statement:
 
     ```ruby
     pod 'orc'
-    pod 'MSGraph-SDK-iOS'
+    pod 'MSGraphSDK'
     ```
     
 02. Open a Terminal and navigate to the `src/O365-Files-App/` folder of the project.
@@ -55,7 +55,7 @@ In this exercise you will use an existing application with the AzureAD  included
 
 05. Fill the AzureAD account settings with the following configuration values:
 
-    > **Note:** You can find the clientId/redirectUriString in [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites\hands-on-lab.md](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites/hands-on-lab.md)
+    > **Note:** You can find the clientId/redirectUriString in [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites\hands-on-lab.md](../01 Azure AD Auth Prerequisites/hands-on-lab.md)
     
     -   **graphResourceUrl** - The URL of the Microsoft Graph service, it is  https://graph.microsoft.com/v1.0"
     -   **resourceId**              - The root URL of the Microsoft Graph service, it  is "https://graph.microsoft.com"
@@ -98,46 +98,66 @@ section, select **Cocoa Touch Class** and click **Next**.
 04. Open the **FileGraphService.h** and add the header for the **getGraphServiceClient** method to get **MSGraphServiceClient**.
 
     ```objc
-    -(void)getGraphServiceClient:(void (^)(MSGraphServiceClient * client, NSError *error))getClientCallBack;
+    -(void)getGraphServiceClient:(void (^)(MSGraphClient * client, NSError *error))getClientCallBack;
     ```
 
     Add the import sentence
 
     ```objc
-    #import <ADALiOS/ADAL.h>
-	 #import <impl/impl.h>
-    #import <MSGraph-SDK-iOS/MSGraphService.h>
-    #import <MSGraph-SDK-iOS/MSGraphServiceClient.h>
+	#import <MSGraphSDK.h>
+    #import <ADAL.h>
+    #import <MSBlockAuthenticationProvider.h>
     ```
 
 05. In **FileGraphService.m** add the method body:
 
     ```objc
-	-(void)getGraphServiceClient:(void (^)(MSGraphServiceClient * client, NSError *error))getClientCallBack{
-	    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
-	    NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-	    
-	    NSString* authority = [content objectForKey:@"authority"];
-	    NSString* resourceId = [content objectForKey:@"resourceId"];
-	    NSString* clientId = [content objectForKey:@"clientId"];
-	    NSString* redirectUriString = [content objectForKey:@"redirectUriString"];
-	    NSString* graphResourceUrl = [content objectForKey:@"graphResourceUrl"];
-	    
-	    ADAuthenticationError *error;
-	    ADAuthenticationContext* context = [ADAuthenticationContext authenticationContextWithAuthority:authority error:&error];
-	    
-	    if (!context)
-	    {
-	        getClientCallBack(nil,error);
-	        return;
-	    };
-	    
-	    ADALDependencyResolver *resolver = [[ADALDependencyResolver alloc] initWithContext:context resourceId:resourceId clientId: clientId redirectUri:[NSURL URLWithString:redirectUriString]];
-	    MSGraphServiceClient *client = [[MSGraphServiceClient alloc] initWithUrl:graphResourceUrl dependencyResolver:resolver];
-	    
-	    getClientCallBack(client,nil);
-	}
+    -(void)getGraphServiceClient:(void (^)(MSGraphClient* client, NSError *error))callback{
+    
+    [self getGraphServiceAccessToken:^(ADAuthenticationResult *result) {
+        if(result != nil && result.status == AD_SUCCEEDED){
+            NSString *accessToken = result.accessToken;
+            MSBlockAuthenticationProvider *provider = [MSBlockAuthenticationProvider 				providerWithBlock:^(NSMutableURLRequest *request, MSAuthenticationCompletion completion) {
+                NSString *oauthAuthorizationHeader = [NSString stringWithFormat:@"bearer %@", accessToken];
+                [request setValue:oauthAuthorizationHeader forHTTPHeaderField:@"Authorization"];
+                completion(request, nil);
+            }];
+            [MSGraphClient setAuthenticationProvider:provider];
+            
+            callback([MSGraphClient client], nil);
+        }
+        else{
+            callback(nil, nil);
+        }
+    }];
+	} 
+	
+	-(void)getGraphServiceAccessToken:(void (^)(ADAuthenticationResult* result))callback{
+    
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
+    NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    NSString *clientId = [content objectForKey:@"clientId"];
+    NSString *graphResourceId = [content objectForKey:@"resourceId"];
+    NSString *authority = [content objectForKey:@"authority"];
+    NSString *redirectUriString = [content objectForKey:@"redirectUriString"];
+    ADAuthenticationError *error;
+    ADAuthenticationContext* context = [ADAuthenticationContext authenticationContextWithAuthority:authority error:&error];
+    if (!context)
+    {
+        //here need
+        callback(nil);
+        return;
+    }
+    
+    [context acquireTokenWithResource:graphResourceId clientId:clientId redirectUri:[NSURL URLWithString:redirectUriString] completionBlock:^(ADAuthenticationResult *result) {
+        callback(result);
+    }];
+    
+	}	
     ```
+
+
+
 06. Open the **FileGraphService.h** and add the header for the **getFiles** method to get files.
 
     ```objc
@@ -149,21 +169,20 @@ section, select **Cocoa Touch Class** and click **Next**.
     ```objc
     -(void)getFiles: (void (^)(NSArray *files, NSError *error))getFilesCallBack{
     
-    [self getGraphServiceClient:^(MSGraphServiceClient *client, NSError *error) {
-        if(error!=nil){
-            getFilesCallBack(nil,error);
-        }
-        else{
-            MSGraphServiceDriveItemCollectionFetcher *itemCollectionFetcher = [[MSGraphServiceDriveItemCollectionFetcher alloc] initWithUrl:@"/me/drive/root/children" parent:client];
-            
-            [itemCollectionFetcher readWithCallback:^(NSArray *itemCollection, MSOrcError *error) {
-                getFilesCallBack(itemCollection,error);
+    [self getGraphServiceClient:^(MSGraphClient *client, NSError *error) {
+        if(client != nil){
+            [[[[[[client me] drive] root] children] request]  getWithCompletion:^(MSCollection *response, 			MSGraphDriveItemChildrenCollectionRequest *nextRequest, NSError *error) {
+                if(error != nil){
+                    getFilesCallBack(nil, error);
+                }
+                else{
+                    getFilesCallBack(response.value, nil);
+                }
             }];
-        }
-    }];
-}
+        }}];
+	}
     ```
-08. Open the **FileGraphService.h** and add the header for the **getFiles** method to get files for specific folder.
+08. Open the **FileGraphService.h** and add the header for the **getFolderFiles** method to get files for specific folder.
 
     ```objc
     -(void)getFolderFiles:(NSString *)folderItemId callback:(void (^)(NSArray *files,NSError *error))getFilesCallBack;
@@ -172,24 +191,27 @@ section, select **Cocoa Touch Class** and click **Next**.
 09. In **FileGraphService.m** add the method body:
     
     ```objc
-    -(void)getFolderFiles:(NSString *)folderItemId callback:(void (^)(NSArray *files,NSError *error))getFilesCallBack{
+	-(void)getFolderFiles:(NSString *)folderItemId callback:(void (^)(NSArray *files,NSError *error))getFilesCallBack{
     
-    [self getGraphServiceClient:^(MSGraphServiceClient *client, NSError *error) {
-        if(error!=nil){
-            getFilesCallBack(nil,error);
-        }
-        else{
-            MSGraphServiceDriveItemCollectionFetcher *itemCollectionFetcher = [[MSGraphServiceDriveItemCollectionFetcher alloc] initWithUrl:[NSString stringWithFormat:@"/me/drive/items/%@/children",folderItemId] parent:client];
-            
-            [itemCollectionFetcher readWithCallback:^(NSArray *itemCollection, MSOrcError *error) {
-                getFilesCallBack(itemCollection,error);
-            }];
-        }
+    [self getGraphServiceClient:^(MSGraphClient *client, NSError *error) {
+        NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
+        NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+        NSString *graphResourceUrl = [content objectForKey:@"graphResourceUrl"];
+        
+        MSGraphDriveItemsCollectionRequestBuilder *builder = [[MSGraphDriveItemsCollectionRequestBuilder alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/me/drive/items/%@/children",graphResourceUrl,folderItemId]] client:client];
+        [[builder request] getWithCompletion:^(MSCollection *response, MSGraphDriveItemsCollectionRequest *nextRequest, NSError *error) {
+            if(error != nil){
+                getFilesCallBack(nil, error);
+            }
+            else{
+                getFilesCallBack(response.value, nil);
+            }
+        }];
     }];
-}
+	}
     ```
     
-10. Open the **FileGraphService.h** and add the header for the **getFiles** method to get file content.
+10. Open the **FileGraphService.h** and add the header for the **getFileContent** method to get file content.
 
     ```objc
     -(void)getFileContent:(NSString *)itemId callback:(void (^)(NSData *content,NSError *error))getFileContentCallBack;
@@ -198,21 +220,27 @@ section, select **Cocoa Touch Class** and click **Next**.
 11. In **FileGraphService.m** add the method body:
     
     ```objc
-    -(void)getFileContent:(NSString *)itemId callback:(void (^)(NSData *content,NSError *error))getFileContentCallBack{
-    [self getGraphServiceClient:^(MSGraphServiceClient *client, NSError *error) {
-        if(error!=nil){
-            getFileContentCallBack(nil,error);
-        }
-        else{
-            MSGraphServiceDriveItemFetcher *itemFetcher = [[MSGraphServiceDriveItemFetcher alloc] initWithUrl:[NSString stringWithFormat:@"/me/drive/items/%@",itemId] parent:client];
-            
-            MSOrcStreamFetcher *contentFetcher = [itemFetcher content];
-            [contentFetcher getContentWithCallback:^(NSData *content, MSOrcError *error) {
-                getFileContentCallBack(content,error);
-            }];
-        }
+	-(void)getFileContent:(NSString *)itemId callback:(void (^)(NSData *content,NSError *error))getFileContentCallBack{
+    
+    [self getGraphServiceClient:^(MSGraphClient *client, NSError *error) {
+        NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
+        NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+        NSString *graphResourceUrl = [content objectForKey:@"graphResourceUrl"];
+        
+        MSGraphDriveItemRequestBuilder *builder = [[MSGraphDriveItemRequestBuilder alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/me/drive/items/%@", graphResourceUrl,itemId]] client:client];
+        [[builder contentRequest] downloadWithCompletion:^(NSURL *location, NSURLResponse *response, NSError *error) {
+            if(error != nil){
+               
+                getFileContentCallBack(nil, error);
+            }
+            else{
+                 NSData *dateContent = [NSData dataWithContentsOfURL:location];
+                getFileContentCallBack(dateContent, nil);
+            }
+        }];
     }];
-}
+
+	}
     ```
     
 <a name="exercise3"></a>
@@ -228,17 +256,17 @@ We need to connect this event methods to the o365-files-sdk.
 
     ```objc
 	@property (nonatomic) NSArray *files;
-	@property (nonatomic) MSGraphServiceDriveItem *currentFolder;
+	@property (nonatomic) MSGraphDriveItem *currentFolder;
     ```
 
     And add the import sentence
 
     ```objc
-    #import <MSGraph-SDK-iOS/MSGraphService.h>
+    #import <MSGraphSDK.h>
     #import "FileGraphService.h"
     ```
 
-02. Open **FileListViewController.m** class implementation and the **loadData** method:
+02. Open **FileListViewController.m** class implementation, add the **loadData** method:
 
     ```objc
 	-(void) loadData{
@@ -262,7 +290,7 @@ We need to connect this event methods to the o365-files-sdk.
 	-(void) loadCurrentFolder{
 	    [self.spinner startAnimating];
 	    FileGraphService * fileService =[[FileGraphService alloc] init];
-	    [fileService getFolderFiles:self.currentFolder._id callback:^(NSArray *files, NSError *error) {
+	    [fileService getFolderFiles:self.currentFolder.entityId callback:^(NSArray *files, NSError *error) {
 	        self.files = files;
 	        dispatch_async(dispatch_get_main_queue(), ^{
 	            [self.tableView reloadData];
@@ -276,6 +304,8 @@ We need to connect this event methods to the o365-files-sdk.
 
     ```objc
 	- (void)viewWillAppear:(BOOL)animated{
+		[self initView];
+
 	    if (!self.currentFolder){
 	        self.navigationController.title = @"File List";
 	        if (self.files == nil) {
@@ -301,7 +331,7 @@ We need to connect this event methods to the o365-files-sdk.
 	    NSString* identifier = @"fileListCell";
 	    FileListCellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
 	    
-	    MSGraphServiceDriveItem *file = [self.files objectAtIndex:indexPath.row];
+	    MSGraphDriveItem *file = [self.files objectAtIndex:indexPath.row];
 	    
 	    NSString *lastModifiedString = [formatter stringFromDate:file.lastModifiedDateTime];
 	    
@@ -312,7 +342,7 @@ We need to connect this event methods to the o365-files-sdk.
 	}
 	
 	- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-	    MSGraphServiceDriveItem *currentEntity = [self.files objectAtIndex:indexPath.row];
+	    MSGraphDriveItem *currentEntity = [self.files objectAtIndex:indexPath.row];
 	    
 	    if ([currentEntity folder]!=nil){
 	        FileListViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"fileList"];
@@ -344,7 +374,7 @@ We need to connect this event methods to the o365-files-sdk.
 02. Open **FilesDetailsViewController.h** and add properties for the token, the selected file and the document handler
 
     ```objc
-	@property MSGraphServiceDriveItem *file;
+	@property MSGraphDriveItem *file;
 	@property (nonatomic, strong) UIDocumentInteractionController *docInteractionController;
     ```
 
@@ -367,7 +397,7 @@ We need to connect this event methods to the o365-files-sdk.
     [self.spinner startAnimating];
     
     FileGraphService * fileService =[[FileGraphService alloc] init];
-    [fileService getFileContent:self.file._id callback:^(NSData *content, NSError *error) {
+    [fileService getFileContent:self.file.entityId callback:^(NSData *content, NSError *error) {
         NSArray       *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString  *documentsDirectory = [paths objectAtIndex:0];
         

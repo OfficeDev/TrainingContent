@@ -4,6 +4,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initView];
+    
+    double x = ((self.navigationController.view.frame.size.width) - 20)/ 2;
+    double y = ((self.navigationController.view.frame.size.height) - 150)/ 2;
+    self.spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(x, y, 20, 20)];
+    self.spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [self.view addSubview:self.spinner];
+    self.spinner.hidesWhenStopped = YES;
+    [self.spinner startAnimating];
+
+}
+
+- (void) initView{
+    
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = nil;
@@ -16,7 +30,6 @@
     
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -27,7 +40,4 @@
 
 - (IBAction)downloadAction:(id)sender {
 }
-
-
-
 @end

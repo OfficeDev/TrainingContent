@@ -41,13 +41,13 @@ namespace MyFilesWin10
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected async override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             try
             {
                 string ClientID = App.Current.Resources["ida:ClientID"].ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageDialog md = new MessageDialog("The Client ID is missing. Please add the Client ID to the 'ida:ClientID' setting in App.xaml.");
                 await md.ShowAsync();

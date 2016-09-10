@@ -4,11 +4,11 @@
 <dict>
 	<key>graphResourceUrl</key>
 	<string></string>
+	<key>resourceId</key>
+	<string></string>
 	<key>authority</key>
 	<string></string>
 	<key>redirectUriString</key>
-	<string></string>
-	<key>resourceId</key>
 	<string></string>
 	<key>clientId</key>
 	<string></string>

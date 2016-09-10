@@ -1,28 +1,28 @@
 # Getting started with Mobile Device Development with Office 365 #
-In this lab, you will investigate the Android development with the Office 365 Calendar.
+In this lab, you will investigate Android development with the Office 365 Calendar.
 
 ## Prerequisites ##
-1. Android Studio 2.0
+1. Android Studio 2.1.1
 2. Android SDK 23 (Android 6.0)
-3. Java JDK 1.7.0
+3. Java JDK 1.8.0
 
 ## Create Android project ##
 1. Open **Android Studio**.
 2. Click **Start a new Android Studio project**.<br/>
 	![Screenshot of the previous step](Images/01.png)
-3. Type your **Application name** and **Company Domain** and specify the **Project location**, then click **Next**.<br/>
+3. Type your **Application name** and **Company Domain** and specify the **Project location**, then click **Next**.  Use the same values in the screenshot below.<br/>
 	![Screenshot of the previous step](Images/02.png)
 4. Select **Minimum SDK API 23** and leave the other settings as default, then click **Next**.<br/>
 	![Screenshot of the previous step](Images/03.png)
-5. Select **Blank Activity**, then click **Next**.<br/>
+5. Select **Basic Activity**, then click **Next**.<br/>
 	![Screenshot of the previous step](Images/04.png)
-6. Make sure all settings the same as below, then click **Finish**.<br/>
+6. Make sure all settings the same as the screenshot below, then click **Finish**.<br/>
 	![Screenshot of the previous step](Images/05.png)
-7. The **Android Studio** window will be displayed.<br/>
+7. The **Android Studio** window is displayed.<br/>
 	![Screenshot of the previous step](Images/06.png)
-8. Open **Project** tab and click **build.gradle (Module: app)**<br/>
+8. Open the **Project** tab and click **build.gradle (Module: app)**<br/>
 	![Screenshot of the previous step](Images/07.png)
-9. Add the below code in **dependencies** note.
+9. Add the code below in **dependencies** section.
 
 	````java
 	// base OData library:
@@ -32,8 +32,14 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	// Azure Active Directory Authentication Library
 	compile group: 'com.microsoft.aad', name: 'adal', version: '1.1.3'
 
-	// Graph Library
-	compile group: 'com.microsoft.services', name: 'graph-services', version: '+'
+	// MSGraph SDK
+    compile 'com.microsoft.graph:msgraph-sdk-android:0.9.2'
+
+    // MSGraph SDK Android MSA Auth for Android Adapter
+    compile 'com.microsoft.graph:msa-auth-for-android-adapter:0.9.0'
+
+    // Gson library
+    compile 'com.google.code.gson:gson:2.3.1'
 	````
 
 	![Screenshot of the previous step](Images/08.png)
@@ -65,7 +71,7 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 
 ## Code your app ##
 1. Go back to the **Android Studio**.
-2. Open the file **AndroidMainifset.xml** and add the permissions below.
+2. Open the file **AndroidManifest.xml** and add the permissions below.
 
 	````xml
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -76,9 +82,9 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 
 3. Right click **com.microsoft.androidoffice365calendar** and select New, then click **Java Class**.<br/>
 	![Screenshot of the previous step](Images/19.png)
-4. Fill in **Constants** and select **Interface**, then click **OK** button.<br/>
+4. In the Name textbox enter **Constants** and select **Interface**, then click the **OK** button.<br/>
 	![Screenshot of the previous step](Images/20.png)
-5. The source code of the file **Constants.java** will be the following, modify the values of **AAD_CLIENT_ID** and **AAD_REDIRECT_URL** to the actual ones.
+5. Replace the source code in the **Constants.java** class with the code below and modify the values of **AAD_CLIENT_ID** and **AAD_REDIRECT_URL** to the actual ones you ceated in the previous steps.
 
     ````java
 	package com.microsoft.androidoffice365calendar;
@@ -88,42 +94,38 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	    public static final String AAD_REDIRECT_URL = "Your app redirect URL";
 	    public static final String AAD_AUTHORITY = "https://login.microsoftonline.com/common";
 	    public static final String GRAPH_RESOURCE_ID = "https://graph.microsoft.com/";
-	    public static final String GRAPH_RESOURCE_URL = "https://graph.microsoft.com/v1.0/";
 	}
 	````
 
-	**NOTE: You can find the client ID and redirect url in Microsoft Azure**
+	**NOTE: You can find the Client ID and Redirect URL in Microsoft Azure**
 
 	![Screenshot of the previous step](Images/21.png)
 6. Add new class file **AuthenticationController.java**.<br/>
 	![Screenshot of the previous step](Images/22.png)
-7. The source code of the file **AuthenticationController.java** will be the following.
+7. Replace the source code in the **AuthenticationController.java** class with the code below.
 
 	````java
 	package com.microsoft.androidoffice365calendar;
 
 	import android.app.Activity;
 	import android.util.Log;
-
+	
 	import com.google.common.util.concurrent.SettableFuture;
 	import com.microsoft.aad.adal.AuthenticationCallback;
 	import com.microsoft.aad.adal.AuthenticationContext;
 	import com.microsoft.aad.adal.AuthenticationResult;
 	import com.microsoft.aad.adal.PromptBehavior;
-	import com.microsoft.services.orc.auth.AuthenticationCredentials;
-	import com.microsoft.services.orc.core.DependencyResolver;
-	import com.microsoft.services.orc.http.Credentials;
-	import com.microsoft.services.orc.http.impl.OAuthCredentials;
-	import com.microsoft.services.orc.http.impl.OkHttpTransport;
-	import com.microsoft.services.orc.serialization.impl.GsonSerializer;
-
+	
+	/**
+	 * Created by Microsoft on 5/24/2016.
+	 */
 	public class AuthenticationController {
 	    private final String TAG = "Authentication";
 	    private AuthenticationContext authContext;
-	    private DependencyResolver dependencyResolver;
 	    private Activity contextActivity;
 	    private String resourceId;
-
+	    private String graphToken;
+	
 	    public static synchronized AuthenticationController getInstance() {
 	        if (INSTANCE == null) {
 	            INSTANCE = new AuthenticationController();
@@ -131,18 +133,18 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	        return INSTANCE;
 	    }
 	    private static AuthenticationController INSTANCE;
-
+	
 	    private AuthenticationController() {
 	        resourceId = Constants.GRAPH_RESOURCE_ID;
 	    }
-
+	
 	    public void setContextActivity(final Activity contextActivity) {
 	        this.contextActivity = contextActivity;
 	    }
-
+	
 	    public SettableFuture<Boolean> initialize() {
 	        final SettableFuture<Boolean> result = SettableFuture.create();
-
+	
 	        if (verifyAuthenticationContext()) {
 	            getAuthenticationContext().acquireToken(
 	                    this.contextActivity,
@@ -154,18 +156,11 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	                        @Override
 	                        public void onSuccess(final AuthenticationResult authenticationResult) {
 	                            if (authenticationResult != null && authenticationResult.getStatus() == AuthenticationResult.AuthenticationStatus.Succeeded) {
-	                                dependencyResolver = new DependencyResolver.Builder(
-                                        new OkHttpTransport(), new GsonSerializer(),
-                                        new AuthenticationCredentials() {
-                                            @Override
-                                            public Credentials getCredentials() {
-                                                return new OAuthCredentials(authenticationResult.getAccessToken());
-                                            }
-                                        }).build();
+	                                graphToken = authenticationResult.getAccessToken();
 	                                result.set(true);
 	                            }
 	                        }
-
+	
 	                        @Override
 	                        public void onError(Exception t) {
 	                            Log.e(TAG, "Acquire token failed. " + t.getMessage());
@@ -176,57 +171,72 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	            result.setException(new Throwable("Auth context verification failed."));
 	        }
 	        return result;
-    	}
-
-    	public AuthenticationContext getAuthenticationContext() {
-    	    if (authContext == null) {
-    	        try {
-    	            authContext = new AuthenticationContext(this.contextActivity, Constants.AAD_AUTHORITY, false);
-    	        } catch (Throwable t) {
-    	            Log.e(TAG, "Get AuthenticationContext failed. " + t.toString());
-    	        }
-    	    }
-    	    return authContext;
-    	}
-
-    	public DependencyResolver getDependencyResolver() {
-    	    return getInstance().dependencyResolver;
-    	}
-
-    	private boolean verifyAuthenticationContext() {
-    	    if (this.contextActivity == null) {
-    	        return false;
-    	    }
-    	    return true;
-    	}
+	    }
+	
+	    public AuthenticationContext getAuthenticationContext() {
+	        if (authContext == null) {
+	            try {
+	                authContext = new AuthenticationContext(this.contextActivity, Constants.AAD_AUTHORITY, false);
+	            } catch (Throwable t) {
+	                Log.e(TAG, "Get AuthenticationContext failed. " + t.toString());
+	            }
+	        }
+	        return authContext;
+	    }
+	
+	     private boolean verifyAuthenticationContext() {
+	        if (this.contextActivity == null) {
+	            return false;
+	        }
+	        return true;
+	    }
+	
+	    public String getGraphToken(){
+	        return graphToken;
+	    }
 	}
 	````
 
 8. Create new class file **GraphController.java**.<br/>
 	![Screenshot of the previous step](Images/23.png)
-9. The source code of the file **GraphController.java** will be the following.
+9. Replace the source code in the **GraphController.java** class with the code below.
 
 	````java
 	package com.microsoft.androidoffice365calendar;
 
+	import android.app.Application;
 	import android.util.Log;
-
+	
 	import com.google.common.util.concurrent.FutureCallback;
 	import com.google.common.util.concurrent.Futures;
 	import com.google.common.util.concurrent.SettableFuture;
-	import com.microsoft.services.graph.Event;
-	import com.microsoft.services.graph.fetchers.GraphServiceClient;
-	import com.microsoft.services.orc.core.DependencyResolver;
-	import com.microsoft.services.orc.core.OrcList;
-
+	import com.microsoft.graph.authentication.IAuthenticationAdapter;
+	import com.microsoft.graph.authentication.MSAAuthAndroidAdapter;
+	import com.microsoft.graph.concurrency.ICallback;
+	import com.microsoft.graph.core.ClientException;
+	import com.microsoft.graph.core.DefaultClientConfig;
+	import com.microsoft.graph.core.IClientConfig;
+	import com.microsoft.graph.extensions.Event;
+	import com.microsoft.graph.extensions.GraphServiceClient;
+	import com.microsoft.graph.extensions.IEventCollectionPage;
+	import com.microsoft.graph.extensions.IGraphServiceClient;
+	import com.microsoft.graph.http.IHttpRequest;
+	import com.microsoft.graph.options.HeaderOption;
+	import com.microsoft.graph.options.Option;
+	import com.microsoft.graph.options.QueryOption;
+	
 	import java.text.SimpleDateFormat;
 	import java.util.ArrayList;
+	import java.util.Arrays;
 	import java.util.Calendar;
 	import java.util.List;
-
+	
+	/**
+	 * Created by Microsoft on 5/24/2016.
+	 */
 	public class GraphController {
-    	private final static String TAG = "GraphController";
-
+	    private final static String TAG = "GraphController";
+	
 	    public static synchronized GraphController getInstance() {
 	        if (INSTANCE == null) {
 	            INSTANCE = new GraphController();
@@ -234,8 +244,8 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	        return INSTANCE;
 	    }
 	    private static GraphController INSTANCE;
-
-	    public SettableFuture<List<String>> initialize() {
+	
+	    public SettableFuture<List<String>> initialize(Application app) {
 	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	        Calendar calendar = Calendar.getInstance();
 	        int day = calendar.get(Calendar.DAY_OF_MONTH) - 30;
@@ -243,41 +253,83 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	        String filterDate = formatter.format(calendar.getTime());
 	        final SettableFuture<List<String>> result = SettableFuture.create();
 	        final List<String> events = new ArrayList<String>();
-
-	        DependencyResolver dependencyResolver = AuthenticationController.getInstance().getDependencyResolver();
-	        GraphServiceClient graphServiceClient = new GraphServiceClient(Constants.GRAPH_RESOURCE_URL,dependencyResolver);
+	
+	        final String graphToken = AuthenticationController.getInstance().getGraphToken();
+	        final IAuthenticationAdapter authenticationAdapter = new MSAAuthAndroidAdapter(app) {
+	            @Override
+	            public String getClientId() {
+	                return Constants.AAD_CLIENT_ID;
+	            }
+	
+	            @Override
+	            public String[] getScopes() {
+	                return new String[] {
+	                        "https://graph.microsoft.com/Calendars.ReadWrite",
+	                        "https://graph.microsoft.com/User.ReadBasic.All",
+	                        "https://graph.microsoft.com/User.ReadWrite",
+	                        "offline_access",
+	                        "openid"
+	                };
+	            }
+	            @Override
+	            public void authenticateRequest(final IHttpRequest request) {
+	                for (final HeaderOption option : request.getHeaders()) {
+	                    if (option.getName().equals(AUTHORIZATION_HEADER_NAME)) {
+	                        return;
+	                    }
+	                }
+	                if (graphToken != null && graphToken.length() > 0){
+	                    request.addHeader(AUTHORIZATION_HEADER_NAME, OAUTH_BEARER_PREFIX + graphToken);
+	                    return;
+	                }
+	                super.authenticateRequest(request);
+	            }
+	        };
+	        final IClientConfig mClientConfig = DefaultClientConfig.createWithAuthenticationProvider(authenticationAdapter);
+	        final IGraphServiceClient graphServiceClient = new GraphServiceClient
+	                .Builder()
+	                .fromConfig(mClientConfig)
+	                .buildClient();
+	
 	        try {
-	            Futures.addCallback(graphServiceClient.getMe().getEvents()
-                    .filter("Start/DateTime ge '" + filterDate + "'")
-                    .select("subject,start,end")
-                    .orderBy("Start/DateTime desc")
-                    .top(10000).read(), new FutureCallback<OrcList<Event>>() {
-						@Override
-						public void onSuccess(OrcList<Event> list) {
-						    for (Event event : list) {
-                			    events.add(event.getSubject());
-		               	    }
-			           	    result.set(events);
-				    	}
-
-				    	@Override
-				    	public void onFailure(Throwable t) {
-				    	    Log.e(TAG, "Get events failed. " + t.getMessage());
-				    	    result.setException(t);
-				    	}
-		            });
-    	    } catch (Exception e) {
-    	        Log.e(TAG, "Initialize failed. " + e.getMessage());
-    	        result.setException(e);
-    	    }
-    	    return result;
-    	}
+	            graphServiceClient
+	                    .getMe()
+	                    .getEvents()
+	                    .buildRequest(Arrays.asList(new Option[] {
+	                            new QueryOption("$filter", "Start/DateTime ge '" + filterDate + "'"),
+	                            new QueryOption("$select", "subject,start,end"),
+	                            new QueryOption("$orderyBy", "Start/DateTime desc"),
+	                            new QueryOption("$top", "10000")
+	                    }))
+	            .get(new ICallback<IEventCollectionPage>(){
+	                @Override
+	                public void success(IEventCollectionPage page) {
+	                    List<Event> list = page.getCurrentPage();
+	                    for (Event item : list) {
+	                        events.add(item.subject);
+	                    }
+	                    result.set(events);
+	                }
+	
+	                @Override
+	                public void failure(ClientException ex) {
+	                    Log.e(TAG, "Get events failed. " + ex.getMessage());
+	                    result.setException(ex);
+	                }
+	            });
+	        } catch (Exception e) {
+	            Log.e(TAG, "Initialize failed. " + e.getMessage());
+	            result.setException(e);
+	        }
+	        return result;
+	    }
 	}
 	````
 
-10. Open the file **activity_main.xml**.<br/>
+12. Open the file **content_main.xml**.<br/>
+
 	![Screenshot of the previous step](Images/24.png)
-11. Copy the code below to the file **activity_main.xml**:
+11. Replace the contents of the **content_main.xml** file with the code below.
 
 	````xml
 	<?xml version="1.0" encoding="utf-8"?>
@@ -354,11 +406,11 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 
 12. Open the file **MainActivity.java**.<br/>
 	![Screenshot of the previous step](Images/25.png)
-13. Copy the code below to the file **MainActivity.java**.
+13. Replace the contents of the **MainActivity.java** file with the code below.
 
 	````java
 	package com.microsoft.androidoffice365calendar;
-
+	
 	import android.app.Activity;
 	import android.app.ProgressDialog;
 	import android.os.Bundle;
@@ -367,147 +419,153 @@ In this lab, you will investigate the Android development with the Office 365 Ca
 	import android.widget.Button;
 	import android.util.Log;
 	import android.content.Intent;
-
+	
 	import com.google.common.util.concurrent.FutureCallback;
 	import com.google.common.util.concurrent.Futures;
 	import com.google.common.util.concurrent.SettableFuture;
-
+	
 	import android.widget.ListView;
 	import android.widget.LinearLayout;
 	import android.widget.Toast;
-
+	
 	import java.util.List;
-
+	
 	public class MainActivity extends Activity {
-    	private final static String TAG = "MainActivity";
-    	private ProgressDialog process;
-    	private ListView listEvents;
-    	private LinearLayout panelSignIn;
-    	private LinearLayout panelEvents;
-    	private LinearLayout panelLoadEvent;
-
-    	@Override
-    	protected void onCreate(Bundle savedInstanceState) {
-    	    super.onCreate(savedInstanceState);
-    	    setContentView(R.layout.activity_main);
+	    private final static String TAG = "MainActivity";
+	    private ProgressDialog process;
+	    private ListView listEvents;
+	    private LinearLayout panelSignIn;
+	    private LinearLayout panelEvents;
+	    private LinearLayout panelLoadEvent;
 	
-    	    listEvents = (ListView)findViewById(R.id.list_events);
-    	    panelSignIn = (LinearLayout)findViewById(R.id.panel_signIn);
-    	    panelEvents = (LinearLayout)findViewById(R.id.panel_events);
-    	    panelLoadEvent = (LinearLayout)findViewById(R.id.panel_loadEvent);
+	    @Override
+	    protected void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        setContentView(R.layout.activity_main);
 	
-    	    ((Button)findViewById(R.id.btn_signIn)).setOnClickListener(new View.OnClickListener() {
-    	        @Override
-    	        public void onClick(View view) {
-    	            signIn();
-    	        }
-    	    });
-
-    	    ((Button)findViewById(R.id.btn_loadEvent)).setOnClickListener(new View.OnClickListener() {
-    	        @Override
-    	        public void onClick(View view) {
-    	            loadEvents();
-    	        }
-    	    });
-
-    	    setPanelVisibility(true,false,false);
-    	}
-
-    	private void signIn() {
-    	    AuthenticationController.getInstance().setContextActivity(this);
-    	    SettableFuture<Boolean> authenticated = AuthenticationController.getInstance().initialize();
-
-    	    Futures.addCallback(authenticated, new FutureCallback<Boolean>() {
-    	        @Override
-    	        public void onSuccess(Boolean result) {
-    	            runOnUiThread(new Runnable() {
-    	                @Override
-    	                public void run() {
-    	                    Toast.makeText(MainActivity.this,"Sign in successfully.",Toast.LENGTH_SHORT).show();
-    	                    setPanelVisibility(false,true,false);
-    	                }
-    	            });
-    	        }
-    	        @Override
-    	        public void onFailure(final Throwable t) {
-    	            runOnUiThread(new Runnable() {
-    	                @Override
-    	                public void run() {
-    	                    Toast.makeText(MainActivity.this,"Sign in failed.",Toast.LENGTH_LONG).show();
+	        listEvents = (ListView)findViewById(R.id.list_events);
+	        panelSignIn = (LinearLayout)findViewById(R.id.panel_signIn);
+	        panelEvents = (LinearLayout)findViewById(R.id.panel_events);
+	        panelLoadEvent = (LinearLayout)findViewById(R.id.panel_loadEvent);
+	
+	        ((Button)findViewById(R.id.btn_signIn)).setOnClickListener(new View.OnClickListener() {
+	            @Override
+	            public void onClick(View view) {
+	                signIn();
+	            }
+	        });
+	
+	        ((Button)findViewById(R.id.btn_loadEvent)).setOnClickListener(new View.OnClickListener() {
+	            @Override
+	            public void onClick(View view) {
+	                loadEvents();
+	            }
+	        });
+	
+	        setPanelVisibility(true,false,false);
+	    }
+	
+	    private void signIn() {
+	        AuthenticationController.getInstance().setContextActivity(this);
+	        SettableFuture<Boolean> authenticated = AuthenticationController.getInstance().initialize();
+	
+	        Futures.addCallback(authenticated, new FutureCallback<Boolean>() {
+	            @Override
+	            public void onSuccess(Boolean result) {
+	                runOnUiThread(new Runnable() {
+	                    @Override
+	                    public void run() {
+	                        Toast.makeText(MainActivity.this,"Sign in successfully.",Toast.LENGTH_SHORT).show();
+	                        setPanelVisibility(false,true,false);
+	                    }
+	                });
+	            }
+	            @Override
+	            public void onFailure(final Throwable t) {
+	                runOnUiThread(new Runnable() {
+	                    @Override
+	                    public void run() {
+	                        Toast.makeText(MainActivity.this,"Sign in failed.",Toast.LENGTH_LONG).show();
 	                        Log.e(TAG, "Sign in failed. " + t.getMessage());
-    	                }
-    	            });
-    	        }
-    	    });
-    	}
-
-    	private void loadEvents(){
-    	    process = ProgressDialog.show(this,"Loading","Loading events in the past 30 days...");
-    	    SettableFuture<List<String>> graphController = GraphController.getInstance().initialize();
-    	    Futures.addCallback(graphController, new FutureCallback<List<String>>() {
-    	        @Override
-    	        public void onSuccess(final List<String> result) {
-    	            runOnUiThread(new Runnable() {
-    	                @Override
-    	                public void run() {
-    	                    Toast.makeText(MainActivity.this,"Load event successfully.",Toast.LENGTH_LONG).show();
-    	                    process.dismiss();
-    	                    bindEvents(result);
-    	                }
-    	            });
-    	        }
-
-    	        @Override
-    	        public void onFailure(final Throwable t) {
-    	            runOnUiThread(new Runnable() {
-    	                @Override
-    	                public void run() {
-    	                    Log.e(TAG, "Load event failed. " + t.getMessage());
-    	                    process.dismiss();
-    	                    Toast.makeText(MainActivity.this,"Load event failed.",Toast.LENGTH_LONG).show();
-    	                }
-    	            });
-    	        }
-    	    });
-    	}
-
-    	private void bindEvents(List<String> events){
-    	    setPanelVisibility(false,false,true);
-    	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,events);
-    	    listEvents.setAdapter(adapter);
-    	}
-
-    	private void setPanelVisibility(Boolean showSignIn, Boolean showLoadEvents, Boolean showList){
-    	    panelSignIn.setVisibility(showSignIn ? View.VISIBLE : View.GONE);
-    	    panelLoadEvent.setVisibility(showLoadEvents ? View.VISIBLE : View.GONE);
-    	    panelEvents.setVisibility(showList ? View.VISIBLE : View.GONE);
-    	}
-
-    	@Override
-    	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	    Log.i(TAG, "AuthenticationActivity has come back with results");
-    	    super.onActivityResult(requestCode, resultCode, data);
-    	    AuthenticationController
-    	            .getInstance()
-    	            .getAuthenticationContext()
-    	            .onActivityResult(requestCode, resultCode, data);
-    	}
-
+	                    }
+	                });
+	            }
+	        });
+	    }
+	
+	    private void loadEvents(){
+	        process = ProgressDialog.show(this,"Loading","Loading events in the past 30 days...");
+	        SettableFuture<List<String>> graphController = GraphController.getInstance().initialize(getApplication());
+	        Futures.addCallback(graphController, new FutureCallback<List<String>>() {
+	            @Override
+	            public void onSuccess(final List<String> result) {
+	                runOnUiThread(new Runnable() {
+	                    @Override
+	                    public void run() {
+	                        Toast.makeText(MainActivity.this,"Load event successfully.",Toast.LENGTH_LONG).show();
+	                        process.dismiss();
+	                        bindEvents(result);
+	                    }
+	                });
+	            }
+	
+	            @Override
+	            public void onFailure(final Throwable t) {
+	                runOnUiThread(new Runnable() {
+	                    @Override
+	                    public void run() {
+	                        Log.e(TAG, "Load event failed. " + t.getMessage());
+	                        process.dismiss();
+	                        Toast.makeText(MainActivity.this,"Load event failed.",Toast.LENGTH_LONG).show();
+	                    }
+	                });
+	            }
+	        });
+	    }
+	
+	    private void bindEvents(List<String> events){
+	        setPanelVisibility(false,false,true);
+	        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,events);
+	        listEvents.setAdapter(adapter);
+	    }
+	
+	    private void setPanelVisibility(Boolean showSignIn, Boolean showLoadEvents, Boolean showList){
+	        panelSignIn.setVisibility(showSignIn ? View.VISIBLE : View.GONE);
+	        panelLoadEvent.setVisibility(showLoadEvents ? View.VISIBLE : View.GONE);
+	        panelEvents.setVisibility(showList ? View.VISIBLE : View.GONE);
+	    }
+	
+	    @Override
+	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	        Log.i(TAG, "AuthenticationActivity has come back with results");
+	        super.onActivityResult(requestCode, resultCode, data);
+	        AuthenticationController
+	                .getInstance()
+	                .getAuthenticationContext()
+	                .onActivityResult(requestCode, resultCode, data);
+	    }
+	
 	}
 	````
 
-14. Run your app.<br/>
+14. Click the **green arrow** button to run your app.<br/>
+
 	![Screenshot of the previous step](Images/26.png)
 15. Select **API 23** emulator and click **OK**.
-	**NOTE: If there is no such emulator please create a new one.**
+
+	**NOTE: If there is no such emulator please create a new one with API level 23.**
 
 	![Screenshot of the previous step](Images/27.png)
-16. The emulator will be shown.<br/>
+16. The emulator will appear.<br/>
+
 	![Screenshot of the previous step](Images/28.png)
 17. Click **Sign In**.
 18. Fill in your user name and password, then click **Sign in**.<br/>
+
 	![Screenshot of the previous step](Images/29.png)
 19. Click the **Load Events** button.<br/>
+
 	![Screenshot of the previous step](Images/30.png)
-20. The events will be shown.
+20. The events are displayed.
+	![Screenshot of the previous step](Images/31.png)
 

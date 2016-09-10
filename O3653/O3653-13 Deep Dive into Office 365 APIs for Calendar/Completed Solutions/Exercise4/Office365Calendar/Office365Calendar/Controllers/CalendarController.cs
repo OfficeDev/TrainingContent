@@ -1,17 +1,17 @@
-﻿using Office365Calendar.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Office365Calendar.Models;
+using System.Threading.Tasks;
 
 namespace Office365Calendar.Controllers
 {
     public class CalendarController : Controller
     {
         MyEventsRepository _repo = new MyEventsRepository();
-        // GET: Calendar
+
         [Authorize]
         public async Task<ActionResult> Index(int? pageNumber)
         {
@@ -20,15 +20,13 @@ namespace Office365Calendar.Controllers
             if (pageNumber == null)
                 pageNumber = 1;
 
-            // get list of entities
             List<MyEvent> events = null;
             events = await _repo.GetEvents((int)pageNumber - 1, pageSize);
-
             ViewBag.pageNumber = pageNumber;
-            ViewBag.morePagesAvailable = _repo.MorePagesAvailable;
+            if(events != null)
+                ViewBag.morePagesAvailable = events.Count < pageSize ? false : true;
 
             return View(events);
-
         }
 
         [Authorize]

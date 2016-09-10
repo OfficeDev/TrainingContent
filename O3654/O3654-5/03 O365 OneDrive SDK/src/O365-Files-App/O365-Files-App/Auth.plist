@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>o365SharepointTenantUrl</key>
-	<string></string>
-	<key>authority</key>
-	<string></string>
-	<key>redirectUriString</key>
-	<string></string>
+	<key>graphResourceUrl</key>
+	<string>https://graph.microsoft.com/v1.0</string>
 	<key>resourceId</key>
-	<string></string>
+	<string>https://graph.microsoft.com</string>
+	<key>authority</key>
+	<string>https://login.microsoftonline.com/common</string>
+	<key>redirectUriString</key>
+	<string>http://example.com/redirect</string>
 	<key>clientId</key>
 	<string></string>
 </dict>

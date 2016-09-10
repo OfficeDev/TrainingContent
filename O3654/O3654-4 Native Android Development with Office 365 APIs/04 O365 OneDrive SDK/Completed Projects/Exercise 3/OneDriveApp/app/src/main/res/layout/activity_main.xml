@@ -10,7 +10,6 @@
     tools:context="com.example.o365testapp.MainActivity">
 
     <!-- TODO: put your view elements here -->
-
     <Button
         android:id="@+id/retrieve_files_button"
         android:layout_width="match_parent"
@@ -28,5 +27,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create a File" />
-
 </LinearLayout>
