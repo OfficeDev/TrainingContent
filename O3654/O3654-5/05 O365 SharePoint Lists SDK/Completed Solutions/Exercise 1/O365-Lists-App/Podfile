@@ -1,1 +1,3 @@
-pod 'ADALiOS', '=1.2.4' 
+target 'ResearchProjectTrackerApp' do
+ pod 'ADALiOS'
+end

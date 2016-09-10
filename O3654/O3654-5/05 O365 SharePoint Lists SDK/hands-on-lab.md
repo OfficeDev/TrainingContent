@@ -16,10 +16,10 @@ Sharepoint tenant with an iOS app.
 - OSX 10.X environment
 - [XCode 7][xcode-7]
 - [Cocoapods dependency manager][cocoapods]
-- Complete the  [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites) module.
+- Complete the  [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites](../01 Azure AD Auth Prerequisites) module.
 
 [xcode-7]: https://itunes.apple.com/nz/app/xcode/id497799835?mt=12
-[cocoapods]: cocoapods.org
+[cocoapods]: https://cocoapods.org
 
 ## Exercises
 
@@ -46,17 +46,17 @@ to project.
     pod install
     ```
 
-03. Open the **.xcworkspace** file in the  **[\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\05 O365 SharePoint Lists SDK\src\O365-Lists-App](/O3654/O3654-5 Native iOS Development with Office 365 APIs/05 O365 SharePoint Lists SDK/src/O365-Lists-App)**
+03. Open the **.xcworkspace** file in the  **[\\\O3654\O3654-5\05 O365 SharePoint Lists SDK\src\O365-Lists-App](./src/O365-Lists-App)**
 
 04. Find and Open the **Auth.plist**
 
 05. Fill the AzureAD account settings with the following configuration values:
     
-    > Note: You can find the clientId/redirectUriString in [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites\hands-on-lab.md](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites/hands-on-lab.md)
+    > Note: You can find the clientId/redirectUriString in [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites\hands-on-lab.md](../01 Azure AD Auth Prerequisites/hands-on-lab.md)
         
     -   **o365SharepointTenantUrl** - The URL of the SharePoint site for your tenancy, e.g. "https://mydomain.sharepoint.com/MySite"
     -   **resourceId**              - The root URL of the SharePoint site for your tenancy, e.g. "https://mydomain.sharepoint.com"
-    -   **authority**               - "https://login.windows.net/common"
+    -   **authority**               - "https://login.microsoftonline.com/common"
     -   **redirectUriString**       - The redirect URL configured in Azure AD, e.g. "http://example.com/redirect"
     -   **clientId**                - The client Id obtained from Azure AD
     
@@ -79,7 +79,7 @@ In this exercise you will create a client class for all the operations related t
 
 ### Task 1 - Create a client class to connect to the SharePoint Lists REST API 
 
-01. On the XCode files explorer, under the group **ResearchProjectTrackerApp** you will see a **client** empty folder. Also under **ResearchProjectTrackerExtension/Supporting Files** you have another **client** folder.
+01. On the XCode files explorer, under the group **ResearchProjectTrackerApp** you will see a **client** empty folder.
 
     ![Screenshot of the previous step](img/fig.09.png)
 
@@ -94,10 +94,6 @@ In this exercise you will create a client class for all the operations related t
 04. Now we are going to select where the new class sources files (.h and .m) will be stored. In this case we can click on **Create** directly. This will create a **.h** and **.m** files for our new class.
 
     ![Screenshot of the previous step](img/fig.12.png)
-
-05. Do the same for the other **client** folder under the **ResearchProjectTrackerExtension** in order to create the **ProjectClientEx** class, but in the last step of the wizard, change the target, to add visibility to this scope.
-
-    ![Screenshot of the previous step](img/fig.13.png)
 
 06. Now you will have a file structure like this:
 
@@ -383,127 +379,6 @@ In this exercise you will create a client class for all the operations related t
     ```
 05. Build the project and check everything is OK.
 
-06. In the **ProjectClientEx.h** header file, add the following declaration between **@interface** and **@end**
-
-    ```objc
-    - (NSURLSessionDataTask *)addReference:(NSDictionary *)reference token:(NSString *)token callback:(void (^)(NSError *))callback;
-    - (NSURLSessionDataTask *)getProjectsWithToken:(NSString *)token andCallback:(void (^)(NSMutableArray *listItems, NSError *))callback;
-    ```
-
-07. Now in the **ProjectClientEx.m** add the following import sentences
-
-    ```objc
-    #import "NSString_Extended.h"
-    ```
-
-08. Now add the following method declarations
-
-    ```objc
-    const NSString *apiUrlStr = @"/_api/lists";
-
-    - (NSURLSessionDataTask *)addReference:(NSDictionary *)reference token:(NSString *)token callback:(void (^)(NSError *))callback
-    {
-        NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
-        NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-        NSString* shpUrl = [content objectForKey:@"o365SharepointTenantUrl"];
-        NSString* referenceListName = @"Research%20References";
-        NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items", shpUrl , apiUrlStr, referenceListName];
-        NSString *json = [[NSString alloc] init];
-        json = @"{ 'URL': %@, 'Comments':'%@', 'Project':'%@'}";
-        NSString *formatedJson = [NSString stringWithFormat:json, [reference valueForKey:@"URL"], [reference valueForKey:@"Comments"], [reference valueForKey:@"Project"]];
-        NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
-        NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-        [theRequest setHTTPMethod:@"POST"];
-        [theRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [theRequest setValue:@"application/json; odata=verbose" forHTTPHeaderField:@"accept"];
-        [theRequest addValue:[NSString stringWithFormat: @"Bearer %@", token] forHTTPHeaderField: @"Authorization"];
-        [theRequest setHTTPBody:jsonData];
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:theRequest completionHandler:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
-            NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
-                                                                       options: NSJSONReadingMutableContainers
-                                                                         error:nil];
-            NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            
-            callback(error);
-        }];
-        
-        return task;
-    }
-
-    - (NSURLSessionDataTask *)getProjectsWithToken:(NSString *)token andCallback:(void (^)(NSMutableArray *listItems, NSError *))callback{
-        NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
-        NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-        NSString* shpUrl = [content objectForKey:@"o365SharepointTenantUrl"];
-        
-        NSString* projectListName = @"Research%20Projects";
-        NSString* filter = @"ID,Title,Modified,Editor/Title";
-        NSString *aditionalParams = [NSString stringWithFormat:@"?$select=%@&$expand=Editor", [filter urlencode]];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items%@", shpUrl , apiUrlStr, projectListName, aditionalParams];
-        NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-        [theRequest setHTTPMethod:@"GET"];
-        [theRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [theRequest setValue:@"application/json; odata=verbose" forHTTPHeaderField:@"accept"];
-        [theRequest addValue:[NSString stringWithFormat: @"Bearer %@", token] forHTTPHeaderField: @"Authorization"];
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:theRequest completionHandler:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
-            callback([self parseDataArray:data] ,error);
-        }];
-        
-        return task;
-    }
-    ```
-
-09. Add the **JSON** handling methods:
-
-    #### Parsing Results
-
-    ```objc
-    - (NSMutableArray *)parseDataArray:(NSData *)data{
-    
-        NSMutableArray *array = [NSMutableArray array];
-        
-        NSError *error ;
-        
-        NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:[self sanitizeJson:data]
-                                                                   options: NSJSONReadingMutableContainers
-                                                                     error:&error];
-        
-        NSArray *jsonArray = [[jsonResult valueForKey : @"d"] valueForKey : @"results"];
-        
-        if(jsonArray != nil){
-            for (NSDictionary *value in jsonArray) {
-                [array addObject: value];
-            }
-        }else{
-            NSDictionary *jsonItem =[jsonResult valueForKey : @"d"];
-            
-            if(jsonItem != nil){
-                [array addObject:jsonItem];
-            }
-        }
-        
-        return array;
-    }
-    ```
-
-    #### Sanitizing JSON
-
-    ```objc
-    - (NSData*) sanitizeJson : (NSData*) data{
-        NSString * dataString = [[NSString alloc ] initWithData:data encoding:NSUTF8StringEncoding];
-        
-        NSString* replacedDataString = [dataString stringByReplacingOccurrencesOfString:@"E+308" withString:@"E+127"];
-        
-        NSData* bytes = [replacedDataString dataUsingEncoding:NSUTF8StringEncoding];
-        
-        return bytes;
-    }
-    ```
-
-10. Build and Run the application and check everything is OK.
-
 <a name="exercise3"></a>
 ## Exercise 3: Connect actions in the view to ProjectClient class
 In this exercise you will navigate in every controller class of the project, in order to connect each action (from buttons, lists and events) with one ProjectClient operation.
@@ -678,7 +553,7 @@ The Application has every event wired up with their respective controller classe
     #import "ProjectClient.h"
     ```
 
-03. Build and Run the app, and check everything is ok. Now you can create a new project with the plus button in the left corner of the main screen
+03. Build and Run the app, and check everything is ok. Now you can create a new project with the plus button in the right corner of the main screen
 
     ![Screenshot of the previous step](img/fig.18.png)
 
@@ -692,8 +567,14 @@ The Application has every event wired up with their respective controller classe
     @property NSDictionary* selectedReference;
     ```
 
-02. Set the value when the user selects a project in the list. On **ProjectTableViewController.m**, add the line `controller.project = currentEntity;` to the **prepareForSegue:sender:** method, under
-    `ProjectDetailsViewController* = ...`.
+02. Set the value when the user selects a project in the list. On **ProjectTableViewController.m**, add the line
+	```objc
+	controller.project = currentEntity;
+	```
+	to the **prepareForSegue:sender:** method, under
+    ```objc
+	ProjectDetailsViewController* = ...
+	```
 
     ```objc
     ProjectDetailsViewController* = (ProjectDetailsViewController*)segue.destinationViewController;
@@ -830,8 +711,13 @@ The Application has every event wired up with their respective controller classe
     ```objc
     //controller.project = self.project;
     ```
+	
+	under
+    ```objc
+	EditProjectViewController *controller = ...;
+	```
 
-03. Back to **EditProjectViewController.m**. Add the body for **updateProject**
+03. Go to **EditProjectViewController.m**. Add the body for **updateProject**
 
     ```objc
     -(void)updateProject{
@@ -1192,7 +1078,7 @@ The Application has every event wired up with their respective controller classe
     }
     ```
 
-06. Add the import sentence to the **ProjectClient** class
+06. Add the import sentence to the **EditReferenceViewController** class
 
     ```objc
     #import "ProjectClient.h"
@@ -1201,134 +1087,6 @@ The Application has every event wired up with their respective controller classe
 07. Build and Run the app, and check everything is OK. Now you can edit and delete a reference.
 
     ![Screenshot of the previous step](img/fig.23.png)
-
-### Task 8 - Wiring up Add Reference Safari Extension
- 
-The app provides a Safari action extension, that allows the user to share a url and add it to a project using a simple screen, without entering the main app.
-
-01. Add the **loadData** method body on **ActionViewController.m**
-
-    ```objc
-    -(void)loadData{
-        //Create and add a spinner
-        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-        [self.view addSubview:spinner];
-        spinner.hidesWhenStopped = YES;
-        [spinner startAnimating];
-        
-        ProjectClientEx *client = [[ProjectClientEx alloc] init];
-        
-        NSURLSessionTask* task = [client getProjectsWithToken:token andCallback:^(NSMutableArray *list, NSError *error) {
-            
-            if(!error){
-                self.projectsList = list;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.projectTable reloadData];
-                    [spinner stopAnimating];
-                });
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.projectTable.hidden = true;
-                    self.selectProjectLbl.hidden = true;
-                    self.successMsg.hidden = false;
-                    self.successMsg.text = @"Error retrieving data";
-                    self.successMsg.textColor = [UIColor redColor];
-                    [spinner stopAnimating];
-                });
-            }
-            
-        }];
-        [task resume];
-    }
-    ```
-
-    Add the import sentence
-
-    ```objc
-    #import "ProjectClientEx.h"
-    ```
-
-    And an instance variable between **@implementation** and **@end**
-
-    ```objc
-    NSDictionary* currentEntity; 
-    ```
-
-02. Finally add the table actions and events, including the selection and the references sharing
-
-    ```objc
-    - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-    {
-        NSString* identifier = @"ProjectListCell";
-        ProjectTableExtensionViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
-        
-        NSDictionary *item = [self.projectsList objectAtIndex:indexPath.row];
-        cell.ProjectName.text = [item valueForKey:@"Title"];
-        
-        return cell;
-    }
-    - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-    {
-        return [self.projectsList count];
-    }
-    - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-        return 40;
-    }
-    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-    {
-        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-        [self.view addSubview:spinner];
-        spinner.hidesWhenStopped = YES;
-        
-        [spinner startAnimating];
-        
-        currentEntity= [self.projectsList objectAtIndex:indexPath.row];
-        
-        NSString* obj = [NSString stringWithFormat:@"{'Url':'%@', 'Description':'%@'}", self.urlTxt.text, @""];
-        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, @"", [NSString stringWithFormat:@"%@", [currentEntity valueForKey:@"Id"]]] forKeys:@[@"URL", @"Comments", @"Project"]];
-        
-        __weak ActionViewController *sself = self;
-        ProjectClientEx *client = [[ProjectClientEx alloc ] init];
-        
-        NSURLSessionTask* task =[client addReference:dic token:token callback:^(NSError *error) {
-            if(error == nil){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    sself.projectTable.hidden = true;
-                    sself.selectProjectLbl.hidden = true;
-                    sself.successMsg.hidden = false;
-                    sself.successMsg.text = [NSString stringWithFormat:@"Reference added successfully to the %@ Project.", [currentEntity valueForKey:@"Title"]];
-                    [spinner stopAnimating];
-                });
-            }
-        }];
-        
-        [task resume];
-    }
-    ```
-
-03. To Run the app, you should select the correct target. To do so, follow the steps:
-
-    On the **Run/Debug panel control**, you will see the target selected
-    ![Screenshot of the previous step](img/fig.26.png)
-
-    Click on the target name and select the **Extension Target** and an iOS simulator
-    ![Screenshot of the previous step](img/fig.27.png)
-
-    Now you can Build and Run the application, but first we have to select what native application
-    will open in order to access the extension. In this case, we select **Safari** 
-                                   
-    ![Screenshot of the previous step](img/fig.28.png)
-
-04. Build and Run the application, check everything is OK. Now you can share a reference url from safari and attach it to a Project with our application.
-
-    Custom Action Extension                                                                                       
-    ![Screenshot of the previous step](img/fig.24.png)
-
-    Simple view to add a Reference to a Project                                                                  
-    ![Screenshot of the previous step](img/fig.25.png)
 
 ## Summary
 

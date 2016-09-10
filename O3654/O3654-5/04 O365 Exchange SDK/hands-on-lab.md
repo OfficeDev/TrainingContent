@@ -16,10 +16,10 @@ Office 365 tenant with an iOS app.
 - OSX 10.X environment
 - [XCode 7][xcode-7]
 - [Cocoapods dependency manager][cocoapods]
-- Complete the  [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites) module.
+- Complete the  [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites](../01 Azure AD Auth Prerequisites) module.
 
 [xcode-7]: https://itunes.apple.com/nz/app/xcode/id497799835?mt=12
-[cocoapods]: cocoapods.org
+[cocoapods]: https://cocoapods.org
 
 ## Exercises
 
@@ -37,11 +37,11 @@ authentication included, to add Microsoft Graph SDK library in the project.
 ### Task 1 - Open the Project
 01. Clone this git repository
 
-02. On Finder, open the **[\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\04 O365 Exchange SDK\src\O365-Exchange-App\Podfile](/O3654/O3654-5 Native iOS Development with Office 365 APIs/04 O365 Exchange SDK/src/O365-Exchange-App/Podfile)** file under the root folder of the project and add the line:
+02. On Finder, open the **[\\\O3654\O3654-5\04 O365 Exchange SDK\src\O365-Exchange-App\Podfile](./src/O365-Exchange-App/Podfile)** file under the root folder of the project and add the lines inside the **target ... do ... end** statement:
 
     ```ruby
     pod 'orc'
-    pod 'MSGraph-SDK-iOS'
+    pod 'MSGraphSDK'
     ```
     
 03. Open a Terminal and navigate to the `src/O365-Exchange-App/` folder of the project.
@@ -52,13 +52,13 @@ authentication included, to add Microsoft Graph SDK library in the project.
     pod install
     ```
     
-02. Open the **.xcworkspace** file in the **[\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\04 O365 Exchange SDK\src\O365-Exchange-App](/O3654/O3654-5 Native iOS Development with Office 365 APIs/04 O365 Exchange SDK/src/O365-Exchange-App)** folder
+02. Open the **.xcworkspace** file in the **[\\\O3654\O3654-5\04 O365 Exchange SDK\src\O365-Exchange-App](/O3654/O3654-5 Native iOS Development with Office 365 APIs/04 O365 Exchange SDK/src/O365-Exchange-App)** folder
 
 03. Find and Open the **Auth.plist** file.
 
 04. Fill the AzureAD account settings with the following configuration values:
     
-    > Note: You can find the clientId/redirectUriString in [\\\O3654\O3654-5 Native iOS Development with Office 365 APIs\01 Azure AD Auth Prerequisites\hands-on-lab.md](/O3654/O3654-5 Native iOS Development with Office 365 APIs/01 Azure AD Auth Prerequisites/hands-on-lab.md)
+    > Note: You can find the clientId/redirectUriString in [\\\O3654\O3654-5\01 Azure AD Auth Prerequisites\hands-on-lab.md](../01 Azure AD Auth Prerequisites/hands-on-lab.md)
     
     -   **graphResourceUrl** - The URL of the Microsoft Graph service, it is "https://graph.microsoft.com/v1.0"
     -   **resourceId**              - The root URL of the Microsoft Graph service, it  is "https://graph.microsoft.com"
@@ -100,44 +100,61 @@ section, select **Cocoa Touch Class** and click **Next**.
 04. Open the **ExchangeGraphService.h** and add the header for the **getGraphServiceClient** method to get **MSGraphServiceClient**.
 
     ```objc
-    -(void)getGraphServiceClient:(void (^)(MSGraphServiceClient * client, NSError *error))getClientCallBack;
+    -(void)getGraphServiceClient:(void (^)(MSGraphClient * client, NSError *error))getClientCallBack;
     ```
 
     Add the import sentence
 
     ```objc
-    #import <ADALiOS/ADAL.h>
-	#import <impl/impl.h>
-    #import <MSGraph-SDK-iOS/MSGraphService.h>
-    #import <MSGraph-SDK-iOS/MSGraphServiceClient.h>
+	#import <MSGraphSDK.h>
+    #import <ADAL.h>
+    #import <MSBlockAuthenticationProvider.h>
     ```
 05. In **ExchangeGraphService.m** add the method body:
 
     ```objc
-	-(void)getGraphServiceClient:(void (^)(MSGraphServiceClient * client, NSError *error))getClientCallBack{
-	    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
-	    NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-	    
-	    NSString* authority = [content objectForKey:@"authority"];
-	    NSString* resourceId = [content objectForKey:@"resourceId"];
-	    NSString* clientId = [content objectForKey:@"clientId"];
-	    NSString* redirectUriString = [content objectForKey:@"redirectUriString"];
-	    NSString* graphResourceUrl = [content objectForKey:@"graphResourceUrl"];
-	    
-	    ADAuthenticationError *error;
-	    ADAuthenticationContext* context = [ADAuthenticationContext authenticationContextWithAuthority:authority error:&error];
-	    
-	    if (!context)
-	    {
-	        getClientCallBack(nil,error);
-	        return;
-	    };
-	    
-	    ADALDependencyResolver *resolver = [[ADALDependencyResolver alloc] initWithContext:context resourceId:resourceId clientId: clientId redirectUri:[NSURL URLWithString:redirectUriString]];
-	    MSGraphServiceClient *client = [[MSGraphServiceClient alloc] initWithUrl:graphResourceUrl dependencyResolver:resolver];
-	    
-	    getClientCallBack(client,nil);
-	}
+	-(void)getGraphServiceClient:(void (^)(MSGraphClient* client, NSError *error))callback{
+    
+    [self getGraphServiceAccessToken:^(ADAuthenticationResult *result) {
+        if(result != nil && result.status == AD_SUCCEEDED){
+            NSString *accessToken = result.accessToken;
+            MSBlockAuthenticationProvider *provider = [MSBlockAuthenticationProvider 				providerWithBlock:^(NSMutableURLRequest *request, MSAuthenticationCompletion completion) {
+                NSString *oauthAuthorizationHeader = [NSString stringWithFormat:@"bearer %@", accessToken];
+                [request setValue:oauthAuthorizationHeader forHTTPHeaderField:@"Authorization"];
+                completion(request, nil);
+            }];
+            [MSGraphClient setAuthenticationProvider:provider];
+            
+            callback([MSGraphClient client], nil);
+        }
+        else{
+            callback(nil, nil);
+        }
+    }];
+	} 
+	
+	-(void)getGraphServiceAccessToken:(void (^)(ADAuthenticationResult* result))callback{
+    
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
+    NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    NSString *clientId = [content objectForKey:@"clientId"];
+    NSString *graphResourceId = [content objectForKey:@"resourceId"];
+    NSString *authority = [content objectForKey:@"authority"];
+    NSString *redirectUriString = [content objectForKey:@"redirectUriString"];
+    ADAuthenticationError *error;
+    ADAuthenticationContext* context = [ADAuthenticationContext authenticationContextWithAuthority:authority error:&error];
+    if (!context)
+    {
+        //here need
+        callback(nil);
+        return;
+    }
+    
+    [context acquireTokenWithResource:graphResourceId clientId:clientId redirectUri:[NSURL URLWithString:redirectUriString] completionBlock:^(ADAuthenticationResult *result) {
+        callback(result);
+    }];
+    
+	}	
     ```
 06. Open the **ExchangeGraphService.h** and add the header for the **getGraphServiceClient** method to get folders.
 
@@ -149,18 +166,16 @@ section, select **Cocoa Touch Class** and click **Next**.
 
     ```objc
 	-(void)getFolders:(void (^)(NSArray * folders, NSError *error))getFoldersCallBack{
-	    [self getGraphServiceClient:^(MSGraphServiceClient *client, NSError *error) {
-	        if(error!=nil){
-	            getFoldersCallBack(nil,error);
-	        }
-	        else{
-	            MSGraphServiceMailFolderCollectionFetcher *itemCollectionFetcher = [[[MSGraphServiceMailFolderCollectionFetcher alloc] initWithUrl:@"/me/mailFolders" parent:client] orderBy:@"displayName"];
-	            
-	            [itemCollectionFetcher readWithCallback:^(NSArray *itemCollection, MSOrcError *error) {
-	                getFoldersCallBack(itemCollection,error);
-	            }];
-	        }
-	    }];
+    	[self getGraphServiceClient:^(MSGraphClient *client, NSError *error) {
+        	if(error != nil){
+            	getFoldersCallBack(nil, error);
+        	}
+        	else{
+            	[[[[[client me] mailFolders] request] orderBy:@"displayName"] getWithCompletion:^(MSCollection 	*response, MSGraphUserMailFoldersCollectionRequest *nextRequest, NSError *error) {
+                getFoldersCallBack(response.value, error);
+            	}];
+        	}
+    	}];
 	}
     ```
 08. Open the **ExchangeGraphService.h** and add the header for the **getGraphServiceClient** method to get message list for specific folder.
@@ -172,21 +187,24 @@ section, select **Cocoa Touch Class** and click **Next**.
 07. In **ExchangeGraphService.m** add the method body:
 
     ```objc
-	-(void)getFolderContent:(NSString*)folderId  callback:(void (^)(NSArray * messages, NSError *error))getFolderContentCallBack
-	{
-	    
-	    [self getGraphServiceClient:^(MSGraphServiceClient *client, NSError *error) {
-	        if(error!=nil){
-	            getFolderContentCallBack(nil,error);
-	        }
-	        else{
-	            MSGraphServiceMessageCollectionFetcher *itemCollectionFetcher = [[MSGraphServiceMessageCollectionFetcher alloc] initWithUrl:[NSString stringWithFormat:@"/me/mailFolders/%@/messages",folderId] parent:client];
-	            
-	            [itemCollectionFetcher readWithCallback:^(NSArray *itemCollection, MSOrcError *error) {
-	                getFolderContentCallBack(itemCollection,error);
-	            }];
-	        }
-	    }];
+    -(void)getFolderContent:(NSString*)folderId  callback:(void (^)(NSArray * messages, NSError *error))getFolderContentCallBack
+{
+    [self getGraphServiceClient:^(MSGraphClient *client, NSError *error) {
+        if(error != nil){
+            getFolderContentCallBack(nil, error);
+        }
+        else{
+            NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
+            NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+            NSString *graphResourceUrl = [content objectForKey:@"graphResourceUrl"];
+            
+            MSGraphUserMessagesCollectionRequestBuilder *builder = [[MSGraphUserMessagesCollectionRequestBuilder alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/me/mailFolders/%@/messages",graphResourceUrl,folderId]] client:client];
+            [[builder request] getWithCompletion:^(MSCollection *response, MSGraphUserMessagesCollectionRequest *nextRequest, NSError *error) {
+                getFolderContentCallBack(response.value, error);
+            }];
+            
+        }
+    }];
 	}
     ```
            
@@ -206,13 +224,13 @@ The verb is composed by an aggregation of commands that will generate a single s
 
     ```objc
     @property (nonatomic) NSArray *folders;
-    @property (nonatomic) MSGraphServiceMailFolder *currentFolder;
+    @property (nonatomic) MSGraphMailFolder *currentFolder;
     ```
     
     And add the import sentence
 
     ```objc
-	#import <MSGraph-SDK-iOS/MSGraphServiceClient.h>
+	#import <MSGraphSDK.h>
 	#import "ExchangeGraphService.h"
     ```
     
@@ -254,7 +272,7 @@ The verb is composed by an aggregation of commands that will generate a single s
 	    NSString* identifier = @"folderListCell";
 	    EmailListTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
 	    
-	    MSGraphServiceMailFolder *cellFolder = (MSGraphServiceMailFolder*)[self.folders objectAtIndex: indexPath.row];
+	    MSGraphMailFolder *cellFolder = (MSGraphMailFolder*)[self.folders objectAtIndex: indexPath.row];
 	    cell.title.text = cellFolder.displayName;
 	    
 	    return cell;
@@ -291,29 +309,29 @@ The verb is composed by an aggregation of commands that will generate a single s
     And add a property to hold the folder in **FolderContentViewController.h**
 
     ```objc
-    @property (nonatomic) MSGraphServiceMailFolder *currentFolder;
+    @property (nonatomic) MSGraphMailFolder *currentFolder;
     ```
     
     And add the import sentence
 
     ```objc
-	#import <MSGraph-SDK-iOS/MSGraphServiceClient.h>
+	#import <MSGraphSDK.h>
 	#import "ExchangeGraphService.h"
     ```
 02. And add two properties to hold the contents, and another one to hold the current message selection in **FolderContentViewController.h**
  
     ```objc
     @property (nonatomic) NSArray *folderMessages;
-    @property (nonatomic) MSGraphServiceMessage *currentMsg;
+    @property (nonatomic) MSGraphMessage *currentMsg;
     ```
     
-02. Now in **FolderContentViewController.m** load the folder contents adding:
+02. Now in **FolderContentViewController.m** add method **getFolderContent** to load the folder contents:
 
     ```objc
     -(void) getFolderContent{
     [self.spinner startAnimating];
     ExchangeGraphService *exchangeService =[[ExchangeGraphService alloc] init];
-    [exchangeService getFolderContent:self.currentFolder._id callback:^(NSArray *messages, NSError *error) {
+    [exchangeService getFolderContent:self.currentFolder.entityId callback:^(NSArray *messages, NSError *error) {
         self.folderMessages = messages;
         dispatch_async(dispatch_get_main_queue(),^{
             [self.spinner stopAnimating];
@@ -323,7 +341,7 @@ The verb is composed by an aggregation of commands that will generate a single s
 }
     ```
 
-03. Add the **viewWillAppear** method and call the **getFolderContent** method
+03. In the **viewDidAppear** method, add code to call the **getFolderContent** method
 
     ```objc
 	-(void) viewDidAppear:(BOOL)animated{
@@ -343,7 +361,7 @@ The verb is composed by an aggregation of commands that will generate a single s
 	    NSString* identifier = @"msgListCell";
 	    EmailListTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
 	    
-	    MSGraphServiceMessage *msg = [self.folderMessages objectAtIndex:indexPath.row];
+	    MSGraphMessage *msg = [self.folderMessages objectAtIndex:indexPath.row];
 	    
 	    cell.title.text = msg.from.emailAddress.name;
 	    cell.subtitle.text = msg.bodyPreview;
@@ -386,23 +404,26 @@ The verb is composed by an aggregation of commands that will generate a single s
 01. In **EmailDetailViewController.h** add a property to hold the current message:
 
     ```objc
-    @property (nonatomic) MSGraphServiceMessage *currentMsg;
+    @property (nonatomic) MSGraphMessage *currentMsg;
     ```
 
     And add the import sentence
 
     ```objc
-	#import <MSGraph-SDK-iOS/MSGraphServiceClient.h>
+	#import <MSGraphSDK.h>
 	#import "ExchangeGraphService.h"
     ```
-    
-02. Now in **FolderContentViewController.m**, uncomment the line in **prepareForSegue:sender:** method
 
-    ```objc
-    //controller.currentMsg = self.currentMsg;
-    ```
+02. In **EmailDetailViewController.m**, in the **viewDidLoad** method, replace the following code
 
-03. In the **viewDidLoad** method, set the values for labels and the email body showing the html code in a proper way to the user
+	```objc
+	self.author.text = @"authorName";
+    self.subject.text = @"aSubjet";
+    self.date.text = @"aDate";
+    [self.emailBody loadHTMLString:@"aBodyContent"  baseURL: nil];
+	```
+
+	with the code below:
 
     ```objc
     self.author.text = self.currentMsg.from.emailAddress.name;
@@ -415,6 +436,12 @@ The verb is composed by an aggregation of commands that will generate a single s
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MM-dd-yyyy"];
     self.date.text = [formatter stringFromDate:msgDate];
+    ```
+    
+03. Now in **FolderContentViewController.m**, uncomment the line in **prepareForSegue:sender:** method
+
+    ```objc
+    //controller.currentMsg = self.currentMsg;
     ```
 
 04. Build and Run the application. Check everything is ok. Now you can see the email and its details

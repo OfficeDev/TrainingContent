@@ -1,15 +1,12 @@
-﻿using Microsoft.Office365.Exchange;
-using Microsoft.Office365.OAuth;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.Graph;
+using Microsoft.Office365.OAuth;
 
 namespace _365OAuthWeb.Controllers
 {
@@ -19,7 +16,7 @@ namespace _365OAuthWeb.Controllers
         {
             try
             {
-                IEnumerable<IContact> contacts = await ContactsAPISample.GetContacts();
+                IEnumerable<Contact> contacts = await ContactsAPISample.GetContacts();
                 ViewBag.Contacts = contacts;
             }
             catch (RedirectRequiredException x)

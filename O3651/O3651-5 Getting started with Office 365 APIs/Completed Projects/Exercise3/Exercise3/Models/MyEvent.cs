@@ -5,10 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 
-namespace Exercise3.Models
+namespace Exercise.Models
 {
     public class MyEvent {
-           
         [DisplayName("Subject")]
         public string Subject { get; set; }
 

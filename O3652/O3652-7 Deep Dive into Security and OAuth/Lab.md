@@ -8,12 +8,13 @@ In this lab, you will create add-ins that use different approaches for OAuth aut
 ## Exercise 1: Authorization Code Flow - OAuth in a Provider-Hosted Add-In 
 In this exercise you create a new provider-hosted add-in and examine the OAuth Authorization Code flow.
 
-1. Create the new solution in Visual Studio 2013:
-  1. Launch **Visual Studio 2013** as administrator. 
+1. If you do not have the **Office Developer Tools** installed, please install it from https://www.visualstudio.com/en-us/features/office-tools-vs.aspx.
+1. Create the new solution in Visual Studio 2015:
+  1. Launch **Visual Studio 2015** as administrator. 
   1. In Visual Studio select **File/New/Project**.
   1. In the New Project dialog:
-    1. Select **Templates/Visual C#/Office/SharePoint/Apps**.
-    1. Click **App for SharePoint 2013**.
+    1. Select **Templates/Visual C#/Office/SharePoint**.
+    1. Click **SharePoint Add-in**.
     1. Name the new project **ProviderHostedOAuth** and click **OK**.
 
       ![Screenshot of the previous step](Images/01.png)
@@ -24,7 +25,12 @@ In this exercise you create a new provider-hosted add-in and examine the OAuth A
     1. Click **Next**.
 
       ![Screenshot of the previous step](Images/02.png)
+	1. Enter your Office 365 administrator credentials, and Click **Sign in**.
 
+      ![](Images/02-connect.png)
+	1. Modify the target version if the system has detected a wrong result, and Click **Next**.
+
+      ![](Images/02-target-version.png)
     1. Select **ASP.NET MVC Web Application**.
     1. Click **Next**.
 
@@ -35,7 +41,6 @@ In this exercise you create a new provider-hosted add-in and examine the OAuth A
 
       ![Screenshot of the previous step](Images/04.png)
 
-    1. When prompted, log in using your Office 365 administrator credentials.
     1. After the new project is created, set breakpoints in **HomeController.cs** as shown.
 
       ![Screenshot of the previous step](Images/05.png)
@@ -45,9 +50,12 @@ In this exercise you create a new provider-hosted add-in and examine the OAuth A
   1. Click **HTTPS**.
   1. Check the box entitled **Decrypt HTTPS Traffic**.
   1. When warned, click **Yes** to trust the Fiddler root certificate.
+
+    ![](Images/06.png)
+
   1. Confirm any additional dialog boxes to install the certificate.
   1. Click **OK** to close the options dialog.
-1. Debug the add-in by pressing **F5** in Visual Studio 2013.
+1. Debug the add-in by pressing **F5** in Visual Studio 2015.
   1. When prompted, sign into Office 365.
   1. When prompted, click **Trust It**.
 
@@ -57,8 +65,8 @@ In this exercise you create a new provider-hosted add-in and examine the OAuth A
 
     ![Screenshot of the previous step](Images/08.png)
 
-  1. Right click the session and select **View in New Window**.
-  1. Click the **Web Forms** tab.
+  1. Right click the session and select **Inspect in New Window**.
+  1. Click the **WebForms** tab.
 
     > Notice that SharePoint has included the SPHostUrl, SPLanguage, SPClientTag, and SPProductNumber query string parameters in the initial call. These are known as the **Standard Tokens**.
 
@@ -72,13 +80,13 @@ In this exercise you create a new provider-hosted add-in and examine the OAuth A
 
     ![Screenshot of the previous step](Images/10.png)
 
-  1. Right click the session and select **View in New Window**.
+  1. Right click the session and select **Inspect in New Window**.
   1. Click the **Headers** tab and examine the access token in the **Cookies/Login** section.
 
     ![Screenshot of the previous step](Images/11.png)
 
   1. Return to Visual Studio, and press **F5** to continue debugging.
-  1. With the add-in still running, open a new browser window to **/_layouts/15/AppPrincipals.aspx**.
+  1. With the add-in still running, open a new browser window to **<SPSite>/_layouts/15/AppPrincipals.aspx**.
   1. Look for **ProviderHostedOAuth** in the list of registered add-ins to confirm that the add-in was registered during debugging.
   1. Stop debugging.
 
@@ -87,8 +95,8 @@ In this exercise you created a new provider-hosted add-in and examined the OAuth
 ## Exercise 2: Authorization Code Flow - OAuth with the Office 365 APIs 
 In this exercise you create a new web application and examine the OAuth Authorization Code flow.
 
-1. Create the new solution in Visual Studio 2013:
-  1. Launch **Visual Studio 2013** as administrator. 
+1. Create the new solution in Visual Studio 2015:
+  1. Launch **Visual Studio 2015** as administrator. 
   1. In Visual Studio select **File/New/Project**.
   1. In the New Project dialog:
     1. Select **Templates/Visual C#/Web**.
@@ -107,40 +115,182 @@ In this exercise you create a new web application and examine the OAuth Authoriz
 
     ![Screenshot of the previous step](Images/13.png)
 
-  1. If prompted, sign into **Microsoft Azure**.
+  1. In Create App Service dialog, **sign in** an account with **Microsoft Azure** subscription, make appropriate settings for **Web App Name**, **Subscription**, **Resource Group**, **App Service Plan**, click **Create**.
 
     ![Screenshot of the previous step](Images/14.png)
 
-  1. When the **Configure Windows Azure Sites Settings** dialog appears, make appropriate selections for your project.
-  1. Click **OK**.
-1. If you do not have the **Office 365 API Tools** installed:
-  1. Click **Tools/Extensions and Updates**.
-  1. In the **Extensions and Updates" dialog, click **Online**.
-  1. Click **Visual Studio Gallery**.
-  1. Type **Office 365** in the search box.
-  1. Click **Office 365 API Tools - Preview**.
-  1. Click **Install**.
 1. Add an Office 365 connection
   1. Right click the **OfficeOAuth** project and select **Add/Connected Service**.
-  1. In the **Services Manager** dialog, click **Sign In**.
-  1. Sign in with your managed account.
-  1. Click **Calendar**.
-  1. Click **Permissions**.
-  1. Check **Read user's calendar**.
-  1. Click **Apply**.
+  1. In the **Add Connected Service** dialog, select **Office 365 APIs**. Click **Configure**.
+  
+    ![](Images/Office365APIs.png)
+
+  1. In **Select Domain** section, input an Office 365 domain, click **Next**.
+  1. If prompted, **sign in** an account with appropriate privileges to access the Office 365 domain.
+  1. In **Configure Application** section, select **Create a new Azure AD application to access Office 365 API services**, uncheck **Configure Single Sign-On using Azure AD**, click **Next**.
+  1. In **Calendar**, **Contacts**, **Mail**, **My Files**, **Sites** section, select nothing.
+  1. In **Users and Groups**, only select **Sign you in and read your profile**, click **Finish**..
 
     ![Screenshot of the previous step](Images/15.png)
 
-  1. Click **OK**.
+1. Examine the Microsoft Azure configuration.
+  1. Log into the [Azure Management Portal](https://manage.windowsazure.com)
+  1. Click **Active Directory**.
+  1. Open your Azure Active Directory instance.
+  1. Click **Applications** tab.
+  1. Search for the application with the **ClientID** that was used by your project. You can find the **ClientID** by opening the **Web.config** file of your project.
+  
+    ![](Images/ClientIDAppSettings.png)
+
+    ![](Images/SearchApplication.png)
+
+  1. Click on the application searched out. This entry was made for you by the Office 365 APIs of Connected Service in Visual Studio.
+  1. Click **Configure**.
+  1. Scroll to the section entitled **Permissions to Other Applications**.
+  1. Examine the **Windows Azure Active Directory** permissions. These are the permissions you granted in Visual Studio.
+
+    ![](Images/18.png)
+
+  1. Click **Add application**.
+	
+	![](Images/AddApplication.png)
+
+  1. Select **Microsoft Graph**. Click **the check mark icon** at the bottom of the page.
+
+	![](Images/AddMicrosoftGraph.png)
+
+  1. From **Delegated Permissions** select **Read user calendars**. Click **Save** at the bottom of the page.
+
+	![](Images/MicrosoftGraphPermissions.png)
+
+1. Install library **Microsoft.Graph**.
+  1. Click **View/Other Windows/Package Manager Console**.
+  1. In the **Package Manager Console**, execute the following command:
+  	
+    ````powershell
+	Install-Package -Id Microsoft.Graph
+    ````
+1. Add class **SettingsHelper**.
+  1. Right click **OfficeOAuth** project, select **Add/Class**.
+  1. In the **Add Class** dialog, input **SettingsHelper** as the class name and click **Add**.
+  1. Change the class to static.
+  1. Add the following `using` statements after the existing `using` statements in the **SettingsHelper.cs** file:
+
+    ````c#
+	using System.Configuration;
+    ````
+
+  1. Input the code below into class **SettingsHelper**.
+  
+	````c#
+	public static string ClientID
+    {
+        get { return ConfigurationManager.AppSettings["ida:ClientID"]; }
+    }
+
+    public static string ClientSecret
+    {
+        get { return ConfigurationManager.AppSettings["ida:ClientSecret"]; }
+    }
+
+    public static string AADInstance
+    {
+        get { return ConfigurationManager.AppSettings["ida:AADInstance"]; }
+    }
+
+    public static string TenantId
+    {
+        get { return ConfigurationManager.AppSettings["ida:TenantId"]; }
+    }
+
+    public static string Authority
+    {
+        get { return AADInstance + TenantId; }
+    }
+	````
+
+	![](Images/SettingsHelper.png)
+ 	
+1. Add class **CalendarAPISample**.
+  1. Right click **OfficeOAuth** project, select **Add/Class**.
+  1. In the **Add Class** dialog, input **CalendarAPISample** as the class name and click **Add**.
+  1. Add the following `using` statements after the existing `using` statements in the **CalendarAPISample.cs** file:
+
+    ````c#
+	using System.Threading.Tasks;
+	using System.Net.Http.Headers;
+	using Microsoft.Graph;
+	using Microsoft.IdentityModel.Clients.ActiveDirectory;
+    ````
+
+  1. Input the code below into class **CalendarAPISample**.
+  	
+    ````c#
+    public static async Task<IOrderedEnumerable<Event>> GetCalendarEvents(string authCode)
+    {
+        var client = await EnsureClientCreated(authCode);
+        var eventsResults = await client.Me.Events.Request(new Option[] { new QueryOption("$top", "10") }).GetAsync();
+        return eventsResults.OrderBy(e => e.Start.DateTime);
+    }
+
+    public static async Task<GraphServiceClient> EnsureClientCreated(string authCode)
+    {
+        var graphToken = await GetAccessTokenByAuthenticationCodeAsync(authCode);
+        var authenticationProvider = new DelegateAuthenticationProvider(
+            (requestMessage) =>
+            {
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", graphToken);
+                return Task.FromResult(0);
+            });
+        return new GraphServiceClient(authenticationProvider);
+    }
+
+    public static async Task<String> GetAccessTokenByAuthenticationCodeAsync(string authCode)
+    {
+        var authResult = await new AuthenticationContext(SettingsHelper.Authority)
+            .AcquireTokenByAuthorizationCodeAsync(authCode,
+            new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)),
+            new ClientCredential(SettingsHelper.ClientID, SettingsHelper.ClientSecret));
+        return authResult.AccessToken;
+    }
+    ````
+
+	![](Images/CalendarAPISample.png)
+
 1. Update the Home Controller.
   1. Expand the **Controllers** folder and open **HomeController.cs**.
+  1. Add the following `using` statements after the existing `using` statements in the **HomeController.cs** file:
+
+    ````c#	
+	using System.Threading.Tasks;
+	using Microsoft.Graph;
+    ````
+
   1. Replace the **Index** method with the following code
   
     ````c#
-    public async Task<ActionResult> Index()
+    public async Task<ActionResult> Index(string code)
     {
-        IOrderedEnumerable<IEvent> events = await CalendarAPISample.GetCalendarEvents();
-        ViewBag.Events = events;
+        if (string.IsNullOrEmpty(code))
+        {
+            var GraphResourceId = "https://graph.microsoft.com";
+
+            string authorizationRequest = String.Format(
+                "{0}/oauth2/authorize?response_type=code&client_id={1}&resource={2}&redirect_uri={3}&state={4}",
+                SettingsHelper.Authority,
+                Uri.EscapeDataString(SettingsHelper.ClientID),
+                Uri.EscapeDataString(GraphResourceId),
+                Uri.EscapeDataString(string.Format("{0}/", Request.Url.GetLeftPart(UriPartial.Authority))),
+                Uri.EscapeDataString(Guid.NewGuid().ToString())
+                );
+
+            return new RedirectResult(authorizationRequest);
+        }
+        else
+        {
+            IOrderedEnumerable<Event> events = await CalendarAPISample.GetCalendarEvents(code);
+            ViewBag.Events = events;
+        }
         return View();
     }
     ````
@@ -162,10 +312,10 @@ In this exercise you create a new web application and examine the OAuth Authoriz
         {
           <tr>
             <td>
-                <div style="width:200px;">@Event.Start.ToString()</div>
+                <div style="width:200px;">@Event.Start.DateTime.ToString()</div>
             </td>
             <td>
-                <div style="width:200px;">@Event.End.ToString()</div>
+                <div style="width:200px;">@Event.End.DateTime.ToString()</div>
             </td>
             <td>
                 <div style="width:200px;">@Event.Subject</div>
@@ -181,7 +331,7 @@ In this exercise you create a new web application and examine the OAuth Authoriz
 
 1. Debug the add-in.
   1. Start **Fiddler**.
-  1. Press **F5** in Visual Studio 2013 to debug the application.
+  1. Press **F5** in Visual Studio 2015 to debug the application.
   1. When prompted, login to Office 365 with your managed account.
   1. Verify that the application displays your calendar information.
   1. In **Fiddler**, locate the session entry containing the query string parameter **code**. This is the Authorization Code returned from Azure Access Control Services.
@@ -196,16 +346,6 @@ In this exercise you create a new web application and examine the OAuth Authoriz
 
   1. Close the window.
   1. Stop debugging.
-1. Examine the Microsoft Azure configuration.
-  1. Log into the [Azure Management Portal](https://manage.windowsazure.com)
-  1. Click **Active Directory**.
-  1. Select your Azure Active Directory instance.
-  1. Click on the add-in entitled **OfficeOAuth.Office365App**. This entry was made for you by the Office 365 tools in Visual Studio.
-  1. Click **Configure**.
-  1. Scroll to the section entitled **Permissions to Other Applications**.
-  1. Examine the **Office 365 Exchange Online** permissions. These are the permissions you granted in Visual Studio.
-
-    ![Screenshot of the previous step](Images/18.png)
 
 In this exercise you created a new web application and examined the OAuth Authorization Code Flow.
 
@@ -217,11 +357,11 @@ In this exercise you create a new web application and examine the OAuth Client C
 ### Configure Azure AD Application for App-Only Authentication
 The first step is to create & configure an application in your Azure AD directory to support app-only permissions.
 
-1. Locate the starter project in the Starter project folder within this lab located at [\\\O3652\O3652-7 Deep Dive into Security and OAuth\Starter Project](/Starter Project). Open the Visual Studio solution **ClientCredsAddin.sln** in Visual Studio 2013.
+1. Locate the starter project in the Starter project folder within this lab located at [\\\O3652\O3652-7 Deep Dive into Security and OAuth\Starter Project](/Starter Project). Open the Visual Studio solution **ClientCredsAddin.sln** in Visual Studio 2015.
 1. Update the web project to use SSL by default:
   1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
   1. Change the property **SSL Enabled** to **TRUE**.
-  1. Copy the **URL** property to the clipboard for use in the next step.
+  1. Copy the **SSL URL** property to the clipboard for use in the next step.
   1. Save your changes.
 
     ![Screenshot of the previous step](Images/SslEnabled.png)
@@ -233,24 +373,26 @@ The first step is to create & configure an application in your Azure AD director
   1. Select the **Web** tab in the left margin.
   1. Find the section **Start Action**.
   1. Click the radio button **Start URL** and enter the **URL** of the web project that you copied from the previous step.
+  1. Save your changes.
 
+1. Install library **Microsoft.Graph**.
+  1. Click **View/Other Windows/Package Manager Console**.
+  1. In the **Package Manager Console**, execute the following command:
+  	
+    ````powershell
+	Install-Package -Id Microsoft.Graph
+    ````
+ 
 1. In the **Solution Explorer**, right click the **ClientCredsAddin** project and select **Add/Connected Service**.
-  1. In the **Services Manager** dialog:
-    1. Click **Register your app**.
-    1. When prompted, login with your **Organizational Account**.
-    1. Click **App Properties**.
-       1. Verify the option **Single Organization** is selected.
-       1. Click **Apply**.
-    ![Screenshot of the previous step](Images/29.png)
-    1. Click **Users and Groups**.
-       1. Click **Permissions...**.
-       2. Choose **Sign in and read user profile**.
-       3. Click **Apply**.
-    ![Screenshot of the previous step](Images/30.png)
-    1. Click **OK**.
+  1. In the **Add Connected Service** dialog, select **Office 365 APIs**. Click **Configure**.
+  1. In **Select Domain** section, input an Office 365 domain, click **Next**.
+  1. If prompted, **sign in** an account with appropriate privileges to access the Office 365 domain.
+  1. In **Configure Application** section, select **Create a new Azure AD application to access Office 365 API services**, uncheck **Configure Single Sign-On using Azure AD**, click **Next**.
+  1. In **Calendar**, **Contacts**, **Mail**, **My Files**, **Sites** section, select nothing.
+  1. In **Users and Groups**, only select **Sign you in and read your profile**, click **Finish**.
 
 1. Now you need to create a public-private key-pair certificate. Do this by creating a self-signed certificate:
-  1. Launch a Visual Studio Command Prompt: **Start / Visual Studio 2013 / Developer Command Prompt for VS2013**.
+  1. Launch a Visual Studio Command Prompt: **Start / Visual Studio 2015 / Developer Command Prompt for VS2015**.
   1. In the command prompt, run the following commands to create a new self-signed certificate:
 
     ````command
@@ -269,7 +411,8 @@ The first step is to create & configure an application in your Azure AD director
 
     ![Screenshot of the previous step](Images/20.png)
 
-  1. First export the public key by selecting **No, do not export the private key** and clicking **Next**.
+  1. Click **Next** on the wolcome page if it presents. 
+  1. Export the public key by selecting **No, do not export the private key** and clicking **Next**.
 
     ![Screenshot of the previous step](Images/21.png)
 
@@ -281,7 +424,7 @@ The first step is to create & configure an application in your Azure AD director
 
     ![Screenshot of the previous step](Images/22.png)
 
-  1. On the **Security** page, check the **Password** option and enter a password you will remember such as **password1** and click **Next**.
+  1. On the **Security** page, check the **Password** option and enter a password you will remember, click **Next**.
   1. Finally click **Finish** and save the certificate to the file system as **CertCredsAddin.pfx**.
 
 Now that you have the certificate public-private key pair, you need to add the public portion to the Azure AD application and that will be used by Azure AD to authenticate the request sent by the ASP.NET MVC web application
@@ -292,7 +435,7 @@ Now that you have the certificate public-private key pair, you need to add the p
 
     ````powershell
     $cer = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
-    $cer.Import("c:\certs\ClientCredsAddin.cer")
+    $cer.Import("<Path>\ClientCredsAddin.cer")
     $bin = $cer.GetRawCertData()
 
     $base64Value = [System.Convert]::ToBase64String($bin)
@@ -319,7 +462,7 @@ Now that you have the certificate public-private key pair, you need to add the p
   1. At the bottom of the page, click the **Manage Manifest** button and select **Download Manifest** to download a JSON manifest of the application. 
     ![Screenshot of the previous step](Images/33.png)
   1. Open the JSON file in a text editor & locate the section `"keyCredentials": [],`.
-  1. Add a JSON object to this empty array that matches looks like the following, but take care to update values **$base64Value**, **$base64Thumbprint** & **$keyId** from the values you obtained in PowerShell previously:
+  1. Add a JSON object to this empty array that matches the following, but take care to update values **$base64Value**, **$base64Thumbprint** & **$keyId** from the values you obtained in PowerShell previously:
 
     ````
     "keyCredentials": [
@@ -332,6 +475,8 @@ Now that you have the certificate public-private key pair, you need to add the p
       }
     ],
     ````
+    > Copying directly from PowerShell inserts line breaks in long strings, you may want to copy the **$base64Thumbprint** value to Notepad in order to correctly format the long strings.
+    
     ![Screenshot of the previous step](Images/34.png)
   1. Save your changes.
   1. Go back to the Azure Management Portal where your app is still selected.
@@ -341,9 +486,9 @@ Now that you have the certificate public-private key pair, you need to add the p
 
   1. Now, modify the permissions for the application to grant the application app-only permissions.
     1. Scroll down to the **permissions to other applications** section. 
-      1. Click **Add application**. In the popup window, add **Office 365 Exchange Online**
+      1. Click **Add application**. In the popup window, add **Microsoft Graph**
       ![Screenshot of the previous step](Images/40.png)
-      1. In the **Application Permissions** dropdown on the same line for **Office 365 Exchange Online**, select the following permission:
+      1. In the **Application Permissions** dropdown on the same line for **Microsoft Graph**, select the following permission:
       
         + Read mail in all mailboxes
      ![Screenshot of the previous step](Images/36.png)
@@ -353,22 +498,15 @@ Now that you have the certificate public-private key pair, you need to add the p
      ![Screenshot of the previous step](Images/37.png)
   1. Click the **Save** button at the bottom of the page.
 
-1. Before leaving Azure AD, collect two values that will be needed in the next step:
-  1. On the page for the Azure AD application, locate the **Client ID** GUID and copy it to a text file.
-  1. At the bottom of the page, click the **View Endpoints** button. All of the endpoints have a GUID near the start of them. Copy that GUID as that is the **tenant ID** or your Azure AD directory.
-    ![Screenshot of the previous step](Images/38.png)
-
 ### Setup the ASP.NET MVC Web Application for App-Only Authentication
 Now that the application is configured with the public certificate & necessary permissions in Azure AD, you can now update the ASP.NET MVC application for app-only permissions and leverage the client credentials OAuth flow.
 
 1. Ensure you have the starter project **ClientCredsAddin** open in Visual Studio.
 1. Open the `web.config` and set the following values in the `<appSettings>` section:
-  - **ida:ClientID**: This is the Client ID of the Azure AD application you obtained in the Azure Management Portal.
-  - **ida:AadTenantID**: This is the Tenant ID of the Azure AD directory you obtained in the Azure Management Portal.
   - **ida:CertPfxFilePath**: Enter `~/Content/CertCredsAddin.pfx` and copy the `CertCredsAddin.pfx` file to the **Content** folder in the project. *In a real application you will want to put this certificate in a safe place on your production server and not the root of the web application, but for this lab this is sufficient.*
   - **ida:CertPfxFilePassword**: Enter the password you used when exporting the private `CertCredsAddin.pfx` file.
     ![Screenshot of the previous step](Images/39.png)
-1. Assembly references are not added to the starter projects in Universal Apps, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
+1. Assembly references are not added to the starter projects, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
 	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
 	2. Click **Restore** to restore all missing NuGet packages.
 	![Screenshot of the previous step](Images/28.png)
@@ -394,7 +532,7 @@ Now that the application is configured with the public certificate & necessary p
     using ClientCredsAddin.Utils;
     ````
 
-  1. Because apps that use application permissions & the client credentials flow require the global tenant administrator for the Azure AD directory to explicitly grant them access, add a route that will handle the user triggering this request. Notice a few things in this method:
+  1. Because apps that use application permissions & the client credentials flow require the global tenant administrator for the Azure AD directory to explicitly grant them access, add a route that will handle the user triggering this request by adding the following code to the **AccountController** class. Notice a few things in this method:
     - The request includes **response_type=code+id_token** which will retrieve OpenID token identifying the user who logged in and granted the consent.
     - The request specifies the user should be prompted to grant an administrator's consent to the application permissions as indicated by **prompt=admin_consent**.
     - Upon a successful authentication & granting the consent, redirect the app to **https://[MVC-App-Url-On-Localhost]/Account/Auth**, a route you will implement in a moment.
@@ -416,38 +554,34 @@ Now that the application is configured with the public certificate & necessary p
     ````
 
   1. Then you need to implement the route that Azure AD will send the user back to. Go ahead and add the following method to the **AccountController**, even though there will be some reference issues that we will implement in a moment. Take note of the following things:
-    - You will create a `AuthHelper` class that will aid in obtaining app-only access tokens.
+    - You will create an `AuthHelper` class that will aid in obtaining app-only access tokens.
     - The method extracts values from the OpenID token returned from Azure AD.
-    - A `AppState` class will be created that will contain the state information for the application & will be kept in a Session. *In a production app you might want to store this data in a server side cache for scalability and performance reasons.* 
+    - An `AppState` class will be created that will contain the state information for the application & will be kept in a Session. *In a production app you might want to store this data in a server side cache for scalability and performance reasons.* 
 
     ````c#
-    public async Task<ActionResult> Auth() {
-	   var authHelper = new AuthHelper();
-	   var appState = new AppState();
-	
-	   // get id token from successful AzureAD auth
-	   var openIdToken = AuthHelper.OpenIdToken(Request.Form["id_token"]);
-	   appState.TenantId = openIdToken.TenantId;
-	   appState.TenantDomain = openIdToken.Domain;
-	   appState.LoggedOnUser = openIdToken.UserPrincipalName;
-	
-	   // set app as authoirzed
-	   appState.AppIsAuthorized = true;
-	
-	   // obtain access token for graph client
-	   var aadGraphAccessToken = await authHelper.GetAppOnlyAccessToken(
-	     SettingsHelper.AzureAdGraphResourceId, 
-	     appState.TenantId);
-	
-	   // TODO LATER: get all users in the directory
-	
-	   // get access token for exchange online
-	   var exchangeOnlineAccessToken = await authHelper.GetAppOnlyAccessToken(SettingsHelper.ExchangeOnlineResourceId, appState.TenantId);
-	   appState.ExchangeOnlineAccessToken = exchangeOnlineAccessToken;
-	
-	   Session["ClientCredsAddinAppState"] = appState;
-	
-	   return new RedirectResult("/Mail");
+    public async Task<ActionResult> Auth()
+    {
+        var authHelper = new AuthHelper();
+        var appState = new AppState();
+
+        // get id token from successful AzureAD auth
+        var openIdToken = AuthHelper.OpenIdToken(Request.Form["id_token"]);
+        appState.TenantId = openIdToken.TenantId;
+        appState.TenantDomain = openIdToken.Domain;
+        appState.LoggedOnUser = openIdToken.UserPrincipalName;
+
+        // set app as authoirzed
+        appState.AppIsAuthorized = true;
+
+        // obtain access token for graph client
+        var appOnlyGraphToken = await authHelper.GetAppOnlyAccessToken(SettingsHelper.GraphResourceId);
+        appState.AppOnlyGraphToken = appOnlyGraphToken;
+
+        // TODO LATER: get all users in the directory
+
+        Session["ClientCredsAddinAppState"] = appState;
+
+        return new RedirectResult("/Mail");
     }
     ````
 
@@ -485,18 +619,20 @@ Now that the application is configured with the public certificate & necessary p
   1. Create the `AuthHelper` utility class that will be used to handle the heavy lifting part of getting access tokens and processing OpenID tokens.
     1. Add a new class to the **Utils** folder named **AuthHelper.cs**.
     1. Ensure the following using statements are present at the top of the file:    
-      ````c#
-      using System;
-      using System.Collections.Generic;
-      using System.IdentityModel.Tokens;
-      using System.Linq;
-      using System.Security.Cryptography.X509Certificates;
-      using System.Threading.Tasks;
-      using System.Web;
-      using ClientCredsAddin.Models;
-      using Microsoft.IdentityModel.Clients.ActiveDirectory;
-      using Newtonsoft.Json;
-      ````
+		````c#
+		using System;
+		using System.Collections.Generic;
+		using System.Linq;
+		using System.Web;
+		using System.Net.Http.Headers;
+		using System.Threading.Tasks;
+		using System.IdentityModel.Tokens;
+		using System.Security.Cryptography.X509Certificates;
+		using Microsoft.Graph;
+		using Microsoft.IdentityModel.Clients.ActiveDirectory;
+		using Newtonsoft.Json;
+		using ClientCredsAddin.Models;
+		````
     1. Add the following methods to the `AuthHelper` class to process the OpenID JWT token returned from Azure AD:    
        ````c#
        public static JwtToken OpenIdToken(string idToken)
@@ -515,7 +651,7 @@ Now that the application is configured with the public certificate & necessary p
        ````
     1. Add the following method to the `AuthHelper` class to obtain an app-only OAuth access token from Azure AD for the specified resource:
        ````c#
-       public async Task<string> GetAppOnlyAccessToken(string resource, string tenantId)
+       public async Task<string> GetAppOnlyAccessToken(string resource)
        {
          string authority = SettingsHelper.AzureADAuthority;
          var authContext = new Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext(authority, false);
@@ -533,75 +669,71 @@ Now that the application is configured with the public certificate & necessary p
        }
        ````
 
+    1. Add the following method to the `AuthHelper` class to create GraphServiceClient object:
+       ````c#
+       public static GraphServiceClient GetGraphServiceClient(string token)
+	   {
+	       var authenticationProvider = new DelegateAuthenticationProvider(
+	           (requestMessage) =>
+	           {
+	               requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+	               return Task.FromResult(0);
+	           });
+	       return new GraphServiceClient(authenticationProvider);
+	   }
+       ````
+
   1. Finally, add a class to hold the application state that will be stored in the session state. Add a class named **AppState** to the **Models** folder and add the following code to it:
 
     ````c#
-    using System;
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Web;
 	
-	namespace ClientCredsAddin.Models {
-	  public class AppState {
-	    public string TenantId { get; set; }
-	    public string TenantDomain { get; set; }
-	    public string LoggedOnUser { get; set; }
-	    public bool AppIsAuthorized { get; set; }
-	    public string ExchangeOnlineAccessToken { get; set; }
+	namespace ClientCredsAddin.Models
+	{
+	    public class AppState
+	    {
+	        public string TenantId { get; set; }
+	        public string TenantDomain { get; set; }
+	        public string LoggedOnUser { get; set; }
+	        public bool AppIsAuthorized { get; set; }
+	        public string AppOnlyGraphToken { get; set; }
 	
-	    public Dictionary<string,string> MailboxList { get; set; }
+	        public Dictionary<string, string> MailboxList { get; set; }
 	
-	    public AppState() {
-	      this.AppIsAuthorized = false;
-	      this.MailboxList = new Dictionary<string, string>();
+	        public AppState()
+	        {
+	            this.AppIsAuthorized = false;
+	            this.MailboxList = new Dictionary<string, string>();
+	        }
 	    }
-	  }
 	}
     ````
 
 ### Get Users From Azure AD Directory with App-Only Permissions
 With authentication setup with the application in Azure AD and in the ASP.NET MVC web application, you can add the code that will get some data to display in the interface.
 
-1. First create a repository object that will handle retrieving users from the Azure AD directory using the Graph REST API:
+1. First create a repository object that will handle retrieving users from the Azure AD directory using the Graph SDK API:
   1. Add a new class named **GraphRepository** to the **Models** folder.
   2. Ensure the following `using` statements are present at the top of the file:
 
     ````c#
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using System.Web;
-    using ClientCredsAddin.Models.JsonHelpers;
-    using ClientCredsAddin.Utils;
-    using Newtonsoft.Json;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using ClientCredsAddin.Utils;
     ````
 
-  1. Next, add the following method in the **GraphRepository** class to retrieve and return a collection of users from the Azure AD directory using the Azure AD graph REST API:
+  1. Next, add the following method in the **GraphRepository** class to retrieve and return a collection of users from the Azure AD directory using the Azure AD graph SDK API:
 
     ````c#
-    public async Task<Dictionary<string, string>> GetUsers(string accessToken) {
-      string graphQuery = SettingsHelper.AzureAdGraphEndpoint + "users?api-version=2013-04-05";
-
-      HttpClient client = new HttpClient();
-      client.DefaultRequestHeaders.Add("Accept", "application/json;odata=verbose");
-      client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-      // these headers should be added when doing app-only for auditing purposes
-      client.DefaultRequestHeaders.Add("client-request-id", Guid.NewGuid().ToString());
-      client.DefaultRequestHeaders.Add("return-client-request-id", "true");
-      client.DefaultRequestHeaders.Add("UserAgent", "OfficeDev-ClientCredsAddin-HOL");
-
-      // create request
-      HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, graphQuery);
-
-      // issue request & get response
-      var response = await client.SendAsync(request);
-      string responseString = await response.Content.ReadAsStringAsync();
-      // convert response to object
-      var jsonResponse = JsonConvert.DeserializeObject<AadUserResponseJson>(responseString);
-
-      return jsonResponse.Data.Users.ToDictionary(user => user.objectId, user => user.mail);
+    public async Task<Dictionary<string, string>> GetUsers(string graphToken)
+    {
+        var users = await AuthHelper.GetGraphServiceClient(graphToken).Users.Request().GetAsync();
+        return users.Where(u => !string.IsNullOrEmpty(u.Mail) && u.Mail.EndsWith(SettingsHelper.AzureAdDomain)).ToDictionary(user => user.Id, user => user.Mail);
     }
     ````
 
@@ -609,27 +741,23 @@ With authentication setup with the application in Azure AD and in the ASP.NET MV
 
     ````c#    
     var graphRepo = new GraphRepository();
-    var users = await graphRepo.GetUsers(aadGraphAccessToken);
+    var users = await graphRepo.GetUsers(appOnlyGraphToken);
     appState.MailboxList = users;
     ````
 
 ### Retrieve Any User's Email Messages with App-Only Permissions
 Now that you have the users in the directory, you can use the same app-only access token technique to get all the email messages for any user within the directory.
 
-1. Create a repository object that will handle retrieving users from the Azure AD directory using the Graph REST API:
+1. Create a repository object that will handle retrieving users from the Azure AD directory using the Graph SDK API:
   1. Add a new class named **MessageRepository** to the **Models** folder.
   2. Ensure the following `using` statements are present at the top of the file:
 
     ````c#
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using System.Web;
-    using ClientCredsAddin.Models.JsonHelpers;
-    using ClientCredsAddin.Utils;
-    using Newtonsoft.Json;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using ClientCredsAddin.Utils;
     ````
 
   1. Next, add the following private field and constructor to the `MessageRepository` class to keep the app-only access token when creating the repository object:
@@ -642,36 +770,19 @@ Now that you have the users in the directory, you can use the same app-only acce
     }
     ````
 
-  1. Add the following method to retrieve all messages from the specified user's mailbox using the Office 365 Mail REST API:
+  1. Add the following method to retrieve all messages from the specified user's mailbox using the Graph SDK API:
 
     ````c#
-    public async Task<List<string>> GetMessages(string mailboxId) {
-      var mailQuery = string.Format("{0}api/v1.0/users('{1}')/folders/inbox/messages?$top=10&?select=Subject",
-        SettingsHelper.ExchangeOnlineEndpoint, mailboxId);
-
-      HttpClient client = new HttpClient();
-      client.DefaultRequestHeaders.Add("Accept", "application/json");
-      client.DefaultRequestHeaders.Add("Authorization", "Bearer " + _accessToken);
-      // these headers should be added when doing app-only for auditing purposes
-      client.DefaultRequestHeaders.Add("client-request-id", Guid.NewGuid().ToString());
-      client.DefaultRequestHeaders.Add("return-client-request-id", "true");
-      client.DefaultRequestHeaders.Add("UserAgent", "OfficeDev-ClientCredsAddin-HOL");
-
-      // create request
-      HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, mailQuery);
-
-      // issue request & get response
-      var response = await client.SendAsync(request);
-      string responseString = await response.Content.ReadAsStringAsync();
-      // convert response to object
-      var jsonResponse = JsonConvert.DeserializeObject<ExchangeMessageReponseJson>(responseString);
-
-      return jsonResponse.Message.Select(message => message.Subject).ToList();
+    public async Task<List<string>> GetMessages(string userId)
+    {
+        var graphClient = AuthHelper.GetGraphServiceClient(_accessToken);
+        var messages = await graphClient.Users[userId].Messages.Request().Top(10).Select("Subject").GetAsync();
+        return messages.Select(m => m.Subject).ToList();
     }
     ````
 
 ### Display Any User's Emails
-The ASP.NET MVC web application now contains all the *worker* code to authenticate, obtain access tokens and retrieve users and messages using different REST APIs. The last step is to create a controller & view that brings it all together.
+The ASP.NET MVC web application now contains all the *worker* code to authenticate, obtain access tokens and retrieve users and messages using different Graph SDK APIs. The last step is to create a controller & view that brings it all together.
 
 1. Add a controller to the web application:
   1. Right-click the **Controllers** folder and select **Add/Controller**.
@@ -827,27 +938,30 @@ The ASP.NET MVC web application now contains all the *worker* code to authentica
     ````c#
     [HttpPost]
     [MultipleButton(Name = "action", Argument = "viewMailboxMessages")]
-    public async Task<ActionResult> ListEmailMessages() {
-	    var appState = Session["ClientCredsAddinAppState"] as AppState;
-	
-	    // get requested mailbox
-	    var requestedMailbox = Request.Form["Mailbox"];
-	
-	    // build view model
-	    var viewModel = new MailViewModel {
-	      AppState = appState,
-	      SelectedMailbox = requestedMailbox,
-	      UserListSelectors = GetMailboxSelectOptions(appState.MailboxList)
-	    };
-	
-	    // get messages
-	    var repo = new MessageRepository(viewModel.AppState.ExchangeOnlineAccessToken);
-	    var results = await repo.GetMessages(requestedMailbox);
-	
-	    viewModel.SelectedMailbox = requestedMailbox;
-	    viewModel.Messages = results;
-	
-	    return View("Index", viewModel);
+    public async Task<ActionResult> ListEmailMessages()
+    {
+        var appState = Session["ClientCredsAddinAppState"] as AppState;
+
+        // get requested mailbox
+        var requestedMailbox = Request.Form["Mailbox"];
+
+        // build view model
+        var viewModel = new MailViewModel
+        {
+            AppState = appState,
+            SelectedMailbox = requestedMailbox,
+            UserListSelectors = GetMailboxSelectOptions(appState.MailboxList)
+        };
+
+        // get messages
+        var repo = new MessageRepository(viewModel.AppState.AppOnlyGraphToken);
+        var mailBox = appState.MailboxList.Where(pair => pair.Value == requestedMailbox).FirstOrDefault();
+        var results = await repo.GetMessages(mailBox.Key);
+
+        viewModel.SelectedMailbox = requestedMailbox;
+        viewModel.Messages = results;
+
+        return View("Index", viewModel);
     }
     ````
 

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Security.Authentication.Web;
 using Windows.Storage;
+using Microsoft.Graph;
+using System.Net.Http.Headers;
 
 namespace O365_Win_Profile
 {
@@ -31,7 +33,7 @@ namespace O365_Win_Profile
 
 
         // TODO:s Add your redirect URI value here.
-        private static Uri redirectUri = new Uri("http://localhost/microsoftgraphapi");
+        private static Uri redirectUri = new Uri(" ");
 
         public static ApplicationDataContainer _settings = ApplicationData.Current.LocalSettings;
 
@@ -130,6 +132,14 @@ namespace O365_Win_Profile
         /// Checks that an OutlookServicesClient object is available. 
         /// </summary>
         /// <returns>The OutlookServicesClient object. </returns>
+        public static async Task<GraphServiceClient> GetGraphServiceAsync(string url)
+        {
+            return null;
+        }
+        /// <summary>
+        /// Checks that an OutlookServicesClient object is available. 
+        /// </summary>
+        /// <returns>The OutlookServicesClient object. </returns>
         public static async Task<string> GetGraphAccessTokenAsync()
         {
             try
@@ -148,14 +158,6 @@ namespace O365_Win_Profile
 
                 // Create an AuthenticationContext using this authority.
                 _authenticationContext = new AuthenticationContext(authority);
-
-
-                // Set the value of _authenticationContext.UseCorporateNetwork to true so that you 
-                // can use this app inside a corporate intranet. If the value of UseCorporateNetwork 
-                // is true, you also need to add the Enterprise Authentication, Private Networks, and
-                // Shared User Certificates capabilities in the Package.appxmanifest file.
-
-                _authenticationContext.UseCorporateNetwork = true;
 
                 var token = await GetTokenHelperAsync(_authenticationContext, ResourceUrl);
 
@@ -202,10 +204,14 @@ namespace O365_Win_Profile
             string accessToken = null;
             AuthenticationResult result = null;
 
-            result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri);
-
-            if (result.Status == AuthenticationStatus.Success)
+            try
             {
+                // can use this app inside a corporate intranet. If the value of UseCorporateNetwork 
+                // is true, you also need to add the Enterprise Authentication, Private Networks, and
+                // Shared User Certificates capabilities in the Package.appxmanifest file.
+                var platformParameters = new PlatformParameters(PromptBehavior.Auto, true);
+
+                result = await context.AcquireTokenAsync(resourceId, ClientID, redirectUri, platformParameters);
                 accessToken = result.AccessToken;
                 //Store values for logged-in user, tenant id, and authority, so that
                 //they can be re-used if the user re-opens the app without disconnecting.
@@ -217,7 +223,8 @@ namespace O365_Win_Profile
                 AccessToken = accessToken;
                 return accessToken;
             }
-            else {
+            catch
+            {
                 return null;
             }
         }

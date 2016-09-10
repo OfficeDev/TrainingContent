@@ -9,6 +9,7 @@
     android:orientation="vertical"
     tools:context="com.example.o365testapp.MainActivity">
 
+    <!-- TODO: put your view elements here -->
     <Button
         android:id="@+id/retrieve_inbox_button"
         android:layout_width="match_parent"
@@ -32,5 +33,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create a Folder" />
-
 </LinearLayout>

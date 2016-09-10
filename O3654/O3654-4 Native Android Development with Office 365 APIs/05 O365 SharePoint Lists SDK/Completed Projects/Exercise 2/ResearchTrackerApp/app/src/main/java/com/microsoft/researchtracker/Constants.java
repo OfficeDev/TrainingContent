@@ -3,7 +3,7 @@ package com.microsoft.researchtracker;
 public final class Constants {
 
     public static final String SHAREPOINT_URL = "https://<TODO MY TENANT>.sharepoint.com";
-    public static final String SHAREPOINT_SITE_PATH = "";
+    public static final String SHAREPOINT_SITE_PATH = "<TODO SITE RELATIVE PATH>";
 
     public static final String AAD_CLIENT_ID = "<TODO CLIENT ID>";
     public static final String AAD_AUTHORITY = "https://login.windows.net/common";

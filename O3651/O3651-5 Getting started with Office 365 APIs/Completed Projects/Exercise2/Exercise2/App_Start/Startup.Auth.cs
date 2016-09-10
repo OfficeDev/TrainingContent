@@ -11,10 +11,10 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Owin;
-using Exercise2.Models;
-using Exercise2.Utils;
+using Exercise.Models;
+using Exercise.Utils;
 
-namespace Exercise2
+namespace Exercise
 {
     public partial class Startup
     {

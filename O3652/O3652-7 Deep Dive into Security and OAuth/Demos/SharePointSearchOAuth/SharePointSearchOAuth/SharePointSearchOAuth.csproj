@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B3278458-4629-4DC1-B43D-88CA20438092}</ProjectGuid>
+    <ProjectGuid>{9DDC055B-8CA8-4EA9-8D3A-33FA3A6553EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharePointSearchOAuth</RootNamespace>
     <AssemblyName>SharePointSearchOAuth</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetOfficeVersion>16.0</TargetOfficeVersion>
+    <TargetOfficeVersion>16.1</TargetOfficeVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
-    <MinimumOfficeToolsVersion>12.1</MinimumOfficeToolsVersion>
+    <MinimumOfficeToolsVersion>12.2</MinimumOfficeToolsVersion>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
     <ProjectMode>SharePointApp</ProjectMode>
-    <AppFeaturePartId>{ccdd9c9a-e75f-4486-8852-bee50b0ee25c}</AppFeaturePartId>
-    <WspPartId>{0ee7d580-201f-455e-b3d6-a1ce173bbad5}</WspPartId>
-    <WorkflowPartId>{1f76dd5b-82a5-4bc9-b41c-15bcf063383b}</WorkflowPartId>
-    <CspkgPartId>{16e75628-45cb-4cd7-ae71-c23d57d53bf3}</CspkgPartId>
-    <SqlPackagePartId>{8544bf9a-560e-4320-9110-2fb2092faed2}</SqlPackagePartId>
+    <AppFeaturePartId>{cc3691a6-4cfc-4b27-9693-8b40f2fd3021}</AppFeaturePartId>
+    <WspPartId>{6a7018bf-eaba-4689-bbad-61d5826b83f6}</WspPartId>
+    <WorkflowPartId>{24045247-fe53-45f1-8df2-adfbcfb92778}</WorkflowPartId>
+    <CspkgPartId>{6eb8e67e-fc84-466a-8df7-902c02ba685d}</CspkgPartId>
+    <SqlPackagePartId>{9d7b8684-9d40-4160-b2fb-a6f653a12195}</SqlPackagePartId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharePointSearchOAuthWeb\SharePointSearchOAuthWeb.csproj">
-      <Project>{77BFA298-7C6A-4017-ACF2-059EF72B7AC0}</Project>
+      <Project>{D6183EEE-A85C-4423-B895-096582225BDD}</Project>
       <Name>SharePointSearchOAuthWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>

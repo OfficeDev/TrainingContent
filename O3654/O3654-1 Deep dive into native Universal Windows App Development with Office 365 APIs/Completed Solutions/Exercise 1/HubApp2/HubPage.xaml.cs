@@ -71,8 +71,10 @@ namespace HubApp2
         {
             var calendarDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
             this.DefaultViewModel["CalendarItems"] = calendarDataGroup;
-            var fileDataGroup = await SampleDataSource.GetGroupAsync("Group-4");
-            this.defaultViewModel["FileItems"] = fileDataGroup;
+            var contactDataGroup = await SampleDataSource.GetGroupAsync("Group-2");
+            this.defaultViewModel["ContactItems"] = contactDataGroup;
+            var mailDataGroup = await SampleDataSource.GetGroupAsync("Group-3");
+            this.defaultViewModel["MailItems"] = mailDataGroup;
         }
 
         /// <summary>

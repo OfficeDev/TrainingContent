@@ -2,7 +2,7 @@
 //  CalendarTableViewController.h
 //  IOSOffice365Calendar
 //
-//  Created by canviz on 12/24/15.
+//  Created by Microsoft on 12/24/15.
 //  Copyright © 2015 MS Open Tech. All rights reserved.
 //
 

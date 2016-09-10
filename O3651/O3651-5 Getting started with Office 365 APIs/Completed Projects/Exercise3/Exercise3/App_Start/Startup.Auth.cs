@@ -11,9 +11,9 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Owin;
-using Exercise3.Models;
+using Exercise.Models;
 
-namespace Exercise3
+namespace Exercise
 {
     public partial class Startup
     {

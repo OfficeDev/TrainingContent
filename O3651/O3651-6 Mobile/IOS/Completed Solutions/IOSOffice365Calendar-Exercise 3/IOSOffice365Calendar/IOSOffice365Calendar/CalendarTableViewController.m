@@ -27,13 +27,12 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)initGraphClient:(MSGraphServiceClient *)client{
+-(void)initGraphClient:(MSGraphClient *)client{
     self.graphCilent = client;
 }
 
 -(void)getEvents
 {
-    self.eventsList = [[NSMutableArray alloc] init];
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(100,100,50,50)];
     spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
     [spinner setColor:[UIColor blackColor]];
@@ -48,10 +47,13 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy'-'MM'-'dd"];
     NSString *lastMonth =[formatter stringFromDate: [calendar dateFromComponents:components]];
-    NSString *filter =[NSString stringWithFormat:@"Start/DateTime ge '%@'&$top=100",lastMonth];
-    MSGraphServiceEventCollectionFetcher * eventsCollectionFetcher = [[[[self.graphCilent me] events]  filter:filter] select:@"subject,start,end"];
-    [eventsCollectionFetcher readWithCallback:^(NSArray *events, MSOrcError *error) {
-        for(MSGraphServiceEvent* event in events ) {
+    NSString *filterValue =[NSString stringWithFormat:@"Start/DateTime ge '%@'",lastMonth];
+    MSQueryParameters* filter = [[MSQueryParameters alloc] initWithKey: @"$filter" value:filterValue];
+    MSTopOptions* top = [MSTopOptions top:100];
+    MSSelectOptions* select = [MSSelectOptions select:@"subject,start,end"];
+    NSArray *options = [NSArray arrayWithObjects: filter, top, select, nil];
+    [[[[self.graphCilent me] events] requestWithOptions:options] getWithCompletion:^(MSCollection *response, MSGraphUserEventsCollectionRequest *nextRequest, NSError *error) {
+        for(MSGraphEvent* event in response.value ) {
             [self.eventsList addObject:event];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -61,6 +63,7 @@
         });
     }];
 }
+
 
 - (UIImage *)imageWithColor:(UIColor *)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
@@ -146,14 +149,12 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
     UILabel *subjectLabel = (UILabel *)[cell viewWithTag:100];
-    subjectLabel.text = ((MSGraphServiceEvent *)[self.eventsList objectAtIndex:indexPath.row]).subject;;
+    subjectLabel.text = ((MSGraphEvent *)[self.eventsList objectAtIndex:indexPath.row]).subject;;
     UILabel *startLabel = (UILabel *)[cell viewWithTag:200];
-    startLabel.text = [NSString stringWithFormat:@"Start: %@",[self converStringToDateString:((MSGraphServiceEvent *)[self.eventsList objectAtIndex:indexPath.row]).start.dateTime]];
+    startLabel.text = [NSString stringWithFormat:@"Start: %@",[self converStringToDateString:((MSGraphEvent *)[self.eventsList objectAtIndex:indexPath.row]).start.dateTime]];
     UILabel *endLabel = (UILabel *)[cell viewWithTag:300];
-    endLabel.text = [NSString stringWithFormat:@"End: %@",[self converStringToDateString:((MSGraphServiceEvent *)[self.eventsList objectAtIndex:indexPath.row]).end.dateTime]];
-    
+    endLabel.text = [NSString stringWithFormat:@"End: %@",[self converStringToDateString:((MSGraphEvent *)[self.eventsList objectAtIndex:indexPath.row]).end.dateTime]];
     return cell;
 }
 

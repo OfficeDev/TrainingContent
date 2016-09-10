@@ -1,0 +1,35 @@
+﻿@model Office365Mail.Models.MyMessage
+@{ ViewBag.Title = "Message Details";}
+<h2>Message Details</h2>
+<div>
+    <h4>MyMessage</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Subject)</dt>
+        <dd>@Html.DisplayFor(model => model.Subject)</dd>
+        <dt>@Html.DisplayNameFor(model => model.DateTimeSent)</dt>
+        <dd>@Html.DisplayFor(model => model.DateTimeSent)</dd>
+        <dt>@Html.DisplayNameFor(model => model.DateTimeReceived)</dt>
+        <dd>@Html.DisplayFor(model => model.DateTimeReceived)</dd>
+        <dt>From</dt>
+        <dd>
+            @Html.DisplayFor(model => model.FromName)<br />
+            @Html.DisplayFor(model => model.FromEmailAddress)
+        </dd>
+
+        <dt>To</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ToName)<br />
+            @Html.DisplayFor(model => model.ToEmailAddress)
+        </dd>
+    </dl>
+
+    <h4>Message Body</h4>
+    <hr />
+    <div style="overflow-y: auto; max-height: 300px;">
+        @Html.Raw(HttpUtility.HtmlDecode(Model.Body))
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to Message List", "Index")
+</p>

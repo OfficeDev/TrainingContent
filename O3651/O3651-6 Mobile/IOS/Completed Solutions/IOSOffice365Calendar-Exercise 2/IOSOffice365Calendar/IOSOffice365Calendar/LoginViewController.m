@@ -44,10 +44,9 @@
     NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
     NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     NSString* graphResourceId= [content objectForKey:@"resourceId"];
-    NSString* graphResourceURL= [content objectForKey:@"graphResourceUrl"];
     AuthenticationManager *authenticationManager = [AuthenticationManager sharedInstance];
     [authenticationManager acquireAuthTokenWithResourceId:graphResourceId
-                                        completionHandler:^(BOOL authenticated) {
+                                        completionHandler:^(BOOL authenticated, NSString* accessToken) {
                                             if(authenticated){
                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                     [self showMessage:@"Authentication Succeeded." withTitle:@"Success"];
@@ -60,7 +59,6 @@
                                                 });
                                             }
                                         }];
-    
 }
 -(IBAction)clearAction:(id)sender{
     AuthenticationManager *authenticationManager = [AuthenticationManager sharedInstance];

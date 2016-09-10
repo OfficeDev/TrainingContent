@@ -7,7 +7,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -15,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
 
 namespace MyFilesWin10
 {
@@ -41,18 +41,17 @@ namespace MyFilesWin10
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected async override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             try
             {
                 string ClientID = App.Current.Resources["ida:ClientID"].ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageDialog md = new MessageDialog("The Client ID is missing. Please add the Client ID to the 'ida:ClientID' setting in App.xaml.");
                 await md.ShowAsync();
             }
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {

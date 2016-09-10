@@ -42,23 +42,29 @@ An access token is required to access the Microsoft Graph, so your application n
 
 	![Screenshot of the previous step](img/07.png)
 
-4. Now you need a few NuGet packages to Connect authentication in the application.  Execute the following commands in the Nuget Package Manager Console.
+4. In the **New Universal Windows Project** dialog, keep the default settings and click **OK**.  
+
+	![](img/07-target.png)
+
+	>**Note:** If you install an early version of Visual Studio Tools for Universal Windows Apps, this dialog won't pop up.
+5. Now you need a few NuGet packages to Connect authentication in the application.  Execute the following commands in the Nuget Package Manager Console.
 
    ````powershell
     PM> Install-Package -Id Microsoft.IdentityModel.Clients.ActiveDirectory
     PM> Install-Package -Id Newtonsoft.Json
+	PM> Install-Package -Id Microsoft.Graph
     ````
 
-5. Copy the file **AuthenticationHelper.cs** located the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into **WinOffice365Calendar** project root folder.
-6. Include the **AuthenticationHelper.cs** in the project.
+6. Copy the file **AuthenticationHelper.cs** located the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into **WinOffice365Calendar** project root folder.
+7. Include the **AuthenticationHelper.cs** in the project.
 
 	![Screenshot of the previous step](img/08.png)
 
-7. Open the **AuthenticationHelper.cs** file, and enter your redirect URL.
+8. Open the **AuthenticationHelper.cs** file, and enter your redirect URL.
 
 	![Screenshot of the previous step](img/09.png)
 
-8. Open **App.xaml**, and add the following code inside the Application element.
+9. Open **App.xaml**, and add the following code inside the Application element.
    
     ```xmal
     <Application.Resources>
@@ -74,13 +80,13 @@ An access token is required to access the Microsoft Graph, so your application n
     
     ![Screenshot of the previous step](img/10.png)
 
-9. Enter your **Client ID**
+10. Enter your **Client ID**
 
     ![Screenshot of the previous step](img/11.png)
 
-10. Copy the file **MainPage** located in the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into the **WinOffice365Calendar** project root folder and replace the existing file.
-11. Open the file **MainPage.xaml.cs**
-12. Add the following `using` statements after the existing `using` statements:
+11. Copy the file **MainPage.xaml** located in the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into the **WinOffice365Calendar** project root folder and replace the existing file.
+12. Open the file **MainPage.xaml.cs**
+13. Add the following `using` statements after the existing `using` statements:
 
     ```c#
     using System.Threading.Tasks;
@@ -88,7 +94,7 @@ An access token is required to access the Microsoft Graph, so your application n
     using Windows.UI.Popups;
     ```
 
-13. Add the following **OnNavigatedTo** method to **MainPage** class
+14. Add the following **OnNavigatedTo** method to **MainPage** class
  
 	```c#
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -101,7 +107,7 @@ An access token is required to access the Microsoft Graph, so your application n
     }
 	```
 
-13. Add the following **SignInCurrentUserAsync** method to authenticate with Azure AD.
+15. Add the following **SignInCurrentUserAsync** method to authenticate with Azure AD.
 
     ```c#
     public async Task SignInCurrentUserAsync()
@@ -114,7 +120,7 @@ An access token is required to access the Microsoft Graph, so your application n
     }
     ```
 
-14. Add the **connect button action** to sign in and sign out.
+16. Add the **connect button action** to sign in and sign out.
     ```c#
     //Toggle button for logging user in and out.
     private async void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -145,7 +151,7 @@ An access token is required to access the Microsoft Graph, so your application n
         ProgressBar.Visibility = Visibility.Collapsed;
     }
     ```
-15. Add the **ReloadButton_Click** to to **MainPage** class
+17. Add the **ReloadButton_Click** to to **MainPage** class
 
     ```c#
     private async void ReloadButton_Click(object sender, RoutedEventArgs e)
@@ -154,29 +160,29 @@ An access token is required to access the Microsoft Graph, so your application n
     }
     ```
 
-16. Configure the following settings for VS.
+18. Configure the following settings for VS.
 
     ![Screenshot of the previous step](img/13.png)
 
-17. Press **F5** to run the app.
+19. Press **F5** to run the app.
 
     ![Screenshot of the previous step](img/12.png)
 
-18. Click the **Connect** button.
+20. Click the **Connect** button.
 
     ![Screenshot of the previous step](img/14.png)
 
-19. Enter your email and password, then click the **Sign In** button.
-20. The message box will confirm a successful log in.  Click **OK**.
+21. Enter your email and password, then click the **Sign In** button.
+22. The message box will confirm a successful log in.  Click **OK**.
 
     ![Screenshot of the previous step](img/15.png)
 
-21. You can find debug message about access token in VS output window. 
+23. You can find debug message about access token in VS output window. 
 
     ![Screenshot of the previous step](img/21.png)
 
-22. Now you have authenticated successfully with Azure AD.
-22. Click the **Disconnect** button to sign out.
+24. Now you have authenticated successfully with Azure AD.
+25. Click the **Disconnect** button to sign out.
 
 ## Exercise 2: Access the Microsoft Graph to list calendar events
  
@@ -191,46 +197,62 @@ After returning the access token, we can access the Microsoft Graph to list cale
     
     ![Screenshot of the previous step](img/16.png)
 
-07. Add the following code to the **GetMyEvents** method in the **UserOperations.cs** class.
+07. Add the following code to the end in the **UserOperations.cs** class.
+
+	 ```c#
+	private GraphServiceClient GetGraphServiceClient()
+    {
+        var authenticationProvider = new DelegateAuthenticationProvider(
+            (requestMessage) =>
+            {
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationHelper.LastAccessToken);
+                return Task.FromResult(0);
+            });
+
+        return new GraphServiceClient(authenticationProvider);
+    }
+   ```
+
+   ![](img/17-1.png)
+
+08. Add the following code to the **GetMyEvents** method in the **UserOperations.cs** class.
 
 	 ```c#
 	List<EventModel> retEvents = null;
-	try
-	{
-		var restURL = string.Format("{0}/me/events?$filter=Start/DateTime ge '{1}'&$top=1000 ",
-		 AuthenticationHelper.ResourceBetaUrl,
-		 DateTime.Now.AddMonths(-1).ToString("yyyy/MM/dd HH:mm"));
-		string responseString = await GetJsonAsync(restURL);
-		
-		if (responseString != null)
-		{
-		    var jsonresult = JObject.Parse(responseString);
-		    retEvents = new List<EventModel>();
-		    foreach (var item in jsonresult["value"])
-		    {
-		        var subject = item["subject"].ToString();
-		        DateTime start = DateTime.Parse(item["start"]["dateTime"].ToString());
-		        DateTime end = DateTime.Parse(item["end"]["dateTime"].ToString());
-		        retEvents.Add(new EventModel
-		        {
-		            start = start.ToString("yyyy/MM/dd HH:mm"),
-		            end = end.ToString("yyyy/MM/dd HH:mm"),
-		            subject = subject
-		        });
-		    }
-		
-		}
-	}
-	catch (Exception el)
-	{
-		el.ToString();
-	}
-	return retEvents;
+    try
+    {
+        var graphClient = GetGraphServiceClient();
+        var filter = string.Format("Start/DateTime ge '{0}'", DateTime.Now.AddMonths(-1).ToString("yyyy/MM/dd HH:mm"));
+        var options = new Option[] { new QueryOption("$filter", filter), new QueryOption("top", "1000") };
+        var events = await graphClient.Me.Events.Request(options).GetAsync();
+        if (events != null)
+        {
+            retEvents = new List<EventModel>();
+            foreach (var item in events)
+            {
+                var subject = item.Subject;
+                DateTime start = DateTime.Parse(item.Start.DateTime);
+                DateTime end = DateTime.Parse(item.End.DateTime);
+                retEvents.Add(new EventModel
+                {
+                    start = start.ToString("yyyy/MM/dd HH:mm"),
+                    end = end.ToString("yyyy/MM/dd HH:mm"),
+                    subject = subject
+                });
+            }
+
+        }
+    }
+    catch (Exception el)
+    {
+        el.ToString();
+    }
+    return retEvents;
    ```
    
-   ![Screenshot of the previous step](img/17.png)
+   ![Screenshot of the previous step](img/17-2.png)
 
-08. Open the **MainPage.xaml.cs** file and add the following `using` statement after the existing `using` statements.
+09. Open the **MainPage.xaml.cs** file and add the following `using` statement after the existing `using` statements.
 
 	```c#
 	using WinOffice365Calendar.Model;

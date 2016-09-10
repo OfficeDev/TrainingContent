@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Exercise3.Utils;
+using Exercise.Utils;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Exercise3.Models;
+using Exercise.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using Microsoft.Graph;
 
-namespace Exercise3.Controllers
+namespace Exercise.Controllers
 {
     [Authorize]
     public class CalendarController : Controller
@@ -22,35 +23,21 @@ namespace Exercise3.Controllers
         {
             var eventsResults = new List<MyEvent>();
             var accessToken = await GetGraphAccessTokenAsync();
-            var restURL = string.Format("{0}me/events?$top=20&$skip=0", SettingsHelper.GraphResourceUrl);
 
             try
             {
-                using (HttpClient client = new HttpClient())
+                var graphService = GetGraphServiceClient(accessToken);
+                var request = graphService.Me.Events.Request(new Option[] { new QueryOption("top", "20"), new QueryOption("skip", "0") });
+                var userEventsCollectionPage = await request.GetAsync();
+                foreach (var evnt in userEventsCollectionPage)
                 {
-                    var accept = "application/json";
-
-                    client.DefaultRequestHeaders.Add("Accept", accept);
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                    using (var response = await client.GetAsync(restURL))
+                    eventsResults.Add(new MyEvent
                     {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var jsonresult = JObject.Parse(await response.Content.ReadAsStringAsync());
+                        Subject = !string.IsNullOrEmpty(evnt.Subject) ? evnt.Subject : string.Empty,
+                        Start = !string.IsNullOrEmpty(evnt.Start.DateTime) ? DateTime.Parse(evnt.Start.DateTime) : new DateTime(),
+                        End = !string.IsNullOrEmpty(evnt.End.DateTime) ? DateTime.Parse(evnt.End.DateTime) : new DateTime()
 
-                            foreach (var item in jsonresult["value"])
-                            {
-                                eventsResults.Add(new MyEvent
-                                {
-                                    Subject = !string.IsNullOrEmpty(item["subject"].ToString()) ? item["subject"].ToString() : string.Empty,
-                                    Start = !string.IsNullOrEmpty(item["start"]["dateTime"].ToString()) ? DateTime.Parse(item["start"]["dateTime"].ToString()) : new DateTime(),
-                                    End = !string.IsNullOrEmpty(item["end"]["dateTime"].ToString()) ? DateTime.Parse(item["end"]["dateTime"].ToString()) : new DateTime()
-
-                                });
-                            }
-                        }
-                    }
+                    });
                 }
             }
             catch (Exception el)
@@ -75,6 +62,18 @@ namespace Exercise3.Controllers
             var result = await authContext.AcquireTokenSilentAsync(SettingsHelper.AzureAdGraphResourceURL, clientCredential, userIdentifier);
 
             return result.AccessToken;
+        }
+
+        public static GraphServiceClient GetGraphServiceClient(string token)
+        {
+            var authenticationProvider = new DelegateAuthenticationProvider(
+                (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    return Task.FromResult(0);
+                });
+
+            return new GraphServiceClient(SettingsHelper.GraphResourceUrl, authenticationProvider);
         }
     }
 }

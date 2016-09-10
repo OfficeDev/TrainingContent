@@ -20,17 +20,15 @@ namespace Office365Contact.Controllers
             if (pageNumber == null)
                 pageNumber = 1;
 
-            // get list of entities
             List<MyContact> contacts = null;
             contacts = await _repo.GetContacts((int)pageNumber - 1, pageSize);
 
             ViewBag.pageNumber = pageNumber;
-            ViewBag.morePagesAvailable = _repo.MorePagesAvailable;
+            if (contacts != null)
+                ViewBag.morePagesAvailable = contacts.Count < pageSize ? false : true;
 
             return View(contacts);
-
         }
-
         [Authorize]
         public async Task<ActionResult> Delete(string id)
         {
@@ -42,7 +40,6 @@ namespace Office365Contact.Controllers
             return Redirect("/Contact");
 
         }
-
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Create()
@@ -59,7 +56,6 @@ namespace Office365Contact.Controllers
             await _repo.AddContact(myContact);
             return Redirect("/Contact");
         }
-
         [Authorize]
         public async Task<ActionResult> Details(string id)
         {

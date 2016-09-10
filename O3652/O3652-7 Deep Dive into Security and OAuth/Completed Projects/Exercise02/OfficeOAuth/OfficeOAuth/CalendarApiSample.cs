@@ -1,42 +1,42 @@
-﻿using Microsoft.Office365.Exchange;
-using Microsoft.Office365.OAuth;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Web;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using Microsoft.Graph;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace OfficeOAuth
 {
-    public static class CalendarAPISample
+    public class CalendarAPISample
     {
-        const string ExchangeResourceId = "https://outlook.office365.com";
-        const string ExchangeServiceRoot = "https://outlook.office365.com/ews/odata";
-
-        public static async Task<IOrderedEnumerable<IEvent>> GetCalendarEvents()
+        public static async Task<IOrderedEnumerable<Event>> GetCalendarEvents(string authCode)
         {
-            var client = await EnsureClientCreated();
-
-            // Obtain calendar event data
-            var eventsResults = await (from i in client.Me.Events
-                                      where i.End >= DateTimeOffset.UtcNow
-                                      select i).Take(10).ExecuteAsync();
-
-            var events = eventsResults.CurrentPage.OrderBy(e => e.Start);
-
-            return events;
+            var client = await EnsureClientCreated(authCode);
+            var eventsResults = await client.Me.Events.Request(new Option[] { new QueryOption("$top", "10") }).GetAsync();
+            return eventsResults.OrderBy(e => e.Start.DateTime);
         }
 
-        private static async Task<ExchangeClient> EnsureClientCreated()
+        public static async Task<GraphServiceClient> EnsureClientCreated(string authCode)
         {
-            Authenticator authenticator = new Authenticator();
-            var authInfo = await authenticator.AuthenticateAsync(ExchangeResourceId);
-
-            return new ExchangeClient(new Uri(ExchangeServiceRoot), authInfo.GetAccessToken);
+            var graphToken = await GetAccessTokenByAuthenticationCodeAsync(authCode);
+            var authenticationProvider = new DelegateAuthenticationProvider(
+                (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", graphToken);
+                    return Task.FromResult(0);
+                });
+            return new GraphServiceClient(authenticationProvider);
         }
-        public static void SignOut(Uri postLogoutRedirect)
+
+        public static async Task<String> GetAccessTokenByAuthenticationCodeAsync(string authCode)
         {
-            new Authenticator().Logout(postLogoutRedirect);
+            var authResult = await new AuthenticationContext(SettingsHelper.Authority)
+                .AcquireTokenByAuthorizationCodeAsync(authCode,
+                new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)),
+                new ClientCredential(SettingsHelper.ClientID, SettingsHelper.ClientSecret));
+            return authResult.AccessToken;
         }
     }
 }

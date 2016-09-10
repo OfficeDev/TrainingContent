@@ -11,9 +11,9 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Exercise3.Models;
+using Exercise.Models;
 
-namespace Exercise3.Controllers
+namespace Exercise.Controllers
 {
     [Authorize]
     public class UserProfileController : Controller

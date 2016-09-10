@@ -5,7 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace Exercise1.Models
+namespace Exercise.Models
 {
     public class ApplicationDbContext : DbContext
     {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Exercise2.Models {
+namespace Exercise.Models {
   public class PerWebUserCache {
     [Key]
     public int EntryId { get; set; }

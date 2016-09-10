@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1881251F-4C6F-4F41-9745-E997620B124F}</ProjectGuid>
+    <ProjectGuid>{33367319-E53F-405C-9D45-9509BDF6CC65}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProviderHostedOAuth</RootNamespace>
     <AssemblyName>ProviderHostedOAuth</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetOfficeVersion>16.0</TargetOfficeVersion>
+    <TargetOfficeVersion>16.1</TargetOfficeVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
-    <MinimumOfficeToolsVersion>12.1</MinimumOfficeToolsVersion>
+    <MinimumOfficeToolsVersion>12.2</MinimumOfficeToolsVersion>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
     <ProjectMode>SharePointApp</ProjectMode>
-    <AppFeaturePartId>{1a2b0412-f42d-4d52-af15-5553547e2de6}</AppFeaturePartId>
-    <WspPartId>{67354dd4-d165-4848-a29d-6f637ab9c7c7}</WspPartId>
-    <WorkflowPartId>{9a47d04e-1e32-4d82-b3be-0a3b541ce088}</WorkflowPartId>
-    <CspkgPartId>{5215f446-9114-4efe-a009-e53eb8e36e6b}</CspkgPartId>
-    <SqlPackagePartId>{a9a73a0a-8acb-4f6d-a4ca-de3498a82cd8}</SqlPackagePartId>
+    <AppFeaturePartId>{242c2edc-ec22-40be-939d-b30c7d648e60}</AppFeaturePartId>
+    <WspPartId>{c6b0d52d-bafe-46fb-b704-669660d6b35f}</WspPartId>
+    <WorkflowPartId>{7a69cdf1-890d-4b9e-acb5-6f3113605009}</WorkflowPartId>
+    <CspkgPartId>{d4dcdfb5-6558-4f7b-867f-53d87e5540f9}</CspkgPartId>
+    <SqlPackagePartId>{499b760a-6524-4e80-9173-a79f2580d9a4}</SqlPackagePartId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProviderHostedOAuthWeb\ProviderHostedOAuthWeb.csproj">
-      <Project>{CC313625-63E7-47C8-930E-3187DE42FC68}</Project>
+      <Project>{AC0BFDB9-99E5-45DE-9E2A-5C8BC3722B8D}</Project>
       <Name>ProviderHostedOAuthWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>

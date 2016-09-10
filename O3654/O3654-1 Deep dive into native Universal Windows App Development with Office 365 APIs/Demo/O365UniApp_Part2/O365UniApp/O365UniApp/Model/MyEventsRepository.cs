@@ -7,26 +7,20 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.Graph;
 
 public class MyEventsRepository {
 
-    public static async Task<string> GetJsonAsync(string url)
+    public static async Task<GraphServiceClient> GetGraphServiceClientAsync()
     {
         var accessToken = await O365UniApp.AuthenticationHelper.GetGraphAccessTokenAsync();
-        using (HttpClient client = new HttpClient())
-        {
-            var accept = "application/json";
-
-            client.DefaultRequestHeaders.Add("Accept", accept);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            using (var response = await client.GetAsync(url))
+        var authenticationProvider = new DelegateAuthenticationProvider(
+            (requestMessage) =>
             {
-                if (response.IsSuccessStatusCode)
-                    return await response.Content.ReadAsStringAsync();
-                return null;
-            }
-        }
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                return Task.FromResult(0);
+            });
+        return new GraphServiceClient(authenticationProvider);
     }
 
     public static async Task<ObservableCollection<MyEvent>> GetEvents() {
@@ -34,24 +28,19 @@ public class MyEventsRepository {
         ObservableCollection<MyEvent> eventsCollection = new ObservableCollection<MyEvent>();
         try
         {
-            var restURL = string.Format("{0}/me/events?$filter=End/DateTime ge '{1}'", O365UniApp.AuthenticationHelper.ResourceBetaUrl, DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-            string responseString = await GetJsonAsync(restURL);
-
-            if (responseString != null)
+            var graphClient = await GetGraphServiceClientAsync();
+            var eventsPage = await graphClient.Me.Events.Request().Filter(string.Format("End/DateTime ge '{0}'", DateTime.Now.ToString("yyyy/MM/dd HH:mm"))).GetAsync();
+            var events = eventsPage.CurrentPage;
+            foreach (var item in events)
             {
-                var jsonresult = JObject.Parse(responseString);
-                foreach (var item in jsonresult["value"])
+                eventsCollection.Add(new MyEvent
                 {
-                    eventsCollection.Add(new MyEvent
-                    {
-                        Subject = !string.IsNullOrEmpty(item["subject"].ToString()) ? item["subject"].ToString() : string.Empty,
-                        Start = !string.IsNullOrEmpty(item["start"]["dateTime"].ToString()) ? DateTime.Parse(item["start"]["dateTime"].ToString()) : new DateTime(),
-                        End = !string.IsNullOrEmpty(item["end"]["dateTime"].ToString()) ? DateTime.Parse(item["end"]["dateTime"].ToString()) : new DateTime(),
-                        Location = !string.IsNullOrEmpty(item["location"]["displayName"].ToString()) ? item["location"]["displayName"].ToString() : string.Empty,
-                        Body = !string.IsNullOrEmpty(item["body"]["content"].ToString()) ? item["body"]["content"].ToString() : string.Empty
-                    });
-                }
-
+                    Subject = item.Subject,
+                    Start = !string.IsNullOrEmpty(item.Start.DateTime) ? DateTime.Parse(item.Start.DateTime) : new DateTime(),
+                    End = !string.IsNullOrEmpty(item.End.DateTime) ? DateTime.Parse(item.End.DateTime) : new DateTime(),
+                    Location = item.Location.DisplayName,
+                    Body = item.Body.Content
+                });
             }
         }
 

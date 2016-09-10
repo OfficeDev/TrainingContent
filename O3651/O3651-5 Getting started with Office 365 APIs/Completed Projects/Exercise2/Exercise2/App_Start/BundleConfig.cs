@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Exercise2
+namespace Exercise
 {
     public class BundleConfig
     {

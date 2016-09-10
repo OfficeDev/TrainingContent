@@ -16,17 +16,8 @@ namespace AuthFlowDemo.Controllers
         // GET: AcceptRedirect
         public async Task<ActionResult> Index()
         {
-            var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
-
-            var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
-            var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
-
-            // create auth context
-            AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureAdAuthority, new ADALTokenCache(signInUserId));
-            var result = await authContext.AcquireTokenSilentAsync(SettingsHelper.AzureAdGraphResourceURL, clientCredential, userIdentifier);
-
-            ViewBag.AccessToken= result.AccessToken;
+            var accessToken = await AuthenticationHelper.GetGraphAccessToken();
+            ViewBag.AccessToken= accessToken;
             return View();
         }
     }

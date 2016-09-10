@@ -1,1 +1,3 @@
-pod 'ADALiOS', '~>1.0.0'
+target 'O365-Files-App' do
+  pod 'ADALiOS'
+ end

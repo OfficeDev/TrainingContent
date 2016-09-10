@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 
-namespace Exercise3.Utils
+namespace Exercise.Utils
 {
     public class SettingsHelper
     {
