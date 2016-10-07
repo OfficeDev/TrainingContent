@@ -1,0 +1,26 @@
+﻿@model List<Office365Group.Models.PostModel>
+@{ ViewBag.Title = "Group Thread Posts";}
+
+<h2>Group Thread Posts</h2>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Content</th>
+        <th>From Email Address</th>
+        <th>Sender Email Address</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.Raw(HttpUtility.HtmlDecode(item.content))</td>
+            <td>@Html.DisplayFor(modelItem => item.fromEmailAddress)</td>
+            <td>@Html.DisplayFor(modelItem => item.senderEmailAddress)</td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Back to Group Home", "Index")
+</p>
+
+
