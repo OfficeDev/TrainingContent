@@ -12,7 +12,7 @@ This GitHub repo houses all of the content for the "Introduction to Office 365 D
 - O3651-5 [Getting started with the Office 365 APIs](O3651-5%20Getting%20started%20with%20Office%20365%20APIs)
 - O3651-6 [Getting started with Mobile  Device Development with Office 365](O3651-6%20Mobile)
 - O3651-7 [Setting up your Developer environment in Office 365](O3651-7%20Setting%20up%20your%20Developer%20environment%20in%20Office%20365)
-- O3651-8 [Setting up your on-premises environment for app development](O3651-8%20Setting%20up%20your%20on-premises%20environment%20for%20add-in%20development)
+- O3651-8 [Setting up your on-premises environment for add-in development](O3651-8%20Setting%20up%20your%20on-premises%20environment%20for%20add-in%20development)
 - O3651-9 [Introducing Visual Studio Napa for Office Developers](O3651-9%20Introducing%20Visual%20Studio%20NAPA%20for%20Office%20Developers)
 
 ----------
