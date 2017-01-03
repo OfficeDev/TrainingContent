@@ -1,4 +1,4 @@
-# Deep Dive into SharePoint Hosted Apps
+# Deep Dive into SharePoint Hosted Add-ins
 In this lab, you will 
 
 ## Prerequisites
