@@ -1,8 +1,8 @@
-# Transforming SharePoint customizations to add-in model #
+# Advance SharePoint add-in model development #
 
 ----------
 
-This GitHub repo houses all of the content for the "Transforming SharePoint customizations to add-in model" training.
+This GitHub repo houses all of the content for the "Advance SharePoint add-in model development" training, previously called as "Transforming SharePoint customizations to add-in model", but since the training is showing mainly advance add-in model scenarios and only one module concentrates on the actual transformation, package has been renamed.
 
 - Module 1: [Introduction to add-in model transition](01 Introduction to add-in model transition)
 - Module 2: [Managing site settings using add-in model](   02 Managing site settings using add-in model)
@@ -26,6 +26,6 @@ Feel free to use this material anyway you want for self-study or for delivering 
 
 ----------
 
-*Notice that we will keep on updating this material based on your input and work being done in the [Office 365 Developer Patterns and Practices program](http://aka.ms/officedevpnp). You can provide us input directly using the [Office 365 Developer Patterns & Practices Yammer group](http://aka.ms/officedevpnpyammer)*
+*Notice that we will keep on updating this material based on your input and work being done in the [SharePoint Patterns and Practices initiative](http://aka.ms/sppnp). You can provide us input directly using the [SharePoint Dev group](http://aka.ms/sppnp-community)*
 
 ![Screenshot of the previous step](https://camo.githubusercontent.com/a732087ed949b0f2f84f5f02b8c79f1a9dd96f65/687474703a2f2f692e696d6775722e636f6d2f6c3031686876452e706e67)
