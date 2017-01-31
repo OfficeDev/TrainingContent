@@ -1,4 +1,4 @@
-Calling the O365 Microsoft Graph with iOS
+Calling the Microsoft Graph with iOS
 ======================================
 ## Overview
 
@@ -13,9 +13,9 @@ The lab demonstrates how use an AzureAD account to authenticate and call the Mic
 ## Prerequisites
 
 1. OSX 10.X environment
-1. [XCode 7][xcode-7]
-1. [Cocoapods dependency manager][cocoapods]
-1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
+2. [XCode 7][xcode-7]
+3. [Cocoapods dependency manager][cocoapods]
+4. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 [xcode-7]: https://itunes.apple.com/nz/app/xcode/id497799835?mt=12
 [cocoapods]: https://cocoapods.org/
@@ -32,22 +32,22 @@ The lab demonstrates how use an AzureAD account to authenticate and call the Mic
 8. On the Application information page, specify a Redirect URI, for this example specify http://IOSOffice365Calendar. Make note of the URI, since you'll need this later when coding the IOSOffice365Calendar project.
 9. Click the **check mark icon** on the bottom-right corner of the page.
     ![Screenshot of the previous step](img/02.png)
-9. Once the application has been successfully added, you will be taken to the Quick Start page for the application. From here, click **Configure** on the top menu.
+10. Once the application has been successfully added, you will be taken to the Quick Start page for the application. From here, click **Configure** on the top menu.
     ![Screenshot of the previous step](img/03.png)
-10. On **permissions to other applications**, click **Add application**.
+11. On **permissions to other applications**, click **Add application**.
     ![Screenshot of the previous step](img/04.png)
-11. Click **Microsoft Graph**, and then click the **check mark icon** on the bottom-right corner of the page.
+12. Click **Microsoft Graph**, and then click the **check mark icon** on the bottom-right corner of the page.
     ![Screenshot of the previous step](img/05.png)
-12. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
-- Select **Read User Calendars**.
-- Select **Sign in and read user profile**
-13. Click **Save**
-14. Copy the value specified for **Client ID**; you will need this later when coding the IOSOffice365Calendar project.
+13. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
+14. Select **Read User Calendars**.
+15. Select **Sign in and read user profile**
+16. Click **Save**
+17. Copy the value specified for **Client ID**; you will need this later when coding the IOSOffice365Calendar project.
 ![Screenshot of the previous step](img/06.png)
 
-## Exercise 1: Add O365 iOS Microsoft SDK library to a project
+## Exercise 1: Add Microsoft Graph SDK for iOS, ADAL for iOS, Office Rest Client for iOS libraries to a project
 In this exercise you will use an existing application with the AzureAD
-authentication included, to add the O365 Microsfot Graph SDK library in the project.
+authentication included, to add Microsoft Graph SDK for iOS, ADAL for iOS, Office Rest Client for iOS libraries in the project.
 
 01. Locate the [\\\O3651\O3651-6 Mobile\IOS\Lab Files](Lab Files) folder that contains a starter project.
 02. In Finder, navigate to the Lab Files folder and open the **Podfile** file under the root folder of the project and add the following lines to the end of the file:
@@ -87,7 +87,7 @@ authentication included, to add the O365 Microsfot Graph SDK library in the proj
     ![Screenshot of the previous step](img/fig.02.png)
 
 ## Exercise 2: Authenticate with Azure AD and get the access token
-An access token is required to access Office 365 APIs so your application needs to implement the logic to retrieve and manage access tokens. The [Azure Active Directory authentication library (ADAL) for iOS and OSX](https://github.com/AzureAD/azure-activedirectory-library-for-objc) provides you with the ability to manage authentication in your application with just a few lines of code. Learn more about authentication with Azure Active Directory in [What is Azure Active Directory? on Azure.com](https://azure.microsoft.com/en-us/documentation/articles/active-directory-whatis/). The first thing you'll do is create a header file and class named AuthenticationManager that uses the ADAL for iOS and OSX to manage authentication for your app.
+An access token is required to access Microsoft Graph APIs so your application needs to implement the logic to retrieve and manage access tokens. The [Azure Active Directory authentication library (ADAL) for iOS and OSX](https://github.com/AzureAD/azure-activedirectory-library-for-objc) provides you with the ability to manage authentication in your application with just a few lines of code. Learn more about authentication with Azure Active Directory in [What is Azure Active Directory? on Azure.com](https://azure.microsoft.com/en-us/documentation/articles/active-directory-whatis/). The first thing you'll do is create a header file and class named AuthenticationManager that uses the ADAL for iOS and OSX to manage authentication for your app.
 
 ### To create the AuthenticationManager class
 01. Right-click the IOSOffice365Calendar project folder, select **New File**, and in the **iOS** section, click **Cocoa Touch Class**, and then click **Next**.
@@ -96,7 +96,7 @@ An access token is required to access Office 365 APIs so your application needs 
 ![Screenshot of the previous step](img/fig.03.png)
 
 ### To code the AuthenticationManager header file
-01. Import the necessary Office 365 Graph iOS SDK and ADAL SDK header files by adding the following code directives to **AuthenticationManager.h**
+01. Import the necessary Microsoft Graph SDK and ADAL SDK header files by adding the following code directives to **AuthenticationManager.h**
 
 	```objc
 	#import <ADALiOS/ADAL.h>
@@ -248,7 +248,6 @@ An access token is required to access Office 365 APIs so your application needs 
    ```
 
    ![Screenshot of the previous step](img/fig.11.png)
-
 
 4. Build and run, now you can click **Login** to Authenticate with Azure AD
 
