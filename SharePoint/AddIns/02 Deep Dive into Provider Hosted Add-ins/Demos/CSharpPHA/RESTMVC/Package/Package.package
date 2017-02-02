@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="774cff82-9a08-4e6e-beb5-72945989f17b" solutionId="774cff82-9a08-4e6e-beb5-72945989f17b" resetWebServer="false" sharePointProductVersion="16.0" name="RESTMVC" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <features>
+    <featureReference itemId="00bedf73-a8ef-4ece-b527-97012cced523" />
+  </features>
+</package>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="9ab836c0-c114-4804-a9c2-656abfb00555" 
+        solutionId="9ab836c0-c114-4804-a9c2-656abfb00555" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="StateMachineInitForm"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="1efc43d0-be56-4514-b9b5-7393ffd9e335" />
+  </features>
+</package>

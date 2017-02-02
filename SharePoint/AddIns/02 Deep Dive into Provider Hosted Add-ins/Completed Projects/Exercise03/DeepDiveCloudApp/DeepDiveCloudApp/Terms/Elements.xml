@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <ListInstance Title="Terms"
+                OnQuickLaunch="TRUE"
+                TemplateType="100"
+                FeatureId="00bfea71-de22-43b2-a848-c05709900100"
+                Url="Lists/Terms"
+                Description="My List Instance">
+    <Data>
+      <Rows>
+        <Row>
+          <Field Name="Title">SharePoint-Hosted App</Field>
+        </Row>
+        <Row>
+          <Field Name="Title">Provider-Hosted App</Field>
+        </Row>
+        <Row>
+          <Field Name="Title">Microsoft Azure</Field>
+        </Row>
+        <Row>
+          <Field Name="Title">Office 365</Field>
+        </Row>
+        <Row>
+          <Field Name="Title">SharePoint Online</Field>
+        </Row>
+      </Rows>
+    </Data>
+  </ListInstance>
+</Elements>

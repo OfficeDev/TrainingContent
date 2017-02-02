@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <Receivers ListUrl="Lists/Announcements">
+    <Receiver>
+      <Name>AnnouncementHandlerItemAdding</Name>
+      <Type>ItemAdding</Type>
+      <SequenceNumber>10000</SequenceNumber>
+      <Url>~remoteAppUrl/Services/AnnouncementHandler.svc</Url>
+    </Receiver>
+    <Receiver>
+      <Name>AnnouncementHandlerItemDeleting</Name>
+      <Type>ItemDeleting</Type>
+      <SequenceNumber>10000</SequenceNumber>
+      <Url>~remoteAppUrl/Services/AnnouncementHandler.svc</Url>
+    </Receiver>
+    <Receiver>
+      <Name>AnnouncementHandlerItemAdded</Name>
+      <Type>ItemAdded</Type>
+      <SequenceNumber>10000</SequenceNumber>
+      <Url>~remoteAppUrl/Services/AnnouncementHandler.svc</Url>
+    </Receiver>
+  </Receivers>
+</Elements>
