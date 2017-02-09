@@ -9,40 +9,42 @@ using System.Web;
 using System.Web.Mvc;
 using RestServerSideWeb.Models;
 
-namespace RestServerSideWeb.Controllers {
-  public class CeoController : Controller {
-    // show list of all CEOs
-    public async Task<ActionResult> Index() {
-      var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext);
-
-      SpChiefExecutiveViewModel model = new SpChiefExecutiveViewModel();
-
-      SpChiefExecutiveRepository repository = new SpChiefExecutiveRepository(spContext);
-      model.SpChiefExecutives = await repository.GetChiefExecutives();
-
-      return View(model);
-    }
-
-    public async Task<ActionResult> AppintNewCeo()
+namespace RestServerSideWeb.Controllers
+{
+    public class CeoController : Controller
     {
-      var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext);
+        public async Task<ActionResult> Index()
+        {
+            var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext);
 
-      SpChiefExecutiveRepository repository = new SpChiefExecutiveRepository(spContext);
+            SpChiefExecutiveViewModel model = new SpChiefExecutiveViewModel();
 
-      await repository.AppointNewCeo();
+            SpChiefExecutiveRepository repository = new SpChiefExecutiveRepository(spContext);
+            model.SpChiefExecutives = await repository.GetChiefExecutives();
 
-      return Redirect("/?SPHostUrl=" +spContext.SPHostUrl);
+            return View(model);
+        }
+
+        public async Task<ActionResult> AppintNewCeo()
+        {
+            var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext);
+
+            SpChiefExecutiveRepository repository = new SpChiefExecutiveRepository(spContext);
+
+            await repository.AppointNewCeo();
+
+            return Redirect("/?SPHostUrl=" + spContext.SPHostUrl);
+        }
+
+        public async Task<ActionResult> RemoveSampleCeo()
+        {
+            var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext);
+
+            SpChiefExecutiveRepository repository = new SpChiefExecutiveRepository(spContext);
+
+            await repository.DeleteFirstPerson();
+
+            return Redirect("/?SPHostUrl=" + spContext.SPHostUrl);
+        }
     }
-
-    public async Task<ActionResult> RemoveSampleCeo()
-    {
-      var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext);
-
-      SpChiefExecutiveRepository repository = new SpChiefExecutiveRepository(spContext);
-
-      await repository.DeleteFirstPerson();
-
-      return Redirect("/?SPHostUrl=" + spContext.SPHostUrl);
-    }
-  }
 }

@@ -1,23 +1,24 @@
 #Deep dive into SharePoint Lists with REST APIs
 
-In this lab you will create two solutions that will interact with the SharePoint REST API. In the first exercise you will create a SharePoint hosted app that will demonstrate how to perform CRUD-Q operations using client-side scripting. In the second exercise you will create a SharePoint provider-hosted app that will demonstrate how to perform CRUD-Q operations using server-side coding with C#.
+In this lab you will create two solutions that will interact with the SharePoint REST API. In the first exercise you will create a SharePoint hosted Add-in that will demonstrate how to perform CRUD-Q operations using client-side scripting. In the second exercise you will create a SharePoint provider-hosted Add-in that will demonstrate how to perform CRUD-Q operations using server-side coding with C#.
 
 ## Prerequisites
-1. You must have one of the following environments:
-  1. An Office 365 tenant or 
-  1. An On-premises SharePoint 2013 environment
-1. You must have the Office Developer Tools for Visual STudio 2013 version 12.0.31105 installed in Visual Studio 2013.
+You must have one of the following environments:
+  1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for O3651-7 Setting up your Developer environment in Office 365 shows you how to obtain a trial.
+  1. You must have installed Visual Studio 2015.
+  1. You must have installed Microsoft Office Developer Tools for Visual Studio 2015.
 
-## Exercise 1: SharePoint Hosted App that Does CRUD-Q with JavaScript
-*In this first exercise you will create a SharePoint hosted app that will demonstrate how to perform CRUD-Q operations using client-side scripting.*
 
-1. Launch Visual Studio 2013.
-1. Create a new SharePoint Hosted App project:
+## Exercise 1: SharePoint Hosted Add-in that Does CRUD-Q with JavaScript
+*In this first exercise you will create a SharePoint hosted Add-in that will demonstrate how to perform CRUD-Q operations using client-side scripting.*
+
+1. Launch Visual Studio 2015.
+1. Create a new SharePoint Hosted Add-in project:
   1. In Visual Studio select **File/New/Project**.
-  1. Select the **App for SharePoint** from the **Visual C#/Office-SharePoint/Apps** template category.
+  1. Select the **SharePoint Add-in** from the **Visual C#/(Office/SharePoint)/Web Add-ins** template category.
   1. Set the name of the project to **RestClientSide** and click **OK**.
-  1. In the next page of the wizard, enter the URL of a SharePoint 2013 Developer site to use for testing & set the type of app as a **SharePoint-hosted** app.
-  1. Finally click **Finish**
+  1. In the **Specify the SharePoint Add-in settings** dialog, enter the URL for your Office 365 developer site, select the Add-in hosting type of **SharePoint-hosted** and click **Next**.
+  1. In the **Specify the target SharePoint version** dialog, select the Add-in target version of **SharePoint Online** and click **Finish** to create the new project.
 1. Create a SharePoint list that you will read and write data to using the REST API:
   1. Right-click the project **RestClientSide** in the **Solution Explorer** tool widow and select **Add / New Item**.
   1. In the **Add New Item** dialog, select **List**.
@@ -30,7 +31,7 @@ In this lab you will create two solutions that will interact with the SharePoint
     1. Add **TenureEndYear** (type = Single Line of Text).
   1. Save your changes.
 1. Add some default data to the list. In this case you will add three people to the list. The first one is simply there to delete. The others represent the first two CEO's of Microsoft. Later you'll add code that will appoint the third CEO to the company.
-  1. Right-click the file **CeoList/CeoListInstance/Elements.xml** in the project and select **View Code**.
+  1. Open the file **CeoList/CeoListInstance/Elements.xml** in the project.
   1. Before the closing `</ListInstance>` element, add the following XML to add three items to the list when it is created:
   
     ````xml
@@ -74,38 +75,38 @@ In this lab you will create two solutions that will interact with the SharePoint
   1. With these libraries added to the project, the next step is to add them to the homepage of the site. Open the **Pages/Default.aspx** file and add the following to lines to the **PlaceHolderAdditionalPageHead** content placeholder after the existing scripts:
 
     ````html
-    <script type="text/javascript" src="../Scripts/knockout-3.2.0.js"></script>
+    <script type="text/javascript" src="../Scripts/knockout-3.4.1.js"></script>
     <script type="text/javascript" src="../Scripts/q.min.js"></script>
     ````
 
 1. Next, add the code required to implement the user interface that will trigger the calls to the SharePoint REST API. Replace all the markup in the **PlaceHolderMain** content placeholder with the following:
 
   ````html
-  <input type="button" disabled="disabled" 
-         value="refresh list"
-         data-bind="click: getAllChiefExecutives"/>&nbsp;
-  <input type="button" disabled="disabled" 
-         value="appoint 3rd ceo"
-         data-bind="click: addThirdCeo"/>&nbsp;
-  <input type="button" disabled="disabled" 
-         value="delete first person"
-         data-bind="click: deleteFirstCeo"/>
-
-  <h1>Microsoft CEO's</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Tenure</th>
-      </tr>
-    </thead>
-    <tbody data-bind="foreach: chiefExecutives">
-      <tr>
-        <td data-bind="text: Title"></td>
-        <td><span data-bind="text: TenureStartYear"></span> - <span data-bind="  text: TenureEndYear"></span></td>
-      </tr>
-    </tbody>
-  </table>
+	  <input type="button" disabled="disabled" 
+	         value="refresh list"
+	         data-bind="click: getAllChiefExecutives"/>&nbsp;
+	  <input type="button" disabled="disabled" 
+	         value="appoint 3rd ceo"
+	         data-bind="click: addThirdCeo"/>&nbsp;
+	  <input type="button" disabled="disabled" 
+	         value="delete first person"
+	         data-bind="click: deleteFirstCeo"/>
+	
+	  <h1>Microsoft CEO's</h1>
+	  <table>
+	    <thead>
+	      <tr>
+	        <th>Name</th>
+	        <th>Tenure</th>
+	      </tr>
+	    </thead>
+	    <tbody data-bind="foreach: chiefExecutives">
+	      <tr>
+	        <td data-bind="text: Title"></td>
+	        <td><span data-bind="text: TenureStartYear"></span> - <span data-bind="  text: TenureEndYear"></span></td>
+	      </tr>
+	    </tbody>
+	  </table>
   ````
 
   > If you aren't familiar with the different `data-bind` attributes, these are used by the **KnockoutJS** library to update the user interface for us. You don't have to understand how they work to complete this lab.
@@ -169,7 +170,7 @@ In this lab you will create two solutions that will interact with the SharePoint
   ````javascript
   // build query, sorted in ascending order of CEO
   var endpoint = _spPageContextInfo.webAbsoluteUrl +
-    '/_api/web/lists/getbytitle(\'CeoList\')' +
+    '/_api/web/lists/getbytitle(\'CEO List\')' +
     '/items' +
     '?$select=Title,TenureStartYear,TenureEndYear' + 
     '&$orderby=TenureStartYear';
@@ -213,7 +214,7 @@ In this lab you will create two solutions that will interact with the SharePoint
     };
     // build data object to send to service
     var firstCeoUpdateData = {
-      __metadata:{type:'SP.Data.CeoListListItem'},
+      __metadata:{type:'SP.Data.CEO_x0020_ListListItem'},
       TenureEndYear: '2014'
     };
     // add the ajax request to collection of promises to execute
@@ -236,7 +237,7 @@ In this lab you will create two solutions that will interact with the SharePoint
     ````javascript
     // build create query
     var endpoint = _spPageContextInfo.webAbsoluteUrl +
-      '/_api/web/lists/getbytitle(\'CeoList\')' +
+      '/_api/web/lists/getbytitle(\'CEO List\')' +
       '/items';
     // build request headers
     var requestHeaders = {
@@ -246,7 +247,7 @@ In this lab you will create two solutions that will interact with the SharePoint
     };
     // build data object to send to service
     var thirdCeoUpdateData = {
-      __metadata: { type: 'SP.Data.CeoListListItem' },
+      __metadata: { type: 'SP.Data.CEO_x0020_ListListItem' },
       Title: 'Satya Nadella',
       TenureStartYear: '2014',
       TenureEndYear: 'present'
@@ -313,28 +314,29 @@ In this lab you will create two solutions that will interact with the SharePoint
 
 1. Save all your changes and press **F5**. To test the project.
 
-   When the browser loads the homepage for the app, first click the **refresh list** button to get all the CEOs into the list on the page.
+   When the browser loads the homepage for the Add-in, first click the **refresh list** button to get all the CEOs into the list on the page.
 
    Then click the **appoint 3rd ceo** button to retire the existing CEO and appoint a new CEO.
 
    Finally click the **delete first person** button to remove the dummy CEO.
 
-> **NOTE** When running this sample, it assumes specific data is present. If you want to rerun the sample, make sure you either retract the app or delete the app form your test site so the next time you run it, the list is recreated with the initial sample data.
+> **NOTE** When running this sample, it assumes specific data is present. If you want to rerun the sample, make sure you either retract the Add-in or delete the Add-in form your test site so the next time you run it, the list is recreated with the initial sample data.
 
 Congratulations! You've created a project that uses JavaScript and client-side technologies to call the SharePoint 2013 REST API!
 
 
-## Exercise 2: SharePoint Provider Hosted App that Does CRUD-Q with Server Side Code
-*In this second exercise you will create a SharePoint provider-hosted app that will demonstrate how to perform CRUD-Q operations using server-side coding with C#.*
+## Exercise 2: SharePoint Provider Hosted Add-in that Does CRUD-Q with Server Side Code
+*In this second exercise you will create a SharePoint provider-hosted Add-in that will demonstrate how to perform CRUD-Q operations using server-side coding with C#.*
 
-1. Launch Visual Studio 2013.
-1. Create a new SharePoint Hosted App project:
+1. Launch Visual Studio 2015.
+1. Create a new SharePoint Hosted Add-in project:
   1. In Visual Studio select **File/New/Project**.
-  1. Select the **App for SharePoint** from the **Visual C#/Office-SharePoint/Apps** template category.
+  1. Select the **SharePoint Add-in** from the **Visual C#/(Office/SharePoint)/Web Add-ins** template category.
   1. Set the name of the project to **RestServerSide** and click **OK**.
-  1. In the next page of the wizard, enter the URL of a SharePoint 2013 Developer site to use for testing & set the type of app as a **Provider-hosted** app.
-  1. In the next page of the wizard, select **ASP.NET MVC Web Application** and click **Next**.
-  1. On the next page of the wizard, select the first option to use the **Azure Access Control Service** in obtaining tokens to handle the app authentication process.
+  1. In the **Specify the SharePoint Add-in settings** dialog, enter the URL for your Office 365 developer site, select the Add-in hosting type of **Provider-hosted** and click **Next**.
+  1. In the **Specify the target SharePoint version** dialog, select the Add-in target version of **SharePoint Online** and click **Next**.
+  1. In the **Specify the web project type** dialog, select **ASP.NET MVC Web Application** and click **Next**. 
+  1. On the next page of the wizard, select the first option to use the **Use Window Azure Access Control Service** in obtaining tokens to handle the Add-in authentication process.
   1. Finally click **Finish**
 1. Create a SharePoint list that you will read and write data to using the REST API:
   1. Right-click the project **RestServerSide** in the **Solution Explorer** tool widow and select **Add / New Item**.
@@ -393,7 +395,7 @@ Congratulations! You've created a project that uses JavaScript and client-side t
   1. Using the **Package Manager Console**, run the following command to install JSON.NET into the project:
 
     ````powershell
-    PM> Install-Package -Id Newtonsoft.Json; -ProjectName RestServerSideWeb
+    PM> Install-Package -Id Newtonsoft.Json -ProjectName RestServerSideWeb
     ````
 
   1. Now, add a new class to the **Models** folder named **SpChiefExecutiveJsonCollection.cs**
@@ -483,7 +485,7 @@ Congratulations! You've created a project that uses JavaScript and client-side t
       ````c#
       public async Task<List<SpChiefExecutive>> GetChiefExecutives() {
         StringBuilder requestUri = new StringBuilder(_spContext.SPAppWebUrl.ToString())
-          .Append("_api/web/lists/getbytitle('CeoList')/items")
+          .Append("_api/web/lists/getbytitle('CEO List')/items")
           .Append("?$select=Id,Title,TenureStartYear,TenureEndYear")
           .Append("&$orderby=TenureStartYear");
 
@@ -526,12 +528,12 @@ Congratulations! You've created a project that uses JavaScript and client-side t
         var currentCeo = results.FirstOrDefault(ceo => ceo.TenureEndYear == "Present");
 
         StringBuilder requestUri = new StringBuilder(_spContext.SPAppWebUrl.ToString())
-          .Append("_api/web/lists/getbytitle('CeoList')/items")
+          .Append("_api/web/lists/getbytitle('CEO List')/items")
           .Append("(" + currentCeo.Id + ")");
 
         // updated ceo
         var existingCeoJson = new SpChiefExecutiveJson {
-          Metadata = new JsonMetadata { Type = "SP.Data.CeoListListItem" },
+          Metadata = new JsonMetadata { Type = "SP.Data.CEO_x0020_ListListItem" },
           TenureEndYear = "2014"
         };
 
@@ -559,11 +561,11 @@ Congratulations! You've created a project that uses JavaScript and client-side t
     ````c#
     private async Task AddNewCeo() {
       StringBuilder requestUri = new StringBuilder(_spContext.SPAppWebUrl.ToString())
-        .Append("_api/web/lists/getbytitle('CeoList')/items");
+        .Append("_api/web/lists/getbytitle('CEO List')/items");
 
       // updated ceo
       var newCeoJson = new SpChiefExecutiveJson {
-        Metadata = new JsonMetadata { Type = "SP.Data.CeoListListItem" },
+        Metadata = new JsonMetadata { Type = "SP.Data.CEO_x0020_ListListItem" },
         Title = "Satya Nadella",
         TenureStartYear = "2014",
         TenureEndYear = "Present"
@@ -611,7 +613,7 @@ Congratulations! You've created a project that uses JavaScript and client-side t
       var currentCeo = results.FirstOrDefault(ceo => ceo.Id == "1");
 
       StringBuilder requestUri = new StringBuilder(_spContext.SPAppWebUrl.ToString())
-        .Append("_api/web/lists/getbytitle('CeoList')/items")
+        .Append("_api/web/lists/getbytitle('CEO List')/items")
         .Append("(" + currentCeo.Id + ")");
 
       HttpClient client = new HttpClient();
@@ -634,7 +636,7 @@ Congratulations! You've created a project that uses JavaScript and client-side t
   }
   ````
 
-1. Now right-click the **Controllers** folder and select **Add => New Controller**. When prompted for a name, use **CeoController**.
+1. Now right-click the **Controllers** folder, select **Add => Controller** and select **MVC5 Controller - Empty**. When prompted for a name, use **CeoController**.
   1. This controller will have three methods on it. One to show a list of CEO's, one to appoint a new CEO and one to remove the sample CEO from the list. Therefore add the following code to the `CeoController` class:
 
     ````c#
@@ -693,11 +695,11 @@ Congratulations! You've created a project that uses JavaScript and client-side t
   1. In the wizard, set the following values and click **OK**:
     - View name: **Index**
     - Template: **List**
-    - Model class: **SpChiefExecutiveViewModel**
+    - Model class: **SpChiefExecutiveViewModel(RestServerSideWeb.Models)**
     - Create as a partial view: **Unchecked**
     - Reference script libraries: **Checked**
     - Use a layout page: **Checked** & empty
-  1. In the that was created, **Views/Ceo/Index.cshtml**, make sure the code looks like the following. If not, update it where necessary:
+  1. In the view that was created, **Views/Ceo/Index.cshtml**, make sure the code looks like the following. If not, update it where necessary:
 
     ````html
     @model RestServerSideWeb.Models.SpChiefExecutiveViewModel
@@ -747,6 +749,6 @@ Congratulations! You've created a project that uses JavaScript and client-side t
 
    Finally click the **Delete First Sample CEO** link to remove the dummy CEO.
 
-> **NOTE** When running this sample, it assumes specific data is present. If you want to rerun the sample, make sure you either retract the app or delete the app form your test site so the next time you run it, the list is recreated with the initial sample data.
+> **NOTE** When running this sample, it assumes specific data is present. If you want to rerun the sample, make sure you either retract the Add-in or delete the Add-in form your test site so the next time you run it, the list is recreated with the initial sample data.
 
-Congratulations! You've created a project that uses ASP.NET MVC and server-side code to call the SharePoint 2013 REST API!
+Congratulations! You've created a project that uses ASP.NET MVC and server-side code to call the SharePoint 2015 REST API!

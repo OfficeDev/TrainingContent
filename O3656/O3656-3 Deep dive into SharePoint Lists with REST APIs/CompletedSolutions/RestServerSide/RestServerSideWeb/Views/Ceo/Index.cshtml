@@ -1,29 +1,29 @@
 ﻿@model RestServerSideWeb.Models.SpChiefExecutiveViewModel
 
 @{
-  ViewBag.Title = "List of Microsoft CEOs";
+    ViewBag.Title = "List of Microsoft CEOs";
 }
 
 <h2>Index</h2>
 
 <p>
-  @Html.ActionLink("Appoint 3rd CEO", "AppintNewCeo", "Ceo") | @Html.ActionLink("Delete First Sample CEO", "RemoveSampleCeo", "Ceo")
+    @Html.ActionLink("Appoint 3rd CEO", "AppintNewCeo", "Ceo") | @Html.ActionLink("Delete First Sample CEO", "RemoveSampleCeo", "Ceo")
 </p>
 <table class="table">
-  <tr>
-    <th>Name</th>
-    <th>Tenure</th>
-  </tr>
-
-  @foreach (var item in @Model.SpChiefExecutives) {
     <tr>
-      <td>
-        @item.Name
-      </td>
-      <td>
-        @item.TenureStartYear - @item.TenureEndYear
-      </td>
+        <th>Name</th>
+        <th>Tenure</th>
     </tr>
-  }
 
+    @foreach (var item in @Model.SpChiefExecutives)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.TenureStartYear - @item.TenureEndYear
+            </td>
+        </tr>
+    }
 </table>
