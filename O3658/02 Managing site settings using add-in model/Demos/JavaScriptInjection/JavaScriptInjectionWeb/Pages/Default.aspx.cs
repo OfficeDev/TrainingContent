@@ -60,7 +60,7 @@ namespace JavaScriptInjectionWeb
 
         protected void btnRemove_Click(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

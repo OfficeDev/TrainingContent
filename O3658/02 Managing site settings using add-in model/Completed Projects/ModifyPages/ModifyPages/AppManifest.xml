@@ -2,9 +2,9 @@
 <!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
 <App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
      Name="ModifyPages"
-     ProductID="{8439eb75-c442-40ab-9325-589249aaedd3}"
+     ProductID="{63cf36a2-97d3-4205-a4dc-bf6e02bcdc97}"
      Version="1.0.0.0"
-     SharePointMinVersion="15.0.0.0"
+     SharePointMinVersion="16.0.0.0"
 >
   <Properties>
     <Title>ModifyPages</Title>

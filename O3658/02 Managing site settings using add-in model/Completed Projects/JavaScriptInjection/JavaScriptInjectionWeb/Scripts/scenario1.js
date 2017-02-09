@@ -18,7 +18,7 @@ function RemoteManager_Inject() {
     loadScript(jQuery, function () {
 
         var message = "<img src='/_Layouts/Images/STS_ListItem_43216.gif' align='absmiddle'> <font color='#AA0000'>JavaScript customization is <i>fun</i>!</font>"
-        SetStatusBar(message);
+        SP.SOD.executeOrDelayUntilScriptLoaded(function () { SetStatusBar(message); }, 'sp.js');
 
         // Customize the viewlsts.aspx page
         if (IsOnPage("viewlsts.aspx")) {

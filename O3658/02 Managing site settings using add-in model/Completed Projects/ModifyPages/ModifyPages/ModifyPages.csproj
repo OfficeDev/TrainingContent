@@ -1,25 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6F64D3BF-8519-497C-8250-000935580650}</ProjectGuid>
+    <ProjectGuid>{71026C31-2685-45E8-9B60-789B9B9EB877}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ModifyPages</RootNamespace>
     <AssemblyName>ModifyPages</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetOfficeVersion>15.0</TargetOfficeVersion>
+    <TargetOfficeVersion>16.1</TargetOfficeVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumOfficeToolsVersion>14.6</MinimumOfficeToolsVersion>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
     <ProjectMode>SharePointApp</ProjectMode>
-    <AppFeaturePartId>{99407e96-ee92-43f8-988e-afe105f29369}</AppFeaturePartId>
-    <WspPartId>{21a22afb-3145-4a40-af35-bdcce1781a22}</WspPartId>
-    <WorkflowPartId>{d15097d0-ccab-4fe9-9fc5-ba151d3cfb1f}</WorkflowPartId>
-    <CspkgPartId>{9ff955e6-fb8a-409e-9505-b66eb8ea2b9c}</CspkgPartId>
-    <SqlPackagePartId>{4a67ac0f-59ad-449c-857b-c2f946a6cde6}</SqlPackagePartId>
+    <AppFeaturePartId>{85316f2c-8cc9-4450-ab77-00dd2d8389cd}</AppFeaturePartId>
+    <WspPartId>{e77ae75a-5eb2-4cb0-a0e5-a9e512eb14d3}</WspPartId>
+    <WorkflowPartId>{53d200e6-d606-4dd7-830c-b06174dbe054}</WorkflowPartId>
+    <CspkgPartId>{6f6bff4b-667e-488f-b882-9669c7e66d78}</CspkgPartId>
+    <SqlPackagePartId>{16768850-7069-4f50-a4b8-85d4a7ee7b11}</SqlPackagePartId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModifyPagesWeb\ModifyPagesWeb.csproj">
-      <Project>{801770AE-BF0B-4368-B779-7B872F61F429}</Project>
+      <Project>{9FDA8041-BB42-4D2C-B809-D9226B1B36BA}</Project>
       <Name>ModifyPagesWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>
