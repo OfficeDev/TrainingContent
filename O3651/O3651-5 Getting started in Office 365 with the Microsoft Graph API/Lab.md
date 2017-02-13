@@ -103,7 +103,7 @@ In this exercise you will take the ASP.NET MVC web application you created in th
 1. In the Visual Studio project, add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
 
   1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
-  1. Locate the [\\\O3651\O3651-5 Getting started in Office 365 with the Microsoft Graph API\Lab\Lab Files](/O3651/O3651-5 Getting started in Office 365 with the Microsoft Graph API/Lab Files) folder provided with this lab and find the [`SettingsHelper.cs`](/O3651/O3651-5 Getting started in Office 365 with the Microsoft Graph API/Lab Files/SettingsHelper.cs) file.  Drag the [`SettingsHelper.cs`](/O3651/O3651-5 Getting started in Office 365 with the Microsoft Graph API/Lab Files/SettingsHelper.cs) file to the **Utils** folder in the project.
+  1. Locate the [\\\O3651\O3651-5 Getting started in Office 365 with the Microsoft Graph API\Lab Files](Lab Files) folder provided with this lab and find the [`SettingsHelper.cs`](Lab Files/SettingsHelper.cs) file.  Drag the [`SettingsHelper.cs`](Lab Files/SettingsHelper.cs) file to the **Utils** folder in the project.
       
 1. Update **_Layout** file to add **Calendar** link:
     1. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
@@ -305,7 +305,12 @@ In this exercise you will add a controller and views that utilize the Microsoft 
   1. Save your changes.
 1. Run the application by pushing **F5**.
 
- > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+ > **Note:**
+ > 
+ > 1. If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+ > 
+ > 2. **AuthenticationContext.AcquireTokenSilent** works by returning cached tokens or using refresh tokens from the cache. The application  acquires access and refresh tokens at sign in time and places them in a cache instance. If your web application shares the same authentication information with other web applications, and you don't have to log in before accessing your web application, you will receive an error saying **Failed to acquire token silently. Call method AcquireToken** when you go to **Calendar** page. To resolve it, please **Sign out**, **Sign in** in the **Home** page, and go to the **Calendar** page again. For more information, please see [this](https://github.com/AzureAD/azure-activedirectory-library-for-dotnet/issues/144).
+ > ![](Images/AcquireTokenError.png)
 
   1. You're now prompted to login (if you're not already logged in). Note that if you're not prompted to login immediately, click **Sign in** in the upper-right corner on the homepage.
   2. When prompted, login using your **Organizational Account**.
