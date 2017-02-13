@@ -1,0 +1,381 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E0C01991E460C560060421A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C01981E460C560060421A /* main.m */; };
+		0E0C019C1E460C560060421A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C019B1E460C560060421A /* AppDelegate.m */; };
+		0E0C019F1E460C560060421A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C019E1E460C560060421A /* ViewController.m */; };
+		0E0C01A21E460C560060421A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01A01E460C560060421A /* Main.storyboard */; };
+		0E0C01A41E460C560060421A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01A31E460C560060421A /* Assets.xcassets */; };
+		0E0C01A71E460C560060421A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01A51E460C560060421A /* LaunchScreen.storyboard */; };
+		0E0C01B51E460CED0060421A /* exchangelogo -solo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01B01E460CED0060421A /* exchangelogo -solo.png */; };
+		0E0C01B61E460CED0060421A /* exchangelogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01B11E460CED0060421A /* exchangelogo.png */; };
+		0E0C01B71E460CED0060421A /* Explorer alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01B21E460CED0060421A /* Explorer alt.png */; };
+		0E0C01B81E460CED0060421A /* Mail.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01B31E460CED0060421A /* Mail.png */; };
+		0E0C01B91E460CED0060421A /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0C01B41E460CED0060421A /* office365.png */; };
+		0E0C01C21E460D260060421A /* EmailDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C01BB1E460D260060421A /* EmailDetailViewController.m */; };
+		0E0C01C31E460D260060421A /* EmailListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C01BD1E460D260060421A /* EmailListTableViewCell.m */; };
+		0E0C01C41E460D260060421A /* FolderContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C01BF1E460D260060421A /* FolderContentViewController.m */; };
+		0E0C01C51E460D260060421A /* FolderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C01C11E460D260060421A /* FolderListViewController.m */; };
+		B77432FA1E4ACB4B00ACF426 /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = B77432F91E4ACB4B00ACF426 /* Auth.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0E0C01941E460C560060421A /* O365-Exchange-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "O365-Exchange-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0C01981E460C560060421A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0E0C019A1E460C560060421A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0E0C019B1E460C560060421A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0E0C019D1E460C560060421A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0E0C019E1E460C560060421A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0E0C01A11E460C560060421A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0E0C01A31E460C560060421A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0E0C01A61E460C560060421A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0E0C01A81E460C560060421A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0E0C01B01E460CED0060421A /* exchangelogo -solo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "exchangelogo -solo.png"; sourceTree = "<group>"; };
+		0E0C01B11E460CED0060421A /* exchangelogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exchangelogo.png; sourceTree = "<group>"; };
+		0E0C01B21E460CED0060421A /* Explorer alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Explorer alt.png"; sourceTree = "<group>"; };
+		0E0C01B31E460CED0060421A /* Mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mail.png; sourceTree = "<group>"; };
+		0E0C01B41E460CED0060421A /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = "<group>"; };
+		0E0C01BA1E460D260060421A /* EmailDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailDetailViewController.h; sourceTree = "<group>"; };
+		0E0C01BB1E460D260060421A /* EmailDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailDetailViewController.m; sourceTree = "<group>"; };
+		0E0C01BC1E460D260060421A /* EmailListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailListTableViewCell.h; sourceTree = "<group>"; };
+		0E0C01BD1E460D260060421A /* EmailListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailListTableViewCell.m; sourceTree = "<group>"; };
+		0E0C01BE1E460D260060421A /* FolderContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderContentViewController.h; sourceTree = "<group>"; };
+		0E0C01BF1E460D260060421A /* FolderContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderContentViewController.m; sourceTree = "<group>"; };
+		0E0C01C01E460D260060421A /* FolderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderListViewController.h; sourceTree = "<group>"; };
+		0E0C01C11E460D260060421A /* FolderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderListViewController.m; sourceTree = "<group>"; };
+		B77432F91E4ACB4B00ACF426 /* Auth.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E0C01911E460C560060421A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E0C018B1E460C560060421A = {
+			isa = PBXGroup;
+			children = (
+				0E0C01961E460C560060421A /* O365-Exchange-App */,
+				0E0C01951E460C560060421A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0E0C01951E460C560060421A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E0C01941E460C560060421A /* O365-Exchange-App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E0C01961E460C560060421A /* O365-Exchange-App */ = {
+			isa = PBXGroup;
+			children = (
+				B77432F91E4ACB4B00ACF426 /* Auth.plist */,
+				0E0C01AE1E460C660060421A /* Helpers */,
+				0E0C01AF1E460C760060421A /* Controllers */,
+				0E0C019A1E460C560060421A /* AppDelegate.h */,
+				0E0C019B1E460C560060421A /* AppDelegate.m */,
+				0E0C01A01E460C560060421A /* Main.storyboard */,
+				0E0C01A31E460C560060421A /* Assets.xcassets */,
+				0E0C01A51E460C560060421A /* LaunchScreen.storyboard */,
+				0E0C01A81E460C560060421A /* Info.plist */,
+				0E0C01971E460C560060421A /* Supporting Files */,
+			);
+			path = "O365-Exchange-App";
+			sourceTree = "<group>";
+		};
+		0E0C01971E460C560060421A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0E0C01981E460C560060421A /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0E0C01AE1E460C660060421A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				0E0C01B01E460CED0060421A /* exchangelogo -solo.png */,
+				0E0C01B11E460CED0060421A /* exchangelogo.png */,
+				0E0C01B21E460CED0060421A /* Explorer alt.png */,
+				0E0C01B31E460CED0060421A /* Mail.png */,
+				0E0C01B41E460CED0060421A /* office365.png */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		0E0C01AF1E460C760060421A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0E0C01BA1E460D260060421A /* EmailDetailViewController.h */,
+				0E0C01BB1E460D260060421A /* EmailDetailViewController.m */,
+				0E0C01BC1E460D260060421A /* EmailListTableViewCell.h */,
+				0E0C01BD1E460D260060421A /* EmailListTableViewCell.m */,
+				0E0C01BE1E460D260060421A /* FolderContentViewController.h */,
+				0E0C01BF1E460D260060421A /* FolderContentViewController.m */,
+				0E0C01C01E460D260060421A /* FolderListViewController.h */,
+				0E0C01C11E460D260060421A /* FolderListViewController.m */,
+				0E0C019D1E460C560060421A /* ViewController.h */,
+				0E0C019E1E460C560060421A /* ViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E0C01931E460C560060421A /* O365-Exchange-App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0C01AB1E460C560060421A /* Build configuration list for PBXNativeTarget "O365-Exchange-App" */;
+			buildPhases = (
+				0E0C01901E460C560060421A /* Sources */,
+				0E0C01911E460C560060421A /* Frameworks */,
+				0E0C01921E460C560060421A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "O365-Exchange-App";
+			productName = "O365-Exchange-App";
+			productReference = 0E0C01941E460C560060421A /* O365-Exchange-App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E0C018C1E460C560060421A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					0E0C01931E460C560060421A = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0E0C018F1E460C560060421A /* Build configuration list for PBXProject "O365-Exchange-App" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0E0C018B1E460C560060421A;
+			productRefGroup = 0E0C01951E460C560060421A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E0C01931E460C560060421A /* O365-Exchange-App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0E0C01921E460C560060421A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0C01A71E460C560060421A /* LaunchScreen.storyboard in Resources */,
+				0E0C01B71E460CED0060421A /* Explorer alt.png in Resources */,
+				0E0C01B91E460CED0060421A /* office365.png in Resources */,
+				0E0C01A41E460C560060421A /* Assets.xcassets in Resources */,
+				0E0C01B61E460CED0060421A /* exchangelogo.png in Resources */,
+				0E0C01B81E460CED0060421A /* Mail.png in Resources */,
+				0E0C01A21E460C560060421A /* Main.storyboard in Resources */,
+				B77432FA1E4ACB4B00ACF426 /* Auth.plist in Resources */,
+				0E0C01B51E460CED0060421A /* exchangelogo -solo.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E0C01901E460C560060421A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0C01C41E460D260060421A /* FolderContentViewController.m in Sources */,
+				0E0C01C31E460D260060421A /* EmailListTableViewCell.m in Sources */,
+				0E0C01C21E460D260060421A /* EmailDetailViewController.m in Sources */,
+				0E0C019F1E460C560060421A /* ViewController.m in Sources */,
+				0E0C019C1E460C560060421A /* AppDelegate.m in Sources */,
+				0E0C01C51E460D260060421A /* FolderListViewController.m in Sources */,
+				0E0C01991E460C560060421A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0E0C01A01E460C560060421A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E0C01A11E460C560060421A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0E0C01A51E460C560060421A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E0C01A61E460C560060421A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E0C01A91E460C560060421A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0E0C01AA1E460C560060421A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0E0C01AC1E460C560060421A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "O365-Exchange-App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.opentech.O365-Exchange-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0E0C01AD1E460C560060421A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "O365-Exchange-App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.opentech.O365-Exchange-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E0C018F1E460C560060421A /* Build configuration list for PBXProject "O365-Exchange-App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0C01A91E460C560060421A /* Debug */,
+				0E0C01AA1E460C560060421A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E0C01AB1E460C560060421A /* Build configuration list for PBXNativeTarget "O365-Exchange-App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0C01AC1E460C560060421A /* Debug */,
+				0E0C01AD1E460C560060421A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E0C018C1E460C560060421A /* Project object */;
+}

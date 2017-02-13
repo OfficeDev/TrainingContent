@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E0BADE61E446F55007EE1C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0BADE51E446F55007EE1C2 /* main.m */; };
+		0E0BADE91E446F55007EE1C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0BADE81E446F55007EE1C2 /* AppDelegate.m */; };
+		0E0BADEC1E446F55007EE1C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0BADEB1E446F55007EE1C2 /* ViewController.m */; };
+		0E0BADEF1E446F55007EE1C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0BADED1E446F55007EE1C2 /* Main.storyboard */; };
+		0E0BADF11E446F55007EE1C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E0BADF01E446F55007EE1C2 /* Assets.xcassets */; };
+		0E0BADF41E446F55007EE1C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0BADF21E446F55007EE1C2 /* LaunchScreen.storyboard */; };
+		0E4C0ECA1E44951A004357AE /* ic_launcher-web.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E4C0EC91E44951A004357AE /* ic_launcher-web.png */; };
+		0E4C0ECC1E4498F7004357AE /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E4C0ECB1E4498F7004357AE /* Auth.plist */; };
+		94BB9D49AE27D3846C726C07 /* libPods-AD-Auth-iOS-App.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DE5DA4B197B3357D5554AB9 /* libPods-AD-Auth-iOS-App.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0E0BADE11E446F55007EE1C2 /* AD-Auth-iOS-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AD-Auth-iOS-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0BADE51E446F55007EE1C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0E0BADE71E446F55007EE1C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0E0BADE81E446F55007EE1C2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0E0BADEA1E446F55007EE1C2 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0E0BADEB1E446F55007EE1C2 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0E0BADEE1E446F55007EE1C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0E0BADF01E446F55007EE1C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0E0BADF31E446F55007EE1C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0E0BADF51E446F55007EE1C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0E4C0EC91E44951A004357AE /* ic_launcher-web.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_launcher-web.png"; sourceTree = "<group>"; };
+		0E4C0ECB1E4498F7004357AE /* Auth.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = Auth.plist; path = "AD-Auth-iOS-App/Auth.plist"; sourceTree = "<group>"; };
+		2DE5DA4B197B3357D5554AB9 /* libPods-AD-Auth-iOS-App.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AD-Auth-iOS-App.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		792210520A1809BFE168C223 /* Pods-AD-Auth-iOS-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AD-Auth-iOS-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-AD-Auth-iOS-App/Pods-AD-Auth-iOS-App.release.xcconfig"; sourceTree = "<group>"; };
+		FFFFCCF221F9F5989D84D9AD /* Pods-AD-Auth-iOS-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AD-Auth-iOS-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AD-Auth-iOS-App/Pods-AD-Auth-iOS-App.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E0BADDE1E446F55007EE1C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94BB9D49AE27D3846C726C07 /* libPods-AD-Auth-iOS-App.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E0BADD81E446F55007EE1C2 = {
+			isa = PBXGroup;
+			children = (
+				0E4C0ECB1E4498F7004357AE /* Auth.plist */,
+				0E0BADE31E446F55007EE1C2 /* AD-Auth-iOS-App */,
+				0E0BADE21E446F55007EE1C2 /* Products */,
+				EA0E4433B3FCE48D4B3AD889 /* Pods */,
+				9963EB2EA52C19DF5A39CAD1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0E0BADE21E446F55007EE1C2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E0BADE11E446F55007EE1C2 /* AD-Auth-iOS-App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E0BADE31E446F55007EE1C2 /* AD-Auth-iOS-App */ = {
+			isa = PBXGroup;
+			children = (
+				0E4C0EC91E44951A004357AE /* ic_launcher-web.png */,
+				0E0BADE71E446F55007EE1C2 /* AppDelegate.h */,
+				0E0BADE81E446F55007EE1C2 /* AppDelegate.m */,
+				0E0BADEA1E446F55007EE1C2 /* ViewController.h */,
+				0E0BADEB1E446F55007EE1C2 /* ViewController.m */,
+				0E0BADED1E446F55007EE1C2 /* Main.storyboard */,
+				0E0BADF01E446F55007EE1C2 /* Assets.xcassets */,
+				0E0BADF21E446F55007EE1C2 /* LaunchScreen.storyboard */,
+				0E0BADF51E446F55007EE1C2 /* Info.plist */,
+				0E0BADE41E446F55007EE1C2 /* Supporting Files */,
+			);
+			path = "AD-Auth-iOS-App";
+			sourceTree = "<group>";
+		};
+		0E0BADE41E446F55007EE1C2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0E0BADE51E446F55007EE1C2 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9963EB2EA52C19DF5A39CAD1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2DE5DA4B197B3357D5554AB9 /* libPods-AD-Auth-iOS-App.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA0E4433B3FCE48D4B3AD889 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FFFFCCF221F9F5989D84D9AD /* Pods-AD-Auth-iOS-App.debug.xcconfig */,
+				792210520A1809BFE168C223 /* Pods-AD-Auth-iOS-App.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E0BADE01E446F55007EE1C2 /* AD-Auth-iOS-App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0BADF81E446F55007EE1C2 /* Build configuration list for PBXNativeTarget "AD-Auth-iOS-App" */;
+			buildPhases = (
+				0C216592E42A56384999A55B /* [CP] Check Pods Manifest.lock */,
+				0E0BADDD1E446F55007EE1C2 /* Sources */,
+				0E0BADDE1E446F55007EE1C2 /* Frameworks */,
+				0E0BADDF1E446F55007EE1C2 /* Resources */,
+				355FE31655BE2FDBA320BC65 /* [CP] Embed Pods Frameworks */,
+				36EF586F8DC922470A198649 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AD-Auth-iOS-App";
+			productName = "AD-Auth-iOS-App";
+			productReference = 0E0BADE11E446F55007EE1C2 /* AD-Auth-iOS-App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E0BADD91E446F55007EE1C2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = canviz;
+				TargetAttributes = {
+					0E0BADE01E446F55007EE1C2 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0E0BADDC1E446F55007EE1C2 /* Build configuration list for PBXProject "AD-Auth-iOS-App" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0E0BADD81E446F55007EE1C2;
+			productRefGroup = 0E0BADE21E446F55007EE1C2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E0BADE01E446F55007EE1C2 /* AD-Auth-iOS-App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0E0BADDF1E446F55007EE1C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E4C0ECC1E4498F7004357AE /* Auth.plist in Resources */,
+				0E0BADF41E446F55007EE1C2 /* LaunchScreen.storyboard in Resources */,
+				0E0BADF11E446F55007EE1C2 /* Assets.xcassets in Resources */,
+				0E4C0ECA1E44951A004357AE /* ic_launcher-web.png in Resources */,
+				0E0BADEF1E446F55007EE1C2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0C216592E42A56384999A55B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		355FE31655BE2FDBA320BC65 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AD-Auth-iOS-App/Pods-AD-Auth-iOS-App-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		36EF586F8DC922470A198649 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AD-Auth-iOS-App/Pods-AD-Auth-iOS-App-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E0BADDD1E446F55007EE1C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0BADEC1E446F55007EE1C2 /* ViewController.m in Sources */,
+				0E0BADE91E446F55007EE1C2 /* AppDelegate.m in Sources */,
+				0E0BADE61E446F55007EE1C2 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0E0BADED1E446F55007EE1C2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E0BADEE1E446F55007EE1C2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0E0BADF21E446F55007EE1C2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E0BADF31E446F55007EE1C2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E0BADF61E446F55007EE1C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0E0BADF71E446F55007EE1C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0E0BADF91E446F55007EE1C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFFFCCF221F9F5989D84D9AD /* Pods-AD-Auth-iOS-App.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "AD-Auth-iOS-App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.opentech.AD-Auth-iOS-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0E0BADFA1E446F55007EE1C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 792210520A1809BFE168C223 /* Pods-AD-Auth-iOS-App.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "AD-Auth-iOS-App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.opentech.AD-Auth-iOS-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E0BADDC1E446F55007EE1C2 /* Build configuration list for PBXProject "AD-Auth-iOS-App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0BADF61E446F55007EE1C2 /* Debug */,
+				0E0BADF71E446F55007EE1C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E0BADF81E446F55007EE1C2 /* Build configuration list for PBXNativeTarget "AD-Auth-iOS-App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0BADF91E446F55007EE1C2 /* Debug */,
+				0E0BADFA1E446F55007EE1C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E0BADD91E446F55007EE1C2 /* Project object */;
+}

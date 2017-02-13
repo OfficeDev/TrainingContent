@@ -1,0 +1,3 @@
+target 'O365-Exchange-App' do
+  pod 'ADALiOS'
+ end
