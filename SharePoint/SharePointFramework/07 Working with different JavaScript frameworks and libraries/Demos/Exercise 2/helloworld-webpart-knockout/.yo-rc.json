@@ -1,0 +1,7 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "libraryName": "helloworld-webpart-knockout",
+    "libraryId": "945137e2-f4ed-4d7e-9590-27b43938b807",
+    "framework": "knockout"
+  }
+}

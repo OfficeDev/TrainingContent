@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "name": "helloworld-webpart-jquery-client-side-solution",
+    "id": "338b4118-392d-4893-b2c7-d9fc66ea491a",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/helloworld-webpart-jquery.sppkg"
+  }
+}

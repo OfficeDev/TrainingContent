@@ -1,0 +1,38 @@
+<div>
+   <div>
+     <div data-bind="attr: {class:rowClass}">
+       <p class='ms-font-l ms-fontColor-white'>There are <span class="ms-fontWeight-semibold" data-bind='text: listItems().length'></span> item(s) in <span class="ms-fontWeight-semibold" data-bind='text: listName'></span> list</p>
+       <table>
+           <thead>
+               <tr>
+                   <th class='ms-font-l ms-fontColor-white'>Title</th>
+                   <th />
+                   <th />
+               </tr>
+           </thead>
+           <tbody data-bind="foreach: listItems">
+             <tr>
+               <td><input class='ms-TextField-field' data-bind="{value: Title}" /></td>
+               <td><button data-bind="attr: {class: $parent.buttonClass}, click: $parent.updateListItem">Update</button></td>
+               <td><button data-bind="attr: {class: $parent.buttonClass}, click: $parent.removeListItem">Delete</button></td>
+             </tr>
+           </tbody>
+       </table>
+     </div>
+     <div data-bind="attr: {class:rowClass}, visible: isAdding">
+       <table>
+         <tr>
+           <td><input class='ms-TextField-field' data-bind="value: newItemTitle" /></td>
+           <td><button data-bind="attr: {class: buttonClass}, click: addListItem">Add</button></td>
+           <td><button data-bind="attr: {class: buttonClass}, click: showAddNew.bind(null, false)">Cancel</button></td>
+         </tr>
+       </table>
+     </div>
+     <div data-bind="attr: {class:rowClass}">
+       <button data-bind="attr: {class: buttonClass}, click: showAddNew.bind(null, true)">Add New Item</button>
+     </div>
+     <div data-bind="attr: {class:rowClass}">
+       <p class="ms-font-l" data-bind="{ css: hasError() ? 'ms-fontColor-red' : 'ms-fontColor-white', text: message }"></p>
+     </div>
+   </div>
+ </div>

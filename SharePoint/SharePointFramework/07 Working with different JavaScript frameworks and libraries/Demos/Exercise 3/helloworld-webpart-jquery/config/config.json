@@ -1,0 +1,15 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/webparts/helloWorldJQuery/HelloWorldJQueryWebPart.js",
+      "manifest": "./src/webparts/helloWorldJQuery/HelloWorldJQueryWebPart.manifest.json",
+      "outputPath": "./dist/hello-world-j-query.bundle.js"
+    }
+  ],
+  "externals": {
+    "jquery":"node_modules/jquery/dist/jquery.min.js"
+  },
+  "localizedResources": {
+    "helloWorldJQueryStrings": "webparts/helloWorldJQuery/loc/{locale}.js"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "name": "helloworld-webpart-knockout-client-side-solution",
+    "id": "8866554c-c2ce-4d4c-bb6c-e11258839687",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/helloworld-webpart-knockout.sppkg"
+  }
+}

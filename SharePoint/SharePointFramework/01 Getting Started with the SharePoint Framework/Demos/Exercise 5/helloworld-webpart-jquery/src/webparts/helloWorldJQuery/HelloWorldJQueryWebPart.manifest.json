@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../node_modules/@microsoft/sp-module-interfaces/lib/manifestSchemas/jsonSchemas/clientSideComponentManifestSchema.json",
+
+  "id": "fae0bda9-f961-4333-8f13-8372b99cb8eb",
+  "alias": "HelloWorldJQueryWebPart",
+  "componentType": "WebPart",
+  "version": "0.0.1",
+  "manifestVersion": 2,
+
+  "preconfiguredEntries": [{
+    "groupId": "fae0bda9-f961-4333-8f13-8372b99cb8eb",
+    "group": { "default": "Under Development" },
+    "title": { "default": "HelloWorld jQuery" },
+    "description": { "default": "HelloWorld jQuery description" },
+    "officeFabricIconFontName": "Page",
+    "properties": {
+      "description": "HelloWorld jQuery"
+    }
+  }]
+}
