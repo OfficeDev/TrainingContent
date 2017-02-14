@@ -60,6 +60,7 @@ The completed lab exercises are the demos for this module.
 
 ----------
 
-Notice that we will keep on updating this material based on your input and work being done in the [SharePoint Patterns and Practices initiative](http://aka.ms/sppnp). If you have any questions or comments, please use the (SharePoint Developer Group)[http://aka.ms/sppnp-community) at Microsoft Tech Community.
+Notice that we will keep on updating this material based on your input and work being done in the [SharePoint Patterns and Practices initiative](http://aka.ms/sppnp). If you have any questions or comments, please use the [SharePoint Developer Group](http://aka.ms/sppnp-community) at Microsoft Tech Community.
 
 ![SharePoint PnP Logo](https://devofficecdn.azureedge.net/media/Default/PnP/sppnp.png)
+
