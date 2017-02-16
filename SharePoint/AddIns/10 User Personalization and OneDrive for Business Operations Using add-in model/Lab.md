@@ -11,7 +11,7 @@ To complete the labs in this course you need to install or configure the followi
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
 * Download and install the latest version of the SharePoint online client SDK from following link - http://aka.ms/spocsom
-* Download the [O3658-7 Demos.zip](Demos/O3658-7 Demos.zip) zip file by following the link and clicking on **Raw**, then extract it. Note the location of these files. You will need these files to complete the labs.
+* Download the material from [Demos folder](Demos). Note the location of these files. You will need these files to complete the labs.
 
 ## Exercise 1: Perform User Profile Property Synchronization to Cloud ##
 

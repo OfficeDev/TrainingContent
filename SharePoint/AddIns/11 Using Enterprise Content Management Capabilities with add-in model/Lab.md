@@ -14,7 +14,7 @@ The required prerequisite for this course are:
 * Access to an existing Windows Azure tenant (to be used as the hosting platform for applications that are installed for a typical Office365 sites.) 
 * SharePoint Designer 2013. 
 * Download and install the latest version of the SharePoint online client SDK from following link - http://aka.ms/spocsom
-* Download the [O3658-8 Demos.zip](Demos/O3658-8 Demos.zip) zip file by following the link and clicking on **Raw**, then extract it. Note the location of these files. You will need these files to complete the labs.
+* Download the material from [Demos folder](Demos). Note the location of these files. You will need these files to complete the labs.
 
 ##Exercise 1: Build Cross Site Collection Navigation with Custom Taxonomy Driven Navigation
 
