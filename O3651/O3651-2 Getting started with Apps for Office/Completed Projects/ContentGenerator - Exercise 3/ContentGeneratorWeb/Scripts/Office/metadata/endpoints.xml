@@ -313,6 +313,7 @@
   <Endpoint Name="Excel" Platform="Web" MajorVersion="16" ApiSetVersion="0" DisplayName="Microsoft Excel Web App for Office 365">
     <Sets>
       <Set Name="BindingEvents" Version="1.1" />
+      <Set Name="CompressedFile" Version="1.1" />
       <Set Name="DocumentEvents" Version="1.1" />
       <Set Name="MatrixBindings" Version="1.1" />
       <Set Name="MatrixCoercion" Version="1.1" />
@@ -365,13 +366,24 @@
   </Endpoint>
   <Endpoint Name="Word" Platform="Web" MajorVersion="16" ApiSetVersion="0" DisplayName="Microsoft Word Web App for Office 365">
      <Sets>
+      <Set Name="BindingEvents" Version="1.1" />
+      <Set Name="CompressedFile" Version="1.1" />
       <Set Name="CustomXmlParts" Version="1.1" />
       <Set Name="DocumentEvents" Version="1.1" />
       <Set Name="File" Version="1.1" />
+      <Set Name="ImageCoercion" Version="1.1" />
+      <Set Name="MatrixBindings" Version="1.1" />
+      <Set Name="MatrixCoercion" Version="1.1" />
       <Set Name="OoxmlCoercion" Version="1.1" />
+      <Set Name="PdfFile" Version="1.1" />
       <Set Name="Selection" Version="1.1" />
       <Set Name="Settings" Version="1.1" />
+      <Set Name="TableBindings" Version="1.1" />
+      <Set Name="TableCoercion" Version="1.1" />
+      <Set Name="TextBindings" Version="1.1" />
       <Set Name="TextCoercion" Version="1.1" />
+      <Set Name="TextFile" Version="1.1" />
+      <Set Name="WordApi" Version="1.2" />
     </Sets>
     <Methods>
       <Method Name="Binding.addHandlerAsync" />
@@ -406,11 +418,20 @@
       <Method Name="Document.setSelectedDataAsync" />
       <Method Name="File.closeAsync" />
       <Method Name="File.getSliceAsync" />
+      <Method Name="MatrixBinding.getDataAsync" />
+      <Method Name="MatrixBinding.setDataAsync" />
       <Method Name="Settings.get" />
       <Method Name="Settings.remove" />
       <Method Name="Settings.saveAsync" />
       <Method Name="Settings.set" />
       <Method Name="Settings.refreshAsync" />
+      <Method Name="TableBinding.addColumnsAsync" />
+      <Method Name="TableBinding.addRowsAsync" />
+      <Method Name="TableBinding.deleteAllDataValuesAsync" />
+      <Method Name="TableBinding.getDataAsync" />
+      <Method Name="TableBinding.setDataAsync" />
+      <Method Name="TextBinding.getDataAsync" />
+      <Method Name="TextBinding.setDataAsync" />
     </Methods>
   </Endpoint>
   <Endpoint Name="Outlook" Platform="Web" MajorVersion="16" ApiSetVersion="0" DisplayName="Microsoft Outlook Web App for Office 365">
@@ -421,12 +442,26 @@
   <Endpoint Name="PowerPoint" Platform="Web" MajorVersion="16" ApiSetVersion="0" DisplayName="Microsoft PowerPoint Web App for Office 365">
     <Sets>
       <Set Name="ActiveView" Version="1.1" />
+      <Set Name="CompressedFile" Version="1.1" />
+      <Set Name="DocumentEvents" Version="1.1" />
+      <Set Name="File" Version="1.1" />
+      <Set Name="PdfFile" Version="1.1" />
+      <Set Name="Selection" Version="1.1" />
       <Set Name="Settings" Version="1.1" />
+      <Set Name="TextCoercion" Version="1.1" />
+      <Set Name="ImageApi" Version="1.1" />
     </Sets>
     <Methods>
       <Method Name="Document.addHandlerAsync" />
       <Method Name="Document.getActiveViewAsync" />
+      <Method Name="Document.getFileAsync" />
+      <Method Name="Document.getFilePropertiesAsync" />
+      <Method Name="Document.getSelectedDataAsync" />
+      <Method Name="Document.goToByIdAsync" />
       <Method Name="Document.removeHandlerAsync" />
+      <Method Name="Document.setSelectedDataAsync" />
+      <Method Name="File.closeAsync" />
+      <Method Name="File.getSliceAsync" />
       <Method Name="Settings.addHandlerAsync" />
       <Method Name="Settings.get" />
       <Method Name="Settings.refreshAsync" />
@@ -769,5 +804,38 @@
       <Set Name="Mailbox" Version="1.1" />
     </Sets>
   </Endpoint>
-  
+  <Endpoint Name="OneNote" Platform="Web" MajorVersion="16" ApiSetVersion="0" DisplayName="Microsoft OneNote Web App">
+    <Sets>
+      <Set Name="DocumentEvents" Version="1.1" />
+      <Set Name="MatrixCoercion" Version="1.1" />
+      <Set Name="Selection" Version="1.1" />
+      <Set Name="Settings" Version="1.1" />
+      <Set Name="TextCoercion" Version="1.1" />
+      <Set Name="OneNoteApi" Version="1.1" />
+    </Sets>
+    <Methods>
+      <Method Name="Document.getSelectedDataAsync" />
+      <Method Name="Document.setSelectedDataAsync" />
+      <Method Name="Settings.get" />
+      <Method Name="Settings.set" />
+      <Method Name="Settings.saveAsync" />
+    </Methods>
+  </Endpoint>
+  <Endpoint Name="OneNote" Platform="Win32" MajorVersion="16" ApiSetVersion="0" DisplayName="Microsoft OneNote 2016">
+    <Sets>
+      <Set Name="DocumentEvents" Version="1.1" />
+      <Set Name="MatrixCoercion" Version="1.1" />
+      <Set Name="Selection" Version="1.1" />
+      <Set Name="Settings" Version="1.1" />
+      <Set Name="TextCoercion" Version="1.1" />
+      <Set Name="OneNoteApi" Version="1.1" />
+    </Sets>
+    <Methods>
+      <Method Name="Document.getSelectedDataAsync" />
+      <Method Name="Document.setSelectedDataAsync" />
+      <Method Name="Settings.get" />
+      <Method Name="Settings.set" />
+      <Method Name="Settings.saveAsync" />
+    </Methods>
+  </Endpoint>
 </Endpoints>
