@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Office365Calendar.Models.MyEvent>
+@{
+    ViewBag.Title = "Search";
+}
+<h2>Search</h2>
+@using (Html.BeginForm("Search", "Calendar", FormMethod.Post))
+{
+    <p>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="text" id="searchTerm" name="searchTerm" class="form-control" /><br />
+                    <button type="submit">search for events</button>
+                </div>
+            </div>
+        </div>
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Subject)</th>
+        <th>@Html.DisplayNameFor(model => model.Start)</th>
+        <th>@Html.DisplayNameFor(model => model.End)</th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+                <td>@Html.DisplayFor(modelItem => item.Start)</td>
+                <td>@Html.DisplayFor(modelItem => item.End)</td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    }
+</table>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Microsoft.Graph.DriveItem>
+
+@{ ViewBag.Title = "My Files"; }
+
+<h2>My Files</h2>
+
+<div class="row" style="margin-top:50px;">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table id="filesTable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Created</th>
+                        <th>Modified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var file in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    //Place delete control here
+                                    Dictionary<string, object> attributes1 = new Dictionary<string, object>();
+                                    attributes1.Add("class", "btn btn-warning");
+
+                                    RouteValueDictionary routeValues1 = new RouteValueDictionary();
+                                    routeValues1.Add("name", file.Id);
+                                    routeValues1.Add("etag", file.ETag);
+                                    @Html.ActionLink("X", "Delete", "Files", routeValues1, attributes1);
+                                }
+                            </td>
+                            <td>
+                                @file.Id
+                            </td>
+                            <td>
+                                <a href="@file.WebUrl">@file.Name</a>
+                            </td>
+                            <td>
+                                @file.CreatedDateTime.Value.UtcDateTime.ToLocalTime()
+                            </td>
+                            <td>
+                                @file.LastModifiedDateTime.Value.UtcDateTime.ToLocalTime()
+                            </td>
+                        </tr>
+                     }
+                </tbody>
+            </table>
+        </div>
+        <div class="btn btn-group-sm">
+            @{
+                var pageLinkAttributes = new Dictionary<string, object> { { "class", "btn btn-default" } };
+
+                int pageIndex = ViewBag.pageIndex;
+
+                // do prev link if not on first page
+                if (pageIndex > 1)
+                {
+                    var routeValues = new RouteValueDictionary { { "pageIndex", pageIndex - 1 } };
+                    @Html.ActionLink("Previous Page", "Index", "Files", routeValues, pageLinkAttributes);
+            }
+
+
+            // do next link if current page = max page size
+            if (ViewBag.morePagesAvailable)
+            {
+                var routeValues = new RouteValueDictionary { { "pageIndex", pageIndex + 1 } };
+                    @Html.ActionLink("Next Page", "Index", "Files", routeValues, pageLinkAttributes);
+            }
+            }
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top:50px;">
+    <div class="col-sm-12">
+        @using (Html.BeginForm("Upload", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" id="file" name="file" class="btn btn-default" />
+            <input type="submit" id="submit" name="submit" value="Upload" class="btn btn-default" />
+        }
+    </div>
+</div>
