@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinLab.ContactsPage">
+    <RelativeLayout Padding="0">
+        <ListView x:Name="contactsListView" 
+              RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}" 
+              RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+			  ItemTapped="OnItemTapped" BackgroundColor="Black"/>
+        
+        <Grid x:Name="activityIndicatorPanel" IsVisible="False"
+              RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+              RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+            <ActivityIndicator x:Name="activityIndicator" Grid.Row="0"
+               IsVisible="False" IsRunning="False" Color="Black"
+               HeightRequest="50"
+               WidthRequest="50"
+               BackgroundColor="Transparent"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="CenterAndExpand"/>
+        </Grid>
+    </RelativeLayout>
+</ContentPage>
