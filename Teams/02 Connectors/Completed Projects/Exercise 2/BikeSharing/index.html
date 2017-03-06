@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Bike Sharing</title>
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/4.1.0/css/fabric.min.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.14/js/adal.min.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="ms-font-xl ms-Grid-col ms-u-lg6 headerText">Bike Inventory</div>
+        <div id="signedInAs" class="ms-Grid-col ms-u-lg6">
+            <span class="ms-font-m userLabel" id="signedInAsLabel">Signed in as:</span>
+            <span class='app-userDisplay ms-font-m'></span>
+            <button class="app-signOut ms-font-m" onclick="logOut();">Log Out</button>
+            <button class="app-signIn ms-font-m" onclick="login();">Login</button>
+        </div>
+    </div>
+
+    <div class="contentArea">
+        <div id="splashBar"></div>
+        <div id="helloworldConnector">
+            <button class="bigButton" onclick="sayHelloWorld();">
+                <span class="ms-Icon ms-Icon--Chat bigButtonIcon"></span>
+                <span>Say Hello World to Connector</span>
+            </button>
+        </div>
+        <div id="inventoryPage" class="ms-u-slideLeftIn40">
+            <h3 class="areaHeader">Advisories and Notices</h3>
+            <div id="docBin"></div>
+            <h3 class="areaHeader">Bicycles and Accessories</h3>
+            <div id="inventoryBin"></div>
+        </div>
+        <div id="detailsPage" class="ms-font-m ms-Grid ms-u-slideRightIn40">
+            <div id="bikeBanner" class="ms-Grid-row">
+                <div id="backButton" onclick="showDetailsPage(false);">
+                    <div class="backButtonElement">
+                        <i class="ms-Icon ms-Icon--Back"></i>
+                    </div>
+                    <div class="backButtonElement">Back</div>
+                </div>
+                <div id="bikeTitle"></div>
+            </div>
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-u-lg8">
+                    <div id="bikeDetailsArea">
+                        <button class="bigButton operation checkOut" onclick="bikeAction.call(this);">
+                            <span>
+                                <i class="ms-Icon ms-Icon--Down bigButtonIcon sub-operation checkOut"></i>
+                                <i class="ms-Icon ms-Icon--Refresh bigButtonIcon sub-operation wait"></i>
+                                <i class="ms-Icon ms-Icon--CheckMark bigButtonIcon sub-operation checkIn"></i>
+                            </span>
+                            <span class="sub-operation checkOut">
+                                Check out
+                            </span>
+                            <span class="sub-operation wait">
+                                Please wait...
+                            </span>
+                            <span class="sub-operation checkIn">
+                                Check in
+                            </span>
+                        </button>
+                        <div id="bikeDescription"></div>
+                        <div class="bikeDetailsTable">
+                            <div class="bikeDetailsRow">
+                                <div class="bikeDetailsLabel">Price</div>
+                                <div id="bikeDetailsPrice" class="bikeDetailsValue"></div>
+                            </div>
+                            <div class="bikeDetailsRow">
+                                <div class="bikeDetailsLabel">Location</div>
+                                <div id="bikeDetailsLocation" class="bikeDetailsValue"></div>
+                            </div>
+                            <div class="bikeDetailsRow">
+                                <div class="bikeDetailsLabel">Condition</div>
+                                <div id="bikeDetailsCondition" class="bikeDetailsValue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ms-Grid-col ms-u-lg4">
+                    <div id="bikeImage"></div>
+                </div>
+            </div>
+        </div>
+        <div id="message" class="ms-font-l ms-fontColor-red"></div>
+    </div>
+</body>
+</html>
