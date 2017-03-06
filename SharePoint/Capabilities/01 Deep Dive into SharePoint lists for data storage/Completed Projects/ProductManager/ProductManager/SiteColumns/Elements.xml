@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+
+  <Field
+    ID="{11e6b032-2d81-4068-9766-75bb26271e31}"
+    Name="ProductCode"
+    DisplayName="Product Code"
+    Type="Text"
+    Required="TRUE"
+    Indexed="TRUE"
+    Group="Wingtip Site Columns" />
+
+  <Field
+    ID="{11e6b032-2d81-4068-9766-75bb26271e32}"
+    Name="ProductDescription"
+    DisplayName="Product Description"
+    Type="Note"
+    NumLines="4"
+    RichText="FALSE"
+    Group="Wingtip Site Columns" />
+
+  <Field
+    ID="{11e6b032-2d81-4068-9766-75bb26271e33}"
+    Name="ProductListPrice"
+    DisplayName="List Price"
+    Type="Currency"
+    Min="0"
+    Group="Wingtip Site Columns" />
+
+  <Field
+    ID="{11e6b032-2d81-4068-9766-75bb26271e34}"
+    Name="ProductColor"
+    DisplayName="Product Color"
+    Type="MultiChoice"
+    Group="Wingtip Site Columns" >
+    <CHOICES>
+      <CHOICE>White</CHOICE>
+      <CHOICE>Black</CHOICE>
+      <CHOICE>Grey</CHOICE>
+      <CHOICE>Blue</CHOICE>
+      <CHOICE>Red</CHOICE>
+      <CHOICE>Green</CHOICE>
+      <CHOICE>Yellow</CHOICE>
+    </CHOICES>
+  </Field>
+
+  <Field ID="{11e6b032-2d81-4068-9766-75bb26271e35}"
+       Name="ProductCategory"
+       DisplayName="Product Category"
+       Type="Choice"
+       Group="Wingtip Site Columns" >
+    <CHOICES>
+      <CHOICE>Action Figures</CHOICE>
+      <CHOICE>Arts and Crafts</CHOICE>
+      <CHOICE>Vehicles and RC</CHOICE>
+    </CHOICES>
+  </Field>
+
+  <Field
+     ID="{11e6b032-2d81-4068-9766-75bb26271e36}"
+     Name="ProductImageUrl"
+     DisplayName="Product Image"
+     Type="URL"
+     Format="Image"
+     Group="Wingtip Site Columns" />
+
+</Elements>

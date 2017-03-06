@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Percent Complete Chart</h2>
+<img src="@Url.Action("GetChart", "Chart")" />
+
+<div>
+    @Html.ActionLink("Back to To Do List", "Index", "ToDoList")
+</div>

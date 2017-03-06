@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestServerSide", "RestServerSide\RestServerSide.csproj", "{F953D03F-A3BA-4105-B240-673AF360AE42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestServerSideWeb", "RestServerSideWeb\RestServerSideWeb.csproj", "{C003AB48-11AE-46B0-9D40-2E826246F756}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F953D03F-A3BA-4105-B240-673AF360AE42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F953D03F-A3BA-4105-B240-673AF360AE42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F953D03F-A3BA-4105-B240-673AF360AE42}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F953D03F-A3BA-4105-B240-673AF360AE42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F953D03F-A3BA-4105-B240-673AF360AE42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F953D03F-A3BA-4105-B240-673AF360AE42}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C003AB48-11AE-46B0-9D40-2E826246F756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C003AB48-11AE-46B0-9D40-2E826246F756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C003AB48-11AE-46B0-9D40-2E826246F756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C003AB48-11AE-46B0-9D40-2E826246F756}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

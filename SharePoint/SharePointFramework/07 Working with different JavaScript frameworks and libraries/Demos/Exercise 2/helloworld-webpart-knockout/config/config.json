@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/webparts/helloWorldKnockout/HelloWorldKnockoutWebPart.js",
+      "manifest": "./src/webparts/helloWorldKnockout/HelloWorldKnockoutWebPart.manifest.json",
+      "outputPath": "./dist/hello-world-knockout.bundle.js"
+    }
+  ],
+  "externals": {},
+  "localizedResources": {
+    "helloWorldKnockoutStrings": "webparts/helloWorldKnockout/loc/{locale}.js"
+  }
+}

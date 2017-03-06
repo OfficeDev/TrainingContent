@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectItem Type="Microsoft.VisualStudio.SharePoint.Module" DefaultFile="Elements.xml" SupportedTrustLevels="All" SupportedDeploymentScopes="Web, Site" xmlns="http://schemas.microsoft.com/VisualStudio/2010/SharePointTools/SharePointProjectItemModel">
+  <Files>
+    <ProjectItemFile Source="Elements.xml" Target="ProductImageFiles\" Type="ElementManifest" />
+    <ProjectItemFile Source="WP0003.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0004.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0005.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0006.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0007.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0008.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0009.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0010.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0011.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0012.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0013.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0014.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0015.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0016.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0017.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0018.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0019.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0020.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0021.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0022.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0023.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0024.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0025.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0026.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0027.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0028.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0029.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0030.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0031.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0032.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0001.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+    <ProjectItemFile Source="WP0002.jpg" Target="ProductImageFiles\" Type="ElementFile" />
+  </Files>
+</ProjectItem>

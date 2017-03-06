@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../node_modules/@microsoft/sp-module-interfaces/lib/manifestSchemas/jsonSchemas/clientSideComponentManifestSchema.json",
+
+  "id": "b1d4aa64-66ee-48f7-8cbf-4554c0220d34",
+  "alias": "HelloWorldAngular1WebPart",
+  "componentType": "WebPart",
+  "version": "0.0.1",
+  "manifestVersion": 2,
+
+  "preconfiguredEntries": [{
+    "groupId": "b1d4aa64-66ee-48f7-8cbf-4554c0220d34",
+    "group": { "default": "Under Development" },
+    "title": { "default": "HelloWorld Angular 1" },
+    "description": { "default": "HelloWorld Angular 1 description" },
+    "officeFabricIconFontName": "Page",
+    "properties": {
+      "description": "HelloWorld Angular 1"
+    }
+  }]
+}

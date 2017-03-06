@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "name": "helloworld-webpart-angular-1-client-side-solution",
+    "id": "e4acda13-5630-4dad-a12f-98a7fe7ef953",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/helloworld-webpart-angular-1.sppkg"
+  }
+}
