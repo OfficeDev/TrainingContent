@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinLab.MailPage">
+    <RelativeLayout Padding="0">
+        <Grid  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}" 
+              RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}" RowSpacing="0" BackgroundColor="Black">
+
+            <Label x:Name="emailAdressLabel"  HeightRequest="40" Margin="10,10,10,0"
+                   Text="To Email Address" FontSize="Medium" TextColor="White" 
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+            </Label>
+            <Entry x:Name="emailAdressEntry"  Keyboard="Email" HeightRequest="40" Margin="10,60,10,0"
+                    HorizontalTextAlignment="Start" FontSize="Medium" VerticalOptions="Start" 
+                   HorizontalOptions="FillAndExpand" BackgroundColor="White" TextColor="#555555">
+            </Entry>
+
+            <Label x:Name="subjectLabel"  HeightRequest="40" Margin="10,110,10,0"
+               Text="Subject" FontSize="Medium" TextColor="White" 
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+            </Label>
+            <Entry x:Name="subjectEntry"  Keyboard="Email" HeightRequest="40" Margin="10,150,10,0"
+               HorizontalTextAlignment="Start" FontSize="Medium" VerticalOptions="Start" 
+                   HorizontalOptions="FillAndExpand" BackgroundColor="White" TextColor="#555555">
+            </Entry>
+            <Label x:Name="bodyLabel"  HeightRequest="40" Margin="10, 200, 10, 0"
+               Text="Body" FontSize="Medium" TextColor="White" 
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+            </Label>
+            <Entry x:Name="bodyEntry"  Keyboard="Email" HeightRequest="40" Margin="10, 250, 10, 0"
+                   HorizontalTextAlignment="Start" FontSize="Medium" VerticalOptions="StartAndExpand" 
+                   HorizontalOptions="FillAndExpand" BackgroundColor="White" TextColor="#555555">
+            </Entry>
+            <Grid HeightRequest="40" Margin="10, 310, 10, 0" VerticalOptions="StartAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="sendButton" Grid.Column="1" Text="Send"  FontSize="Medium" BackgroundColor="#5087f7" TextColor="#e8e8e8" 
+                     HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" BorderRadius="8" />
+            </Grid>
+        </Grid>
+        
+
+        <Grid x:Name="activityIndicatorPanel" IsVisible="False"
+              RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+              RelativeLayout.HeightConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+            <ActivityIndicator x:Name="activityIndicator" Grid.Row="0"
+               IsVisible="False" IsRunning="False" Color="Black"
+               HeightRequest="50"
+               WidthRequest="50"
+               BackgroundColor="Transparent"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="CenterAndExpand"/>
+        </Grid>
+    </RelativeLayout>
+</ContentPage>
