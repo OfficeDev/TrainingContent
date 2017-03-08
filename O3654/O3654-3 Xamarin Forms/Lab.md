@@ -27,7 +27,7 @@ In this lab, you will learn how to use MSAL to authenticate, how to use the Micr
 ## Exercise 1: MSAL AUTHENTICATION
 In this exercise, we will show how to use MSAL to authenticate Microsoft Accounts and Azure Active Directory accounts via the converged MSA and Azure AD authentication endpoints.
 
-1. Open the the **XamarinLab.sln** solution in the [**Starer Project/XamarinLab**](./Starer Project/XamarinLab) folder with Visual Studio 2017.  Make sure you open Visual Studio as an Administrator. 
+1. Open the the **XamarinLab.sln** solution in the [**Starter Project/XamarinLab**](./Starter Project/XamarinLab) folder with Visual Studio 2017.  Make sure you open Visual Studio as an Administrator. 
 2. Open the **Package Manager Console** and install  the **Microsoft.Identity.Client** library for Android, iOS and UWP platforms by running the following command once for each project.
 
 	````powershell
@@ -89,7 +89,7 @@ In this exercise, we will show how to use MSAL to authenticate Microsoft Account
 
 	![](Images/7.png)
 
-9. Include the **LoginPageRenderer.cs** file from the [**Starer Project/Src/Android**](./Starer Project/Src/Android) folder to the **XamarinLab.Droid** project and include the **LoginPageRenderer.cs** file from the [**Starer Project/Src/iOS**](./Starer Project/Src/iOS) folder to the **XamarinLab.iOS** project.
+9. Include the **LoginPageRenderer.cs** file from the [**Starter Project/Src/Android**](./Starter Project/Src/Android) folder to the **XamarinLab.Droid** project and include the **LoginPageRenderer.cs** file from the [**Starter Project/Src/iOS**](./Starter Project/Src/iOS) folder to the **XamarinLab.iOS** project.
 
 	![](Images/8.png)
 
@@ -164,16 +164,16 @@ In this exercise, we will show how to use MSAL to authenticate Microsoft Account
 In this exercise, you will use Microsoft Graph SDK to retrieve a user's Contacts.
 
 1. Open the the **XamarinLab.sln** solution.
-2. Include the **Util.cs** file from the [**Starer Project/Src**](./Starer Project/Src) folder in the **Helper** folder in the **XamarinLab** project.
-3. Include the **MainPage.xaml** and **MainPage.xaml.cs** files from the [**Starer Project/Src**](./Starer Project/Src) folder in the **XamarinLab** project.
+2. Include the **Util.cs** file from the [**Starter Project/Src**](./Starter Project/Src) folder in the **Helper** folder in the **XamarinLab** project.
+3. Include the **MainPage.xaml** and **MainPage.xaml.cs** files from the [**Starter Project/Src**](./Starter Project/Src) folder in the **XamarinLab** project.
 4. Open the **Properties** window for the **MainPage.xaml.cs** file, then set the **Build Action** to **Embedded resource**, and **Custom Tool** to **MSBuild:UpdateDesignTimeXaml**.
 
     ![](Images/24.png)
 
 	>**Note:** You can select **Embedded resource** in a dropdown list for **Build Action**, but you need manually input **MSBuild:UpdateDesignTimeXaml** for **Custom Tool**.
 
-5. Include the **ContactsPage.xaml** and **ContactsPage.xaml.cs** files from the [**Starer Project/Src**](./Starer Project/Src) folder in the **XamarinLab** project. Set the **ContactsPage.xaml**'s properties.  Set **Build Action** to **Embedded resource** and **Custom Tool** to **MSBuild:UpdateDesignTimeXaml**.
-6. Include the **FilesPage.xaml** and **FilesPage.xaml.cs** files from the [**Starer Project/Src**](./Starer Project/Src) folder in the **XamarinLab** project.  Set **FilesPage.xaml**'s properties.  Set **Build Action** to **Embedded resource** and **Custom Tool** to **MSBuild:UpdateDesignTimeXaml**.
+5. Include the **ContactsPage.xaml** and **ContactsPage.xaml.cs** files from the [**Starter Project/Src**](./Starter Project/Src) folder in the **XamarinLab** project. Set the **ContactsPage.xaml**'s properties.  Set **Build Action** to **Embedded resource** and **Custom Tool** to **MSBuild:UpdateDesignTimeXaml**.
+6. Include the **FilesPage.xaml** and **FilesPage.xaml.cs** files from the [**Starter Project/Src**](./Starter Project/Src) folder in the **XamarinLab** project.  Set **FilesPage.xaml**'s properties.  Set **Build Action** to **Embedded resource** and **Custom Tool** to **MSBuild:UpdateDesignTimeXaml**.
 
     ![](Images/16.png)
 
@@ -354,7 +354,7 @@ In this exercise, you will use Microsoft Graph SDK to retrieve a user's Contacts
 In this exercise, you will use the Microsoft Graph SDK to send email.
 
 1. Open the **XamarinLab.sln** solution.
-2. Copy the **Starer Project/Src/MailPage.xaml** and the **MailPage.xaml.cs** files.  Paste and include the files to the **XamarinLab** project folder.  Set the **Build Action** property to **Embedded resource** and the **Custom Tool** property to **MSBuild:UpdateDesignTimeXaml**.
+2. Copy the **Starter Project/Src/MailPage.xaml** and the **MailPage.xaml.cs** files.  Paste and include the files to the **XamarinLab** project folder.  Set the **Build Action** property to **Embedded resource** and the **Custom Tool** property to **MSBuild:UpdateDesignTimeXaml**.
 	![](Images/21.png)
 3. Open the **MainPage.xaml.cs** file in the **XamarinLab** project. Add code to navigate to the mail page when a user clicks the **Send Email** menu on the main page.  To do this, replace the **OnItemTapped** method with the following code.
     ```c#
