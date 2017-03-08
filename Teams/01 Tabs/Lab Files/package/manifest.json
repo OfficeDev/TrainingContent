@@ -1,0 +1,32 @@
+{
+	"$schema": "https://statics.teams.microsoft.com/sdk/v0.2/manifest/MicrosoftTeams.schema.json",
+	"manifestVersion": "0.2",
+	"id": "com.example.microsoftteamstabs.bikesharing",
+	"version": "1.0",
+	"name": "Bike Sharing",
+	"developer": {
+		"name": "Contoso",   
+		"websiteUrl": "http://www.contoso.com",
+		"privacyUrl": "http://www.contoso.com/privacy",
+		"termsOfUseUrl": "http://www.contoso.com/termsofuse"
+	},
+	"description": {
+		"short": "Host bike inventory and relevant items as a tab.",
+		"full": "Work with bicycle & accessory inventory items as a tab."
+	},
+	"icons": {
+		"44": "inv44.png",
+		"88": "inv88.png"
+	},
+	"accentColor": "#223344",
+	"configUrl": "https://<APPNAME>.azurewebsites.net/configuration.html",
+	"canUpdateConfig": true,
+	"needsIdentity": false,
+	"validDomains": [
+		"static2.sharepointonline.com",
+		"secure.aadcdn.microsoftonline-p.com",
+		"code.jquery.com",
+		"statics.teams.microsoft.com",
+		"*.microsoftonline.com"
+	]
+}
