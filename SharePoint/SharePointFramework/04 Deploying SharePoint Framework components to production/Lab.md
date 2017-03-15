@@ -3,7 +3,7 @@ In this lab, you will walk through deploying your client-side web part to a clas
 
 > **Note:** SharePoint Framework components only contain client side web parts for now.  More components will be introduced in the future.
 
-> This lab uses the [Demos/helloworld-webpart](./Demos/helloworld-webpart) as the starter project.  This is the same project created in [Module 1, Exercise 1](../Module-1/Lab.md#exercise-1-create-a-hello-world-web-part-without-any-framework). In this lab, the code will not change, but the configuration settings do.
+> This lab uses the [Demos/helloworld-webpart](./Demos/helloworld-webpart) as the starter project.  This is the same project created in [Module 1, Exercise 1](../Module-1/Lab.md#exercise-1-create-a-hello-world-web-part-without-any-framework). In this lab, the code will not change, but the configuration settings will.
 
 ## Prerequisites ##
 Make sure you have completed the procedures in the following sections of [Getting Started with the SharePoint Framework (SPFx)](../Module-1/Lab.md) module: 
@@ -79,12 +79,9 @@ Unlike in the workbench, in order to use client-side web parts on classic ShareP
 
 #### Package contents ####
 
-The package uses SharePoint Feature to package your web part. By default, the gulp task creates the following:
+The package uses SharePoint Feature to package your web part. By default, the gulp task creates a feature for your web part.
 
-- A feature for your web part.
-- A .webpart file for your web part, which is an XML manifest file that describes the web part.
-
-You can view the raw package contents in the **\sharepoint\solution\debug** directory.
+You can view the raw package contents in the **sharepoint** directory.
 
 The package format is very similar to a SharePoint Add-in package and uses the Microsoft Open Packaging Conventions.
 
@@ -116,10 +113,7 @@ The JavaScript files, CSS, and other supporting assets are not packaged in the .
 	
 	![](Images/install-app-to-your-site.png)
 
-4. Choose the **helloworld-webpart-client-side-solution** app, on the confirmation dialog choose **OK** to install the app on the site.
-	
-	![](Images/app-install-confirm.png)
-
+4. Choose the **helloworld-webpart-client-side-solution** app to install the app on the site.
 5. Wait until the installation completes.
 	
 	![](Images/app-installed-to-your-site.png)
@@ -178,17 +172,17 @@ Now that you have deployed and installed the client-side solution, add the web p
 5. Enter **HelloWorld** as the page name.
 6. Choose the **Create** button to create the classic web part page. SharePoint will create your page and navigate you to the new page in edit mode.
 7. In the ribbon, choose **Insert** then choose **Web Part** to open the Web Part Gallery.
-8. In the Web Part Gallery, choose the category **Custom** or **Under Development**.
+8. In the Web Part Gallery, choose the category **Under Development**.
 
-	> **Note:** During preview, client-side web parts are only available under the **Custom** or **Under Development** category in the web part gallery.
+	> **Note:** The category is configured in file **src\webparts\helloworld\HelloWorldWebPart.manifest.json**.
+
+	![](Images/webpart-manifest-json.png)
 
 9. Select the **HelloWorld** web part and choose **Add** to add it to the page.
 	
 	![](Images/webpart-gallery-helloworld.png)
 
-	> **Note:** The web part assets will be loaded from the local environment. In order to load the scripts hosted on your local computer, you need to enable the browser to load unsafe scripts. Depending on the browser you are using, make sure you enable loading unsafe scripts for this session.
-	> 
-	> For more information, please see [Deep Dive of the SharePoint Framework (SPFx)](../Module-2/Lab.md)
+	> **Note:** The web part assets will be loaded from the local environment.
 
 10. Observe the **HelloWorld** web part in the classic page.
 
@@ -196,7 +190,7 @@ Now that you have deployed and installed the client-side solution, add the web p
 
 ### Edit web part properties ###
 
-1. Open the web part edit menu by clicking the **arrow** at the top right of the web part, then choose **Edit Web Part** to open the property pane for the web part.
+1. Open the web part edit menu by choosing the **arrow** at the top right of the web part, then choose **Edit Web Part** to open the property pane for the web part.
 
 	![](Images/edit-webpart-classic-page.png)
 
@@ -211,7 +205,7 @@ Now that you have deployed and installed the client-side solution, add the web p
     ![](Images/sp-wp-classic-page-pp.png)
 
 4. Choose the **x** icon to close the client-side property pane.
-5. Choose the **Ok** button in the server-side property pane to save and close the web part property pane.
+5. Choose the **OK** button in the server-side property pane to save and close the web part property pane.
 6. In the ribbon, choose **Save** to save the page.
 
 ## Exercise 2: Deploy the web part resources to a SharePoint CDN ##
@@ -257,7 +251,7 @@ Make sure that you have installed the [**SharePoint Online Management Shell**](h
 	Set-SPOTenant -PublicCdnAllowedFileTypes "CSS,EOT,GIF,ICO,JPEG,JPG,JS,MAP,PNG,SVG,TTF,WOFF,TXT"
 	````
 
-	> **Note:** We only have to allow **JS** files in this exercise.
+	> **Note:** We only have to allow **JS** files in this exercise. You could execute command `Get-SPOTenant` and check property **PublicCdnAllowedFileTypes**. If **JS** is already included, you could ignore this step. 
 
 5. Add the CDN Origin by executing the following command:
 
@@ -290,20 +284,21 @@ For more information on the **SharePoint CDN**, please see [this](https://dev.of
 	````
 
 4. Save the file.
-5. Switch to the **Command Prompt** window. Make sure you are still in the **helloworld-webpart** directory.
-6. End the **gulp serve** task by pressing **Ctrl+C**.
-7. Package the solution again by executing the following commands:
+
+### Update the HelloWorld package in the SharePoint app catalog ###
+1. Switch to the **Command Prompt** window. End the **gulp serve** task by pressing **Ctrl+C**. Make sure you are still in the **helloworld-webpart** directory.
+2. Package the solution again by executing the following commands:
 
 	````shell
 	gulp bundle --ship
 	gulp package-solution --ship
 	````
 
-8. Upload the web part resources to the SharePoint folder you created and configured as the CDN Origin.
+3. Upload the web part resources to the SharePoint folder you created and configured as the CDN Origin.
 
 	> **Note:** The web part resources are all the files in the &lt;helloworld-webpart directory&gt;\temp\deploy folder, except the &lt;your-webpart-guid&gt;.json file.
 
-9. Upload the updated solution package to your App Catalog be repeating the steps in the [Deploy the HelloWorld package to app catalog](#deploy-the-helloworld-package-to-a-sharepoint-app-catalog) section.
+4. Upload the updated solution package to your App Catalog by repeating the steps in the [Deploy the HelloWorld package to app catalog](#deploy-the-helloworld-package-to-a-sharepoint-app-catalog) section.
 
 	> **Note:** Because you already deployed the package, you will be prompted if you want to replace the existing package. Choose **Replace It**.
 
@@ -343,23 +338,28 @@ For more information on the **SharePoint CDN**, please see [this](https://dev.of
 #### Create a BLOB container ####
 
 1. Go to the Storage account you just created. To locate the Storage Account, enter the name of the Storage account in the **Search resources** box and press Enter.
-2. In the **Storage account** dashboard, choose **Blobs** in the **Services** section, then choose the **+ Container** and create a new container with the following settings:
+2. In the **Storage account** dashboard, choose **Blobs** in the **Services** section.
+
+    ![](Images/storageaccount-blobs.png)
+
+3. Choose the **+ Container** and create a new container with the following settings:
    - Name: **helloworld-webpart**
    - Access type: **Container**
 
     ![](Images/create-blob-container.png)
 
 3. Choose **Create** to create the container.
-3. Open the context menu for the **Container** you just created.
+3. Choose the **Container** you just created, then choose **Properties**.
 
-    ![](Images/blob-container-context-menu.png)
+    ![](Images/blob-container-properties.png)
 
-4. In the **Container properties** blade, copy and save the URL.  You will use the URL in subsequent steps.
+4. In the **Container properties** blade, copy and save the URL. You will use it in subsequent steps.
 
     ![](Images/copy-blob-container-url.png)
 
 #### Obtain the Storage account access key ####
-1.	In the **Storage account** dashboard, choose **Access Keys**.
+
+1.	Go back to the **Storage account** dashboard, choose **Access Keys**.
 2.	Copy and save one of the access keys.  You will use the access key in subsequent steps.
 
 	![](Images/get-storage-access-key.png)
@@ -396,30 +396,6 @@ For more information on the **SharePoint CDN**, please see [this](https://dev.of
 
     ![](Images/create-cdn-endpoint-detail.png)
 
-#### Configure Azure Storage account details for your web part ####
-
-1. Switch to your IDE.
-2. Open the **deploy-azure-storage.json** in the **config** folder.
-3. Replace **account**, **container**, **accessKey** with your Storage Account name, BLOB container and Storage Account access key respectively.
-4. Save the file.
-
-    ![](Images/deploy-azure-storage-json.png)
-
-#### Deploy the web part resources to the Azure Storage CDN ####
-
-1. Switch to the **Command Prompt** window. Make sure you are still in the **helloworld-webpart** directory.
-2. Build the project by executing the following command:
-
-	````shell
-	gulp bundle --ship
-	````
-
-3. Deploy the resources to your Storage Account CDN by executing the following command:
-
-	````shell
-	gulp deploy-azure-storage
-	````
-
 #### Configuring the web part to load resources from the Azure Storage CDN ####
 
 1. Switch to your IDE.
@@ -432,20 +408,45 @@ For more information on the **SharePoint CDN**, please see [this](https://dev.of
 	}
 	````
 
+4. Save the file.
+
+#### Deploy the web part resources to the Azure Storage CDN ####
+
+1. Open the **deploy-azure-storage.json** in the **config** folder in your IDE.
+2. Replace **account**, **container**, **accessKey** with your Storage Account name, BLOB container and Storage Account access key respectively.
+3. Save the file.
+
+    ![](Images/deploy-azure-storage-json.png)
+
 4. Switch to the **Command Prompt** window. Make sure you are still in the **helloworld-webpart** directory.
-5. Package the solution again by executing the following commands:
+5. Build the project by executing the following command:
+
+	````shell
+	gulp bundle --ship
+	````
+
+6. Deploy the resources to your Storage Account CDN by executing the following command:
+
+	````shell
+	gulp deploy-azure-storage
+	````
+
+#### Update the HelloWorld package in the SharePoint app catalog ####
+
+1. Package the solution again by executing the following commands:
 
 	````shell
 	gulp package-solution --ship
 	````
 
-6. Upload the updated solution package to your App Catalog be repeating the steps in the [Deploy the HelloWorld package to app catalog](#deploy-the-helloworld-package-to-a-sharepoint-app-catalog) section.
+2. Upload the updated solution package to your App Catalog by repeating the steps in the [Deploy the HelloWorld package to app catalog](#deploy-the-helloworld-package-to-a-sharepoint-app-catalog) section.
 
 	> **Note:** Because you already deployed the package, you will be prompted if you want to replace the existing package. Choose **Replace It**.
 
     ![](Images/sp-app-replace-pkg.png)
 
 ### Test the updated web part ###
+
 1. In a web browser, go to the **HelloWorld** web part classic page you created.
 2. Refresh the page.
 3. The **HelloWorld** web part now loads the web part bundle and other resources from the Azure Storage Account CDN.
