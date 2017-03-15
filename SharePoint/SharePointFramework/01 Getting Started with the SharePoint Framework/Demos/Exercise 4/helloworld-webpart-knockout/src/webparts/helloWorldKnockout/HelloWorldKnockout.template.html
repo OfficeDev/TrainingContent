@@ -1,17 +1,14 @@
-<div data-bind="attr: {class:rowClass}">
-  <div data-bind="attr: {class:columnClass}">
-    <span data-bind="attr: {class:titleClass}">
-      Welcome to SharePoint!
-    </span>
-    <p data-bind="attr: {class:subtitleClass}">
-      Customize SharePoint experiences using Web Parts.
-    </p>
-    <p data-bind="attr: {class:descriptionClass}, text:description">
-    </p>
-    <a data-bind="attr: {class:buttonClass}"} href="https://github.com/SharePoint/sp-dev-docs/wiki">
-      <span class="ms-Button-label">
-        Learn more
-      </span>
-    </a>
+<div data-bind="attr: {class:helloWorldClass}">
+    <div data-bind="attr: {class:containerClass}">
+      <div data-bind="attr: {class:rowClass}">
+        <div class="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+          <span class="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
+          <p class="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
+          <p class="ms-font-l ms-fontColor-white" data-bind="text:description"></p>
+          <a href="https://aka.ms/spfx" data-bind="attr: {class:buttonClass}">
+            <span data-bind="attr: {class:labelClass}">Learn more</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-</div>

@@ -25,16 +25,16 @@ Install [NodeJS](https://nodejs.org/en/) Long Term Support (LTS) version.
 - If you have NodeJS already installed please check you have the latest version using node -v. It should return the current [LTS version](https://nodejs.org/en/download/).
 - If you are using a Mac, it is recommended you use [homebrew](http://brew.sh/) to install and manage NodeJS.
 
-After installing node, make sure you are running V3 of npm by running the following command:
+After installing node, make sure npm is up to date by running following command:
 
 ````shell
-npm install -g npm@3
+npm install -g npm
 ````
 
 In case of Linux previous command might result in 'permission denied' message, so it should be instead executed as
 
 ````shell
-sudo npm install -g npm@3
+sudo npm install -g npm
 ````
 
 #### Code Editors ####
@@ -45,15 +45,6 @@ Install a code editor. You can use any code editor or IDE that supports client-s
 - [Webstorm](https://www.jetbrains.com/webstorm)
 
 The steps and code samples in this training use Visual Studio Code, but you can use any editor of your choice.
-
-#### If you're using a PC ####
-
-You need to install windows-build-tools. windows-build-tools will install Visual C++ Build Tools 2015, provided free of charge by Microsoft. These tools are required to compile popular native modules. It will also install Python 2.7, configuring your computer and npm appropriately.
-
-Run the following command as administrator:
-````shell
-npm install -g --production windows-build-tools
-````
 
 #### If you are using Ubuntu ####
 
@@ -123,13 +114,13 @@ For more information on this topic please see [this](https://dev.office.com/shar
 
 For more information on this topic please see the [Set up your developer tenant](http://dev.office.com/sharepoint/docs/spfx/set-up-your-developer-tenant) article.
 
-To build and deploy client-side web parts using the preview release of the SharePoint Framework, you will need an Office 365 tenant with [First Release](https://support.office.com/en-us/article/Set-up-the-Standard-or-First-Release-options-in-Office-365-3b3adfa4-1777-4ff0-b606-fb8732101f47) options enabled.
+To build and deploy client-side web parts using SharePoint Framework, you will need an Office 365 tenant.
 
 ### Sign up for an Office 365 Developer Tenant ###
 
-If you already have an Office 365 tenant, see [create your app catalog site](#create-app-catalog-site). Make sure you have [First Release](https://support.office.com/en-us/article/Set-up-the-Standard-or-First-Release-options-in-Office-365-3b3adfa4-1777-4ff0-b606-fb8732101f47) options enabled.
+If you already have an Office 365 tenant, see [create your app catalog site](#create-app-catalog-site).
 
-If you don't have one, sign up for the [Office Developer Program](https://profile.microsoft.com/RegSysProfileCenter/wizardnp.aspx?wizid=14b845d0-938c-45af-b061-f798fbb4d170&lcid=1033). You will receive a welcome mail with a link to sign up for an Office 365 Developer Tenant. First Release options are enabled already for your Office 365 Developer Tenant.
+If you don't have one, sign up for the [Office Developer Program](https://profile.microsoft.com/RegSysProfileCenter/wizardnp.aspx?wizid=7a6e3d71-b057-49cc-b2aa-158ff23432f3&lcid=1033). You will receive a welcome mail with a link to sign up for an Office 365 Developer Tenant.
 
 > **Note:** Make sure that you are signed out of any existing Office 365 tenants before you sign up.
 
@@ -176,18 +167,6 @@ SharePoint Workbench is a developer design surface that enables you to quickly p
 https://your-sharepoint-site/_layouts/workbench.aspx
 ````
 
-### Troubleshooting ###
-
-You will get an error If you are using a SharePoint site that was provisioned using a self-service site creation. We recommend using a developer site collection or a SharePoint site that was not created using a self-service site creation.
-
-If you get the following exception accessing the SharePoint Workbench:
-````
-"The requested operation is part of an experimental feature that is not supported in the current environment. The requested operation is part of an experimental feature that is not supported in the current environment." 
-````
-Then, you are not using a tenant with First Release options enabled. You might be using a normal tenant.
-
-During developer preview also "Custom Script" feature will need to be enabled in site collections where you will be using the client-side web parts.
-
 ## Exercise 1: Create a hello world web part without any framework
 In this exercise you will create a hello world web part without any framework.
 
@@ -218,9 +197,9 @@ In this exercise you will create a hello world web part without any framework.
 
 3. The next set of prompts asks for specific information about your web part:
 
-	1.	Accept the default **HelloWorld** as your web part name and press **Enter**.
-	2.	Accept the default **HelloWorld description** as your web part description and press **Enter**.
-	3.	Accept the default **No javascript web framework** as the framework you would like to use and press **Enter**.
+	1.	Accept the default **No javascript web framework** as the framework you would like to use and press **Enter**.
+	2.	Accept the default **HelloWorld** as your web part name and press **Enter**.
+	3.	Accept the default **HelloWorld description** as your web part description and press **Enter**.
 	
 	![](Images/Exercise1-04.png)
 
@@ -312,9 +291,9 @@ In this exercise you will create a hello world web part with the React framework
 
 3. The next set of prompts asks for specific information about your web part:
 
-	1.	Enter **HelloWorld React** as your web part name and press **Enter**.
-	2.	Enter **HelloWorld React description** as your web part description and press **Enter**.
-	3.	Select **React** as the framework you would like to use and press **Enter**.
+	1.	Select **React** as the framework you would like to use and press **Enter**.
+	2.	Enter **HelloWorld React** as your web part name and press **Enter**.
+	3.	Enter **HelloWorld React description** as your web part description and press **Enter**.
 	
 	![](Images/Exercise2-04.png)
 
@@ -406,9 +385,9 @@ In this exercise you will create a hello world web part with the Angular 1.x fra
 
 3. The next set of prompts asks for specific information about your web part:
 
-	1.	Enter **HelloWorld Angular 1** as your web part name and press **Enter**.
-	2.	Accept the default **HelloWorld Angular 1 description** as your web part description and press **Enter**
-	3.	Accept the default **No javascript web framework** as the framework you would like to use and press **Enter**.
+	1.	Accept the default **No javascript web framework** as the framework you would like to use and press **Enter**.
+	2.	Enter **HelloWorld Angular 1** as your web part name and press **Enter**.
+	3.	Accept the default **HelloWorld Angular 1 description** as your web part description and press **Enter**.
 	
 	![](Images/Exercise3-04.png)
 
@@ -553,9 +532,9 @@ In this exercise you will create a hello world web part with the Knockout framew
 
 3. The next set of prompts asks for specific information about your web part:
 
-	1.	Enter **HelloWorld Knockout** as your web part name and press **Enter**.
+	1.	Select **Knockout** as the framework you would like to use and press **Enter**.
+	2.	Enter **HelloWorld Knockout** as your web part name and press **Enter**.
 	2.	Accept the default **HelloWorld Knockout description** as your web part description and press **Enter**.
-	3.	Select **Knockout** as the framework you would like to use and press **Enter**.
 	
 	![](Images/Exercise4-04.png)
 
@@ -647,9 +626,9 @@ In this exercise you will create a hello world web part with jQuery.
 
 3. The next set of prompts asks for specific information about your web part:
 
-	1.	Enter **HelloWorld jQuery** as your web part name and press **Enter**.
+	1.	Accept the default **No javascript web framework** as the framework you would like to use and press **Enter**.
+	2.	Enter **HelloWorld jQuery** as your web part name and press **Enter**.
 	2.	Enter **HelloWorld jQuery description** as your web part description and press **Enter**.
-	3.	Accept the default **No javascript web framework** as the framework you would like to use and press **Enter**.
 	
 	![](Images/Exercise5-04.png)
 
@@ -672,14 +651,6 @@ In this exercise you will create a hello world web part with jQuery.
 	![](Images/Exercise5-07.png)
 	
 	>**Note:** This command installs the type definitions into the **node_modules\@types** folder. This folder also includes other typings that were scaffolded by the Yeoman generator.
-
-### Install the combokeys TypeScript Definitions ###
-
-Combokeys is a JavaScript library for handling keyboard shortcuts in the browser.
-
-1. Type **npm install @types/combokeys -D** and press **Enter**
-	
-	![](Images/Exercise5-08.png)
 
 ### Unbundle external dependencies from the web part bundle ###
 
@@ -714,14 +685,14 @@ By default, any dependencies you add are bundled into the web part bundle. In so
 	"jquery":"node_modules/jquery/dist/jquery.min.js"
 	````
 	
-	![](Images/Exercise5-09.png)
+	![](Images/Exercise5-08.png)
 
 ### Preview your web part ###
 
 1. Make sure you are still in the **helloworld-webpart-jquery** directory.
 2. If you haven't installed and trusted a developer certificate, type **gulp trust-dev-cert** and press **Enter**.
 	
-	![](Images/Exercise5-10.png)
+	![](Images/Exercise5-09.png)
 
 	> **Note:** The client-side toolchain uses HTTPS endpoint by default. However, since a default certificate is not configured for the local dev environment, your browser will report a certificate error. The command above installs and trusts a developer certificate used by HTTPS endpoint.
 	> 
@@ -729,7 +700,7 @@ By default, any dependencies you add are bundled into the web part bundle. In so
 
 2. Type **gulp serve** and press **Enter**.
 	
-	![](Images/Exercise5-11.png)
+	![](Images/Exercise5-10.png)
 
 	> **Note:** This command executes a series of gulp tasks to create a local, Node-based HTTPS server on 'localhost:4321' and launches your default browser to preview web parts in your local dev environment.
 	> 
@@ -747,11 +718,11 @@ By default, any dependencies you add are bundled into the web part bundle. In so
 
 5. Choose **HelloWorld jQuery** to add the web part to the page.
 
-	![](Images/Exercise5-12.png)
+	![](Images/Exercise5-11.png)
 
 Congratulations! You have just added your client-side web part to a client-side page.
 
-![](Images/Exercise5-13.png)
+![](Images/Exercise5-12.png)
 
 ### Modify the web part's description property ###
 
@@ -761,7 +732,7 @@ Congratulations! You have just added your client-side web part to a client-side 
 
 2. Modify the text in the **Description** text box to **Client-side web parts are awesome!**
 
-	![](Images/Exercise5-14.png)
+	![](Images/Exercise5-13.png)
 
 3. Notice how the text in the web part also changes as you type.
 	
