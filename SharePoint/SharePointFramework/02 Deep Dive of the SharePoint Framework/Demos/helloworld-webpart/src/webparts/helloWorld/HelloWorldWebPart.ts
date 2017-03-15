@@ -10,14 +10,14 @@ import styles from './HelloWorld.module.scss';
 import * as strings from 'helloWorldStrings';
 import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
 
- export interface ISPItem {
-     Title: string;
-     Id: string;
- }
+export interface ISPItem {
+    Title: string;
+    Id: string;
+}
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
 
- private _spItems: ISPItem[] = [
+  private _spItems: ISPItem[] = [
     { Title:'Mock Title 1', Id: '1'},
     { Title:'Mock Title 2', Id: '2'},
     { Title:'Mock Title 3', Id: '3'},
@@ -26,14 +26,14 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
 
   public render(): void {
     const index : number = findIndex(
-     this._spItems,
-     (item: ISPItem) => item.Title === 'Mock Title 3');
+      this._spItems,
+      (item: ISPItem) => item.Title === 'Mock Title 3');
 
     const pageMode : string = this.displayMode === DisplayMode.Edit ? 'You are in edit mode' : 'You are in read mode';
 
     const environmentType : string = Environment.type === EnvironmentType.Local ? 'You are in local environment' : 'You are in sharepoint environment';
 
-	  Log.info('HelloWorld', 'message', this.context.serviceScope);
+    Log.info('HelloWorld', 'message', this.context.serviceScope);
     Log.warn('HelloWorld', 'WARNING message', this.context.serviceScope);
     Log.error('HelloWorld', new Error('Error message'), this.context.serviceScope);
     Log.verbose('HelloWorld', 'VERBOSE message', this.context.serviceScope);
@@ -48,26 +48,22 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         setTimeout(() => {
           this.context.statusRenderer.clearError(this.domElement);
           this.domElement.innerHTML = `
-            <div class="${styles.row}">
-              <div class="${styles.column}">
-                <span class="${styles.title}">
-                  Welcome to SharePoint!
-                </span>
-                <p class="${styles.subtitle}">
-                  Customize SharePoint experiences using Web Parts.
-                </p>
-                <p class="${styles.description}">
-                  ${escape(this.properties.description)}
-                </p>
-                <a class="ms-Button ${styles.button}" href="https://github.com/SharePoint/sp-dev-docs/wiki">
-                  <span class="ms-Button-label">
-                    Learn more
-                  </span>
-                </a>
-                <p class="ms-font-l ms-fontColor-white">The index of "Mock Title 3" is: ${index}</p>
-                <p class="ms-font-l ms-fontColor-white">${pageMode}</p>
-                <p class='ms-font-l ms-fontColor-white'>Loading from ${this.context.pageContext.web.title}</p>
-                <p class="ms-font-l ms-fontColor-white">${environmentType}</p>
+            <div class="${styles.helloWorld}">
+              <div class="${styles.container}">
+                <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+                  <div class="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                    <span class="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
+                    <p class="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
+                    <p class="ms-font-l ms-fontColor-white">${escape(this.properties.description)}</p>
+                    <a href="https://aka.ms/spfx" class="${styles.button}">
+                      <span class="${styles.label}">Learn more</span>
+                    </a>
+                    <p class="ms-font-l ms-fontColor-white">The index of "Mock Title 3" is: ${index}</p>
+                    <p class="ms-font-l ms-fontColor-white">${pageMode}</p>
+                    <p class='ms-font-l ms-fontColor-white'>Loading from ${this.context.pageContext.web.title}</p>
+                    <p class="ms-font-l ms-fontColor-white">${environmentType}</p>
+                  </div>
+                </div>
               </div>
             </div>`;
         }, 2000);
