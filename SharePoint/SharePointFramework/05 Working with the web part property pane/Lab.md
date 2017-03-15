@@ -160,11 +160,11 @@ The following field types are supported:
 	> **Note**: The Label and Link fields are read-only, you can't access them in your web part using the **this.properties**.  In this example, this HTML output the values of the properties set in the property pane.
 	> You do not have to display the values of web part properties in your web parts, you may just use them in the JavaScript code that supports your web part at runtime.  In this example all of the property values are displayed for demonstration purposes.
 
-9. Package and deploy the **HelloWorld** web part to your team site, and then add the **HelloWorld** web part to a **classic** and a **modern** page.
+9. Package and deploy the **HelloWorld** web part to your app catalog site, install the client-side solution on your team site, and then add the **HelloWorld** web part to a **classic** and a **modern** page.
 
 	> **Note**: If you are new to packaging and deploying web parts and create pages, see the [Deep Dive of the SharePoint Framework (SPFx)](../Module-2/Lab.md).
 
-10. Open the **classic** and **modern** pages.  The following figures shows the property panes in your SharePoint team site.
+10. Open the **classic** and **modern** pages, then edit the web part. The following figures show the property pane in your SharePoint team site.
 	
 	**Classic Page**
 
@@ -263,8 +263,8 @@ In this exercise you will continue to enhance the **HelloWorld** web part create
 
 6. Add the following code in **HelloWorldWebPart** class.
 
-	> **Note**: The following code defines the _options variable variable that stores the results from the _getLists method.
-	> The onInit method invokes the **_getLists** method to return the lists in the SharePoint site where the web part is executing, then adds the lists of lists to the _options variable. 
+	> **Note**: The following code defines the _options variable that stores the results from the _getLists method.
+	> The onInit method invokes the **_getLists** method which will be added later to return the lists in the SharePoint site where the web part is executing, then adds the lists to the _options variable.
 
 	````
 	private _options: IPropertyPaneDropdownOption[];
@@ -288,6 +288,7 @@ In this exercise you will continue to enhance the **HelloWorld** web part create
 	````
 	,PropertyPaneDropdown('listName', {
       label: 'Select a list',
+	  selectedKey: this._options.length > 0 ? this._options[0].key : null,
       options: this._options
     })
 	````
@@ -297,7 +298,7 @@ In this exercise you will continue to enhance the **HelloWorld** web part create
 8. Add the following code to import class **SPHttpClient**:
 
 	````
-	import { SPHttpClient } from '@microsoft/sp-http';
+	import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 	````
 
 	![](Images/12.png)
@@ -317,8 +318,9 @@ In this exercise you will continue to enhance the **HelloWorld** web part create
           });
         }
         else {
-          return this.context.spHttpClient.get(this.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`, SPHttpClient.configurations.v1)
-              .then((response: Response) => {
+		  const url: string = this.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`;
+          return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+              .then((response: SPHttpClientResponse) => {
               return response.json();
             }).then((json) => {
               return json.value;
