@@ -6,7 +6,7 @@ In this lab, you will use the Microsoft Graph to access & program against Office
 2. You must have access to an Exchange mailbox within an Office 365 developer tenancy.
 3. You must have some files within your Office 365 OneDrive for Business. 
 4. You must have Fiddler (http://www.telerik.com/fiddler) or another HTTP debugging proxy tool installed to complete exercise 2.
-5. You must have Visual Studio 2015 to complete exercise 3. 
+5. You must have Visual Studio 2015 with the latest Update installed to complete exercise 3. 
 6. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 ## Exercise 1: Register application for the Microsoft Graph 
@@ -20,13 +20,16 @@ In this exercise, you will register an application in Application Registration P
 6. In the **Add Platform** wizard, select **Mobile application**
 7. Click the **Add Platform** button again and select **Web**.
 8. In the **Redirect URLs** text box, enter **https://dev.office.com**. 
-![Screenshot of the previous step](Images/web-platform-redirect-urls.jpg)
-7. Copy the **Application Id** to a text file as you will need them later in this lab.
+	![Screenshot of the previous step](Images/web-platform-redirect-urls.jpg)
+9. In the **Microsoft Graph Permissions** section, click **Add** button next **Delegated Permissions**.
+10. In the **Select Permission** wizard, Select **User.Read.All**, **Files.Read** permissions.
+	![Screenshot of the previous step](Images/Figure10.png)
+11. Copy the **Application Id** to a text file as you will need them later in this lab.
 	![Screenshot of the previous step](Images/Figure09.png)
-8. In the **Application Secrets** section, click the **Generate New Password** button.
-9. In the **New Password Generated** popup, copy the password and paste it in a text file to use later.
+12. In the **Application Secrets** section, click the **Generate New Password** button.
+13. In the **New Password Generated** popup, copy the password and paste it in a text file to use later.
 	![Screenshot of the previous step](Images/new-password-generated.jpg)
-9. Click the **Save** button at the bottom left corner.
+14. Click the **Save** button at the bottom left corner.
 
 ## Exercise 2: Use the Raw REST API Interface of the Microsoft Graph
 In this exercise, you will use the raw REST API interface of the Microsoft Graph to interact with the different capabilities. In order to call the Microsoft Graph, you must pass along a valid OAuth2 access token. To obtain an access token you must first authenticate with Azure AD and obtain an authorization code.
@@ -34,7 +37,7 @@ In this exercise, you will use the raw REST API interface of the Microsoft Graph
 ### Authenticate & Obtain an Authorization Code from Azure AD 
 Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.
 
-1. Take the following URL and replace the `{tenant-id}` & `{client-id}` tokens with values obtained / set on the Azure AD application.
+1. Take the following URL and replace the `{tenant-id}` & `{client-id}` tokens with values obtained / set on the registered application.
 
 	````
 	https://login.microsoftonline.com/{tenant-id}/oauth2/authorize?
@@ -46,7 +49,7 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
 
 2. Open Fiddler.
 3. Open a browser navigate to the above URL after you replaced the tokens. Be sure to remove any line breaks from the above URL that were added for readability.
-	1. You will be prompted to login using the same account you used to create the Azure AD application.
+	1. You will be prompted to login using the same account you used to register the application.
 	1. After logging in you will be taken to a non-existent page. This is not an error, there is just no site setup for this application yet. The important information is in the actual data sent to the page.
 4. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
 
@@ -114,6 +117,8 @@ Now that you have an access token, create a few requests to the Microsoft Graph 
 		Authorization: Bearer {access-token}
 		````
 
+		>NOTE: Please add one header each time. If you copy and paste the 2 headers one time, Fiddler may take them as one line and one header, rusulting in error with 401 status code.
+
 	4. Clear the box for the **Request Body**.
 	5. Click the **Execute** button.
 	6. Select the session you just created and click the **Inspectors** tab. Look at the results that came back to find information about you, the currently logged in user.
@@ -126,13 +131,14 @@ Now that you have an access token, create a few requests to the Microsoft Graph 
 
 3. Now, see how you can query for any user's information provided you have access to it.
 	1. Within the Fiddler **Composer** tab...
-	2. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{userPrincipalName}**
+	2. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{user-id}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{user-id}**
 	3. Leave the same HTTP headers in place & click the **Execute** button.
 	4. Select the session you just created and click the **Inspectors** tab. Look at the results and notice you are now seeing the details of a user within your Azure AD directory!
 	
 4. Next, try something the app has not been created access to. In the first exercise the app was not given access to Office 365 Contacts. Try to access contacts to see the error that is returned:
 	1. Within the Fiddler **Composer** tab...
-	2. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{userPrincipalName}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{userPrincipalName}/contacts**
+	2. Set the endpoint URL to the following, replacing the `{tenant-id}` and `{user-id}` with the values for your tenant: **https://graph.microsoft.com/v1.0/{tenant-id}/users/{user-id}/contacts**.
+		>NOTE: Please replace `{user-id}` with the id of a user with some contacts except the user you logged in with to get the authorization code.
 	3. Leave the same HTTP headers in place & click the **Execute** button.
 	4. Select the session you just created and click the **Inspectors** tab. Notice the request generated a HTTP 403 error with an error message of *Access is denied. Check credentials and try again.*
 
@@ -146,15 +152,10 @@ In this exercise, you will use the Microsoft Graph within a Windows 10 applicati
 ### Prepare the Visual Studio Solution
 Take an existing starter project and get it ready to write code that will use the Microsoft Graph.
 
-1. Locate the [\\\O3653\O3653-8 Deep Dive into the Microsoft Graph API\MSAL Lab Files](MSAL Lab Files) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph using the native for the Microsoft Graph. Open the solution **O365-Win-Profile** in Visual Studio.
-2. In the Solution Explorer, right-click the **O365-Win-Profile** solution node and select **Manage Nuget Packages for Solution**.
-3. Click the **Updates** tab.
-4. Select the **Select all Packages** checkbox.
-5. Click the **Update** button.
-6. Click **OK**.
-7. Click **I Accept**.
-8. Add the Azure AD application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Paste in the GUID Client ID of the application you copied previously in this XML element.
-9. Update the scopes for the application. Open the file **AuthenticationHelper.cs** and locate the line that looks like this:
+1. Locate the [MSAL Lab Files](./MSAL Lab Files) folder that contains a starter project that contains the framework of a Windows 10 application that you will update to call the Microsoft Graph using the native for the Microsoft Graph. Open the solution **O365-Win-Profile** in Visual Studio.
+2. In the Solution Explorer, right-click the **O365-Win-Profile** solution node and select **Restore NuGet Packages**.
+3. Add the registered application's client ID to the project. Open the **App.xaml** file and locate the XML element with the string **ida:ClientID** in it. Paste in the GUID Client ID of the application you copied previously in this XML element.
+4. Update the scopes for the application. Open the file **AuthenticationHelper.cs** and locate the line that looks like this:
 
 	````c#
 	public static string[] Scopes = {
@@ -364,4 +365,4 @@ Take an existing starter project and get it ready to write code that will use th
 In this exercise, you used the Microsoft Graph SDK within Windows 10 application.
 
 
-Congratulations! In this lab you have created your first Azure AD application that utilized the Microsoft Graph SDK!
+Congratulations! In this lab you have registered your first application that utilized the Microsoft Graph SDK!

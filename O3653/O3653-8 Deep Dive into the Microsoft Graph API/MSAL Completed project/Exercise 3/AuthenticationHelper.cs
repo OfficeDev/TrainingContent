@@ -21,12 +21,6 @@ namespace O365_Win_Profile
         public static string AccessToken = null;
 
 
-        // Properties used for communicating with your Windows Azure AD tenant.
-        // The AuthorizationUri is added as a resource in App.xaml when you regiter the app with 
-        // Office 365. As a convenience, we load that value into a variable called _commonAuthority, adding _common to this Url to signify
-        // multi-tenancy. This way it will always be in sync with whatever value is added to App.xaml.
-
-        private static readonly string CommonAuthority = App.Current.Resources["ida:AuthorizationUri"].ToString() + @"/Common";
         public const string EndpointUrl = "https://graph.microsoft.com/v1.0/";
 
         // The scope parameter is required in your authorization URL. 
@@ -39,29 +33,6 @@ namespace O365_Win_Profile
         };
 
         public static ApplicationDataContainer _settings = ApplicationData.Current.LocalSettings;
-
-        //Property for storing and returning the authority used by the last authentication.
-        //This value is populated when the user connects to the service and made null when the user signs out.
-        private static string LastAuthority
-        {
-            get
-            {
-                if (_settings.Values.ContainsKey("LastAuthority") && _settings.Values["LastAuthority"] != null)
-                {
-                    return _settings.Values["LastAuthority"].ToString();
-                }
-                else
-                {
-                    return string.Empty;
-                }
-
-            }
-
-            set
-            {
-                _settings.Values["LastAuthority"] = value;
-            }
-        }
 
         //Property for storing the tenant id so that we can pass it to the ActiveDirectoryClient constructor.
         //This value is populated when the user connects to the service and made null when the user signs out.
@@ -160,20 +131,8 @@ namespace O365_Win_Profile
         {
             try
             {
-                //First, look for the authority used during the last authentication.
-                //If that value is not populated, use CommonAuthority.
-                string authority = null;
-                if (String.IsNullOrEmpty(LastAuthority))
-                {
-                    authority = CommonAuthority;
-                }
-                else
-                {
-                    authority = LastAuthority;
-                }
-
-                // Create an AuthenticationContext using this authority.
-                _publicClientApplication = new PublicClientApplication(authority, ClientID);
+                // Create an PublicClientApplication using the client ID.
+                _publicClientApplication = new PublicClientApplication(ClientID);
                 var token = await GetTokenHelperAsync();
 
                 return token;
@@ -205,11 +164,9 @@ namespace O365_Win_Profile
             //Clean up all existing clients
             AccessToken = null;
             //Clear stored values from last authentication.
-            _settings.Values["TenantId"] = null;
-            _settings.Values["LastAuthority"] = null;
-            _settings.Values["LoggedInUser"] = null;
-            _settings.Values["LoggedInUserEmail"] = null;
-
+            LoggedInUser = null;
+            LoggedInUserEmail = null;
+            TenantId = null;
         }
 
         // Get an access token for the given context and resourceId. An attempt is first made to 
@@ -235,10 +192,9 @@ namespace O365_Win_Profile
                 accessToken = result.Token;
                 //Store values for logged-in user, tenant id, and authority, so that
                 //they can be re-used if the user re-opens the app without disconnecting.
-                _settings.Values["LoggedInUser"] = result.User.Name;
-                _settings.Values["LoggedInUserEmail"] = result.User.DisplayableId;
-                _settings.Values["TenantId"] = result.TenantId;
-                _settings.Values["LastAuthority"] = result.User.Authority;
+                LoggedInUser = result.User.Name;
+                LoggedInUserEmail = result.User.DisplayableId;
+                TenantId = result.TenantId;
 
                 AccessToken = accessToken;
                 return accessToken;

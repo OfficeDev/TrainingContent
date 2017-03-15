@@ -11,7 +11,6 @@
 
         <!-- Add your client id here. -->
         <x:String x:Key="ida:ClientID"></x:String>
-        <x:String x:Key="ida:AuthorizationUri">https://login.microsoftonline.com</x:String>
 
     </Application.Resources>
 </Application>
