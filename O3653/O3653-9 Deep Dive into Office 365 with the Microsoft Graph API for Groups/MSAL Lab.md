@@ -5,7 +5,7 @@ In this lab, you will use the Microsoft Graph to access and program against Offi
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 2. You must have access to an Exchange mailbox within an Office 365 developer tenancy.
 3. You must have Fiddler (http://www.telerik.com/fiddler) or another HTTP debugging proxy tool installed to complete exercise 3.
-4. You must have Visual Studio 2015 with Update 1 installed.
+4. You must have Visual Studio 2015 with the latest Update installed.
 5. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
 
@@ -34,14 +34,14 @@ Using these accounts, create and interact with some groups using the web interfa
 
 3. After creating the group, you will be prompted to add a user as a member to the group. Add one of your test users to the group *(in this step we used Janice Galvin)*.
 4. After creating the group it will appear in the left-hand navigation and indicated with a tile that contains letters from the group's name. 
-   1. Update the logo for the group to be more descriptive. Click the pencil icon in the center of the group logo.
+   1. Update the logo for the group to be more descriptive. Click the group logo.
       ![Screenshot of the previous step](Images/Figure03.png)	
 
    2. Then Click the pencil icon to change group icon.
 
       ![Screenshot of the previous step](Images/Figure27.png)	       
                
-   3. Select the **contoso.png** file in the [\\\O3653\O3653-9 Deep Dive into Office 365 with the Microsoft Graph API for Groups\Lab Files](Lab Files) folder within this lab as the new icon for the group.
+   3. Select the **contoso.png** file in the [Lab Files](./Lab Files) folder within this lab as the new icon for the group.
    4. Click **Save** button. 
 5. With the icon set, start up a conversation in the group that other members can participate in.
    1. Click the **New conversation** link in the middle-pane and enter the following message:
@@ -52,15 +52,16 @@ Using these accounts, create and interact with some groups using the web interfa
    2. Once you send the message, you will see the message appear in the list of conversations:
       ![Screenshot of the previous step](Images/Figure04.png)	
 
-6. At this point the current user (*Rob Walters*) is not subscribed to the group. Ideally all messages to this group should show up in his mailbox. To do this, right click the group name on left-hand navigation, select **View Details**, then click the eclipse button and then click **Subscribe**.
+6. At this point the current user (*Rob Walters*) is not subscribed to the group. Ideally all messages to this group should show up in his mailbox. To do this, click **Joined** button on top navigation, select **Subscribe to this group by email**.
+
     > Conversations are just one of the features available in groups. In addition to conversations there is a shared calendar, files, notebook and other options. Feel free to explore and add additional content.
-	
+
     ![Screenshot of the previous step](Images/Figure28.png)	
 
 ### Interact with the Group as a Member
 1. In the last section you added another user (*Janice Galvin*) as a member when you created the group. Login as this user on the same **https://mail.office365.com** site.
 2. Once you login, you will see the **Contoso Merger Working Group** listed in the left-hand navigation. Select the group.
-3. Locate the conversation that was created in the previous step & click the **reply all** link to leave a comment:
+3. Locate the conversation that was created in the previous step and click the **reply all** link to leave a comment:
     ```
     I used to work for a valuation firm... let me dig up a contact and get back to you.
     ```
@@ -69,7 +70,7 @@ Using these accounts, create and interact with some groups using the web interfa
 5. Logout of **https://mail.office365.com** and login as the original user (*Rob Walters*).
     ![Screenshot of the previous step](Images/Figure05.png)
 
-6. Notice that when you login, the message will appear in their email inbox, not just in the group's conversations view. This is because you subscribed to the conversations.
+6. Notice that when you login, the message will appear in their email inbox, not just in the group's conversations view. This is because you subscribed to the group.
 
 ### Search and join an Office 365 Group as another user
 1. Now let's try to find the group as another user. Login as a new user (*in this step we used **Thomas Hardy**).
@@ -85,14 +86,12 @@ Using these accounts, create and interact with some groups using the web interfa
 
     ![Screenshot of the previous step](Images/Figure06.png)
 
-5. Select the group **Contoso Merger Working Group** & click the **Join** button to join the group.
+5. Select the group **Contoso Merger Working Group** and click the **Join** button to join the group.
 6. You should now be able to go back to main page for your inbox and see the group listed in the left-hand pane. Notice that you can see all the conversations and other aspects of the group.
 
 In this exercise you created and interacted with Office 365 Groups using the browser interface. 
 
 ## Exercise 2: Register application for the Microsoft Graph 
-In this exercise, you will create an Azure AD application using the Azure Management portal and grant the application the necessary permissions to work with the Microsoft Graph.
-
 In this exercise, you will register an application in Application Registration Portal.
 
 1. Within a browser, navigate to the **Application Registration Portal**: https://apps.dev.microsoft.com
@@ -100,12 +99,15 @@ In this exercise, you will register an application in Application Registration P
 3. Click the **Add an app** button at the top right corner. 
 4. In the **New Application Registration** wizard, enter a name of **MyFirstGraphApp**. Click the **Create application** button to the next page.
 5. In the **MyFirstGraphApp Registration** page, click the **Add Platform** button.
-6. In the **Add Platform** wizard, select **Web**
-7. Enter **https://localhost:44300/** into the **Redirect URIs**
-8. Click the **Generate New Password**
-9. Copy the **password** to a text file as you will need them later in this lab, and then click **OK**
+6. In the **Add Platform** wizard, select **Web**.
+7. Enter **https://localhost:44300/** and **https://dev.office.com** into the **Redirect URIs**.
+8. In the **Microsoft Graph Permissions** section, click **Add** button next **Delegated Permissions**.
+9. In the **Select Permission** wizard, Select **User.Read**, **Directory.Read.All**, **Group.Read.All** permissions.
+	![Screenshot of the previous step](Images/Figure36.png)
+8. Click the **Generate New Password**.
+9. Copy the **password** to a text file as you will need it later in this lab, and then click **OK**.
 	![Screenshot of the previous step](Images/Figure34.png)
-10. Copy the **Application Id** to a text file as you will need them later in this lab.
+10. Copy the **Application Id** to a text file as you will need it later in this lab.
 	![Screenshot of the previous step](Images/Figure33.png)
 11. Click the **Save** button at the bottom left corner.
 
@@ -115,7 +117,7 @@ In this exercise, you will use Fiddler to access the Microsoft Graph for Office 
 ### Authenticate & Obtain an Authorization Code from Azure AD 
 Use the Azure AD authorization endpoint to authenticate & obtain an authorization code.
 
-1. Take the following URL and replace the `{tenant-id}` & `{client-id}` tokens with values obtained / set on the Azure AD application.
+1. Take the following URL and replace the `{tenant-id}` & `{client-id}` tokens with values obtained / set on the registered application.
 
     ````
 	https://login.microsoftonline.com/{tenant-id}/oauth2/authorize?
@@ -128,7 +130,7 @@ Use the Azure AD authorization endpoint to authenticate & obtain an authorizatio
 2. Open Fiddler.
 3. Open a browser navigate to the above URL after you replaced the tokens. Be sure to remove any line breaks from the above URL that were added for readability.
 	
-    > You will be prompted to login using the same account you used to create the Azure AD application.
+    > You will be prompted to login using the same account you used to create the application.
 
 4. Open Fiddler and find the last session that took you to the current page after logging into Azure AD. The following figure shows what Fiddler will likely look like for you, with the highlighted session you are interested in. Specifically, you are looking for a session that has a `/?code=` in the URL:
     ![Screenshot of the previous step](Images/Figure11.png)
@@ -180,7 +182,7 @@ Use the Azure AD token endpoint to obtain an access token for the Microsoft Grap
 10. Copy & save the access token just like you've done with the client ID, secret & tenant ID in the previous exercise.
 	![Screenshot of the previous step](Images/Figure13.png)  
 
-### Issue Requests to the Group API's REST Endpoint via the Microsoft Graph
+### Issue Requests to the User API and Group API's REST Endpoint via the Microsoft Graph
 Now that you have an access token, create a few requests to the Microsoft Graph's REST endpoint.
 
 1. First get information about the currently logged in user from the Microsoft Graph. Within Fiddler's **Composer** tab, do the following:
@@ -264,23 +266,22 @@ In this exercise, you used the raw REST API interface of the Groups API by Fiddl
 ## Exercise 4: Use MVC web app to utilize the Microsoft Graph SDK against Office 365 Groups
 In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK against Office 365 Groups.
 
-1. Locate the [\\\O3653\O3653-9 Deep Dive into Office 365 with the Microsoft Graph API for Groups\MSAL StarterFiles](MSAL StarterFiles) folder that contains a starter project.  The starter project is an ASP.NET MVC5 web application that you will update to call the Microsoft Graph.
+1. Locate the [MSAL StarterFiles](./MSAL StarterFiles) folder that contains a starter project.  The starter project is an ASP.NET MVC5 web application that you will update to call the Microsoft Graph.
 2. Open the **Office365Group** Visual Studio solution as an administrator.
-3. Open the **Web.config** file.
+3. In the Solution Explorer, right click the **Office365Group** solution node and select **Restore NuGet Packages**.
+4. Open the **Web.config** file.
     ![Screenshot of the previous step](Images/Figure35.png) 
 
    1. Replace the value for **ClientId** with the **Application Id** you got from Exercise 2.
    2. Replace the value for **ClientSecret** with the **Password** that you got form Exercise 2.
 
-1. Add the code to get Graph Access token.
+5. Add the code to get Graph Access token.
    1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGraphAccessTokenAsync** function.
 
 		````c#
 		string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
         string appKey = ConfigurationManager.AppSettings["ida:ClientSecret"];
-        string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
         string redirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
-        string authority = aadInstance + "common/v2.0";
         string[] scopes = {
             "https://graph.microsoft.com/User.Read.All",
             "https://graph.microsoft.com/Group.Read.All"
@@ -292,7 +293,7 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
         return result.Token;
 		````
 
-1. Add the code to get GraphServiceClient.
+6. Add the code to get GraphServiceClient.
    1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetGraphServiceAsync** function.
 
 		````c#
@@ -307,8 +308,7 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
         return graphserviceClient;
 		````
 
-
-1. Add the **about me** interface.
+7. Add the **about me** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **AboutMe** function.
 
 		````c#
@@ -316,7 +316,7 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
 		return View(me);
 		````
 
-   1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMe** function.
+   2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMe** function.
 
 		````c#
         var graphServiceClient = await GetGraphServiceAsync();
@@ -331,15 +331,15 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
         return myModel;
 		````
 
-   1. Test this interface:
+   3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       1. On the **Home** page, click **Group** menu, then click **About Me** button, you will find **About Me** page like the following screenshot:
          ![Screenshot of the previous step](Images/Figure20.png) 
 
-1. Add the **my organization groups** interface.
+8. Add the **my organization groups** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **MyOrganizationGroups** function.
 
 		````c#
@@ -347,7 +347,7 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
 		return View("List", groups);
 		````
 
-   1. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMyOrganizationGroups** function.
+   2. Open **Models/GroupRespository.cs** file, use the following code to replace **GetMyOrganizationGroups** function.
 
 		````c#
         var graphServiceClient = await GetGraphServiceAsync();
@@ -356,15 +356,15 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
         return allGroup;
 		````
 
-   1. Test this interface:
+   3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting). 
 
       1. On the **Home** page, click **Group** menu, then click **My Organization Groups** button, you will find **My Organization Groups** page like the following screenshot:
          ![Screenshot of the previous step](Images/Figure18.png) 
 
-1. Add the **joined groups** interface.
+9. Add the **joined groups** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **JoinedGroups** function.
 
 		````c#
@@ -385,12 +385,12 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, you will find **Joined Groups** page like the following screenshot:
          ![Screenshot of the previous step](Images/Figure19.png) 
 
-1. Add the **search for a specific group** interface.
+10. Add the **search for a specific group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **SearchGroup** function.
 
 		````c#
@@ -411,12 +411,12 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       2. On the **Home** page, click **Group** menu, enter a **search term** that matches the name of one of your Office 365 Groups, then click **Search For a Specific Group** button, you will find the **search results** page like the following screenshot:
          ![Screenshot of the previous step](Images/Figure21.png) 
 
-1. Add the **conversations within the specified group** interface.
+11. Add the **conversations within the specified group** interface.
     1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupConversations** function.
 
 		````c#
@@ -443,13 +443,13 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Conversations** link for any group, you will find **Group Conversations** like the following screenshot.
          ![Screenshot of the previous step](Images/Figure22.png)
 
-1. Add the **group threads** interface.
+12. Add the **group threads** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupThreads** function.
 
 		````c#
@@ -477,13 +477,13 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
 
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Threads** link for any group, you will find **Group Threads** page like the following screenshot.
          ![Screenshot of the previous step](Images/Figure23.png)
 
-1. Add the **all the posts within a thread** interface.
+13. Add the **all the posts within a thread** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupThreadPosts** function.
 
 		````c#
@@ -509,14 +509,14 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click **Threads** link of any group.
       4. On **Groups Threads** page, click the **Post** link for any thread, you will find **posts list** like the following screenshot. 
          ![Screenshot of the previous step](Images/Figure24.png)
 
-1. Add the **events associated with the group** interface.
+14. Add the **events associated with the group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupEvents** function.
 
 		````c#
@@ -545,13 +545,13 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Events** link for any group, you will find **Group Events** page like the following screenshot. 
          ![Screenshot of the previous step](Images/Figure25.png)
 
-1. Add the **files associated with the group** interface.
+15. Add the **files associated with the group** interface.
    1. Open **Controllers/GroupController.cs** file, use the following code to replace **GroupFiles** function.
 
 		````c#
@@ -577,12 +577,23 @@ In this exercise, you will use MVC web app to utilize the Microsoft Graph SDK ag
    3. Test this interface:
       1. In **Visual Studio**, press **F5** to begin debugging, when prompted, log in with your **Organizational Account**.
       
-       > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       > **Note:** If you receive any error, please see [Troubleshooting](#troubleshooting).
 
       2. On the **Home** page, click **Group** menu, then click **Joined Groups** button, the group list will be shown.
       3. On **Group List** page, click the **Files** link for any group, you will find **Group Files** page like the following screenshot. 
          ![Screenshot of the previous step](Images/Figure26.png)
 
-19. Close the browser window, terminate the debugging session, and return to Visual Studio.
+16. Close the browser window, terminate the debugging session, and return to Visual Studio.
 
 **Congratulations! You have completed working with the Microsoft Graph SDK against Office 365 Groups.**
+
+## Troubleshooting
+1. If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+
+2. If you recieve an error saying "Could not load file or assembly Newtonsoft.Jsonthe Newtonsoft.Json", please manually update the Newtonsoft.Json dll. You could update it by executing the following command in **Package Manager Console**.
+
+	````powershell
+	Install-Package Newtonsoft.Json -Version 9.0.1
+	````
+
+	![Screenshot of the previous step](Images/newtonsoft_error.png)

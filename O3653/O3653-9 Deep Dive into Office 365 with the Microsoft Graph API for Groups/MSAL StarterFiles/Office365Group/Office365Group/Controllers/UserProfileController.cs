@@ -48,7 +48,7 @@ namespace Office365Group.Controllers
                 return View("Error");
             }
             // if the above failed, the user needs to explicitly re-authenticate for the app to obtain the required token
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("Relogin");
             }

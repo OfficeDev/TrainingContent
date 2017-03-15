@@ -33,16 +33,13 @@ namespace Office365Group.Models
                                                             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
                                                             return Task.FromResult(0);
                                                         }));
-
             return graphserviceClient;
         }
         public static async Task<string> GetGraphAccessTokenAsync()
         {
             string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
             string appKey = ConfigurationManager.AppSettings["ida:ClientSecret"];
-            string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
             string redirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
-            string authority = aadInstance + "common/v2.0";
             string[] scopes = {
                 "https://graph.microsoft.com/User.Read.All",
                 "https://graph.microsoft.com/Group.Read.All"
