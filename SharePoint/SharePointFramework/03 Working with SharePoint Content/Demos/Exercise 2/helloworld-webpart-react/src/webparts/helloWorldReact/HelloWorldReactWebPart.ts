@@ -11,10 +11,10 @@ import * as strings from 'helloWorldReactStrings';
 import HelloWorldReact from './components/HelloWorldReact';
 import { IHelloWorldReactProps } from './components/IHelloWorldReactProps';
 import { IHelloWorldReactWebPartProps } from './IHelloWorldReactWebPartProps';
+import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
+import { SPHttpClient } from '@microsoft/sp-http';
 import MockHttpClient from './MockHttpClient';
 import { ISPList } from './ISPList';
-import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
-import { SPHttpClientConfigurations} from '@microsoft/sp-http';
 
 export default class HelloWorldReactWebPart extends BaseClientSideWebPart<IHelloWorldReactWebPartProps> {
 
@@ -58,26 +58,27 @@ export default class HelloWorldReactWebPart extends BaseClientSideWebPart<IHello
   private _getMockListData(): Promise<ISPList[]> {
     return MockHttpClient.get(this.context.pageContext.web.absoluteUrl)
         .then((data: ISPList[]) => {
-             return data;
-         });
+              return data;
+          });
   }
 
   private _getSharePointListData(): Promise<ISPList[]> {
-     return this.context.spHttpClient.get(this.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`, SPHttpClientConfigurations.v1)
-       .then(response => {
-         return response.json();
-       })
-       .then(json => {
-         return json.value;
-       }) as Promise<ISPList[]>;
+    const url: string = this.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`;
+    return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return json.value;
+      }) as Promise<ISPList[]>;
   }
 
   private _getListData(): Promise<ISPList[]> {
-     if(Environment.type === EnvironmentType.Local) {
-       return this._getMockListData();
-     }
-     else {
-       return this._getSharePointListData();
-     }
+    if(Environment.type === EnvironmentType.Local) {
+        return this._getMockListData();
+    }
+    else {
+      return this._getSharePointListData();
+    }
   }
 }

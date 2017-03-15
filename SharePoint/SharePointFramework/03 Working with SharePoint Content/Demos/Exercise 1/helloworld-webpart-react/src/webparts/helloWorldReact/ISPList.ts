@@ -1,4 +1,4 @@
-export interface ISPList {
+ export interface ISPList {
      Title: string;
      Id: string;
  }
