@@ -4,6 +4,8 @@
 
 This GitHub repository folder houses all of the content for the "Getting started with SharePoint Framework" training.
 
+> Notice. This training material has not yet been updated to GA version of SharePoint Framework. 
+
 - Module 1: [Getting Started with the SharePoint Framework](01 Getting Started with the SharePoint Framework)
 - Module 2: [Deep Dive of the SharePoint Framework](02 Deep Dive of the SharePoint Framework)
 - Module 3: [Working with SharePoint Content](03 Working with SharePoint Content)
