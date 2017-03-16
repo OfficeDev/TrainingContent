@@ -14,6 +14,7 @@ import { IHelloWorldReactWebPartProps } from './IHelloWorldReactWebPartProps';
 import MockHttpClient from './MockHttpClient';
 import { ISPList } from './ISPList';
 
+
 export default class HelloWorldReactWebPart extends BaseClientSideWebPart<IHelloWorldReactWebPartProps> {
 
   public render(): void {
@@ -56,7 +57,7 @@ export default class HelloWorldReactWebPart extends BaseClientSideWebPart<IHello
   private _getMockListData(): Promise<ISPList[]> {
     return MockHttpClient.get(this.context.pageContext.web.absoluteUrl)
         .then((data: ISPList[]) => {
-             return data;
-         });
+              return data;
+          });
   }
 }

@@ -2,60 +2,57 @@ import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneTextField,
-  IWebPartContext
+  PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
-import { escape } from '@microsoft/sp-lodash-subset';
 
 import styles from './HelloWorld.module.scss';
 import * as strings from 'helloWorldStrings';
 import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
-import { SPHttpClientConfigurations } from '@microsoft/sp-http';
+import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 
 export interface IListItem {
-   Id: number;
-   Title: string;
- }
- 
+  Id: number;
+  Title: string;
+}
+
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
   private _listName: string = "Test";
   private _listItemEntityTypeFullName: string;
 
   public render(): void {
-    this._getListItemEntityTypeFullName(this.context)
-    .then((value) => {
-      this._listItemEntityTypeFullName = value;
-    });
-
     this.domElement.innerHTML = `
+      <div class="${styles.helloWorld}">
         <div class="${styles.container}">
-          <div class=" ${styles.row}">
-            <p class='ms-font-l'>There are <span id='spanItemLength'></span> item(s) in <span id='spanItemName'>${this._listName}</span> list</p>
+          <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+            <p class="ms-font-l">There are <span id="spanItemLength"></span> item(s) in <span id="spanItemName">${this._listName}</span> list</p>
             <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th />
-                        <th />
-                    </tr>
-                </thead>
-                <tbody id="tbodyItems">
-                </tbody>
+              <thead id="theader" style="display:none">
+                <tr>
+                  <th class="ms-font-xl">Title</th>
+                  <th />
+                  <th />
+                </tr>
+              </thead>
+              <tbody id="tbodyItems">
+              </tbody>
             </table>
           </div>
-          <div class="${styles.row}">
-            <button class="ms-Button ms-Button--primary">Add New Item</button>
+          <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+            <button class="${styles.button}">
+              <label class="${styles.label}">Add New Item</label>
+            </button>
           </div>
-          <div id='message'>
+          <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+            <div class="ms-font-l" id="message"></div>
           </div>
-        </div>`;
+        </div>
+      </div>`;
 
     this.generateListItemsHtml();
-
-    this.domElement.getElementsByClassName("ms-Button")[0].addEventListener("click", () => {
+    this.domElement.getElementsByTagName("button")[0].addEventListener("click", () => {
       this.addNewListItem();
     });
-}
+  }
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
@@ -83,32 +80,44 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
     };
   }
 
-  protected generateListItemsHtml(): void{
+  private generateListItemsHtml(): void{
     const rootContainer: Element = this.domElement.querySelector("#tbodyItems");
 
     this.getListItems()
     .then((data: IListItem[]) => {
-      for(let i:number = 0; i < data.length; i++){
+      const count: number = data.length;
+      document.getElementById("spanItemLength").innerText = count.toString();
+      document.getElementById("theader").style.display = (count === 0 ? "none" : "");
+
+      for (let i:number = 0; i < count; i++){
         const Id: number = data[i].Id,
             Title: string = data[i].Title;
-        rootContainer["insertAdjacentHTML"]('beforeend', `
+        rootContainer.insertAdjacentHTML('beforeend', `
           <tr data-id="${Id}">
-            <td><input class='ms-TextField-field' value="${Title}"></input></td>
-            <td><button class="ms-Button ms-Button--primary">Update</button></td>
-            <td><button class="ms-Button ms-Button--primary">Delete</button></td>
+            <td><input class="ms-TextField-field" value="${Title}"></input></td>
+            <td>
+              <button class="${styles.button}">
+                <label class="${styles.label}">Update</label>
+              </button>
+            </td>
+            <td>
+              <button class="${styles.button}">
+                <label class="${styles.label}">Delete</label>
+              </button>
+            </td>
           </tr>
         `);
 
         const buttons = rootContainer.querySelectorAll(`tr[data-id='${Id}'] button`);
 
         buttons[0].addEventListener("click", (evt: Event): void => {
-          const trNode: Element = evt.srcElement.parentElement.parentElement;
+          const trNode: Element = this._getTrAncestor(evt.srcElement);
           this.saveListItem(trNode, trNode.attributes["data-id"].value);
           evt.preventDefault();
         });
 
         buttons[1].addEventListener("click", (evt: Event) : void => {
-          const trNode: Element = evt.srcElement.parentElement.parentElement;
+          const trNode: Element = this._getTrAncestor(evt.srcElement);
           this.removeListItem(trNode, trNode.attributes["data-id"].value);
           evt.preventDefault();
         });
@@ -116,47 +125,60 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
     });
   }
 
-  private _getListItemEntityTypeFullName(context: IWebPartContext):Promise<string> {
-    return context.spHttpClient.get(context.pageContext["web"]["absoluteUrl"]
-      + `/_api/web/lists/GetByTitle('${this._listName}')`, SPHttpClientConfigurations.v1)
-      .then((response: Response) => {
+  private _getListItemEntityTypeFullName():Promise<string> {
+    if (this._listItemEntityTypeFullName){
+      return Promise.resolve(this._listItemEntityTypeFullName);
+    }
+
+    return this.context.spHttpClient.get(this.context.pageContext["web"]["absoluteUrl"]
+      + `/_api/web/lists/GetByTitle('${this._listName}')`, SPHttpClient.configurations.v1)
+      .then((response: SPHttpClientResponse) => {
         return response.json();
       })
       .then((value) => {
-        return value["ListItemEntityTypeFullName"];
+        this._listItemEntityTypeFullName = value["ListItemEntityTypeFullName"];
+        return this._listItemEntityTypeFullName;
       });
   }
 
-  public addNewListItem(): void {
+  private addNewListItem(): void {
     const rootContainer: Element = this.domElement.querySelector("#tbodyItems");
     rootContainer["insertAdjacentHTML"]('beforeend',
     `<tr data-id="0">
-        <td><input class='ms-TextField-field' value=""></input></td>
-        <td><button class="ms-Button ms-Button--primary">Add</button></td>
-        <td><button class="ms-Button ms-Button--primary">Delete</button></td>
+        <td>
+          <input class='ms-TextField-field' value=""></input>
+        </td>
+        <td>
+          <button class="${styles.button}">
+            <label class="${styles.label}">Add</label>
+          </button>
+        </td>
+        <td>
+          <button class="${styles.button}">
+            <label class="${styles.label}">Cancel</label>
+          </button>
+        </td>
     </tr>`);
 
     const buttons = rootContainer.querySelectorAll('tr')[rootContainer.querySelectorAll('tr').length - 1].querySelectorAll('button');
 
-    console.log(buttons);
-
     buttons[0].addEventListener("click", (evt: Event): void => {
-      const trNode: Element = evt.srcElement.parentElement.parentElement;
+      const trNode: Element = this._getTrAncestor(evt.srcElement);
       this.saveListItem(trNode, trNode.attributes["data-id"].value);
       evt.preventDefault();
     });
 
     buttons[1].addEventListener("click", (evt: Event) : void => {
-      const trNode: Element = evt.srcElement.parentElement.parentElement;
+      const trNode: Element = this._getTrAncestor(evt.srcElement);
       this.removeListItem(trNode, trNode.attributes["data-id"].value);
       evt.preventDefault();
     });
   }
 
-  public getListItems(): Promise<IListItem[]> {
+  private getListItems(): Promise<IListItem[]> {
     return this.context.spHttpClient.get(this.context.pageContext["web"]["absoluteUrl"]
-    + `/_api/web/lists/GetByTitle('${this._listName}')/items?$select=Id,Title`, SPHttpClientConfigurations.v1)
-    .then((response: Response): Promise<any> => {
+    + `/_api/web/lists/GetByTitle('${this._listName}')/items?$select=Id,Title`, SPHttpClient.configurations.v1)
+    .then((response: SPHttpClientResponse): Promise<any> => {
       return response.json();
     })
     .then((data: any) : IListItem[]  =>{
@@ -167,8 +189,8 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
     }) as Promise<IListItem[]>;
   }
 
-  public saveListItem = (ContainerNode: Element, Id: number): void => {
-    this._clearnMessage();
+  private saveListItem(ContainerNode: Element, Id: string): void {
+    this._clearMessage();
 
     const title = ContainerNode.querySelector("input").value;
 
@@ -177,73 +199,70 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       return;
     }
 
-    if (Id == 0){
-      //create a new item
-      const reqJSON: any = JSON.parse(
-        `{
-          "@odata.type": "${this._listItemEntityTypeFullName}",
-          "Title": "${title}"
-      }`);
+    this._getListItemEntityTypeFullName()
+    .then((listItemEntityTypeFullName: string) => {
+      const reqJSON: any = {
+        "@odata.type": listItemEntityTypeFullName,
+        "Title": title
+      };
 
-      this.context.spHttpClient.post(
+      if(Id === "0") {
+        //create a new item
+        this.context.spHttpClient.post(
+            this.context.pageContext["web"]["absoluteUrl"] +
+            `/_api/web/lists/GetByTitle('${this._listName}')/items`, SPHttpClient.configurations.v1,
+            {
+              body: JSON.stringify(reqJSON),
+              headers: {
+                "accept": "application/json",
+                "content-type": "application/json"
+              }
+        })
+        .then((response: SPHttpClientResponse): Promise<IListItem> => {
+          return response.json();
+        })
+        .then((item: IListItem): void => {
+          ContainerNode.querySelectorAll("button")[0].textContent = "Update";
+          ContainerNode.querySelectorAll("button")[0].parentElement.parentElement.setAttribute("data-id", item.Id.toString());
+          this._showSuccess(`Item '${item.Title}' (ID: ${item.Id}) successfully created`);
+          this._updateItemCount(1);
+        }, (error: any): void => {
+          this._showError('Error while creating the item: ${error}');
+        });
+      }
+      else {
+        //update a list item
+        this.context.spHttpClient.post(
           this.context.pageContext["web"]["absoluteUrl"] +
-          `/_api/web/lists/GetByTitle('${this._listName}')/items?$expand=ListItemAllFields`, SPHttpClientConfigurations.v1,
+          `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClient.configurations.v1, 
           {
             body: JSON.stringify(reqJSON),
             headers: {
+              "IF-MATCH": "*",
+              "X-HTTP-Method":"MERGE",
               "accept": "application/json",
               "content-type": "application/json"
-            }
-      })
-      .then((response: Response): Promise<IListItem> => {
-        return response.json();
-      })
-      .then((item: IListItem): void => {
-        ContainerNode.querySelectorAll("button")[0].textContent = "Update";
-        ContainerNode.querySelectorAll("button")[0].parentElement.parentElement.setAttribute("data-id", item.Id.toString());
-        this._showSuccess(`Item '${item.Title}' (ID: ${item.Id}) successfully created`);
-      }, (error: any): void => {
-        this._showError('Error while creating the item: ${error}');
-      });
-    }
-    else{
-      //update a list item
-    const reqJSON: any = JSON.parse(
-      `{
-        "@odata.type": "${this._listItemEntityTypeFullName}",
-        "Title": "${title}"
-      }`);
-
-    this.context.spHttpClient.post(
-      this.context.pageContext["web"]["absoluteUrl"] +
-      `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClientConfigurations.v1, 
-      {
-        body: JSON.stringify(reqJSON),
-        headers: {
-          "IF-MATCH": "*",
-          "X-HTTP-Method":"MERGE",
-          "accept": "application/json",
-          "content-type": "application/json"
-        }
-      })
-      .then((response: Response): void => {
-        this._showSuccess(`Item with ID: ${Id} successfully updated`);
-      }, (error: any): void => {
-        this._showError(`Error updating item: + ${error}`);
-      });
-    }
+          }
+        })
+        .then((response: SPHttpClientResponse): void => {
+          this._showSuccess(`Item with ID: ${Id} successfully updated`);
+        }, (error: any): void => {
+          this._showError(`Error updating item: + ${error}`);
+        });
+      }
+    });
   }
 
-  public removeListItem = (ContainerNode: Element, Id: number): void => {
-    this._clearnMessage();
+  private removeListItem (ContainerNode: Element, Id: string): void {
+    this._clearMessage();
 
-    if(Id == 0){
+    if(Id === "0"){
       ContainerNode.parentNode.removeChild(ContainerNode);
     }
     else{
       this.context.spHttpClient.post(
         this.context.pageContext["web"]["absoluteUrl"] +
-        `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClientConfigurations.v1, 
+        `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClient.configurations.v1, 
         {
           headers: {
             "IF-MATCH": "*",
@@ -252,28 +271,42 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
             "content-type": "application/json"
           }
       })
-      .then((response: Response): void => {
+      .then((response: SPHttpClientResponse): void => {
         ContainerNode.parentNode.removeChild(ContainerNode);
         this._showSuccess(`Item with ID: ${Id} successfully deleted`);
+        this._updateItemCount(-1);
       }, (error: any): void => {
         this._showError(`Error deleting item: ${error}`);
       });
     }
   }
 
-  private _clearnMessage() {
+  private _updateItemCount(increment: number){
+    const countElement = document.getElementById("spanItemLength");
+    const count: number = Number(countElement.innerText);
+    countElement.innerText = (count + increment).toString();
+  }
+
+  private _getTrAncestor(element: Element): Element{
+    while (element && element.tagName.toLowerCase() != "tr"){
+      element = element.parentElement;
+    }
+    return element;
+  }
+
+  private _clearMessage() {
     this.domElement.querySelector("#message").innerHTML = "";
   }
 
   private _showSuccess(message: string) {
     const elem: Element = this.domElement.querySelector("#message");
-    elem.className = styles.success;
+    elem.className = "ms-fontColor-white";
     elem.innerHTML = message;
   }
 
   private _showError(message: string) {
     const elem: Element = this.domElement.querySelector("#message");
-    elem.className = styles.error;
+    elem.className = "ms-fontColor-red";
     elem.innerHTML = message;
   }
 }

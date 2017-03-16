@@ -39,7 +39,6 @@ In this exercise you will enhance the **HelloWorldReact** web part created in [G
 
 	![](Images/04.png)
 
-
 8. Open the **MockHttpClient.ts** file.
 9. Copy the following code into **MockHttpClient.ts**.
 
@@ -64,7 +63,7 @@ In this exercise you will enhance the **HelloWorldReact** web part created in [G
 	}
 	````
 
-10. Open the **IHelloWorldReactProps.ts** file.
+10. Open the **components/IHelloWorldReactProps.ts** file.
 11. Add the following code to import the **ISPList** library from `.././ISPList`.
 
 	````
@@ -121,7 +120,7 @@ In this exercise you will enhance the **HelloWorldReact** web part created in [G
 	}
 	````
 
-17. Open the **HelloWorldReact.module.scss** file.
+17. Open the **components\HelloWorldReact.module.scss** file.
 18. Add the following styles after the **.button** style.
 
 	````
@@ -198,13 +197,13 @@ In this exercise you will continue to enhance the **HelloWorldReact** web part c
 
 	>**Note:** This library allows you to determine if the web part is running in the local workbench or on a SharePoint web site.
 
-4. Add the following code to import the **SPHttpClientConfigurations** library from `@microsoft/sp-http`.
+4. Add the following code to import the **SPHttpClient** library from `@microsoft/sp-http`.
 
 	````
-	import { SPHttpClientConfigurations} from '@microsoft/sp-http';
+	import { SPHttpClient } from '@microsoft/sp-http';
 	````
 
-	>**Note:** This library provides standard predefined SPHttpClientConfiguration objects for use with the SPHttpClient class.
+	>**Note:** This library is used to perform REST calls against SharePoint. It includes standard predefined ISPHttpClientConfigurations object for use with the methods of SPHttpClient class.
 
 5. Add the following code in **HelloWorldReactWebPart** class.
 
@@ -212,7 +211,8 @@ In this exercise you will continue to enhance the **HelloWorldReact** web part c
 
 	````
 	private _getSharePointListData(): Promise<ISPList[]> {
-     return this.context.spHttpClient.get(this.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`, SPHttpClientConfigurations.v1)
+     const url: string = this.context.pageContext.web.absoluteUrl + `/_api/web/lists?$filter=Hidden eq false`;
+     return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
        .then(response => {
          return response.json();
        })
@@ -238,14 +238,14 @@ In this exercise you will continue to enhance the **HelloWorldReact** web part c
 	![](Images/11.png)
 
 7. Save all files.
-8. Preview the web part in the **SharePoint workbench on your Office 365 developer site** and notice the mock data is displayed.
+8. Preview the web part in the **SharePoint workbench on your Office 365 developer site** and notice the data of the SharePoint lists is displayed.
 
 	> **Note**: If you didn't install and trust a developer certificate on your machine, please install it on your machine.
 	> 1. Open a **Command Prompt** window and change to the **helloworld-webpart-react** directory.
 	> 2. Type **gulp trust-dev-cert** and press **Enter**.
 	
 	> **Notes**: 
-	> If you followed the instructions in the [Getting Started with the SharePoint Framework (SPFx)](../Module-1/Lab.md) module, the SharePoint workbench on your Office 365 developer site is located at **https://TENANCY.sharepoint.com/_layouts/workbench.aspx**.  Replace the TENANCY placeholder with the name of your Office 365 Developer tenancy.
+	> If you followed the instructions in the [Getting Started with the SharePoint Framework (SPFx)](../Module-1/Lab.md) module, the SharePoint workbench on your Office 365 developer site is located at **https://your-sharepoint-site/_layouts/workbench.aspx**.  Replace the your-sharepoint-site placeholder with the name of your Office 365 Developer site.
 	> 
 	> Delete all of the existing web parts in SharePoint workbench and then add the **HelloWorldReact** web part to preview it.
 
@@ -258,7 +258,7 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 ### Prepare a SharePoint list ###
 
 1. Go to the **Site Contents** page on your Office 365 Developer Site.
-2. Click the **New** link on the top navigation bar, and then choose **List**.
+2. Choose the **New** link on the top navigation bar, and then choose **List**.
 	
 	![](Images/01.png)
 
@@ -273,51 +273,13 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 1. Open a **Command Prompt** window.
 2. Change to the **helloworld-webpart** directory created in [Getting Started with the SharePoint Framework (SPFx)](../Module-1/Lab.md).
 3. Open the **HelloWorld** web part project in Visual Studio Code, or your preferred IDE.
-4. Open the **HelloWorld.module.scss** file.
-5. Add the following style after the **.button** style.
+4. Open the **HelloWorldWebPart.ts** file.
+8. Add the following code to import types **SPHttpClient** and **SPHttpClientResponse** from `@microsoft/sp-http`.
 
-	````
-	.container {
-	     max-width: 700px;
-	     margin: 0px auto;
-	     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-	}
-
-	.success {
-	     color: blue;
-	     font-size: 16px;
-	     width: 100%;
-	     padding: 10px;
-	 }
-
-	 .error {
-	     color: red;
-	     font-size: 16px;
-	     width: 100%;
-	     padding: 10px;
-	 }
-	````
-
-6. Open the **HelloWorldWebPart.ts** file.
-7. Add the following code to import the **IWebPartContext** from `@microsoft/sp-webpart-base`.
-	
-	>**Note:** This library is a collection of well-known services and other objects that are likely to be needed by any business logic working with a component.
-
-	````
-	import {
-	  BaseClientSideWebPart,
-	  IPropertyPaneConfiguration,
-	  PropertyPaneTextField,
-	  IWebPartContext
-	} from '@microsoft/sp-webpart-base';
-	````
-
-8. Add the following code to import the **SPHttpClientConfigurations** from `@microsoft/sp-http`.
-
-	>**Note:** This library provides standard predefined SPHttpClientConfiguration objects for use with the SPHttpClient class.
+	>**Note:** This library is used to perform REST calls against SharePoint. It includes standard predefined ISPHttpClientConfigurations object for use with the methods of SPHttpClient class.
 	
 	````
-	import { SPHttpClientConfigurations } from '@microsoft/sp-http';
+	import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 	````
 
 9. Define the following interface models just above the **HelloWorldWebPart** class. 
@@ -344,130 +306,156 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 
 11. Add the following code in **HelloWorldWebPart** class.
 
-	>**Note:** This method invokes the **getListItems** method then creates the HTML to render to list items and the buttons associated with each of them.  Then, it wires up the event handlers for the buttons.
+	>**Note:** This method invokes the **getListItems** method then creates the HTML to render the list items and the buttons associated with each of them. Then, it wires up the event handlers for the buttons.
 	
 	````
 	protected generateListItemsHtml(): void{
-	    const rootContainer: Element = this.domElement.querySelector("#tbodyItems");
+	  const rootContainer: Element = this.domElement.querySelector("#tbodyItems");
 	
-	    this.getListItems()
-	    .then((data: IListItem[]) => {
-	      for(let i:number = 0; i < data.length; i++){
-	        const Id: number = data[i].Id,
-	            Title: string = data[i].Title;
-	        rootContainer["insertAdjacentHTML"]('beforeend', `
-	          <tr data-id="${Id}">
-	            <td><input class='ms-TextField-field' value="${Title}"></input></td>
-	            <td><button class="ms-Button ms-Button--primary">Update</button></td>
-	            <td><button class="ms-Button ms-Button--primary">Delete</button></td>
-	          </tr>
-	        `);
+	  this.getListItems()
+	  .then((data: IListItem[]) => {
+	    const count: number = data.length;
+	    document.getElementById("spanItemLength").innerText = count.toString();
+	    document.getElementById("theader").style.display = (count === 0 ? "none" : "");
 	
-	        const buttons = rootContainer.querySelectorAll(`tr[data-id='${Id}'] button`);
+	    for (let i:number = 0; i < count; i++){
+	      const Id: number = data[i].Id,
+	          Title: string = data[i].Title;
+	      rootContainer.insertAdjacentHTML('beforeend', `
+	        <tr data-id="${Id}">
+	          <td><input class="ms-TextField-field" value="${Title}"></input></td>
+	          <td>
+	            <button class="${styles.button}">
+	              <label class="${styles.label}">Update</label>
+	            </button>
+	          </td>
+	          <td>
+	            <button class="${styles.button}">
+	              <label class="${styles.label}">Delete</label>
+	            </button>
+	          </td>
+	        </tr>
+	      `);
 	
-	        buttons[0].addEventListener("click", (evt: Event): void => {
-	          const trNode: Element = evt.srcElement.parentElement.parentElement;
-	          this.saveListItem(trNode, trNode.attributes["data-id"].value);
-	          evt.preventDefault();
-	        });
+	      const buttons = rootContainer.querySelectorAll(`tr[data-id='${Id}'] button`);
 	
-	        buttons[1].addEventListener("click", (evt: Event) : void => {
-	          const trNode: Element = evt.srcElement.parentElement.parentElement;
-	          this.removeListItem(trNode, trNode.attributes["data-id"].value);
-	          evt.preventDefault();
-	        });
-	      }
-	    });
+	      buttons[0].addEventListener("click", (evt: Event): void => {
+	        const trNode: Element = this._getTrAncestor(evt.srcElement);
+	        this.saveListItem(trNode, trNode.attributes["data-id"].value);
+	        evt.preventDefault();
+	      });
+	
+	      buttons[1].addEventListener("click", (evt: Event) : void => {
+	        const trNode: Element = this._getTrAncestor(evt.srcElement);
+	        this.removeListItem(trNode, trNode.attributes["data-id"].value);
+	        evt.preventDefault();
+	      });
+	    }
+	  });
 	}
 	````
 
 	>**Note:** This method invokes the SharePoint REST API and returns the name of the list specified by the **_listName** variable.
 	
 	````
-	private _getListItemEntityTypeFullName(context: IWebPartContext):Promise<string> {
-	    return context.spHttpClient.get(context.pageContext["web"]["absoluteUrl"]
-	      + `/_api/web/lists/GetByTitle('${this._listName}')`, SPHttpClientConfigurations.v1)
-	      .then((response: Response) => {
-	        return response.json();
-	      })
-	      .then((value) => {
-	        return value["ListItemEntityTypeFullName"];
-	      });
+	private _getListItemEntityTypeFullName():Promise<string> {
+	  if (this._listItemEntityTypeFullName){
+	    return Promise.resolve(this._listItemEntityTypeFullName);
+	  }
+	
+	  return this.context.spHttpClient.get(this.context.pageContext["web"]["absoluteUrl"]
+	    + `/_api/web/lists/GetByTitle('${this._listName}')`, SPHttpClient.configurations.v1)
+	    .then((response: SPHttpClientResponse) => {
+	      return response.json();
+	    })
+	    .then((value) => {
+	      this._listItemEntityTypeFullName = value["ListItemEntityTypeFullName"];
+	      return this._listItemEntityTypeFullName;
+	    });
 	}
 	````
 
 	>**Note:** This method fires when the Add New Item button is clicked.  It adds the controls to accommodate a new list item to the page and wires up the event handlers for the buttons.
 	
 	````
-	public addNewListItem(): void {
-	    const rootContainer: Element = this.domElement.querySelector("#tbodyItems");
-	    rootContainer["insertAdjacentHTML"]('beforeend',
-	    `<tr data-id="0">
-	        <td><input class='ms-TextField-field' value=""></input></td>
-	        <td><button class="ms-Button ms-Button--primary">Add</button></td>
-	        <td><button class="ms-Button ms-Button--primary">Delete</button></td>
-	    </tr>`);
+	private addNewListItem(): void {
+	  const rootContainer: Element = this.domElement.querySelector("#tbodyItems");
+	  rootContainer["insertAdjacentHTML"]('beforeend',
+	  `<tr data-id="0">
+	      <td>
+	        <input class='ms-TextField-field' value=""></input>
+	      </td>
+	      <td>
+	        <button class="${styles.button}">
+	          <label class="${styles.label}">Add</label>
+	        </button>
+	      </td>
+	      <td>
+	        <button class="${styles.button}">
+	          <label class="${styles.label}">Cancel</label>
+	        </button>
+	      </td>
+	  </tr>`);
 	
-	    const buttons = rootContainer.querySelectorAll('tr')[rootContainer.querySelectorAll('tr').length - 1].querySelectorAll('button');
+	  const buttons = rootContainer.querySelectorAll('tr')[rootContainer.querySelectorAll('tr').length - 1].querySelectorAll('button');
 	
-	    console.log(buttons);
+	  buttons[0].addEventListener("click", (evt: Event): void => {
+	    const trNode: Element = this._getTrAncestor(evt.srcElement);
+	    this.saveListItem(trNode, trNode.attributes["data-id"].value);
+	    evt.preventDefault();
+	  });
 	
-	    buttons[0].addEventListener("click", (evt: Event): void => {
-	      const trNode: Element = evt.srcElement.parentElement.parentElement;
-	      this.saveListItem(trNode, trNode.attributes["data-id"].value);
-	      evt.preventDefault();
-	    });
-	
-	    buttons[1].addEventListener("click", (evt: Event) : void => {
-	      const trNode: Element = evt.srcElement.parentElement.parentElement;
-	      this.removeListItem(trNode, trNode.attributes["data-id"].value);
-	      evt.preventDefault();
-	    });
+	  buttons[1].addEventListener("click", (evt: Event) : void => {
+	    const trNode: Element = this._getTrAncestor(evt.srcElement);
+	    this.removeListItem(trNode, trNode.attributes["data-id"].value);
+	    evt.preventDefault();
+	  });
 	}
 	````
 
 	>**Note:** This method invokes the SharePoint REST API and returns the list items from the list specified by the **_listName** variable.
 	
 	````
-	public getListItems(): Promise<IListItem[]> {
-	    return this.context.spHttpClient.get(this.context.pageContext["web"]["absoluteUrl"]
-	    + `/_api/web/lists/GetByTitle('${this._listName}')/items?$select=Id,Title`, SPHttpClientConfigurations.v1)
-	    .then((response: Response): Promise<any> => {
-	      return response.json();
-	    })
-	    .then((data: any) : IListItem[]  =>{
-	      this._showSuccess(`Successfully loaded ${data.value.length} items`);
-	      return data.value;
-	    }, (error: any): void => {
-	      this._showError(`Loading all items failed with error: ${error}`);
-	    }) as Promise<IListItem[]>;
+	private getListItems(): Promise<IListItem[]> {
+	  return this.context.spHttpClient.get(this.context.pageContext["web"]["absoluteUrl"]
+	  + `/_api/web/lists/GetByTitle('${this._listName}')/items?$select=Id,Title`, SPHttpClient.configurations.v1)
+	  .then((response: SPHttpClientResponse): Promise<any> => {
+	    return response.json();
+	  })
+	  .then((data: any) : IListItem[]  =>{
+	    this._showSuccess(`Successfully loaded ${data.value.length} items`);
+	    return data.value;
+	  }, (error: any): void => {
+	    this._showError(`Loading all items failed with error: ${error}`);
+	  }) as Promise<IListItem[]>;
 	}
 	````
 
 	>**Note:** This method invokes the SharePoint REST API and creates new items or updates existing list items in the list specified by the **_listName** variable.
 	
 	````
-	public saveListItem = (ContainerNode: Element, Id: number): void => {
-	    this._clearnMessage();
+	private saveListItem(ContainerNode: Element, Id: string): void {
+	  this._clearMessage();
 	
-	    const title = ContainerNode.querySelector("input").value;
+	  const title = ContainerNode.querySelector("input").value;
 	
-	    if(title.trim().length === 0) {
-	      this._showError('Title is required');
-	      return;
-	    }
+	  if(title.trim().length === 0) {
+	    this._showError('Title is required');
+	    return;
+	  }
 	
-	    if (Id == 0){
+	  this._getListItemEntityTypeFullName()
+	  .then((listItemEntityTypeFullName: string) => {
+	    const reqJSON: any = {
+	      "@odata.type": listItemEntityTypeFullName,
+	      "Title": title
+	    };
+	
+	    if(Id === "0") {
 	      //create a new item
-	      const reqJSON: any = JSON.parse(
-	        `{
-	          "@odata.type": "${this._listItemEntityTypeFullName}",
-	          "Title": "${title}"
-	      }`);
-	
 	      this.context.spHttpClient.post(
 	          this.context.pageContext["web"]["absoluteUrl"] +
-	          `/_api/web/lists/GetByTitle('${this._listName}')/items?$expand=ListItemAllFields`, SPHttpClientConfigurations.v1,
+	          `/_api/web/lists/GetByTitle('${this._listName}')/items`, SPHttpClient.configurations.v1,
 	          {
 	            body: JSON.stringify(reqJSON),
 	            headers: {
@@ -475,81 +463,99 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 	              "content-type": "application/json"
 	            }
 	      })
-	      .then((response: Response): Promise<IListItem> => {
+	      .then((response: SPHttpClientResponse): Promise<IListItem> => {
 	        return response.json();
 	      })
 	      .then((item: IListItem): void => {
 	        ContainerNode.querySelectorAll("button")[0].textContent = "Update";
 	        ContainerNode.querySelectorAll("button")[0].parentElement.parentElement.setAttribute("data-id", item.Id.toString());
 	        this._showSuccess(`Item '${item.Title}' (ID: ${item.Id}) successfully created`);
+	        this._updateItemCount(1);
 	      }, (error: any): void => {
 	        this._showError('Error while creating the item: ${error}');
 	      });
 	    }
-	    else{
+	    else {
 	      //update a list item
-	    const reqJSON: any = JSON.parse(
-	      `{
-	        "@odata.type": "${this._listItemEntityTypeFullName}",
-	        "Title": "${title}"
-	      }`);
-	
-	    this.context.spHttpClient.post(
-	      this.context.pageContext["web"]["absoluteUrl"] +
-	      `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClientConfigurations.v1, 
-	      {
-	        body: JSON.stringify(reqJSON),
-	        headers: {
-	          "IF-MATCH": "*",
-	          "X-HTTP-Method":"MERGE",
-	          "accept": "application/json",
-	          "content-type": "application/json"
+	      this.context.spHttpClient.post(
+	        this.context.pageContext["web"]["absoluteUrl"] +
+	        `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClient.configurations.v1, 
+	        {
+	          body: JSON.stringify(reqJSON),
+	          headers: {
+	            "IF-MATCH": "*",
+	            "X-HTTP-Method":"MERGE",
+	            "accept": "application/json",
+	            "content-type": "application/json"
 	        }
 	      })
-	      .then((response: Response): void => {
+	      .then((response: SPHttpClientResponse): void => {
 	        this._showSuccess(`Item with ID: ${Id} successfully updated`);
 	      }, (error: any): void => {
 	        this._showError(`Error updating item: + ${error}`);
 	      });
 	    }
+	  });
 	}
 	````
 
 	>**Note:** This method invokes the SharePoint REST API and deletes the list item from the list specified by the **_listName** variable.
 	
 	````
-	public removeListItem = (ContainerNode: Element, Id: number): void => {
-	    this._clearnMessage();
+	private removeListItem (ContainerNode: Element, Id: string): void {
+	  this._clearMessage();
 	
-	    if(Id == 0){
+	  if(Id === "0"){
+	    ContainerNode.parentNode.removeChild(ContainerNode);
+	  }
+	  else{
+	    this.context.spHttpClient.post(
+	      this.context.pageContext["web"]["absoluteUrl"] +
+	      `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClient.configurations.v1, 
+	      {
+	        headers: {
+	          "IF-MATCH": "*",
+	          "X-HTTP-Method":"DELETE",
+	          "accept": "application/json",
+	          "content-type": "application/json"
+	        }
+	    })
+	    .then((response: SPHttpClientResponse): void => {
 	      ContainerNode.parentNode.removeChild(ContainerNode);
-	    }
-	    else{
-	      this.context.spHttpClient.post(
-	        this.context.pageContext["web"]["absoluteUrl"] +
-	        `/_api/web/lists/GetByTitle('${this._listName}')/items(${Id})`, SPHttpClientConfigurations.v1, 
-	        {
-	          headers: {
-	            "IF-MATCH": "*",
-	            "X-HTTP-Method":"DELETE",
-	            "accept": "application/json",
-	            "content-type": "application/json"
-	          }
-	      })
-	      .then((response: Response): void => {
-	        ContainerNode.parentNode.removeChild(ContainerNode);
-	        this._showSuccess(`Item with ID: ${Id} successfully deleted`);
-	      }, (error: any): void => {
-	        this._showError(`Error deleting item: ${error}`);
-	      });
-	    }
+	      this._showSuccess(`Item with ID: ${Id} successfully deleted`);
+	      this._updateItemCount(-1);
+	    }, (error: any): void => {
+	      this._showError(`Error deleting item: ${error}`);
+	    });
+	  }
+	}
+	````
+
+	>**Note:** Utility method used to update the list item count.
+	
+	````
+	private _updateItemCount(increment: number){
+	  const countElement = document.getElementById("spanItemLength");
+	  const count: number = Number(countElement.innerText);
+	  countElement.innerText = (count + increment).toString();
+	}
+	````
+
+	>**Note:** Utility method used to get the closest table row ancestor of an element.
+	
+	````
+	private _getTrAncestor(element: Element): Element{
+	  while (element && element.tagName.toLowerCase() != "tr"){
+	    element = element.parentElement;
+	  }
+	  return element;
 	}
 	````
 
 	>**Note:** Utility method used to clear status messages in the web part.
 	
 	````
-	private _clearnMessage() {
+	private _clearMessage() {
 	    this.domElement.querySelector("#message").innerHTML = "";
 	}
 	````
@@ -559,7 +565,7 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 	````
 	private _showSuccess(message: string) {
 	    const elem: Element = this.domElement.querySelector("#message");
-	    elem.className = styles.success;
+	    elem.className = "ms-fontColor-white";
 	    elem.innerHTML = message;
 	}
 	````
@@ -569,7 +575,7 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 	````
 	private _showError(message: string) {
 	    const elem: Element = this.domElement.querySelector("#message");
-	    elem.className = styles.error;
+	    elem.className = "ms-fontColor-red";
 	    elem.innerHTML = message;
 	}
 	````
@@ -578,43 +584,43 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 
 	````
 	public render(): void {
-	    this._getListItemEntityTypeFullName(this.context)
-	    .then((value) => {
-	      this._listItemEntityTypeFullName = value;
-	    });
+	  this.domElement.innerHTML = `
+	    <div class="${styles.helloWorld}">
+	      <div class="${styles.container}">
+	        <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+	          <p class="ms-font-l">There are <span id="spanItemLength"></span> item(s) in <span id="spanItemName">${this._listName}</span> list</p>
+	          <table>
+	            <thead id="theader" style="display:none">
+	              <tr>
+	                <th class="ms-font-xl">Title</th>
+	                <th />
+	                <th />
+	              </tr>
+	            </thead>
+	            <tbody id="tbodyItems">
+	            </tbody>
+	          </table>
+	        </div>
+	        <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+	          <button class="${styles.button}">
+	            <label class="${styles.label}">Add New Item</label>
+	          </button>
+	        </div>
+	        <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+	          <div class="ms-font-l" id="message"></div>
+	        </div>
+	      </div>
+	    </div>`;
 	
-	    this.domElement.innerHTML = `
-	        <div class="${styles.container}">
-	          <div class=" ${styles.row}">
-	            <p class='ms-font-l'>There are <span id='spanItemLength'></span> item(s) in <span id='spanItemName'>${this._listName}</span> list</p>
-	            <table>
-	                <thead>
-	                    <tr>
-	                        <th>Title</th>
-	                        <th />
-	                        <th />
-	                    </tr>
-	                </thead>
-	                <tbody id="tbodyItems">
-	                </tbody>
-	            </table>
-	          </div>
-	          <div class="${styles.row}">
-	            <button class="ms-Button ms-Button--primary">Add New Item</button>
-	          </div>
-	          <div id='message'>
-	          </div>
-	        </div>`;
-	
-	    this.generateListItemsHtml();
-	
-	    this.domElement.getElementsByClassName("ms-Button")[0].addEventListener("click", () => {
-	      this.addNewListItem();
-	    });
+	  this.generateListItemsHtml();
+	  this.domElement.getElementsByTagName("button")[0].addEventListener("click", () => {
+	    this.addNewListItem();
+	  });
 	}
 	````
 
-13. Preview the web part in the **SharePoint workbench on your Office 365 developer site**.
+13. Remove the unused code `import { escape } from '@microsoft/sp-lodash-subset';`.
+14. Preview the web part in the **SharePoint workbench on your Office 365 developer site**.
 
 	> **Note**: If you didn't install and trust a developer certificate on your machine, please install it on your machine.
 	> 1. Open a **Command Prompt** window and change to the **helloworld-webpart** directory.
@@ -629,7 +635,7 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 
 #### Test creating a list item ####
 
-1. Click **Add New Item**.
+1. Choose **Add New Item**.
 2. Enter **Item 1** as the title, then choose **Add**.
 
 	![](Images/16.png)
@@ -645,7 +651,7 @@ In this exercise you will enhance the **HelloWorld** web part created in [Gettin
 
 #### Test updating a list item ####
 
-1. Click **Add New Item**.
+1. Choose **Add New Item**.
 2. Enter **Item 2** as the title, then choose **Add**.
 
 	![](Images/19.png)

@@ -1,4 +1,4 @@
-import { ISPList } from '.././ISPList';
+import { ISPList } from '../ISPList';
 
 export interface IHelloWorldReactProps {
   description: string;
