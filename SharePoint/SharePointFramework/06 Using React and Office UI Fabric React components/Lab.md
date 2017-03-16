@@ -60,7 +60,7 @@ Use the animation library to create web experiences that integrate with Office 3
 3. Add the following code to the **render** method.
 
 	````
-	<div className="ms-u-slideRightIn10">This content will slide in.</div>
+	<p className="ms-u-slideRightIn10">This content will slide in.</p>
 	````
 	
 	![](Images/03.png)
@@ -83,7 +83,7 @@ Office UI Fabric includes 9 theme colors and 11 neutral colors. Each has helper 
 2. Add the following code to the **render** method.
 
 	````
-	<div className="ms-bgColor-themeDarker ms-fontColor-white">This theme is darker.</div>
+	<p className="ms-bgColor-themeDarker ms-fontColor-white">This theme is darker.</p>
 	````
 	
 	![](Images/04.png)
@@ -131,7 +131,7 @@ Fabric includes 10 base font classes that represent the type ramp for the Office
 2. Add the following code to the **render** method.
 
 	````
-	<div className="ms-fontSize-xxl">The quick brown fox jumps over the lazy dog</div>
+	<p className="ms-fontSize-xxl">The quick brown fox jumps over the lazy dog</p>
 	````
 	
 	![](Images/06.png)
@@ -218,7 +218,7 @@ To learn about additional components see [http://dev.office.com/fabric#/componen
 
 	![](Images/09.png)
 
-	>**Note:** This code uses the Office UI React Button component to create buttons.  The second Button component has an event handler assigned to the onClick event.
+	>**Note:** This code uses the Office UI React Button component to create buttons. The second Button component has an event handler assigned to the onClick event. The evnent handler will be added in the next step.
 
 5. Add the following code to the **HelloWorldReact** class.
 
@@ -242,14 +242,14 @@ To learn about additional components see [http://dev.office.com/fabric#/componen
 
 	![](Images/11.png)
 
-7. Click on the **Primary button** to trigger the alert dialog.
+7. Choose the **Primary button** to trigger the alert dialog.
 
 	![](Images/12.png)
 
 
 #### Navigation ####
 1. Open the **HelloWorldReact.tsx** file.
-2. Add the following code to import the **Nav** Office UI Fabric React Component from `office-ui-fabric-react`.
+2. Replace the line `import { Button, ButtonType } from 'office-ui-fabric-react'` with the following code to import the **Nav** Office UI Fabric React Component from `office-ui-fabric-react`.
 
 	````
 	import { Button, ButtonType, Nav } from 'office-ui-fabric-react';
@@ -301,7 +301,7 @@ To learn about additional components see [http://dev.office.com/fabric#/componen
 
 	![](Images/13.png)
 
-	>**Note:** This code uses the Office UI React Nav component to create a navigation menu.  The links array defines the items in the navigation menu.  Notice the links arrays may contain other links arows that allow you to nest links.  The name property for each item in the linsk array defines what is rendered in the web browser, the url property defines the url for the link, the iconClassName and icon properties defines the icons displayed next to the links; the last two items in the list use this.  The last item in the menu has an event handler assigned to the onClick event.
+	>**Note:** This code uses the Office UI React Nav component to create a navigation menu.  The links array defines the items in the navigation menu.  Notice the links arrays may contain other links arows that allow you to nest links.  The name property for each item in the linsk array defines what is rendered in the web browser, the url property defines the url for the link, the iconClassName and icon properties defines the icons displayed next to the links; the last two items in the list use this.  The last item in the menu has an event handler assigned to the onClick event. The event handler will be added in the next step.
 
 4. Add the following code to the **HelloWorldReact** class.
 
@@ -325,13 +325,13 @@ To learn about additional components see [http://dev.office.com/fabric#/componen
 
 	![](Images/15.png)
 
-7. Click the **Edit** link to display the alert dialog.
+7. Choose the **Edit** link to display the alert dialog.
 
 	![](Images/16.png)
 
 #### Panel ####
 1. Open the **HelloWorldReact.tsx** file.
-2. Add the following code to import the **Panel** and **PanelType** Office UI Fabric React Components from `office-ui-fabric-react`.
+2. Replace the line `import { Button, ButtonType, Nav } from 'office-ui-fabric-react'` with the following code to import the **Panel** and **PanelType** Office UI Fabric React Components from `office-ui-fabric-react`.
 
 	````
 	import { Button, ButtonType, Nav, Panel, PanelType } from 'office-ui-fabric-react';
@@ -375,7 +375,7 @@ To learn about additional components see [http://dev.office.com/fabric#/componen
 
 	![](Images/21.png)
 
-	>**Note:** This code uses an Office UI React Nav Button component and a Panel component to demonstrate how to show and hide a Panel.  The Button component has an event handler assigned to the onClick event.  The Panel component has an event handler assigned to the onDismiss event.
+	>**Note:** This code uses an Office UI React Nav Button component and a Panel component to demonstrate how to show and hide a Panel.  The Button component has an event handler assigned to the onClick event.  The Panel component has an event handler assigned to the onDismiss event. The event handler will be added in the next step.
 
 6. Add the following code to the **HelloWorldReact** class.
 
