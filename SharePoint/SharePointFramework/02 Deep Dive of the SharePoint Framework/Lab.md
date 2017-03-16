@@ -58,10 +58,7 @@ Make sure you have completed the procedures in the following sections of [Gettin
 	> ![](Images/22.png)
 	> 
 	> #### Package contents ####
-	The package uses a SharePoint Feature to package your web part. By default, the gulp task creates the following:
-	> 
-	> - A feature for your web part.
-	> - A .webpart file for your web part, which is an XML file that describes the web part.
+	The package uses a SharePoint Feature to package your web part. By default, the gulp task creates a feature for your web part.
 	> 
 	> You can view the raw package contents in the **sharepoint** folder.
 	> 
@@ -93,7 +90,7 @@ Make sure you have completed the procedures in the following sections of [Gettin
 #### Create a new team site ####
 
 1. Go to the **Site contents** page on your Office 365 Developer Site.
-2. Click the **New** on the top navigation bar, then choose **Subsite**.
+2. Choose the **New** on the top navigation bar, then choose **Subsite**.
 
 	![](Images/40.png)
 
@@ -111,9 +108,6 @@ Make sure you have completed the procedures in the following sections of [Gettin
 	
 3. In the **Search** box, enter **helloworld** and press **Enter** to filter your apps.
 4. Choose the **helloworld-webpart-client-side-solution** app to install the app on the team site.
-5. Choose **OK**.
-	
-	![](Images/26a.png) 
 	
 	> **Note:** The client-side solution and the web part are installed on your team site. The Site Contents page shows you the installation status of your client-side solutions.
 	> 
@@ -149,12 +143,6 @@ Switch to Visual Studio Code and make sure you still have the **HelloWorld** pro
 
 	**HelloWorldWebPart.ts** defines the main entry point for the web part. The web part class **HelloWorldWebPart** extends the **BaseClientSideWebPart**. Any client-side web part should extend the **BaseClientSideWebPart** class in order to be defined as a valid web part.
 
-	````
-	public constructor(context: IWebPartContext) {
-	    super(context);
-	}
-	````
-
 	**BaseClientSideWebPart** implements the minimal functionality that is required to build a web part. This class also provides many parameters to validate and access to read-only properties such as **displayMode**, web part properties, web part context, the web part **instanceId**, the web part **domElement** and much more.
 	
 	Notice that the web part class is defined to accept a property type **IHelloWorldWebPartProps**.
@@ -172,27 +160,23 @@ Switch to Visual Studio Code and make sure you still have the **HelloWorld** pro
 	The DOM element where the web part is rendered is available in the **render** method. This method is used to render the web part inside that DOM element. In the **HelloWorld** web part, the DOM element is set to a DIV.
 	
 	````
-    public render(): void {
-      this.domElement.innerHTML = `
-        <div class="${styles.row}">
-          <div class="${styles.column}">
-            <span class="${styles.title}">
-              Welcome to SharePoint!
-            </span>
-            <p class="${styles.subtitle}">
-              Customize SharePoint experiences using Web Parts.
-            </p>
-            <p class="${styles.description}">
-              ${escape(this.properties.description)}
-            </p>
-            <a class="ms-Button ${styles.button}" href="https://github.com/SharePoint/sp-dev-docs/wiki">
-              <span class="ms-Button-label">
-                Learn more
-              </span>
-            </a>
-          </div>
-        </div>`;
-    }
+	public render(): void {
+	  this.domElement.innerHTML = `
+	    <div class="${styles.helloWorld}">
+	      <div class="${styles.container}">
+	        <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+	          <div class="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+	            <span class="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
+	            <p class="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
+	            <p class="ms-font-l ms-fontColor-white">${escape(this.properties.description)}</p>
+	            <a href="https://aka.ms/spfx" class="${styles.button}">
+	              <span class="${styles.label}">Learn more</span>
+	            </a>
+	          </div>
+	        </div>
+	      </div>
+	    </div>`;
+	}
 	````
 	
 	This model is flexible enough so that web parts can be built in any JavaScript framework and loaded into the DOM element. The following is an example of how you would load a React component instead of plain HTML.
@@ -266,7 +250,7 @@ Make sure the **SharePoint workbench** is running locally.
 > 3. Mozilla Firefox doesn't trust self-signed certificate. If you're using Mozilla Firefox, you will need to choose **Advanced** and add an exception to proceed to the website.
 
 ### Testing in the SharePoint workbench ###
-The SharePoint workbench may also be hosted in SharePoint to preview and test your local web parts in development. The key advantage is that by running in SharePoint the context is available and you are able to interact with SharePoint data.
+The SharePoint workbench is also hosted in SharePoint to preview and test your local web parts in development. The key advantage is that by running in SharePoint the context is available and you are able to interact with SharePoint data.
 
 1. Open your browser and go to the **workbench.aspx** page on your Office 365 Developer Site.
 
@@ -308,12 +292,6 @@ The SharePoint workbench may also be hosted in SharePoint to preview and test yo
 
 	![](Images/36.png)
 
-	> **Note**: If there is no **Add a page** option, please see the following items:
-	> 
-	> - You must opt in to the [First Release program](https://support.office.com/en-us/article/Set-up-the-Standard-or-First-Release-options-in-Office-365-3b3adfa4-1777-4ff0-b606-fb8732101f47?ui=en-US&rs=en-US&ad=US) for all users in the tenancy to enable the modern pages.
-	> - You must be a site owner or SharePoint administrator to add pages.
-	> - If you are a site owner but you are unable to add a page, your administrator may have turned off the ability to do so.
-
 4. Enter **ModernPage** as the page name.
 
 	![](Images/37.png)
@@ -348,39 +326,35 @@ SharePoint Framework provides status renderers to use when the web part is loadi
 5. Replace the **render** method with the following code.
 
 	````
-    public render(): void {
-      this.context.statusRenderer.displayLoadingIndicator(this.domElement, "message");
-      setTimeout(() => {
-        this.context.statusRenderer.clearLoadingIndicator(this.domElement);
-        try {
-            throw new Error("Error message");
-        } catch(err) {
-          this.context.statusRenderer.renderError(this.domElement, err);
-          setTimeout(() => {
-            this.context.statusRenderer.clearError(this.domElement);
-            this.domElement.innerHTML = `
-              <div class="${styles.row}">
-                <div class="${styles.column}">
-                  <span class="${styles.title}">
-                    Welcome to SharePoint!
-                  </span>
-                  <p class="${styles.subtitle}">
-                    Customize SharePoint experiences using Web Parts.
-                  </p>
-                  <p class="${styles.description}">
-                    ${escape(this.properties.description)}
-                  </p>
-                  <a class="ms-Button ${styles.button}" href="https://github.com/SharePoint/sp-dev-docs/wiki">
-                    <span class="ms-Button-label">
-                      Learn more
-                    </span>
-                  </a>
-                </div>
-              </div>`;
-          }, 2000);
-        }
-      }, 2000);
-    }
+	public render(): void {
+	  this.context.statusRenderer.displayLoadingIndicator(this.domElement, "message");
+	  setTimeout(() => {
+	    this.context.statusRenderer.clearLoadingIndicator(this.domElement);
+	    try {
+	        throw new Error("Error message");
+	    } catch(err) {
+	      this.context.statusRenderer.renderError(this.domElement, err);
+	      setTimeout(() => {
+	        this.context.statusRenderer.clearError(this.domElement);
+	        this.domElement.innerHTML = `
+	          <div class="${styles.helloWorld}">
+	            <div class="${styles.container}">
+	              <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+	                <div class="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+	                  <span class="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
+	                  <p class="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
+	                  <p class="ms-font-l ms-fontColor-white">${escape(this.properties.description)}</p>
+	                  <a href="https://aka.ms/spfx" class="${styles.button}">
+	                    <span class="${styles.label}">Learn more</span>
+	                  </a>
+	                </div>
+	              </div>
+	            </div>
+	          </div>`;
+	      }, 2000);
+	    }
+	  }, 2000);
+	}
 	````
 	
 	> **Notes:** 
@@ -407,9 +381,9 @@ SharePoint Framework provides status renderers to use when the web part is loadi
 	> this.context.statusRenderer.clearError(this.domElement);
 	> ````
 
-6. Save the **HelloWorldWebPart.ts** file and preview your web part.
+6. Save the **HelloWorldWebPart.ts** file and preview your web part in the workbench page hosted in SharePoint.
 
-	> **Note:** You will see the web part display the following statuses.
+	> **Note:** You will see the web part display the following statuses by refreshing the page containing the web part. You could also preview the web part in the modern page, classic page, or local workbench. 
 	> ![](Images/02.png)
 	> ![](Images/03.png)
 	> ![](Images/04.png)
@@ -464,10 +438,9 @@ SharePoint Framework provides status renderers to use when the web part is loadi
 	````
 	![](Images/08.png)
 
-6. Save the **HelloWorldWebPart.ts** file and preview your web part.
+6. Save the **HelloWorldWebPart.ts** file and preview your web part in the workbench in SharePoint.
 	
 	![](Images/09.png)
-
 
 ### Page Display Modes ###
 
@@ -527,7 +500,7 @@ However, when the workbench is hosted in SharePoint, you get access to the page 
 
 	![](Images/14.png)
 
-3. Preview your web part in the SharePoint workbench, a modern page, or a classic page to see the page context.
+3. Preview your web part in the workbench in SharePoint, a modern page, or a classic page to see the page context.
 
 	![](Images/page-context-sharepoint.png)
 
@@ -557,7 +530,7 @@ The SharePoint workbench gives you the flexibility to test web parts in your loc
 4. Save the **HelloWorldWebPart.ts** file and preview your web part running in the local workbench to see the environment you are running in.
 	![](Images/17.png)
 
-5. Preview your web part running in the SharePoint workbench to see the environment you are running in.
+5. Preview your web part running in the workbench in SharePoint to see the environment you are running in.
 	![](Images/environment-sharepoint-workbench.png)
 
 ### Logging API ###
@@ -601,7 +574,7 @@ Logging is a very convenient and easy way to keep track of events happening in t
 
 	![](Images/19.png)
 
-4. Save the **HelloWorldWebPart.ts** file and preview your web part.
+4. Save the **HelloWorldWebPart.ts** file and preview your web part in the local workbench.
 5. Open the **Developer tools** and view the log information.
 
 	> **Note**: If you are using **Chrome**, you can press **F12** and then choose the **Console** tab to view the log information.
