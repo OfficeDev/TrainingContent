@@ -9,11 +9,10 @@ export interface IHelloWorldKnockoutBindingContext extends IHelloWorldKnockoutWe
 export default class HelloWorldKnockoutViewModel {
   public description: KnockoutObservable<string> = ko.observable('');
 
-  public rowClass: string = styles.row;
-  public columnClass: string = styles.column;
-  public titleClass: string = styles.title;
-  public subtitleClass: string = styles.subtitle;
-  public descriptionClass: string = styles.description;
+  public labelClass: string = styles.label;
+  public helloWorldClass: string = styles.helloWorld;
+  public containerClass: string = styles.container;
+  public rowClass: string = `ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`;
   public buttonClass: string = `ms-Button ${styles.button}`;
 
   constructor(bindings: IHelloWorldKnockoutBindingContext) {

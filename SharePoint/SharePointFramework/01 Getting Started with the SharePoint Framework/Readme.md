@@ -5,7 +5,7 @@
 Introduction to the SharePoint Framework (SPFx). We cover the SharePoint Framework overview, setting up a development environment, building hello world web parts and running them in the SharePoint workbench.
 
 ## Video ##
-- Module 1: Getting Started with the SharePoint Framework (SPFx) - Coming
+[Module 1: Getting Started with the SharePoint Framework (SPFx)](#)
 
 ## Agenda ##
 - Introducing SharePoint Framework
@@ -57,16 +57,14 @@ The completed lab exercises are the demos for this module.
 
 ## Version history ##
 
-| Version | Date          		| Comments                     |
-| ------- | ------------------- | ---------------------------- |
-| 1.0     | February 15, 2017 	| Initial release for SPFx RC0 |
+| Version | Date          		| Comments        |
+| ------- | ------------------- | --------------- |
+| 1.0     | November 18, 2016 	| Initial release |
 
 ## Disclaimer ##
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
 
 ----------
 
-Notice that we will keep on updating this material based on your input and work being done in the [SharePoint Patterns and Practices initiative](http://aka.ms/sppnp). If you have any questions or comments, please use the [SharePoint Developer Group](http://aka.ms/sppnp-community) at Microsoft Tech Community.
-
-![SharePoint PnP Logo](https://devofficecdn.azureedge.net/media/Default/PnP/sppnp.png)
-
+Notice that we will keep on updating this material based on your input and work being done in the [Office 365 Developer Patterns and Practices program](http://aka.ms/officedevpnp). You can provide us input directly using the [Office 365 Developer Patterns & Practices Yammer group](http://aka.ms/officedevpnpyammer)
+![](https://camo.githubusercontent.com/a732087ed949b0f2f84f5f02b8c79f1a9dd96f65/687474703a2f2f692e696d6775722e636f6d2f6c3031686876452e706e67)
