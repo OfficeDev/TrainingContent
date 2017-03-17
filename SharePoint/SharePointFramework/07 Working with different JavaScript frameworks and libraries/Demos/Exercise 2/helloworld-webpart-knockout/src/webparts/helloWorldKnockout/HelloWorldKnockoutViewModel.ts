@@ -2,7 +2,7 @@ import * as ko from 'knockout';
 import styles from './HelloWorldKnockout.module.scss';
 import { IHelloWorldKnockoutWebPartProps } from './IHelloWorldKnockoutWebPartProps';
 import { IWebPartContext } from '@microsoft/sp-webpart-base';
-import { SPHttpClient } from '@microsoft/sp-http';
+import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 
 export interface IHelloWorldKnockoutBindingContext extends IHelloWorldKnockoutWebPartProps {
   shouter: KnockoutSubscribable<{}>;
@@ -25,11 +25,10 @@ export default class HelloWorldKnockoutViewModel {
 
   public description: KnockoutObservable<string> = ko.observable('');
 
-  public rowClass: string = styles.row;
-  public columnClass: string = styles.column;
-  public titleClass: string = styles.title;
-  public subtitleClass: string = styles.subtitle;
-  public descriptionClass: string = styles.description;
+  public labelClass: string = styles.label;
+  public helloWorldClass: string = styles.helloWorld;
+  public containerClass: string = styles.container;
+  public rowClass: string = `ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`;
   public buttonClass: string = `ms-Button ${styles.button}`;
 
   public listName: KnockoutObservable<string> = ko.observable(this._listName);
@@ -48,137 +47,142 @@ export default class HelloWorldKnockoutViewModel {
     }, this, 'description');
 
     this._context = bindings.context;
-    this._getListItemEntityTypeFullName(this._context)
-    .then((value) => {
-      this._listItemEntityTypeFullName = value;
-    });
     this._getListItems()
-    .then((data: IlistItems) => {
-      this.listItems(data.value);
-    });
+      .then((data: IlistItems) => {
+        this.listItems(data.value);
+      });
+  }
+
+  private _getListItemEntityTypeFullName(): Promise<string> {
+    if (this._listItemEntityTypeFullName) {
+      return Promise.resolve(this._listItemEntityTypeFullName);
+    }
+
+    return this._context.spHttpClient.get(this._context.pageContext["web"]["absoluteUrl"]
+      + `/_api/web/lists/GetByTitle('${this._listName}')`, SPHttpClient.configurations.v1)
+      .then((response: SPHttpClientResponse) => {
+        return response.json();
+      })
+      .then((value) => {
+        this._listItemEntityTypeFullName = value["ListItemEntityTypeFullName"];
+        return this._listItemEntityTypeFullName;
+      });
+  }
+
+  private _getListItems(): Promise<IlistItems> {
+    return this._context.spHttpClient.get(this._context.pageContext["web"]["absoluteUrl"]
+      + `/_api/web/lists/GetByTitle('${this._listName}')/items?$select=Id,Title`, SPHttpClient.configurations.v1)
+      .then((response: SPHttpClientResponse): Promise<any> => {
+        return response.json();
+      })
+      .then((data: any): IlistItems => {
+        this.message("Load succeeded");
+        this.hasError(false);
+        const listData: IlistItems = { value: data["value"] };
+        return listData;
+      },
+      (error: any) => {
+        this.message("Load failed");
+        this.hasError(true);
+      }) as Promise<IlistItems>;
   }
 
   public showAddNew = (show: boolean): void => {
-      this.isAdding(show);
-      if (!show) {
-          this.newItemTitle("");
-      }
+    this.isAdding(show);
+    if (!show) {
+      this.newItemTitle("");
+    }
   }
 
   public addListItem = (): void => {
-    const newItemTitle: string = this.newItemTitle();    
-    const reqJSON: any = JSON.parse(
-        `{
-            "@odata.type": "${this._listItemEntityTypeFullName}",
-            "Title": "${newItemTitle}"
-        }`);
+    this._getListItemEntityTypeFullName()
+      .then((listItemEntityTypeFullName: string) => {
+        const newItemTitle: string = this.newItemTitle();
+        const reqJSON: any = {
+          "@odata.type": this._listItemEntityTypeFullName,
+          "Title": newItemTitle
+        };
 
-    this._context.spHttpClient.post(
-        this._context.pageContext["web"]["absoluteUrl"] +
-        `/_api/web/lists/GetByTitle('${this._listName}')/items`,
-        SPHttpClient.configurations.v1,
-        {
+        this._context.spHttpClient.post(
+          this._context.pageContext["web"]["absoluteUrl"] +
+          `/_api/web/lists/GetByTitle('${this._listName}')/items`,
+          SPHttpClient.configurations.v1,
+          {
             body: JSON.stringify(reqJSON),
             headers: {
-                "accept": "application/json",
-                "content-type": "application/json"
+              "accept": "application/json",
+              "content-type": "application/json"
             }
-        })
-        .then((response: Response): Promise<any> => {
+          })
+          .then((response: SPHttpClientResponse): Promise<any> => {
             return response.json();
-        })
-        .then((data: any) => {
-            this.listItems.push({Id: data["Id"], Title: newItemTitle});
+          })
+          .then((data: any) => {
+            this.listItems.push({ Id: data["Id"], Title: newItemTitle });
             this.newItemTitle("");
             this.message("Add succeeded");
             this.hasError(false);
-        },
-        (error: any) => {
+          },
+          (error: any) => {
             this.message("Add failed");
             this.hasError(true);
-        });
+          });
+      });
   }
 
   public updateListItem = (item: IlistItem): void => {
-    const reqJSON: any = JSON.parse(
-        `{
-            "@odata.type": "${this._listItemEntityTypeFullName}",
-            "Title": "${item.Title}"
-        }`);
+    this._getListItemEntityTypeFullName()
+      .then((listItemEntityTypeFullName: string) => {
+        const reqJSON: any = {
+          "@odata.type": this._listItemEntityTypeFullName,
+          "Title": item.Title
+        };
 
-    this._context.spHttpClient.post(
-        this._context.pageContext["web"]["absoluteUrl"] +
-        `/_api/web/lists/GetByTitle('${this._listName}')/items(${item.Id})`,
-        SPHttpClient.configurations.v1,
-        {
+        this._context.spHttpClient.post(
+          this._context.pageContext["web"]["absoluteUrl"] +
+          `/_api/web/lists/GetByTitle('${this._listName}')/items(${item.Id})`,
+          SPHttpClient.configurations.v1,
+          {
             body: JSON.stringify(reqJSON),
             headers: {
-                "IF-MATCH": "*",
-                "X-HTTP-Method":"MERGE",
-                "accept": "application/json",
-                "content-type": "application/json"
+              "IF-MATCH": "*",
+              "X-HTTP-Method": "MERGE",
+              "accept": "application/json",
+              "content-type": "application/json"
             }
-        })
-        .then(() => {
+          })
+          .then(() => {
             this.message("Update succeeded");
             this.hasError(false);
-        },
-        (error: any) => {
+          },
+          (error: any) => {
             this.message("Update failed");
             this.hasError(true);
-        });
+          });
+      });
   }
 
   public removeListItem = (item: IlistItem): void => {
     this._context.spHttpClient.post(
-        this._context.pageContext["web"]["absoluteUrl"] +
-        `/_api/web/lists/GetByTitle('${this._listName}')/items(${item.Id})`,
-        SPHttpClient.configurations.v1,
-        {
-            headers: {
-                "IF-MATCH": "*",
-                "X-HTTP-Method":"DELETE",
-                "accept": "application/json",
-                "content-type": "application/json"
-            }
-        })
-        .then((): void => {
+      this._context.pageContext["web"]["absoluteUrl"] +
+      `/_api/web/lists/GetByTitle('${this._listName}')/items(${item.Id})`,
+      SPHttpClient.configurations.v1,
+      {
+        headers: {
+          "IF-MATCH": "*",
+          "X-HTTP-Method": "DELETE",
+          "accept": "application/json",
+          "content-type": "application/json"
+        }
+      })
+      .then((): void => {
         this.listItems.remove(item);
         this.message("Remove succeeded");
         this.hasError(false);
-    },
-    (error: any) => {
+      },
+      (error: any) => {
         this.message("Remove failed");
         this.hasError(true);
-    });
-  }
-
-  private _getListItemEntityTypeFullName(context: IWebPartContext):Promise<string>{
-    return context.spHttpClient.get(context.pageContext["web"]["absoluteUrl"]
-        + `/_api/web/lists/GetByTitle('${this._listName}')`, SPHttpClient.configurations.v1)
-        .then((response: Response) => {
-            return response.json();
-        })
-        .then((value) => {
-            return value["ListItemEntityTypeFullName"];
-        });
-  }
-
-  private _getListItems(): Promise<IlistItems>{
-    return this._context.spHttpClient.get(this._context.pageContext["web"]["absoluteUrl"]
-    + `/_api/web/lists/GetByTitle('${this._listName}')/items?$select=Id,Title`, SPHttpClient.configurations.v1)
-    .then((response: Response): Promise<any> => {
-        return response.json();
-    })
-    .then((data: any) : IlistItems =>{
-        this.message("Load succeeded");
-        this.hasError(false);
-        const listData: IlistItems = { value: data["value"]};
-        return listData;
-    },
-    (error: any) => {
-        this.message("Load failed");
-        this.hasError(true);
-    }) as Promise<IlistItems>;
+      });
   }
 }
