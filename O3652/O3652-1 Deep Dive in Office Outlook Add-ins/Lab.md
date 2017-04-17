@@ -64,16 +64,13 @@ In this exercise, you will create a new Outlook Add-in for reading mail that you
 
 ### Test the Outlook Add-in in the local Outlook desktop client
 1. Open the Outlook desktop client.
-2. Add the email account you used to deploy the Outlook add-in if it has not been added to Outlook desktop client.
-
-	>**Note:** You could also use other accounts with mailboxes in the same organization with the account you used to deploy the Outlook Add-in.
-
-2. Click an email in the mailbox for the account, then select the **Home** tab in the **Ribbon**.  You will see a **Display all properties** button in the **My Add-in Group**.
-3. Click the **Display all properties** button.
+2. Add the email account you used to deploy the Outlook add-in if it has not been added to the Outlook desktop client.
+3. Click an email in the mailbox for the account, then select the **Home** tab in the **Ribbon**.  You will see a **Display all properties** button in the **My Add-in Group**.
+4. Click the **Display all properties** button.
 
 	![Screenshot of the previous step](Images/AddInButton.png)
 
-4. You will see the Add-in panel appear to the right of the email.
+5. You will see the Add-in panel appear to the right of the email.
 
 	![Screenshot of the previous step](Images/AddInPanel2.png)
 
