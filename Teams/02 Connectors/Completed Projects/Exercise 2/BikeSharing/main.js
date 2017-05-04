@@ -16,8 +16,8 @@ $(document).ready(function () {
 
     window.appConfig = {
         siteUrl: '<RELATIVE SITE URL>',
-        documentLibrary: 'BikeDocuments',
-        list: 'BikeInventory',
+        documentLibrary: '<BikeDocuments>',
+        list: '<BikeInventory>',
         connector: window.location.origin + "/connector.ashx"
     };
 
@@ -58,6 +58,9 @@ function initPage() {
             if (token) {
                 getData();
             }
+            else {
+                authenticateFailed("Acquring Graph Token Failed: " + message);
+            }
         });
     }
     else {
@@ -90,7 +93,15 @@ function authenticateSucceeded(token) {
 
 // callback function called if the login failed in the authentication popup or acquire graph token failed.
 function authenticateFailed(message) {
-    $("#message").html(message);
+    $("#message").append("<div>" + message + "</div>");
+    if (typeof (message) === "string") {
+        if (message.indexOf("Login Failed:") === 0) {
+            $("#message").append("<div>Please check your account and Log In again.</div>");
+        }
+        else if (message.indexOf("Acquring Graph Token Failed:") === 0) {
+            $("#message").append("<div>Please try Log Out and Log In again.</div>");
+        }
+    }
 }
 
 // navigate to Azure AD authorization endpoint to log out.
@@ -110,6 +121,7 @@ function logOut() {
 
 // login by ADAL.
 function login() {
+    window.authContext._loginInProgress = false;
     window.authContext.login();
 }
 
@@ -295,7 +307,7 @@ function acquireSiteId(cb) {
 
     $.ajax({
         type: "GET",
-        url: window.authConfig.endpoints.graph + "/beta/sharepoint:" + window.appConfig.siteUrl,
+        url: window.authConfig.endpoints.graph + "/beta/sharepoint" + (window.appConfig.siteUrl ? ":" + window.appConfig.siteUrl : "/site"),
         dataType: "json",
         headers: {
             'Authorization': 'Bearer ' + token,
