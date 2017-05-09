@@ -1,8 +1,46 @@
 ﻿@model List<Office365Group.Models.EventModel>
 @{ ViewBag.Title = "Group Events";}
+@section scripts {
+    <script type="text/javascript">
+      $(function () {
+          $('#start-picker').datetimepicker({ format: 'YYYY-MM-DDTHH:mm:ss', sideBySide: true });
+          $('#end-picker').datetimepicker({ format: 'YYYY-MM-DDTHH:mm:ss', sideBySide: true });
+      });
+    </script>
+}
 
 <h2>Group Events</h2>
-
+<div class="panel panel-default">
+    <div class="panel-body">
+        @using (Html.BeginForm("AddEvent", "Group", FormMethod.Post, new { @class = "form-inline" }))
+        {
+            <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" />
+            </div>
+                <div class="form-group">
+                    <div class="input-group date" id="start-picker">
+                        <input type="text" class="form-control" name="start" id="start" placeholder="Start Time (UTC)" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group date" id="end-picker">
+                        <input type="text" class="form-control" name="end" id="end" placeholder="End Time (UTC)" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="location" id="location" placeholder="Location" />
+                </div>
+                <input type="hidden" name="groupId" value="@ViewBag.GroupId" />
+                <button type="submit" class="btn btn-default">Add Event</button>
+        }
+    </div>
+</div>
 <table class="table table-bordered table-striped">
     <tr>
         <th>Subject</th>
@@ -25,3 +63,5 @@
     @Html.ActionLink("Back to Group Home", "Index")
 </p>
 
+@Styles.Render("~/Content/bootstrap.datepicker")
+@Scripts.Render("~/bundles/bootstrap.datepicker")

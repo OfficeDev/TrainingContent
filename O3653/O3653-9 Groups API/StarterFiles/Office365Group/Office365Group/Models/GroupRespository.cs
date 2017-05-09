@@ -15,24 +15,23 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Graph;
-
+using System.IO;
 
 namespace Office365Group.Models
 {
     public class GroupRespository
     {
         public static string GraphResourceUrl = "https://graph.microsoft.com/V1.0";
-        public static string TenantId = ConfigurationManager.AppSettings["ida:TenantId"];
 
         public static async Task<GraphServiceClient> GetGraphServiceAsync()
         {
             return null;
         }
+
         public static async Task<string> GetGraphAccessTokenAsync()
         {
             return null;
         }
-
 
         private static string FormatBytes(long bytes)
         {
@@ -67,7 +66,22 @@ namespace Office365Group.Models
             return null;
         }
 
+        public async Task<List<UserModel>> GetGroupMembers(string id)
+        {
+            return null;
+        }
+
+        public async Task<User> AddGroupMember(string groupId, string newMemberEmail)
+        {
+            return null;
+        }
+
         public async Task<List<ConversationModel>> GetGroupConversations(string id)
+        {
+            return null;
+        }
+
+        public async Task<Conversation> AddGroupConversation(string groupId, string topic, string message)
         {
             return null;
         }
@@ -76,6 +90,12 @@ namespace Office365Group.Models
         {
             return null;
         }
+
+        public async Task<ConversationThread> AddGroupThread(string groupId, string topic, string message)
+        {
+            return null;
+        }
+
         public async Task<List<PostModel>> GetGroupThreadPosts(string groupId, string threadId)
         {
             return null;
@@ -85,7 +105,29 @@ namespace Office365Group.Models
         {
             return null;
         }
+
+        public async Task<Event> AddGroupEvent(string groupId, string subject, string start, string end, string location)
+        {
+
+            return null;
+        }
+
         public async Task<List<FileModel>> GetGroupFiles(string groupId)
+        {
+            return null;
+        }
+
+        public async Task<DriveItem> AddGroupFile(string groupId, string fileName, Stream stream)
+        {
+            return null;
+        }
+
+        public async Task<Stream> GetGroupPhoto(string groupId)
+        {
+            return null;
+        }
+
+        public async Task<string> CreateGroup(string groupName, string groupAlias)
         {
             return null;
         }

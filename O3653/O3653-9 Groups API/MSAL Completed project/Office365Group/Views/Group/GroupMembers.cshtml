@@ -1,0 +1,38 @@
+﻿@model List<Office365Group.Models.UserModel>
+@{ ViewBag.Title = "Group Members";}
+<h2>Group Members</h2>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @using (Html.BeginForm("AddMember", "Group", FormMethod.Post, new { @class = "form-inline create-group" }))
+        {
+            <div class="form-group">
+                <label for="newMemberEmail">Email</label>
+                <input type="email" class="form-control" name="newMemberEmail" id="newMemberEmail" placeholder="user@contoso.com" />
+            </div>
+            <input type="hidden" name="groupId" value="@ViewBag.GroupId" />
+            <button type="submit" class="btn btn-default">Add Member</button>
+        }
+    </div>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Display Name</th>
+        <th>Given Name</th>
+        <th>Email</th>
+        <th>Mobile Phone</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.displayName)</td>
+            <td>@Html.DisplayFor(modelItem => item.givenName)</td>
+            <td>@Html.DisplayFor(modelItem => item.mail)</td>
+            <td>@Html.DisplayFor(modelItem => item.mobilePhone)</td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Back to Group Home", "Index")
+</p>
+
+

@@ -2,8 +2,39 @@
 @{
     ViewBag.Title = "Group Files";
 }
+@section scripts {
+    <script type="text/javascript">
+  $(function () {
+      // Validate file size < 4 MB
+      // We're using the "simple upload" method of
+      // uploading files to OneDrive, which is limited
+      // to 4MB.
+      // See http://graph.microsoft.io/en-us/docs/api-reference/v1.0/api/item_uploadcontent
+      $('#file-form').submit(function () {
+          var fourMB = 4 * 1024 * 1024;
+          var fileInput = $('#file');
+          if (fileInput.get(0).files[0].size > fourMB) {
+              alert('Maximum file size is 4 MB.');
+              return false;
+          }
+      });
+  });
+    </script>
+}
 
 <h2>Group Files</h2>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @using (Html.BeginForm("AddFile", "Group", FormMethod.Post, new { @class = "form-inline", id = "file-form", enctype = "multipart/form-data" }))
+        {
+            <div class="form-group">
+                <input type="file" size="50" accept=".txt, .png, .jpg" class="form-control btn btn-default" name="file" id="file" />
+            </div>
+            <input type="hidden" name="groupId" value="@ViewBag.GroupId" />
+            <button type="submit" class="btn btn-default">Add File</button>
+        }
+    </div>
+</div>
 <table class="table table-bordered table-striped">
     <tr>
         <th>Name</th>

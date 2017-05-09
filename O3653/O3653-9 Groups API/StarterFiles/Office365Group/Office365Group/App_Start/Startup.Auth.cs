@@ -26,7 +26,7 @@ namespace Office365Group
         public static readonly string Authority = aadInstance + tenantId;
 
         // This is the resource ID of the AAD Graph API.  We'll need this to request a token to call the Graph API.
-        string graphResourceId = "https://graph.windows.net";
+        string graphResourceId = "https://graph.microsoft.com";
 
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -41,6 +41,7 @@ namespace Office365Group
                 {
                     ClientId = clientId,
                     Authority = Authority,
+                    RedirectUri = postLogoutRedirectUri,
                     PostLogoutRedirectUri = postLogoutRedirectUri,
 
                     Notifications = new OpenIdConnectAuthenticationNotifications()

@@ -3,6 +3,10 @@
     padding-bottom: 20px;
 }
 
+.body-content table tbody tr td {
+    vertical-align: middle
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -21,4 +25,13 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+/* Styles for group index page */
+form.create-group input[type=text]{
+    min-width:220px
+}
+
+form.create-group input[type=text]#groupAlias {
+    min-width: 210px
 }

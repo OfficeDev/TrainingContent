@@ -3,6 +3,23 @@
 }
 
 <h3>Groups</h3>
+<div class="panel panel-default">
+    <div class="panel-body">
+    @using (Html.BeginForm("CreateGroup", "Group", FormMethod.Post, new { @class = "form-inline create-group" }))
+    {
+        <div class="form-group">
+            <label for="groupName">Name</label>
+            <input type="text" class="form-control" name="groupName" id="groupName" placeholder="New Group" />
+        </div>
+        <div class="form-group">
+            <label for="groupAlias">Email alias</label>
+            <input type="text" class="form-control" name="groupAlias" id="groupAlias" placeholder="e.g. mygroup" />
+        </div>
+        <button type="submit" class="btn btn-default">Create Group</button>
+    }
+    </div>
+</div>
+
 <div class="form-group">
     @using (Html.BeginForm("AboutMe", "Group", FormMethod.Get))
     {

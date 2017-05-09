@@ -2,7 +2,23 @@
 @{ ViewBag.Title = "Group Conversations";}
 
 <h2>Group Conversations</h2>
-
+<div class="panel panel-default">
+    <div class="panel-body">
+        @using (Html.BeginForm("AddConversation", "Group", FormMethod.Post, new { @class = "form-inline" }))
+        {
+            <div class="form-group">
+                <label for="topic">Topic</label>
+                <input type="text" class="form-control" name="topic" id="topic" placeholder="Enter the topic" />
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <input type="text" class="form-control" name="message" id="message" placeholder="Enter a message" />
+            </div>
+            <input type="hidden" name="groupId" value="@ViewBag.GroupId" />
+            <button type="submit" class="btn btn-default">Add Conversation</button>
+        }
+    </div>
+</div>
 <table class="table table-bordered table-striped">
     <tr>
         <th>Topic</th>

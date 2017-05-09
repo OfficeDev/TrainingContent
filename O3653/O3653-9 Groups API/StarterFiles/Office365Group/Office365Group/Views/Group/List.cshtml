@@ -12,11 +12,15 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.displayName)</td>
             <td>
+                <img src="@Url.Action("Photo", new RouteValueDictionary(new { groupId = item.Id}))" style="height: 50px; width: 50px;" />
+                @Html.DisplayFor(modelItem => item.displayName)
+            </td>
+            <td>
+                @Html.ActionLink("Members", "GroupMembers", new { id = item.Id }) |
                 @Html.ActionLink("Conversations", "GroupConversations", new { id = item.Id }) |
                 @Html.ActionLink("Threads", "GroupThreads", new { id = item.Id }) |
-                @Html.ActionLink("Events", "GroupEvents", new { id = item.Id })|
+                @Html.ActionLink("Events", "GroupEvents", new { id = item.Id }) |
                 @Html.ActionLink("Files", "GroupFiles", new { id = item.Id })
             </td>
         </tr>
