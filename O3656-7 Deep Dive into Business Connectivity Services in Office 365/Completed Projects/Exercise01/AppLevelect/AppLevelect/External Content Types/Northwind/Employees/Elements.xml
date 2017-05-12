@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <ListInstance Url="Lists/Employees" Description="Employees" OnQuickLaunch="TRUE" Title="Employees">
+    <DataSource>
+      <Property Name="LobSystemInstance" Value="Northwind" />
+      <Property Name="EntityNamespace" Value="NorthwindModel" />
+      <Property Name="Entity" Value="Employees" />
+      <Property Name="SpecificFinder" Value="ReadSpecificEmployee" />
+      <Property Name="MetadataCatalogFileName" Value="BDCMetadata.bdcm" />
+    </DataSource>
+  </ListInstance>
+</Elements>
