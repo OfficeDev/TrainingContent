@@ -1,222 +1,114 @@
 # Deep Dive into Office Excel Add-ins
-In this lab you will get hands-on experience developing an Office Excel Add-in that creates bindings between the Add-in and a spreadsheet.
-
+In this lab, you will get hands-on experience using two JavaScript APIs to interact with the objects and metadata in a Excel document:
+- Common APIs - APIs that were introduced with Office 2013.
+- Host-specific - APIs that were introduced with Office 2016.
 
 **Prerequisites:** 
-1. You must have Visual Studio 2015 & Update 1 installed.
-1. You must have Office 2016 Preview installed which you can obtain from here: https://products.office.com/en-us/office-2016-preview
-1. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
+1. You must have Visual Studio 2017 installed.
+2. You must have Office 2016 installed.
+
+## Part 1: Common APIs - APIs that were introduced with Office 2013
+Common APIs - APIs that were introduced with Office 2013. This is loaded for all Office host applications and connects your add-in application with the Office client application. The object model contains APIs that are specific to Office clients, and APIs that are applicable to multiple Office client host applications. All of this content is under Shared API. Outlook also uses the common API syntax. Everything under the alias Office in code) contains objects you can use to write scripts that interact with content in Office documents, worksheets, presentations, mail items, and projects from your Office Add-ins. You must use these common APIs if your add-in will target Office 2013 and later. This object model uses callbacks.
 
 ## Exercise 1: Creating the LoanAppraisal Add-in for Office Project
 In this exercise you will create a new Office Add-in project in Visual Studio so that you can begin to write, test and debug an Office Excel Add-in.
 
-1. Launch Visual Studio 2015 as an administrator.
-2. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Office Add-in** project template from the **Office/SharePoint** template folder as shown below. Name the new project **LoanAppraisal** and click **OK** to create the new project.  
+1. Launch Visual Studio 2017.
+2. In Visual Studio 2017, select **File | New | Project**. Expand **Templates**, **Visual C#**, **Office/SharePoint** ,**Add-ins**. Select **Excel Web Add-in**. Name the project **LoanAppraisal** and click **OK**.  
 
 	![Screenshot of the previous step](Images/Fig01.png)
 
-3. When you create a new Add-in for Office project, Visual Studio prompts you with the **Choose the add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue. 
+3. When you create a new Add-in for Office project, Visual Studio prompts you with the **Choose the add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Add new functionalities to Excel** and select **Finish** to continue. 
 
 	![Screenshot of the previous step](Images/Fig02.png)
 
-4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office application except for **Excel** and then click **Finish** to create the new Visual Studio solution.  
+4. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **LoanAppraisal** and **LoanAppraisalWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **LoanAppraisalManifest** which contains a single file named **LoanAppraisal.xml**.  
 
 	![Screenshot of the previous step](Images/Fig03.png)
 
-5. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **LoanAppraisal** and **LoanAppraisalWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **LoanAppraisalManifest** which contains a single file named **LoanAppraisal.xml**.  
+5. In the Solution Explorer, double-click on the node named **LoanAppraisalManifest** to open the add-in manifest file, find the XML block that looks like this. Take a minute and read through it as it describes how add-ins can integrate with the Office UI. The example below demonstrates how an add-in can add a button to the Excel ribbon's Home tab.  
 
-	![Screenshot of the previous step](Images/Fig04.png)
+	```xml
+      <ExtensionPoint xsi:type="PrimaryCommandSurface">
+        <!-- Use OfficeTab to extend an existing Tab. Use CustomTab to create a new tab. -->
+        <OfficeTab id="TabHome">
+          <!-- Ensure you provide a unique id for the group. Recommendation for any IDs is to namespace using your company name. -->
+          <Group id="Contoso.Group1">
+            <!-- Label for your group. resid must point to a ShortString resource. -->
+            <Label resid="Contoso.Group1Label" />
+            <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+            <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+            <Icon>
+              <bt:Image size="16" resid="Contoso.tpicon_16x16" />
+              <bt:Image size="32" resid="Contoso.tpicon_32x32" />
+              <bt:Image size="80" resid="Contoso.tpicon_80x80" />
+            </Icon>
 
-6. In the Solution Explorer, double-click on the node named **LoanAppraisalManifest** to open the add-in manifest file in the Visual Studio designer. Update the **Display Name** settings in the Add-in manifest from **LoanAppraisal** to **Loan Appraisal Add-in**.  
+            <!-- Control. It can be of type "Button" or "Menu". -->
+            <Control xsi:type="Button" id="Contoso.TaskpaneButton">
+              <Label resid="Contoso.TaskpaneButton.Label" />
+              <Supertip>
+                <!-- ToolTip title. resid must point to a ShortString resource. -->
+                <Title resid="Contoso.TaskpaneButton.Label" />
+                <!-- ToolTip description. resid must point to a LongString resource. -->
+                <Description resid="Contoso.TaskpaneButton.Tooltip" />
+              </Supertip>
+              <Icon>
+                <bt:Image size="16" resid="Contoso.tpicon_16x16" />
+                <bt:Image size="32" resid="Contoso.tpicon_32x32" />
+                <bt:Image size="80" resid="Contoso.tpicon_80x80" />
+              </Icon>
 
-	![Screenshot of the previous step](Images/Fig05.png)
+              <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+              <Action xsi:type="ShowTaskpane">
+                <TaskpaneId>ButtonId1</TaskpaneId>
+                <!-- Provide a URL resource id for the location that will be displayed on the task pane. -->
+                <SourceLocation resid="Contoso.Taskpane.Url" />
+              </Action>
+            </Control>
+          </Group>
+        </OfficeTab>
+      </ExtensionPoint>
+    ```
 
-7. Save and close **LoanAppraisalManifest**.
-8. Over the next few steps you will walk through the default Add-in implementation that Visual Studio generated for you when the Add-in project was created. Begin by looking at the structure of the **AddIn** folder which has two important files named **app.css** and **app.js** which contain CSS styles and JavaScript code which is to be used on an app-wide basis.
+6. Let's modify the button to say "Loan Appraisal" instead of "Show Taskpane". Find the following element in the file.
 
-	![Screenshot of the previous step](Images/Fig06.png)
+	```XML
+	<Title resid="Contoso.TaskpaneButton.Label" />
+	```
+7. This indicates that the label of the title is stored in a string resource named **Contoso.TaskpaneButton.Label**.
+8. Scroll down until you find the **ShortString** string resource with that label.
+9. Now, set the DefaultValue attribute to *Loan Appraisal*. Your XML should look like this: 
 
-9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**. 
-10. Double-click on **app.js** to open it in a code editor window. you should be able to see that the code creates a global variable named **app** based on the JavaScript *Closure* pattern. The global **app** object defines a method named **initialize** but it does not execute this method. 
- 
-	````javascript
-	var app = (function () {
-	    "use strict";
-	    var app = {};
-	    // Common initialization function (to be called from each page)
-	    app.initialize = function () {
-	        $('body').append(
-	            '<div id="notification-message">' +
-	                '<div class="padding">' +
-	                    '<div id="notification-message-close"></div>' +
-	                    '<div id="notification-message-header"></div>' +
-	                    '<div id="notification-message-body"></div>' +
-	                '</div>' +
-	            '</div>');
-	        $('#notification-message-close').click(function () {
-	            $('#notification-message').hide();
-	        });
-	        // After initialization, expose a common notification function
-	        app.showNotification = function (header, text) {
-	            $('#notification-message-header').text(header);
-	            $('#notification-message-body').text(text);
-	            $('#notification-message').slideDown('fast');
-	        };
-	    };
-	    return app;
-	})();
-	````
+	```XML
+	<bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="Loan Appraisal" />
+	```
 
-11. Close **app.js** and be sure not to save any changes.
-12. Next you will examine the JavaScript code in **home.js**. Double-click on **home.js** to open it in a code editor window. Note that **Home.html** links to **app.js** before it links to **home.js** which means that JavaScript code written in **Home.js** can access the global **app** object created in **app.js**.
-13. Walk through the code in **Home.js** and see how it uses a self-executing function to register an event handler on the **Office.initialize** method which in turn registers a document-ready event handler using jQuery. This allows the Add-in to call **app.initialize** and to register an event handler using the **getDataFromSelection** function. 
+10. Save your changes and press **{F5}** to try your changes. You should see you add-in deploy in Excel and a button appear on the Home Tab.
 
-	````javascript 
-	(function () {
-	  "use strict";
+	![Screenshot of Button on Ribbon](Images/Fig04.png)
 
-	  // The initialize function must be run each time a new page is loaded
-	  Office.initialize = function (reason) {
-	    $(document).ready(function () {
-	      app.initialize();
-	      $('#get-data-from-selection').click(getDataFromSelection);
-	    });
-	  };
 
-	  // Reads data from current document selection and displays a notification
-	  function getDataFromSelection() {
-	    Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
-	      function (result) {
-	        if (result.status === Office.AsyncResultStatus.Succeeded) {
-	          app.showNotification('The selected text is:', '"' + result.value + '"');
-	        } else {
-	          app.showNotification('Error:', result.error.message);
-	      }
-		});
-	  }
-	})();
-	````
-
-14. Delete the **getDataFromSelection** function from **Home.js** and also remove the line of code that binds the event handler to the button with the id of **get-data-from-selection** so your code matches the following code listing.
-
-	````javascript
-	(function () {
-	  "use strict";
-
-	  // The initialize function must be run each time a new page is loaded
-	  Office.initialize = function (reason) {
-	    $(document).ready(function () {
-	      app.initialize();
-	      // your app initialization code goes here
-	    });
-	  };
-
-	})(); 
-	````
-
-15. Save your changes to **Home.js**. You will return to this source file after you have added your HTML layout to **Home.html**.
-16. Now it's time to examine the HTML that has been added to the project to create the Add-in's user interface. Double-click **Home.html** to open this file in a Visual Studio editor window. Examine the layout of HTML elements inside the body element. 
-
-	````html
-	<body>
-		<div id="content-header">
-			<div class="padding">
-				<h1>Welcome</h1>
-			</div>
-		</div>
-		<div id="content-main">
-			<div class="padding">
-				<p><strong>Add home screen content here.</strong></p>
-				<p>For example:</p>
-				<button id="get-data-from-selection">Get data from selection</button>
-
-				<p style="margin-top: 50px;">
-					<a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=276812">Find more samples online...</a>
-				</p>
-			</div>
-		</div>
-	</body>
-	````
-
-17. Replace the text message of **Welcome** inside the **h1** element with a different message such as **Loan Information**. Also trim down the contents of the **content-main** div element to match the HTML code shown below. You will start off your HTML layout using a single div element with an id of **results**.
-
-	````html
-	<body>
-	    <div id="content-header">
-	        <div class="padding">
-	            <h1>Loan Information</h1>
-	        </div>
-	    </div>
-	    <div id="content-main">
-	        <div class="padding">
-	            <div id="results"></div>
-	        </div>
-	    </div>
-	</body>
-	````
-
-18. Save and close **Home.html**.
-19. Return to **Home.js** and modify the code to write a simple message to the **results** div using the following code.
-
-	````javascript
-	(function () {
-	    "use strict";
-
-	    // The initialize function must be run each time a new page is loaded
-	    Office.initialize = function (reason) {
-	        $(document).ready(function () {
-	            app.initialize();
-	            $('#results').text("Hello world");
-	        });
-	    }
-
-	})();
-	````
-
-20. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Excel 2016 and you should see your **LoanAppraisal** Add-in in the task pane on the right side of a new Excel workbook as shown in the following screenshot.  
-
-	![Screenshot of the previous step](Images/Fig07.png)
-
-21. Close Microsoft Excel to terminate your debugging session and return to Visual Studio.
-
-## Exercise 2: Adding a Test Document to an Office Add-in project
-*In this exercise you continue to work on the LoanAppraisal project you created in the previous lab by integrating a preexisting Excel workbook into the development process. This will make it possible for you to develop an Add-in binds to named ranges within the workbook.*
+## Exercise 2: Adding a Test Document to an Office Add-in project & Adding Bindings Between an Add-in and an Excel Workbook
+*In this exercise you continue to work on the LoanAppraisal project you created in the previous lab by integrating a preexisting Excel workbook into the development process. You will write code to create bindings on named ranges within the the Excel workbook named TestDoc.xlsx. You will also create event handlers so that the Add-in responds to the user when updating the Add-in user interface.*
 
 1. Ensure that you still have the **LoanAppraisal** Add-in project opened in Visual Studio.
-2. Download [**TestDoc.xlsx**](Starter Files/TestDoc.xlsx?raw=true).
-3. Double-click on **TestDoc.xlsx** to open the workbook in Microsoft Excel.  You should see that the workbook provides mortgage loan information and a chart as shown in the following screenshot.  
+2. Locate [Starter Files](./Starter%20Files)folder, you can find a excel file named **TestDoc.xlsx**. Double-click on **TestDoc.xlsx** to open the workbook in Microsoft Excel.  You should see that the workbook provides mortgage loan information and a chart as shown in the following screen shot.  
 
-	![Screenshot of the previous step](Images/Fig08.png)  
+	![Screenshot of the previous step](Images/Fig05.png)  
 
 4. Close **TestDoc.xlsx** and also close Microsoft Excel.
 5.	Add the file **TestDoc.xlsx** into the **LoanAppraisal** project. The easiest way to do this is to copy the file to the clipboard in Windows Explorer and then to paste it into the root of the the **LoanAppraisal** project and then include it in the project. When you are done, you should be able to see **TestDoc.xlsx** at the root of the **LoanAppraisal** project right below **LoanAppraisalManifest** as shown in the following screenshot.
 
-	![Screenshot of the previous step](Images/Fig09.png)  
+	![Screenshot of the previous step](Images/Fig06.png)  
 
 6.	With the **LoanAppraisal** project selected in the Solution Explorer, locate the properties window and modify the **Start Document** property to **TestDoc.xslx**.  
 
-	![Screenshot of the previous step](Images/Fig10.png)  
+	![Screenshot of the previous step](Images/Fig07.png)  
 
-7.	Press **{F5}** to begin a debugging session. You should see that Visual Studio initialize the debugging session with **TestDoc.xlsx** instead of using a new Excel workbook. However, you might notice that the **LoanAppraisal** Add-in has not be activated. In the Excel ribbon, navigate to the **Insert** tab and select **Loan Appraisal Add-in** from the **My Add-ins** drop down menu.
-
-	![Screenshot of the previous step](Images/Fig11.png)
-
-8.	You should now see that the Add-in has activated over in the task pane.  
-
-	![Screenshot of the previous step](Images/Fig12.png)
-
-9.	Inside Excel, save your changes to **TestDoc.xlsx** to update the test file to include the Add-in in future debugging sessions.
-10.	Close **TestDoc.xlsx** and then close Microsoft Excel.
-11.	Return to Visual Studio and press **{F5}** to start another debugging session. Now the Add-in should be initialized automatically when Visual Studio initialize a debugging session.  
-
-	![Screenshot of the previous step](Images/Fig12.png)
-
-12.	Now that you have integrated the test document into your project, it is time to move ahead to the next exercise where you will write code to bind to name ranges in the workbook.
-
-## Exercise 3: Adding Bindings Between an Add-in and an Excel Workbook
-In this exercise you will write code to create bindings on named ranges within the the Excel workbook named TestDoc.xlsx. You will also create event handlers so that the Add-in responds to the user when updating the Add-in user interface.
-
-1. The workbook **TestDoc.xlsx** contains several cells that have already been defined as named ranges. Review the following list which shows the names of the Excel named ranges that you will be programming against in this exercise.
+7. Press **{F5}** to begin a debugging session. You should see that Visual Studio initialize the debugging session with **TestDoc.xlsx** instead of using a new Excel workbook.
+8. Stop debugging, now that you have integrated the test document into your project, it is time to move ahead to write code to bind to name ranges in the workbook.
+9. The workbook **TestDoc.xlsx** contains several cells that have already been defined as named ranges. Review the following list which shows the names of the Excel named ranges that you will be programming against in this exercise.
 	-	**Applicant_Name**
 	-	**Loan_Amount**
 	-	**Interest_Rate**
@@ -226,44 +118,197 @@ In this exercise you will write code to create bindings on named ranges within t
 	-	**Yearly_Mortgage**
 	-	**Fixed_Expenses**
 	-	**Available_Income**
-2. Open **Home.html** in an editor window.
-3. Modify the contents of the **content-main** div element with the HTML code from **[content-main.html.txt](Starter Files/content-main.html.txt?raw=true "content-main.html.txt")** which is in the **[Starter Files](Starter Files "Starter Files")** folder within this lab located at [\\\O3652\O3652-4 Deep Dive in Office Excel Add-ins\Starter Files](Starter Files).
-4. Save and close **Home.html**.
-5. Open **Home.css** in an editor window.
-6. Modify the contents of **Home.css** with the set of CSS rules shown in [**Home.css.txt**](Starter Files/Home.css.txt?raw=true) which is in the **[Starter Files](Starter Files "Starter Files")** folder within this lab located at [\\\O3652\O3652-4 Deep Dive in Office Excel Add-ins\Starter Files](Starter Files).
-7. Save and close **Home.css**.
-8. Open **Home.js** in a code editor widow. Remove the following line of code.
+10. Open **Home.html** file, update the **content-main** div within **Home.html** to match the following HTML layout.
+
+	```html
+	<div id="content-main">
+        <div class="padding" id="currentApplicantInfo">
+            <table>
+                <tr>
+                    <td colspan="2" class="header_cell">Loan Application Detail</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td id="applicant_name">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Loan Amount:</td>
+                    <td id="loan_amount">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Interest Rate:</td>
+                    <td id="interest_rate">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Load Duration:</td>
+                    <td id="loan_duration">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Monthy Payment:</td>
+                    <td id="monthly_payment">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="header_cell">High-level Finanical Summary</td>
+                </tr>
+                <tr>
+                    <td>Total Income:</td>
+                    <td id="total_income">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Yearly Morgage:</td>
+                    <td id="yearly_mortgage">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Fixed Expenses:</td>
+                    <td id="fixed_expenses">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Available Income:</td>
+                    <td id="available_income">&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h3>Interest Rate</h3>
+            <div id="selectInterestRate" class="section"></div>
+            <h3>Select a loan applicant</h3>
+            <div id="selectApplicant" class="section"></div>
+        </div>
+    </div>
+	```
+
+11. Save and close **Home.html**.
+12. Open **Home.css** file, replace the contents with the following style.
+
+	```css
+	html {
+	    position: relative;
+	    min-height: 100%;
+	}
 	
-	````javascript
-	$('#results').text("Hello world");
-	````
+	body {
+	    margin: 0 0 40px;
+	    background-color: #eee;
+	}
+	
+	.footer {
+	    position: absolute;
+	    left: 0;
+	    bottom: 0;
+	    height: 40px;
+	    width: 100%;
+	}
+	
+	.padding {
+	    padding: 15px;
+	}
+	
+	#notification-popup.ms-MessageBanner {
+	    position: absolute;
+	    left: 0px;
+	    bottom: 0px;
+	    text-align: left;
+	    height: inherit;
+	    min-width: inherit;
+	}
+	
+	#notification-popup .ms-MessageBanner-text {
+	    margin: 0;
+	    padding: 18px 15px;
+	    min-width: inherit;
+	}
+	
+	h3 {
+	    margin: 2px;
+	}
+	
+	#currentApplicantInfo {
+	    margin: 0px;
+	    padding: 0px;
+	}
+	
+	.section {
+	    margin: 0px;
+	    padding: 0px;
+	    padding-top: 2px;
+	    padding-bottom: 4px;
+	}
+	
+	    .section input[type="radio"] {
+	        margin: 0px;
+	        margin-left: 4px;
+	        padding: 0px;
+	    }
+	
+	    .section label {
+	        margin: 0px;
+	        padding: 0px;
+	        font-size: 0.8em;
+	    }
+	
+	#currentApplicantInfo table {
+	    margin: 0px;
+	    width: 100%;
+	    box-sizing: border-box;
+	    border: 1px solid black;
+	    border-collapse: collapse;
+	}
+	
+	    #currentApplicantInfo table td {
+	        min-width: 100px;
+	        border: 1px solid #ddd;
+	        border-collapse: collapse;
+	        padding: 2px;
+	        padding-left: 4px;
+	        background: white;
+	        font-size: 1.0em;
+	    }
+	
+	        #currentApplicantInfo table td.header_cell {
+	            color: #eee;
+	            background-color: navy;
+	            font-weight: bold;
+	            border: 1px solid black;
+	        }
+	
+	#monthly_payment {
+	    color: red;
+	}
+	```
 
-9. At this point, the code in **Home.js** should look like the following code listing.
+13. Save and close **Home.css**.
+14. Open **Home.js** file and replace the contents with the following code.
+	
+	```javascript
+	/// <reference path="/Scripts/FabricUI/MessageBanner.js" />
 
-	````javascript
-	/// <reference path="../App.js" />
 	(function () {
 	    "use strict";
-
-	    // The initialize function must be run each time a new page is loaded
+	
+	    var messageBanner;
+	
+	    // The initialize function must be run each time a new page is loaded.
 	    Office.initialize = function (reason) {
 	        $(document).ready(function () {
-	            app.initialize();
-	            
+	            // Initialize the FabricUI notification mechanism and hide it
+	            var element = document.querySelector('.ms-MessageBanner');
+	            messageBanner = new fabric.MessageBanner(element);
+	            messageBanner.hideBanner();
+	
 	        });
 	    }
-
 	})();
-	````
 
-10. Start a debugging session by pressing the **{F5}** key to inspect the Add-in's new HTML layout. You should see the user interface appears like the one in the following screenshot.
+	```
 
-	![Screenshot of the previous step](Images/Fig13.png)    
+15. Start a debugging session by pressing the **{F5}** key to inspect the Add-in's new HTML layout. Launch your add-in by clicking the **Loan Appraisal** button on the Ribbon. You should see the user interface appears like the one in the following screen shot.
 
-11.	Close Excel and return to Visual Studio.
-12.	Inside **Home.js**, place the cursor under the **"use strict;"** statement at the top of the closure and add the following code. 
+	![Screenshot of the previous step](Images/Fig08.png)    
 
-	````javascript
+16.	Close Excel and return to Visual Studio.
+17.	Inside **Home.js**, place the cursor under the **"use strict;"** statement at the top of the closure and add the following code. 
+
+	```javascript
 	var interestRates = [0.0425, 0.0500, 0.0750];
 	var currentRate = interestRates[0];
 
@@ -276,47 +321,71 @@ In this exercise you will write code to create bindings on named ranges within t
 	  { name: "Chris Sells", loan_amount: 1225000, loan_duration: 15, total_income: 325000, fixed_expenses: 167000 }
 	];
 	var currentApplicant = applicants[0];
-	````
+	```
 
-13. After this step is complete, your **Home.js** file should match the following code listing.
+18. After this step is complete, your **Home.js** file should match the following code listing.
 
-	````javascript
-	/// <reference path="../App.js" />
+	```javascript
+	/// <reference path="/Scripts/FabricUI/MessageBanner.js" />
+	
 	(function () {
 	    "use strict";
-
 	    var interestRates = [0.0425, 0.0500, 0.0750];
 	    var currentRate = interestRates[0];
-
 	    var applicants = [
-	      { name: "Brian Cox", loan_amount: 100000, loan_duration: 30, total_income: 82000, fixed_expenses: 22000 },
-	      { name: "Wendy Wheeler", loan_amount: 325000, loan_duration: 30, total_income: 145000, fixed_expenses: 40000 },
-	      { name: "Ken Sanchez", loan_amount: 225000, loan_duration: 30, total_income: 162000, fixed_expenses: 40000 },
-	      { name: "Joe Healy", loan_amount: 625000, loan_duration: 30, total_income: 182000, fixed_expenses: 72000 },
-	      { name: "Mke Fitzmaurice", loan_amount: 725000, loan_duration: 8, total_income: 320000, fixed_expenses: 120000 },
-	      { name: "Chris Sells", loan_amount: 1225000, loan_duration: 15, total_income: 325000, fixed_expenses: 167000 }
+	        { name: "Brian Cox", loan_amount: 100000, loan_duration: 30, total_income: 82000, fixed_expenses: 22000 },
+	        { name: "Wendy Wheeler", loan_amount: 325000, loan_duration: 30, total_income: 145000, fixed_expenses: 40000 },
+	        { name: "Ken Sanchez", loan_amount: 225000, loan_duration: 30, total_income: 162000, fixed_expenses: 40000 },
+	        { name: "Joe Healy", loan_amount: 625000, loan_duration: 30, total_income: 182000, fixed_expenses: 72000 },
+	        { name: "Mke Fitzmaurice", loan_amount: 725000, loan_duration: 8, total_income: 320000, fixed_expenses: 120000 },
+	        { name: "Chris Sells", loan_amount: 1225000, loan_duration: 15, total_income: 325000, fixed_expenses: 167000 }
 	    ];
 	    var currentApplicant = applicants[0];
-
-	    // The initialize function must be run each time a new page is loaded
+	    var messageBanner;
+	
+	    // The initialize function must be run each time a new page is loaded.
 	    Office.initialize = function (reason) {
 	        $(document).ready(function () {
-	            app.initialize();            
+	            // Initialize the FabricUI notification mechanism and hide it
+	            var element = document.querySelector('.ms-MessageBanner');
+	            messageBanner = new fabric.MessageBanner(element);
+	            messageBanner.hideBanner();
+	
 	        });
 	    }
-
 	})();
-	````
+	```
 
-14. Place your cursor under the code that assigns a function to **Office.initialize** and add five new functions named **updateAppUI**, **onInitializeUI**, **formatToCurrencyUSD**, **onRateChanged** and **onApplicantChanged**.
+19. Add five new functions named **updateAppUI**, **onInitializeUI**, **formatToCurrencyUSD**, **onRateChanged** and **onApplicantChanged** to the bottom of **Office.initialize** function.
 
-	````javascript	
-	// The initialize function must be run each time a new page is loaded
-	Office.initialize = function (reason) {
-	    $(document).ready(function () {
-	        app.initialize();
-	    });
-	};
+	```javascript	
+	/// <reference path="/Scripts/FabricUI/MessageBanner.js" />
+	
+	(function () {
+	    "use strict";
+	    var interestRates = [0.0425, 0.0500, 0.0750];
+	    var currentRate = interestRates[0];
+	    var applicants = [
+	        { name: "Brian Cox", loan_amount: 100000, loan_duration: 30, total_income: 82000, fixed_expenses: 22000 },
+	        { name: "Wendy Wheeler", loan_amount: 325000, loan_duration: 30, total_income: 145000, fixed_expenses: 40000 },
+	        { name: "Ken Sanchez", loan_amount: 225000, loan_duration: 30, total_income: 162000, fixed_expenses: 40000 },
+	        { name: "Joe Healy", loan_amount: 625000, loan_duration: 30, total_income: 182000, fixed_expenses: 72000 },
+	        { name: "Mke Fitzmaurice", loan_amount: 725000, loan_duration: 8, total_income: 320000, fixed_expenses: 120000 },
+	        { name: "Chris Sells", loan_amount: 1225000, loan_duration: 15, total_income: 325000, fixed_expenses: 167000 }
+	    ];
+	    var currentApplicant = applicants[0];
+	    var messageBanner;
+	
+	    // The initialize function must be run each time a new page is loaded.
+	    Office.initialize = function (reason) {
+	        $(document).ready(function () {
+	            // Initialize the FabricUI notification mechanism and hide it
+	            var element = document.querySelector('.ms-MessageBanner');
+	            messageBanner = new fabric.MessageBanner(element);
+	            messageBanner.hideBanner();
+	
+	        });
+	    }
 
 	function updateAppUI() {
 	}
@@ -332,11 +401,12 @@ In this exercise you will write code to create bindings on named ranges within t
 
 	function onApplicantChanged() {
 	}
-	````
+	})();
+	```
 
-15. Implement the **updateAppUI** function using the following code.
+20. Implement the **updateAppUI** function using the following code.
 
-	````javascript
+	```javascript
 	function updateAppUI() {
 	    $("#applicant_name").text(currentApplicant.name);
 	    $("#loan_amount").text(formatToCurrencyUSD(currentApplicant.loan_amount));
@@ -345,11 +415,11 @@ In this exercise you will write code to create bindings on named ranges within t
 	    $("#total_income").text(formatToCurrencyUSD(currentApplicant.total_income));
 	    $("#fixed_expenses").text(formatToCurrencyUSD(currentApplicant.fixed_expenses));
 	}
-	````
+	```
 
-16. Implement the **onInitializeUI** function using the following code.
+21. Implement the **onInitializeUI** function using the following code.
 
-	````javascript
+	```javascript
 	function onInitializeUI() {
 	    var divRates = $("#selectInterestRate");
 	    divRates.empty();
@@ -380,11 +450,11 @@ In this exercise you will write code to create bindings on named ranges within t
 
 	    updateAppUI();
 	}
-	````
+	```
 
-17. Implement the **formatToCurrencyUSD** function using the following code.
+22. Implement the **formatToCurrencyUSD** function using the following code.
 
-	````javascript
+	```javascript
 	function formatToCurrencyUSD(amount) {
 	    var sign; var cents; var i;
 	    amount = amount.toString().replace(/\$|\,/g, '');
@@ -401,11 +471,11 @@ In this exercise you will write code to create bindings on named ranges within t
 	    }
 	    return (((sign) ? '' : '-') + '$' + amount + '.' + cents);
 	}
-	````
+	```
 
-18. Implement the **onRateChanged** and **onApplicantChanged** functions using the following code.
+23. Implement the **onRateChanged** and **onApplicantChanged** functions using the following code.
 
-	````javascript
+	```javascript
 	function onRateChanged() {
 	    var rate = parseFloat($(this).attr("value"));
 	    currentRate = rate;
@@ -417,28 +487,32 @@ In this exercise you will write code to create bindings on named ranges within t
 	    currentApplicant = applicant;
 	    updateAppUI();
 	}
-	````
+	```
 
-19. Modify the Add-in's initialization code to call the **onInitializeUI** function. 
+24. Modify the Add-in's initialization code to call the **onInitializeUI** function. 
 
-	````javascript
-	// The initialize function must be run each time a new page is loaded
-	Office.initialize = function (reason) {
-	    $(document).ready(function () {
-	        app.initialize();
-	        onInitializeUI();
-	    });
-	}
-	````
+	```javascript
+	// The initialize function must be run each time a new page is loaded.
+    Office.initialize = function (reason) {
+        $(document).ready(function () {
+            // Initialize the FabricUI notification mechanism and hide it
+            var element = document.querySelector('.ms-MessageBanner');
+            messageBanner = new fabric.MessageBanner(element);
+            messageBanner.hideBanner();
 
-20. Now it's again time to test the Add-in in the Visual Studio. Press the **{F5}** key and wait for the debugging session and the Add-in to initialize. Once the Add-in has activated, you should be able to see it is displaying information about a loan for the current applicant as shown in the following screenshot. Also note that the UI for the Add-in will automatically update when you change the interest rate or the loan applicant.  
+            onInitializeUI();
+        });
+    }
+	```
 
-	![Screenshot of the previous step](Images/Fig14.png)  
+25. Now it's again time to test the Add-in in the Visual Studio. Press the **{F5}** key and wait for the debugging session and the Add-in to initialize. Once the Add-in has activated, you should be able to see it is displaying information about a loan for the current applicant as shown in the following screen shot. Also note that the UI for the Add-in will automatically update when you change the interest rate or the loan applicant.  
 
-21. Close Excel and return to Visual Studio.
-22. Inside **Home.js** directly below the **onApplicantChanged** function, add six new functions named **createBindings**, **onAllBindingCreated**, **updateBindingsToDocument**, **onBindingUpdated**, **updateBindingsFromDocument** and **onBindingReadFromDocument**.
+	![Screenshot of the previous step](Images/Fig09.png)  
 
-	````javascript
+26. Close Excel and return to Visual Studio.
+27. Inside **Home.js** directly below the **onApplicantChanged** function, add six new functions named **createBindings**, **onAllBindingCreated**, **updateBindingsToDocument**, **onBindingUpdated**, **updateBindingsFromDocument** and **onBindingReadFromDocument**.
+
+	```javascript
 	function createBindings() {
 	}
 
@@ -456,11 +530,11 @@ In this exercise you will write code to create bindings on named ranges within t
 
 	function onBindingReadFromDocument(asyncResult) {
 	}
-	````
+	```
 
-23. Implement the **createBindings** function using the following code.
+28. Implement the **createBindings** function using the following code.
 
-	````javascript
+	```javascript
 	function createBindings() {	
         var bindings = Office.context.document.bindings;
 	    bindings.addFromNamedItemAsync("Sheet1!Applicant_Name", "text",
@@ -490,19 +564,19 @@ In this exercise you will write code to create bindings on named ranges within t
 	    bindings.addFromNamedItemAsync("Sheet1!Available_Income", "text",
 	                                   { id: "available_income" }, onAllBindingCreated);
 	}
-	````
+	```
 
-24. Implement the **onAllBindingCreated** function using the following code.
+29. Implement the **onAllBindingCreated** function using the following code.
 
-	````javascript		
+	```javascript		
 	function onAllBindingCreated(asyncResult) {
 	    updateBindingsToDocument();
 	}
-	````
+	```
 
-25. Implement the **updateBindingsToDocument** function using the following code.
+30. Implement the **updateBindingsToDocument** function using the following code.
 
-	````javascript
+	```javascript
 	function updateBindingsToDocument() {
 		Office.select("bindings#applicant_name")
 		        .setDataAsync(currentApplicant.name, function () { });
@@ -522,9 +596,9 @@ In this exercise you will write code to create bindings on named ranges within t
 		Office.select("bindings#fixed_expenses")
 		        .setDataAsync(currentApplicant.fixed_expenses, onBindingUpdated);
 	}
-	````
+	```
 
-26. Implement the **onBindingUpdated** function using the following code.
+31. Implement the **onBindingUpdated** function using the following code.
 
 	````javascript
 	function onBindingUpdated(asncResult) {
@@ -532,9 +606,9 @@ In this exercise you will write code to create bindings on named ranges within t
 	}
 	````
 
-27. Implement the **updateBindingsFromDocument** function using the following code.
+32. Implement the **updateBindingsFromDocument** function using the following code.
 
-	````javascript
+	```javascript
 	function updateBindingsFromDocument() {		
 	    Office.select("bindings#monthly_payment")
 	          .getDataAsync({
@@ -554,19 +628,19 @@ In this exercise you will write code to create bindings on named ranges within t
 	              valueFormat: Office.ValueFormat.Formatted
 	          }, onBindingReadFromDocument);
 	}
-	````
+	```
 
-28. Implement the **onBindingReadFromDocument** function using the following code.
+33. Implement the **onBindingReadFromDocument** function using the following code.
 
-	````javascript
+	```javascript
 	function onBindingReadFromDocument(asyncResult) {
 	    var value = asyncResult.value;
 	    var targetDiv = "#" + asyncResult.asyncContext;
 	    $(targetDiv).text(value);
 	}
-	````
+	```
 
-29. Update both the **onRateChanged** and **onApplicantChanged** functions so that each of these functions calls **updateBindingsToDocument**.
+34. Update both the **onRateChanged** and **onApplicantChanged** functions so that each of these functions calls **updateBindingsToDocument**.
 		
 	````javascript
 	function onRateChanged() {
@@ -584,253 +658,437 @@ In this exercise you will write code to create bindings on named ranges within t
 	}
 	````
 
-30. Modify the Add-in's initialization code to call the **createBindings** function just after calling **onInitializeUI**. 
+35. Modify the Add-in's initialization code to call the **createBindings** function just after calling **onInitializeUI**. 
 
-	````javascript
-	// The initialize function must be run each time a new page is loaded
-	Office.initialize = function (reason) {
-	    $(document).ready(function () {
-	        app.initialize();
-	        onInitializeUI();
-	        createBindings(); 
-	    });
-	}
-	````
+	```javascript
+    // The initialize function must be run each time a new page is loaded.
+    Office.initialize = function (reason) {
+        $(document).ready(function () {
+            // Initialize the FabricUI notification mechanism and hide it
+            var element = document.querySelector('.ms-MessageBanner');
+            messageBanner = new fabric.MessageBanner(element);
+            messageBanner.hideBanner();
 
-31. Now it's again time to test the Add-in in the Visual Studio. Press the **{F5}** key and wait for the debugging session and the Add-in to initialize. Once the Add-in has activated, test how the Add-in behaves when you change the Interest Rate or the Loan Applicant using the radio button at the bottom of the task pane. You should see that the Add-in updates information in the workbook and then retrieves values from the workbook for Monthly Payment and Yearly Mortgage and updates the UI in the task pane.
+            onInitializeUI();
+            createBindings(); 
+        });
+    }
+	```
 
-	![Screenshot of the previous step](Images/Fig15.png)  
+36. Now it's again time to test the Add-in in the Visual Studio. Press the **{F5}** key and wait for the debugging session and the Add-in to initialize. Once the Add-in has activated, test how the Add-in behaves when you change the Interest Rate or the Loan Applicant using the radio button at the bottom of the task pane. You should see that the Add-in updates information in the workbook and then retrieves values from the workbook for Monthly Payment and Yearly Mortgage and updates the UI in the task pane.
 
-Congratulations! In exercise you wrote code to create bindings on named ranges within the the Excel workbook named TestDoc.xlsx. You also created event handlers so that the Add-in responds to the user when interacting with the Add-in user interface.
+	![Screenshot of the previous step](Images/Fig10.png)  
 
-## Exercise 4: Leverage the Excel v2 JavaScript API in Excel 2016
-In this exercise you will create a Excel Add-in that uses the v2 JavaScript API included in Excel 2016. 
+Congratulations! In exercise you wrote code to create bindings on named ranges within the Excel workbook named TestDoc.xlsx. You also created event handlers so that the Add-in responds to the user when interacting with the Add-in user interface.
 
-> **Note**: For this exercise you must have the Microsoft Office Excel 2016 Preview, or a later version, installed. Refer to the prerequisites at the beginning of this lab for links on where to obtain the Office 2016 Preview.
+## Part 2: Host-specific - APIs that were introduced with Office 2016
+Host-specific - APIs that were introduced with Office 2016. This object model provides host-specific strongly-typed objects that correspond to familiar objects that you see when you use Office clients, and represents the future of Office JavaScript APIs. The host-specific APIs currently include the [Word JavaScript API](https://dev.office.com/reference/add-ins/word/word-add-ins-reference-overview) and the [Excel JavaScript API](https://dev.office.com/reference/add-ins/excel/application). In this part, we will introduce Excel JavaScript API.
 
-1. Launch Visual Studio 2015 as an administrator.
-2. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Office Add-ins** project template from the **Office/SharePoint** template folder as shown below. Name the new project **Excel16Api** and click **OK** to create the new project.
+## Exercise 3: Leverage the Excel JavaScript API
+In this exercise you will create a Excel Add-in that uses the Excel JavaScript API included in Excel 2016. 
 
-3. When you create a new Office Add-in project, Visual Studio prompts you with the **Choose the add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue.
-
-	![Screenshot of the previous step](Images/Fig02.png)
-
-4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office application except for **Excel** and then click **Finish** to create the new Visual Studio solution. 
-
-	![Screenshot of the previous step](Images/Fig03.png)
-
-5. Now update the user interface for the Add-in:
+1. Launch Visual Studio 2017, select **File | New | Project**. Expand **Templates**, **Visual C#**, **Office/SharePoint** ,**Add-ins**. Select **Excel Web Add-in**. Name the project **ExpenseReport** and click **OK**.  
+2. When you create a new Add-in for Office project, Visual Studio prompts you with the **Choose the add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Add new functionalities to Excel** and select **Finish** to continue. 
+3. Now update the user interface for the Add-in:
 	1. Locate the `<body>` section of the page within the `home.html` file.
-	1. Replace the entire contents of the `<body>` with the following markup:
+	1. Replace the entire contents of the **content-main** div with the following markup:
 
-		````html
-		<body>
-		  <div id="content-header">
-		    <div class="padding">
-		      <h1>Welcome</h1>
-		    </div>
-		  </div>
-		  <div id="content-main">
-		    <div class="padding">
-		      <p>
-		        Worksheet Name: <input type="text" id="worksheetName" /><br />
-		        <button id="addWorksheet">Add a New Worksheet</button>
-		      </p>
-		      <p>
-		        <button id="addRange">Add Range of Data</button>
-		      </p>
-		      <p>
-		        <button id="addFormattedData"> Add Formatted Data Range</button>
-		      </p>
-		    </div>
-				  </div>
-		</body>
-		````
+		```html
+		<div id="content-main">
+	        <div class="padding">
+	            <br />
+	            <button class="ms-Button ms-Button--primary" id="addRange">
+	                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+	                <span class="ms-Button-label" id="button-text">Add Range of Data</span>
+	                <span class="ms-Button-description" id="button-desc">Add Range of Data</span>
+	            </button>
+	            <br />
+	            <br />
+	            <button class="ms-Button ms-Button--primary" id="addFormattedData">
+	                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+	                <span class="ms-Button-label" id="button-text">Add Formatted Data Range</span>
+	                <span class="ms-Button-description" id="button-desc">Add Formatted Data Range</span>
+	            </button>
+	            <br />
+	            <br />
+	            <button class="ms-Button ms-Button--primary" id="insertData">
+	                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+	                <span class="ms-Button-label" id="button-text">Insert Data</span>
+	                <span class="ms-Button-description" id="button-desc">Inseart Data, add a table and adjust layout</span>
+	            </button>
+	            <br />
+	            <br />
+	            <button class="ms-Button ms-Button--primary" id="sort">
+	                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+	                <span class="ms-Button-label" id="button-text">Sort</span>
+	                <span class="ms-Button-description" id="button-desc">Sort my data based on transaction date</span>
+	            </button>
+	            <br />
+	            <br />
+	            <button class="ms-Button ms-Button--primary" id="filter">
+	                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+	                <span class="ms-Button-label" id="button-text">Filter</span>
+	                <span class="ms-Button-description" id="button-desc">Only show my transtions in fuel and education</span>
+	            </button>
+	            <br />
+	            <br />
+	            <button class="ms-Button ms-Button--primary" id="report">
+	                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+	                <span class="ms-Button-label" id="button-text">Report</span>
+	                <span class="ms-Button-description" id="button-desc">Create a report on my spending and Protect the report </span>
+	            </button>
+	        </div>
+	    </div>
+		```
 
-6. The next step is to code the business logic for the Add-in.
-	1. Locate the **AddIn \ Home \ Home.js** file.
-	2. Remove all the sample code except the Add-in initialization code so all that is left is the following:
+4. The next step is to code the business logic for the add-in.
+	1. Locate the **Home.js** file.
+	1. Remove all the sample code except the add-in initialization code so all that is left is the following:
 
-		````javascript
+		```javascript
+		/// <reference path="/Scripts/FabricUI/MessageBanner.js" />
+		
 		(function () {
-		  "use strict";
+		    "use strict";
 
-		  // The initialize function must be run each time a new page is loaded
-		  Office.initialize = function (reason) {
-		    $(document).ready(function () {
-		        app.initialize();
-	            // Use this to check whether the API is supported in the Word client.
-	            if (Office.context.requirements.isSetSupported('ExcelApi', 1.1)) {
-			      // attach click handlers to the word document
-			      // TODO-1
-			      // TODO-2
-                  // TODO-3
-	            }
-	            else {
-	                // Just letting you know that this code will not work with your version of Word.
-	                console.log('This code requires Word 2016 or greater.');
-	            }
-		    });
-		  };
-
-		  // TODO-error
-		})();
-		````
-
-	3. Add a universal error handler function that will be used when there are errors. This should replace the comment `// TODO-error`:
-
-		````javascript
-	  function errorHandler (error) {
-	    console.log(JSON.stringify(error));
-	  };
-		````
-
-	4. Now add a function that will add a new worksheet to the workbook:
-		1. Replace the comment `// TODO-1` with the following jQuery code that creates a click event handler on one of the buttons in the `home.html` page you added previously:
-
-			````javascript
-			$('#addWorksheet').click(addWorksheet);
-			````
-
-		1. Next, add the following function before the error handler function you added previously.
-
-			Notice how the code in this function is very different from the code in the previous exercises. The Excel v2 JavaScript API uses a context (`Excel.RequestContext()`) to allow you to batch multiple operations (such as `context.workbook.worksheets.add()`) that will be sent to the hosting Excel client application for processing at one time using the `context.executeAsync()` method:
-
-			````javascript
-		    function addWorksheet() {
-		        // get reference to hosting Word application
-		        var context = new Excel.RequestContext();
+		    var messageBanner;
 		
-		        Excel.run(function (context) {
-		            // create a new worksheet
-		            var worksheetName = $('#worksheetName').val();
-		            var newWorksheet = context.workbook.worksheets.add(worksheetName);
+		    // The initialize function must be run each time a new page is loaded.
+		    Office.initialize = function (reason) {
+		        $(document).ready(function () {
+		            // Initialize the FabricUI notification mechanism and hide it
+		            var element = document.querySelector('.ms-MessageBanner');
+		            messageBanner = new fabric.MessageBanner(element);
+		            messageBanner.hideBanner();
 		
-		            // create the worksheet and set as active worksheet
-		            context.load(newWorksheet);
-		            newWorksheet.activate();
-		            return context.sync().then(function () {
-		            }, errorHandler);
-		        }).catch(function (error) {
-		            console.log('Error: ' + JSON.stringify(error));
-		            if (error instanceof OfficeExtension.Error) {
-		                console.log('Debug info: ' + JSON.stringify(error.debugInfo));
-		            }
+		            // attach click handlers to the word document
+		
 		        });
-		    };
-			````
+		    }
+		
+		
+		    // Helper function for treating errors
+		    function errorHandler(error) {
+		        // Always be sure to catch any accumulated errors that bubble up from the Excel.run execution
+		        showNotification("Error", error);
+		        console.log("Error: " + error);
+		        if (error instanceof OfficeExtension.Error) {
+		            console.log("Debug info: " + JSON.stringify(error.debugInfo));
+		        }
+		    }
+		
+		    // Helper function for displaying notifications
+		    function showNotification(header, content) {
+		        $("#notification-header").text(header);
+		        $("#notification-body").text(content);
+		        messageBanner.showBanner();
+		        messageBanner.toggleExpansion();
+		    }
+		})();
 
-7. Now add functionality to add unformatted data to a new range in the current worksheet:
-	1. Go back to the `Office.initialize` statement and replace the comment `// TODO-2` with the following jQuery code that creates a click handler for the button that will add a range of unformatted data to the current worksheet:
+		```
 
-	````javascript
-	$('#addRange').click(addRange);
-	````
+5. Inside **Home.js** , add six new functions named **addRange**, **addFormattedData**, **insertData**, **sort**, **filter** and **report** to the bottom of **Office.initialize** function.
 
-	1. Next, add the following function before the error handler function you previously added.
+	```javascript
+	function addRange() {
+	}
 
-		Notice how the code first gets a collection of all the worksheets in the workbook, then it creates an array of data that is assigned to a range that's created on the spreadsheet starting at cell A1:
+	function addFormattedData() {
+	}
 
-		````javascript
-	    function addRange() {
-	        // get reference to hosting Word application
-	        var context = new Excel.RequestContext();
-	        Excel.run(function (context) {
-	            // get reference to current worksheet
-	            var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-	            // get a list of all worksheets in the current workbook
-	            var worksheets = context.workbook.worksheets.load();
-	
-	            return context.sync().then(function () {
-	
-	                // create a one-dimensional array of all worksheets in the workbook
-	                var worksheetList = [];
-	                worksheetList.push(['Worksheets in the Workbook']);
-	                for (var i = 0; i < worksheets.items.length; i++) {
-	                    worksheetList.push([worksheets.items[i].name]);
-	                };
-	
-	                // get a range to write to
-	                var rangeSpec = "A1:A" + worksheetList.length;
-	                var range = currentWorksheet.getRange(rangeSpec);
-	                range.values = worksheetList;
-	
-	                // execute the change
-	                context.sync().then(function () { }, errorHandler);
-	            }, errorHandler);
-	        }).catch(function (error) {
-	            console.log('Error: ' + JSON.stringify(error));
-	            if (error instanceof OfficeExtension.Error) {
-	                console.log('Debug info: ' + JSON.stringify(error.debugInfo));
-	            }
-	        });
-	    };
-		````
+	function insertData() {
+	}
 
-8. Finally, add functionality to add *formatted* data to a new range in the current worksheet:
-	1. Go back to the `Office.initialize` statement and replace the comment `// TODO-3` with the following jQuery code that creates a click handler for the button that will add a range of unformatted data to the current worksheet:
+	function sort(asncResult) {
+	}
 
-	````javascript
-	$('#addFormattedData').click(addFormattedData);
-	````
+	function filter() {
+	}
 
-	1. Next, add the following function before the error handler function you previously added.
+	function report(asyncResult) {
+	}
+	```
+6. At the end of the app initialization code, add button click event handler.
 
-		Notice how the code works with ranges in a similar way to the last function, but this one assigns some formats to the range's `numberFormats` property:
+	```javascript
+    $('#addRange').click(addRange);
+    $('#addFormattedData').click(addFormattedData);
+    $('#insertData').click(insertData);
+    $('#sort').click(sort);
+    $('#filter').click(filter);
+    $('#report').click(report);
+	```
+7. Now **Office.initialize** function should look like as the following:
 
-		````javascript
-		function addFormattedData() {
-	        // get reference to hosting Word application
-	        var context = new Excel.RequestContext();
-	        Excel.run(function (context) {
-	                // define a range
-	                var rangeAddress = "C3:E5";
-	
-	                // define values in the range
-	                var values = [
-	                  ['Expense', 'Date', 'Amount'],
-	                  ['Lunch', '7/15/2015', 45.98],
-	                  ['Taxi', '7/15/2015', 18.22]
-	                ];
-	
-	                // define the formats
-	                var formats = [
-	                  [null, null, null],
-	                  [null, 'mmmm dd, yyyy', '$#,##0.00'],
-	                  [null, 'mmmm dd, yyyy', '$#,##0.00']
-	                ];
-	
-	                // get the range in the worksheet
-	                var range = context.workbook.worksheets.getActiveWorksheet().getRange(rangeAddress);
-	                range.numberFormat = formats;
-	                range.values = values;
-	                range.load();
-	                // execute the change
-	                context.sync().then(function () { }, errorHandler);
-	        }).catch(function (error) {
-	            console.log('Error: ' + JSON.stringify(error));
-	            if (error instanceof OfficeExtension.Error) {
-	                console.log('Debug info: ' + JSON.stringify(error.debugInfo));
-	            }
-	        });
-	    };
-		````
+	```javascript
+	// The initialize function must be run each time a new page is loaded.
+    Office.initialize = function (reason) {
+        $(document).ready(function () {
+            // Initialize the FabricUI notification mechanism and hide it
+            var element = document.querySelector('.ms-MessageBanner');
+            messageBanner = new fabric.MessageBanner(element);
+            messageBanner.hideBanner();
 
-### Test the Add-in
-1. Now deploy the Excel Add-in to the local Excel client:
-  1. Select the **Excel16Api** project within the **Solution Explorer** tool window.
-  1. Within the **Properties** window set the **Start Action** selector to **Office Desktop Client** and press **F5** to start the project.
-  1. Visual Studio will launch the Excel desktop client & create a new Excel workbook.
-1. Enter a name for a new worksheet and click the button **Add a New Worksheet**. 
+            $('#addRange').click(addRange);
+            $('#addFormattedData').click(addFormattedData);
+            $('#insertData').click(insertData);
+            $('#sort').click(sort);
+            $('#filter').click(filter);
+            $('#report').click(report);
+        });
+    }
+	```
+8. Implement the **addRange** function using the following code.
 
-	> Notice how Excel creates a new blank worksheet and changes focus to that worksheet.
+	```javascript
+    function addRange() {
+        var context = new Excel.RequestContext();
+        Excel.run(function (context) {
+            var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+            var worksheets = context.workbook.worksheets.load();
+            return context.sync().then(function () {
+                var worksheetList = [];
+                worksheetList.push(['Worksheets in the Workbook']);
+                for (var i = 0; i < worksheets.items.length; i++) {
+                    worksheetList.push([worksheets.items[i].name]);
+                };
+                var rangeSpec = "A1:A" + worksheetList.length;
+                var range = currentWorksheet.getRange(rangeSpec);
+                range.values = worksheetList;
+                context.sync().then(function () { }, errorHandler);
+            }, errorHandler);
+        }).catch(function (error) {
+            console.log('Error: ' + JSON.stringify(error));
+            if (error instanceof OfficeExtension.Error) {
+                console.log('Debug info: ' + JSON.stringify(error.debugInfo));
+            }
+        });
+    }
+	```
 
-1. Now, make sure you have a few worksheets in the workbook and then click the button **Add Range of Data**.
+9. Implement the **addFormattedData** function using the following code.
 
+	```javascript
+    function addFormattedData() {
+        var context = new Excel.RequestContext();
+        Excel.run(function (context) {
+            var rangeAddress = "C3:E5";
+            var values = [
+                ['Expense', 'Date', 'Amount'],
+                ['Lunch', '7/15/2015', 45.98],
+                ['Taxi', '7/15/2015', 18.22]
+            ];
+            var formats = [
+                [null, null, null],
+                [null, 'mmmm dd, yyyy', '$#,##0.00'],
+                [null, 'mmmm dd, yyyy', '$#,##0.00']
+            ];
+
+            var range = context.workbook.worksheets.getActiveWorksheet().getRange(rangeAddress);
+            range.numberFormat = formats;
+            range.values = values;
+            range.load();
+            context.sync().then(function () { }, errorHandler);
+        }).catch(function (error) {
+            console.log('Error: ' + JSON.stringify(error));
+            if (error instanceof OfficeExtension.Error) {
+                console.log('Debug info: ' + JSON.stringify(error.debugInfo));
+            }
+        });
+    }
+	```
+
+10. Implement the **insertData** function using the following code.
+
+	```javascript
+	function insertData() {
+        Excel.run(function (ctx) {
+            var sheet = ctx.workbook.worksheets.add("Data");
+            sheet.activate();
+            var range = sheet.getRange("A1:E11");
+            range.values = [[
+                "Date",
+                "Merchant",
+                "Category",
+                "Sub-Category",
+                "Amount"],
+            [
+                "01/12/2014",
+                "WHOLE FOODS MARKET",
+                "Merchandise & Supplies",
+                "Groceries",
+                "84.99"
+            ],
+            [
+                "01/13/2014",
+                "COSTCO GAS",
+                "Transportation",
+                "Fuel",
+                "52.20"
+            ],
+            [
+                "01/13/2014",
+                "COSTCO WHOLESALE",
+                "Merchandise & Supplies",
+                "Wholesale Stores",
+                "163.67"
+            ],
+            [
+                "01/13/2014",
+                "ITUNES",
+                "Merchandise & Supplies",
+                "Internet Purchase",
+                "9.83"
+            ],
+            [
+                "01/13/2014",
+                "SMITH BROTHERS FARMS INC",
+                "Merchandise & Supplies",
+                "Groceries",
+                "21.45"
+            ],
+            [
+                "01/14/2014",
+                "SHELL",
+                "Transportation",
+                "Fuel",
+                "44.00"
+            ],
+            [
+                "01/14/2014",
+                "WHOLE FOODS MARKET",
+                "Merchandise & Supplies",
+                "Groceries",
+                "17.98"
+            ],
+            [
+                "01/15/2014",
+                "BRIGHT EDUCATION SERVICES",
+                "Other",
+                "Education",
+                "59.92"
+            ],
+            [
+                "01/15/2014",
+                "BRIGHT EDUCATION SERVICES",
+                "Other",
+                "Education",
+                "59.92"
+            ],
+            [
+                "01/17/2014",
+                "SMITH BROTHERS FARMS INC-HQ",
+                "Merchandise & Supplies",
+                "Groceries",
+                "21.45"
+            ]];
+            range.getEntireColumn().format.autofitColumns();
+            range.getEntireRow().format.autofitRows();
+
+            var table = ctx.workbook.tables.add("Data!A1:E11", true);
+            return ctx.sync().then(function () {
+            });
+        }).catch(errorHandler);
+    }
+	```
+
+11. Implement the **sort** function using the following code.
+
+	```javascript
+	function sort() {
+        Excel.run(function (ctx) {
+            var sheet = ctx.workbook.worksheets.getItem("Data");
+            sheet.activate();
+            var sortRange = sheet.getRange("A1:E1").getEntireColumn().getUsedRange();
+            sortRange.sort.apply([
+                {
+                    key: 0,
+                    ascending: false,
+                },
+            ]);
+            return ctx.sync().then(function () {
+            })
+        }).catch(errorHandler);
+    }
+	```
+
+12. Implement the **filter** function using the following code.
+
+	```javascript
+    function filter() {
+        Excel.run(function (ctx) {
+            var sheet = ctx.workbook.worksheets.getItem("Data");
+            sheet.activate();
+            var table = sheet.tables.getItemAt(0);
+            var filter = table.columns.getItemAt(3).filter;
+            filter.applyValuesFilter(["Fuel", "Education"]);
+            return ctx.sync().then(function () {
+            })
+        }).catch(errorHandler);
+    }
+	```
+
+13. Implement the **report** function using the following code.
+
+	```javascript
+    function report() {
+        Excel.run(function (ctx) {
+            var sheet = ctx.workbook.worksheets.add("Summary");
+            sheet.activate();
+            var sumRange = sheet.getRange("A1:B6");
+            sumRange.values = [['Category', 'Total'],
+            ['Groceries', '=SUMIF( Data!D2:D100, "Groceries", Data!E2:E100 )'],
+            ['Fuel', '=SUMIF( Data!D2:D100, "Fuel", Data!E2:E100 )'],
+            ['Wholesale Store', '=SUMIF( Data!D2:D100, "Wholesale Stores", Data!E2:E100 )'],
+            ['Internet Purchase', '=SUMIF( Data!D2:D100, "Internet Purchase", Data!E2:E100 )'],
+            ['Education', '=SUMIF( Data!D2:D100, "Education", Data!E2:E100 )']];
+
+            ctx.workbook.tables.add("Summary!A1:B6", true);
+            var chartRange = sheet.getRange("A1:B6");
+            var chart = ctx.workbook.worksheets.getItem("Summary").charts.add("Pie", chartRange);
+            chart.title.text = "Spending based on catagory";
+            sheet.protection.protect();
+            return ctx.sync().then(function () {
+
+            })
+                .then(ctx.sync);
+        }).catch(errorHandler);
+    }
+	```
+
+14. Now start a debugging session by pressing the **{F5}**, launch your add-in by clicking the **Show Taskpane** button on the Ribbon. **ExpenseReport** add-in is shown in the following screen shot.
+
+	![Screenshot of the previous step](Images/Fig11.png)  
+
+15. Now, make sure you have a few worksheets in the workbook and then click the button **Add Range of Data**.
 	> Notice how Excel creates a list of all the worksheets starting with cell **A1** in the current worksheet, but it adds a title to the worksheet at the top.
 
-1. Lastly, click the button **Add Formatted Data Range**.
+	![Screenshot of the previous step](Images/Fig12.png) 
 
+16. Click the button **Add Formatted Data Range**.
 	> Notice how Excel creates a new table of data in the middle of the worksheet, but the dates and currency values are formatted accordingly.
 
-Congratulations! You've now written an Excel Add-in that uses the new Excel v2 JavaScript API.
+	![Screenshot of the previous step](Images/Fig13.png)
+
+17. Click the button **Insert Data**.
+	> Notice how Excel creates a new worksheet named "Data", inserted my transaction data and added a table on top of sheet.
+
+	![Screenshot of the previous step](Images/Fig14.png)
+
+18. Click the button **Sort**.
+	> Notice how Excel sorted my transactions based on date, the latest transaction is on top now.
+
+	![Screenshot of the previous step](Images/Fig15.png)
+
+19. Click the button **Filter**.
+	> Notice how Excel filtered my transactions based on sub-category, now only transactions under Education and Fuel are shown.
+
+	![Screenshot of the previous step](Images/Fig16.png)
+
+20. Finally, click the button **Report**.
+	> Notice how Excel summarized my transactions with formulas and created a pie chart to visualize my spending.
+
+	![Screenshot of the previous step](Images/Fig17.png)
+	
+**Congratulations! You've now written an Excel add-in that uses the new Excel JavaScript API.**
