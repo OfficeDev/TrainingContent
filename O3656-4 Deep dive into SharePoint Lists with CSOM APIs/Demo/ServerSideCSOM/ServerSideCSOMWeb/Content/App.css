@@ -1,0 +1,141 @@
+﻿body {
+  background-color: #000;
+  background-image: url("img/PageBackground.jpg");
+  font-family: 'Cambria Math';
+  padding: 0px;
+  margin: 0px;
+}
+
+#page_width {
+  padding: 0px;
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px #000 solid;
+  background-color: white;
+}
+
+#nav_bar {
+  background-color: black;
+  color: white;
+  padding: 2px;
+  padding-left: 4px;
+}
+
+  #nav_bar a:link, #nav_bar a:visited, #nav_bar a:active, #nav_bar a:hover {
+    text-decoration: none;
+    color: #FFFFEE;
+    font-size: 14px;
+  }
+
+#top_banner {
+  height: 75px;
+  background-color: #FFF;
+  margin: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+  border: 1px solid #000;
+  border-bottom: 2px solid #990033;
+}
+
+#site_logo {
+  float: left;
+  background-image: url("img/AppIcon.gif");
+  width: 75px;
+  height: 75px;
+}
+
+#site_title {
+  margin-top: 20px;
+  float: left;
+  font-size: 48px;
+  color: #000;
+}
+
+#toolbar {
+  margin: 0px;
+  border: 1px solid #000;
+  border-top: 3px solid #CC6633;
+  padding: 4px;
+  background-image: url("img/PageBackground.jpg");
+}
+
+
+#toolbar input {
+ width: 100px;
+}
+
+#content_box {
+  border: 1px solid #000;
+  margin: 0px;
+  min-height: 520px;
+  padding: 8px;
+  background-color: #FEFFEE;
+}
+
+
+
+h1, h2, h3, h4 {
+  font-family: Arial sans-serif;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  padding: 2px;
+  color: DarkBlue;
+}
+
+h1 {
+  font-size: 20px;
+  border-bottom: solid DarkBlue 2px;
+}
+
+h2 {
+  font-size: 18px;
+  border-bottom: solid DarkBlue 1px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+
+ul, ol {
+  margin: 0px;
+}
+
+li {
+  margin-top: 4px;
+  margin-bottom: 2px;
+  color: #333;
+  font-size: 12pt;
+}
+
+table, table td {
+  border: #999 1px solid;
+  color: black;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+  table td {
+    padding: 4px;
+    border-collapse: collapse;
+    vertical-align: top;
+    text-wrap: normal;
+    word-break: break-all;
+    word-wrap: break-word;
+    font-size: 12pt;
+  }
+
+    table td ul {
+      margin: 2px;
+      padding-left: 8px;
+    }
+
+
+      table td ul li {
+        margin-left: 2px;
+      }
