@@ -1,268 +1,610 @@
-# Deep Dive for Office Outlook Add-ins
-In this lab, create Office Add-ins for Outlook. These Outlook Add-ins will be tested in both the Office 365 Outlook Web App as well as the Windows Outlook 2016 desktop client.
+# Create your first Office add-in with the Outlook JavaScript APIs
 
-## Prerequisites
-1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. You must also have access to an Exchange inbox within an Office 365 developer tenancy.
-1. You must have the Office 365 API Tools version 1.6.51113.1 installed in Visual Studio 2015 & Update 1 installed.
-1. In order to complete exercise 1 & 2, you must have Office 2016 installed which you can obtain from here: https://products.office.com/en-us/home
+In this lab, you will use Visual Studio to create your first Outlook add-in using the Outlook JavaScript APIs. The add-in will allow the user to translate parts of a message they are composing into different languages.
 
-## Exercise 1: Create Outlook Add-in & Deploy to Outlook Web App & Outlook Desktop
-In this exercise, you will create a new Outlook Add-in for reading and creating mail that you will deploy to both the Outlook Web App in Office 365 and Outlook Desktop client on Windows.
+## Get an Office 365 developer environment
+1. You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. 
+2. You must also have access to an Exchange Inbox within an Office 365 developer tenancy.
+3. You must have Visual Studio 2017 with the Office/SharePoint development tools installed.
+4. You must have Office 2016 installed.
 
-1. Launch **Visual Studio 2015** as administrator. 
-1. In Visual Studio select **File/New/Project**.
-1. In the **New Project** dialog, select **Templates, Visual C#, Office/SharePoint** and click **Office Add-ins**. Name the new project **FirstMailAddin** and then click **OK**.  
-1. On the **Create Office Add-in / Choose the Add-in type** dialog, select **Mail** and click **Next**.
-1. On the **Create Office Add-in / Choose where you want the Add-in to appear**, check only the two options for **Email message** and click **Finish**.
+## Exercise 1: Create a new Outlook add-in project
 
-  ![Screenshot of the previous step](Images/NewAppDialog01.png)
+In this exercise you will create a new project using the Outlook add-in template.
 
-1. Take a moment to examine the project structure:
+1. Launch **Visual Studio 2017**. 
+2. In Visual Studio 2017, select **File | New | Project**.
+   1. Expand **Templates**, **Visual C#**, **Office/SharePoint** ,**Add-ins**. Select **Outlook Web Add-in**. Name the project **Translator** and click **OK**.
 
-  ![Screenshot of the previous step](Images/ProjectStructure.png)
+    ![Screenshot of the previous step](Images/create-project.png)
 
-  1. First, the Outlook Add-in's manifest file is located in the Office Add-in project at the top of the **Solution Explorer** window. This is the file that will tell the hosting Office client application, Outlook, about the Add-in and where the web application that implements the Add-in resides.
-  1. Next locate the **AddInCompose** and **AddInRead** folders. These contain the client-side applications that host the two different experiences for the Add-in you created. 
-
-    The first one, **AddInCompose**, will host the web application for the Add-in experience when creating an email.
-
-    The second one, **AddInRead**, will host the web application for the Add-in experience when reading an email.
-
-  1. The last few folders, **Content**, **Images** and **Scripts** are all the typical supporting files in any web application.
-
-1. Explore the Outlook Add-in manifest file.
-  1. Open the **FirstMailAddinManifest** node within the **Solution Explorer** tool window.
-  1. The first tab, **General** is where you can change the name, version, description and provider of the Add-in.
-
-    In addition you can also set the permissions the Add-in requires.
-
-    Notice the last option for the **Mailbox requirement set**. The `Office.js` SDK documentation on MSDN will reference a specific requirement set version that a specific feature or capability was added to to the API. This is how your application can be developed to support functionality in specific Outlook clients on different platforms as not all clients on all platforms may support the latest features immediately.
-
-  1. Select the **Read Form** tab. This is where you can make customizations to the Add-in's read form.
-
-    The **Activation** section allows you to specify under which conditions the Add-in will be available. By default it already has the *Item is a message* rule entered.
-
-    ![Screenshot of the previous step](Images/ManifestReadForm01.png)
-
-    The other tabs are used to configure other forms and remote domains that can be accessed within the Add-in.
-
-1. Now deploy the default Outlook Add-in to the web client:
-  1. Select the **FirstMailAddin** project within the **Solution Explorer** tool window.
-  1. Within the **Properties** window there's a **Start Action** selector. Select one of the browser options and press **F5** to start the project.
-
-    ![Screenshot of the previous step](Images/Properties01.png)
-
-  1. Visual Studio will prompt you to login using your Office 365 credentials. Do this and click **Connect**.
-  1. Check to the **AddInRead** experience by selecting an email. The Add-in will appear just below the header of the email and if you click on it, it will expand:
-
-    ![Screenshot of the previous step](Images/AppRead01.png)
-
-  1. Now create a new email to see the **AddInCompose** experience when creating an email.
-  1. Add-ins on the compose form are shown in a task pane. Click the **Add-ins** button to get the task pane to appear.
-
-    ![Screenshot of the previous step](Images/AppCompose01.png)
-
-  1. Click the Add-in **FirstMailAdd** and the task pane will refresh with the Add-in. Click a few buttons to see how it works.
-
-    ![Screenshot of the previous step](Images/AppCompose02.png)
-
-  1. Go back to Visual Studio and stop debugging.
-
-1. Now deploy the Outlook Add-in to the local Outlook client:
-  1. Select the **FirstMailAddin** project within the **Solution Explorer** tool window.
-  1. Within the **Properties** window set the **Start Action** selector to **Office Desktop Client** and press **F5** to start the project.
-  1. Visual Studio will launch the Outlook desktop client.
-  1. Check to the **AddInRead** experience by selecting an email. The Add-in will appear just below the header of the email and if you click on it, it will expand:
-
-    ![Screenshot of the previous step](Images/AppRead02.png)
-
-  1. Now create a new email to see the **AddInCompose** experience when creating an email.
-  1. Add-ins on the compose form are shown in a task pane. Click the **Office Add-ins** button to get the **Office Add-ins** dialog to appear. 
+3. Run the app to verify it works.
+  1. Press F5 to begin debugging.
+  1. When prompted, enter the email address and password of your Office 365 account. Visual Studio will install the add-in for that user.
+  
+    ![Screenshot of the previous step](Images/deploy-addin.png)
     
-    Select the **FirstMailAddin** and click the **Start** button to launch the Add-in.
+  1. With the app running, open Outlook 2016 and log on to the user's mailbox. You should see a **Display all properties** button on the ribbon when you select or open a message. (Note that if this is the first time you are running Outlook on that box you need to go through the typical Outlook configuration to connect to Exchange)
+  
+    ![Screenshot of the previous step](Images/default-button.png)
+    
+Now that you've verified that the add-in is working, Exercise 1 is complete!
 
-    ![Screenshot of the previous step](Images/AppCompose03.png)
+## Exercise 2: Add buttons to the new message ribbon
 
-  1. The Add-in will launch in a task pane in the email:
+In this exercise you will add a button to translate text to Latin and a button to open a task pane, allowing the user to select start and end languages.
+  
+1. Open the project that created on Exercise 1.
+2. Add the **Translator** button group to the new message ribbon.
+  1. Open the **Translator/TranslatorManifest/Translator.xml** file.
+  1. Locate the following line:
+  
+    ```xml
+    <FunctionFile resid="functionFile" />
+    ```
+    
+  1. Insert the following after that line:
+  
+    ```xml
+    <!-- Message Compose -->
+    <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+      <OfficeTab id="TabDefault">
+        <Group id="msgComposeGroup">
+          <Label resid="groupLabel"/>
+          <!-- Add Latin translation button here -->
+          <!-- Add More Options button here -->
+        </Group>
+      </OfficeTab>
+    </ExtensionPoint>
+    ```
+    
+3. Add the **Translate to Latin** button.
+  1. Replace the `<!-- Add Latin translation button here -->` line with the following:
+    
+    ```xml
+    <Control xsi:type="Button" id="msgComposeToLatin">
+      <Label resid="toLatinLabel"/>
+      <Supertip>
+        <Title resid="toLatinTitle"/>
+        <Description resid="toLatinDesc"/>
+      </Supertip>
+      <Icon>
+        <bt:Image size="16" resid="icon16"/>
+        <bt:Image size="32" resid="icon32"/>
+        <bt:Image size="80" resid="icon80"/>
+      </Icon>
+      <Action xsi:type="ExecuteFunction">
+        <FunctionName>translateToLatin</FunctionName>
+      </Action>
+    </Control>
+    ```
+    
+4. Add the **More Options** button.
+  1. Replace the `<!-- Add More Options button here -->` line with the following:
+  
+    ```xml
+    <Control xsi:type="Button" id="msgComposePaneButton">
+      <Label resid="translatePaneButtonLabel"/>
+      <Supertip>
+        <Title resid="translatePaneButtonTitle"/>
+        <Description resid="translatePaneButtonDesc"/>
+      </Supertip>
+      <Icon>
+        <bt:Image size="16" resid="icon16"/>
+        <bt:Image size="32" resid="icon32"/>
+        <bt:Image size="80" resid="icon80"/>
+      </Icon>
+      <Action xsi:type="ShowTaskpane">
+        <SourceLocation resid="translatePaneUrl"/>
+      </Action>
+    </Control>
+    ```
+    
+5. Add resources for the new buttons.
+  1. Locate the `<bt:Urls>` element within the `<Resources>` element in **Translator/TranslatorManifest/Translator.xml**.
+  2. Add the following element after the last `<bt:Url>` element:
+    
+    ```xml
+    <bt:Url id="translatePaneUrl" DefaultValue="~remoteAppUrl/TranslatePane.html"/>
+    ```
+  
+  3. Locate the `<bt:ShortStrings>` element within the `<Resources>` element.
+  4. Change the `DefaultValue` of the `<bt:String>` element with an `id` attribute of `groupLabel` to `Translator`.
+    
+    ```xml
+    <bt:String id="groupLabel" DefaultValue="Translator"/>
+    ```
+  5. Add the following elements after the last `<bt:String>` element inside the `<bt:ShortStrings>` element:
+  
+    ```xml
+    <bt:String id="toLatinLabel" DefaultValue="Translate to Latin"/>
+    <bt:String id="toLatinTitle" DefaultValue="Translate any language to Latin"/>
+    <bt:String id="translatePaneButtonLabel" DefaultValue="More Options"/>
+    <bt:String id="translatePaneButtonTitle" DefaultValue="Choose to and from language"/>
+    ```
+    
+  6. Locate the `<bt:LongStrings>` element within the `<Resources>` element.
+  7. Add the following elements after the last `<bt:String>` element inside the `<bt:LongStrings>` element:
+  
+    ```xml
+    <bt:String id="toLatinDesc" DefaultValue="Auto-detects the starting language and translates the selected text to Latin. Instantly sound smarter!"/>
+    <bt:String id="translatePaneButtonDesc" DefaultValue="Opens a window allowing you to choose a to and from language for translation"/>
+    ```
+    
+  8. When you've made all of those changes, the `<Resources>` section of your file should look like the following:
+  
+    ```xml
+    <Resources>
+      <bt:Images>
+        <bt:Image id="icon16" DefaultValue="~remoteAppUrl/Images/icon16.png"/>
+        <bt:Image id="icon32" DefaultValue="~remoteAppUrl/Images/icon32.png"/>
+        <bt:Image id="icon80" DefaultValue="~remoteAppUrl/Images/icon80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="functionFile" DefaultValue="~remoteAppUrl/Functions/FunctionFile.html"/>
+        <bt:Url id="messageReadTaskPaneUrl" DefaultValue="~remoteAppUrl/MessageRead.html"/>
+        <bt:Url id="translatePaneUrl" DefaultValue="~remoteAppUrl/TranslatePane.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="groupLabel" DefaultValue="Translator"/>
+        <bt:String id="customTabLabel"  DefaultValue="My Add-in Tab"/>
+        <bt:String id="paneReadButtonLabel" DefaultValue="Display all properties"/>
+        <bt:String id="paneReadSuperTipTitle" DefaultValue="Get all properties"/>
+        <bt:String id="toLatinLabel" DefaultValue="Translate to Latin"/>
+        <bt:String id="toLatinTitle" DefaultValue="Translate any language to Latin"/>
+        <bt:String id="translatePaneButtonLabel" DefaultValue="More Options"/>
+        <bt:String id="translatePaneButtonTitle" DefaultValue="Choose to and from language"/> 
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="paneReadSuperTipDescription" DefaultValue="Opens a pane displaying all available properties. This is an example of a button that opens a task pane."/>
+        <bt:String id="toLatinDesc" DefaultValue="Auto-detects the starting language and translates the selected text to Latin. Instantly sound smarter!"/>
+        <bt:String id="translatePaneButtonDesc" DefaultValue="Opens a window allowing you to choose a to and from language for translation."/>
+      </bt:LongStrings>
+    </Resources>
+    ```
+    
+6. Save your changes and press F5 to start debugging. Once the app starts, open Outlook 2016. (If it is still open from before, the add-in should refresh after a moment.) Create a new message. You should see the **Translate to Latin** and **More Options** buttons on the ribbon:
 
-    ![Screenshot of the previous step](Images/AppCompose04.png)
+	![Screenshot of the previous step](Images/compose-message.png)
+  
+Now that the buttons are showing up in Outlook, Exercise 2 is complete!
+  
+## Exercise 3: Add translation
 
-  1. Go back to Visual Studio and stop debugging.
+In this exercise you will implement the functions to call the Yandex Translate API at **translate.yandex.com/developers** and replace selected text in the message that is being composed.
 
-Congratulations! In this brief exercise you have successfully deployed and tested a simple Outlook Add-in within both the Office 365 Outlook Web App and the Outlook Windows desktop client.
+1. Obtain a free Yandex API key.
+  1. Go to **translate.yandex.com/developers** in your browser.
+  2. Under **Getting Started**, click the **Get a free API key** link.
+  3. Register and get your API key. Copy this key, you will need it later.
 
-## Exercise 2: Create a Translator Outlook Add-in
-In this exercise you will take the Add-in you built in the previous exercise and customize it to translate emails as you create them.
+2. Open the project that built in the previous exercise.
 
-1. Ensure you have the solution from the previous exercise open in Visual Studio.
+3. Add the code to call the Yandex API and do the translation. 
+  1. Expand the **TranslatorWeb** project in Visual Studio. Right-click the **Scripts** folder and choose **Add**, then **JavaScript** file. Name the file `translate` and click **OK**. Add the following code:
 
-  > If you skipped exercise 1, you can open the solution in from the [Completed Solutions](Completed Solutions) **Exercise01** folder as your starting point.
+    ```javascript
+    // Helper function to generate an API request
+    // URL to the Yandex translator service
+    function generateRequestUrl(sourcelang, targetlang, text) {
+      // Split the selected data into individual lines
+      var tempLines = text.split(/\r\n|\r|\n/g);
+      var lines = [];
 
-### Signup for a developer account to Yandex
-To complete this exercise, you will need a free developer account from Yandex.
+      // Add non-empty lines to the data to translate
+      for (var i = 0; i < tempLines.length; i++)
+        if (tempLines[i] != '')
+          lines.push(tempLines[i]);
 
-1. In a browser, navigate to https://tech.yandex.com/translate/
-1. In the top-right corner, click the **Log In** link and go through the process of creating an account by following the straightforward prompts.
-1. On the **Yandex Translate API** page, on the third step **Get an API key**, click the link **API key**.
-1. On the **Get API key** page, enter a description of the application you are creating and check the box to indicate you have *read the User Agreement and agree to the terms of service*, finally clicking the **Get API key** button.
-1. Copy the entire key into notepad for later use. The key will look something like the following string. 
-
-  ````
-  trnsl.1.1.[TIMESTAMP].[STRING].[STRING]
-  ````
-
-### Configure the Compose Form to Translate Selected Text
-First, update the compose form to include a button to translate the selected text in the email.
-
-1. Open the file **AddInCompose/Home/Home.html**.
-1. Scroll to the bottom and locate the `<div>` with an id of **content-main**.
-1. Replace the contents of the `<div>` to include only a single button, like the following code:
-
-  ````html
-  <div id="content-main">
-    <div class="padding">
-      <button id="translateEmail">Translate English to Spanish</button>
-    </div>
-  </div>
-  ````
-
-### Code the Compose Form to Translate Selected Text
-With the form updated, now update the code that will implement the business logic.
-
-1. Open the file **AddInCompose/Home/Home.js**.
-1. Clean out all the default code so the file is left with just the remaining code:
-
-  ````javascript
-  (function () {
-    'use strict';
-
-    // The initialize function must be run each time a new page is loaded
-    Office.initialize = function (reason) {
-      $(document).ready(function () {
-        app.initialize();
-      });
-    };
-
-  })();
-  ````
-
-1. Now, add two variables to hold the API key and base endpoint for the **Yandex** service that will be used to translate the selected text. 
-
-  *Make sure you set the correct API key you obtained above in the first variable.*
-
-  ````javascript
-  // yandex service endpoint & api key
-  var yandexApiKey = 'trnsl.1.1.[TIMESTAMP].[STRING].[STRING]';
-  var yandexEndpoint = 'https://translate.yandex.net/api/v1.5/tr.json/translate?lang=en-es&key=' + yandexApiKey;
-  ````
-
-1. Now, within the `Office.initialize` function call, after the line `app.initialize()`, add the following code to attach a click event handler when the button that you added previously is clicked.
-
-  ````javascript
-  // attach event handler to button
-  $("#translateEmail").click(translateText);    
-  ````
-1. Now, create a function that will take a string of text and create the query portion that will be added to the Yandex request:
-
-  > You can ignore the comments... they are added just for detailed explanation of what the code is doing.
-
-  ````javascript
-  /**
-   * Creates the query portion of the request to translate.
-   * @param {string} textToTranslate - The string to translate into a different language.
-   * @returns {string} URL escaped string that will be used in the HTTP request query.
-   */
-  function getTranslationQuery(textToTranslate) {
-    // break up the lines to translate into an array.
-    var linesToTranslate = textToTranslate.split('\n');
-    var lines = [];
-
-    // loop through each line and remove all blank lines
-    for (var x = 0; x < linesToTranslate.length; x++) {
-      if (linesToTranslate[x] != "") {
-        lines.push(linesToTranslate[x]);
+      // Add each line as a 'text' query parameter
+      var encodedText = '';
+      for (var i = 0; i < (lines.length) ; i++) {
+        encodedText += '&text=' + encodeURI(lines[i].replace(/ /g, '+'));
       }
+
+      // API Key for the yandex service
+      // Get one at translate.yandex.com/developers
+      var apiKey = 'PASTE YOUR YANDEX API KEY HERE';
+
+      var langspec = sourcelang.length > 0 ? sourcelang + '-' + targetlang : targetlang;
+
+      return 'https://translate.yandex.net/api/v1.5/tr.json/translate?key='
+        + apiKey + '&lang=' + langspec + encodedText;
     }
-    // create the query for the querystring request
-    var query = '&text=';
-    // loop through all lines to translate URL encoding each one
-    // the service allows multiple lines to be translated... each is submitted
-    //  on it's own 'text=' argument, so append them together
-    for (var y = 0; y < (lines.length - 1) ; y++) {
-      query += encodeURI(lines[y].replace(/ /g, "+")) + "&text=";
-    }
-    query += lines[lines.length - 1].replace(/ /g, "+");
 
-    return query;
-  }
-  ````
+    function translate(sourcelang, targetlang, callback) {
+      Office.context.mailbox.item.getSelectedDataAsync('text', function (ar) {
+        // Make sure there is a selection
+        if (ar === undefined || ar === null ||
+            ar.value === undefined || ar.value === null ||
+            ar.value.data === undefined || ar.value.data === null) {
+          // Display an error message
+          callback('No text selected! Please select text to translate and try again.');
+          return;
+        }
 
-1. Add a new function to the file to translate the selected text:
+        try {
+          // Generate the API call URL
+          var requestUrl = generateRequestUrl(sourcelang, targetlang, ar.value.data);
 
-  ````javascript
-  /**
-   * Translate the selected text.
-   */
-  function translateText() {
-    // get the selected content from the email as plain text
-    Office.context.mailbox.item.getSelectedDataAsync(Office.CoercionType.Text, {}, function (selectedData) {
-      // extract the actual content from the selection & build the query
-      var translateQuery = getTranslationQuery(selectedData.value.data);
+          $.ajax({
+            url: requestUrl,
+            jsonp: 'callback',
+            dataType: 'jsonp',
+            success: function (response) {
+              var translatedText = response.text;
+              var textToWrite = '';
 
-      // create the HTTP translation request, appending the query to the end
-      var translationServiceEndpoint = yandexEndpoint + translateQuery;
-    });
-  }
-  ````
+              // The response is an array of one or more translated lines.
+              // Append them together with <br/> tags.
+              for (var i = 0; i < translatedText.length; i++)
+                textToWrite += translatedText[i] + '<br/>';
 
-    This will extract the selected text from the compose form and create a fully qualified request to the **Yandex** service.
-
-1. Add the following code immediately after endpoint variable you just created. This will do the following:
-  - issue an AJAX request to the Yandex service
-  - take the response and concatenate the translated lines to a single line separated with HTML `<br>` tags
-  - use the Office.js API to replace the selected text in the compose email with the translated text (from English to Spanish)
-
-  ````javascript
-  // issue the translation request
-  $.ajax({
-    url: translationServiceEndpoint,
-    jsonp: 'callback',
-    dataType: 'jsonp',
-    success: function (response) {
-      var translatedText = response.text;
-      var escapedText = '';
-
-      // upon a successful response, join the lines together 
-      //  but separate each with <BR>
-      for (var i = 0; i < translatedText.length; i++) {
-        escapedText += translatedText[i] + "<br /><br />";
-      }
-
-      // write the escaped text back to the selected text in the email as HTML
-      Office.context.mailbox.item.setSelectedDataAsync(escapedText, { coercionType: Office.CoercionType.Html }, function(result) {
-        console.log(result);
+              // Replace the selected text with the translated version
+              Office.context.mailbox.item.setSelectedDataAsync(textToWrite, { coercionType: 'html' }, function (asyncResult) {
+                // Signal that we are done.
+                callback();
+              });
+            }
+          });
+        }
+        catch (err) {
+          // Signal that we are done.
+          callback(err.message);
+        }
       });
     }
-  });
-  ````
+    ```
+    
+  2. Replace the `PASTE YOUR YANDEX API KEY HERE` text with the Yandex API key you obtained earlier.
 
-### Update the Add-in Manifest
-The functions used in this Add-in, `getSelectedDataAsync()` & `setSelectedDataAsync()`, are not included in the original **Office.js** library Add-ins are configured to use. 
+4. Add a UI-less function for the **English to Spanish** button.
+  1. Open the **TranslateWeb/Functions/FunctionFile.html** file and add a `<script>` tag for the `translate.js` file you just created. Be sure to add this **before** the tag for `FunctionFile.js`.
 
-1. Double-click the **FirstMailAddinManifest** element in the **FirstMailAddin** to open the Add-in's manifest designer.
-1. On the **General** tab, change the **Mailbox Requirement Set** to **1.2** from it's current value.
+    ```html
+    <script src="../Scripts/translate.js" type="text/javascript"></script>
+    <script src="FunctionFile.js" type="text/javascript"></script>
+    ```
 
-  > The two functions `setSelectedDataAsync()` & `getSelectedDataAsync()` were introduced in **Office.js** version 1.2.
+  2. Open the **TranslateWeb/Functions/FunctionFile.js** file and add the following function.
 
-  ![Screenshot of the previous step](Images/ManifestOfficeJs12.png)
+    ```javascript
+    function translateToLatin(event) {
+      translate('', 'la', function (error) {
+        if (error) {
+          Office.context.mailbox.item.notificationMessages.addAsync('translateError', {
+            type: 'errorMessage',
+            message: error
+          });
+        }
+        else {
+          Office.context.mailbox.item.notificationMessages.addAsync('success', {
+            type: 'informationalMessage',
+            icon: 'icon-16',
+            message: 'Translated successfully',
+            persistent: false
+          });
+        }
+      });
 
-### Test the Compose Form
-1. Press **F5** to build and launch the browser (or Outlook client) to test the compose form.
-1. Using the same process as the last exercise, create a new email and add some text to the body of the email. 
-1. Open the Add-in using the same techniques demonstrated in the last exercise depending on which Outlook client you are testing the Add-in in.
-1. Select the text you added to the email and click the **Translate English to Spanish** button. You should notice that the text you have selected in the email has been replaced with the Spanish translation.
+      event.completed();
+    }
+    ```
+5. Add a task pane for the **More Options** button.
+  1. Right-click the **TranslatorWeb** project and select **Add**, then **HTML Page**. Name the page `TranslatePane` and click **OK**. Replace the contents of that file with the following.
+  
+    ```html
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <title></title>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js" type="text/javascript"></script>
+        
+        <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+        
+        <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
+        <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
+        <link href="TranslatePane.css" rel="stylesheet" type="text/css" />
+      
+        <script src="Scripts/FabricUI/JQuery.Dropdown.js" type="text/javascript"></script>
+         
+        <script src="Scripts/translate.js" type="text/javascript"></script>
+        <script src="TranslatePane.js" type="text/javascript"></script>
+      </head>
+      <body>
+        <div id="content-header">
+          <div class="padding">
+            <h1 class="ms-font-xl ms-fontWeight-light ms-fontColor-white">Translate Text</h1>
+          </div>
+        </div>
+        <div id="content-main">
+          <div id="pending" class="ms-Overlay ms-Overlay--dark" style="text-align:center">
+            <div class="ms-font-xxl" id="pending-message"></div>
+          </div>
+          <div id="translate-form" class="ms-Grid">
+            <div class="ms-Grid-row">
+              <div class="ms-Grid-col ms-u-sm12">
+                <h2 class="ms-font-l ms-fontWeight-light">Select the text to translate in the body, choose starting and ending languages, then click <strong>Translate</strong>.</h2>
+              </div>
+            </div>
+            <div class="ms-Grid-row">
+              <div class="ms-Grid-col ms-u-sm12">
+                <div class="ms-Dropdown" id="start-lang">
+                  <label class="ms-Label">Starting language</label>
+                  <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--caretDown"></i>
+                  <select class="ms-Dropdown-select">
+                    <option>Choose a language...</option>
+                    <option id="start-Auto-detect" value="auto-detect">Auto-detect</option>
+                    <option id="start-Afrikaans" value="af">Afrikaans</option>
+                    <option id="start-Albanian" value="sq">Albanian</option>
+                    <option id="start-Arabic" value="ar">Arabic</option>
+                    <option id="start-Armenian" value="hy">Armenian</option>
+                    <option id="start-Azerbaijan" value="az">Azerbaijan</option>
+                    <option id="start-Basque" value="eu">Basque</option>
+                    <option id="start-Belarusian" value="be">Belarusian</option>
+                    <option id="start-Bosnian" value="bs">Bosnian</option>
+                    <option id="start-Bulgarian" value="bg">Bulgarian</option>
+                    <option id="start-Catalan" value="ca">Catalan</option>
+                    <option id="start-Chinese" value="zh">Chinese</option>
+                    <option id="start-Croatian" value="hr">Croatian</option>
+                    <option id="start-Czech" value="cs">Czech</option>
+                    <option id="start-Danish" value="da">Danish</option>
+                    <option id="start-Dutch" value="nl">Dutch</option>
+                    <option id="start-English" value="en">English</option>
+                    <option id="start-Estonian" value="et">Estonian</option>
+                    <option id="start-Finish" value="fi">Finish</option>
+                    <option id="start-French" value="fr">French</option>
+                    <option id="start-Galician" value="gl">Galician</option>
+                    <option id="start-Georgian" value="ka">Georgian</option>
+                    <option id="start-German" value="de">German</option>
+                    <option id="start-Greek" value="el">Greek</option>
+                    <option id="start-Haitian" value="ht">Haitian</option>
+                    <option id="start-Hungarian" value="hu">Hungarian</option>
+                    <option id="start-Icelandic" value="is">Icelandic</option>
+                    <option id="start-Indonesian" value="id">Indonesian</option>
+                    <option id="start-Irish" value="ga">Irish</option>
+                    <option id="start-Italian" value="it">Italian</option>
+                    <option id="start-Japanese" value="ja">Japanese</option>
+                    <option id="start-Kazakh" value="kk">Kazakh</option>
+                    <option id="start-Korean" value="ko">Korean</option>
+                    <option id="start-Kyrgyz" value="ky">Kyrgyz</option>
+                    <option id="start-Latin" value="la">Latin</option>
+                    <option id="start-Latvian" value="lv">Latvian</option>
+                    <option id="start-Lithuanian" value="lt">Lithuanian</option>
+                    <option id="start-Macedonian" value="mk">Macedonian</option>
+                    <option id="start-Malagasy" value="mg">Malagasy</option>
+                    <option id="start-Malay" value="ms">Malay</option>
+                    <option id="start-Maltese" value="mt">Maltese</option>
+                    <option id="start-Mongolian" value="mn">Mongolian</option>
+                    <option id="start-Norwegian" value="no">Norwegian</option>
+                    <option id="start-Persian" value="fa">Persian</option>
+                    <option id="start-Polish" value="pl">Polish</option>
+                    <option id="start-Portuguese" value="pt">Portuguese</option>
+                    <option id="start-Romanian" value="ro">Romanian</option>
+                    <option id="start-Russian" value="ru">Russian</option>
+                    <option id="start-Serbian" value="sr">Serbian</option>
+                    <option id="start-Slovakian" value="sk">Slovakian</option>
+                    <option id="start-Slovenian" value="sl">Slovenian</option>
+                    <option id="start-Spanish" value="es">Spanish</option>
+                    <option id="start-Swahili" value="sw">Swahili</option>
+                    <option id="start-Swedish" value="sv">Swedish</option>
+                    <option id="start-Tagalog" value="tl">Tagalog</option>
+                    <option id="start-Tajik" value="tg">Tajik</option>
+                    <option id="start-Tatar" value="tt">Tatar</option>
+                    <option id="start-Thai" value="th">Thai</option>
+                    <option id="start-Turkish" value="tr">Turkish</option>
+                    <option id="start-Ukrainian" value="uk">Ukrainian</option>
+                    <option id="start-Uzbek" value="uz">Uzbek</option>
+                    <option id="start-Vietnamese" value="vi">Vietnamese</option>
+                    <option id="start-Welsh" value="cy">Welsh</option>
+                    <option id="start-Yiddish" value="he">Yiddish</option>
+                  </select>
+                </div>
+              </div>
+              <div class="ms-Grid-col ms-u-sm12">
+                <div class="ms-Dropdown" id="end-lang">
+                  <label class="ms-Label">Ending language</label>
+                  <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--caretDown"></i>
+                  <select class="ms-Dropdown-select">
+                    <option>Choose a language...</option>
+                    <option id="end-Afrikaans" value="af">Afrikaans</option>
+                    <option id="end-Albanian" value="sq">Albanian</option>
+                    <option id="end-Arabic" value="ar">Arabic</option>
+                    <option id="end-Armenian" value="hy">Armenian</option>
+                    <option id="end-Azerbaijan" value="az">Azerbaijan</option>
+                    <option id="end-Basque" value="eu">Basque</option>
+                    <option id="end-Belarusian" value="be">Belarusian</option>
+                    <option id="end-Bosnian" value="bs">Bosnian</option>
+                    <option id="end-Bulgarian" value="bg">Bulgarian</option>
+                    <option id="end-Catalan" value="ca">Catalan</option>
+                    <option id="end-Chinese" value="zh">Chinese</option>
+                    <option id="end-Croatian" value="hr">Croatian</option>
+                    <option id="end-Czech" value="cs">Czech</option>
+                    <option id="end-Danish" value="da">Danish</option>
+                    <option id="end-Dutch" value="nl">Dutch</option>
+                    <option id="end-English" value="en">English</option>
+                    <option id="end-Estonian" value="et">Estonian</option>
+                    <option id="end-Finish" value="fi">Finish</option>
+                    <option id="end-French" value="fr">French</option>
+                    <option id="end-Galician" value="gl">Galician</option>
+                    <option id="end-Georgian" value="ka">Georgian</option>
+                    <option id="end-German" value="de">German</option>
+                    <option id="end-Greek" value="el">Greek</option>
+                    <option id="end-Haitian" value="ht">Haitian</option>
+                    <option id="end-Hungarian" value="hu">Hungarian</option>
+                    <option id="end-Icelandic" value="is">Icelandic</option>
+                    <option id="end-Indonesian" value="id">Indonesian</option>
+                    <option id="end-Irish" value="ga">Irish</option>
+                    <option id="end-Italian" value="it">Italian</option>
+                    <option id="end-Japanese" value="ja">Japanese</option>
+                    <option id="end-Kazakh" value="kk">Kazakh</option>
+                    <option id="end-Korean" value="ko">Korean</option>
+                    <option id="end-Kyrgyz" value="ky">Kyrgyz</option>
+                    <option id="end-Latin" value="la">Latin</option>
+                    <option id="end-Latvian" value="lv">Latvian</option>
+                    <option id="end-Lithuanian" value="lt">Lithuanian</option>
+                    <option id="end-Macedonian" value="mk">Macedonian</option>
+                    <option id="end-Malagasy" value="mg">Malagasy</option>
+                    <option id="end-Malay" value="ms">Malay</option>
+                    <option id="end-Maltese" value="mt">Maltese</option>
+                    <option id="end-Mongolian" value="mn">Mongolian</option>
+                    <option id="end-Norwegian" value="no">Norwegian</option>
+                    <option id="end-Persian" value="fa">Persian</option>
+                    <option id="end-Polish" value="pl">Polish</option>
+                    <option id="end-Portuguese" value="pt">Portuguese</option>
+                    <option id="end-Romanian" value="ro">Romanian</option>
+                    <option id="end-Russian" value="ru">Russian</option>
+                    <option id="end-Serbian" value="sr">Serbian</option>
+                    <option id="end-Slovakian" value="sk">Slovakian</option>
+                    <option id="end-Slovenian" value="sl">Slovenian</option>
+                    <option id="end-Spanish" value="es">Spanish</option>
+                    <option id="end-Swahili" value="sw">Swahili</option>
+                    <option id="end-Swedish" value="sv">Swedish</option>
+                    <option id="end-Tagalog" value="tl">Tagalog</option>
+                    <option id="end-Tajik" value="tg">Tajik</option>
+                    <option id="end-Tatar" value="tt">Tatar</option>
+                    <option id="end-Thai" value="th">Thai</option>
+                    <option id="end-Turkish" value="tr">Turkish</option>
+                    <option id="end-Ukrainian" value="uk">Ukrainian</option>
+                    <option id="end-Uzbek" value="uz">Uzbek</option>
+                    <option id="end-Vietnamese" value="vi">Vietnamese</option>
+                    <option id="end-Welsh" value="cy">Welsh</option>
+                    <option id="end-Yiddish" value="he">Yiddish</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="ms-Grid-row">
+              <div class="ms-Grid-col ms-u-sm12">
+                <button id="translateText" class="ms-Button">
+                  <span class="ms-Button-label">Translate</span>
+                  <span class="ms-Button-description">Sends the selected text to Yandex for translation</span>
+                </button>
+              </div>
+            </div>
+            <div class="ms-Grid-row">
+              <div class="ms-Grid-col ms-u-sm12">
+                <div id="error-box" class="ms-bgColor-error">
+                  <div id="error-msg" class="ms-font-l ms-fontColor-error"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+    ```
+  
+  2. Right-click the **TranslatorWeb** project and select **Add**, then **JavaScript file**. Name the file `TranslatePane` and click **OK**. Replace the contents of that file with the following.
+  
+    ```javascript
+    (function () {
+      'use strict';
+      // The initialize function must be run each time a new page is loaded
+      Office.initialize = function (reason) {
+        $(document).ready(function () {
+          $('#error-box').hide();
+          $('#pending').hide();
+          $('.ms-Dropdown').Dropdown();
+          $('#translateText').click(doTranslate);
+        });
+      };
 
-Congratulations! You have created an Outlook Add-in for a Mail Compose Form.
+      function doTranslate() {
+        $('#error-box').hide('fast');
+        var startlang = $('#start-lang').children('.ms-Dropdown-title').text();
+        var endlang = $('#end-lang').children('.ms-Dropdown-title').text();
 
+        var startlangcode = $('#start-lang').find('#start-' + startlang.replace(/\s|\./g, ''));
+        var endlangcode = $('#end-lang').find('#end-' + endlang.replace(/\s|\./g, ''));
 
+        if (startlangcode.length > 0 && endlangcode.length > 0) {
+          var startlangcodeval = startlangcode.val() === 'auto-detect' ? '' : startlangcode.val();
 
+          if (startlangcodeval === '') {
+            $('#pending-message').html('Working on your ' + endlang + ' translation request');
+          }
+          else {
+            $('#pending-message').html('Working on your ' + startlang +
+              ' to ' + endlang + ' translation request');
+          }
+          $('#translate-form').hide('fast');
+          $('#pending').show('fast');
+          
+          translate(startlangcodeval, endlangcode.val(), function (error) {
+            $('#pending').hide('fast');
+            $('#translate-form').show('fast');
+            if (error) {
+              $('#error-msg').html('ERROR: ' + error);
+              $('#error-box').show('fast');
+            }
+          });
+        }
+        else {
+          $('#error-msg').html('Select languages!');
+          $('#error-box').show('fast');
+        }
+      }
+    })();
+    ```
+    
+  3. Right-click the **TranslatorWeb** project and select **Add**, then **Style Sheet**. Name the file `TranslatePane` and click **OK**. Replace the contents of that file with the following.
+  
+    ```css
+    #content-header {
+      background: #2a8dd4;
+      color: #fff;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px; /* Fixed header height */
+      overflow: hidden; /* Disable scrollbars for header */
+    }
+
+    #content-main {
+      background: #fff;
+      position: fixed;
+      top: 80px; /* Same value as #content-header's height */
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: auto; /* Enable scrollbars within main content section */
+    }
+
+    #translateText {
+      width: 100px;
+    }
+
+    #error-box {
+      margin: 20px 0;
+      padding: 5px;
+    }
+
+    .padding {
+      padding: 15px;
+    }
+    ```
+    
+6. Add the Fabric UI Dropdown plugin
+  1. Copy the Jquery.Dropdown.js file at ** [\\O3652\O3652-1 Deep Dive in Office Outlook Add-ins\Lab Files](Lab Files)** folder to the **TranslatorWeb/Scripts/FabricUI** folder in the project.
+  2. Right-click the **TranslatorWeb/Scripts/FabricUI**, choose **Add**, then **Existing item**. Browse to the **Jquery.Dropdown.js** file in the **FabricUI** folder and click **Add**.
+    
+7. Run the add-in
+  1. Press **F5** to begin debugging.
+  2. Open Outlook 2016 and login to the user's mailbox. Compose a new message.
+  3. Enter some text in the body, then select it.
+      
+	  ![Screenshot of the previous step](Images/latin-before.png)
+      
+  4. Click the **Translate to Latin** button and verify that the text is translated.
+    
+      ![Screenshot of the previous step](Images/latin-after.png)
+      
+  5. Click the **More Options** button to open the translation pane. Try different combinations.
+    
+      ![Screenshot of the previous step](Images/translate-pane.png)
+      
+  Congratulations! In this exercise you have created an Outlook add-in that adds buttons to the Outlook ribbon and modifies the body of messages in the compose window.
