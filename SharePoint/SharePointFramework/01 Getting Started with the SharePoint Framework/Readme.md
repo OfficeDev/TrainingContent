@@ -9,10 +9,11 @@ Introduction to the SharePoint Framework (SPFx). We cover the SharePoint Framewo
 
 ## Agenda ##
 - Introducing SharePoint Framework
-- Setup Development Environment
-- SharePoint Framework Client-side Components
-- Setup Office 365 Tenant
 - SharePoint Framework Tools and Libraries
+- SharePoint Framework Client-side Components
+- Setup Development Environment
+- Setup Office 365 Tenant
+
 
 ## Key recommendations ##
 - Full support for client-side SharePoint development.
@@ -60,6 +61,7 @@ The completed lab exercises are the demos for this module.
 | Version | Date          		| Comments                     |
 | ------- | ------------------- | ---------------------------- |
 | 1.0     | February 15, 2017 	| Initial release for SPFx RC0 |
+| 2.0     | May 19, 2017 	| Updates for GA Release SPFx |
 
 ## Disclaimer ##
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
