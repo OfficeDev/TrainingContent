@@ -9,8 +9,8 @@ Walking through deploying your client-side web parts to a classic SharePoint pag
 
 ## Agenda ##
 - Deploy assets for production usage
-- Deploying to SharePoint CDN
 - Deploying to Azure Storage CDN
+- Deploying to SharePoint CDN
 - Updating web parts
 
 ## Key recommendations ##
@@ -47,6 +47,7 @@ In this lab, you will walk through deploying your client-side web part to a clas
 | Version | Date          		| Comments                     |
 | ------- | ------------------- | ---------------------------- |
 | 1.0     | February 15, 2017 	| Initial release for SPFx RC0 |
+| 2.0     | May 19, 2017 	| Updates for GA Release SPFx |
 
 ## Disclaimer ##
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
