@@ -8,9 +8,9 @@ Implementing CRUD operations on SharePoint data in client side web parts with An
 - Module 7: Working with different JavaScript frameworks and libraries - Coming
 
 ## Agenda ##
-- Angular 1.x
-- Knockout
 - Different options to load JavaScript libraries
+- Angular 1.x
+- Knock-out
 
 ## Key recommendations ##
 - Client side web parts are framework agnostic. You can use any client side framework that you like: Angular, Knockout, React, Handlebars, and more.
@@ -56,6 +56,7 @@ The completed lab exercises are the demos for this module.
 | Version | Date          		| Comments                     |
 | ------- | ------------------- | ---------------------------- |
 | 1.0     | February 15, 2017 	| Initial release for SPFx RC0 |
+| 2.0     | May 19, 2017 	| Updates for GA Release SPFx |
 
 ## Disclaimer ##
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
