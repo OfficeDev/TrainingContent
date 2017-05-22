@@ -4,13 +4,12 @@
 
 Implementing CRUD operations on SharePoint data in client side web parts with Angular and Knockout frameworks, using multiple JavaScript libraries in client side web parts to read and render  SharePoint data. 
 
-## Video ##
-[Module 7: Working with different JavaScript frameworks and libraries](#)
+### Topics and Videos ###
+You can see videos around this module:
 
-## Agenda ##
-- Angular 1.x
-- Knockout
-- Different options to load JavaScript libraries
+- [Different options to load JavaScript libraries](https://aka.ms/spfxtm7s1)
+- [Angular 1.x](https://aka.ms/spfxtm7s2)
+- [Knockout](https://aka.ms/spfxtm7s3)
 
 ## Key recommendations ##
 - Client side web parts are framework agnostic. You can use any client side framework that you like: Angular, Knockout, React, Handlebars, and more.

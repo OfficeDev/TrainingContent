@@ -4,14 +4,14 @@
 
 This GitHub repository folder houses all of the content for the "Getting started with SharePoint Framework" training.
 
-- Module 1: [Getting Started with the SharePoint Framework](01 Getting Started with the SharePoint Framework)
-- Module 2: [Deep Dive of the SharePoint Framework](02 Deep Dive of the SharePoint Framework)
-- Module 3: [Working with SharePoint Content](03 Working with SharePoint Content)
-- Module 4: [Deploying SharePoint Framework components to production](04 Deploying SharePoint Framework components to production)
-- Module 5: [Working with the web part property pane)](05 Working with the web part property pane)
-- Module 6: [Using React and Office UI Fabric React components](06 Using React and Office UI Fabric React components)
-- Module 7: [Working with different JavaScript frameworks and libraries](07 Working with different JavaScript frameworks and libraries)
-- Module 8: [Get started with SharePoint webhooks](08 Get started with SharePoint webhooks)
+
+- Module 1: [Getting Started with the SharePoint Framework](./01%20Getting%20Started%20with%20the%20SharePoint%20Framework/)
+- Module 2: [Deep Dive of the SharePoint Framework](./02%20Deep%20Dive%20of%20the%20SharePoint%20Framework/)
+- Module 3: [Working with SharePoint Content](./03%20Working%20with%20SharePoint%20Content/)
+- Module 4: [Deploying SharePoint Framework components to production](./04%20Deploying%20SharePoint%20Framework%20components%20to%20production/)
+- Module 5: [Working with the web part property pane)](./05%20Working%20with%20the%20web%20part%20property%20pane/)
+- Module 6: [Using React and Office UI Fabric React components](./06%20Using%20React%20and%20Office%20UI%20Fabric%20React%20components/)
+- Module 7: [Working with different JavaScript frameworks and libraries](./07%20Working%20with%20different%20JavaScript%20frameworks%20and%20libraries/)
 
 ----------
 

@@ -4,12 +4,11 @@
 
 Introduction to the web part property pane and building custom fields for it.
 
-## Video ##
-[Module 5: Working with the web part property pane](#)
+### Topics and Videos ###
+You can see videos around this module:
 
-## Agenda ##
-- Working with the web part property pane
-- Building custom property pane fields
+- [Working with the web part property pane](https://aka.ms/spfxtm5s1)
+- [Building custom property pane fields](https://aka.ms/spfxtm5s2)
 
 ## Key recommendations ##
 - The property pane is organized by three key elements: Pages, Header, Groups.

@@ -4,15 +4,14 @@
 
 Introduction to the SharePoint Framework (SPFx). We cover the SharePoint Framework overview, setting up a development environment, building hello world web parts and running them in the SharePoint workbench.
 
-## Video ##
-[Module 1: Getting Started with the SharePoint Framework (SPFx)](#)
+### Topics and Videos ###
+You can see videos around this module:
 
-## Agenda ##
-- Introducing SharePoint Framework
-- Setup Development Environment
-- SharePoint Framework Client-side Components
-- Setup Office 365 Tenant
-- SharePoint Framework Tools and Libraries
+- [Getting Started with the SharePoint Framework](https://aka.ms/spfxtm1s1)
+- [SharePoint Framework Tools](https://aka.ms/spfxtm1s2)
+- [SharePoint Client-side Components](https://aka.ms/spfxtm1s3)
+- [Setup your Development Environment](https://aka.ms/spfxtm1s4)
+- [Setup your Office 365 Tenant](https://aka.ms/spfxtm1s5)
 
 ## Key recommendations ##
 - Full support for client-side SharePoint development.

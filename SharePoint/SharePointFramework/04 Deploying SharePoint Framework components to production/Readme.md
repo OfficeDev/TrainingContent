@@ -4,14 +4,13 @@
 
 Walking through deploying your client-side web parts to a classic SharePoint page, with the web part assets deployed to localhost, an Office 365 Public CDN, and an Azure Storage CDN
 
-## Video ##
-[Module 4: Deploying SharePoint Framework components to production](#)
+### Topics and Videos ###
+You can see videos around this module:
 
-## Agenda ##
-- Deploy assets for production usage
-- Deploying to SharePoint CDN
-- Deploying to Azure Storage CDN
-- Updating web parts
+- [Deploy assets for production usage](https://aka.ms/spfxtm4s1)
+- [Deploying to SharePoint CDN](https://aka.ms/spfxtm4s2)
+- [Deploying to Azure Storage CDN](https://aka.ms/spfxtm4s3)
+- [Updating web parts](https://aka.ms/spfxtm4s4)
 
 ## Key recommendations ##
 - Use SharePoint Online Management Shell to enable the SharePoint CDN.

@@ -4,13 +4,12 @@
 
 Connecting your web parts to SharePoint to access functionality and data in SharePoint, providing a more integrated experience for end users.
 
-## Video ##
-[Module 3: Working with SharePoint Content](#)
+### Topics and Videos ###
+You can see videos around this module:
 
-## Agenda ##
-- Using mocks to simulate SharePoint data
-- Using HttpClient to talk to SharePoint
-- Basic CRUD with no framework
+- [Using mocks to simulate SharePoint data](https://aka.ms/spfxtm3s1)
+- [Using HttpClient to talk to SharePoint](https://aka.ms/spfxtm3s2)
+- [Basic CRUD with no framework](https://aka.ms/spfxtm3s3)
 
 ## Key recommendations ##
 - Use HttpClient to invoke the SharePoint REST API.
