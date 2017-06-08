@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Groups</h3>
+<div class="form-group">
+    @using (Html.BeginForm("AboutMe", "Group", FormMethod.Get))
+    {
+        <input type="submit" class="btn form-control btn-default" value="About Me" />
+    }
+</div>
+<div class="form-group">
+    @using (Html.BeginForm("MyOrganizationGroups", "Group", FormMethod.Get))
+    {
+        <input type="submit" class="btn form-control btn-default" value="My Organization Groups" />
+    }
+</div>
+<div class="form-group">
+    @using (Html.BeginForm("JoinedGroups", "Group", FormMethod.Get))
+    {
+        <input type="submit" class="btn form-control btn-default" value="Joined Groups" />
+    }
+</div>
+<div class="form-group form-horizonta">
+    @using (Html.BeginForm("SearchGroup", "Group", FormMethod.Get))
+    {
+        <input type="submit" class="btn  btn-default form-control  form-inline col-md-2" value="Search For A Specific Group" />
+        <input type="text" placeholder="Please type group name for search" class="text form-control  form-inline col-md-10" style="margin-left:10px" name="groupName" />
+    }
+</div>
+<br>
+
+

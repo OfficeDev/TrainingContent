@@ -1,0 +1,27 @@
+﻿@model List<Office365Group.Models.ThreadModel>
+@{ ViewBag.Title = "Group Threads";}
+
+<h2>Groups Threads</h2>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Topic</th>
+        <th>Last Delivered Date Time</th>
+        <th>Preview</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.topic)</td>
+            <td>@Html.DisplayFor(modelItem => item.lastDeliveredDateTime)</td>
+            <td>@Html.DisplayFor(modelItem => item.preview)</td>
+            <td>@Html.ActionLink("Posts", "GroupThreadPosts", new { threadId = item.Id, groupId = ViewData["GroudId"] })</td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Back to Group Home", "Index")
+</p>
+
