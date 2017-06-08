@@ -1,4 +1,4 @@
-Calling the OneDrive for Business API with Android
+Calling the Microsoft Graph API for OneDrive for Business
 ==============================================
 
 ## Overview
@@ -14,8 +14,8 @@ OneDrive for Business is a feature of Office 365. It exposes a RESTful HTTP API 
 -   [Git version control tool][git-scm]
 -   [Android Studio][android-studio]
 -   Android API Level 23 installed [using the Android SDK Manager][sdk-manager]
--   Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\01 Azure AD Auth Prerequisites](../01%20Azure%20AD%20Auth%20Prerequisites) module.
--   Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\02 Active Directory Authentication Library](../02%20Active%20Directory%20Authentication%20Library) module.
+-   Complete the [\\\O3654\O3654-4 Android\01 AAD Prereqs](../01 AAD Prereqs) module.
+-   Complete the [\\\O3654\O3654-4 Android\02 ADAL](../02 ADAL) module.
 
 [git-scm]: http://git-scm.com
 [android-studio]: http://developer.android.com/sdk/installing/studio.html
@@ -40,7 +40,7 @@ In this exercise we will add the Microsoft Graph SDK for Android to the included
 In this task we'll get the test application up and running.
 
 01. Make a copy of the Android lab test app template, found in the 
-    [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\04 O365 OneDrive SDK\O365TemplateApp\src](O365TemplateApp/src) directory.
+    [O365TemplateApp\src](O365TemplateApp/src) directory.
 
     Name this copy "OneDriveApp". E.g. in PowerShell
 
@@ -353,7 +353,7 @@ In this exercise we will take a look at enumerating Files and Folders.
 
     Try clicking on a "(Folder)" in the list - the code will then enumerate the contents of that Folder.
 
-In this task we will call the Graph APIs to enumerate the User's Files and Folders. There is a lot of boilerplate code here, so let's take a look at the interesting parts:
+In this task we will call the Microsoft Graph APIs to enumerate the User's Files and Folders. There is a lot of boilerplate code here, so let's take a look at the interesting parts:
 
 First we have to note that the function `startRetrieveFiles()` has two functions:
 
@@ -876,7 +876,7 @@ The code creates a simple `Folder` model, and then adds it to the `root` folder.
 
     ![Screenshot of the previous step](img/0060_create_new_file.png)
 
-These functions prompt the user for a File name, and then create a folder through the OneDrive API. Finally, they upload some UTF-8 encoded data.
+These functions prompt the user for a File name, and then create a folder through the API for OneDrive. Finally, they upload some UTF-8 encoded data.
 
 ```java
 //Create a new file entity

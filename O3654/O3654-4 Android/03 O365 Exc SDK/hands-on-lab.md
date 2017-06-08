@@ -1,4 +1,4 @@
-Calling the Exchange API with Android
+Calling the Microsoft Graph API for Exchange with Android
 =====================================
 
 ## Overview
@@ -22,8 +22,8 @@ For more information on the API being consumed in this lab, see [the API documen
 -   [Git version control tool][git-scm]
 -   [Android Studio][android-studio]
 -   Android API Level 23 installed [using the Android SDK Manager][sdk-manager]
--   Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\01 Azure AD Auth Prerequisites](../01%20Azure%20AD%20Auth%20Prerequisites) module.
--   Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\02 Active Directory Authentication Library](../02%20Active%20Directory%20Authentication%20Library) module.
+-   Complete the [\\\O3654\O3654-4 Android\01 AAD Prereqs](../01 AAD Prereqs) module.
+-   Complete the [\\\O3654\O3654-4 Android\02 ADAL](../02 ADAL) module.
 
 [git-scm]: http://git-scm.com
 [android-studio]: http://developer.android.com/sdk/installing/studio.html
@@ -46,7 +46,7 @@ In this exercise we will add the Microsoft Graph SDK for Android to the included
 In this task we'll get the test application up and running.
 
 01. Make a copy of the Android lab test app template, found in the 
-    [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\03 O365 Exchange SDK\O365TemplateApp\src](O365TemplateApp/src) directory.
+    [O365TemplateApp\src](O365TemplateApp/src) directory.
 
 02. Name this copy "ExchangeApp". E.g. in PowerShell
 
@@ -621,7 +621,7 @@ graphServiceClient.getMe().
         get(<callback>);
 ```
 
-As you can see here, the pattern for querying for folders is identical to the pattern for querying for messages. This holds true for all other entities available through the API:
+As you can see here, the pattern for querying for folders is identical to the pattern for querying for messages. This holds true for all other entities available through the Microsoft Graph API:
 
 -   Calendars
 -   CalendarGroups
@@ -780,7 +780,7 @@ Finally, let's take a look at a basic [CRUD operation][crud-ops] - creating a fo
 
 [crud-ops]: http://en.wikipedia.org/wiki/Create,_read,_update_and_delete
 
-You can use the same pattern for any other creatable, updatable or deletable entity on the API. See [the documentation](https://graph.microsoft.io/en-us/docs) for more details.
+You can use the same pattern for any other creatable, updatable or deletable entity by the Microsoft Graph API. See [the documentation](https://graph.microsoft.io/en-us/docs) for more details.
 
 01. Open the MainActivity layout file found at `app/src/main/res/layout/activity_main.xml`.
 
@@ -924,7 +924,7 @@ By completing this hands-on lab you have learned:
 4. How to send new Messages
 5. How to create a new Folder
 
-As an exercise, try using Android Studio's built-in auto completion functionality to explore the `GraphServiceClient` API and implement other functionality like:
+As an exercise, try using Android Studio's built-in auto completion functionality to explore the `GraphServiceClient` object and implement other functionality like:
 
 -   Creating a message in the user's Drafts folder. *Hint - try just saving the    message, rather than sending it.*
 

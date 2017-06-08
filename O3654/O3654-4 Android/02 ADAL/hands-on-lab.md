@@ -16,7 +16,7 @@ with Office 365 using the Azure Active Directory Authentication Library (ADAL) f
 - [Git version control tool][git-scm]
 - [Android Studio][android-studio]
 - Android API Level 23 installed [using the Android SDK Manager][sdk-manager]
-- Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\01 Azure AD Auth Prerequisites](../01%20Azure%20AD%20Auth%20Prerequisites) module.
+- Complete the [\\\O3654\O3654-4 Android\01 AAD Prereqs](../01 AAD Prereqs) module.
     - You must have an Office 365 tenant linked to your Windows Azure subscription to complete this lab.
 
 [git-scm]: http://git-scm.com
@@ -290,7 +290,7 @@ Now that we've got the library, let's add some code to authenticate a user.
 
     ![Screenshot of the previous step](img/0065_success.png)
 
-The Access Token here can be attached to any request made to an O365 API in order to authenticate as this user.
+The Access Token here can be attached to any request made to a Microsoft Graph API in order to authenticate as this user.
 
 E.g. set the following header on an HTTP request:
 

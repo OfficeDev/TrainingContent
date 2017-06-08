@@ -11,7 +11,7 @@ The lab steps through the steps required to configure your Office 365 Tenant for
 - Add an Azure Active Directory Application to your Office 365 Tenant's Active Directory to allow authentication from your Android or iOS app.
 
 ## Prerequisites
-1. You must have an Office 365 tenant and Azure Subscription to complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-5%20Getting%20started%20with%20Office%20365%20APIs/Lab.md)** shows you how to obtain a trial.
+1. You must have an Office 365 tenant and Azure Subscription to complete this lab. If you do not have one, the lab for **[O3651-7 Setting up your Developer environment in Office 365](https://github.com/OfficeDev/TrainingContent/blob/master/O3651/O3651-7%20Setting%20up%20your%20Developer%20environment%20in%20Office%20365/Lab.md)** shows you how to obtain a trial.
 
 ## Tasks
 
@@ -49,7 +49,7 @@ You have successfully created an Azure Active Directory.
 
 
 Here we will create an Azure Active Directory Application in your Office 365 directory to allow your Android or iOS app to authenticate
-and interact with the Office 365 Exchange and SharePoint APIs
+and interact with the Microsoft Graph and SharePoint APIs
 
 
 01. When you're signed back in, navigate to your Office 365 directory in the Active Directory extension.

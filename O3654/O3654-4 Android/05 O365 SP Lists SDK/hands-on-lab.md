@@ -10,7 +10,7 @@ For more information on the API being consumed in this lab, see
 
 [docs-sharepoint-lists]: http://msdn.microsoft.com/en-us/library/office/dn531433(v=office.15).aspx
 
-We'll examine the use of the Lists SDK by retrofitting an existing Android application with code to call the SharePoint Lists API. The app we'll be modifying is a modified version of the Research Tracker app, which can be found at [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\05 O365 SharePoint Lists SDK\O365ResearchTrackerApp](O365ResearchTrackerApp).
+We'll examine the use of the Lists SDK by retrofitting an existing Android application with code to call the SharePoint Lists API. The app we'll be modifying is a modified version of the Research Tracker app, which can be found at [O365ResearchTrackerApp](O365ResearchTrackerApp).
 
 ## Objectives
 
@@ -23,7 +23,7 @@ We'll examine the use of the Lists SDK by retrofitting an existing Android appli
 -   [Git version control tool][git-scm]
 -   [Android Studio][android-studio]
 -   Android API Level 23 installed [using the Android SDK Manager][sdk-manager]
--   Complete the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\01 Azure AD Auth Prerequisites](../01%20Azure%20AD%20Auth%20Prerequisites) module.
+-   Complete the [\\\O3654\O3654-4 Android\01 AAD Prereqs](../01 AAD Prereqs) module.
 
 [git-scm]: http://git-scm.com
 [android-studio]: http://developer.android.com/sdk/installing/studio.html
@@ -253,7 +253,7 @@ Before we do anything we must sort out authentication with the SharePoint Lists 
     
 With these small changes in place we can start to implement actual data functions in the app.
 
-> **Note:** the `AuthManager.getAccessToken()` function will throw an unchecked exception if the user has not authenticated! Dealing with this problem is covered in the [\\\O3654\O3654-4 Native Android Development with Office 365 APIs\02 Active Directory Authentication Library](../02%20Active%20Directory%20Authentication%20Library) lab.
+> **Note:** the `AuthManager.getAccessToken()` function will throw an unchecked exception if the user has not authenticated! Dealing with this problem is covered in the [\\\O3654\O3654-4 Android\02 ADAL](../02 ADAL) lab.
 
 ### Task 2 - Retrieving Research Projects list items
 
