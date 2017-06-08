@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F953D03F-A3BA-4105-B240-673AF360AE42}</ProjectGuid>
+    <ProjectGuid>{1B6E2970-6436-4091-871C-17B950B31C84}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RestServerSide</RootNamespace>
     <AssemblyName>RestServerSide</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetOfficeVersion>16.0</TargetOfficeVersion>
+    <TargetOfficeVersion>16.1</TargetOfficeVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
-    <MinimumOfficeToolsVersion>12.1</MinimumOfficeToolsVersion>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumOfficeToolsVersion>14.6</MinimumOfficeToolsVersion>
     <IncludeAssemblyInPackage>False</IncludeAssemblyInPackage>
     <ProjectMode>SharePointApp</ProjectMode>
-    <AppFeaturePartId>{30b5f306-c3fa-4759-a674-bbec51382096}</AppFeaturePartId>
-    <WspPartId>{8fa9985e-5ce4-490d-954b-5af55f9680ee}</WspPartId>
-    <WorkflowPartId>{f2c916ce-4385-4538-aa29-7f43e8ad8f57}</WorkflowPartId>
-    <CspkgPartId>{a5a091bd-d1d1-46f3-9d2e-b2e1d2daaaf9}</CspkgPartId>
-    <SqlPackagePartId>{ef648adf-8c41-4a8c-9788-3e2e7291fad6}</SqlPackagePartId>
+    <AppFeaturePartId>{83e63dba-2cd4-4ad5-b49b-e5aa1b895405}</AppFeaturePartId>
+    <WspPartId>{d188866a-b7c8-4c4f-888e-50f9d5b4bd80}</WspPartId>
+    <WorkflowPartId>{b98eb1d3-f545-4dd3-91d7-d9d19e577e3b}</WorkflowPartId>
+    <CspkgPartId>{a36b9776-3d1d-4f52-877f-3f6caa38ef4f}</CspkgPartId>
+    <SqlPackagePartId>{316c1263-1535-45ce-a2e2-e59fbb4542f5}</SqlPackagePartId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RestServerSideWeb\RestServerSideWeb.csproj">
-      <Project>{C003AB48-11AE-46B0-9D40-2E826246F756}</Project>
+      <Project>{3209C2DA-A05A-4390-9B82-66FDF94893A7}</Project>
       <Name>RestServerSideWeb</Name>
       <Private>True</Private>
       <RoleType>Web</RoleType>
@@ -75,23 +75,23 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="CeoList\CeoListInstance\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{925f8bbc-0585-4d6b-968b-d05907591e37}</SharePointProjectItemId>
+      <SharePointProjectItemId>{2a31c5a9-c186-4162-923a-7f1fa9a50603}</SharePointProjectItemId>
     </None>
     <None Include="CeoList\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{eff9860e-5746-46c3-9122-cfdcb25a8ce1}</SharePointProjectItemId>
+      <SharePointProjectItemId>{4942109c-aa3b-4d44-b136-096659e19317}</SharePointProjectItemId>
     </None>
     <None Include="Features\Feature1\Feature1.feature">
-      <FeatureId>{71bf2f7a-bd8f-49c1-b8bb-055bd0745431}</FeatureId>
+      <FeatureId>{013e29b9-c78d-4625-b638-1670b47f6f02}</FeatureId>
     </None>
     <None Include="packages.config" />
     <None Include="Package\Package.package">
-      <PackageId>{789de393-cac7-4ced-bbf7-be1cc955c66d}</PackageId>
+      <PackageId>{a31540e7-2844-4a09-b249-85d129d13311}</PackageId>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

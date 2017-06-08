@@ -23,7 +23,7 @@
     function getAllChiefExecutives() {
       // build query, sorted in ascending order of CEO
       var endpoint = _spPageContextInfo.webAbsoluteUrl +
-        '/_api/web/lists/getbytitle(\'CeoList\')' +
+        '/_api/web/lists/getbytitle(\'CEO List\')' +
         '/items' +
         '?$select=Title,TenureStartYear,TenureEndYear' + 
         '&$orderby=TenureStartYear';
@@ -65,7 +65,7 @@
       };
       // build data object to send to service
       var firstCeoUpdateData = {
-        __metadata:{type:'SP.Data.CeoListListItem'},
+        __metadata:{type:'SP.Data.CEO_x0020_ListListItem'},
         TenureEndYear: '2014'
       };
       // add the ajax request to collection of promises to execute
@@ -87,7 +87,7 @@
 
       // build create query
       var endpoint = _spPageContextInfo.webAbsoluteUrl +
-        '/_api/web/lists/getbytitle(\'CeoList\')' +
+        '/_api/web/lists/getbytitle(\'CEO List\')' +
         '/items';
       // build request headers
       var requestHeaders = {
@@ -97,7 +97,7 @@
       };
       // build data object to send to service
       var thirdCeoUpdateData = {
-        __metadata: { type: 'SP.Data.CeoListListItem' },
+        __metadata: { type: 'SP.Data.CEO_x0020_ListListItem' },
         Title: 'Satya Nadella',
         TenureStartYear: '2014',
         TenureEndYear: 'present'

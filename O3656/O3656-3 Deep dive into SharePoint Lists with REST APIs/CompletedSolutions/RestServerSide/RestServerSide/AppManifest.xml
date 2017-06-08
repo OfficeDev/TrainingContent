@@ -2,7 +2,7 @@
 <!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
 <App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
      Name="RestServerSide"
-     ProductID="{1ea33142-a90c-4432-ba42-2edcd9e032a5}"
+     ProductID="{e2f6ac40-b6cb-4877-a489-ea94b216681e}"
      Version="1.0.0.0"
      SharePointMinVersion="16.0.0.0"
 >
