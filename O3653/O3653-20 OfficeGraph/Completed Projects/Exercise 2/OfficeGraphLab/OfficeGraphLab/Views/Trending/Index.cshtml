@@ -1,0 +1,24 @@
+﻿@model IEnumerable<OfficeGraphLab.Models.Trending>
+@{
+    ViewBag.Title = "Trending Documents";
+}
+<h2>Trending Documents</h2>
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>Document Name</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ResourceVisualization.Title</td>
+                <td><a href="@item.ResourceReference.WebUrl" target="_blank">View</a></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No trending documents for this user.</p>
+}
