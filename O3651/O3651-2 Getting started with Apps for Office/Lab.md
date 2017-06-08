@@ -1,175 +1,214 @@
 # Getting Started with Office Add-in Development
 
-In this lab you will get hands-on experience working with the new Office Add-in development model. Through the exercises in this lab you will learn how to create and test an Office Add-in that runs inside Microsoft Word.
+In this lab you will get hands-on experience working with the new Office Add-in development model. Through the exercises in this lab you will learn how to create and test a Word Web Add-in.
 
 ## Prerequisites
-1. Before you can start this lab, you must have installed Office 2013 with Service Pack 1, Visual Studio 2015 with Update 1, and Microsoft Office Developer Tools for Visual Studio 2015 ENU 14.0.23513 on your development workstation.
+Before you can start this lab, you must have installed Office (2016 recommended), Visual Studio 2017 with component Office Developer Tools for Visual Studio.
 
-## Exercise 1: Creating Your First Office Add-in Project in Visual Studio 2015
-*In this exercise you will create a new Office Add-in project in Visual Studio so that you can begin to write, test and debug your first Add-in. The user interface of the Office Add-in you will create in this lab will not be very complicated. You will use the starter user interface that Visual Studio generates automatically when you create a new Office Add-in project and make a few minor adjustments.*
+> **Note:** Visual Studio 2017 is currently in RC, only Visual Studio 2017 Professional and Enterprise have component Office Developer Tools for Visual Studio. There may be a standalone installer of Office Developer Tools for Visual Studio 2017 Community in the future.
 
-1. Launch Visual Studio 2015 as administrator.
-2. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Office Add-in** project template from the **Office/SharePoint** template folder as shown below. Name the new project **ContentGenerator** and click **OK** to create the new project.
+## Exercise 1: Creating Your First Word Web Add-in Project in Visual Studio 2017
+*In this exercise you will create a new Word Web Add-in project in Visual Studio so that you can begin to write, test and debug your first Add-in. The user interface of the Word Web Add-in you will create in this lab will not be very complicated. You will use the starter user interface that Visual Studio generates automatically when you create a new Word Web Add-in project and make a few minor adjustments.*
+
+1. Launch Visual Studio 2017.
+2. From the **File** menu select the **New Project** command. When the **New Project** dialog appears, select the **Word Web Add-in** project template from **Add-ins** group of the **Office/SharePoint** template folder as shown below. Name the new project **ContentGenerator** and click **OK** to create the new project.
 <br/>![Screenshot of Visual Studio](Images/Fig01.png)
 
-3. When you create a new Office Add-in project, Visual Studio prompts you with the **Choose the Add-in type** page of the **Create Office Add-in** dialog. This is the point where you select the type of Office Add-in you want to create. Leave the default setting with the radio button titled **Task pane** and select **Next** to continue.
+3. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **ContentGenerator** and **ContentGeneratorWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **ContentGeneratorManifest** which contains a single file named **ContentGenerator.xml**.
 <br/>![Screenshot of Visual Studio](Images/Fig02.png)
 
-4. On the **Choose the host applications** page of the **Create Office Add-in** dialog, uncheck all the Office application except for **Word** and then click **Finish** to create the new Visual Studio solution. 
+4. In the Solution Explorer, double-click on the node named **ContentGeneratorManifest** to open the Add-in manifest file. Update the **DisplayName** property from **ContentGenerator** to **Content Generator**.
 <br/>![Screenshot of Visual Studio](Images/Fig03.png)
 
-5. Take a look at the structure of the new Visual Studio solution once it has been created. At a high-level, the new solution has been created using two Visual Studio projects named **ContentGenerator** and **ContentGeneratorWeb**. You should also observe that the top project contains a top-level manifest for the Add-in named **ContentGeneratorManifest** which contains a single file named **ContentGenerator.xml**.
-<br/>![Screenshot of Visual Studio](Images/Fig04.png)
+	> **Note:** Visual Studio 2017 is currently in RC, you can only update the manifest by editing the file content since manifest designer is not available. When manifest designer is available in the future, you could update the manifest in the visual user interface.
 
-6. In the Solution Explorer, double-click on the node named **ContentGeneratorManifest** to open the Add-in manifest file in the Visual Studio designer. Update the **Display Name** settings in the Add-in manifest from **ContentGenerator** to **Content Generator**.
-<br/>![Screenshot of Visual Studio](Images/Fig05.png)
-
-7. Save and close **ContentGeneratorManifest**.
-8. Over the next few steps you will walk through the default Add-in implementation that Visual Studio generated for you when the Add-in project was created. Begin by looking at the structure of the **AddIn** folder which has two important files named **app.css** and **app.js** which contain CSS styles and JavaScript code which is to be used on an app-wide basis.
-<br/>![Screenshot of Visual Studio](Images/Fig06.png)
-
-9. You can see that inside the **AddIn** folder there is a child folder named **Home** which contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**.
+5. Save and close **ContentGenerator.xml**.
+6. Over the next few steps you will walk through the default Add-in implementation that Visual Studio generated for you when the Add-in project was created.
+7. You can see that the project contains three files named **Home.html**, **Home.css** and **Home.js**. Note that the Add-in project is currently configured to use **Home.html** as the Add-in's start page and that **Home.html** is linked to both **Home.css** and **Home.js**.
+8. Double-click on **home.js** to open it in a code editor window.
+9. Walk through the code in **Home.js** and see how it uses a self-executing function register an event handler on the **Office.initialize** method which in turn registers a document-ready event handler using jQuery. This allows the Add-in to register click event handler for the **Highlight!** button. 
  
-10. Double-click on **app.js** to open it in a code editor window. you should be able to see that the code creates a global variable named **app** based on the JavaScript *Closure* pattern. The global **app** object defines a method named **initialize** but it does not execute this method. 
+	````javascript
+	/// <reference path="/Scripts/FabricUI/MessageBanner.js" />
 
-    ````javascript    
-    var app = (function () {
-        "use strict";
 
-        var app = {};
+	(function () {
+	    "use strict";
+	
+	    var messageBanner;
+	
+	    // The initialize function must be run each time a new page is loaded.
+	    Office.initialize = function (reason) {
+	        $(document).ready(function () {
+	            // Initialize the FabricUI notification mechanism and hide it
+	            var element = document.querySelector('.ms-MessageBanner');
+	            messageBanner = new fabric.MessageBanner(element);
+	            messageBanner.hideBanner();
+	
+	            // If not using Word 2016, use fallback logic.
+	            if (!Office.context.requirements.isSetSupported('WordApi', '1.1')) {
+	                $("#template-description").text("This sample displays the selected text.");
+	                $('#button-text').text("Display!");
+	                $('#button-desc').text("Display the selected text");
+	                
+	                $('#highlight-button').click(displaySelectedText);
+	                return;
+	            }
+	
+	            $("#template-description").text("This sample highlights the longest word in the text you have selected in the document.");
+	            $('#button-text').text("Highlight!");
+	            $('#button-desc').text("Highlights the longest word.");
+	            
+	            loadSampleData();
+	
+	            // Add a click event handler for the highlight button.
+	            $('#highlight-button').click(hightlightLongestWord);
+	        });
+	    };
+	
+		...// Code ommitted for brevity
+	
+	    function hightlightLongestWord() {
+	        Word.run(function (context) {
+	            // Queue a command to get the current selection and then
+	            // create a proxy range object with the results.
+	            var range = context.document.getSelection();
+	            
+	            // This variable will keep the search results for the longest word.
+	            var searchResults;
+	            
+	            // Queue a command to load the range selection result.
+	            context.load(range, 'text');
+	
+	            // Synchronize the document state by executing the queued commands
+	            // and return a promise to indicate task completion.
+	            return context.sync()
+	                .then(function () {
+	                    // Get the longest word from the selection.
+	                    var words = range.text.split(/\s+/);
+	                    var longestWord = words.reduce(function (word1, word2) { return word1.length > word2.length ? word1 : word2; });
+	
+	                    // Queue a search command.
+	                    searchResults = range.search(longestWord, { matchCase: true, matchWholeWord: true });
+	
+	                    // Queue a commmand to load the font property of the results.
+	                    context.load(searchResults, 'font');
+	                })
+	                .then(context.sync)
+	                .then(function () {
+	                    // Queue a command to highlight the search results.
+	                    searchResults.items[0].font.highlightColor = '#FFFF00'; // Yellow
+	                    searchResults.items[0].font.bold = true;
+	                })
+	                .then(context.sync);
+	        })
+	        .catch(errorHandler);
+	    }
+	
+		...// Code ommitted for brevity
 
-        // Common initialization function (to be called from each page)
-        app.initialize = function () {
-        $('body').append(
-            '<div id="notification-message">' +
-            '<div class="padding">' +
-            '<div id="notification-message-close"></div>' +
-            '<div id="notification-message-header"></div>' +
-            '<div id="notification-message-body"></div>' +
-            '</div>' +
-            '</div>');
+	})();
+	````
 
-            $('#notification-message-close').click(function () {
-            $('#notification-message').hide();
-            });
-
-            // After initialization, expose a common notification function
-            app.showNotification = function (header, text) {
-            $('#notification-message-header').text(header);
-            $('#notification-message-body').text(text);
-            $('#notification-message').slideDown('fast');
-            };
-        };
-
-            return app;
-    })();
-    ````
-    
-11. Close **app.js** and be sure not to save any changes.
-12. Next you will examine the JavaScript code in **home.js**. Double-click on **home.js** to open it in a code editor window. Note that **Home.html** links to **app.js** before it links to **home.js** which means that JavaScript code written in **Home.js** can access the global **app** object created in **app.js**.
-13. Walk through the code in **Home.js** and see how it uses a self-executing function register an event handler on the **Office.initialize** method which in turn registers a document-read event handler using jQuery. This allows the Add-in to call **app.initialize** and to register an event handler using the **getDataFromSelection** function. 
+	> **Note:** the **Office.initialize** implements a fallback logic for word versions other than 2016.
  
- 	````javascript
-    (function () {
-        "use strict";
-
-        // The initialize function must be run each time a new page is loaded
-        Office.initialize = function (reason) {
-        $(document).ready(function () {
-            app.initialize();
-            $('#get-data-from-selection').click(getDataFromSelection);
-        });
-        };
-
-        // Reads data from current document selection and displays a notification
-        function getDataFromSelection() {
-        Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
-            function (result) {
-            if (result.status === Office.AsyncResultStatus.Succeeded) {
-                app.showNotification('The selected text is:', '"' + result.value + '"');
-            } else {
-                app.showNotification('Error:', result.error.message);
-            }
-        });
-        }
-    })();
-    ````
-        
-14. Close **Home.js** and be sure not to save any changes.
-15. Now it is time to examine the HTML that has been added to the project to create the Add-in's user interface. Double-click **Home.html** to open this file in a Visual Studio editor window. Examine the layout of HTML elements inside the body element. 
+10. Close **Home.js** and be sure not to save any changes.
+11. Now it is time to examine the HTML that has been added to the project to create the Add-in's user interface. Double-click **Home.html** to open this file in a Visual Studio editor window. Examine the layout of HTML elements inside the body element. 
 
 	````html
-    <body>
-        <div id="content-header">
-            <div class="padding">
-                <h1>Welcome</h1>
-            </div>
-        </div>
-        <div id="content-main">
-            <div class="padding">
-                <p><strong>Add home screen content here.</strong></p>
-                <p>For example:</p>
-                <button id="get-data-from-selection">Get data from selection</button>
-
-                <p style="margin-top: 50px;">
-                    <a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=276812">Find more samples online...</a>
-                </p>
-            </div>
-        </div>
-    </body>
+	<body>
+	    <div id="content-main">
+	        <div class="padding">
+	            <br />
+	            <p class="ms-font-xxl ms-fontColor-neutralSecondary ms-fontWeight-semilight">Sample</p>
+	            <br /><br />
+	            <div class="ms-font-xl ms-fontColor-neutralTertiary">Select some text</div>
+	            <p class="ms-font-m-plus ms-fontColor-neutralTertiary" id="template-description"></p>
+	            <div class="ms-font-m"><a target="_blank" class="ms-Link ms-Link--hero" href="https://go.microsoft.com/fwlink/?LinkId=276812">Find more samples online...</a></div>
+	            <br /><br />
+	
+	            <button class="ms-Button ms-Button--primary" id="highlight-button">
+	                <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+	                <span class="ms-Button-label" id="button-text"></span>
+	                <span class="ms-Button-description" id="button-desc"></span>
+	            </button>
+	        </div>
+	    </div>
+	    <div class="footer">
+	        <div class="ms-Grid ms-bgColor-themeSecondary">
+	            <div class="ms-Grid-row">
+	                <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12"> <div class="ms-font-xl ms-fontColor-white">Contoso</div></div>
+	            </div>
+	        </div>
+	    </div>
+	
+	    <!-- FabricUI component used for displaying notifications -->
+	    <div class="ms-MessageBanner" id="notification-popup">
+	        <div class="ms-MessageBanner-content">
+	            <div class="ms-MessageBanner-text">
+	                <div class="ms-MessageBanner-clipper">
+	                    <div class="ms-font-m-plus ms-fontWeight-semibold" id="notification-header"></div>
+	                    <div class="ms-font-m ms-fontWeight-semilight" id="notification-body"></div>
+	                </div>
+	            </div>
+	            <button class="ms-MessageBanner-expand" style="display:none"><i class="ms-Icon ms-Icon--chevronsDown"></i> </button>
+	            <div class="ms-MessageBanner-action"></div>
+	        </div>
+	        <button class="ms-MessageBanner-close"> <i class="ms-Icon ms-Icon--x"></i> </button>
+	    </div>
+	</body>
 	````  
 
-16. Replace the text message of **Welcome** inside the **h1** element with a different message such as **My Office Add-in**. Also trim down the contents of the **div** element with the **id** of **content-main** to match the HTML code shown below. 
-
-	````html
-    <body>
-        <div id="content-header">
-            <div class="padding">
-                <h1>My Office Add-in</h1>
-            </div>
-        </div>
-        <div id="content-main">
-            <div class="padding">
-                <button id="get-data-from-selection">Get data from selection</button>
-            </div>
-        </div>
-    </body>
-	````        
+12. Replace the text message of **Contoso** inside the footer element with a different message such as **My Office Add-in**.    
         
-17. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2013 and you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
-<br/>![Screenshot of Visual Studio](Images/Fig07.png)
+13. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word and you should see the new group named **Commands Groups** including **Show Taskpane** button in the **Home** tab of the Ribbon bar.
+<br/>![Screenshot of Visual Studio](Images/Fig04.png)
 
-18. Now test the functionality of the Add-in. Begin by typing some text in the Word document and selecting it as shown in the following screenshot. Once you have selected some text, click the **Get data from select button**. You should see a copy of the selected text appear in a gray box at the bottom of the task pane.
-<br/>![Screenshot of the Word Add-in](Images/Fig08.png)
+14. Click the **Show Taskpane** button, you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
+<br/>![Screenshot of Visual Studio](Images/Fig05.png)
 
-19. You have now successfully run and tested the Add-in using the Visual Studio debugger. Close Microsoft Word to stop the debugging session and return to Visual Studio.
+15. Now test the functionality of the Add-in. Select some text, then click the **Highlight!** button, you should see the longest word in the selected text is highlighted.
+<br/>![Screenshot of the Word Add-in](Images/Fig06.png)
 
-## Exercise 2: Creating a Custom User Experience in an Office Add-in
+	> **Note:** The screenshot above is the result of running in Word 2016 .
+
+16. You have now successfully run and tested the Add-in using the Visual Studio debugger. Close Microsoft Word to stop the debugging session and return to Visual Studio.
+
+## Exercise 2: Creating a Custom User Experience in a Word Web Add-in
 *In this exercise you will continue working on the Visual Studio solution for the ContentGenerator Add-in you created in the previous exercise. You will replace the default user interface with a custom implementation that includes div elements and command buttons along with the JavaScript code which uses jQuery to update HTML elements.*
  
 1. In the Solution Explorer, double click on **Home.html** to open it in an editor window. 
-2. As you can see, the **head** section of **Home.html** already links to the jQuery library as well as **app.css**, **app.js**, **Home.css** and **Home.js**.
+2. As you can see, the **head** section of **Home.html** already links to the jQuery library as well as **Home.css** and **Home.js**.
 3. Remove all the content from the **body** section of **Home.html** and replace it with the HTML in the following code listing.
 
     ````html
-    <body>
-
-        <div id="topDiv">
-
-            <h2>Get a Quote</h2>
-
-            <div class="toolbar">
-                <input id="cmdGetContent" type="button" value="Get Content" />
-                <input id="cmdInsertContent" type="button" value="Insert Content" />
-            </div>
-
-            <div class="displayPanel">
-                <div id="contentArea"></div>
-            </div>
-
-        </div>
-
-    </body>
+	<body>
+	    <div id="topDiv">
+	        <h2>Get a Quote</h2>
+	        <div class="toolbar">
+	            <input id="cmdGetContent" type="button" value="Get Content" />
+	            <input id="cmdInsertContent" type="button" value="Insert Content" />
+	        </div>
+	        <div class="displayPanel">
+	            <div id="contentArea"></div>
+	        </div>
+	    </div>
+	
+	    <!-- FabricUI component used for displaying notifications -->
+	    <div class="ms-MessageBanner" id="notification-popup">
+	        <div class="ms-MessageBanner-content">
+	            <div class="ms-MessageBanner-text">
+	                <div class="ms-MessageBanner-clipper">
+	                    <div class="ms-font-m-plus ms-fontWeight-semibold" id="notification-header"></div>
+	                    <div class="ms-font-m ms-fontWeight-semilight" id="notification-body"></div>
+	                </div>
+	            </div>
+	            <button class="ms-MessageBanner-expand" style="display:none"><i class="ms-Icon ms-Icon--chevronsDown"></i> </button>
+	            <div class="ms-MessageBanner-action"></div>
+	        </div>
+	        <button class="ms-MessageBanner-close"> <i class="ms-Icon ms-Icon--x"></i> </button>
+	    </div>
+	</body>
     ````
     
 4. Save your changes and close **Home.html**.
@@ -215,42 +254,91 @@ In this lab you will get hands-on experience working with the new Office Add-in 
         color: blue;
         min-height: 320px;
     }
+
+	.padding {
+	    padding: 15px;
+	}
+	
+	#notification-popup.ms-MessageBanner {
+	    position: absolute;
+	    left: 0px;
+	    bottom: 0px;
+	    text-align: left;
+	    height: inherit;
+	    min-width: inherit;
+	}
+	
+	#notification-popup .ms-MessageBanner-text {
+	    margin: 0;
+	    padding: 18px 15px;
+	    min-width: inherit;
+	}
     ````
 
 7. Save your changes and close **Home.css**.
-8. In the Solution Explorer, double click on **Home.js** to open this JavaScript file in an editor window. Modify the code in **Home.js** to match the code shown in the following code listing which provides app initialization code and adds three emtpy functions named **getQuote**, **cmdGetContent** and **cmdInsertContent**. 
+8. In the Solution Explorer, double click on **Home.js** to open this JavaScript file in an editor window. Modify the code in **Home.js** to match the code shown in the following code listing which provides app initialization code and adds three empty functions named **getQuote**, **cmdGetContent** and **cmdInsertContent**. 
 
-    ````javascript
-    (function () {
-        "use strict";
+	````javascript
+	/// <reference path="/Scripts/FabricUI/MessageBanner.js" />
+	
+	
+	(function () {
+	    "use strict";
+	
+	    var messageBanner;
+	
+	    // The initialize function must be run each time a new page is loaded.
+	    Office.initialize = function (reason) {
+	        $(document).ready(function () {
+	            // Initialize the FabricUI notification mechanism and hide it
+	            var element = document.querySelector('.ms-MessageBanner');
+	            messageBanner = new fabric.MessageBanner(element);
+	            messageBanner.hideBanner();
+	
+	        });
+	    };
+	
+	    function getQuote() {
+	    }
+	
+	    function cmdGetContent() {
+	    }
+	
+	    function cmdInsertContent() {
+	    }
+	
+	    //$$(Helper function for treating errors, $loc_script_taskpane_home_js_comment34$)$$
+	    function errorHandler(error) {
+	        // $$(Always be sure to catch any accumulated errors that bubble up from the Word.run execution., $loc_script_taskpane_home_js_comment35$)$$
+	        showNotification("Error:", error);
+	        console.log("Error: " + error);
+	        if (error instanceof OfficeExtension.Error) {
+	            console.log("Debug info: " + JSON.stringify(error.debugInfo));
+	        }
+	    }
+	
+	    // Helper function for displaying notifications
+	    function showNotification(header, content) {
+	        $("#notification-header").text(header);
+	        $("#notification-body").text(content);
+	        messageBanner.showBanner();
+	        messageBanner.toggleExpansion();
+	    }
+	})();
+	````
 
-        Office.initialize = function (reason) {
-        $(document).ready(function () {
-            app.initialize();
-        });
-        };
-
-        function getQuote() {
-        }
-
-        function cmdGetContent() {
-        }
-
-        function cmdInsertContent() {
-        }
-
-    })(); 
-    ````
-
-9. Directly below the call to **app.initialize**, add a line of code to register the **cmdGetContent** function as an event handler for the **click** event of the command button with the **id** of **cmdGetContent**. Likewise, add a second line of code to register the **cmdInsertContent** function as an event handler for the **click** event of  the command button with the **id** of **cmdInsertContent**.   
+9. At the end of document ready event handler inside **app.initialize**, add a line of code to register the **cmdGetContent** function as an event handler for the **click** event of the command button with the **id** of **cmdGetContent**. Likewise, add a second line of code to register the **cmdInsertContent** function as an event handler for the **click** event of  the command button with the **id** of **cmdInsertContent**.   
 
     ````javascript
     Office.initialize = function (reason) {
         $(document).ready(function () {
-        app.initialize();
-        // adding event handlers for app command buttons
-        $("#cmdGetContent").click(cmdGetContent);
-        $("#cmdInsertContent").click(cmdInsertContent);
+            // Initialize the FabricUI notification mechanism and hide it
+            var element = document.querySelector('.ms-MessageBanner');
+            messageBanner = new fabric.MessageBanner(element);
+            messageBanner.hideBanner();
+            // adding event handlers for app command buttons
+            $("#cmdGetContent").click(cmdGetContent);
+            $("#cmdInsertContent").click(cmdInsertContent);
         });
     };
     ````
@@ -281,11 +369,11 @@ In this lab you will get hands-on experience working with the new Office Add-in 
     }
     ````
     
-12. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word 2013 and you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
-<br/>![Screenshot of the Word Add-in](Images/Fig09.png)
+12. Now it's time to test the Add-in using the Visual Studio debugger. Press the **{F5}** key to run the project in the Visual Studio debugger. The debugger should launch Microsoft Word. Click **Show Taskpane** in the Ribbon bar, you should see your Office Add-in in the task pane on the right as shown in the following screenshot.
+<br/>![Screenshot of the Word Add-in](Images/Fig07.png)
 
-13. Now test the functionality of the Add-in by clicking the **Get Content** button. Each time you click this button you should see a different quote appear below as shown in the following screenshot.
-<br/>![Screenshot of the Word Add-in](Images/Fig10.png)
+13. Now test the functionality of the Add-in by clicking the **Get Content** button. Each time you click this button you should see a different quote appears below as shown in the following screenshot.
+<br/>![Screenshot of the Word Add-in](Images/Fig08.png)
 
 14. You have now successfully implemented a custom user experience for the Add-in using HTML, CSS and JavaScript. Close Microsoft Word to stop the debugging session and return to Visual Studio.
 
@@ -305,7 +393,7 @@ In this lab you will get hands-on experience working with the new Office Add-in 
     }
     ````
     
-4. Now test the functionality of the Add-in by pressing the {**{F5}** key to start a debugging session. Begin your testing by clicking the **Get Content** button to display a new quote inside the Add-in's user interface in the task pane. Next, click the "Insert Content** button to insert the quote into the current Word document as shown in the following screenshot.
-<br/>![Screenshot of the Word Add-in](Images/Fig11.png)
+4. Now test the functionality of the Add-in by pressing the **{F5}** key to start a debugging session. Click **Show Taskpane** in the Ribbon bar. Begin your testing by clicking the **Get Content** button to display a new quote inside the Add-in's user interface in the task pane. Next, click the "Insert Content** button to insert the quote into the current Word document as shown in the following screenshot.
+<br/>![Screenshot of the Word Add-in](Images/Fig09.png)
 
 5. You have now successfully implemented the Add-in logic required in this lab exercise. Close Microsoft Word to stop the debugging session and return to Visual Studio.
