@@ -65,6 +65,40 @@ namespace ModifyPagesWeb
             }
         }
 
+
+        protected void btnCreatePageWithWebPart_Click(object sender, EventArgs e)
+        {
+
+            var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
+
+            using (var ctx = spContext.CreateUserClientContextForSPHost())
+            {
+                if (new LabHelper().AddList(ctx, ctx.Web, 170, new Guid("192efa95-e50c-475e-87ab-361cede5dd7f"), "Links", false))
+                {
+                    new LabHelper().AddPromotedSiteLink(ctx, ctx.Web, "Links", "OfficeAMS on CodePlex", "http://officeams.codeplex.com");
+                    new LabHelper().AddPromotedSiteLink(ctx, ctx.Web, "Links", "Bing", "http://www.bing.com");
+                }
+
+                string scenario2Page = String.Format("scenario2-{0}.aspx", DateTime.Now.Ticks);
+                string scenario2PageUrl = AddWikiPage(ctx, ctx.Web, "Site Pages", scenario2Page);
+
+                AddHtmlToWikiPage(ctx, ctx.Web, "SitePages", LabHelper.WikiPage_ThreeColumnsHeaderFooter, scenario2Page);
+
+                Guid linksID = new LabHelper().GetListID(ctx, ctx.Web, "Links");
+                WebPartEntity wp2 = new WebPartEntity();
+                wp2.WebPartXml = new LabHelper().WpPromotedLinks(linksID, string.Format("{0}/Lists/{1}",
+                                                              Request.QueryString["SPHostUrl"], "Links"),
+                                                              string.Format("{0}/{1}", Request.QueryString["SPHostUrl"],
+                                                              scenario2PageUrl), "$Resources:core,linksList");
+                wp2.WebPartIndex = 1;
+                wp2.WebPartTitle = "Links";
+
+                new LabHelper().AddWebPartToWikiPage(ctx, ctx.Web, "SitePages", wp2, scenario2Page, 2, 1, false);
+                new LabHelper().AddHtmlToWikiPage(ctx, ctx.Web, "SitePages", htmlEntry.Text, scenario2Page, 2, 2);
+
+                this.hplPage2.NavigateUrl = string.Format("{0}/{1}", Request.QueryString["SPHostUrl"], scenario2PageUrl);
+            }
+        }
         public string AddWikiPage(ClientContext ctx, Web web, string folder, string wikiPageName)
         {
             string wikiPageUrl = "";
@@ -89,7 +123,6 @@ namespace ModifyPagesWeb
 
             return wikiPageUrl;
         }
-
         public void AddHtmlToWikiPage(ClientContext ctx, Web web, string folder, string html, string page)
         {
             Microsoft.SharePoint.Client.Folder pagesLib = web.GetFolderByServerRelativeUrl(folder);
@@ -122,42 +155,6 @@ namespace ModifyPagesWeb
             listItem["WikiField"] = html;
             listItem.Update();
             ctx.ExecuteQuery();
-        }
-
-
-
-        protected void btnCreatePageWithWebPart_Click(object sender, EventArgs e)
-        {
-
-            var spContext = SharePointContextProvider.Current.GetSharePointContext(Context);
-
-            using (var ctx = spContext.CreateUserClientContextForSPHost())
-            {
-                if (new LabHelper().AddList(ctx, ctx.Web, 170, new Guid("192efa95-e50c-475e-87ab-361cede5dd7f"), "Links", false))
-                {
-                    new LabHelper().AddPromotedSiteLink(ctx, ctx.Web, "Links", "OfficeAMS on CodePlex", "http://officeams.codeplex.com");
-                    new LabHelper().AddPromotedSiteLink(ctx, ctx.Web, "Links", "Bing", "http://www.bing.com");
-                }
-
-                string scenario2Page = String.Format("scenario2-{0}.aspx", DateTime.Now.Ticks);
-                string scenario2PageUrl = AddWikiPage(ctx, ctx.Web, "Site Pages", scenario2Page);
-
-                AddHtmlToWikiPage(ctx, ctx.Web, "SitePages", LabHelper.WikiPage_ThreeColumnsHeaderFooter, scenario2Page);
-
-                Guid linksID = new LabHelper().GetListID(ctx, ctx.Web, "Links");
-                WebPartEntity wp2 = new WebPartEntity();
-                wp2.WebPartXml = new LabHelper().WpPromotedLinks(linksID, string.Format("{0}/Lists/{1}", 
-                                                                Request.QueryString["SPHostUrl"], "Links"), 
-                                                                string.Format("{0}/{1}", Request.QueryString["SPHostUrl"], 
-                                                                scenario2PageUrl), "$Resources:core,linksList");
-                wp2.WebPartIndex = 1;
-                wp2.WebPartTitle = "Links";
-
-                new LabHelper().AddWebPartToWikiPage(ctx, ctx.Web, "SitePages", wp2, scenario2Page, 2, 1, false);
-                new LabHelper().AddHtmlToWikiPage(ctx, ctx.Web, "SitePages", htmlEntry.Text, scenario2Page, 2, 2);
-
-                this.hplPage2.NavigateUrl = string.Format("{0}/{1}", Request.QueryString["SPHostUrl"], scenario2PageUrl);
-            }
         }
     }
 }
