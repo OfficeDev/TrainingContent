@@ -1,0 +1,31 @@
+﻿<div style="margin:25px;">
+    <table>
+        <thead>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Job Title</th>
+        <th>Work E-mail</th>
+        <th>Work Phone</th>
+        @foreach (var Contact in ViewBag.Contacts)
+        {
+            <tr>
+                <td>
+                    <div style="width:200px;">@Contact.Surname</div>
+                </td>
+                <td>
+                    <div style="width:200px;">@Contact.GivenName</div>
+                </td>
+                <td>
+                    <div style="width:200px;">@Contact.JobTitle</div>
+                </td>
+                <td>
+                    <div style="width:400px;">@(System.Linq.Enumerable.Count(Contact.EmailAddresses) > 0 ? System.Linq.Enumerable.First(Contact.EmailAddresses).Address : string.Empty)</div>
+                </td>
+                <td>
+                    <div style="width:200px;">@(System.Linq.Enumerable.Count(Contact.BusinessPhones) > 0 ? System.Linq.Enumerable.First(Contact.BusinessPhones) : string.Empty)</div>
+                </td>
+            </tr>
+        }
+    </table>
+    </
+</div>
