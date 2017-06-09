@@ -1,0 +1,58 @@
+﻿@model GraphWebhooks.Models.SubscriptionViewModel
+
+@{
+    ViewBag.Title = "Subscription";
+}
+
+<h2>Subscription</h2>
+<div>
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.Subscription.Resource, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Model.Subscription.Resource
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.Subscription.ChangeType, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Model.Subscription.ChangeType
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.Subscription.ClientState, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Model.Subscription.ClientState
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.Subscription.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Model.Subscription.Id
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.Subscription.ExpirationDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Model.Subscription.ExpirationDateTime
+            </td>
+        </tr>
+    </table>
+</div>
+<br />
+<div>
+    @using (Html.BeginForm("LoadView", "Notification"))
+    {
+        <button type="submit">Watch for notifications</button>
+    }
+</div>

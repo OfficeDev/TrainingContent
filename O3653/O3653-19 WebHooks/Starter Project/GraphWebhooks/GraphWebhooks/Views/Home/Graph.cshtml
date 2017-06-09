@@ -1,0 +1,56 @@
+﻿@{
+  ViewBag.Title = "Graph Tester";
+}
+
+<h1>Graph Tester</h1>
+
+<input type="hidden" id="access-token" value="@ViewBag.AccessToken" />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" id="request-url" value="https://graph.microsoft.com/v1.0/me" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="submit-request">Go!</button>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <label for="access-token">Access Token</label>
+        <pre id="access-token">@ViewBag.AccessToken</pre>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <label for="response-body">Response</label>
+        <div id="response-body">
+            <pre></pre>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+       $(function () {
+
+           $('#submit-request').click(function (event) {
+               var token = $('#access-token').val();
+               var url = $('#request-url').val();
+               $.ajax({
+                   url: './SendGraphRequest',
+                   dataType: 'json',
+                   type: 'POST',
+                   data: {
+                       'accessToken': token,
+                       'requestUrl': url
+                   }
+               })
+               .done(function (data) {
+                   var response = JSON.parse(data);
+                   $('#response-body').find("pre").text(JSON.stringify(response, null, 2));
+               });
+           });
+       });
+    </script>
+}
