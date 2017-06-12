@@ -297,9 +297,9 @@ To complete the exercises below, you will require an Office 365 developer enviro
   ```
 
 10. Press F5 to compile and launch your new application in the default browser.
-11.  When the Graph and AAD v2 Auth Endpoint Starter page appears, sign in with your Office 365 account.
+11. When the Graph and AAD v2 Auth Endpoint Starter page appears, sign in with your Office 365 account.
 
-12.  Review the permissions the application is requesting, and click **Accept**.
+12. Review the permissions the application is requesting, and click **Accept**.
 
 Exercise 2 with web sign in is complete!
 
@@ -562,7 +562,7 @@ In this step you'll create a view for the app start page and a view that display
    ​
 
        <h2>Microsoft Graph Webhooks</h2>
-       
+
        <div>
            <p>You can subscribe to webhooks for specific resources (such as Outlook messages or events) to get notifications about changes to the resource.</p>
            <p>This sample creates a subscription for the <i>me/mailFolders('Inbox')/messages</i> resource and the <i>Created</i> change type. The request body looks like this:</p>
@@ -894,99 +894,102 @@ In this step you'll create a view that displays some properties of the changed m
 
    ```html
    @model Microsoft.Graph.Message
+
+   @{
+       ViewBag.Title = "Notification";
+   }
+
+   @section Scripts {
+       @Scripts.Render("~/Scripts/jquery.signalR-2.2.1.min.js")
+       @Scripts.Render("~/signalr/hubs")
+
+       <script>
+           $(document).ready(function () {
+               var connection = $.hubConnection();
+               var hub = connection.createHubProxy("NotificationHub");
+               hub.on("showNotification", function (messages) {
+                   $.each(messages, function (index, value) {     // Iterate through the message collection
+                       var message = value;                       // Get current message
+
+                       var table = $("<table></table>");
+                       var header = $("<th>Message " + (index + 1) + "</th>").appendTo(table);
+
+                       for (prop in message) {                    // Iterate through message properties
+                           var property = message[prop];
+                           var row = $("<tr></tr>");
+
+                           $("<td></td>").text(prop).appendTo(row);
+                           $("<td></td>").text(property).appendTo(row);
+                           table.append(row);
+                       }
+                       $("#message").append(table);
+                       $("#message").append("<br />");
+                   });
+               });
+               connection.start();
+           });
+
+       </script>
+   }
+   <h2>Messages</h2>
+   <p>You'll get a notification when your user receives an email. The messages display below.</p>
+   <br />
+   <div id="message"></div>
+   <div>
+       @using (Html.BeginForm("DeleteSubscription", "Subscription"))
+       {
+           <button type="submit">Delete subscription and sign out</button>
+       }
+   </div>
    ```
 
-@{
-    ViewBag.Title = "Notification";
-}
 
-@section Scripts {
-    @Scripts.Render("~/Scripts/jquery.signalR-2.2.1.min.js");
-    @Scripts.Render("~/signalr/hubs");
-    
-    <script>
-    var connection = $.hubConnection();
-    var hub = connection.createHubProxy("NotificationHub");
-    hub.on("showNotification", function (messages) {
-        $.each(messages, function (index, value) {     // Iterate through the message collection
-            var message = value;                       // Get current message
-    
-            var table = $("<table></table>");
-            var header = $("<th>Message " + (index + 1) + "</th>").appendTo(table);
-    
-            for (prop in message) {                    // Iterate through message properties
-                var property = message[prop];
-                var row = $("<tr></tr>");
-    
-                $("<td></td>").text(prop).appendTo(row);
-                $("<td></td>").text(property).appendTo(row);
-                table.append(row);
-            }
-            $("#message").append(table);
-            $("#message").append("<br />");
-        });
-    });
-    connection.start();
-    </script>
-}
-<h2>Messages</h2>
-<p>You'll get a notification when your user receives an email. The messages display below.</p>
-<br />
-<div id="message"></div>
-<div>
-    @using (Html.BeginForm("DeleteSubscription", "Subscription"))
-    {
-        <button type="submit">Delete subscription and sign out</button>
-    }
-</div>
-   ```
-
-## Exercise 5: Set up SignalR
 
 This app uses SignalR to notify the client to refresh its view.
 
-1. Right-click the **GraphWebhooks** project and create a folder named **SignalR**.
+1. Right-click the GraphWebhooks project and create a folder named SignalR.
 
-1. Right-click the **SignalR** folder and choose **Add** > **SignalR Hub Class (v2)**. 
+2. Right-click the SignalR folder and choose Add > Class.
 
-1. Name the class *NotificationHub* and click **OK**. This sample doesn't add any functionality to the hub.
+3. Name the class NotificationHub and click OK. This sample doesn't add any functionality to the hub.
 
-1. Right-click the **SignalR** folder and choose **Add** > **SignalR Persistent Connection Class (v2)**.
+4. Right-click the SignalR folder and choose Add > Class.
 
-1. Name the class *NotificationService.cs* and click **Add**.
+5. Name the class NotificationService.cs and click Add.
 
-1. Replace the contents with the following code.
+6. Replace the contents with the following code.
 
-   ```c#
-    using System.Collections.Generic;
-    using Microsoft.AspNet.SignalR;
-    using Microsoft.Graph;
+   ​
 
-    namespace GraphWebhooks.SignalR
-    {
-        public class NotificationService : PersistentConnection
-        {
-            public void SendNotificationToClient(List<Message> messages)
-            {
-                var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-                if (hubContext != null)
-                {
-                    hubContext.Clients.All.showNotification(messages);
-                }
-            }
-        }
-    }
-   ```
+        using System.Collections.Generic;
+       using Microsoft.AspNet.SignalR;
+       using Microsoft.Graph;
+       
+       namespace GraphWebhooks.SignalR
+       {
+           public class NotificationService : PersistentConnection
+           {
+               public void SendNotificationToClient(List<Message> messages)
+               {
+                   var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+                   if (hubContext != null)
+                   {
+                       hubContext.Clients.All.showNotification(messages);
+                   }
+               }
+           }
+       }
+   ​
 
-1. Open **Startup.cs** in the root directory of the project.
+   Open **Startup.cs** in the root directory of the project.
 
-2. Add the following line to the **Configuration** method.
+   Add the following line to the **Configuration** method.
 
-   ```c#
-   app.MapSignalR();
-   ```
+   ​
 
-
+```c#
+app.MapSignalR();
+```
 Congratulations! In this lab you created an MVC application that subscribes for Microsoft Graph webhooks and receives change notifications! Now you can run the app.
 
 ## Run the application
