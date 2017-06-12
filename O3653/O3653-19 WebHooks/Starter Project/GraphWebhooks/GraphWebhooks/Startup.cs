@@ -30,7 +30,7 @@ namespace GraphWebhooks
 
         public void Configuration(IAppBuilder app)
         {
-            app.MapSignalR();
+           
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
