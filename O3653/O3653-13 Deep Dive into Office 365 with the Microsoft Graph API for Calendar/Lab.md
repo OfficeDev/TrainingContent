@@ -3,745 +3,819 @@ In this lab, you will use the Microsoft Graph SDK to work with Office 365 calend
 
 ## Prerequisites
 1. You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial. 
-1. You must have Visual Studio 2015.
+2. You must have Visual Studio 2017.
 
 ## Lab Setup: Setting up your Exchange account with Sample Calendar Events for Testing
 1. Using the browser, navigate to https://outlook.office365.com and log into your Office 365 mailbox.
-1. Click the *waffle* icon in the top-left corner to open the App Launcher and click the **Calendar** tile.
-1. Add some calendar items to your calendar if you don't have any in your mailbox.
-1. Once you have verified that you have a set of calendar events for testing, you can move on to the next exercise.
+2. Click the *waffle* icon in the top-left corner to open the App Launcher and click the **Calendar** tile.
+3. Add some calendar items to your calendar if you don't have any in your mailbox.
+4. Once you have verified that you have a set of calendar events for testing, you can move on to the next exercise.
 
 ## Exercise 1: Create an ASP.NET MVC5 Application
 In this exercise, you will create the ASP.NET MVC5 application and register it with Azure active Directory.
-1. Launch **Visual Studio 2015** as administrator.
-1. In Visual Studio, click **File/New/Project**.
-1. In the **New Project** dialog
-  1. Select **Templates/Visual C#/Web**.
-  1. Select **ASP.NET Web Application**.
+1. Launch **Visual Studio 2017** as administrator.
 
-    ![Screenshot of the previous step](Images/01.png)
+2. In Visual Studio, click **File/New/Project**.
 
-  1. Give the project the name **Office365Calendar** and Click **OK**.
-1. In the **New ASP.NET Project** dialog
-  1. Click **MVC**.
-  2. Click **Change Authentication**.
-  3. Select **Work And School Accounts**.
-  4. Select **Cloud - Single Organization**
-  5. Input **Domain** of your O365 tenancy
-  6. Check **Read directory data** under Directory Access Permissions
-  4. Click **OK**.
-  5. Uncheck **Host in the cloud**
-  5. Click **OK**.
+3. In the **New Project** dialog.
 
-    ![Screenshot of the previous step](Images/03.png)
+4. Select **Templates/Visual C#/Web**.
 
-    ![Screenshot of the previous step](Images/02.png)
+5. Select **ASP.NET Web Application**.
 
-1. Ensure the web project uses SSL by default:
-  1. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
-  1. Ensure **SSL Enabled** is set to **TRUE**.
-  1. Copy the **SSL URL** property to the clipboard for use in the next step.
+  ![Screenshot of the previous step](Images/01.png)
 
-    ![Screenshot of the previous step](Images/SslEnabled.png)
-    > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
-    
-1. Configure the project always goes to the homepage of the web application when debugging:
-  1. In the **Solution Explorer** tool window, right-click the project and select **Properties**.
-  1. Select the **Web** tab in the left margin.
-  1. Find the section **Start Action**.
-  1. Click the radio button **Start URL** and enter the SSL URL of the web project that you copied from the previous step.
-  
-    ![Screenshot of the previous step](Images/StartUrl.png)
-  
-1. At this point you can test the authentication flow for your application.
-  1. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
-  
-  > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+  Give the project the name **QuickStartCalendarWebApp** and Click **OK**.
 
-  1. To sign in, click the **Sign In** link in the upper-right corner.
-  1. Login using your **Organizational Account**.
-  1. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
+6. In the **New ASP.NET Project** dialog
 
-    ![Screenshot of the previous step](Images/ConsentDialog.png)
+7. Click **MVC**.
 
-  1. Click **Accept** to approve the app's permission request on your data in Office 365.
-  1. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
+8. Click **Change Authentication**.
+
+9. Select **Work And School Accounts**.
+
+10. Select **Cloud - Single Organization**
+
+11. Input **Domain** of your O365 tenancy
+
+12. Check **Read directory data** under Directory Access Permissions
+
+13. Click **OK**.
+
+   ![Screenshot of the previous step](Images/03.png)
+
+   ![Screenshot of the previous step](Images/02.png)
+
+14. Ensure the web project uses SSL by default:
+
+15. In the **Solution Explorer** tool window, select the project and look at the **Properties** tool window. 
+
+16. Ensure **SSL Enabled** is set to **TRUE**.
+
+17. Copy the **SSL URL** property to the clipboard for use in the next step.
+
+   ![Screenshot of the previous step](Images/SslEnabled.png)
+   > It is important to do this now because in the next step when you create the application in Azure AD, you want the reply URL to use HTTPS. If you did not do this now, you would have to manually make the changes the Visual Studio wizard is going to do for you in creating the app.
+
+18. At this point you can test the authentication flow for your application.
+
+19. In Visual Studio, press **F5**. The browser will automatically launch taking you to the HTTPS start page for the web application.
+
+20. To sign in, click the **Sign In** link in the upper-right corner.
+
+21. Login using your **Organizational Account**.
+
+22. Upon a successful login, since this will be the first time you have logged into this app, Azure AD will present you with the common consent dialog that looks similar to the following image:
+
+
+![Screenshot of the previous step](Images/ConsentDialog.png)
+
+25. Click **Accept** to approve the app's permission request on your data in Office 365.
+26. You will then be redirected back to your web application. However notice in the upper right corner, it now shows your email address & the **Sign Out** link.
 
 Congratulations... at this point your app is configured with Azure AD and leverages OpenID Connect and OWIN to facilitate the authentication process!
 
-## Exercise 2: Configure Web Application to use Azure AD and OWIN
+27. Open the **Web.config** file and find the **appSettings** element. This is where you will need to add your appId and app secret you will generate in the next step.
+28. Launch the Application Registration Portal by navigating your web browser and going to **apps.dev.microsoft.com**. to register a new application.
+29. Sign into the portal using your Office 365 username and password.
+30. Click **Add an App** and type **GraphCalendarQuickStart** for the application name.
+31. Copy the **Application Id** and paste it into the value for **ida:AppId** in your project **web.config** file.
+32. Under **Application Secrets** click **Generate New Password** to create a new client secret for your app.
+33. Copy the displayed app password and paste it into the value for **ida:AppSecret** in your project **web.config** file.
+34. Modify the **ida:AppScopes** value to include the required `https://graph.microsoft.com/calendars.readwrite` and `https://graph.microsoft.com/calendars.read` scopes.
+
+```
+<configuration>
+  <appSettings>
+    <!-- ... -->
+    <add key="ida:AppId" value="paste application id here" />
+    <add key="ida:AppSecret" value="paste application password here" />
+    <!-- ... -->
+    <!-- Specify scopes in this value. Multiple values should be comma separated. -->
+    <add key="ida:AppScopes" value="https://graph.microsoft.com/calendars.read,https://graph.microsoft.com/calendars.readwrite" />
+  </appSettings>
+  <!-- ... -->
+</configuration>
+```
+
+35. Add a redirect URL to enable testing on your localhost.
+36. Right-click **QuickStartCalendarWebApp** and click **Properties** to open the project properties.
+37. Click **Web** in the left navigation.
+38. Copy the **Project Url** value.
+39. Back on the Application Registration Portal page, click **Add Platform>Web**.
+40. Paste the value of **Project Url** into the **Redirect URIs** field.
+41. Scroll to the bottom of the page and click **Save**.
+42. Press **F5** to compile and launch your new application in the default browser.
+
+## Exercise 2: Access Calendar through Microsoft Graph SDK
+
 In this exercise you will take the ASP.NET MVC web application you created in the previous exercise and configure it to use Azure AD & OpenID Connect for user & app authentication. You will do this by utilizing the OWIN framework. Once authenticated, you can use the access token returned by Azure AD to access the Microsoft Graph.
 
+1. This exercise is based on the project located in the  **\\O3653\O3653-13 Deep Dive into Office 365 with the Microsoft Graph API for Calendar\Starter Project** folder. Open the project with Visual Studio 2017. 
 
-1. Grant App Necessary Permissions.
+   Notice: update web.config and add values for below items.  These values can be found on Exercise 1's web.config.
 
-  1. Browse to the [Azure Management Portal](https://manage.windowsazure.com) and sign in with your **Organizational Account**.
-  1. In the left-hand navigation, click **Active Directory**.
-  1. Select the directory you share with your Office 365 subscription.
-  1. Select the application you created for this lab.
-  1. Open **Configure** tab
-  1. Scroll down to the **permissions to other applications** section. 
-  1. Click the **Add Application** button.
-  1. In the **Permissions to other applications** dialog, click the **PLUS** icon next to the **Microsoft Graph** option.
-  1. Click the **CHECK** icon in the lower right corner.
-  1. For the new **Microsoft Graph** application permission entry, select the **Delegated Permissions** dropdown on the same line and then select the following permissions:
-    * **Have full access to user calendars**    
-  1. Click the **Save** button at the bottom of the page.
+   ```
+   <add key="ida:ClientId" value="" />
+   <add key="ida:ClientSecret" value="" />
+   <add key="ida:Domain" value="" />
+   <add key="ida:TenantId" value="" />
+   <add key="ida:AppId" value="" />
+   <add key="ida:AppSecret" value="" />
+   <add key="ida:PostLogoutRedirectUri" value="" />
+   ```
 
-     ![Screenshot of the previous step](Images/AzurePermission.png)
-1. Add a helper class that will be used to harvest settings out of the `web.config` and create the necessary strings that will be used for authentication:
+2. In Visual Studio, right-click **QuickStartCalendarWebApp** > **Properties** to open the project properties. Click **Web** in the left navigation. Make sure **Project URL** is the same as Exercise 1.
 
-  1. Right-click the project and select **Add/New Folder**. Give the folder the name **Utils**. 
-  
-  1. Locate the [\\\O3653-13 Deep Dive into Office 365 with the Microsoft Graph API for Calendar\Lab Files](./Lab Files) folder provided with this lab and find the [`SettingsHelper.cs`](./Lab Files/SettingsHelper.cs) file . Drag the [`SettingsHelper.cs`](./Lab Files/SettingsHelper.cs) file to the **Utils** folder in the project.
-      
-1. Update **_Layout** file to add **Events** link:
-    1. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
-      1. Locate the part of the file that includes a few links at the top of the page... it should look similar to the following code:
-      
-        ````asp
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-            <li>@Html.ActionLink("About", "About", "Home")</li>
-            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-          </ul>
-          @Html.Partial("_LoginPartial")
-        </div>
-        ````
+3. Update **_Layout** file to add **Outlook Calendar API** link:
 
-      1. Update that navigation to have a new link (the **Events** link added below) as well as a reference to the login control you just created:
+4. Open the **_Layout.cshtml** file found in the **Views/Shared** folder.
 
-        ````asp
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-            <li>@Html.ActionLink("About", "About", "Home")</li>
-            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-            <li>@Html.ActionLink("Events", "Index", "Calendar")</li>
-          </ul>
-          @Html.Partial("_LoginPartial")
-        </div>
-        ````
+  Locate the part of the file that includes a few links at the top of the page... it should look similar to the following code:
 
-        > The **Events** link will not work yet... you will add that in the next exercise.
+  ```
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+      <li>@Html.ActionLink("Home", "Index", "Home")</li>
+      <li>@Html.ActionLink("About", "About", "Home")</li>
+      <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    </ul>
+    @Html.Partial("_LoginPartial")
+  </div>
+  ```
 
-## Exercise 3: Code the Calendar API
-In this exercise, you will create a repository object for wrapping CRUD operations associated with the Calendar API.
+  Update that navigation to have a new link (the **Outlook Calendar API** link added below) as well as a reference to the login control you just created:
 
-1. In the **Solution Explorer**, locate the **Models** folder in the **Office365Calendar** project.
-1. Right-click the **Models** folder and select **Add/Class**.
-1. In the **Add New Item** dialog, name the new class **MyEvent** and click **Add** to create the new source file for the class.  
-    1. At the top of the source file **MyEvent.cs**, add the following using statement just after the using statements that are already there.
+  ```
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+      <li>@Html.ActionLink("Home", "Index", "Home")</li>
+      <li>@Html.ActionLink("About", "About", "Home")</li>
+      <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+      <li>@Html.ActionLink("Outlook Calendar API", "Index", "Calendar")</li>
+    </ul>
+    @Html.Partial("_LoginPartial")
+  </div>
+  ```
 
-	````c#
-	using System.ComponentModel;
-	using System.ComponentModel.DataAnnotations;
-	````
+  ​
 
-    1. Implement the new class **MyEvent** using the following class definition.
-		
-    ````c#
-    public class MyEvent {
-      public string Id { get; set; }
-         
-      [DisplayName("Subject")]
-      public string Subject { get; set; }
-      
-      [DisplayName("Start Time")]
-      [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-      public DateTimeOffset? Start { get; set; }
-      
-      [DisplayName("End Time")]
-      [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-      public DateTimeOffset? End { get; set; }
-      
-      [DisplayName("Location")]
-      public string Location { get; set; }
-      
-      [DisplayName("Body")]
-      public string Body { get; set; }      
-    }
-    ````
+### Create the Calendar controller and use the Graph SDK
 
-1. Assembly references are not added to the shared projects in ASP.NET MVC, rather they are added to the actual client projects. Therefore you need to add the following NuGet packages manually.
-	1. Open the Package Manager Console: **View/Other Windows/Package Manager Console**.
-	1. Enter each line below in the console, one at a time, pressing **ENTER** after each one. NuGet will install the package and all dependent packages:
-	
-		````powershell
-        PM> Install-Package Microsoft.Graph
-		````
+1. Add a reference to the Microsoft Graph SDK to your project.
 
-1. Right-click the **Models** folder and select **Add/Class**. In the **Add New Item** dialog, name the new class **MyEventsRepository** and click **Add** to create the new source file for the class.    
-    1. **Use** the following using statements instead of the **MyEventsRepository** class old using statements.
-		
-	````c#
-	using System;
-	using System.Collections.Generic;
-	using System.Security.Claims;
-	using System.Threading.Tasks;
-	using Office365Calendar.Utils;
-	using System.Net.Http.Headers;
-	using Microsoft.IdentityModel.Clients.ActiveDirectory;
-	using System.Linq;
-	using Microsoft.Graph;
-	````
+   1. In the **Solution Explorer** right-click the **QuickStartCalendarWebApp** project and select **Manage NuGet Packages...**.
+   2. Click **Browse** and search for **Microsoft.Graph**.
+   3. Select the Microsoft Graph SDK and click **Install**.
 
-    1. **Add** a function named **GetGraphAccessTokenAsync** to the **MyEventsRepository** class with the following implementation to get access token for Microsoft Graph Authentication.
-		
-    ````c#
-    private async Task<string> GetGraphAccessTokenAsync()
-    {
-        var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
-        var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimTypeObjectIdentifier).Value;
+2. Add a reference to the Bootstrap DateTime picker to your project
 
-        var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
-        var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
+   1. Click **Tools** - **NuGet Package Manager** - **Package Manage Console** in Visual Studio. 
 
-        AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureAdAuthority, new ADALTokenCache(signInUserId));
-        var result = await authContext.AcquireTokenSilentAsync(SettingsHelper.AzureAdGraphResourceURL, clientCredential, userIdentifier);
-        return result.AccessToken;
-    }
-    ````
+   2. Type **Install-Package Bootstrap.Datepicker** and then press Enter key.
 
-    1. **Add** a function named **GetGraphServiceAsync** to the **MyEventsRepository** class with the following implementation to get Graph service client.
-    
-    ````c#
-    private async Task<GraphServiceClient> GetGraphServiceAsync()
-    {
-        var accessToken = await GetGraphAccessTokenAsync();
-        var graphserviceClient = new GraphServiceClient(SettingsHelper.GraphResourceUrl,
-                                      new DelegateAuthenticationProvider(
-                                                    (requestMessage) =>
-                                                    {
-                                                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
-                                                        return Task.FromResult(0);
-                                                    }));
+      ![09](Images/09.png)
 
-        return graphserviceClient;
-    }
-    ````
+   3. Open the **App_Start/BundleConfig.cs** file and update the bootstrap script and CSS bundles. Replace these lines:
 
-    1. **Add** a function named **GetEvents** to the **MyEventsRepository** class to retrieve and return a list of **MyEvent** objects.
-		
-    ````c#
-    public async Task<List<MyEvent>> GetEvents(int pageIndex, int pageSize)
-    {
-        try
+      ```csharp
+      bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/respond.js"));
+
+      bundles.Add(new StyleBundle("~/Content/css").Include(
+                "~/Content/bootstrap.css",
+                "~/Content/site.css"));
+      ```
+
+      with:
+
+      ```csharp
+
+                  bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                            "~/Scripts/bootstrap.js",
+                            "~/Scripts/respond.js",
+                            "~/Scripts/moment.js",
+                            "~/Scripts/bootstrap-datepicker.js"));
+
+                  bundles.Add(new StyleBundle("~/Content/css").Include(
+                            "~/Content/bootstrap.css",
+                            "~/Content/bootstrap-datepicker.css",
+                            "~/Content/site.css"));
+      ```
+
+3. Create a new controller to process the requests for files and send them to Graph API.
+
+   1. Find the **Controllers** folder under **QuickStartCalendarWebApp**, right-click it and select **Add>Controller**.
+   2. Select **MVC 5 Controller - Empty** and click **Add**.
+   3. Change the name of the controller to **CalendarController** and click **Add**.
+
+4. Update **CalendarController.cs** with below using items. 
+
+   ```csharp
+   using System;
+   using System.Collections.Generic;
+   using System.Web.Mvc;
+   using System.Configuration;
+   using System.Threading.Tasks;
+   using Microsoft.Graph;
+   using QuickStartCalendarWebApp.Auth;
+   using QuickStartCalendarWebApp.TokenStorage;
+   ```
+
+5. Add the following code to the `CalendarController` class to initialize a new
+   `GraphServiceClient` and generate an access token for the Graph API:
+
+```csharp
+             private GraphServiceClient GetGraphServiceClient()
         {
-            var graphServiceClient = await GetGraphServiceAsync();
-            var requestEvents = await graphServiceClient.Me.Events.Request().Top(pageSize).Skip(pageIndex * pageSize).GetAsync();
-            var eventsResults = requestEvents.CurrentPage.Select(x => new MyEvent
+            string userObjId = AuthHelper.GetUserId(System.Security.Claims.ClaimsPrincipal.Current);
+            SessionTokenCache tokenCache = new SessionTokenCache(userObjId, HttpContext);
+
+            string authority = string.Format(ConfigurationManager.AppSettings["ida:AADInstance"], "common", "/v2.0");
+
+            AuthHelper authHelper = new AuthHelper(
+                authority,
+                ConfigurationManager.AppSettings["ida:AppId"],
+                ConfigurationManager.AppSettings["ida:AppSecret"],
+                tokenCache);
+
+            // Request an accessToken and provide the original redirect URL from sign-in
+            GraphServiceClient client = new GraphServiceClient(new DelegateAuthenticationProvider(async (request) =>
             {
-                Id = x.Id,
-                Subject = x.Subject,
-                Body = x.Body.Content,
-                Location = x.Location.DisplayName,
-                Start = DateTime.SpecifyKind(DateTime.Parse(x.Start.DateTime), x.Start.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
-                End = DateTime.SpecifyKind(DateTime.Parse(x.End.DateTime), x.End.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
-            }).ToList();
-            return eventsResults;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-    ````
+                string accessToken = await authHelper.GetUserAccessToken(Url.Action("Index", "Home", null, Request.Url.Scheme));
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+            }));
 
-    1. Add a **GetEvent** function to the **MyEventsRepository** class to get a specific event:
+            return client;
+        }
+```
 
-    ````c#
-    public async Task<MyEvent> GetEvent(string id)
-    {
-        try
+### Work with EventList
+
+1. Replace the following code in the `CalenderController` class 
+
+   ```csharp
+         // GET: Calendar
+         public ActionResult Index()
+         {
+             return View();
+         }
+   ```
+
+   with the following code to get all events for the next 7 days in your mailbox.
+
+   ```csharp
+         // GET: Me/Calendar
+                [Authorize]
+           public async Task<ActionResult> Index(int? pageSize, string nextLink)
+           {
+               if (!string.IsNullOrEmpty((string)TempData["error"]))
+               {
+                   ViewBag.ErrorMessage = (string)TempData["error"];
+               }
+
+               pageSize = pageSize ?? 10;
+
+               var client = GetGraphServiceClient();
+
+               // In order to use a calendar view, you must specify
+               // a start and end time for the view. Here we'll specify
+               // the next 7 days.
+               DateTime start = DateTime.Today;
+               DateTime end = start.AddDays(6);
+
+               // These values go into query parameters in the request URL,
+               // so add them as QueryOptions to the options passed ot the
+               // request builder.
+               List<Option> viewOptions = new List<Option>();
+               viewOptions.Add(new QueryOption("startDateTime",
+                 start.ToUniversalTime().ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
+               viewOptions.Add(new QueryOption("endDateTime",
+                 end.ToUniversalTime().ToString("s", System.Globalization.CultureInfo.InvariantCulture)));
+
+               var request = client.Me.CalendarView.Request(viewOptions).Top(pageSize.Value);
+               if (!string.IsNullOrEmpty(nextLink))
+               {
+                   request = new UserCalendarViewCollectionRequest(nextLink, client, null);
+               }
+
+               try
+               {
+                   var results = await request.GetAsync();
+
+                   ViewBag.NextLink = null == results.NextPageRequest ? null :
+                     results.NextPageRequest.GetHttpRequestMessage().RequestUri;
+
+                   return View(results);
+               }
+               catch (ServiceException ex)
+               {
+                   TempData["message"] = ex.Error.Message;
+                   return RedirectToAction("Index", "Error");
+               }
+           }
+   ```
+
+2. Add the following code to the `CalenderController` class to display details of an event.
+
+   ```csharp
+                 [Authorize]
+           public async Task<ActionResult> Detail(string eventId)
+           {
+               var client = GetGraphServiceClient();
+
+               var request = client.Me.Events[eventId].Request();
+
+               try
+               {
+                   var result = await request.GetAsync();
+
+                   TempData[eventId] = result.Body.Content;
+
+                   return View(result);
+               }
+               catch (ServiceException ex)
+               {
+                   TempData["message"] = ex.Error.Message;
+                   return RedirectToAction("Index", "Error");
+               }
+           }
+
+           public async Task<ActionResult> GetEventBody(string eventId)
+           {
+               return Content(TempData[eventId] as string);
+           }
+
+   ```
+
+3. Add the following code to the `CalendarController` class to add a new event in the calendar.
+
+```csharp
+               [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> AddEvent(string eventId, string attendees, string subject, string body, string start, string end, string location)
         {
-            var graphServiceClient = await GetGraphServiceAsync();
-            var requestEvent = await graphServiceClient.Me.Events[id].Request().GetAsync();
-            var eventResult = new MyEvent
+            if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(start)
+              || string.IsNullOrEmpty(end) || string.IsNullOrEmpty(location))
             {
-                Id = requestEvent.Id,
-                Subject = requestEvent.Subject,
-                Body = requestEvent.Body.Content,
-                Location = requestEvent.Location.DisplayName,
-                Start = DateTime.SpecifyKind(DateTime.Parse(requestEvent.Start.DateTime), requestEvent.Start.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
-                End = DateTime.SpecifyKind(DateTime.Parse(requestEvent.End.DateTime), requestEvent.End.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local).ToLocalTime(),
-            };
-            return eventResult;
-        }
-        catch
-        {
-            return null;
-        }
+                TempData["error"] = "Please fill in all fields";
+            }
 
-    }
-    ````
-
-    1. Add a **DeleteEvent** function to the **MyEventsRepository** class to delete an event.
-
-    ````c#
-    public async Task DeleteEvent(string id)
-    {
-        try
-        {
-            var graphServiceClient = await GetGraphServiceAsync();
-            await graphServiceClient.Me.Events[id].Request().DeleteAsync();
-        }
-        catch
-        {
-        }
-        return;
-
-    }
-    ````
-
-    1. Add an **AddEvent** function  to the **MyEventsRepository** class to create a new event.
-
-    ````c#
-    public async Task AddEvent(MyEvent myEvent)
-    {
-        try
-        {
-            var graphServiceClient = await GetGraphServiceAsync();
-            var requestEvent = new Microsoft.Graph.Event
+            else
             {
-                Subject = myEvent.Subject,
-                Start = new DateTimeTimeZone() { DateTime = myEvent.Start.ToString(), TimeZone = DateTimeKind.Local.ToString() },
-                End = new DateTimeTimeZone { DateTime = myEvent.End.ToString(), TimeZone = DateTimeKind.Local.ToString() },
-                Location = new Microsoft.Graph.Location { DisplayName = myEvent.Location },
-                Body = new ItemBody { Content = myEvent.Body }
-            };
-            await graphServiceClient.Me.Events.Request().AddAsync(requestEvent);
-        }
-        catch
-        {
-        }
-        return;
-    }
-    ````
+                bool IsPersonalAppointment = true;
+                List<Attendee> eventAttendees = new List<Attendee>();
+                if (!string.IsNullOrEmpty(attendees))
+                {
+                    IsPersonalAppointment = false;
 
-    1. Finally, add a **Search** function to the **MyEventsRepository** class to add search functionality:
 
-    ````c#
-    public async Task<List<MyEvent>> Search(string searchTerm)
-    {
-        try
+                    if (!buildRecipients(attendees, eventAttendees))
+
+                    {
+                        TempData["error"] = "Please provide valid email addresses";
+                    }
+                }
+
+                var client = GetGraphServiceClient();
+
+                var request = client.Me.Events.Request();
+
+                ItemBody CurrentBody = new ItemBody();
+                CurrentBody.Content = (string.IsNullOrEmpty(body) ? "" : body);
+                Event newEvent = new Event()
+                {
+                    Subject = subject,
+                    Body = CurrentBody,
+                    Start = new DateTimeTimeZone() { DateTime = start, TimeZone = "UTC" },
+                    End = new DateTimeTimeZone() { DateTime = end, TimeZone = "UTC" },
+                    Location = new Location() { DisplayName = location }
+                };
+                if (!IsPersonalAppointment)
+                    newEvent.Attendees = eventAttendees;
+
+                try
+                {
+                    await request.AddAsync(newEvent);
+                }
+                catch (ServiceException ex)
+                {
+                    TempData["error"] = ex.Error.Message;
+                }
+            }
+
+            return RedirectToAction("Index", new { eventId = eventId });
+        }
+
+        const string SEMICOLON = ";";
+        const string PERIOD = ".";
+        const string AT = "@";
+        const string SPACE = " ";
+
+        private bool buildRecipients(string strAttendees, List<Attendee> Attendees)
         {
-            var graphServiceClient = await GetGraphServiceAsync();
-            var requestEvents = await graphServiceClient.Me.Events.Request().Filter(string.Format("startswith(subject,+'{0}')", searchTerm)).GetAsync();
-            var eventsResults = requestEvents.CurrentPage.Select(x => new MyEvent
+            int iSemiColonPos = -1;
+            string strTemp = strAttendees.Trim();
+            string strEmailAddress = null;
+            Attendee attendee = new Attendee();
+
+            while (strTemp.Length != 0)
             {
-                Id = x.Id,
-                Subject = x.Subject,
-                Body = x.Body.Content,
-                Location = x.Location.DisplayName,
-                Start = DateTime.SpecifyKind(DateTime.Parse(x.Start.DateTime), x.Start.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local),
-                End = DateTime.SpecifyKind(DateTime.Parse(x.End.DateTime), x.End.TimeZone == "UTC" ? DateTimeKind.Utc : DateTimeKind.Local),
-            }).OrderBy(x=>x.Start).ToList();
-            return eventsResults;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-    ````
+                iSemiColonPos = strTemp.IndexOf(SEMICOLON);
+                if (iSemiColonPos != -1)
+                {
+                    strEmailAddress = strTemp.Substring(0, iSemiColonPos);
+                    strTemp = strTemp.Substring(iSemiColonPos + 1).Trim();
+                }
+                else
+                {
+                    strEmailAddress = strTemp;
+                    strTemp = "";
+                }
+                int iAt = strEmailAddress.IndexOf(AT);
+                int iPeriod = strEmailAddress.LastIndexOf(PERIOD);
+                if ((iAt != -1) && (iPeriod != -1) && (strEmailAddress.LastIndexOf(SPACE) == -1) && (iPeriod > iAt))
+                {
+                    EmailAddress mailAddress = new EmailAddress();
+                    mailAddress.Address = strEmailAddress;
+                    Attendee eventAttendee = new Attendee();
+                    eventAttendee.EmailAddress = mailAddress;
+                    Attendees.Add(eventAttendee);
+                }
+                else
+                {
+                    return false;
+                }
+                strEmailAddress = null;
 
-At this point you have created the repository that will be used to talk to the Microsoft Graph SDK.
-
-## Exercise 4: Code the MVC Application
-In this exercise, you will code the **CalendarController** of the MVC application to display events as well as adding behavior for adding and deleting events.
-
-1. Right-click the **Controllers** folder and select **Add/Controller**.
-  1. In the **Add Scaffold** dialog, select **MVC 5 Controller - Empty**.
-  1. Click **Add**.
-  1. When prompted for a name, enter **CalendarController**.
-  1. Click **Add**.
-1. Within the **CalendarController** file, use the following `using` statements instead of the old using statements :
-
-    ````c#
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
-    using Office365Calendar.Models; 
-    using System.Threading.Tasks;
-    ````
-
-1. Within the `CalendarController` class, add the following field to get a reference to the repository you previously created:
-
-    ````c#
-    MyEventsRepository _repo = new MyEventsRepository();
-    ````
-
-1. Within the `CalendarController` class, add a route handler and view to list all the events:
-  1. **Replace** the **Index** method with the following code to read events.
-      
-    ````c#
-    [Authorize]
-    public async Task<ActionResult> Index(int? pageNumber)
-    {
-        // setup paging
-        const int pageSize = 5;
-        if (pageNumber == null)
-            pageNumber = 1;
-
-        List<MyEvent> events = null;
-        events = await _repo.GetEvents((int)pageNumber - 1, pageSize);
-        ViewBag.pageNumber = pageNumber;
-        if(events != null)
-            ViewBag.morePagesAvailable = events.Count < pageSize ? false : true;
-
-        return View(events);
-    }
-    ````
-
-    > Notice how the route handler takes in an optional parameter for the page number. This will be used to implement paging for the controller. Right now the page size is small, set to 5, for demonstration purposes.
-
-  1. Finally, update the view to display the results.
-    1. Within the `CalendarController` class, right click the `View(events)` at the end of the `Index()` action method and select **Add View**.
-    1. Within the **Add View** dialog, set the following values:
-      1. View Name: **Index**.
-      1. Template: **Empty (without model)**.
-        
-        > Leave all other fields blank & unchecked.
-      
-      1. Click **Add**.
-    1. Within the **Views/Calendar/Index.cshtml** file, delete all the code in the file and replace it with the following code:
-      
-        ````html
-        @model IEnumerable<Office365Calendar.Models.MyEvent>
-		@{ ViewBag.Title = "My Events"; }
-		<h2>My Events</h2>
-		<p>
-		    @Html.ActionLink("Create New", "Create") |
-		    @Html.ActionLink("Search Events", "Search")
-		</p>
-		<table id="eventsTable" class="table table-striped table-bordered">
-		    <tr>
-		        <th>@Html.DisplayNameFor(model => model.Subject)</th>
-		        <th>@Html.DisplayNameFor(model => model.Start)</th>
-		        <th>@Html.DisplayNameFor(model => model.End)</th>
-		        <th>@Html.DisplayNameFor(model => model.Location)</th>
-		        <th></th>
-		    </tr>
-		    @foreach (var item in Model)
-		    {
-		        <tr>
-		            <td>@Html.DisplayFor(modelItem => item.Subject)</td>
-		            <td>@Html.DisplayFor(modelItem => item.Start)</td>
-		            <td>@Html.DisplayFor(modelItem => item.End)</td>
-		            <td>@Html.DisplayFor(modelItem => item.Location)</td>
-		            <td>
-		                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-		                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-		            </td>
-		        </tr>
-		    }
-		</table>
-		<div class="row">
-		    <h4>Paging Control</h4>
-		    <div class="btn btn-group-sm">
-		        @{
-		            var pageLinkAttributes = new Dictionary<string, object> { { "class", "btn btn-default" } };
-		
-		            int pageNumber = ViewBag.pageNumber;
-		
-		            // do prev link if not on first page
-		            if (pageNumber > 1)
-		            {
-		                var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber - 1 } };
-		                @Html.ActionLink("Previous Page", "Index", "Calendar", routeValues, pageLinkAttributes);
-		            }		
-		
-		            // do next link if current page = max page size
-		            if (ViewBag.morePagesAvailable)
-		            {
-		                var routeValues = new RouteValueDictionary { { "pageNumber", pageNumber + 1 } };
-		                @Html.ActionLink("Next Page", "Index", "Calendar", routeValues, pageLinkAttributes);
-		            }
-		        }
-		    </div>
-		</div>
-        ````  
-1. Test the new view:
-  1. In **Visual Studio**, hit **F5** to begin debugging.
-
-   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
-
-  1. When prompted, log in with your **Organizational Account**.
-  1. Once the application is loaded click the **Events link** in the top menu bar.
-  1. Verify that your application displays calendar events from your Office 365 account.  
-
-    ![Screenshot of the previous step](Images/04.png)
-
-  1. Close the browser window, terminate the debugging session and return to Visual Studio.
-
-1. Add a route handler to delete an event:
-  1. In the **CalendarController.cs** file, add an action method named **Delete** using the following code to delete an event.
-
-    ````c#
-    [Authorize]
-    public async Task<ActionResult> Delete(string id)
-    {
-        if (id != null)
-        {
-            await _repo.DeleteEvent(id);
+            }
+            return true;
         }
 
-        return Redirect("/Calendar");
+```
 
-    }
-    ````
+1. Add the following code to the `CalendarController` class to Accept an event.
 
-1. Add a route handler and views to handle creating events:
-  1. In the **CalendarController.cs** file, add an action method named **Create** using the following code to create a new event. Notice how you are adding two items, when the create form is requested (the `HttpGet` option) and one for when the form is submitted (the `HttpPost` option).
+   ```csharp
+             // Accept Calendar event
+           [Authorize]
+           [HttpPost]
+           public async Task<ActionResult> Accept(string eventId)
+           {
+               var client = GetGraphServiceClient();
 
-    ````c#
-    [HttpGet]
-    [Authorize]
-    public async Task<ActionResult> Create()
-    {
-        var myEvent = new MyEvent
-        {
-            Start = DateTimeOffset.Now,
-            End = DateTimeOffset.Now.AddDays(1)
-        };
+               var request = client.Me.Events[eventId].Accept().Request();
 
-        return View(myEvent);
-    }
+               try
+               {
+                   await request.PostAsync();
+               }
+               catch (ServiceException ex)
+               {
+                   TempData["message"] = ex.Error.Message;
+                   return RedirectToAction("Index", "Error");
+               }
 
-    [HttpPost]
-    [Authorize]
-    public async Task<ActionResult> Create(MyEvent myEvent)
-    {
+               return RedirectToAction("Detail", new { eventId = eventId });
+           }
+   ```
 
-        await _repo.AddEvent(myEvent);
-        return Redirect("/Calendar");
-    }
-    ````
+2. Add the following code to the `CalendarController` class to TentativelyAccept an event.
 
-  1. Within the `CalendarController` class, right click the `View(myEvent)` at the end of the `Create()` action method and select **Add View**.
-  1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
-    + View name: **Create**
-    + Template: **Create**
-    + Model class: **MyEvent (Office365Calendar.Models)**
-    + Create as partial view: **unchecked**
-    + Reference script libraries: **unchecked**
-    + Use a layout page: **checked**
-    + Click **Add**
-  1. Open the **Create.cshtml** file. Delete all the code in the file and replace it with the following code:
+   ```csharp
+           [Authorize]
+           [HttpPost]
+           public async Task<ActionResult> Tentative(string eventId)
+           {
+               var client = GetGraphServiceClient();
 
-    ````html
-    @model Office365Calendar.Models.MyEvent
-	@{
-	    ViewBag.Title = "Create";
-	}	
-	<h2>Create</h2>	
-	@using (Html.BeginForm()) 
-	{    
-	    <div class="form-horizontal">
-	        <h4>MyEvent</h4>
-	        <hr />
-	        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-	        <div class="form-group">
-	            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
-	            <div class="col-md-10">
-	                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
-	                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
-	            </div>
-	        </div>
-	
-	        <div class="form-group">
-	            @Html.LabelFor(model => model.Start, htmlAttributes: new { @class = "control-label col-md-2" })
-	            <div class="col-md-10">
-	                @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control" } })
-	                @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
-	            </div>
-	        </div>
-	
-	        <div class="form-group">
-	            @Html.LabelFor(model => model.End, htmlAttributes: new { @class = "control-label col-md-2" })
-	            <div class="col-md-10">
-	                @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control" } })
-	                @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
-	            </div>
-	        </div>
-	
-	        <div class="form-group">
-	            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
-	            <div class="col-md-10">
-	                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-	                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-	            </div>
-	        </div>
-	
-	        <div class="form-group">
-	            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
-	            <div class="col-md-10">
-	                @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })
-	                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
-	            </div>
-	        </div>
-	
-	        <div class="form-group">
-	            <div class="col-md-offset-2 col-md-10">
-	                <input type="submit" value="Create" class="btn btn-default" />
-	            </div>
-	        </div>
-	    </div>
-	}
-	
-	<div>
-	    @Html.ActionLink("Back to List", "Index")
-	</div>
-    ````
+               var request = client.Me.Events[eventId].TentativelyAccept().Request();
 
-1. Test the new view:
-  1. In **Visual Studio**, hit **F5** to begin debugging.
+               try
+               {
+                   await request.PostAsync();
+               }
+               catch (ServiceException ex)
+               {
+                   TempData["message"] = ex.Error.Message;
+                   return RedirectToAction("Index", "Error");
+               }
 
-   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+               return RedirectToAction("Detail", new { eventId = eventId });
+           }
 
-  1. When Prompted, log in with your **Organizational Account**.
-  1. Once the application is loaded click the **Events link** in the top menu bar.
-  1. Click the **Delete** link. The event would be deleted successfully.
-  1. Click the **Create New** link. You should see the form below. Fill the form out to add a new item:
+   ```
 
-    ![Screenshot of the previous step](Images/05.png)
+3. Add the following code to the `CalendarController` class to Decline an event.
 
-  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+   ```csharp
+           [Authorize]
+           [HttpPost]
+           public async Task<ActionResult> Decline(string eventId)
+           {
+               var client = GetGraphServiceClient();
 
-1. Add a route handler and view to handle showing the details of a selected event:
-  1. In the **CalendarController.cs** file, add an action method named **Details** using the following code to view an event.
+               var request = client.Me.Events[eventId].Decline().Request();
 
-    ````c#
-    [Authorize]
-    public async Task<ActionResult> Details(string id)
-    {
+               try
+               {
+                   await request.PostAsync();
+               }
+               catch (ServiceException ex)
+               {
+                   TempData["message"] = ex.Error.Message;
+                   return RedirectToAction("Index", "Error");
+               }
 
-        MyEvent myEvent = null;
-        myEvent = await _repo.GetEvent(id);
-        return View(myEvent);
-    }
-    ````
-  1. Within the `CalendarController` class, right click the `View(myEvent)` at the end of the `Details()` action method and select **Add View**.
-  1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
-    + View name: **Details**
-    + Template: **Details**
-    + Model class: **MyEvent (Office365Calendar.Models)**
-    + Create as partial view: **unchecked**
-    + Reference script libraries: **unchecked**
-    + Use a layout page: **checked**
-    + Click **Add**
+               return RedirectToAction("Index");
+           }
+   ```
 
-1. Open the **Details.cshtml** file. Find the following code and remove it:
-   
-	````html
-	   @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-	````
+   ​
 
-1. Test the new view:
-  1. In **Visual Studio**, hit **F5** to begin debugging.
+### Create the EventList view
 
-   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+In this section, you'll connect the CalendarController you created in the previous section
+to an MVC view that will display the events in your calendar and allow you to add an event to it.
 
-  1. When Prompted, log in with your **Organizational Account**.
-  1. Once the application is loaded click the **Events link** in the top menu bar.
-  1. Click the **Details** link for one of the items. 
+1. Create a new **View** for CalendarList.
 
-    ![Screenshot of the previous step](Images/06.png)
+   1. Expand **Views** folder in **QuickStartCalendarWebApp** and select the folder **Calendar**.  
+   2. Right-click **Calendar** and select **Add** then **New Item**.
+   3. Select **MVC 5 View Page (Razor)** and change the filename **Index.cshtml** and click **Add**.
+   4. **Replace** all of the code in the **Calendar/Index.cshtml** with the following:
 
-  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+   ```asp
+   @model IEnumerable<Microsoft.Graph.Event>
+   @{ ViewBag.Title = "Index"; }
+   <h2>Calendar (Next 7 Days)</h2>
+   @section scripts {
+       <script type="text/javascript">
+   $(function () {
+       //$('#start-picker').datetimepicker({ format: 'YYYY-MM-DDTHH:mm:ss', sideBySide: true });
+       //    $('#end-picker').datetimepicker({ format: 'YYYY-MM-DDTHH:mm:ss', sideBySide: true });
+       $('#start-picker input').datepicker();
+           $('#end-picker input').datepicker();
+   });
+       </script>
+   }
+   <div class="row" style="margin-top:50px;">
+       <div class="col-sm-12">
+           @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+           {
+               <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+           }
+           <div class="panel panel-default">
+               <div class="panel-body">
+                   <form class="form-inline" action="/Calendar/AddEvent" method="post">
+                       <div class="form-group">
+                           <input type="text" class="form-control" name="attendees" id="attendees" placeholder="To" />
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" />
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-control" name="body" id="body" placeholder="body" />
+                       </div>
+                       <div class="form-group">
+                           <div class="input-group date" id="start-picker">
+                               <input type="text" class="form-control" name="start" id="start" placeholder="Start Time (UTC)" />
+                               <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                               </span>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <div class="input-group date" id="end-picker">
+                               <input type="text" class="form-control" name="end" id="end" placeholder="End Time (UTC)" />
+                               <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                               </span>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-control" name="location" id="location" placeholder="Location" />
+                       </div>
+                       <input type="hidden" name="eventId" value="@Request.Params["eventId"]" />
+                       <button type="submit" class="btn btn-default">Add Event</button>
+                   </form>
+               </div>
+           </div>
+           <div class="table-responsive">
+               <table id="calendarTable" class="table table-striped table-bordered">
+                   <thead>
+                       <tr>
+                           <th>Subject</th>
+                           <th>Start</th>
+                           <th>End</th>
+                           <th>Location</th>
+                           <th>Response</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       @foreach (var calendarEvent in Model)
+                       {
+                           <tr>
+                               <td>
+                                   @{
+                                       RouteValueDictionary idVal = new RouteValueDictionary();
+                                       idVal.Add("eventId", calendarEvent.Id);
+                                       if (!string.IsNullOrEmpty(calendarEvent.Subject))
+                                       {
+                                           @Html.ActionLink(calendarEvent.Subject, "Detail", idVal)
+                                       }
+                                       else
+                                       {
+                                           @Html.ActionLink("(no subject)", "Detail", idVal)
+                                       }
+                                   }
+                               </td>
+                               <td>
+                                   @string.Format("{0} ({1})", calendarEvent.Start.DateTime, calendarEvent.Start.TimeZone)
+                               </td>
+                               <td>
+                                   @string.Format("{0} ({1})", calendarEvent.End.DateTime, calendarEvent.End.TimeZone)
+                               </td>
+                               <td>
+                                   @{
+                                       if (null != calendarEvent.Location)
+                                       {
+                                           @calendarEvent.Location.DisplayName
+                                       }
+                                   }
+                               </td>
+                               <td>
+                                   @{
+                                       if (null != calendarEvent.ResponseStatus.Response)
+                                       {
+                                           @calendarEvent.ResponseStatus.Response.Value
+                                       }
+                                   }
+                               </td>
+                           </tr>
+                                       }
+                   </tbody>
+               </table>
+           </div>
+           <div class="btn btn-group-sm">
+               @{
+                   Dictionary<string, object> attributes = new Dictionary<string, object>();
+                   attributes.Add("class", "btn btn-default");
 
-1. Add a route handler and view to handle search for events:
-  1. In the **CalendarController.cs** file, add two action methods named **Search** using the following code to search events.
+                   if (null != ViewBag.NextLink)
+                   {
+                       RouteValueDictionary routeValues = new RouteValueDictionary();
+                       routeValues.Add("nextLink", ViewBag.NextLink);
+                       @Html.ActionLink("Next Page", "Index", "Calendar", routeValues, attributes);
+                   }
+               }
+           </div>
 
-    ````c#
-    [HttpGet]
-    [Authorize]
-    public async Task<ActionResult> Search()
-    {
-        return View();
-    }
+       </div>
+   </div>
+   ```
 
-    [HttpPost]
-    [Authorize]
-    public async Task<ActionResult> Search(string searchTerm)
-    {
-        var events = await _repo.Search(searchTerm);
-        return View(events);
-    }
-    ````
+2. Create a new **View** to get event details and either Accept or TentativelyAccept or Decline it.
 
-  1. Within the `CalendarController` class, right click the `View()` at the end of the `Search()` action method and select **Add View**.
-  1. In the **Add View** dialog, set the following options on the dialog and click **Add**.
-    + View name: **Search**
-    + Template: **Empty**
-    + Create as partial view: **unchecked**
-    + Reference script libraries: **unchecked**
-    + Use a layout page: **checked**
-    + Click **Add**
-  1. Open the generated **Search.cshtml** view and replace the markup with the following code:
+   1. Expand the **Views** folder in **QuickStartCalendarWebApp**. Right-click **Calendar** and select
+      **Add** then **New Item**.
+   2. Select **MVC 5 View Page (Razor)** and change the filename **Detail.cshtml** and click **Add**.
+   3. **Replace** all of the code in the **Calendar/Detail.cshtml** with the following:
 
-    ````html
-    @model IEnumerable<Office365Calendar.Models.MyEvent>
-	@{
-	    ViewBag.Title = "Search";
-	}
-	<h2>Search</h2>
-	@using (Html.BeginForm("Search", "Calendar", FormMethod.Post))
-	{
-	    <p>
-	        <div class="form-horizontal">
-	            <div class="form-group">
-	                <div class="col-md-10">
-	                    <input type="text" id="searchTerm" name="searchTerm" class="form-control" /><br />
-	                    <button type="submit">search for events</button>
-	                </div>
-	            </div>
-	        </div>
-	    </p>
-	}
-	<table class="table">
-	    <tr>
-	        <th>@Html.DisplayNameFor(model => model.Subject)</th>
-	        <th>@Html.DisplayNameFor(model => model.Start)</th>
-	        <th>@Html.DisplayNameFor(model => model.End)</th>
-	        <th></th>
-	    </tr>
-	    @if (Model != null)
-	    {
-	        foreach (var item in Model)
-	        {
-	            <tr>
-	                <td>@Html.DisplayFor(modelItem => item.Subject)</td>
-	                <td>@Html.DisplayFor(modelItem => item.Start)</td>
-	                <td>@Html.DisplayFor(modelItem => item.End)</td>
-	                <td>
-	                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-	                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-	                </td>
-	            </tr>
-	        }
-	    }
-	</table>
-	<p>
-	    @Html.ActionLink("Back to List", "Index")
-	</p>
-    ````
+   ```asp
+   @model Microsoft.Graph.Event
+   @{ ViewBag.Title = "Detail"; }
+   <h2>@Model.Subject</h2>
+   @section scripts {
+       <script type="text/javascript">
+   $(function () {
+     $('#start-picker').datetimepicker({ format: 'YYYY-MM-DDTHH:mm:ss', sideBySide: true });
+     $('#end-picker').datetimepicker({ format: 'YYYY-MM-DDTHH:mm:ss', sideBySide: true });
+   });
+       </script>
+   }
+   <div class="row" style="margin-top:50px;">
+       <div class="col-sm-12">
+           @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+           {
+               <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+           }
+           <div class="panel panel-default">
+               <div class="panel-body">
+                   <table>
+                       <tbody>
+                           <tr>
+                               <form class="form-inline" action="/Calendar/Accept" method="post">
+                                   <input type="hidden" name="eventId" value="@Request.Params["eventId"]" />
+                                   <button type="submit" name="Accept" class="btn btn-default">Accept</button>
+                               </form>
+                               <form class="form-inline" action="/Calendar/Tentative" method="post">
+                                   <input type="hidden" name="eventId" value="@Request.Params["eventId"]" />
+                                   <button type="submit" name="Tentative" class="btn btn-default">Tentative</button>
+                               </form>
+                               <form class="form-inline" action="/Calendar/Decline" method="post">
+                                   <input type="hidden" name="eventId" value="@Request.Params["eventId"]" />
+                                   <button type="submit" name="Decline" class="btn btn-default">Decline</button>
+                               </form>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <div class="table-responsive">
+               <table id="calendarTable" class="table table-striped table-bordered">
+                   <tbody>
+                       <tr>
+                           <td>Organizer:</td>
+                           <td>
+                               @Model.Organizer.EmailAddress.Name
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>Start:</td>
+                           <td>
+                               @string.Format("{0} ({1})", Model.Start.DateTime, Model.Start.TimeZone)
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>End:</td>
+                           <td>
+                               @string.Format("{0} ({1})", Model.End.DateTime, Model.End.TimeZone)
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>Location:</td>
+                           <td>
+                               @{
+                                   if (null != Model.Location)
+                                   {
+                                       @Model.Location.DisplayName
+                                   }
+                               }
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>Response:</td>
+                           <td>
+                               @{
+                                   if (null != Model.ResponseStatus.Response)
+                                   {
+                                       @Model.ResponseStatus.Response.Value
+                                   }
+                               }
+                           </td>
+                       </tr>
+                       <tr>
+                           <td class="auto-style12">Web link:</td>
+                           <td>
+                               @{
+                                   if (null != Model.WebLink)
+                                   {
+                                       <a href="@Model.WebLink">Message OWA link </a>
+                                   }
+                               }
+                           </td>
+                       </tr>
+                   <td>Body:</td>
+                   <td>
+                       <div>
+                           <iframe id="mailBody" width="800" src="@(string.Format("/Calendar/GetEventBody/?eventId={0}", Model.Id))" class="auto-style9" />
+                       </div>
+                   </td>
+                   </tr>
+                   </tbody>
+               </table>
+           </div>
+           <div class="btn btn-group-sm">
+               @{
+                   Dictionary<string, object> attributes = new Dictionary<string, object>();
+                   attributes.Add("class", "btn btn-default");
 
-1. Test the new view:
-  1. In **Visual Studio**, hit **F5** to begin debugging.
+                   if (null != ViewBag.NextLink)
+                   {
+                       RouteValueDictionary routeValues = new RouteValueDictionary();
+                       routeValues.Add("nextLink", ViewBag.NextLink);
+                       @Html.ActionLink("Next Page", "Index", "Calendar", routeValues, attributes);
+                   }
+               }
+           </div>
 
-   > **Note:** If you receive an error that indicates ASP.NET could not connect to the SQL database, please see the [SQL Server Database Connection Error Resolution document](../../SQL-DB-Connection-Error-Resolution.md) to quickly resolve the issue. 
+       </div>
+   </div>
+   ```
 
-  1. When Prompted, log in with your **Organizational Account**.
-  1. Once the application is loaded click the **Events link** in the top menu bar.
-  1. Click the **Search Events** link and enter a search term on the next page. You should see a filtered set of results:
+### Run the app
 
-    ![Screenshot of the previous step](Images/07.png)
+1. Press **F5** to begin debugging.
+2. When prompted, login with your Office 365 administrator account.
+3. Click the **Outlook Calendar API** link in the navigation bar at the top of the page.
+4. Try the app!
 
-  1. Close the browser window, terminate the debugging session and return to Visual Studio.
+**Congratulations dedicated quick start developer!** In this exercise, you created an MVC application that uses Microsoft Graph to view and manage Events in your mailbox. This quick start ends here. Don't stop here - there's plenty more to explore with the Microsoft Graph.
 
-Congratulations! You have completed working with the Microsoft Graph APi for Calendar.
+Next Steps and Additional Resources:
+
+See this training and more on `http://dev.office.com/` and `http://dev.outlook.com`
+Learn about and connect to the Microsoft Graph at `https://graph.microsoft.io`
