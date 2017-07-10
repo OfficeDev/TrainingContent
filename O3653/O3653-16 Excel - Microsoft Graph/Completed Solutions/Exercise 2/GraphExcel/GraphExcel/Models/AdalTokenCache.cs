@@ -73,12 +73,17 @@ namespace GraphExcel.Models
             // if state changed
             if (this.HasStateChanged)
             {
-                Cache = new UserTokenCache
+                if (Cache == null)
                 {
-                    webUserUniqueId = userId,
-                    cacheBits = MachineKey.Protect(this.Serialize(), "ADALCache"),
-                    LastWrite = DateTime.Now
-                };
+                    Cache = new UserTokenCache
+                    {
+                        webUserUniqueId = userId
+                    };
+                }
+
+                Cache.cacheBits = MachineKey.Protect(this.Serialize(), "ADALCache");
+                Cache.LastWrite = DateTime.Now;
+
                 // update the DB and the lastwrite 
                 db.Entry(Cache).State = Cache.UserTokenCacheId == 0 ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
