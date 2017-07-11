@@ -1,0 +1,32 @@
+﻿@model IEnumerable<PeopleGraphWeb.Models.People>
+
+@{
+    ViewBag.Title = "People";
+}
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>Display Name</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.DisplayName
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { userId = ViewBag.UserId, peopleId = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <p>No relevant people for this user.</p>
+}
