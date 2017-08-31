@@ -4,6 +4,7 @@
 This GitHub repository folder houses all of the content for the "Getting started with SharePoint Framework" training.
 
 - Module 01: [Getting started in Office 365 with the Microsoft Graph API](./01%20Getting%20started%20in%20Office%20365%20with%20the%20Microsoft%20Graph%20API)
+- Module 01-1: [Building Graph Applications](01-1%20Building%20Graph%20Applications)
 - Module 02: [Deep Dive into Azure AD in Office 365 with the Microsoft Graph API](02%20Deep%20Dive%20into%20Azure%20AD%20in%20Office%20365%20with%20the%20Microsoft%20Graph%20API)
 - Module 03: [Deep Dive into the Office 365 Unified API](03%20Deep%20Dive%20into%20the%20Office%20365%20Unified%20API)
 - Module 04: [Mobile](04%20Mobile)
