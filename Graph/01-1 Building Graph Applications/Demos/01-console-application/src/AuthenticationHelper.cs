@@ -18,9 +18,6 @@ public class AuthenticationHelper
 
     public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
 
-    public static string TokenForUser = null;
-    public static DateTimeOffset Expiration;
-
     private static GraphServiceClient graphClient = null;
 
     // Get an access token for the given context and resourceId. An attempt is first made to 
@@ -59,25 +56,19 @@ public class AuthenticationHelper
     /// <returns>Token for user.</returns>
     public static async Task<string> GetTokenForUserAsync()
     {
-        AuthenticationResult authResult;
+        AuthenticationResult authResult = null;
         try
         {
-            authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.First());
-            TokenForUser = authResult.AccessToken;
-        }
-
-        catch (Exception)
+            authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.FirstOrDefault());
+            return authResult.AccessToken;
+        }        
+        catch (MsalUiRequiredException ex)
         {
-            if (TokenForUser == null || Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-            {
-                authResult = await IdentityClientApp.AcquireTokenAsync(Scopes);
-
-                TokenForUser = authResult.AccessToken;
-                Expiration = authResult.ExpiresOn;
-            }
-        }
-
-        return TokenForUser;
+            // A MsalUiRequiredException happened on AcquireTokenSilentAsync. 
+            //This indicates you need to call AcquireTokenAsync to acquire a token            
+            authResult = await IdentityClientApp.AcquireTokenAsync(Scopes);
+            return authResult.AccessToken;            
+        }            
     }
 
     /// <summary>
@@ -89,8 +80,7 @@ public class AuthenticationHelper
         {
             IdentityClientApp.Remove(user);
         }
-        graphClient = null;
-        TokenForUser = null;
+        graphClient = null;        
 
     }
 

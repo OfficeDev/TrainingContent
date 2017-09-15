@@ -112,8 +112,8 @@ namespace Graph_02_01_ConsoleApp
             {
                 //Get the Graph client
                 var graphClient = AuthenticationHelper.GetAuthenticatedClient();
-                //Authentication Helper will now have the user's token
-                var token = AuthenticationHelper.TokenForUser;
+                
+                var token = await AuthenticationHelper.GetTokenForUserAsync();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, graphClient.BaseUrl + "/me/people");
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);

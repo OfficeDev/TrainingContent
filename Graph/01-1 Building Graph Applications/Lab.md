@@ -1,6 +1,6 @@
 # Microsoft Graph: Building Microsoft Graph Applications - 200 Level
 ----------------
-In this lab, you will through building applications that connect with the Microsoft Graph using multiple technologies. 
+In this lab, you will walk through building applications that connect with the Microsoft Graph API using multiple technologies. 
 
 ## Table of Contents
 1. [Build a .NET console application using Microsoft Graph](#dotnetconsoleapp)
@@ -10,7 +10,7 @@ In this lab, you will through building applications that connect with the Micros
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an **Azure Active Directory** directory and a user who can log in with administrative privileges.
+This lab uses Visual Studio 2017. It also requires an **Azure Active Directory** tenant and a user with administrative privileges.
 
 ## Setup
 
@@ -41,13 +41,6 @@ Once the application is created, an Application Id is provided on the screen. **
 Click the **Add Platform** button. A popup is presented, choose **Native Application**.
 ![](Images/03b.png)
 
-Finally, add permission for the application to call the Microsoft Graph using delegated permissions. Click the **Add** button under the "Delegated Permissions" section to add the **User.Read** and **User.ReadBasic.All** permissions.
-
-![](Images/03d.png)
-
-Confirm that the permissions were added to the correct section.
-![](Images/03e.png)
-
 Once completed, be sure to scroll to the bottom of the page and **save** all changes.
 
 ![](Images/03f.png)
@@ -66,7 +59,7 @@ Install-Package "Microsoft.Identity.Client" -pre
 Install-Package "System.Configuration.ConfigurationManager"
 ````
 
-Edit the app.config file, and add the following immediately before the &lt;/configuration&gt; element.
+Edit the app.config file, and immediately before the &lt;/configuration&gt; element, add the following element:
 
 ````xml
 <appSettings>
@@ -100,12 +93,9 @@ public class AuthenticationHelper
 {
     // The Client ID is used by the application to uniquely identify itself to the v2.0 authentication endpoint.
     static string clientId = ConfigurationManager.AppSettings["clientId"].ToString();
-    public static string[] Scopes = { "User.Read" };
+    public static string[] Scopes = { "User.Read" , "User.ReadBasic.All"};
 
     public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
-
-    public static string TokenForUser = null;
-    public static DateTimeOffset Expiration;
 
     private static GraphServiceClient graphClient = null;
 
@@ -145,25 +135,22 @@ public class AuthenticationHelper
     /// <returns>Token for user.</returns>
     public static async Task<string> GetTokenForUserAsync()
     {
-        AuthenticationResult authResult;
+        AuthenticationResult authResult = null;
         try
         {
-            authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.First());
-            TokenForUser = authResult.AccessToken;
+            authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.FirstOrDefault());
+            return authResult.AccessToken;
         }
-
-        catch (Exception)
+        catch (MsalUiRequiredException ex)
         {
-            if (TokenForUser == null || Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-            {
-                authResult = await IdentityClientApp.AcquireTokenAsync(Scopes);
+            // A MsalUiRequiredException happened on AcquireTokenSilentAsync. 
+            //This indicates you need to call AcquireTokenAsync to acquire a token
 
-                TokenForUser = authResult.AccessToken;
-                Expiration = authResult.ExpiresOn;
-            }
-        }
-
-        return TokenForUser;
+            authResult = await IdentityClientApp.AcquireTokenAsync(Scopes);
+            
+            return authResult.AccessToken;
+        }    
+        
     }
 
     /// <summary>
@@ -175,17 +162,15 @@ public class AuthenticationHelper
         {
             IdentityClientApp.Remove(user);
         }
-        graphClient = null;
-        TokenForUser = null;
+        graphClient = null;        
 
     }
-
 }
 ````
 
 ### Get the current user's profile using the Graph SDK
 
-The Microsoft Graph API makes it easy to interrogate the currently logged in user's profile. This sample uses our `AuthenticationHelper.cs` class to obtain an authenticated client before accessing the Me endpoint.
+The Microsoft Graph API makes it easy to interrogate the currently logged in user's profile. This sample uses our `AuthenticationHelper.cs` class to obtain an authenticated client before accessing the Me endpoint alias. 
 
 **Edit** the `Program.cs` class and replace the generated using statements with the following:
 
@@ -198,7 +183,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 ````
 
-**Add** the following method that will get the currently logged in user's profile information.
+To get the currently logged in user's profile information, **add** the following method: 
 
 ````csharp
 /// <summary>
@@ -230,7 +215,7 @@ The Microsoft Graph API provides REST endpoints to access information and traver
 
 ````csharp
 /// <summary>
-/// Get people near me. Demonstrates using HttpClient to call the 
+/// Get people near me.  Demonstrates using HttpClient to call the 
 /// Graph API.
 /// </summary>
 /// <returns></returns>
@@ -240,8 +225,8 @@ static async Task<string> GetPeopleNearMe()
     {
         //Get the Graph client
         var graphClient = AuthenticationHelper.GetAuthenticatedClient();
-        //Authentication Helper will now have the user's token
-        var token = AuthenticationHelper.TokenForUser;
+        
+        var token = await AuthenticationHelper.GetTokenForUserAsync();
 
         var request = new HttpRequestMessage(HttpMethod.Get, graphClient.BaseUrl + "/me/people");
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
@@ -355,11 +340,11 @@ Note that you may receive an error similar to "npm WARN This failure might be du
 sudo apt-get install nodejs-legacy
 ````
 
-The application displays, prompting you to click the Connect button.
+The application displays the following dialog box and prompts you to click **Connect**.
 
 ![](Images/09.png)
 
-Click the Connect button. You are prompted to log in. Once logged in, you are prompted to grant the permissions requested by the application.
+You are prompted to log in. Once logged in, you are prompted to grant the permissions requested by the application.
 
 ![](Images/10.png)
 
@@ -428,9 +413,9 @@ When the app loads, click the **Get Started** button.
 
 On the next page, click **Sign In**.
 
-When you sign in, the app will first ask you for permission to sign you in & read your user profile. This allows the application to ensure that you are a business user. The application will then try to sync a list of users from your Azure AD tenant via the Microsoft Graph. If it is unable to do so, it will ask you (the tenant administrator) to connect your tenant to the application.
+When you sign in, the app will first ask you for permission to sign you in & read your user profile. This allows the application to ensure that you are a business user. The application will then try to sync a list of users from your Azure AD tenant via the Microsoft Graph. If it is unable to do so, it asks you (the tenant administrator) to connect your tenant to the application.
 
-The application will then ask for permission to read the list of users in your tenant. When you grant the permission, the application will then be able to query for users at any point. You can verify this by clicking the **Sync Users** button on the users page, refreshing the list of users. Try adding or removing a user and re-syncing the list (but note that it only syncs the first page of users!).
+The application then asks for permission to read the list of users in your tenant. When you grant the permission, the application is able to query for users at any point. You can verify this by clicking the **Sync Users** button on the users page to refresh the list of users. Try adding or removing a user and re-syncing the list (but note that it only syncs the first page of users).
 
 > **Note:** There is approximately a 20 minute data replication delay between the time when an application is granted admin consent and when the data can successfully synchronize. For more information, see: https://github.com/Azure-Samples/active-directory-dotnet-daemon-v2/issues/1
 
@@ -616,7 +601,7 @@ As the timer fires once every 30 seconds, the display will show the successful e
 
 ### Deploy the Azure Function project to Microsoft Azure
 
-Right-click the Azure Function project and choose **Publish**. Choose the **Azure Function App**, and create a new publish target.
+Right-click the Azure Function project and choose **Publish**. Choose the **Azure Function App**, select **Create New**, and click **OK**.
 
 ![](Images/17.png)
 
@@ -635,7 +620,9 @@ Finally, click on the **Monitor** node to monitor the Azure Function as it runs 
 
 ## 4. Create a mobile app with Xamarin using Microsoft Graph
 
-This lab will walk you through creating a .NET console application from scratch using .NET Framework 4.6.2, the Microsoft Graph SDK, and the Microsoft Authentication Library (MSAL).
+In this lab, you will through building an application using Xamarin.Forms. This demo only walks through creating a UWP
+application. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
+see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
 
 ### Register the application
 
@@ -676,17 +663,20 @@ Four projects were created:
 - an iOS specific project containing iOS display logic
 - a Universal Windows Platform project containing Windows display logic
 
+This lab only walks through creating a UWP application using Xamarin.Forms. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
+see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
+
+Right-click the iOS project. Choose **Remove** and choose **OK**. 
+Right-click the Android project. Choose **Remove** and choose **OK**. 
+
 ### Add NuGet Packages to projects
 
-Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft.Identity.Client** package to all projects, and install the **Newtonsoft.Json** package to the portable class library project.
+In Visual Studio, navigate to Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft.Identity.Client** package to all projects, and install the **Newtonsoft.Json** package to the portable class library project.
 
 ````powershell
 Install-Package Microsoft.Identity.Client -ProjectName XamarinApp -pre
 Install-Package Newtonsoft.Json -ProjectName XamarinApp -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.Android -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.iOS -pre
 Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.UWP -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp -pre
 ````
 
 ### Edit the portable class library project
@@ -854,134 +844,7 @@ public async void RefreshUserData(string token)
 }
 ````
 
-### Edit the Android project
 
-Edit the `MainActivity.cs` file. Replace the `using`'s section with the following:
-
-````csharp
-using Android.App;
-using Android.Content;
-using Android.Content.PM;
-using Android.OS;
-using Microsoft.Identity.Client;
-````
-
-**Replace** the body contents with the following.
-
-````csharp
-[Activity(Label = "XamarinApp", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-{
-    protected override void OnCreate(Bundle bundle)
-    {
-        TabLayoutResource = Resource.Layout.Tabbar;
-        ToolbarResource = Resource.Layout.Toolbar;
-
-        base.OnCreate(bundle);
-
-        global::Xamarin.Forms.Forms.Init(this, bundle);
-        LoadApplication(new App());
-
-        App.PCA.RedirectUri = "YOUR_REPLY_URL";
-        App.UiParent = new UIParent(Xamarin.Forms.Forms.Context as Activity);
-    }
-
-    protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-    {
-        base.OnActivityResult(requestCode, resultCode, data);
-        AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(requestCode, resultCode, data);
-    }
-}
-````
-
-**Replace** the **YOUR_REPLY_URL** placeholder with the reply URL generated when you registered the app.
-
-**Add** a new class named `MainPageRenderer` to the project. Replace the `using`'s section with the following:
-
-````csharp
-using Android.App;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Android;
-using XamarinApp;
-using XamarinApp.Droid;
-````
-
-**Add** the following attribute above the `namespace` declaration in the class.
-
-````csharp
-[assembly: ExportRenderer(typeof(MainPage), typeof(MainPageRenderer))]
-````
-
-**Replace** the class definition with the following:
-
-````csharp
-class MainPageRenderer : PageRenderer
-{
-    MainPage page;
-
-    protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
-    {
-        base.OnElementChanged(e);
-        page = e.NewElement as MainPage;
-        var activity = this.Context as Activity;
-    }
-
-}
-````
-
-### Edit the iOS project
-
-Edit the `AppDelegate.cs` file. Replace the `using`'s section with the following:
-
-````csharp
-using Foundation;
-using Microsoft.Identity.Client;
-using UIKit;
-````
-
-**Replace** the body contents with the following.
-
-````csharp
-public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-{
-    global::Xamarin.Forms.Forms.Init();
-    LoadApplication(new App());
-    App.PCA.RedirectUri = "YOUR_REPLY_URL";
-    return base.FinishedLaunching(app, options);
-}
-
-public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
-{
-    AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(url);
-    return true;
-}
-````
-
-**Replace** the **YOUR_REPLY_URL** placeholder with the reply URL generated when you registered the app.
-
-**Add** a new class named `MainPageRenderer` to the project. Replace the `using`'s section with the following:
-
-````csharp
-using Xamarin.Forms.Platform.iOS;
-````
-
-**Replace** the class definition with the following:
-
-````csharp
-class MainPageRenderer : PageRenderer
-{
-    MainPage page;
-    protected override void OnElementChanged(VisualElementChangedEventArgs e)
-    {
-        base.OnElementChanged(e);
-        page = e.NewElement as MainPage;
-    }
-    public override void ViewDidLoad()
-    {
-        base.ViewDidLoad();
-    }
-}
-````
 
 ### Debug the project
 

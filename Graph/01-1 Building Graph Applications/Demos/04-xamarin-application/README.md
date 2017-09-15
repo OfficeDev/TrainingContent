@@ -1,20 +1,17 @@
 # Microsoft Graph: Building Microsoft Graph Applications - 200 Level
 ----------------
-In this lab, you will through building applications that connect with the Microsoft Graph using multiple technologies. 
+In this demo, you will walk through building an application using Xamarin.Forms. This demo only walks through creating a UWP
+application. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
+see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
 
 ## Running the project
 
 The finished solution is provided in this folder. Required edits:
 
 - Edit the PCL project's `App.xaml.cs` file to replace the **CLIENT_ID** placeholder with the registered Application Id.
-- Edit the `MainActivity.cs` class in the Android project to replace the **YOUR_REPLY_URI** placeholder with the registered Application reply URI.
-- Edit the `AppDelegate.cs` class in the iOS project to replace the **YOUR_REPLY_URI** placeholder with the registered Application reply URI.
 
 <a name="xamarinapp"></a>
 
-## Create a mobile app with Xamarin using Microsoft Graph
-
-This lab will walk you through creating a .NET console application from scratch using .NET Framework 4.6.2, the Microsoft Graph SDK, and the Microsoft Authentication Library (MSAL).
 
 ### Register the application
 
@@ -50,6 +47,13 @@ Four projects were created:
 - an iOS specific project containing iOS display logic
 - a Universal Windows Platform project containing Windows display logic
 
+This demo only walks through creating a UWP
+application. For more information on creating Android and iOS projects using Xamarin.Forms that target Microsoft Graph API, 
+see the [Xamarin CSharp Connect Sample on GitHub](https://github.com/microsoftgraph/xamarin-csharp-connect-sample). 
+
+Right-click the iOS project. Choose **Remove** and choose **OK**. 
+Right-click the Android project. Choose **Remove** and choose **OK**. 
+
 ### Add NuGet Packages to projects
 
 Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft.Identity.Client** package to all projects, and install the **Newtonsoft.Json** package to the portable class library project.
@@ -57,10 +61,7 @@ Tools / NuGet Package Manager / Package Manager Console. Install the **Microsoft
 ````powershell
 Install-Package Microsoft.Identity.Client -ProjectName XamarinApp -pre
 Install-Package Newtonsoft.Json -ProjectName XamarinApp -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.Android -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.iOS -pre
 Install-Package Microsoft.Identity.Client -ProjectName XamarinApp.UWP -pre
-Install-Package Microsoft.Identity.Client -ProjectName XamarinApp -pre
 ````
 
 ### Edit the portable class library project
@@ -230,138 +231,8 @@ public async void RefreshUserData(string token)
 }
 ````
 
-### Edit the Android project
-
-Edit the `MainActivity.cs` file. Replace the `using`'s section with the following:
-
-````csharp
-using Android.App;
-using Android.Content;
-using Android.Content.PM;
-using Android.OS;
-using Microsoft.Identity.Client;
-````
-
-**Replace** the body contents with the following.
-
-````csharp
-[Activity(Label = "XamarinApp", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-{
-    protected override void OnCreate(Bundle bundle)
-    {
-        TabLayoutResource = Resource.Layout.Tabbar;
-        ToolbarResource = Resource.Layout.Toolbar;
-
-        base.OnCreate(bundle);
-
-        global::Xamarin.Forms.Forms.Init(this, bundle);
-        LoadApplication(new App());
-
-        App.PCA.RedirectUri = "YOUR_REPLY_URL";
-        App.UiParent = new UIParent(Xamarin.Forms.Forms.Context as Activity);
-    }
-
-    protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-    {
-        base.OnActivityResult(requestCode, resultCode, data);
-        AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(requestCode, resultCode, data);
-    }
-}
-````
-
-**Replace** the **YOUR_REPLY_URL** placeholder with the reply URL generated when you registered the app.
-
-**Add** a new class named `MainPageRenderer` to the project. Replace the `using`'s section with the following:
-
-````csharp
-using Android.App;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Android;
-using XamarinApp;
-using XamarinApp.Droid;
-````
-
-**Add** the following attribute above the **namespace** declaration in the class.
-
-````csharp
-[assembly: ExportRenderer(typeof(MainPage), typeof(MainPageRenderer))]
-````
-
-**Replace** the class definition with the following:
-
-````csharp
-class MainPageRenderer : PageRenderer
-{
-    MainPage page;
-
-    protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
-    {
-        base.OnElementChanged(e);
-        page = e.NewElement as MainPage;
-        var activity = this.Context as Activity;
-    }
-
-}
-````
-### Edit the iOS project
-Edit the **AppDelegate.cs` file. Replace the **usings** section with the following:
-
-````csharp
-using Foundation;
-using Microsoft.Identity.Client;
-using UIKit;
-````
-
-**Replace** the body contents with the following.
-
-````csharp
-public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-{
-    global::Xamarin.Forms.Forms.Init();
-    LoadApplication(new App());
-    App.PCA.RedirectUri = "YOUR_REPLY_URL";
-    return base.FinishedLaunching(app, options);
-}
-
-public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
-{
-    AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(url);
-    return true;
-}
-````
-
-**Replace** the **YOUR_REPLY_URL** placeholder with the reply URL generated when you registered the app.
-
-**Add** a new class named `MainPageRenderer` to the project. Replace the `using`'s section with the following:
-
-````csharp
-using Xamarin.Forms.Platform.iOS;
-````
-
-**Replace** the class definition with the following:
-
-````csharp
-class MainPageRenderer : PageRenderer
-{
-    MainPage page;
-    protected override void OnElementChanged(VisualElementChangedEventArgs e)
-    {
-        base.OnElementChanged(e);
-        page = e.NewElement as MainPage;
-    }
-    public override void ViewDidLoad()
-    {
-        base.ViewDidLoad();
-    }
-}
-````
 
 ### Debug the project
-
-Running the iOS project requires a Mac. If you have a Mac, follow on-screen directions to connect and deploy the application. 
-
-Running the Android project requires an emulator using at least API level 21 and has Chrome, or a physical device meeting the same requirements. 
 
 To verify the application's behavior, right-click the *Universal Windows Platform** project and choose **Set as StartUp Project**.
 
