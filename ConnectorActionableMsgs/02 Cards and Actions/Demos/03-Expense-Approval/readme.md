@@ -11,7 +11,7 @@ This lab uses Visual Studio 2017. It also requires an Office 365 subscription wi
 This lab will use an Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new Web App. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
 
 
-## 3. Adding actions to cards
+## Adding actions to cards
 
 The first section of this lab demonstrated how to design a card, the second section demonstrated how to send Actionable Messages. This section will now pull it all together by implementing a Web API that responds to card actions.
 
