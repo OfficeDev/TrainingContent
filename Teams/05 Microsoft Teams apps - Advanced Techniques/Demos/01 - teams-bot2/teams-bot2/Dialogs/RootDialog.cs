@@ -41,13 +41,13 @@ namespace teams_bot2.Dialogs
 
 				ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 				Activity reply = activity.CreateReply($"You sent {activity.Text} which was {activity.Text.Length} characters");
+				var msgToUpdate = await connector.Conversations.ReplyToActivityAsync(reply);
 
 				// Simulate external activity
 				System.Threading.Thread.Sleep(5000);
 
 				var withoutMentions = activity.GetTextWithoutMentions();
 
-				var msgToUpdate = await connector.Conversations.ReplyToActivityAsync(reply);
 				Activity updatedReply = activity.CreateReply($"Actually, removing the @ mention, it was {withoutMentions.Length} characters");
 				await connector.Conversations.UpdateActivityAsync(reply.Conversation.Id, msgToUpdate.Id, updatedReply);
 			}
