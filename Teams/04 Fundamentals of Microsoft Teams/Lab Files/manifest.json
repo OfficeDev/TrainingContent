@@ -1,0 +1,61 @@
+{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.0",
+  "id": "[microsoft-app-id]",
+  "version": "0.0.1",
+  "packageName": "io.ngrok.[from-ngrok]",
+  "developer": {
+    "name": "Office Developer",
+    "websiteUrl": "https://[from-ngrok].ngrok.io",
+    "privacyUrl": "https://[from-ngrok].ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://[from-ngrok].ngrok.io/tou.html"
+  },
+  "name": {
+    "short": "teams bot1",
+    "full": "teams bot1"
+  },
+  "description": {
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
+  },
+  "icons": {
+    "outline": "bot-icon-20x20.png",
+    "color": "bot-icon-96x96.png"
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [],
+  "staticTabs": [],
+  "bots": [
+    {
+      "botId": "[microsoft-app-id]",
+      "needsChannelSelector": true,
+      "isNotificationOnly": false,
+      "scopes": [
+        "team",
+        "personal"
+      ],
+      "commandLists": [
+        {
+          "scopes": [
+            "team",
+            "personal"
+          ],
+          "commands": [
+            {
+              "title": "Help",
+              "description": "Shows help information"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connectors": [],
+  "composeExtensions": [],
+  "needsIdentity": true,
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}
