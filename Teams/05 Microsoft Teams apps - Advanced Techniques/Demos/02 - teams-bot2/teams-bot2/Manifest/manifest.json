@@ -1,0 +1,88 @@
+{
+	"$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+	"manifestVersion": "1.0",
+	"id": "361b110b-98ce-4fb1-af3a-61fda836ee50",
+	"version": "0.0.1",
+	"packageName": "io.ngrok.da2b9402",
+	"developer": {
+		"name": "Office Developer",
+		"websiteUrl": "https://da2b9402.ngrok.io",
+		"privacyUrl": "https://da2b9402.ngrok.io/privacy.html",
+		"termsOfUseUrl": "https://da2b9402.ngrok.io/tou.html"
+	},
+	"name": {
+		"short": "teams bot2",
+		"full": "teams bot2"
+	},
+	"description": {
+		"short": "TODO: add short description here",
+		"full": "TODO: add full description here"
+	},
+	"icons": {
+		"outline": "bot-icon-20x20.png",
+		"color": "bot-icon-96x96.png"
+	},
+	"accentColor": "#FFFFFF",
+	"configurableTabs": [],
+	"staticTabs": [],
+	"bots": [
+		{
+			"botId": "361b110b-98ce-4fb1-af3a-61fda836ee50",
+			"needsChannelSelector": true,
+			"isNotificationOnly": false,
+			"scopes": [
+				"team",
+				"personal"
+			],
+			"commandLists": [
+				{
+					"scopes": [
+						"team",
+						"personal"
+					],
+					"commands": [
+						{
+							"title": "Hero card",
+							"description": "Display a sample Hero card"
+						},
+						{
+							"title": "Thumbnail card",
+							"description": "Display a sample Thumbnail"
+						}
+					]
+				}
+			]
+		}
+	],
+	"connectors": [],
+	"composeExtensions": [
+			{
+				"botId": "361b110b-98ce-4fb1-af3a-61fda836ee50",
+				"scopes": [
+					"team"
+				],
+				"canUpdateConfiguration": true,
+				"commands": [
+					{
+						"id": "searchCmd",
+						"description": "Search Bot Channels",
+						"title": "Bot Channels",
+						"initialRun": false,
+						"parameters": [
+							{
+								"name": "searchText",
+								"description": "Enter your search text",
+								"title": "Search Text"
+							}
+						]
+					}
+				]
+			}
+	],
+	"needsIdentity": true,
+	"permissions": [
+		"identity",
+		"messageTeamMembers"
+	],
+	"validDomains": []
+}
