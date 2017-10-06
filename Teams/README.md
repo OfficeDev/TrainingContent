@@ -8,6 +8,7 @@ This GitHub repo houses all of the content for the "Introduction to Microsoft Te
 - [Tabs in Microsoft Teams](01%20Tabs/Lab.md)
 - [Connectors in Microsoft Teams](02%20Connectors/Lab.md)
 - [Bots in Microsoft Teams](03%20Bots/Lab.md)
+- [Advanced Techniques](05%20Microsoft%20Teams%20apps%20-%20Advanced%20Techniques/Lab.md)
 
 ----------
 

@@ -19,14 +19,13 @@ In this lab, you will use advanced techniques to build a more-sophisticated bot,
 | -------------------- | ------------------------------------------------------- |
 | Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
 | Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| Sponsor / Support    | Richard Moe (Microsoft)                                 |
 | Sponsor / Support    | Mike Ammerlaan (Microsfot) @mammerla                    |
 
 ## Version history
 
-| Version | Date |    Comments     |
-| ------- | ---- | --------------- |
-| 1.0     |      | Initial release |
+| Version |      Date       |    Comments     |
+| ------- | --------------- | --------------- |
+| 1.0     | October 6, 2017 | Initial release |
 
 ## Disclaimer
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
