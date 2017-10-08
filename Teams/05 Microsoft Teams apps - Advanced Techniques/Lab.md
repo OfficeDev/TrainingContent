@@ -503,7 +503,7 @@ The Bot framework allows for responding with cards instead of simply text. Micro
       {
         var message = await result;
 
-        string cardName = message.RemoveRecipientMention().Trim().ToLower();
+        string cardName = message.GetTextWithoutMentions().Trim().ToLower();
         if (cardName == HeroCard.ToLower())
         {
           await DisplaySelectedCard(context, HeroCard);
