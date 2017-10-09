@@ -201,7 +201,7 @@ The project template creates a Messages controller that receives messages from t
     using Microsoft.Bot.Connector.Teams;
     using Microsoft.Bot.Connector.Teams.Models;
     using Polly;
-    using System
+    using System;
     using System.Collections.Generic;
     using System.Configuration;
     ```
@@ -367,6 +367,8 @@ The Bot Extension for Teams provides an easy mechanism to update a message. This
 1. Locate the `MessageReceivedAsync` method. This is the standard Bot Framework code to respond to a message. Replace the code in the method with this Teams Bot Extension code.
 
     ```cs
+    var activity = await result as Activity;
+
     // calculate something for us to return
     int length = (activity.Text ?? string.Empty).Length;
 
@@ -394,7 +396,7 @@ The Bot framework allows for responding with cards instead of simply text. Micro
 
 1. Stop the debugger.
 1. Open the `WebApiConfig.cs` file in the `App_Start` folder.
-1. Update the `JsonConver.DefaultSettings` property to ignore reference loops when serializing response.
+1. Update the `JsonConvert.DefaultSettings` property to ignore reference loops when serializing response.
 
     ```cs
     JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
@@ -413,7 +415,7 @@ The Bot framework allows for responding with cards instead of simply text. Micro
     using System.Threading;
     ```
 
-1. Replace the `StartAsynch` method with the following snippet:
+1. Replace the `StartAsync` method with the following snippet:
 
     ```cs
     public async Task StartAsync(IDialogContext context)
@@ -501,7 +503,7 @@ The Bot framework allows for responding with cards instead of simply text. Micro
       {
         var message = await result;
 
-        string cardName = message.RemoveRecipientMention().Trim().ToLower();
+        string cardName = message.GetTextWithoutMentions().Trim().ToLower();
         if (cardName == HeroCard.ToLower())
         {
           await DisplaySelectedCard(context, HeroCard);
