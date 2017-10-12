@@ -1,0 +1,37 @@
+.navbar-header {
+  box-sizing: border-box;
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  font-family: 'Segoe UI Semilight WestEuropean', 'Segoe UI Semilight', 'Segoe WP Semilight', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
+  font-size: 17px;
+  padding-left: 20px;
+  position: relative;
+  font-weight: bold;
+}
+
+@media (min-width: 480px) {
+  .navbar-header {
+    float: left;
+    margin-right: 20px;
+    font-size: 20px;
+    padding: 0;
+  }
+}
+
+.ms-TextField {
+  width: 300px;
+  display: inline-block;
+}
+
+.icon-holder {
+  display: inline-block;
+  width: 30px;
+}
+
+.big-icon {
+  font-size: 30px;
+  top: 5px;
+  position: relative;
+}
+
