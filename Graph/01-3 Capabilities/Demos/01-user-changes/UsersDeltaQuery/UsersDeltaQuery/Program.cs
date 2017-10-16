@@ -20,14 +20,14 @@ namespace UsersDeltaQuery
             var clientId = ConfigurationManager.AppSettings["clientId"];
             var tenantId = ConfigurationManager.AppSettings["tenantId"];
             var authorityFormat = ConfigurationManager.AppSettings["authorityFormat"];
-
-            ConfidentialClientApplication daemonClient;
-                daemonClient = new ConfidentialClientApplication(ConfigurationManager.AppSettings["clientId"],
-                    String.Format(authorityFormat, tenantId),
-                    ConfigurationManager.AppSettings["replyUri"],
-                    new ClientCredential(ConfigurationManager.AppSettings["clientSecret"]),
-                    null, new TokenCache());
-
+            
+            ConfidentialClientApplication daemonClient = new ConfidentialClientApplication(
+                ConfigurationManager.AppSettings["clientId"],
+                String.Format(authorityFormat, tenantId),
+                ConfigurationManager.AppSettings["replyUri"],
+                new ClientCredential(ConfigurationManager.AppSettings["clientSecret"]),
+                null, 
+                new TokenCache());
 
             GraphServiceClient graphClient = new GraphServiceClient(
                 "https://graph.microsoft.com/v1.0",

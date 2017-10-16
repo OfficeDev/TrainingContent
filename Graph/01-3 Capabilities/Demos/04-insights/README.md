@@ -1,23 +1,22 @@
 # Microsoft Graph Capabilities – 400 Level
 ----------------
-In this lab, you will walk through capabilities of the Microsoft Graph to build applications to understand the capabilities of Microsoft Graph. 
+In this demo, you will walk through capabilities of the Microsoft Graph to build applications to understand the capabilities of Microsoft Graph. 
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges.
+This demo uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges.
 
 ## 4. Developing insights with Microsoft Graph
-This demonstration will show how to use the Insights resource with Microsoft Graph.
+This demo will show how to use the Insights resource with Microsoft Graph.
 
 
 ### Register the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **Register** a new Converged application, and copy the generated application ID for later use as the Client ID.  **Configure** the application:
 
-- Once the application is created, an Application Id is provided on the screen. **Copy this ID**, you will use it as the Client ID.
 - Add a new secret by clicking the **Generate new password** button and copy the secret to use later as the Client Secret.
 - Click the **Add Platform** button. A popup is presented, choose **Web Application**.
-- Add a Redirect URL to use while debugging locally (default is `https://localhost:44326/`). 
+- Add a Redirect URL to use while debugging locally (the default setting for the Visual Studio project is `https://localhost:44326/`, if you use something else you need to change this value for your app registration). 
 - Click **Save** to save all changes.
 
 ### Clone the starting application
@@ -26,6 +25,8 @@ The application will use OpenId Connect with the v2.0 endpoint as a starting poi
 ````shell
 git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-v2.git
 ````
+
+**Open** the project with Visual Studio 2017. 
 
 **Edit** the `web.config` file with your app's coordinates. 
 - Find the appSettings key `ida:ClientId` and provide the Application ID from your app registration. 
@@ -222,7 +223,7 @@ public class LastUsed
 ````
 
 
-**Right-click** the `Controllers` folder, choose **New / Controller**, choose the **MVC 5 Controller - Empty** project item template, and name the new controller `InsightsController`. **Replace** the contents of `InsightsController.cs` with the following:
+**Right-click** the `Controllers` folder, choose **Add / Controller**, choose the **MVC 5 Controller - Empty** project item template, and name the new controller `InsightsController`. **Replace** the contents of `InsightsController.cs` with the following:
 
 ````csharp
 using Microsoft.Identity.Client;
@@ -397,7 +398,7 @@ namespace WebApp.Controllers
 }
 ````
 
-Each controller method returns a different model to use with its view. **Right-click** the `Views / Insights` folder and add four empty views:
+Each controller method returns a different model to use with its view. **Right-click** the `Views / Insights` folder and choose **Add / View**. Add four empty views:
 - `Index.cshtml`
 - `Shared.cshtml`
 - `Trending.cshtml`

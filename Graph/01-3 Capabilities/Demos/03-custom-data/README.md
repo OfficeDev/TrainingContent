@@ -7,27 +7,25 @@ In this lab, you will walk through capabilities of the Microsoft Graph to build 
 This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges. 
 
 ## 3. Adding custom data to resources in Microsoft Graph
-
-This lab will walk you through working with custom data for resources using Microsoft Graph. 
-
-### Pre-requisistes
-This lab requires an Office 365 administrative user.
+This demonstration will show how to add custom data to resources in Microsoft Graph.
 
 ### Register the application
-Visit the [Application Retgistration Portal](https://apps.dev.microsoft.com) and register a new application. Add a **Native** application platform. Add **delegated** permissions for **Directory.AccessAsUser.All** and **Group.ReadWrite.All**. Click **Save**.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com) and register a new Converged application. Add a **Native** application platform. Add **delegated** permissions for **Directory.AccessAsUser.All** and **Group.ReadWrite.All**. Click **Save**.
 
 ![](../../Images/13.png)
 
 ### Create the application
-In Visual Studio 2017, **create** a new project using the **Console App (.NET Framework)** project template. **Right-click** the project node and choose **Manage NuGet packages**. Search for **Microsoft.Identity.Client** and choose **Install**.
+In Visual Studio 2017, **create** a new project using the **Console App (.NET Framework)** project template. **Right-click** the project node and choose **Manage NuGet packages**. **Click** the Browse tab, ensure the **Include pre-release** checkbox is checked, and search for **Microsoft.Identity.Client**. Click **Install**. **Click** the Browse tab and search for **Newtonsoft.Json**. Click **Install**. 
 
-**Update** the `app.config` file and add an `appSettings` section with the following structure:
+**Right-click** the References node in the project and choose **Add Reference**. Add a reference for **System.Configuration**.
+
+**Update** the `app.config` file and add an `appSettings` section as a child of the `configuration` element with the following structure:
 ````xml
   <appSettings>
     <add key="ida:clientId" value=""/>      
   </appSettings>
 ````
-**Update** the `ida:clientId` setting with the client ID of the application you previously registered. 
+**Update** the `ida:clientId` setting with the Application ID of the application you previously registered. 
 
 **Replace** the contents of `Program.cs` with the following:
 
@@ -306,7 +304,7 @@ namespace CustomData
 
 Both classes use an extension method to write the HTTP status code and reason to console output.
 
-**Add** a new class named `HttpResponseMessageExtension`.  **Replace** its contents with the following:
+**Add** a new class named `HttpResponseMessageExtension.cs`.  **Replace** its contents with the following:
 
 ````csharp
 using System;

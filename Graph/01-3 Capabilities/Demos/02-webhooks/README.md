@@ -4,14 +4,16 @@ In this lab, you will walk through capabilities of the Microsoft Graph to build 
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges. This lab also requires a Microsoft Azure subscription.
+This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges. This lab also requires a Microsoft Azure subscription. If you do not have an Azure subscription, get started by creating a [Free Azure Subscription](https://azure.microsoft.com/free).
 
 ## 2. Microsoft Graph webhooks
 
 This lab will walk you through creating an application that uses OAuth with ASP.NET OWIN middleware and the v2.0 endpoint with Microsoft Graph to register subscriptions. You will also publish the application to a Microsoft Azure Web App to process notifications.
 
 ### Create the Azure Web App
-Webhooks in Microsoft Graph require a publicly accessible endpoint such as a Microsoft Azure Web App or another web server. This lab uses Microsoft Azure. In your Azure subscription, create a new Web App. Copy the URL for later use.
+Webhooks in Microsoft Graph require a publicly accessible endpoint such as a Microsoft Azure Web App or another web server. This lab uses Microsoft Azure. In the Azure portal, **create** a new Web App by clicking **New / Web + Mobile / Web App**. Provide a unique name, choose the subscription, and provide a resource group. Choose **Windows** as the OS type. **Edit** the app service plan. Provide the name, location, and change the Pricing tier to **Free**. Click **OK**, then **Create**.
+
+Once the web app is created, copy the URL for later use.
 
 ### Register the application
 
@@ -20,7 +22,7 @@ Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to 
 - Once the application is created, an Application Id is provided on the screen. **Copy this ID**, you will use it as the Client ID.
 - Add a new secret by clicking the **Generate new password** button and copy the secret to use later as the Client Secret.
 - Click the **Add Platform** button. A popup is presented, choose **Web Application**.
-- Add a Redirect URL to use while debugging locally (default is `https://localhost:44326/`). 
+- Add a Redirect URL to use while debugging locally (the default setting for the Visual Studio project is `https://localhost:44326/`, if you use something else you need to change this value for your app registration). 
 - Add a Redirect URL to use with your Azure Web App (ex: `https://YOURWEBAPP.azurewebsites.net/`).
 - Click **Save** to save all changes.
 

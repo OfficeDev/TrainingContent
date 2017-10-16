@@ -11,7 +11,7 @@ In this lab, you will walk through capabilities of the Microsoft Graph to build 
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges. This lab also requires a Microsoft Azure subscription.
+This lab uses Visual Studio 2017. It also requires an Office 365 subscription and a user with administrative privileges. This lab also requires a Microsoft Azure subscription. If you do not have an Azure subscription, get started by creating a [Free Azure Subscription](https://azure.microsoft.com/free).
 
 
 <a name="deltaqueries"></a>
@@ -22,16 +22,16 @@ This lab will walk you through developing an application using delta queries wit
 
 ### Register and grant consent to the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **Register** a new application, and copy the generated application ID for later use.  **Configure** the application:
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **Register** a new Converged application, and copy the generated application ID for later use.  **Configure** the application:
 
 - **Generate** a new application password secret. Copy it for later use.
 - Add a **Native** application platform. Copy the generated URL for later use.
-- Add an **application** permission for the `User.ReadWriteAll` scope. 
+- Add an **application** permission for the `User.ReadWrite.All` scope. 
 - Make sure to **Save** all changes
 
 ![](Images/01.png)
 
-The application requests an application permission with the User.ReadWriteAll scope. This permission requires administrative consent. **Copy** the following URL and **replace** the `{clientId}` placeholder with your application's client ID from the application registration portal.
+The application requests an application permission with the User.ReadWrite.All scope. This permission requires administrative consent. **Copy** the following URL and **replace** the `{clientId}` placeholder with your application's client ID from the application registration portal.
 
 ````
 https://login.microsoftonline.com/common/adminconsent?client_id={clientId}&redirect_uri=http://localhost
@@ -47,7 +47,7 @@ After signing in, you are prompted to consent to permission requests to read and
 
 > **Note:** There is approximately a 20 minute data replication delay between the time when an application is granted admin consent and when the data can successfully synchronize. For more information, see: https://github.com/Azure-Samples/active-directory-dotnet-daemon-v2/issues/1
 
-You will receive an error indicating a bad request. This is expected. You did not create a web application to listen for HTTP requests on localhost, Azure AD is telling you that it cannot redirect to the requested URL. Doing this is out of scope for this lab. however the URL in the browser shows that Azure AD is telling you that admin consent as been granted via the "admin_consent=True" in the URL bar.
+You will receive an error indicating a bad request. This is expected. You did not create a web application to listen for HTTP requests on localhost, Azure AD is telling you that it cannot redirect to the requested URL. Building a web application for admin consent is out of scope for this lab. However, the URL in the browser shows that Azure AD is telling you that admin consent has been granted via the "admin_consent=True" in the URL bar.
 
 ![](Images/04.png)
 
@@ -99,13 +99,14 @@ namespace UsersDeltaQuery
             var clientId = ConfigurationManager.AppSettings["clientId"];
             var tenantId = ConfigurationManager.AppSettings["tenantId"];
             var authorityFormat = ConfigurationManager.AppSettings["authorityFormat"];
-
-            ConfidentialClientApplication daemonClient;
-                daemonClient = new ConfidentialClientApplication(ConfigurationManager.AppSettings["clientId"],
-                    String.Format(authorityFormat, tenantId),
-                    ConfigurationManager.AppSettings["replyUri"],
-                    new ClientCredential(ConfigurationManager.AppSettings["clientSecret"]),
-                    null, new TokenCache());
+            
+            ConfidentialClientApplication daemonClient = new ConfidentialClientApplication(
+                ConfigurationManager.AppSettings["clientId"],
+                String.Format(authorityFormat, tenantId),
+                ConfigurationManager.AppSettings["replyUri"],
+                new ClientCredential(ConfigurationManager.AppSettings["clientSecret"]),
+                null, 
+                new TokenCache());
 
 
             GraphServiceClient graphClient = new GraphServiceClient(
@@ -226,16 +227,17 @@ Finally, the newly created user is deleted.
 This lab will walk you through creating an application that uses OAuth with ASP.NET OWIN middleware and the v2.0 endpoint with Microsoft Graph to register subscriptions. You will also publish the application to a Microsoft Azure Web App to process notifications.
 
 ### Create the Azure Web App
-Webhooks in Microsoft Graph require a publicly accessible endpoint such as a Microsoft Azure Web App or another web server. This lab uses Microsoft Azure. In your Azure subscription, create a new Web App. Copy the URL for later use.
+Webhooks in Microsoft Graph require a publicly accessible endpoint such as a Microsoft Azure Web App or another web server. This lab uses Microsoft Azure. In the Azure portal, **create** a new Web App by clicking **New / Web + Mobile / Web App**. Provide a unique name, choose the subscription, and provide a resource group. Choose **Windows** as the OS type. **Edit** the app service plan. Provide the name, location, and change the Pricing tier to **Free**. Click **OK**, then **Create**.
+
+Once the web app is created, copy the URL for later use.
 
 ### Register the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com/). **Register** a new converged application, and copy the generated application ID for later use.  **Configure** the application: 
 
-- Once the application is created, an Application Id is provided on the screen. **Copy this ID**, you will use it as the Client ID.
 - Add a new secret by clicking the **Generate new password** button and copy the secret to use later as the Client Secret.
 - Click the **Add Platform** button. A popup is presented, choose **Web Application**.
-- Add a Redirect URL to use while debugging locally (default is `https://localhost:44326/`). 
+- Add a Redirect URL to use while debugging locally (the default setting for the Visual Studio project is `https://localhost:44326/`, if you use something else you need to change this value for your app registration). 
 - Add a Redirect URL to use with your Azure Web App (ex: `https://YOURWEBAPP.azurewebsites.net/`).
 - Click **Save** to save all changes.
 
@@ -249,16 +251,14 @@ git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-openid
 **Edit** the `web.config` file with your app's coordinates. 
 - Find the appSettings key `ida:ClientId` and provide the Application ID from your app registration. 
 - Find the appSettings key `ida:ClientSecret` and provide the value from the secret generated in the previous step.
-- **Replace** the `ida:RedirectUrl`with the same value you provided in the application registration's Redirect URL for your Azure Web App (for example, `https://YOURWEBAPP.azurewebsites.net/`).
-- **Add** a new appSettings key and value, replacing YOURWEBSITE with the name of your newly created Azure Web App.
+- **Replace** the `ida:RedirectUrl` with the same value you provided in the application registration's Redirect URL for your Azure Web App (for example, `https://YOURWEBAPP.azurewebsites.net/`).
+- **Add** a new appSettings key named `ida:NotificationUrl`, replacing YOURWEBSITE with the name of your newly created Azure Web App:
 
 ````xml
 <add key="ida:NotificationUrl" value="https://YOURWEBSITE.azurewebsites.net/notification/listen" />
 ````
 
-The application will need to send and receive emails on behalf of the currently logged in user. 
-
-**Edit** the file `App_Start/Startup.Auth.cs` and update the Scope parameter in `ConfigureAuth` to include the Mail.Send permission scope. It currently has just Mail.Read, append Mail.Send to the space-delimited list.
+The application will need to send and receive emails on behalf of the currently logged in user. **Edit** the file `App_Start/Startup.Auth.cs` and update the Scope parameter in `ConfigureAuth` to include the Mail.Send permission scope. Append `Mail.Send` to the space-delimited list:
 
 ````csharp
 Scope = "openid email profile offline_access Mail.Read Mail.Send",
@@ -269,7 +269,7 @@ The application uses several new model classes for (de)serialization and for Raz
 
 **Right-click** the `Models` folder and add five new classes:
 - `Notification.cs`
-- `Notification.cs`
+- `ResourceData.cs`
 - `Subscription.cs`
 - `SubscriptionStore.cs`
 - `SubscriptionViewModel.cs`
@@ -844,7 +844,7 @@ The `Notification` controller was created but a view was not created for it yet.
 </div>
 ````
 
-The SubscriptionContoller was created but does not yet have a view associated with it. **Right-click** the `Views/Subscription` folder, choose **New / View**, and name the view `Index`, leaving all other values as their default.  **Replace** the contents of `Index.cshtml` with the following:
+The `Subscription` controller was created but does not yet have a view associated with it. **Right-click** the `Views/Subscription` folder, choose **Add / View**, and name the new view `Index`, leaving all other values as their default.  **Replace** the contents of `Index.cshtml` with the following:
 
 ````html
 <!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
@@ -882,7 +882,7 @@ The SubscriptionContoller was created but does not yet have a view associated wi
 </div>
 
 ````
-The SubscriptionController also needs a view to display the properties of a newly created subscription. **Right-click** the `Views/Subscription` folder, choose **Add / New View**, and name the new view `Subscription`, leaving all other values as their default.  **Replace** the contents of `Subscription.cshtml` with the following:
+`SubscriptionController` also needs a view to display the properties of a newly created subscription. **Right-click** the `Views/Subscription` folder, choose **Add / View**, and name the new view `Subscription`, leaving all other values as their default.  **Replace** the contents of `Subscription.cshtml` with the following:
 
 ````html
 The <!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
@@ -982,20 +982,22 @@ This lab will walk you through working with custom data for resources using Micr
 This lab requires an Office 365 administrative user.
 
 ### Register the application
-Visit the [Application Retgistration Portal](https://apps.dev.microsoft.com) and register a new application. Add a **Native** application platform. Add **delegated** permissions for **Directory.AccessAsUser.All** and **Group.ReadWrite.All**. Click **Save**.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com) and register a new Converged application. Add a **Native** application platform. Add **delegated** permissions for **Directory.AccessAsUser.All** and **Group.ReadWrite.All**. Click **Save**.
 
 ![](Images/13.png)
 
 ### Create the application
-In Visual Studio 2017, **create** a new project using the **Console App (.NET Framework)** project template. **Right-click** the project node and choose **Manage NuGet packages**. Search for **Microsoft.Identity.Client** and choose **Install**.
+In Visual Studio 2017, **create** a new project using the **Console App (.NET Framework)** project template. **Right-click** the project node and choose **Manage NuGet packages**. **Click** the Browse tab, ensure the **Include pre-release** checkbox is checked, and search for **Microsoft.Identity.Client**. Click **Install**. **Click** the Browse tab and search for **Newtonsoft.Json**. Click **Install**. 
 
-**Update** the `app.config` file and add an `appSettings` section with the following structure:
+**Right-click** the References node in the project and choose **Add Reference**. Add a reference for **System.Configuration**.
+
+**Update** the `app.config` file and add an `appSettings` section as a child of the `configuration` element with the following structure:
 ````xml
   <appSettings>
     <add key="ida:clientId" value=""/>      
   </appSettings>
 ````
-**Update** the `ida:clientId` setting with the client ID of the application you previously registered. 
+**Update** the `ida:clientId` setting with the Application ID of the application you previously registered. 
 
 **Replace** the contents of `Program.cs` with the following:
 
@@ -1274,7 +1276,7 @@ namespace CustomData
 
 Both classes use an extension method to write the HTTP status code and reason to console output.
 
-**Add** a new class named `HttpResponseMessageExtension`.  **Replace** its contents with the following:
+**Add** a new class named `HttpResponseMessageExtension.cs`.  **Replace** its contents with the following:
 
 ````csharp
 using System;
@@ -1333,17 +1335,16 @@ The application is now making REST calls to the Microsoft Graph to demonstrate t
 
 <a name="insights"></a>
 ## 4. Developing insights with Microsoft Graph
-This demonstration will show how to use the Insights resource with Microsoft Graph.
+This lab will show how to use the Insights resource with Microsoft Graph.
 
 
 ### Register the application
 
-Visit the [Application Registration Portal](https://apps.dev.microsoft.com/) to register the application.
+Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **Register** a new Converged application, and copy the generated application ID for later use as the Client ID.  **Configure** the application:
 
-- Once the application is created, an Application Id is provided on the screen. **Copy this ID**, you will use it as the Client ID.
 - Add a new secret by clicking the **Generate new password** button and copy the secret to use later as the Client Secret.
 - Click the **Add Platform** button. A popup is presented, choose **Web Application**.
-- Add a Redirect URL to use while debugging locally (default is `https://localhost:44326/`). 
+- Add a Redirect URL to use while debugging locally (the default setting for the Visual Studio project is `https://localhost:44326/`, if you use something else you need to change this value for your app registration). 
 - Click **Save** to save all changes.
 
 ### Clone the starting application
@@ -1352,6 +1353,8 @@ The application will use OpenId Connect with the v2.0 endpoint as a starting poi
 ````shell
 git clone https://github.com/Azure-Samples/active-directory-dotnet-webapp-openidconnect-v2.git
 ````
+
+**Open** the project with Visual Studio 2017. 
 
 **Edit** the `web.config` file with your app's coordinates. 
 - Find the appSettings key `ida:ClientId` and provide the Application ID from your app registration. 
@@ -1548,7 +1551,7 @@ public class LastUsed
 ````
 
 
-**Right-click** the `Controllers` folder, choose **New / Controller**, choose the **MVC 5 Controller - Empty** project item template, and name the new controller `InsightsController`. **Replace** the contents of `InsightsController.cs` with the following:
+**Right-click** the `Controllers` folder, choose **Add / Controller**, choose the **MVC 5 Controller - Empty** project item template, and name the new controller `InsightsController`. **Replace** the contents of `InsightsController.cs` with the following:
 
 ````csharp
 using Microsoft.Identity.Client;
@@ -1723,7 +1726,7 @@ namespace WebApp.Controllers
 }
 ````
 
-Each controller method returns a different model to use with its view. **Right-click** the `Views / Insights` folder and add four empty views:
+Each controller method returns a different model to use with its view. **Right-click** the `Views / Insights` folder and choose **Add / View**. Add four empty views:
 - `Index.cshtml`
 - `Shared.cshtml`
 - `Trending.cshtml`

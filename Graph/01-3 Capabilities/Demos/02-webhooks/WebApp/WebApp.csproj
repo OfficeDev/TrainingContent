@@ -223,11 +223,13 @@
     <Content Include="Views\Home\MailSent.cshtml" />
     <Content Include="Views\Subscription\Index.cshtml" />
     <Content Include="Views\Subscription\Subscription.cshtml" />
-    <Content Include="Scripts\jquery-2.1.3.min.map" />
     <Content Include="Views\Notification\Index.cshtml" />
+    <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

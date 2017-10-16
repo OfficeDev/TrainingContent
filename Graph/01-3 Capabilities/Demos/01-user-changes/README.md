@@ -14,7 +14,7 @@ Visit the [Application Registration Portal](https://apps.dev.microsoft.com). **R
 
 - **Generate** a new application password secret. Copy it for later use.
 - Add a **Native** application platform. Copy the generated URL for later use.
-- Add an **application** permission for the `User.ReadWriteAll` scope. 
+- Add an **application** permission for the `User.ReadWrite.All` scope. 
 - Make sure to **Save** all changes
 
 ![](../../Images/01.png)
@@ -35,7 +35,7 @@ After signing in, you are prompted to consent to permission requests to read and
 
 > **Note:** There is approximately a 20 minute data replication delay between the time when an application is granted admin consent and when the data can successfully synchronize. For more information, see: https://github.com/Azure-Samples/active-directory-dotnet-daemon-v2/issues/1
 
-You will receive an error indicating a bad request. This is expected. You did not create a web application to listen for HTTP requests on localhost, Azure AD is telling you that it cannot redirect to the requested URL. Doing this is out of scope for this lab. however the URL in the browser shows that Azure AD is telling you that admin consent as been granted via the "admin_consent=True" in the URL bar.
+You will receive an error indicating a bad request. This is expected. You did not create a web application to listen for HTTP requests on localhost, Azure AD is telling you that it cannot redirect to the requested URL. Building a web application for admin consent is out of scope for this lab. However, the URL in the browser shows that Azure AD is telling you that admin consent has been granted via the "admin_consent=True" in the URL bar.
 
 ![](../../Images/04.png)
 
@@ -88,12 +88,13 @@ namespace UsersDeltaQuery
             var tenantId = ConfigurationManager.AppSettings["tenantId"];
             var authorityFormat = ConfigurationManager.AppSettings["authorityFormat"];
 
-            ConfidentialClientApplication daemonClient;
-                daemonClient = new ConfidentialClientApplication(ConfigurationManager.AppSettings["clientId"],
-                    String.Format(authorityFormat, tenantId),
-                    ConfigurationManager.AppSettings["replyUri"],
-                    new ClientCredential(ConfigurationManager.AppSettings["clientSecret"]),
-                    null, new TokenCache());
+            ConfidentialClientApplication daemonClient = new ConfidentialClientApplication(
+                ConfigurationManager.AppSettings["clientId"],
+                String.Format(authorityFormat, tenantId),
+                ConfigurationManager.AppSettings["replyUri"],
+                new ClientCredential(ConfigurationManager.AppSettings["clientSecret"]),
+                null, 
+                new TokenCache());
 
 
             GraphServiceClient graphClient = new GraphServiceClient(
