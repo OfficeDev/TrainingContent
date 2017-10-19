@@ -14,7 +14,7 @@ This lab uses Visual Studio 2017. It also requires an Office 365 subscription wi
 
 ## Setup
 
-This lab will use an Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new Web App. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
+This lab will use an Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new Web App using the Free pricing tier. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
 
 <a name="messagecardplayground"></a>
 
@@ -217,7 +217,7 @@ Finally, **save** the JSON representing the expense report to your file system. 
 
 ## 2. Sending Actionable Messages 
 
-In the previous section, you used the [MessageCard Playground]() app to design a card and send it to yourself. In this section, you will use PowerShell to send an email containing a card as well as using PowerShell to call a webhook URL that sends a card.
+In the previous section, you used the [MessageCard Playground]() app to design a card and send it to yourself. In this section, you will use PowerShell to send an email containing a card.
 
 ### Write PowerShell to Send Email via Office 365 SMTP Server
 PowerShell provides a utility method `Send-MailMessage` that is used to send emails. We can use this method with the Office 365 SMTP Server to send an email using PowerShell.
@@ -232,7 +232,7 @@ Param(
   [string]$from,
 
   [Parameter(Mandatory = $true, 
-    HelpMessage="Theemail address the email is being sent to")]
+    HelpMessage="The email address the email is being sent to")]
   [ValidateNotNullOrEmpty()]
   [string]$to
   )
@@ -254,37 +254,7 @@ In the interactive pane, change directory to the location where you saved the JS
 
 After you provide your credentials, the script completes. **Check** your inbox, and you will have a new email containing the card that you just sent.
 
-### Write PowerShell to Send Email via a Webhook
-Besides sending via email, your application can also send Actionable Message cards via webhooks. Open your Office 365 inbox and click on the gears icon. **Click** the `Manage Connectors` link.
 
-![](Images/manageconnectors.png)
-
-On the next page, **configure** the properties of your incoming webhook by providing a name and an icon. **Click** the Create button.
-
-![](Images/configurewebhook.png)
-
-Once created, copy the resulting link.
-
-![](Images/copywebhookurl.png)
-
-**Open** a new script window in PowerShell ISE. **Paste** the following PowerShell script:
-
-````PowerShell
-Param(
-  [Parameter(Mandatory = $true, 
-    HelpMessage="The URL of the registered Office 365 connector webhook")]
-  [ValidateNotNullOrEmpty()]
-  [string]$url
-  )
-
-
-$jsonBody = Get-Content .\CardSample.json
-
-Invoke-RestMethod -Method Post -Uri $url -Body $jsonBody -ContentType application/json
-````
-Run the script, you are prompted for the URL of the registered Office 365 connector webhook. **Paste** the URL that you received when registering. 
-
-**Check** your Office 365 mail inbox and see that a new email is delivered containing the body of the card.
 
 <a name="Adding actions to cards"></a>
 
@@ -293,8 +263,6 @@ Run the script, you are prompted for the URL of the registered Office 365 connec
 The first section of this lab demonstrated how to design a card, the second section demonstrated how to send Actionable Messages. This section will now pull it all together by implementing a Web API that responds to card actions.
 
 ## Register a new provider
-As you saw previously in this lab, the action URL did not yet work because it had not been whitelisted. Registration of a provider is required to whitelist your action URL to use with cards. 
-
 Open your browser to the [Actionable Email Developer Dashboard](https://outlook.office.com/connectors/oam/publish) and click **New Provider**. 
 
 Provide a name and image for your provider. You are prompted for an email, this is the email used as the sender for your Actionable Messages. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure web app as an HTTPS URL (for instance, https://myapp.azurewebsites.net). Finally, the scope of submission determines how you will use the provider. Choose **Mailbox** as the scope.

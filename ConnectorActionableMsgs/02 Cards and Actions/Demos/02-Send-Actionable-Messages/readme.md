@@ -9,7 +9,7 @@ This demo uses Azure PowerShell. It also requires an Office 365 subscription wit
 
 ## Sending Actionable Messages 
 
-In the previous section, you used the [MessageCard Playground]() app to design a card and send it to yourself. In this section, you will use PowerShell to send an email containing a card as well as using PowerShell to call a webhook URL that sends a card.
+In the previous section, you used the [MessageCard Playground]() app to design a card and send it to yourself. In this section, you will use PowerShell to send an email containing a card.
 
 ### Write PowerShell to Send Email via Office 365 SMTP Server
 PowerShell provides a utility method `Send-MailMessage` that is used to send emails. We can use this method with the Office 365 SMTP Server to send an email using PowerShell.
@@ -24,7 +24,7 @@ Param(
   [string]$from,
 
   [Parameter(Mandatory = $true, 
-    HelpMessage="Theemail address the email is being sent to")]
+    HelpMessage="The email address the email is being sent to")]
   [ValidateNotNullOrEmpty()]
   [string]$to
   )
@@ -46,37 +46,5 @@ In the interactive pane, change directory to the location where you saved the JS
 
 After you provide your credentials, the script completes. **Check** your inbox, and you will have a new email containing the card that you just sent.
 
-### Write PowerShell to Send Email via a Webhook
-Besides sending via email, your application can also send Actionable Message cards via webhooks. Open your Office 365 inbox and click on the gears icon. **Click** the `Manage Connectors` link.
 
-![](../../Images/manageconnectors.png)
-
-On the next page, **configure** the properties of your incoming webhook by providing a name and an icon. **Click** the Create button.
-
-![](../../Images/configurewebhook.png)
-
-Once created, copy the resulting link.
-
-![](../../Images/copywebhookurl.png)
-
-**Open** a new script window in PowerShell ISE. **Paste** the following PowerShell script:
-
-````PowerShell
-Param(
-  [Parameter(Mandatory = $true, 
-    HelpMessage="The URL of the registered Office 365 connector webhook")]
-  [ValidateNotNullOrEmpty()]
-  [string]$url
-  )
-
-
-$jsonBody = Get-Content .\CardSample.json
-
-Invoke-RestMethod -Method Post -Uri $url -Body $jsonBody -ContentType application/json
-````
-Run the script, you are prompted for the URL of the registered Office 365 connector webhook. **Paste** the URL that you received when registering. 
-
-**Check** your Office 365 mail inbox and see that a new email is delivered containing the body of the card.
-
-<a name="Adding actions to cards"></a>
 

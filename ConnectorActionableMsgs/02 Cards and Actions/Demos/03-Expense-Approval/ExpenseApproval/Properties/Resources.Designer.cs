@@ -78,7 +78,7 @@ namespace ExpenseApproval.Properties {
         ///      &quot;startGroup&quot;: true,
         ///      &quot;title&quot;: &quot;{{approvalResult}}&quot;,
         ///      &quot;activityImage&quot;: &quot;http://connectorsdemo.azurewebsites.net/images/MSC12_Oscar_002.jpg&quot;,
-        ///      &quot;activityTitle&quot;: &quot;Requested by [rest of string was truncated]&quot;;.
+        ///      &quot;activityTitle&quot;: &quot;Requested by **Miguel Garcia* [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string refreshCard {
             get {

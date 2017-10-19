@@ -5,11 +5,11 @@ In this lab, you will walk through building building an Actionable Message card 
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an Office 365 subscription with an active mailbox and a **Microsoft Azure** subscription.
+This demo requires an Office 365 subscription with an active mailbox and a **Microsoft Azure** subscription.
 
 ## Setup
 
-This lab will use an Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new Web App. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
+This lab will use an Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new Web App using the Free pricing plan. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
 
 
 ## 1. Actionable Messages card design and MessageCard Playground

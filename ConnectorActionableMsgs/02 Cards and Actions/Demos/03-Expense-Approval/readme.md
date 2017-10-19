@@ -16,7 +16,6 @@ This lab will use an Azure Web App to deploy an application. The URL of the web 
 The first section of this lab demonstrated how to design a card, the second section demonstrated how to send Actionable Messages. This section will now pull it all together by implementing a Web API that responds to card actions.
 
 ## Register a new provider
-As you saw previously in this lab, the action URL did not yet work because it had not been whitelisted. Registration of a provider is required to whitelist your action URL to use with cards. 
 
 Open your browser to the [Actionable Email Developer Dashboard](https://outlook.office.com/connectors/oam/publish) and click **New Provider**. 
 
