@@ -1,10 +1,11 @@
-# Office Add-ins: Build an Office add-in using modern JavaScript tools and techniques - 300 Level
+# Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
 
-In this demo, you will build an Office add-in using a number of popular JavaScript tools and techniques. 
+----------------
+In this demo, you will build an Office Add-in using a number of popular JavaScript tools and techniques. 
 
 # Running the project
 
-The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the respository, run **npm install**, then **npm run start** and follow the steps to [Side-load the Office add-in](#side-load-the-office-add-in).
+The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](#sideload-the-office-add-in).
 
 # Build an Office Add-in using React
 
@@ -12,33 +13,33 @@ The finished solution is provided in this folder to simplify demonstrations. If 
 
 * [Introduction](#introduction)
 * [Prerequisites](#prerequisites)
-* [Provision the Office add-in](#provision-the-office-add-in)
-* [Side-load the Office add-in](#side-load-the-office-add-in)
-* [Develop the Office add-in](#develop-the-office-add-in)
+* [Provision the Office Add-in](#provision-the-office-add-in)
+* [Sideload the Office Add-in](#sideload-the-office-add-in)
+* [Develop the Office Add-in](#develop-the-office-add-in)
 * [Questions and comments](#questions-and-comments)
 * [Contributing](#contributing)
 * [Additional resources](#additional-resources)
 
 ## Introduction
 
-This sample shows how to build and Office add-in using React with TypeScript. In addition to Office.js, the sample uses the Office Fabric UI for styling and formatting the user experience.
+This sample shows how to build and Office Add-in using React with TypeScript. In addition to Office.js, the sample uses the Office Fabric UI for styling and formatting the user experience.
 
 ## Prerequisites
 
 To complete this lab, you need the following:
 
-* Consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office add-in  (via Office Online).
+* Consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in  (via Office Online).
 * A lightweight code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
-* [Node.js](https://nodejs.org/). Node is required to setup, build, and run the project.
-* [The Office Yeoman Generator](https://www.npmjs.com/package/generator-office). The Office Yeoman Generator is used to create the Office add-in xml manifest file.
+* [Node.js](https://nodejs.org/). Node is required to setup, build, and run the project. Node 6.9.0 or higher, together with NPM 3 or higher are recommended.
+* [The Office Yeoman Generator](https://www.npmjs.com/package/generator-office). The Office Yeoman Generator is used to create the Office Add-in xml manifest file.
 
-    ```shell
-    npm install -g yo generator-office
-    ```
+```shell
+npm install -g yo generator-office
+```
 
-## Provision the Office add-in
+## Provision the Office Add-in
 
-In this section you will use the Office Yeoman generator and Node Package Manager (npm) to provision and configure the Office add-in project.
+In this section you will use the Office Yeoman generator and Node Package Manager (npm) to provision and configure the Office Add-in project.
 
 1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
 
@@ -59,17 +60,22 @@ In this section you will use the Office Yeoman generator and Node Package Manage
 
     ![Office Yeoman Generator](./README_assets/Yeoman.png)
 
-1. When then Yeoman generator completes, change directories to the open the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When then Yeoman generator completes, change directories to the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
 
-## Side-load the Office add-in
+## Sideload the Office Add-in
 
-In this section you will side-load the Office add-in using OneDrive and Office Online.
+In this section you will sideload the Office Add-in using OneDrive and Office Online.
 
->**NOTE**: The instructions below outline how to side-load an Office add-in into Office Online, which works in almost any developer environment. If you are working from a PC, you can also side-load the add-in for testing in the full Win32 Office client. For more information on this approach, see the [Sideloading Office Add-ins into Office Desktop or Office Online](https://www.youtube.com/watch?v=XXsAw2UUiQo).
+>**NOTE**: The instructions below outline how to sideload an Office Add-in into Office Online, which works in almost any developer environment. If you are working from a PC, you can also sideload the add-in for testing in the full Win32 Office client. For more information on this approach, see the [Sideloading Office Add-ins into Office Desktop or Office Online](https://www.youtube.com/watch?v=XXsAw2UUiQo).
+
+>**NOTE**: Office Add-ins are required to be secured by SSL. These labs leverage self-signed certificates for this that may be blocked by your browser as an untrusted certificate. If so, follow the steps for [Adding Self-Signed Certificates as Trusted Root Certificate](https://github.com/OfficeDev/generator-office/blob/master/src/docs/ssl.md).
 
 1. Open a terminal/command prompt in the location where the project is provisioned.
+
 1. Run the "**npm run start**" command, which will build and host the solution. This command is setup to perform a lot of complex tasks, including compiling all the TypeScript files to JavaScript, using Webpack to combine them into a single script reference, and copying all relevant files to a dist folder for hosting. When the build completes, you should see a note that "*webpack: Compiled successfully*". The TypeScript compiler will also stay in a "watch mode", which will immediately re-compile and refresh the solution when code changes are made. If you need to exit "watch mode", use the Ctrl-C command.
+
 1. Navigate and sign-in to OneDrive ([https://www.onedrive.com](https://www.onedrive.com)). OneDrive offers free consumer accounts, so if you don't have one you can create one.
+
 1. From the OneDrive toolbar, select **New** and then select **Excel workbook** to create a new Excel workbook.
 
     ![Creating new workbook in OneDrive](./README_assets/NewWorkbook.png)
@@ -78,7 +84,7 @@ In this section you will side-load the Office add-in using OneDrive and Office O
 
     ![Office Add-ins command in the Insert ribbon](./README_assets/AddinCommand.png)
 
-1. In the Office add-in dialog, click on the Manage My Add-ins link in the top right and then select Upload My Add-in.
+1. In the Office Add-in dialog, click on the Manage My Add-ins link in the top right and then select Upload My Add-in.
 
     ![Manage My Add-ins](./README_assets/ManageAddins.png)
 
@@ -90,7 +96,7 @@ In this section you will side-load the Office add-in using OneDrive and Office O
 
     ![Show taskpane command in ribbon](./README_assets/ShowTaskpaneCommand.png)
 
-1. Click on the **Show Taskpane** button to bring up your Office add-in in a task pane. It should say "Welcome to app!" with an Angular logo below it.
+1. Click on the **Show Taskpane** button to bring up your Office Add-in in a task pane. It should say "Welcome to app!" with an Angular logo below it.
 
     ![Add-in after initially loading](./README_assets/AddinInit.png)
 
@@ -104,9 +110,9 @@ In this section you will side-load the Office add-in using OneDrive and Office O
 
     ![Add-in after making change to message](./README_assets/AddinInitWatch.png)
 
-## Develop the Office add-in
+## Develop the Office Add-in
 
-In this section, you will finish developing the Office add-in using React and TypeScript. The add-in will allow the user to get real-time stock quotes and manage a portfolio in an Excel table. User's will have the ability to add, delete, and refresh stocks. Additionally, the add-in should check for an existing portfolio upon opening and (if found) read the stocks out of the worksheet.
+In this section, you will finish developing the Office Add-in using React and TypeScript. The add-in will allow the user to get real-time stock quotes and manage a portfolio in an Excel table. Users will have the ability to add, delete, and refresh stocks. Additionally, the add-in should check for an existing portfolio upon opening and (if found) read the stocks out of the worksheet.
 
 1. Open **src/assets/styles/global.scss** and add the following styles to the end of the file.
 
@@ -214,7 +220,7 @@ In this section, you will finish developing the Office add-in using React and Ty
     };
     ````
 
-1. Create a new React component named **stock-item** at **src/components/stock-item.tsx** with the code shown below. This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, it's index in the list, and the handlers for refresh and delete.
+1. Create a new React component named **stock-item** at **src/components/stock-item.tsx** with the code shown below. This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
 
     ````typescript
     import * as React from 'react';
@@ -335,11 +341,11 @@ In this section, you will finish developing the Office add-in using React and Ty
     };
     ````
 
-1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Side-load the Office add-in](#side-load-the-office-add-in) steps above.
+1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#sideload-the-office-add-in) steps above.
 
     ![Add-in with visual markup complete](./README_assets/AddinVisual.png)
 
-1. The **app.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locading the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **app.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
     ````typescript
     // Gets a quote by calling into the stock service
@@ -519,7 +525,7 @@ In this section, you will finish developing the Office add-in using React and Ty
     }
     ````
 
-    > **Optional**: this is a good time to test the "add symbol" function of your add-in
+    >**Optional**: this is a good time to test the "add symbol" function of your add-in
 
 1. Return to **/src/utils/excelTableUtil.ts** and add functions for **getColumnData** and **deleteRow**. getColumnData gets values for a column in the Excel table so a row can be identified for update or delete. deleteRow deletes a row in the Excel table based on it's index.
 
@@ -604,7 +610,7 @@ In this section, you will finish developing the Office add-in using React and Ty
     }
     ````
 
-    > **Optional**: this is a good time to test the "delete symbol" function of your add-in
+    >**Optional**: this is a good time to test the "delete symbol" function of your add-in
 
 1. Make the final update to **src/utils/excelTableUtil.ts** by adding the **updateCell** function, which updates the cell at a specific address to a specified value.
 
@@ -665,7 +671,7 @@ In this section, you will finish developing the Office add-in using React and Ty
     }
     ````
 
-    > **Optional**: this is a good time to test the "refresh symbol" function of your add-in
+    >**Optional**: this is a good time to test the "refresh symbol" function of your add-in
 
 1. Finally, update the **syncTable** function, which is called when the add-in is launched (in the constructor of app.tsx) to pull in any stock symbols that might already exist in the worksheet. It calls **getColumnData** to get this data.
 
@@ -683,10 +689,28 @@ In this section, you will finish developing the Office add-in using React and Ty
     }
     ````
 
-1. Test your work by returning to Excel Online. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Side-load the Office add-in](#side-load-the-office-add-in) steps above. You should test all the different operations you created:
+1. Test your work by returning to Excel Online. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#sideload-the-office-add-in) steps above. You should test all the different operations you created:
     * Add a symbol by typing the symbol and pressing enter/return
     * Refresh a symbol (helps to clear out the **Last Price** cell when outside trading hours)
     * Delete a symbol
     * Reload the add-in with an existing portfolio table and see if the add-in pulls in the symbols
 
     ![Testing the add-in](./README_assets/ExcelPortfolio.gif)
+
+## Contributing
+
+If you'd like to contribute to this sample, see [CONTRIBUTING.MD](/CONTRIBUTING.md).
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Questions and comments
+
+We'd love to get your feedback about this sample. You can send your questions and suggestions in the [Issues](https://github.com/officedev/trainingcontent/issues) section of this repository.
+
+Questions about Office development in general should be posted to [Stack Overflow](https://stackoverflow.com/questions/tagged/office-js). Make sure that your questions or comments are tagged with `[office-js]`.
+
+## Additional resources
+
+* [Office Add-in platform overview](https://dev.office.com/docs/add-ins/overview/office-add-ins)
+* [Using Office UI Fabric React in Office Add-ins](https://dev.office.com/docs/add-ins/design/using-office-ui-fabric-react)
+* [Build an Excel add-in using React](https://dev.office.com/docs/add-ins/excel/excel-add-ins-get-started-react) 
