@@ -1,10 +1,9 @@
-# Office Add-ins: Build an Office add-in using modern JavaScript tools and techniques - 300 Level
-
+# Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
+----------------
 This module walks through building applications using multiple technologies.
 
 ## Lab
-
-In this lab, you will walk through building Office add-ins using a variety of popular JavaScript tools and frameworks, including TypeScript, React, Angular, and VueJS.
+In this lab, you will walk through building Office Add-ins using a variety of popular JavaScript tools and frameworks, including TypeScript, React, Angular, and VueJS.
 
 - [Lab Manual](./Lab.md)
 
@@ -27,5 +26,4 @@ In this lab, you will walk through building Office add-ins using a variety of po
 | 1.0     |      | Initial release |
 
 ## Disclaimer
-
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**

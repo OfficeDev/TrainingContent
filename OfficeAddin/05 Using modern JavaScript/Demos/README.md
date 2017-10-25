@@ -1,6 +1,6 @@
-# Office Add-ins: Build an Office add-in using modern JavaScript tools and techniques - 300 Level
+# Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
 
-This folder contains demos for the Build an Office add-in using modern JavaScript tools and techniques module.
+This folder contains demos for the Build an Office Add-in using modern JavaScript tools and techniques module.
 
 ## Demos
 
@@ -10,4 +10,4 @@ This folder contains demos for the Build an Office add-in using modern JavaScrip
 
 ## Running demonstrations
 
-Each demonstration includes a finished solution in its respective folder. If you want to run a finished project, clone the respository, run **npm install** (from the solution folder directory), then **npm run start** and follow the steps for side-loading Office add-ins in Office Online.
+Each demonstration includes a finished solution in its respective folder. If you want to run a finished project, clone the respository, run **npm install** (from the solution folder directory), then **npm run start** and follow the steps for sideloading Office Add-ins in Office Online.
