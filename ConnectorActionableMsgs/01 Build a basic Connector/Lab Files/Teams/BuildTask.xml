@@ -1,0 +1,33 @@
+<Target Name="AfterBuild">
+  <ZipDir InputBaseDirectory="manifest" OutputFileName="$(OutputPath)\$(MSBuildProjectName).zip" OverwriteExistingFile="true" IncludeBaseDirectory="false" />
+</Target>
+<UsingTask TaskName="ZipDir" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+  <ParameterGroup>
+    <InputBaseDirectory ParameterType="System.String" Required="true" />
+    <OutputFileName ParameterType="System.String" Required="true" />
+    <OverwriteExistingFile ParameterType="System.Boolean" Required="false" />
+    <IncludeBaseDirectory ParameterType="System.Boolean" Required="false" />
+  </ParameterGroup>
+  <Task>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Using Namespace="System.IO.Compression" />
+    <Code Type="Fragment" Language="cs">
+      <![CDATA[
+          if (File.Exists(OutputFileName))
+          {
+            if (!OverwriteExistingFile)
+            {
+              return false;
+            }
+            File.Delete(OutputFileName);
+          }
+          ZipFile.CreateFromDirectory
+          (
+            InputBaseDirectory, OutputFileName,
+            CompressionLevel.Optimal, IncludeBaseDirectory
+          );
+        ]]>
+    </Code>
+  </Task>
+</UsingTask>
