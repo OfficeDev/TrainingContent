@@ -487,8 +487,8 @@ These steps assume that the application created in Exercise 1 is named **teams-a
           <div>
             <select name="graph" id="graph"  class="form-control" onchange="onChange(this.value);">
               <option value="" selected>Select one...</option>>
-              <option value="members">Member information</option>
-              <option value="calendar">Group Calendar (requires admin consent)</option>
+              <option value="member">Member information</option>
+              <option value="group">Group information (requires admin consent)</option>
             </select>
           </div>
           <div class="form-field-title">
@@ -729,14 +729,13 @@ These steps assume that the application created in Exercise 1 is named **teams-a
             // hack
             if (context.entityId) {
               this.configuration = context.entityId;
+              let element = document.getElementById('app');
+              if (element) {
+                element.innerHTML = `The value is: ${this.configuration}`;
+              }
             }
           });
-
-          let element = document.getElementById('app');
-          if (element) {
-            element.innerHTML = `The value is: ${this.configuration}`;
-          }
-        });
+        }
         ```
 
     1. Add the following function to the `teamsApp1TabTab` object. This function runs in response to the button click.
@@ -773,7 +772,7 @@ These steps assume that the application created in Exercise 1 is named **teams-a
         ```typescript
         public getData(token: string) {
           let graphEndpoint = "https://graph.microsoft.com/v1.0/me";
-          if (this.configuration === "calendar") {
+          if (this.configuration === "group") {
             graphEndpoint = "https://graph.microsoft.com/v1.0/groups/" + this.groupId;
           }
 
@@ -817,7 +816,6 @@ These steps assume that the application created in Exercise 1 is named **teams-a
     1. Add the following to the **auth.ts** file. Note that there is a token named `[application-id-from-registration]` that must be replaced. Use the value of the Application Id copied from the Application Registration page.
 
         ```typescript
-        /// <reference path="../../../node_modules/msal/out/msal.d.ts" />
         /**
         * Implementation of the teams app1 Auth page
         */
@@ -832,60 +830,61 @@ These steps assume that the application created in Exercise 1 is named **teams-a
             microsoftTeams.initialize();
           }
 
-        public performAuthV2(level: string) {
-          // Setup auth parameters for MSAL
-          let graphAPIScopes: string[] = ["https://graph.microsoft.com/user.read", "https://graph.microsoft.com/group.read.all"];
-          let userAgentApplication = new Msal.UserAgentApplication(
+          public performAuthV2(level: string) {
+            // Setup auth parameters for MSAL
+            let graphAPIScopes: string[] = ["https://graph.microsoft.com/user.read", "https://graph.microsoft.com/group.read.all"];
+            let userAgentApplication = new Msal.UserAgentApplication(
                                                 "[application-id-from-registration]",
                                                 "https://login.microsoftonline.com/common",
                                                 this.tokenReceivedCallback);
 
-          if (userAgentApplication.isCallback(window.location.hash)) {
-            userAgentApplication.handleAuthenticationResponse(
-              window.location.hash,
-              (token) => {
-                if (this.user == null) {
-                  this.user = userAgentApplication.getUser()!;
-                  this.getToken(userAgentApplication, graphAPIScopes);
-                } else {
-                  microsoftTeams.authentication.notifySuccess(token);
-                }
-              },
-              (error) => { microsoftTeams.authentication.notifyFailure(error); }
-            );
-          } else {
-            this.user = userAgentApplication.getUser();
-            if (!this.user) {
-              // If user is not signed in, then prompt user to sign in via loginRedirect.
-              // This will redirect user to the Azure Active Directory v2 Endpoint
-              userAgentApplication.loginRedirect(graphAPIScopes);
+            if (userAgentApplication.isCallback(window.location.hash)) {
+              userAgentApplication.handleAuthenticationResponse(
+                window.location.hash,
+                (token) => {
+                  if (this.user == null) {
+                    this.user = userAgentApplication.getUser()!;
+                    this.getToken(userAgentApplication, graphAPIScopes);
+                  } else {
+                    microsoftTeams.authentication.notifySuccess(token);
+                  }
+                },
+                (error) => { microsoftTeams.authentication.notifyFailure(error); }
+              );
             } else {
-              this.getToken(userAgentApplication, graphAPIScopes);
-            }
-          }
-        }
-
-        private getToken(userAgentApplication: Msal.UserAgentApplication, graphAPIScopes: string[]) {
-          // In order to call the Graph API, an access token needs to be acquired.
-          // Try to acquire the token used to query Graph API silently first:
-          userAgentApplication.acquireTokenSilent(graphAPIScopes).then(
-            (token) => {
-              //After the access token is acquired, return to MS Teams, sending the acquired token
-              microsoftTeams.authentication.notifySuccess(token);
-            },
-            (error) => {
-              // If the acquireTokenSilent() method fails, then acquire the token interactively via acquireTokenRedirect().
-              // In this case, the browser will redirect user back to the Azure Active Directory v2 Endpoint so the user
-              // can reenter the current username/ password and/ or give consent to new permissions your application is requesting.
-              if (error) {
-                userAgentApplication.acquireTokenRedirect(graphAPIScopes);
+              this.user = userAgentApplication.getUser();
+              if (!this.user) {
+                // If user is not signed in, then prompt user to sign in via loginRedirect.
+                // This will redirect user to the Azure Active Directory v2 Endpoint
+                userAgentApplication.loginRedirect(graphAPIScopes);
+              } else {
+                this.getToken(userAgentApplication, graphAPIScopes);
               }
             }
-          );
-        }
+          }
 
-        private tokenReceivedCallback(errorDesc, token, error, tokenType) {
-          //  suppress typescript compile errors
+          private getToken(userAgentApplication: Msal.UserAgentApplication, graphAPIScopes: string[]) {
+            // In order to call the Graph API, an access token needs to be acquired.
+            // Try to acquire the token used to query Graph API silently first:
+            userAgentApplication.acquireTokenSilent(graphAPIScopes).then(
+              (token) => {
+                //After the access token is acquired, return to MS Teams, sending the acquired token
+                microsoftTeams.authentication.notifySuccess(token);
+              },
+              (error) => {
+                // If the acquireTokenSilent() method fails, then acquire the token interactively via acquireTokenRedirect().
+                // In this case, the browser will redirect user back to the Azure Active Directory v2 Endpoint so the user
+                // can reenter the current username/ password and/ or give consent to new permissions your application is requesting.
+                if (error) {
+                  userAgentApplication.acquireTokenRedirect(graphAPIScopes);
+                }
+              }
+            );
+          }
+
+          private tokenReceivedCallback(errorDesc, token, error, tokenType) {
+            //  suppress typescript compile errors
+          }
         }
         ```
 

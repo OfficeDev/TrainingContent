@@ -20,7 +20,7 @@
     "gulp-util": "3.0.8",
     "gulp-zip": "4.0.0",
     "morgan": "1.8.2",
-    "msal": "^0.1.1",
+    "msal": "0.1.1",
     "nodemon":"1.11.0",
     "run-sequence": "1.2.2",
     "ts-loader": "2.3.2",
