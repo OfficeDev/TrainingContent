@@ -62,7 +62,7 @@ export class teamsApp1TabTab {
 
   public getData(token: string) {
     let graphEndpoint = "https://graph.microsoft.com/v1.0/me";
-    if (this.configuration === "calendar") {
+    if (this.configuration === "group") {
       graphEndpoint = "https://graph.microsoft.com/v1.0/groups/" + this.groupId;
     }
 
