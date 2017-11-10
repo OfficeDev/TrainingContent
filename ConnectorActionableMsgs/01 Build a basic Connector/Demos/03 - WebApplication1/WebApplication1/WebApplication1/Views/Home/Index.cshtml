@@ -1,0 +1,41 @@
+﻿@model WebApplication1.Models.HomePage
+@{
+	ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+	<h1>Website with Office 365 Connector</h1>
+	<p class="lead">Bring filtered information in the shared inbox that is relevant and contextual to the team’s needs and interests..</p>
+	<p><a href="https://docs.microsoft.com/en-us/outlook/actionable-messages/#office-365-connectors-for-groups-microsoft-teams-and-yammer" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<h2>Getting started</h2>
+		<p>
+			Register your Connector for Office 365 Groups, Inbox or both.
+		</p>
+		<p><a class="btn btn-default" href="https://docs.microsoft.com/en-us/outlook/actionable-messages/connectors-dev-dashboard#build-your-own-connector">Learn more &raquo;</a></p>
+	</div>
+	<div class="col-md-4">
+		<h2>Connect your App</h2>
+		<p>
+			When you connect a tool or service to a group, everyone in the group can see the messages delivered by that service. The messages are delivered as rich connector cards, which can be viewed in multiple clients including Outlook on the web, Outlook 2016 for Windows, and in the Groups app for iOS and Android for Office 365 users.
+		</p>
+		<p><a class="btn btn-default" href="https://support.office.com/en-us/article/Connect-apps-to-your-groups-in-Outlook-ed0ce547-038f-4902-b9b3-9e518ae6fbab?ui=en-US&rs=en-US&ad=US">Learn more &raquo;</a></p>
+	</div>
+	<div class="col-md-4">
+		<h2>Publish a Card</h2>
+		<p>When a noteworthy event happens in your website, use the Connector URL to create a conversation. Provide relevant data in a card.</p>
+		<p>
+			@using (Html.BeginForm())
+			{
+				<div class="form-group">
+					@Html.DropDownListFor(m => m.CardType, Model.CardTypes, "- Select a card type -", new { @class = "form-control" })
+				</div>
+			<p><input type="submit" value="Submit" /></p>
+				<div class="@(Model.MessageClass)">@(Model.Message)</div>
+			}
+			</p>
+		</div>
+	</div>

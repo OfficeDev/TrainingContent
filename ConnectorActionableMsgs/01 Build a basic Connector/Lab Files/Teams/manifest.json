@@ -1,0 +1,45 @@
+{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.0",
+  "id": "[connector-id]",
+  "version": "0.0.1",
+  "packageName": "io.ngrok.tbd",
+  "developer": {
+    "name": "Office Developer",
+    "websiteUrl": "https://tbd.ngrok.io",
+    "privacyUrl": "https://tbd.ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://tbd.ngrok.io/tou.html"
+  },
+  "name": {
+    "short": "Training Content Connector",
+    "full": "Connector built during HOL for Connectors Module 1"
+  },
+  "description": {
+    "short": "Office 365 Connector",
+    "full": "Bring filtered information in the shared inbox that is relevant and contextual to the team’s needs and interests."
+  },
+  "icons": {
+    "outline": "connector-icon-20x20.png",
+    "color": "connector-icon-96x96.png"
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [],
+  "staticTabs": [],
+  "bots": [],
+  "connectors": [
+    {
+      "connectorId": "[connector-id]",
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "tbd.ngrok.io"
+  ]
+}

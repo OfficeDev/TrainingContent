@@ -1,0 +1,45 @@
+﻿
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+	<form>
+		<input type="radio" name="maptype" value="bing" onclick="onClick()"> Bing Maps<br>
+		<input type="radio" name="maptype" value="google" onclick="onClick()"> Google Maps
+	</form>
+
+	<script src="https://statics.office365.microsoft.com/sdk/v1.0/js/Office365.min.js"></script>
+
+	<script type="text/javascript">
+		function onClick() {
+			office365.settings.setValidityState(true);
+		}
+
+		$(document).ready(function () {
+			office365.initialize();
+			office365.settings.registerOnSaveHandler(function (saveEvent) {
+				var radios = document.getElementsByName("maptype");
+				if (radios[0].checked) {
+					office365.settings.setSettings({
+						entityId: "bing",
+						editUrl: "https://www.bing.com/maps/embed",
+						friendlyName: "Bing Map",
+					});
+				} else {
+					office365.settings.setSettings({
+						entityId: "google",
+						editUrl: "https://www.google.com/maps/embed",
+						friendlyName: "Google Map",
+					});
+				}
+				saveEvent.notifySuccess();
+			});
+		});
+
+	</script>
+</body>
+</html>
