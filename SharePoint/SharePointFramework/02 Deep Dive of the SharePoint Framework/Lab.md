@@ -81,7 +81,7 @@ Make sure you have completed the procedures in the following sections of [Gettin
 5. SharePoint will display a dialog and ask you to trust the client-side solution to deploy.
 	
 	![](Images/25.png)
-
+**Do not check Make this solution available to all site in the organization**
 6. Choose **Deploy**.
 
 
