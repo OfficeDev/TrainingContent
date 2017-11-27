@@ -1,5 +1,6 @@
 # Build a basic Connector that works with Graph and Teams
 ----------
+This module covers building a Connector that works with Graph & Teams
 
 ## Lab - Build a basic Connector that works with Graph and Teams
 
@@ -9,8 +10,21 @@ In this lab, you will walk through designing, building, registering, and deployi
 
 ## Demos
 
-- [](./Demos/01)
-- [](./Demos/02)
-- [](./Demos/03)
+- [Create a Card payload and submit it via an Incoming Webhook](./Demos/01 - card-webhook)
+- [Add Connector functionality to existing web site](./Demos/02 - WebApplication1)
+- [Sideload the Connector to Microsoft Teams](./Demos/03 - WebApplication1)
 
 ## Contributors
+|        Roles         |                        Author(s)                        |
+| -------------------- | ------------------------------------------------------- |
+| Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) @pschaeflein |
+| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
+
+## Version history
+
+| Version |       Date        |    Comments     |
+| ------- | ----------------- | --------------- |
+| 1.0     | November 10, 2017 | Initial release |
+
+## Disclaimer
+**THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
