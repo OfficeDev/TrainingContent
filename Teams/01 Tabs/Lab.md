@@ -404,11 +404,19 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 
 	> **Note:** You could update other properties, such as developer, description, and so on. For more information, please see [this](https://msdn.microsoft.com/en-us/microsoft-teams/schema) article.
 
-2. Save the file.
-3. Package the file **manifest.json** in the [Lab Files/package](./Lab Files/package) folder into a .zip file named BikeSharing.zip.
+2. Within **manifest.json**, modify the icon paths to point to include the paths within the .zip package we're about to create, and then save the manifest.json file.
+
+	````json
+      "icons": {
+        "44": "inv44.png",
+        "88": "inv88.png"
+      },
+	````
+
+3. Package the file **manifest.json** and the two image files in the [Lab Files/package](./Lab Files/package) folder into a .zip file named BikeSharing.zip.
 4. Switch to the **Microsoft Teams** application.
 5. Click **Teams** in the left panel, then select a Team.
-6. Click **...** next to the team name and then select **View team**.
+6. Click **...** next to the team name and then select **Manage team** (the selection has changed from **View team**, shown below).
 
 	![Screenshot of the previous step](Images/view-team.png)
 
@@ -416,7 +424,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 
 	![Screenshot of the previous step](Images/upload-tab-package.png)
 
-8. Wait a moment, the tab will appear in the **Bots** tab.
+8. Wait a moment, the app will appear in the **Bots** tab.
 
 	![Screenshot of the previous step](Images/tab-package-uploaded.png)
 
