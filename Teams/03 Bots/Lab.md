@@ -20,7 +20,7 @@ In this exercise, you will create a Azure Web App to host your bot application a
 1. In a web browser, open the [Azure Management Portal](https://portal.azure.com/) and log in with an administrator account
 2. Click the **+** button
 3. Click **Web + Mobile** | **Web App** 
-4. Enter ***trainingcontentbotapi*** in the **App name** textbox
+4. Enter a unique name such as ***trainingcontentbotapi*** in the **App name** textbox. Save this name somewhere as you will need it later in the exercise
 5. Select a **Subscription**
 6. Create or select a **Resource Group**
 7. Create or select an **App Service Plan**
@@ -108,12 +108,19 @@ public class MessagesController : ApiController
         return response;
     }
 	```
+    
+    Add a using statement at the top of the controller so it will compile.
+
+    ``` csharp	
+    using System;
+    ```
+
 17. Right click on the project in the Solution Explorer and select **Publish**
 18. Select **Microsoft Azure App Service** as the publish target
 19. Select the **Select Existing** radio button
 20. Click the **Publish** button
 21. Select the Subscription where you created the Web Site
-22. Select the **trainingcontentbotapi** App Service that you created
+22. Select the App Service that you created earlier, shown as **trainingcontentbotapi** in the lab example
 23. Click the **OK** button
 ![Screenshot of the previous step](Images/4.png)
 24. Click the **Publish** button, wait and make sure the Bot is successfully published to the App Service.  
@@ -121,12 +128,21 @@ public class MessagesController : ApiController
 
 ## Exercise 2: Register your Bot
 
-1. Go to the Microsoft Bot Framework portal at [https://dev.botframework.com](https://dev.botframework.com) and sign in with your Microsoft Account.
-2. Click **Register a bot**
-3. In the **name** textbox, enter a name for your Bot
+#### THIS MAY BE THE NEW START FOR THE LAB - RADICAL CHANGES IN TOOLS!
+
+1. In the Azure portal, click **+ New** and select **AI and Congitive Services**. Select ** Web App Bot** from the list of services.
+![Screenshot of the previous step](Images/B1.png)
+2. In the **Bot name** textbox, enter a name for your Bot. Select a subscription, resource group, and pricing tier for your Bot; the F0 tier is free, and will work fine for this lab. Ensure the **Basic (C#)** Bot template is selected, and click create. It may take a few minutes.
+![Screenshot of the previous step](Images/B2.png)
+3. Test your bot. Open the **Bot Services** blade and select your Bot. Under **Bot Managemnt** click **Test in Web Chat**. Tryt chatting to your bot, and it will echo the messages back to you.
+![Screenshot of the previous step](Images/B3.png)
+
+#### LEFT OFF HERE
+
+
 4. In the **handle** textbox, enter the handle for your Bot
 5. In the Description textbox, enter a description for your Bot
-6. In the Configuration section, in the Messaging endpoint textbox, enter the URL
+6. In the Configuration section, in the Messaging endpoint textbox, enter the URL of your web app
 
 	Use the URL for the web site you copied in the previous steps and add **/API/Messages** to the end of the URL.
 
