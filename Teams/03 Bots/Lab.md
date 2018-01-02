@@ -163,7 +163,7 @@ Click **Save** then **Publish** to publish a debugger version of your Bot.
 ![Screenshot of the previous step](Images/17.png)
 7. You have now successfully added the Bot to Microsoft Teams.
 ![Screenshot of the previous step](Images/18.png)
-8. In the chat window, type what is our inventory of replacement tires?
+8. In the chat window, type "what is our inventory of replacement tires?"
 
 > **IMPORTANT NOTE:**  ***Do not copy and paste the question into the chat window.**  **Type it.*** Copy and pasting the text into the window may look correct, but it will not always work.
 
