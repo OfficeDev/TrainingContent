@@ -154,11 +154,11 @@ When the solution was generated, we used a placeholder URL. Now that the tunnel 
 
 1. Enter a team name and description. In this example, the Team is named **teams-app-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the elipses next to the team name. Choose **View team** from the context menu.
+1. The new team is shown. In the left-side panel, click the elipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](Images/Exercise1-09.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Bots** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
 
     ![](Images/Exercise1-10.png)
 
@@ -204,6 +204,8 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
 1. Build the solution to download all configured NuGet packages.
 
+1. Right-click on the project in Solution Explorer and select **Manage Nuget Packages**. Update all the packages, ensuring that the **Microsoft.Bot.Builder** is at least version 3.12. Repeat until all the packages are up-to-date.
+
 The Bot Application template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output. In order to run the bot inside Microsoft Teams:
 
 - The bot must be accessible from the internet
@@ -222,7 +224,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
 ### Run the ngrok secure tunnel application
 
 1. Open a new **Command Prompt** window.
-1. Change to the directory that contains the ngrok.exe application.
+1. Download ngrok (https://ngrok.com/download) and unzip the ngrok secure tunnel application. Change to the directory that contains the ngrok.exe application.
 1. Run the command `ngrok http [port] -host-header=localhost:[port]` *(Replace [port] with the port portion of the URL noted above.)*
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
