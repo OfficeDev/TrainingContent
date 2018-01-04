@@ -158,7 +158,7 @@ When the solution was generated, we used a placeholder URL. Now that the tunnel 
 
     ![](Images/Exercise1-09.png)
 
-1. On the Manage team display, click **Bots** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Bots** in the tab strip. Then click the **Sideload a Bot or Tab** link at the bottom right corner of the application.
 
     ![](Images/Exercise1-10.png)
 
@@ -233,14 +233,14 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 ### Register the bot
 
-1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
-1. Click Register. (If the Register button is not shown, click **My bots** in the top navigation.)
+1. Go to the Microsoft Bot Framework Portal at https://dev.botframework.com/bots/new and sign in. 
+
 1. Complete the Bot profile section, entering a Display name, Bot handle and description.
 
     ![](Images/Exercise2-04.png)
 
 1. Complete the Configuration section.
-    1. For the Messaging endpoint, use the Forwarding https address from ngrok prepended to the route to the MessagesController in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/API/Messages`
+    1. For the Messaging endpoint, use the Forwarding https address from ngrok with /api/messages appended to provide the route to the MessagesController in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/api/messages`
     1. Click the **Create Microsoft App ID and password button**. This opens a new browser tab/window.
     1. In the new browser tab/window the application is registered in Azure Active Directory. Click **Generate an app password to continue**.
     1. An app password is generated. Copy the password and save it. You will use it in a subsequent step.
@@ -379,11 +379,11 @@ Although not strictly necessary, in this lab the bot will be added to a new Team
 
 1. Enter a team name and description. In this example, the Team is named **teams-bot-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **View team** from the context menu.
+1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](Images/Exercise2-12.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the View team display, click **Bots** in the tab strip. Then click the **Sideload a bot or app** link at the bottom right corner of the application.
 1. Select the **teams-bot1.zip** file from the *bin* folder. Click **Open**.
 1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
 
@@ -402,6 +402,8 @@ As you test the bot, you will notice that the character count is not correct. Yo
 This concludes Exercise 2.
 
 <a name="exercise3"></a>
+
+## STOPPED HERE TO TRY ALTERNATE REGISTRATION PATH
 
 ## Exercise 3: Call Microsoft Graph inside a Tab
 
