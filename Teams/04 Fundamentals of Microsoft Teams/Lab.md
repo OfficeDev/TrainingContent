@@ -402,9 +402,6 @@ As you test the bot, you will notice that the character count is not correct. Yo
 This concludes Exercise 2.
 
 <a name="exercise3"></a>
-
-## STOPPED HERE TO TRY ALTERNATE REGISTRATION PATH
-
 ## Exercise 3: Call Microsoft Graph inside a Tab
 
 This section of the lab will extend the tab created in Exercise 1 to call the Microsoft Graph. The Exercise contains many code files. The **Lab Files** folder contains files that contain the code and are provided to facilitate copy/paste of the code rather than typing.
