@@ -159,14 +159,13 @@ Click **Save** then **Publish** to publish a debugger version of your Bot.
 
 > **NOTE** At the time of this writing, there is a bug in which you also need to create a channel for Skype in order for Azure-registered Teams bots to work. This may or may be necessary to make the lab work.
 
-
-
 ### Configure Visual Studio to Package bot
 
 Packaging a bot for Microsoft Teams is identical to packaging a tab. A manifest file (and related resources) are compressed into a zip file and added to a team.
 
-Perform the following in Visual Studio. (Stop debugging before continuing. Leave ngrok running.)
-1.  Right-click on the project, choose **Add | New Folder**. Name the folder **Manifest**.
+Perform the following in Visual Studio. (Stop debugging before continuing.)
+
+1. Right-click on the project, choose **Add | New Folder**. Name the folder **Manifest**.
 1. Add the displayed files from the **Lab Files** folder of this repository.
 
     ![](Images/Exercise2-09.png)
@@ -175,8 +174,8 @@ Perform the following in Visual Studio. (Stop debugging before continuing. Leave
 
     The **manifest.json** file requires several updates:
     - The `id` property must contain the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
-    - The `packageName` property must contain a unique identifier. The convention is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the unique identifier from the Forwarding address.
-    - Similarly, the `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the unique identifier from the Forwarding address.
+    - The `packageName` property must contain a unique identifier. The convention is to use the bot's URL in reverse format. Replace the token `[botUrl]` with the unique identifier from the Forwarding address.
+    - Similarly, the `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[botUrl]` with the unique identifier from the Forwarding address.
     - The `botId` property (in the `bots` collection property) also requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
     - Save and close the **manifest.json** file.
 
@@ -237,11 +236,11 @@ Perform the following in Visual Studio. (Stop debugging before continuing. Leave
     - Save and close the project file.
     - In **Solution Explorer**, right-click on the project and choose **Reload Project**.
 
-1. Press **F5** to run the project. The new AfterBuild target will run, creating a zip file in the build output folder (bin\\)
+1. Press **ctrl+shift+B** to build the project. The new AfterBuild target will run, creating a zip file in the build output folder (bin\\)
 
 ### Sideload app into Microsoft Teams
 
-Although not strictly necessary, in this lab the bot will be added to a new Team.
+Now add he bot to a new or existing Team. If you already have a team, skip to step 4.
 
 1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
 
@@ -268,10 +267,6 @@ In the General channel for the team, a message is created announcing the bot has
 ![](Images/Exercise2-14.png)
 
 As you test the bot, you will notice that the character count is not correct. You can set breakpoints in the Visual Studio project to debug the code. (Remember, however, that the count was correct using the registration portal.) Later modules of this training will review how to remove mentions from the message.
-
-This concludes Exercise 2.
-
-
 
 8. In the chat window, type "what is our inventory of replacement tires?"
 
