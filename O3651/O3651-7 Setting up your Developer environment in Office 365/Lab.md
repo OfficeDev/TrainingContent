@@ -5,21 +5,21 @@ In this lab, you will create a cloud development environment and build a cloud-h
 In this exercise you obtain trial subscriptions to Office 365 and Azure. If you already have these subscriptions, you can skip this exercise.
 
 1. Sign up for an Office 365 developer subscription.
-  1. Navigate to the [Office Development setup page](https://docs.microsoft.com/en-us/sharepoint/dev/sp-add-ins/set-up-a-development-environment-for-sharepoint-add-ins-on-office-365#o365_signup)
-  1. Review the options for getting an Office 365 development tenant, such as using an MSDN subscription, a 30day trial, subscription purchase, or joining the Office 365 Developer program. Click the link to sign up for the program you chose.
-  1. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
-2. Enable Yammer for Social Expereince
-  1. Log into [subscription].sharepoint.com
-  2. Click **Admin/SharePoint**.
-  3. Click **Settings**.
-  4. Change the Enterprise Social Collaboration setting to **Yammer**.
-3. Sign up for an Azure trial subscription
-  1. Navigate to the [Azure Portal](https://manage.windowsazure.com)
-  2. If prompted, log in using the credentials you created for your O365 subscription.
-  3. After logging in, you should see a screen notifying you that you do not have a subscription<br/>
+    1. Navigate to the [Office Development setup page](https://docs.microsoft.com/en-us/sharepoint/dev/sp-add-ins/set-up-a-development-environment-for-sharepoint-add-ins-on-office-365#o365_signup)
+    1. Review the options for getting an Office 365 development tenant, such as using an MSDN subscription, a 30day trial, subscription purchase, or joining the Office 365 Developer program. Click the link to sign up for the program you chose.
+    1. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
+1. Enable Yammer for Social Expereince
+    1. Log into [subscription].sharepoint.com
+    1. Click **Admin/SharePoint**.
+    1. Click **Settings**.
+    1. Change the Enterprise Social Collaboration setting to **Yammer**.
+1. Sign up for an Azure trial subscription
+    1. Navigate to the [Azure Portal](https://manage.windowsazure.com)
+    1. If prompted, log in using the credentials you created for your O365 subscription.
+    1. After logging in, you should see a screen notifying you that you do not have a subscription<br/>
      ![Screenshot of the previous step](Images/2.png?raw=true "Figure 2")
-  4. Click Sign Up for Windows Azure.
-  5. Fill out the form to obtain your free trial.
+    1. Click Sign Up for Windows Azure.
+    1. Fill out the form to obtain your free trial.
 
 ## Exercise 2: Create a Provider-Hosted App 
 In this exercise you create a new provider-hosted app for your O365 subscription.
