@@ -5,11 +5,9 @@ In this lab, you will create a cloud development environment and build a cloud-h
 In this exercise you obtain trial subscriptions to Office 365 and Azure. If you already have these subscriptions, you can skip this exercise.
 
 1. Sign up for an Office 365 developer subscription.
-  1. Navigate to the [Office Dev Center](http://msdn.microsoft.com/en-us/library/office/fp179924(v=office.15).aspx)
-  2. Under the heading **Sign up for an Office 365 Developer Site** click **Try It Free**.<br/>
-     ![Screenshot of the previous step](Images/1.png?raw=true "Figure 1")
-  3. Fill out the form to obtain your trial O365 subscription.
-  4. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
+  1. Navigate to the [Office Development setup page](https://docs.microsoft.com/en-us/sharepoint/dev/sp-add-ins/set-up-a-development-environment-for-sharepoint-add-ins-on-office-365#o365_signup)
+  1. Review the options for getting an Office 365 development tenant, such as using an MSDN subscription, a 30day trial, subscription purchase, or joining the Office 365 Developer program. Click the link to sign up for the program you chose.
+  1. When completed, you will have a developer site in the [subscription].sharepoint.com domain located at the root of your subscription (e.g. https://mysubscription.sharepoint.com)
 2. Enable Yammer for Social Expereince
   1. Log into [subscription].sharepoint.com
   2. Click **Admin/SharePoint**.
