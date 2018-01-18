@@ -4,7 +4,7 @@ You can build a Microsoft Teams tab from scratch or by adapting your existing we
 ## Prerequisites ##
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 2. You must turn on Microsoft Teams for your organization.
-   - Follow the instructions in this link [https://msdn.microsoft.com/en-us/microsoft-teams/setup](https://msdn.microsoft.com/en-us/microsoft-teams/setup)
+   - Follow the instructions in this link [https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant)
 3. You must have Microsoft Teams installed.
    - Download it at this link [https://teams.microsoft.com/downloads](https://teams.microsoft.com/downloads).
 4. You must have Visual Studio 2017 with the ASP.NET and web application components installed.
