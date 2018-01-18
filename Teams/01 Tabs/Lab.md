@@ -8,6 +8,7 @@ You can build a Microsoft Teams tab from scratch or by adapting your existing we
 3. You must have Microsoft Teams installed.
    - Download it at this link [https://teams.microsoft.com/downloads](https://teams.microsoft.com/downloads).
 4. You must have Visual Studio 2017 with the ASP.NET and web application components installed.
+   - To ensure ASP.NET and web application components are installed in Visual Studio, go to Tools > Get Tools and Features and in the Visual Studio Installer that opens up, look in Web & Cloud and if ASP.NET and web development is not checked, check and then install. 
    
 ## Exercise 1: Create configuration and content pages for Microsoft Teams tab ##
 In this exercise, you will create a web site to host the configuration and content pages for the Microsoft Teams tab and publish it to Azure.
