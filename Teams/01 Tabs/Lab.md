@@ -114,7 +114,7 @@ Here you will create a document library and a list in a SharePoint site to store
 
 9. Go to the list by clicking its name.
 10. Click the gear icon on the top nav bar on the right, then select **List settings** to go to your Apps page.
-11. Click **Create column** in **Columns** section.
+11. Click the plus sign to the right of the **Title** drop down, and click **More..** to go to the **Create column** page.
 12. In the **Create Column** page, set the **Column name** to **Serial**, configure the following settings, then click the **OK** button at the bottom.
 	- In the **The type of information in this column is** field, select **Single line of text**.
 	- In all other fields, keep the default settings.
