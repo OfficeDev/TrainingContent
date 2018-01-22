@@ -163,7 +163,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 3. Open the file **configuration.html**, add the following code into the **&lt;body&gt;** section, then save the file.
 
 	````javascript
-	<script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+	<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
         microsoftTeams.settings.registerOnSaveHandler(function(saveEvent){
@@ -194,11 +194,11 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 3. Add the following code into the **&lt;head&gt;** section.
 
 	````html
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/4.1.0/css/fabric.min.css">
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.3.0/css/fabric.min.css">
     <link rel="stylesheet" href="main.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
-    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.14/js/adal.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.16/js/adal.min.js"></script>
 	<script src="main.js"></script>
 	````
 
@@ -348,7 +348,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 12. Open the file **logout.html**, add the following code into the **&lt;body&gt;** section, then save the file.
 
 	````html
-	<script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+	<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
         microsoftTeams.authentication.notifySuccess("");
