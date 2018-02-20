@@ -466,7 +466,7 @@ Using **npm**, add the Microsoft Authentication library to the project.
 1. Run the following command:
 
     ```shell
-    npm install msal
+    npm install msal@0.1.1
     ```
 
 ### Configure Tab when added to channel
