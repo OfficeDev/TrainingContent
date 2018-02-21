@@ -46,7 +46,7 @@ It is not necessary to use the playground web site to send test messages. Any fa
     ```powershell
     $message = Get-Content .\connector-card.json
     $url = <YOUR WEBHOOK URL>
-    Invoke-RestMethod -ContentType "application/json" -Body $message -Uri <YOUR WEBHOOK URL> -Method Post
+    Invoke-RestMethod -ContentType "application/json" -Body $message -Uri $url -Method Post
     ```
 
     ![](../../Images/Exercise1-06.png)
