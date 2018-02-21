@@ -388,7 +388,7 @@ The app is now sideloaded into the Microsoft Teams application and the Tab is av
 
     ![](Images/Exercise3-03.png)
 
-1. Click the **Connect to Office 365** button. Office 365 will process the registration flow, which may include login and Team/Channel selection. Make note of teh selected Teamd-Channel and click **Allow**.
+1. Click the **Connect to Office 365** button. Office 365 will process the registration flow, which may include login and Team/Channel selection. Make note of the selected Team-Channel and click **Allow**.
 
     ![](Images/Exercise3-04.png)
 
