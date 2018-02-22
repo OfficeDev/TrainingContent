@@ -1,7 +1,7 @@
 # Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
 
 ----------------
-In this demo, you will build an Office Add-in using a number of popular JavaScript tools and techniques. 
+In this demo, you will build an Office Add-in using React a popular JavaScript framework. 
 
 # Running the project
 
