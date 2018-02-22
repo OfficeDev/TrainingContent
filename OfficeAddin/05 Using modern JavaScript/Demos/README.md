@@ -4,9 +4,9 @@ This folder contains demos for the Build an Office Add-in using modern JavaScrip
 
 ## Demos
 
-- [Office Add-in using React](./01-office-add-in-using-react)
-- [Office Add-in using Angular](./01-office-add-in-using-angular)
-- [Office Add-in using VueJS](./01-office-add-in-using-vuejs)
+- [Office Add-in using React](./01%20Office%20Add-in%20using%20React)
+- [Office Add-in using Angular](./02%20Office%20Add-in%20using%20Angular)
+- [Office Add-in using VueJS](./03%20Office%20Add-in%20using%20VueJS)
 
 ## Running demonstrations
 
