@@ -48,12 +48,12 @@ The content in the trainingcontent repository is grouped first by course (O365<c
 
 ## Use GitHub, Git, and this repository
 
-**Note:** Most of the information in this section can be found in [GitHub Help] [] articles.  If you're familiar with Git and GitHub, skip to the **Contribute and edit content** section for the particulars of the code/content flow of this repository.
+**Note:** Most of the information in this section can be found in [GitHub Help] articles.  If you're familiar with Git and GitHub, skip to the **Contribute and edit content** section for the particulars of the code/content flow of this repository.
 
 ### Setting up your fork of the repository
 
 1.	Set up a GitHub account so you can contribute to this project. If you haven't done this already, please go to [GitHub Home] and do it now.
-2.	Set up your machine with Git. Follow the instructions in the [Setting up Git Tutorial][Set Up Git].
+2.	Set up your machine with Git. Follow the instructions in the [Setting up Git Tutorial].
 3.	Create your own fork of this repository. To do this, at the top of the page,  click the **Fork** button.
 4.	Copy your fork to your local machine. To do this, go open GitBash. At the command prompt enter:
 
@@ -158,9 +158,9 @@ The [markdown template](/articles/0-markdown-template-for-new-articles.md) conta
 
 ### Standard Markdown
 
-All of the articles in this repository use Markdown.  While a complete introduction (and listing of all the syntax) can be found at [Markdown Home] [], we'll cover the basics you'll need.
+All of the articles in this repository use Markdown.  While a complete introduction (and listing of all the syntax) can be found at [Markdown Home], we'll cover the basics you'll need.
 
-If you're looking for a good editor, try [Markdown Pad][].
+If you're looking for a good editor, try [Markdown Pad].
 
 
 ### Markdown basics
@@ -209,7 +209,7 @@ By using references grouped at the bottom of your file, you can easily find, edi
 
 [GitHub Home]: http://github.com
 [GitHub Help]: http://help.github.com/
-[Set Up Git]: http://help.github.com/win-set-up-git/
+[Setting up Git Tutorial]: http://help.github.com/win-set-up-git/
 [Markdown Home]: http://daringfireball.net/projects/markdown/
 [Markdown Pad]: http://markdownpad.com/
 [OfficeDev/trainingcontent issues]: https://github.com/OfficeDev/trainingcontent/issues
