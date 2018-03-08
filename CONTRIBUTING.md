@@ -20,14 +20,14 @@ You can contribute to [Office 365 developer training content](http://dev.office.
 * Do it yourself
  * You can actually go and fix the content yourself and submit the changes as a Pull Request for review (see below).
 
-##Before we can accept your pull request
+## Before we can accept your pull request
 
-###Minor corrections
+### Minor corrections
 
 Minor corrections or clarifications you submit for documentation and code examples in this repository don't require a Contribution License Agreement (CLA). Submissions are taken in the form of pull requests. We'll do our best to review pull requests within 10 business days.
 
 
-###Larger submissions
+### Larger submissions
 
 If you submit new or significant changes to documentation and code examples, you need to send us a signed Contribution License Agreement (CLA) before we can accept your pull request if you are in one of these groups:
 
@@ -52,8 +52,8 @@ The content in the trainingcontent repository is grouped first by course (O365<c
 
 ### Setting up your fork of the repository
 
-1.	Set up a GitHub account so you can contribute to this project. If you haven't done this already, please go to [GitHub Home] [] and do it now.
-2.	Set up your machine with Git. Follow the instructions in the [Setting up Git Tutorial] [Set Up Git].
+1.	Set up a GitHub account so you can contribute to this project. If you haven't done this already, please go to [GitHub Home] and do it now.
+2.	Set up your machine with Git. Follow the instructions in the [Setting up Git Tutorial][Set Up Git].
 3.	Create your own fork of this repository. To do this, at the top of the page,  click the **Fork** button.
 4.	Copy your fork to your local machine. To do this, go open GitBash. At the command prompt enter:
 
