@@ -2,7 +2,7 @@
 
 There are multiple demos in this section. The code in the Demos folder and these setup steps are the same for both demos.
 
-# Demo Setup
+## Demo Setup
 
 To setup the demos, perform the following steps from the lab:
 
@@ -31,9 +31,8 @@ To setup the demos, perform the following steps from the lab:
 
 ### Register the bot
 
-1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
-1. Click **Register**. (If the Register button is not shown, click **My bots** in the top navigation.)
-1. Complete the Bot profile section, entering a Display name, Bot handle and description.
+1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com/bots/new and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
+1. Complete the Bot profile section, entering a Display name, unique Bot handle and description.
 
     ![](../../Images/Exercise1-04.png)
 
@@ -87,15 +86,15 @@ Packaging a bot for Microsoft Teams requires that a manifest file (and related r
 
 1. Press **Ctrl+Shift+B** to build the project. The build will create a zip file in the build output folder (`bin`).
 
-# Demo: Responding to Events
+## Demo: Responding to Events
 
 ### Sideload app into Microsoft Teams
 
-1. In the Microsoft Teams application, in the left-side panel, click the ellipses next to the team name. Choose **View team** from the context menu.
+1. In the Microsoft Teams application, in the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](../../Images/Exercise1-12.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application.
 1. Select the zip file (`teams-bot1.zip` in this example) from the `bin` folder. Click **Open**.
 1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
 
@@ -111,7 +110,7 @@ Adding the bot to a team invokes the system message **ConversationUpdated**. The
 
 Code for responding to events is in the `MessagesController` class.
 
-# Demo: Advanced Message Features
+## Demo: Advanced Message Features
 
 Perform the following in a channel where the bot has been sideloaded. Be sure to @ mention the bot in each message
 

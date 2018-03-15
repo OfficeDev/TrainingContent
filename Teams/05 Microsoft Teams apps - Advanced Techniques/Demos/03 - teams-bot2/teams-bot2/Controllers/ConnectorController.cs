@@ -18,9 +18,7 @@ namespace teams_bot2.Controllers
 			var htmlBody = "<html><title>Set up connector</title><body>";
 			htmlBody += "<H2>Adding your Connector Portal-registered connector</H2>";
 			htmlBody += "<p>Click the button to initiate the registration and consent flow for the connector in the selected channel.</p>";
-			htmlBody += "<a href='https://outlook.office.com/connectors/Connect?state=myAppsState&app_id=[ConnectorID]&callback_url=[copy-from-ngrok]/api/connector/redirect'>";
-			htmlBody += "<img src='https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png' alt='Connect to Office 365'></img >";
-			htmlBody += "</a>";
+			htmlBody += "";
 
 			var response = Request.CreateResponse(HttpStatusCode.OK);
 			response.Content = new StringContent(htmlBody);

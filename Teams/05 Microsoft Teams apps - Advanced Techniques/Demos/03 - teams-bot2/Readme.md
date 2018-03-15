@@ -27,9 +27,9 @@ To run this demo, perform the following steps from the lab:
 
 ### Register the bot ###
 
-1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
-1. Click **Register**. (If the Register button is not shown, click **My bots** in the top navigation.)
-1. Complete the Bot profile section, entering a Display name, Bot handle and description.
+1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com/bots/new and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
+
+1. Complete the Bot profile section, entering a Display name, unique Bot handle and description.
 
     ![](../../Images/Exercise1-04.png)
 
@@ -64,7 +64,7 @@ The following steps are used to register an Office 365 Connector.
 1. Register the Connector on the [Connectors Developer Dashboard](https://go.microsoft.com/fwlink/?LinkID=780623). Log on the the site and click **New Connector**.
 1. On the **New Connector** page:
 
-    1. Complete the Name and Description as appropriate for your demo.
+    1. Complete the Name and Description as appropriate for your demo. Upload the **bot-icon-blue-300x300.png** from the Lab Files folder for your logo.
 
         ![](../../Images/Exercise3-05.png)
 
@@ -84,7 +84,7 @@ The following steps are used to register an Office 365 Connector.
 
     1. Agree to the terms and conditions and click **Save**
 
-1. The registration page will refresh with additional buttons in the integration section. The buttons provide sample code for the **Landing** page and a `manifest.json` file for a Teams app. **Save both of these assets.**
+1. The registration page will refresh with additional buttons in the integration section. The buttons provide sample code for the **Landing** page and a `manifest.json` file for a Teams app. **Save both of these assets.** In a text editor paste the Landing page code copied from the registration page and replace all of the double quotes `"` with the single quote character `'`. You will need this code in a moment.
 
 ### Configure the web project
 
@@ -110,17 +110,18 @@ Packaging a bot for Microsoft Teams requires that a manifest file (and related r
     - The `botId` property (in the `bots` collection property) also requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
     - Replace the empty `connectors` node in the `manifest.json` file with the `connectors` node from the manifest downloaded from the Connector registration.
     - Save and close the `manifest.json` file.
+1. Open the `Controllers\ConnectorController.cs` file and replace the `[Landing Page Code]` token with the landing page code you edited previously.
 1. Press **Ctrl+Shift+B** to build the project. The build will create a zip file in the build output folder (bin\\).
 
 ## Start the demo
 
 ### Sideload app into Microsoft Teams
 
-1. In the Microsoft Teams application, in the left-side panel, click the ellipses next to the team name. Choose **View team** from the context menu.
+1. In the Microsoft Teams application, in the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](../../Images/Exercise1-12.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application.
 1. Select the zip file (**teams-bot1.zip** in this example) from the `bin` folder. Click **Open**.
 1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
 
@@ -144,11 +145,11 @@ All members of the team should get a 1:1 message.
 
     ![](../../Images/Exercise3-10.png)
 
-1. Click the **Connect to Office 365** button. Office 365 will process the registration flow, which may include login and Team/Channel selection. Make note of teh selected Teamd-Channel and click **Allow**.
+1. Click the **Connect to Office 365** button. Office 365 will process the registration flow, which may include login and Team/Channel selection. Make note of the selected Team-Channel and click **Allow**.
 
     ![](../../Images/Exercise3-12.png)
 
-1. The dialog will display the **Redirect** action which presents the information registration provided by Office 365. In a production application, this information must be presisted and used to sent notifications to the channel.
+1. The dialog will display the **Redirect** action which presents the information registration provided by Office 365. In a production application, this information must be persisted and used to sent notifications to the channel.
 
     ![](../../Images/Exercise3-13.png)
 
