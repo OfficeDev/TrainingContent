@@ -233,6 +233,8 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 ### Register the bot
 
+> **Note:** The process of Bot registration will change effective March 31, 2018. Please read [Register a bot with Bot Service](https://docs.microsoft.com/en-us/bot-framework/bot-service-quickstart-registration) for more details of the new registration procedure.
+
 1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com/bots/new and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
 1. Click **Create a bot or skill**. (If the Create button is not shown, click **My bots** in the top navigation.)
 1. Complete the Bot profile section, entering a Display name, unique Bot handle and description.
