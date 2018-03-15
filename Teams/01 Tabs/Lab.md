@@ -4,10 +4,11 @@ You can build a Microsoft Teams tab from scratch or by adapting your existing we
 ## Prerequisites ##
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 2. You must turn on Microsoft Teams for your organization.
-   - Follow the instructions in this link [https://msdn.microsoft.com/en-us/microsoft-teams/setup](https://msdn.microsoft.com/en-us/microsoft-teams/setup)
+   - Follow the instructions in this link [https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant)
 3. You must have Microsoft Teams installed.
    - Download it at this link [https://teams.microsoft.com/downloads](https://teams.microsoft.com/downloads).
 4. You must have Visual Studio 2017 with the ASP.NET and web application components installed.
+   - To ensure ASP.NET and web application components are installed in Visual Studio, go to Tools > Get Tools and Features and in the Visual Studio Installer that opens up, look in Web & Cloud and if ASP.NET and web development is not checked, check and then install. 
    
 ## Exercise 1: Create configuration and content pages for Microsoft Teams tab ##
 In this exercise, you will create a web site to host the configuration and content pages for the Microsoft Teams tab and publish it to Azure.
@@ -114,7 +115,7 @@ Here you will create a document library and a list in a SharePoint site to store
 
 9. Go to the list by clicking its name.
 10. Click the gear icon on the top nav bar on the right, then select **List settings** to go to your Apps page.
-11. Click **Create column** in **Columns** section.
+11. Click the plus sign to the right of the **Title** drop down, and click **More..** to go to the **Create column** page.
 12. In the **Create Column** page, set the **Column name** to **Serial**, configure the following settings, then click the **OK** button at the bottom.
 	- In the **The type of information in this column is** field, select **Single line of text**.
 	- In all other fields, keep the default settings.
@@ -162,7 +163,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 3. Open the file **configuration.html**, add the following code into the **&lt;body&gt;** section, then save the file.
 
 	````javascript
-	<script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+	<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
         microsoftTeams.settings.registerOnSaveHandler(function(saveEvent){
@@ -193,11 +194,11 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 3. Add the following code into the **&lt;head&gt;** section.
 
 	````html
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/4.1.0/css/fabric.min.css">
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.3.0/css/fabric.min.css">
     <link rel="stylesheet" href="main.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
-    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.14/js/adal.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.16/js/adal.min.js"></script>
 	<script src="main.js"></script>
 	````
 
@@ -347,7 +348,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 12. Open the file **logout.html**, add the following code into the **&lt;body&gt;** section, then save the file.
 
 	````html
-	<script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+	<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
         microsoftTeams.authentication.notifySuccess("");
@@ -404,11 +405,19 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 
 	> **Note:** You could update other properties, such as developer, description, and so on. For more information, please see [this](https://msdn.microsoft.com/en-us/microsoft-teams/schema) article.
 
-2. Save the file.
-3. Package the file **manifest.json** in the [Lab Files/package](./Lab Files/package) folder into a .zip file named BikeSharing.zip.
+2. Within **manifest.json**, modify the icon paths to point to include the paths within the .zip package we're about to create, and then save the manifest.json file.
+
+	````json
+      "icons": {
+        "44": "inv44.png",
+        "88": "inv88.png"
+      },
+	````
+
+3. Package the file **manifest.json** and the two image files in the [Lab Files/package](./Lab Files/package) folder into a .zip file named BikeSharing.zip.
 4. Switch to the **Microsoft Teams** application.
 5. Click **Teams** in the left panel, then select a Team.
-6. Click **...** next to the team name and then select **View team**.
+6. Click **...** next to the team name and then select **Manage team** (the selection has changed from **View team**, shown below).
 
 	![Screenshot of the previous step](Images/view-team.png)
 
@@ -416,7 +425,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 
 	![Screenshot of the previous step](Images/upload-tab-package.png)
 
-8. Wait a moment, the tab will appear in the **Bots** tab.
+8. Wait a moment, the app will appear in the **Bots** tab.
 
 	![Screenshot of the previous step](Images/tab-package-uploaded.png)
 
