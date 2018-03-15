@@ -1,6 +1,6 @@
 # Fundamentals of Teams Development
 
-In this lab, you will prepare your computer for developing Microsoft Teams apps, learn the steps to package and test your application, build a basic Micorosft Teams Bot and a Microsoft Teams Tab.
+In this lab, you will prepare your computer for developing Microsoft Teams apps, learn the steps to package and test your application, build a basic Microsoft Teams Bot and a Microsoft Teams Tab.
 
 ## Table of Contents
 
@@ -253,7 +253,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 1. Scroll to the bottom of the page. Agree to the Privacy statement, Terms of use, and Code of conduct and click the **Register** button. Once the Bot is created, click **OK** to dismiss the pop-up.
 
-    The **Connect to channels** page is displayed for the newly-created bot. The bot must be connected to Microsoft Teams.
+    > The **Connect to channels** page is displayed for the newly-created bot. The bot must be connected to Microsoft Teams.
 
 1. Click the **Teams** logo.
 

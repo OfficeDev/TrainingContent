@@ -16,8 +16,9 @@ In this lab, you will walk through building, packaging, and deploying your Micro
 
 |        Roles         |                        Author(s)                        |
 | -------------------- | ------------------------------------------------------- |
-| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
+| QA                   | Matt McDermott (Microsoft MVP, AbleBlue) @MatthewMcD    |
 | Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
+| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
 | Sponsor / Support    | Mike Ammerlaan (Microsfot) @mammerla                    |
 
 ## Version history
