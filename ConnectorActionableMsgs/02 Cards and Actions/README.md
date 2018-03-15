@@ -16,11 +16,11 @@ In this lab, you will walk through building an Actionable Message card and addin
 
 ## Contributors
 
-|        Roles         |                        Author(s)                        |
-| -------------------- | ------------------------------------------------------- |
-| Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| QA                   | Julie Turner (Microsoft MVP, Voitanos) @ juliemturner   |
-| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
+|        Roles         |                            Author(s)                             |
+| -------------------- | ---------------------------------------------------------------- |
+| Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell          |
+| QA                   | Julie Turner (Microsoft MVP, Sympraxis Consulting) @juliemturner |
+| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                             |
 
 ## Version history
 
@@ -30,4 +30,5 @@ In this lab, you will walk through building an Actionable Message card and addin
 | 1.0     | November 10, 2017 | Initial release                   |
 
 ## Disclaimer
+
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
