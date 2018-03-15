@@ -251,7 +251,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 1. Scroll to the bottom of the page. Agree to the Privacy statement, Terms of use, and Code of conduct and click the **Register** button. Once the Bot is created, click **OK** to dismiss the pop-up.
 
-The **Connect to channels** page is displayed for the newly-created bot. The bot must be connected to Microsoft Teams.
+    The **Connect to channels** page is displayed for the newly-created bot. The bot must be connected to Microsoft Teams.
 
 1. Click the **Teams** logo.
 
