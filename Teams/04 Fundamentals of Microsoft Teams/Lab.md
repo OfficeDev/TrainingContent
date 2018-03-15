@@ -204,6 +204,8 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
 1. Build the solution to download all configured NuGet packages.
 
+1. Right-click on the project in Solution Explorer and select **Manage Nuget Packages**. Update all the packages, ensuring that the **Microsoft.Bot.Builder** is at least version 3.12. Repeat until all the packages are up-to-date.
+
 The Bot Application template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output. In order to run the bot inside Microsoft Teams:
 
 - The bot must be accessible from the internet
@@ -222,7 +224,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
 ### Run the ngrok secure tunnel application
 
 1. Open a new **Command Prompt** window.
-1. Change to the directory that contains the ngrok.exe application.
+1. Download ngrok (https://ngrok.com/download) and unzip the ngrok secure tunnel application. Change to the directory that contains the ngrok.exe application.
 1. Run the command `ngrok http [port] -host-header=localhost:[port]` *(Replace [port] with the port portion of the URL noted above.)*
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
@@ -238,7 +240,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
     ![](Images/Exercise2-04.png)
 
 1. Complete the Configuration section.
-    1. For the Messaging endpoint, use the Forwarding https address from ngrok prepended to the route to the MessagesController in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/API/Messages`
+    1. For the Messaging endpoint, use the Forwarding https address from ngrok with /api/messages appended to provide the route to the MessagesController in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/api/messages`
     1. Click the **Create Microsoft App ID and password button**. This opens a new browser tab/window.
     1. In the new browser tab/window the application is registered in Azure Active Directory. Click **Generate an app password to continue**.
     1. An app password is generated. Copy the password and save it. You will use it in a subsequent step.
@@ -401,7 +403,6 @@ As you test the bot, you will notice that the character count is not correct. Yo
 This concludes Exercise 2.
 
 <a name="exercise3"></a>
-
 ## Exercise 3: Call Microsoft Graph inside a Tab
 
 This section of the lab will extend the tab created in Exercise 1 to call the Microsoft Graph. The Exercise contains many code files. The **Lab Files** folder contains files that contain the code and are provided to facilitate copy/paste of the code rather than typing.

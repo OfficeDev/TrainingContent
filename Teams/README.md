@@ -1,4 +1,4 @@
-# Introduction to Microsoft Teams Development #
+# Introduction to Microsoft Teams Development
 
 ----------
 
