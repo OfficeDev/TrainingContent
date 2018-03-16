@@ -1,4 +1,4 @@
-# Office Addins
+# Office Add-ins
 
 - [05 - Using Modern JavaScript](./05%20Using%20modern%20JavaScript)
 
