@@ -1,12 +1,10 @@
 # Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
 
-In this demo, you will build an Office Add-in using Angular a popular JavaScript framework. 
+In this demo, you will build an Office Add-in using Angular, a popular JavaScript framework.
 
-# Running the project
+## Running the project
 
 The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](#sideload-the-office-add-in).
-
-# Build an Office Add-in using Angular
 
 ## Table of contents
 
