@@ -1,13 +1,10 @@
 # Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
 
-----------------
-In this demo, you will build an Office Add-in using a number of popular JavaScript tools and techniques. 
+In this demo, you will build an Office Add-in using Angular, a popular JavaScript framework.
 
-# Running the project
+## Running the project
 
 The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](#sideload-the-office-add-in).
-
-# Build an Office Add-in using Vue.js
 
 ## Table of contents
 
@@ -61,12 +58,6 @@ In this section you will use the Angular CLI, the Office Yeoman generator, and N
     cd excel-portfolio
     ```
 
-1. Next, run the **Office Yeoman generator** using the "**yo office**" command.
-
-    ```shell
-    yo office
-    ```
-
 1. Run the **Office Yeoman generator** using the command "**yo office**".
 
     ```shell
@@ -79,7 +70,7 @@ In this section you will use the Angular CLI, the Office Yeoman generator, and N
     * Which Office client application would you like to support? **Excel**
     * Would you like to create a new add-in? **No, I already have a web app and only need a manifest file for my add-in**
     * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
-    * Overwrite package.json? **do not overwrite**
+    * Overwrite package.json? **n (do not overwrite)**
 
     ![Office Yeoman Generator](./README_assets/Yeoman.png)
 
@@ -101,13 +92,13 @@ In this section you will use the Angular CLI, the Office Yeoman generator, and N
 1. Next, add Office.js typings (**@types/office-js**) to the **dependencies** section.
 
     ```javascript
-    "@types/office-js": "^0.0.48"
+    "@types/office-js": "0.0.51"
     ```
 
 1. Run **npm install** at the command prompt to pull these dependencies into the project.
 
     ```javascript
-    npm install</pre>
+    npm install
     ```
 
 1. Next, open **src/index.html** and add CDN references to **office.js** and the **Office UI Fabric**.
