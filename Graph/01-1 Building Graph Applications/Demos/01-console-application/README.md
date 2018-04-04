@@ -291,6 +291,7 @@ Finally, update the Main method to call the `RunAsync()` method.
 static void Main(string[] args)
 {
     RunAsync().GetAwaiter().GetResult();
+    Console.ReadKey();
 }
 ````
 
