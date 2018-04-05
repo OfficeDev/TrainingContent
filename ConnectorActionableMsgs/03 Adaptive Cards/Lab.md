@@ -31,14 +31,6 @@ This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS 
 
 This exercise will walk you through designing an Adaptive Card and sending it via the Message Card Playground.
 
-### Visit the Adaptive Card Visualizer
-
-Visit the [Adaptive Card Visualizer](http://adaptivecards.io/visualizer) app.
-
-The Adaptive Card Visualizer provides a sandboxed environment with which to design your adaptive card. More importantly, the Visualizer has a drop-down list of Host Apps that can render cards. Use this capability to verify how the card looks and acts in the target host app.
-
-![Adaptive Card Visualizer](Images/AdaptiveCardVisualizer.png)
-
 ### Visit the MessageCard Playground
 
 Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) app.
