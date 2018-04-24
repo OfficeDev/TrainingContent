@@ -31,3 +31,6 @@ In this lab, you will use advanced techniques to build a more-sophisticated bot,
 ## Disclaimer
 
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/05-microsoft-teams-apps-advanced-techniques" />
+

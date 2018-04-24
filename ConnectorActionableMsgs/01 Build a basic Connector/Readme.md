@@ -14,3 +14,6 @@ In this lab, you will walk through designing, building, registering, and deployi
 - [](./Demos/03)
 
 ## Contributors
+
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/ConnectorActionableMsgs/01-build-a-basic-connector" />
