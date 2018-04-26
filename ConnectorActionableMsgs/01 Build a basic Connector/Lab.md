@@ -437,6 +437,8 @@ The connector is now sideloaded into the Microsoft Teams application.
 
 1. An information dialog is shown with the general and notification information described on the Connector Developer portal. Click the **Visit site to install** button.
 
+    ![](Images/Exercise3-08.png)
+
 1. Office 365 will process the registration flow, which may include login. The dialog will then display the Redirect action which presents the registration information provided by Office 365. In a production application, this information must be presisted and used to send notifications to the channel. Once you are done, close this window and click `Done`.
 
 1. The conversation window of the channel will now show the welcome message card that was sent via the api.
