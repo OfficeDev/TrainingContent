@@ -1,8 +1,0 @@
-logs/*
-!.gitkeep
-.vscode/
-bower_components/
-node_modules/
-tmp
-.DS_Store
-.idea
