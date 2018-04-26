@@ -1,13 +1,10 @@
 # Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
 
-----------------
-In this demo, you will build an Office Add-in using a number of popular JavaScript tools and techniques. 
+In this demo, you will build an Office Add-in using a VueJS, a popular JavaScript framework.
 
-# Running the project
+## Running the project
 
 The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](#sideload-the-office-add-in).
-
-# Build an Office Add-in using Vue.js
 
 ## Table of contents
 
@@ -66,13 +63,12 @@ In this section you will use the Office Yeoman generator and Node Package Manage
 
     ````javascript
     "dependencies": {
-        "core-js": "^2.4.1",
-        "office-ui-fabric-js": "^1.3.0",
-        "jquery": "^3.1.1",
-        "office-addin-validator": "^1.0.1",
-        "vue":"^2.4.4",
-        "vue-class-component":"^5.0.2",
-        "@microsoft/office-js": "^1.1.2"
+        "core-js": "2.5.3",
+        "jquery": "3.3.1",
+        "office-addin-validator": "1.0.5",
+        "office-ui-fabric-js": "1.5.0",
+        "vue":"2.5.13",
+        "vue-class-component":"6.2.0"
     },
     ````
 
@@ -80,17 +76,17 @@ In this section you will use the Office Yeoman generator and Node Package Manage
 
     ````javascript
     "devDependencies": {
-        "concurrently": "^3.1.0",
-        "cpx": "^1.5.0",
-        "rimraf": "^2.5.4",
-        "browser-sync": "^2.18.5",
-        "typescript": "^2.1.4",
-        "@types/office-js": "^0.0.37",
-        "@types/jquery": "^2.0.39",
-        "webpack": "2.3.1",
-        "vue-loader": "^13.0.4",
-        "vue-template-compiler": "^2.4.2",
-        "ts-loader": "^2.3.7"
+        "@types/jquery": "3.3.0",
+        "@types/office-js": "0.0.51",
+        "browser-sync": "2.23.6",
+        "concurrently": "3.5.1",
+        "cpx": "1.5.0",
+        "rimraf": "2.6.2",
+        "ts-loader": "2.3.7",
+        "typescript": "2.7.2",
+        "vue-loader": "14.1.1",
+        "vue-template-compiler": "2.5.13",
+        "webpack": "2.3.1"
     }
     ````
 
@@ -754,43 +750,24 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
 1. Return to **src/components/root.vue** and update the **addSymbol** function to call **getSymbol** for stock stats and then call **addRow** on the **ExcelTableUtil**. Notice the row data contains formulas.
 
     ````typescript
-    // Adds symbol
-    addSymbol = async (event) => {
-        if (event.key == 'Enter') {
-            let element = this.refs.newSymbol as TextField; 
-            let symbol = element.value.toUpperCase();
-
-            // Get quote and add to Excel table
-            this.setState({ waiting: true });
-            this.getQuote(symbol).then((res:any) => {
-                let data = [
-                    res.symbol, //Symbol
-                    res.current, //Last Price
-                    res.curr_change, //Change $
-                    res.pct_change * 100, //Change %
-                    0, //Quantity (user provided)
-                    0, //Price Paid (user provided)
-                    "=C:C * E:E", //Day's Gain $
-                    "=(B:B * E:E) - (F:F * E:E)", //Total Gain $
-                    "=H:H / (F:F * E:E) * 100", //Total Gain %
-                    "=B:B * E:E" //Value
-                ];
-                this.tableUtil.addRow(data).then(() => {
-                    let symbols = this.state.listItems;
-                    symbols.unshift(element.state.value.toUpperCase());
-                    this.setState({ listItems: symbols });
-                    element.setState({ value: "" });
-                    this.setState({waiting: false});
-                }, (err) => {
-                    this.setState({error: err});
-                    this.setState({waiting: false});
-                });
-            }, (err) => {
-                this.setState({error: err});
-                this.setState({waiting: false});
-            });
-        }
-    }
+    addSymbol(symbol:string) {
+      if ((<KeyboardEvent>event).key == "Enter") {
+        (<any>this).waiting = true;
+        (<any>this).getQuote(symbol).then((res:any) => {
+          let data = [res.symbol, res.current, res.curr_change, res.pct_change * 100, 0, 0, "=C:C * E:E", "=(B:B * E:E) - (F:F * E:E)", "=H:H / (F:F * E:E) * 100", "=B:B * E:E"];
+          (<any>this).tableUtil.addRow(data).then(() => {
+            (<any>this).symbols.unshift(symbol);
+            (<any>this).waiting = false;
+            (<any>this).newSymbol = "";
+          }, (err) => {
+            (<any>this).error = err;
+          });
+        }, (err) => {
+          (<any>this).error = err;
+          (<any>this).waiting = false;
+        });
+      }
+    },
     ````
 
     >**Optional**: this is a good time to test the "add symbol" function of your add-in
@@ -936,19 +913,20 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
 
     >**Optional**: this is a good time to test the "refresh symbol" function of your add-in
 
-1. Finally, update the **syncTable** function, which is called when the add-in is launched (in the constructor of app.tsx) to pull in any stock symbols that might already exist in the worksheet. It calls **getColumnData** to get this data.
+1. Finally, update the **syncTable** function in **src/components/root.vue**, which is called when the add-in is launched (in the constructor of app.tsx) to pull in any stock symbols that might already exist in the worksheet. It calls **getColumnData** to get this data.
 
     ````typescript
-    syncTable() {
-        (<any>this).waiting = true;
-        (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            (<any>this).symbols = columnData;
-            (<any>this).waiting = false;
-        }, (err) => {
-            (<any>this).error = err;
-            (<any>this).waiting = false;
-        });
-    }
+		syncTable() {
+			(<any>this).waiting = true;
+			(<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
+				(<any>this).symbols = columnData;
+				(<any>this).waiting = false;
+			}, (err) => {
+				(<any>this).error = err;
+				(<any>this).waiting = false;
+			});
+		}
+    },
     ````
 
 1. Test your work by returning to Excel Online. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#sideload-the-office-add-in) steps above. You should test all the different operations you created:

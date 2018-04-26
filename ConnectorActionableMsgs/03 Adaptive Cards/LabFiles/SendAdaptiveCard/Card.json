@@ -1,0 +1,103 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Support Ticket: Error occurred processing report",
+          "weight": "bolder",
+          "size": "medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Severity: Critical",
+          "color": "attention",
+          "size": "large"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "Created:",
+              "value": "{{DATE($CreatedDate$, SHORT)}}"
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "After completing the filter form and pressing the submit button, I received an error message '500 - Server error occurred' instead of my report.",
+          "wrap": true
+        },
+        {
+          "type": "FactSet",
+          "separator": true,
+          "facts": [
+            {
+              "title": "Application:",
+              "value": "Adaptive Card"
+            },
+            {
+              "title": "Module:",
+              "value": "Backlog"
+            },
+            {
+              "title": "Browser:",
+              "value": "Edge/Win10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Assigned Support representative",
+          "size": "large"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "data:image/png;base64,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",
+                  "size": "small",
+                  "style": "person"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Lee Gu",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "spacing": "none",
+                  "text": "lee@M365x315966.onmicrosoft.com",
+                  "isSubtle": true,
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

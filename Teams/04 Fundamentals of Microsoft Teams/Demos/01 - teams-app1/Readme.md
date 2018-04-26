@@ -3,6 +3,7 @@
 To run this demo, perform the following steps from the lab:
 
 ## Complete the prerequisites from the lab
+
 1. Install developer tools
 1. Install NodeJS and npm
 1. Install Yeoman and gulp
@@ -38,17 +39,17 @@ To run this demo, perform the following steps from the lab:
 
 ## Sideload app into Microsoft Teams
 
-1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
+1. In the Microsoft Teams application, click the **Create and join team** link. Then click the **Create team** button.
 
     ![](../../Images/Exercise1-08.png)
 
 1. Enter a team name and description. In this example, the Team is named **teams-app-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **View team** from the context menu.
+1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](../../Images/Exercise1-09.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application.
 
     ![](../../Images/Exercise1-10.png)
 

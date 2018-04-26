@@ -1,12 +1,12 @@
 # Cards and Actions Using Outlook Actionable Messages – 300 Level
-----------------
+
 In this lab, you will walk through building an Actionable Message card and adding actions. 
 
 ## Table of Contents
-1. [Actionable Messages card design and MessageCard Playground](#messagecardplayground)
-2. [Sending Actionable Messages](#sendingactionablemessages)
-3. [Adding actions to cards](#processingactions)
 
+1. [Actionable Messages card design and MessageCard Playground](#messagecardplayground)
+1. [Sending Actionable Messages](#sendingactionablemessages)
+1. [Adding actions to cards](#processingactions)
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ One of the simplest sample cards to start with is the **Twitter - Hero Image** s
 
 This card demonstrates basic text formatting with markdown, using images, and provides a sample of potential actions.
 
-### Modify a sample 
+### Modify a sample
 
 Edit the **activityTitle** element to surround it with three asterisks instead of two:
 
@@ -54,51 +54,56 @@ You will use the information on that page to see how to customize a card sample.
 
 ````json
 {
-	"@type": "MessageCard",
-	"@context": "http://schema.org/extensions",
-	"themeColor": "E81123",
-	"sections": [
-		{
-			"activityTitle": "**SpaceX**",
-			"activitySubtitle": "@SpaceX - 15 Sep 2017",
-			"activityImage": "https://pbs.twimg.com/profile_images/671865418701606912/HECw8AzK_400x400.jpg",
-			"activityText": "After a month-long stay at the @Space_Station, Dragon returns to Earth on Sunday, September 17 → [https://go.nasa.gov/2h3ysMu](https://go.nasa.gov/2h3ysMu)",
-			"heroImage": {
+  "@type": "MessageCard",
+  "@context": "http://schema.org/extensions",
+  "themeColor": "E81123",
+  "sections": [
+    {
+      "activityTitle": "**SpaceX**",
+      "activitySubtitle": "@SpaceX - 15 Sep 2017",
+      "activityImage": "https://pbs.twimg.com/profile_images/671865418701606912/HECw8AzK_400x400.jpg",
+      "activityText": "After a month-long stay at the @Space_Station, Dragon returns to Earth on Sunday, September 17 → [https://go.nasa.gov/2h3ysMu](https://go.nasa.gov/2h3ysMu)",
+      "heroImage": {
                 "image": "https://pbs.twimg.com/media/DJtJmfMUEAAmwEj.jpg"			    
-			},
-			"potentialAction": [
-				{
-					"@type": "OpenUri",
-					"name": "View in Twitter",
-					"targets": [
-						{
-							"os": "default",
-							"uri": "https://twitter.com/SpaceX/status/908827608678244352"
-						}
-					]
-				}
-			]
-		}
-	]
+      },
+      "potentialAction": [
+        {
+          "@type": "OpenUri",
+          "name": "View in Twitter",
+          "targets": [
+            {
+              "os": "default",
+              "uri": "https://twitter.com/SpaceX/status/908827608678244352"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ````
+
 ![](Images/updatedspacex.png)
 
 The message card now reflects a different tweet. This demonstrates how your application can change the information in a card and send it to a user or group.
 
 Now let's see how changing the action affected the card. Click on the **View in Twitter** button.
+
 ![](Images/sandboxaction.png)
 
 Actions in the MessageCard Playground app are disabled, only prompting the information that you provided in the card. However, you can send the card to your Office 365 email account to view the card and interact with its actions. Click the **Send via Email** button to send the card to yourself in email.
+>**NOTE:** If you are not logged in to the MessageCard Playground it will prompt you to log in and then ask for your consent.  When consent is given the MessageCard Playgroud page will reload and you will need to load the sample again.
 
 ![](Images/spacexcardemail.png)
 
 Finally, click the **View in Twitter** button and see that your browser opens and the original Twitter page is displayed.
 
-Explore the other samples in the MessageCard Playground app. These are good references from which to base your own card design. 
+Explore the other samples in the MessageCard Playground app. These are good references from which to base your own card design.
 
 ### Create a card
+
 The card you will use for the rest of the lab represents a fictitious expense approval system and has the following markup:
+
 ````json
 {
     "@type": "MessageCard",
@@ -201,9 +206,10 @@ The card you will use for the rest of the lab represents a fictitious expense ap
         "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
       }
     ]
-  }  
+  }
 ````
-Note the *YOURWEBAPPNAME.azurewebsites.net* placeholder usedin this sample. Replace it with the Azure Web App URL that you created earlier in this lab.
+
+Note the *YOURWEBAPPNAME.azurewebsites.net* placeholders usedin this sample. Replace both instances with the Azure Web App URL that you created earlier in this lab.
 
 **Replace** the JSON data in the MessageCard Playground app with this JSON data, making sure that the URL for your Azure Web App uses the https protocol.
 
@@ -215,11 +221,12 @@ Finally, **save** the JSON representing the expense report to your file system. 
 
 <a name="sendingactionablemessages"></a>
 
-## 2. Sending Actionable Messages 
+## 2. Sending Actionable Messages
 
 In the previous section, you used the [MessageCard Playground]() app to design a card and send it to yourself. In this section, you will use PowerShell to send an email containing a card.
 
 ### Write PowerShell to Send Email via Office 365 SMTP Server
+
 PowerShell provides a utility method `Send-MailMessage` that is used to send emails. We can use this method with the Office 365 SMTP Server to send an email using PowerShell.
 
 Open **PowerShell ISE** and expand the script pane. **Copy** the following PowerShell script to the script pane.
@@ -246,6 +253,7 @@ $emailBody = $emailHeader + $jsonBody + $emailFooter
 $msolcred = Get-Credential
 Send-MailMessage –From $from –To $to –Subject "MessageCard Demo" –Body $emailBody -BodyAsHtml -SmtpServer smtp.office365.com -Credential $msolcred -UseSsl -Port 587
 ````
+
 In the interactive pane, change directory to the location where you saved the JSON file representing the fictitious expense report.
 
 ![](Images/powershell.png)
@@ -254,8 +262,6 @@ In the interactive pane, change directory to the location where you saved the JS
 
 After you provide your credentials, the script completes. **Check** your inbox, and you will have a new email containing the card that you just sent.
 
-
-
 <a name="Adding actions to cards"></a>
 
 ## 3. Adding actions to cards
@@ -263,21 +269,25 @@ After you provide your credentials, the script completes. **Check** your inbox, 
 The first section of this lab demonstrated how to design a card, the second section demonstrated how to send Actionable Messages. This section will now pull it all together by implementing a Web API that responds to card actions.
 
 ## Register a new provider
+
 Open your browser to the [Actionable Email Developer Dashboard](https://outlook.office.com/connectors/oam/publish) and click **New Provider**. 
 
-Provide a name and image for your provider. You are prompted for an email, this is the email used as the sender for your Actionable Messages. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure web app as an HTTPS URL (for instance, https://myapp.azurewebsites.net). Finally, the scope of submission determines how you will use the provider. Choose **Mailbox** as the scope.
+Provide a name and image for your provider. You are prompted for an email, this is the email used as the sender for your Actionable Messages. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure web app as an HTTPS URL (for instance, https://myapp.azurewebsites.net). Finally, the scope of submission determines how you will use the provider. Choose **My Mailbox** as the scope.
 
-A scope of **Mailbox** will only allow actions in cards from your inbox. A scope of **Organization** will allow you to send Actionable Messages to others in your organization, and a scope of **Global** allows you to send to users inside and outside your organization. If you choose **Organization** or **Global**, then your application must first be reviewed and approved before proceeding.
+A scope of **My Mailbox** will only allow actions in cards from your inbox. A scope of **Organization** will allow you to send Actionable Messages to others in your organization, and a scope of **Global** allows you to send to users inside and outside your organization. If you choose **Organization** or **Global**, then your application must first be reviewed and approved before proceeding.
 
 ### Create a new Web API application
+
 In Visual Studio 2017, **create** a new Web Application project (File / New / Project / ASP.NET Web Application (.NET Framework). Name the project **ExpenseApproval**. When prompted, choose **Web API**, and ensure that **No Authentication** is selected.
 
 ![](Images/webapplication.png)
 
 ## Add NuGet package
+
 When the Web API is called, the application needs to validate the OAuth bearer token that is sent from Microsoft. The `Microsoft.O365.ActionableMessages.Utilities' NuGet package provides logic necessary to validate the bearer token.
 
 In Visual Studio, **open** the Package Manager Console (Tools / NuGet Package Manager / Package Manager Console) and enter the following:
+
 ````PowerShell
 Install-Package Microsoft.O365.ActionableMessages.Utilities
 ````
@@ -300,6 +310,7 @@ namespace ExpenseApproval.Models
     }
 }
 ````
+
 In Visual Studio, **add** a folder named `Helpers` and **add** a class named `ActionableMessageHelper`. **Replace** the code with the following:
 
 ````csharp
@@ -351,8 +362,6 @@ namespace ExpenseApproval.Helpers
                 };
             }
 
-            
-            
             //The sender is registered in the portal and should be a static email address.         
             if (result.Sender.ToLower().CompareTo(sender) != 0)
             {
@@ -416,13 +425,14 @@ namespace ExpenseApproval.Helpers
         }
     }
 }
-
 ````
-Notice the first few lines in the ValidateTokenAsync method use configuration settings. **Open** the web.config file in your project's root directory and **add** the following to the appSettings section:
+
+Notice the first few lines in the ValidateTokenAsync method use configuration settings. **Open** the web.config file in your project's root directory and **add** the following to the appSettings section and fill in the values:
+
 ````xml
-    <add key="sender" value="" />                        <!-- Ex: admin@contoso.onmicrosoft.com -->
-    <add key="emailDomain" value="" />                   <!-- Ex: @contoso.onmicrosoft.com -->
-    <add key="registeredActionURL" value="" />           <!-- Ex: https://myapp.azurewebsites.net -->
+<add key="sender" value="" />                        <!-- Ex: admin@contoso.onmicrosoft.com -->
+<add key="emailDomain" value="" />                   <!-- Ex: @contoso.onmicrosoft.com -->
+<add key="registeredActionURL" value="" />           <!-- Ex: https://myapp.azurewebsites.net -->
 ````
 
 The `GetCardBody` method references a project resource file to obtain a template representing the card to send as a response. **Double-click** the Properties node in Visual Studio and click on the **Resources** tab. **Add** a new string resource named "refreshCard" and paste the following JSON:
@@ -478,10 +488,13 @@ The `GetCardBody` method references a project resource file to obtain a template
   ]
 }
 ````
+
 The JSON contains placeholders that are replaced with actual values by the code.
 
 ### Implement the controller
+
 **Rename** the default controller class named **ValuesController** to **ExpenseController**. Replace the class contents with the following.
+
 ````csharp
 using ExpenseApproval.Helpers;
 using System.Diagnostics;
@@ -500,12 +513,12 @@ namespace ExpenseApproval.Controllers
             //Validate the token before continuing. 
             var ret = await ActionableMessageHelper.ValidateTokenAsync(Request);
             if(ret.IsError)
-            {                                
-                Trace.TraceError(ret.Message);                                
+            {
+                Trace.TraceError(ret.Message);
                 return ret.Response;
             }
 
-            // TODO: Add business logic code here to process the expense report     
+            // TODO: Add business logic code here to process the expense report
             HttpResponseMessage response;
             var approvalResult = default(string);
 
@@ -524,7 +537,7 @@ namespace ExpenseApproval.Controllers
 
             //Refresh the card
             response.Headers.Add("CARD-UPDATE-IN-BODY", "true");
-            string refreshCard = ActionableMessageHelper.GetCardBody(value, approvalResult, ret.ValidationResult.ActionPerformer);            
+            string refreshCard = ActionableMessageHelper.GetCardBody(value, approvalResult, ret.ValidationResult.ActionPerformer);
             response.Content = new StringContent(refreshCard);
 
             return response;
@@ -532,27 +545,34 @@ namespace ExpenseApproval.Controllers
     }
 }
 ````
+
 ### Publish the Azure Web Application
-The Web API that you just created will be called from Microsoft, so it needs to be available publicly and not running locally on localhost. Right-click the web application project and choose **Publish**. Choose **Select Existing** and click **OK**. 
+
+The Web API that you just created will be called from Microsoft, so it needs to be available publicly and not running locally on localhost. Right-click the web application project and choose **Publish**. Choose **Select Existing** and click **OK**.
 
 ![](Images/publish.png)
 
 Choose your existing Web App and click **OK**.
 
-In the **Publish** window, click the **Settings...** link. Click the **Settings** tab and change the configuration to **Debug**. 
+In the **Publish** window, click the **Settings...** link. Click the **Settings** tab and change the configuration to **Debug**.
 
 ![](Images/webdeploy.png)
 
 **Save** your changes then click **Publish** to publish your web application code.
 
 ### Debug the Azure Web App
+
 You can attach a debugger to an Azure Web App similar to how you attach a debugger to a local process during debugging. In Visual Studio 2017, open the **Cloud Explorer** pane and expand the **App Services** node to show your Azure Web App. Right-click your web app and choose **Attach Debugger**.
 
 ![](Images/debugger.png)
 
+>**NOTE:** If you only see **Local** resources, click on the person icon, make sure the account you used to create the web app service is liste, and then check the `All subscriptions` item to show them in the explorer.
+![](Images/showsubscriptions.png) 
+
 Set a breakpoint in the Web API controller to see when messages arrive and debug interactively.
 
 ### Test the card
+
 In the previous section, you sent a card to yourself using both PowerShell and a webhook. Those email messages should still be in your inbox (if not, repeat the previous section exercise). Open the email and click the **Approve** button. Provide text, simulating comments to an approval form, and click **Submit**. 
 
 ![](Images/actioncard.png)

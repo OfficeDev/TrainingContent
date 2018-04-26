@@ -1,4 +1,4 @@
-## Fundamentals of Microsoft Teams: Demos
+# Fundamentals of Microsoft Teams: Demos
 
 This directory contains the completed code for **teams-app1** in the [lab manual](../Lab.md).  If you do not want to go through all the steps for building the app, you may run the completed code samples.
 
