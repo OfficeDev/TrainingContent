@@ -441,7 +441,7 @@ The connector is now sideloaded into the Microsoft Teams application.
 
 1. The conversation window of the channel will now show the welcome message card that was sent via the api.
 
-    ![](Images/Exercise3-05.png)
+    ![](Images/Exercise3-08.png)
     
     > Note: Before your Connector can receive callbacks for actionable messages, you must register it and publish the app.
 
