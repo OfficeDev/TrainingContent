@@ -1,0 +1,4 @@
+target 'O365-Exchange-App' do
+  pod 'ADALiOS'
+  pod 'MSGraphSDK'
+ end
