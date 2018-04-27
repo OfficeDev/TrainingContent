@@ -1,5 +1,5 @@
 # Cards and Actions Using Outlook Actionable Messages – 300 Level
-----------------
+
 In this lab, you will walk through building an Actionable Message card and adding actions. 
 
 ## Prerequisites
@@ -9,7 +9,6 @@ This lab uses Visual Studio 2017. It also requires an Office 365 subscription wi
 ## Setup
 
 This lab will use an Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new Web App. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
-
 
 ## Adding actions to cards
 
@@ -24,14 +23,17 @@ Provide a name and image for your provider. You are prompted for an email, this 
 A scope of **Mailbox** will only allow actions in cards from your inbox. A scope of **Organization** will allow you to send Actionable Messages to others in your organization, and a scope of **Global** allows you to send to users inside and outside your organization. If you choose **Organization** or **Global**, then your application must first be reviewed and approved before proceeding.
 
 ### Create a new Web API application
+
 In Visual Studio 2017, **create** a new Web Application project (File / New / Project / ASP.NET Web Application (.NET Framework). Name the project **ExpenseApproval**. When prompted, choose **Web API**, and ensure that **No Authentication** is selected.
 
 ![](../../Images/webapplication.png)
 
 ## Add NuGet package
+
 When the Web API is called, the application needs to validate the OAuth bearer token that is sent from Microsoft. The `Microsoft.O365.ActionableMessages.Utilities' NuGet package provides logic necessary to validate the bearer token.
 
 In Visual Studio, **open** the Package Manager Console (Tools / NuGet Package Manager / Package Manager Console) and enter the following:
+
 ````PowerShell
 Install-Package Microsoft.O365.ActionableMessages.Utilities
 ````
@@ -54,6 +56,7 @@ namespace ExpenseApproval.Models
     }
 }
 ````
+
 In Visual Studio, **add** a folder named `Helpers` and **add** a class named `ActionableMessageHelper`. **Replace** the code with the following:
 
 ````csharp
@@ -105,8 +108,6 @@ namespace ExpenseApproval.Helpers
                 };
             }
 
-            
-            
             //The sender is registered in the portal and should be a static email address.         
             if (result.Sender.ToLower().CompareTo(sender) != 0)
             {
@@ -166,17 +167,18 @@ namespace ExpenseApproval.Helpers
             return template
                 .Replace("{{approvalResult}}", result)
                 .Replace("{{performer}}", performer)
-                .Replace("{{processDate}}", System.DateTime.Now.ToLongTimeString());           
+                .Replace("{{processDate}}", System.DateTime.Now.ToLongTimeString());
         }
     }
 }
 
 ````
 Notice the first few lines in the ValidateTokenAsync method use configuration settings. **Open** the web.config file in your project's root directory and **add** the following to the appSettings section:
+
 ````xml
-    <add key="sender" value="" />                        <!-- Ex: admin@contoso.onmicrosoft.com -->
-    <add key="emailDomain" value="" />                   <!-- Ex: @contoso.onmicrosoft.com -->
-    <add key="registeredActionURL" value="" />           <!-- Ex: https://myapp.azurewebsites.net -->
+<add key="sender" value="" />                        <!-- Ex: admin@contoso.onmicrosoft.com -->
+<add key="emailDomain" value="" />                   <!-- Ex: @contoso.onmicrosoft.com -->
+<add key="registeredActionURL" value="" />           <!-- Ex: https://myapp.azurewebsites.net -->
 ````
 
 The `GetCardBody` method references a project resource file to obtain a template representing the card to send as a response. **Double-click** the Properties node in Visual Studio and click on the **Resources** tab. **Add** a new string resource named "refreshCard" and paste the following JSON:
@@ -224,7 +226,7 @@ The `GetCardBody` method references a project resource file to obtain a template
           "value": "[Link to the expense report](http://connectorsdemo.azurewebsites.net)"
         }
       ]
-    },    
+    },
     {
       "startGroup": true,
       "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
@@ -232,10 +234,13 @@ The `GetCardBody` method references a project resource file to obtain a template
   ]
 }
 ````
+
 The JSON contains placeholders that are replaced with actual values by the code.
 
 ### Implement the controller
+
 **Rename** the default controller class named **ValuesController** to **ExpenseController**. Replace the class contents with the following.
+
 ````csharp
 using ExpenseApproval.Helpers;
 using System.Diagnostics;
@@ -287,13 +292,14 @@ namespace ExpenseApproval.Controllers
 }
 ````
 ### Publish the Azure Web Application
+
 The Web API that you just created will be called from Microsoft, so it needs to be available publicly and not running locally on localhost. Right-click the web application project and choose **Publish**. Choose **Select Existing** and click **OK**. 
 
 ![](../../Images/publish.png)
 
 Choose your existing Web App and click **OK**.
 
-In the **Publish** window, click the **Settings...** link. Click the **Settings** tab and change the configuration to **Debug**. 
+In the **Publish** window, click the **Settings...** link. Click the **Settings** tab and change the configuration to **Debug**.
 
 ![](../../Images/webdeploy.png)
 
@@ -307,6 +313,7 @@ You can attach a debugger to an Azure Web App similar to how you attach a debugg
 Set a breakpoint in the Web API controller to see when messages arrive and debug interactively.
 
 ### Test the card
+
 In the previous section, you sent a card to yourself using both PowerShell and a webhook. Those email messages should still be in your inbox (if not, repeat the previous section exercise). Open the email and click the **Approve** button. Provide text, simulating comments to an approval form, and click **Submit**. 
 
 ![](../../Images/actioncard.png)

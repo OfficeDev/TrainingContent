@@ -46,7 +46,7 @@ In this exercise, you will create an **Incoming Webhook** connector and send an 
 1. Open a **command prompt** window, go to the directory that contains the **curl.exe**, and enter the following command:
 
 	````shell
-	curl -H "Content-Type: application/json" -d "{\"text\": \"Hello World!\"}" <YOUR WEBHOOK URL>
+	curl -H "Content-Type: application/json" -d "{\"text\": \"Hello World!\"}" --insecure <YOUR WEBHOOK URL>
 	````
 
 	![Screenshot of the previous step](Images/curl-command.png)
@@ -245,10 +245,10 @@ The steps in this lab exercise are performed on the code created in exercise 1 i
 	    var bike = container.data("bike");
 	    if (lastAction && bike) {
 	        var message = {
-	            "text": getUserName() + " " + lastAction + " " + bike.columnSet.Title,
-	            "activityTitle": bike.columnSet.Title + " " + bike.columnSet.Serial,
-	            "activityText": bike.columnSet.Description,
-	            "activityImage": bike.columnSet.Picture.Url
+	            "text": getUserName() + " " + lastAction + " " + bike.fields.Title,
+	            "activityTitle": bike.fields.Title + " " + bike.fields.Serial,
+	            "activityText": bike.fields.Description,
+	            "activityImage": bike.fields.Picture.Url
 	        };
 	        sendConnectorMessage(message, function () {
 	            container.data("lastAction", "");
@@ -284,3 +284,6 @@ public override Task ProcessRequestAsync(HttpContext context) {
 	>**Note:** If the previous action you took on the bike was clicking the **Check In** button, then the card message will indicate the bike was checked in after you click the **Notify Connector** button.
 	
 	![Screenshot of the previous step](Images/connector-message-bikeaction.png)
+
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/02-connectors" />

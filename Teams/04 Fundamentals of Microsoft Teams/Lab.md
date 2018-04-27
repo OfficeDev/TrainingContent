@@ -1,6 +1,6 @@
 # Fundamentals of Teams Development
-----------------
-In this lab, you will prepare your computer for developing Microsoft Teams apps, learn the steps to package and test your application, build a basic Micorosft Teams Bot and a Microsoft Teams Tab.
+
+In this lab, you will prepare your computer for developing Microsoft Teams apps, learn the steps to package and test your application, build a basic Microsoft Teams Bot and a Microsoft Teams Tab.
 
 ## Table of Contents
 
@@ -148,17 +148,17 @@ When the solution was generated, we used a placeholder URL. Now that the tunnel 
 
 ### Sideload app into Microsoft Teams
 
-1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
+1. In the Microsoft Teams application, click the **Create and join team** link. Then click the **Create team** button.
 
     ![](Images/Exercise1-08.png)
 
 1. Enter a team name and description. In this example, the Team is named **teams-app-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the elipses next to the team name. Choose **View team** from the context menu.
+1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](Images/Exercise1-09.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application. (If you don't have this link check the sideload settings in the [Getting Started article](https://msdn.microsoft.com/en-us/microsoft-teams/setup).)
 
     ![](Images/Exercise1-10.png)
 
@@ -204,6 +204,8 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
 1. Build the solution to download all configured NuGet packages.
 
+1. Right-click on the project in Solution Explorer and select **Manage Nuget Packages**. Update all the packages, ensuring that the **Microsoft.Bot.Builder** is at least version 3.12. Repeat until all the packages are up-to-date.
+
 The Bot Application template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output. In order to run the bot inside Microsoft Teams:
 
 - The bot must be accessible from the internet
@@ -222,7 +224,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
 ### Run the ngrok secure tunnel application
 
 1. Open a new **Command Prompt** window.
-1. Change to the directory that contains the ngrok.exe application.
+1. Download ngrok (https://ngrok.com/download) and unzip the ngrok secure tunnel application. Change to the directory that contains the ngrok.exe application.
 1. Run the command `ngrok http [port] -host-header=localhost:[port]` *(Replace [port] with the port portion of the URL noted above.)*
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
@@ -231,14 +233,16 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 ### Register the bot
 
-1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
-1. Click Register. (If the Register button is not shown, click **My bots** in the top navigation.)
-1. Complete the Bot profile section, entering a Display name, Bot handle and description.
+> **Note:** The process of Bot registration will change effective March 31, 2018. Please read [Register a bot with Bot Service](https://docs.microsoft.com/en-us/bot-framework/bot-service-quickstart-registration) for more details of the new registration procedure.
+
+1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com/bots/new and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
+1. Click **Create a bot or skill**. (If the Create button is not shown, click **My bots** in the top navigation.)
+1. Complete the Bot profile section, entering a Display name, unique Bot handle and description.
 
     ![](Images/Exercise2-04.png)
 
 1. Complete the Configuration section.
-    1. For the Messaging endpoint, use the Forwarding https address from ngrok prepended to the route to the MessagesController in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/API/Messages`
+    1. For the Messaging endpoint, use the Forwarding https address from ngrok with /api/messages appended to provide the route to the MessagesController in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/api/messages`
     1. Click the **Create Microsoft App ID and password button**. This opens a new browser tab/window.
     1. In the new browser tab/window the application is registered in Azure Active Directory. Click **Generate an app password to continue**.
     1. An app password is generated. Copy the password and save it. You will use it in a subsequent step.
@@ -249,7 +253,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 1. Scroll to the bottom of the page. Agree to the Privacy statement, Terms of use, and Code of conduct and click the **Register** button. Once the Bot is created, click **OK** to dismiss the pop-up.
 
-The **Connect to channels** page is displayed for the newly-created bot. The bot must be connected to Microsoft Teams.
+    > The **Connect to channels** page is displayed for the newly-created bot. The bot must be connected to Microsoft Teams.
 
 1. Click the **Teams** logo.
 
@@ -283,7 +287,7 @@ The Bot registration portal can be used to test the bot.
 1. Once the **default.htm** page is displayed, return to the [Bot registration portal](https://dev.botframework.com/bots).
 1. Select your bot.
 1. In the top-right corner of the page, click the **Test** button.
-1. Enter a message and press **Enter**. The message is echoed back along with the length of the mesage.
+1. Enter a message and press **Enter**. The message is echoed back along with the length of the message.
 
     ![](Images/Exercise2-08.png)
 
@@ -294,7 +298,8 @@ The Bot registration portal can be used to test the bot.
 Packaging a bot for Microsoft Teams is identical to packaging a tab. A manifest file (and related resources) are compressed into a zip file and added to a team.
 
 Perform the following in Visual Studio. (Stop debugging before continuing. Leave ngrok running.)
-1.  Right-click on the project, choose **Add | New Folder**. Name the folder **Manifest**.
+
+1. Right-click on the project, choose **Add | New Folder**. Name the folder **Manifest**.
 1. Add the displayed files from the **Lab Files** folder of this repository.
 
     ![](Images/Exercise2-09.png)
@@ -377,11 +382,11 @@ Although not strictly necessary, in this lab the bot will be added to a new Team
 
 1. Enter a team name and description. In this example, the Team is named **teams-bot-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **View team** from the context menu.
+1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](Images/Exercise2-12.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application.
 1. Select the **teams-bot1.zip** file from the *bin* folder. Click **Open**.
 1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
 
@@ -400,7 +405,6 @@ As you test the bot, you will notice that the character count is not correct. Yo
 This concludes Exercise 2.
 
 <a name="exercise3"></a>
-
 ## Exercise 3: Call Microsoft Graph inside a Tab
 
 This section of the lab will extend the tab created in Exercise 1 to call the Microsoft Graph. The Exercise contains many code files. The **Lab Files** folder contains files that contain the code and are provided to facilitate copy/paste of the code rather than typing.
@@ -438,7 +442,7 @@ To enable an application to call the Microsoft Graph, an application registratio
     ```
 
 1. Click the **Add URL** button.
-1. Using the hostname from ngrok, enter a **Redirect URL** to the adminconsent.html file.
+1. Using the hostname from ngrok, enter a **Redirect URL** to the `adminconsent.html` file.
 
     ```
     https://[replace-this].ngrok.io/adminconsent.html
@@ -451,7 +455,7 @@ To enable an application to call the Microsoft Graph, an application registratio
 1. Request permission to read Groups.
     1. Scroll down to the **Microsoft Graph Permissions** section.
     1. Next to **Delegated Permissions**, click the **Add** button.
-    1. In the **Select Permission** dialog, scroll down and select **Group.Read.All**. Click OK.
+    1. In the **Select Permission** dialog, scroll down and select **Group.Read.All**. Click **OK**.
 
         ![](Images/Exercise3-05.png)
 
@@ -466,7 +470,7 @@ Using **npm**, add the Microsoft Authentication library to the project.
 1. Run the following command:
 
     ```shell
-    npm install msal
+    npm install msal@0.1.1
     ```
 
 ### Configure Tab when added to channel
@@ -659,6 +663,7 @@ These steps assume that the application created in Exercise 1 is named **teams-a
 
 1. Following the steps from Exercise 1, redeploy the app. In summary, perform the following steps.
     1. Update the manifest (if necessary) with the ngrok forwarding address.
+	1. Run `gulp manifest` to rebuild the package if you updated the manifest.
     1. Run `gulp build` and resolve errors.
     1. Run `gulp serve`
     1. Sideload the app into Microsoft Teams.
@@ -787,7 +792,7 @@ These steps assume that the application created in Exercise 1 is named **teams-a
         ```
 
 1. Add a new file to the **web** folder named **auth.html**
-    1. Add the following to the **adminconsent.html** file.
+    1. Add the following to the **auth.html** file.
 
         ```html
         <!DOCTYPE html>
