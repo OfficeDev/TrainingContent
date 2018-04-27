@@ -1,14 +1,14 @@
 {
   "$schema": "../../../node_modules/@microsoft/sp-module-interfaces/lib/manifestSchemas/jsonSchemas/clientSideComponentManifestSchema.json",
 
-  "id": "67975c8a-12c2-486c-b187-b3f59bd3fbfb",
+  "id": "a78912b2-ee1f-45a1-bcfd-e928efd596bf",
   "alias": "HelloWorldKnockoutWebPart",
   "componentType": "WebPart",
   "version": "0.0.1",
   "manifestVersion": 2,
 
   "preconfiguredEntries": [{
-    "groupId": "67975c8a-12c2-486c-b187-b3f59bd3fbfb",
+    "groupId": "a78912b2-ee1f-45a1-bcfd-e928efd596bf",
     "group": { "default": "Under Development" },
     "title": { "default": "HelloWorld Knockout" },
     "description": { "default": "HelloWorld Knockout description" },

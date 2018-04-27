@@ -3,8 +3,8 @@ In this lab, you will walk through packaging and deploying your web part, debugg
 
 ## Prerequisites ##
 Make sure you have completed the procedures in the following sections of [Getting Started with the SharePoint Framework (SPFx)](../Module-1/Lab.md) module: 
-- [Setup development environment](../Module-1/Lab.md#setup-development-environment)
-- [Setup Office 365 tenant](../Module-1/Lab.md#setup-office-365-tenant)
+- [Setup development environment](../01%20Getting%20Started%20with%20the%20SharePoint%20Framework/Lab.md#setup-development-environment)
+- [Setup Office 365 tenant](../01%20Getting%20Started%20with%20the%20SharePoint%20Framework/Lab.md#setup-office-365-tenant)
 
 ## Tools: SharePoint Yeoman generator, gulp, and workbench ##
 
@@ -81,7 +81,7 @@ Make sure you have completed the procedures in the following sections of [Gettin
 5. SharePoint will display a dialog and ask you to trust the client-side solution to deploy.
 	
 	![](Images/25.png)
-
+**Do not check Make this solution available to all site in the organization**
 6. Choose **Deploy**.
 
 

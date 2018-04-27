@@ -4,14 +4,13 @@
 
 Use [Office UI Fabric Core](https://github.com/OfficeDev/office-ui-fabric-core) styles and the [Office UI Fabric React Components](https://github.com/OfficeDev/office-ui-fabric-react) to build user interfaces in SharePoint Framework client-side web parts.
 
-## Video ##
-[Module 6: Using React and Office UI Fabric React components](#)
+### Topics and Videos ###
+You can see videos around this module:
 
-## Agenda ##
-- Basic project structure from yeoman
-- Office UI Fabric Core
-- Office UI Fabric React
-- Basic React implementation for building web parts
+- [Basic project structure from yeoman](https://aka.ms/spfxtm6s1)
+- [Office UI Fabric Core](https://aka.ms/spfxtm6s2)
+- [Office UI Fabric React](https://aka.ms/spfxtm6s3)
+- [Basic React implementation for building web parts](https://aka.ms/spfxtm6s4)
 
 ## Key recommendations ##
 - Office UI Fabric is the official front-end framework for building experiences that fit seamlessly into Office and Office 365.
@@ -62,3 +61,5 @@ The completed lab exercises are the demos for this module.
 
 Notice that we will keep on updating this material based on your input and work being done in the [Office 365 Developer Patterns and Practices program](http://aka.ms/officedevpnp). You can provide us input directly using the [Office 365 Developer Patterns & Practices Yammer group](http://aka.ms/officedevpnpyammer)
 ![](https://camo.githubusercontent.com/a732087ed949b0f2f84f5f02b8c79f1a9dd96f65/687474703a2f2f692e696d6775722e636f6d2f6c3031686876452e706e67)
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/SharePoint/SharePointFramework/06-using-react-and-office-ui-fabric-components" />

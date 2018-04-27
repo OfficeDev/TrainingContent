@@ -1,0 +1,34 @@
+{
+  "name": "excel-portfolio",
+  "description": "",
+  "author": "",
+  "version": "0.1.0",
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json",
+    "server": "browser-sync start --config bsconfig.json",
+    "copy": "cpx \"src/**/!(*.ts)\" dist",
+    "start": "rimraf dist && npm run tsc && webpack --config webpack.config.js --colors --progress --bail && npm run copy && npm run server",
+    "validate": "./node_modules/.bin/validate-office-addin"
+  },
+  "dependencies": {
+    "core-js": "2.5.3",
+    "jquery": "3.3.1",
+    "office-addin-validator": "1.0.5",
+    "office-ui-fabric-js": "1.5.0",
+    "vue":"2.5.13",
+    "vue-class-component":"6.2.0"
+  },
+  "devDependencies": {
+    "@types/jquery": "3.3.0",
+    "@types/office-js": "0.0.51",
+    "browser-sync": "2.23.6",
+    "concurrently": "3.5.1",
+    "cpx": "1.5.0",
+    "rimraf": "2.6.2",
+    "ts-loader": "2.3.7",
+    "typescript": "2.7.2",
+    "vue-loader": "14.1.1",
+    "vue-template-compiler": "2.5.13",
+    "webpack": "2.3.1"
+  }
+}

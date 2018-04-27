@@ -3,7 +3,7 @@ microsoftTeams.initialize();
 
 $(document).ready(function () {
     window.authConfig = {
-        tenant: '<TENANT>',
+        tenant: '<TENANT.onmicrosoft.com>',
         clientId: '<CLIENTID>',
         redirectUri: 'https://<APPNAME>.azurewebsites.net/index.html',
         postLogoutRedirectUri: 'https://<APPNAME>.azurewebsites.net/logout.html',
@@ -15,9 +15,10 @@ $(document).ready(function () {
     };
 
     window.appConfig = {
+        siteHost: '<TENANT.sharepoint.com>',
         siteUrl: '<RELATIVE SITE URL>',
-        documentLibrary: 'BikeDocuments',
-        list: 'BikeInventory'
+        documentLibrary: '<BikeDocuments>',
+        list: '<BikeInventory>'
     };
 
     window.authContext = new AuthenticationContext(window.authConfig);
@@ -57,6 +58,9 @@ function initPage() {
             if (token) {
                 getData();
             }
+            else {
+                authenticateFailed("Acquring Graph Token Failed: " + message);
+            }
         });
     }
     else {
@@ -89,7 +93,15 @@ function authenticateSucceeded(token) {
 
 // callback function called if the login failed in the authentication popup or acquire graph token failed.
 function authenticateFailed(message) {
-    $("#message").html(message);
+    $("#message").append("<div>" + message + "</div>");
+    if (typeof (message) === "string") {
+        if (message.indexOf("Login Failed:") === 0) {
+            $("#message").append("<div>Please check your account and Log In again.</div>");
+        }
+        else if (message.indexOf("Acquring Graph Token Failed:") === 0) {
+            $("#message").append("<div>Please try Log Out and Log In again.</div>");
+        }
+    }
 }
 
 // navigate to Azure AD authorization endpoint to log out.
@@ -109,6 +121,7 @@ function logOut() {
 
 // login by ADAL.
 function login() {
+    window.authContext._loginInProgress = false;
     window.authContext.login();
 }
 
@@ -145,15 +158,15 @@ function showBike() {
         return;
     }
 
-    if (item.columnSet.Picture !== null) {
-        $("#bikeImage").css("background-image", "url('" + item.columnSet.Picture.Url + "')");
+    if (item.fields.Picture !== null) {
+        $("#bikeImage").css("background-image", "url('" + item.fields.Picture.Url + "')");
     }
 
-    $("#bikeTitle").text(item.columnSet.Title + " " + item.columnSet.Serial);
-    $("#bikeDescription").html(item.columnSet.Description);
-    $("#bikeDetailsPrice").text(item.columnSet.Price + " / day");
-    $("#bikeDetailsLocation").text(item.columnSet.Location);
-    $("#bikeDetailsCondition").text(item.columnSet.Condition);
+    $("#bikeTitle").text(item.fields.Title + " " + item.fields.Serial);
+    $("#bikeDescription").html(item.fields.Description);
+    $("#bikeDetailsPrice").text(item.fields.Price + " / day");
+    $("#bikeDetailsLocation").text(item.fields.Location);
+    $("#bikeDetailsCondition").text(item.fields.Condition);
     $("#detailsPage").data("bike", item);
 
     showDetailsPage(true);
@@ -199,7 +212,7 @@ function retrieveDocs() {
 
     $.ajax({
         type: "GET",
-        url: window.authConfig.endpoints.graph + "/beta/sharepoint/sites/" + siteId + "/lists/" + listId + "/items?expand=columnSet",
+        url: window.authConfig.endpoints.graph + "/v1.0/sites/" + siteId + "/lists/" + listId + "/items?expand=columnSet",
         dataType: "json",
         headers: {
             'Authorization': 'Bearer ' + getGraphToken(),
@@ -209,9 +222,9 @@ function retrieveDocs() {
         var docs = response.value;
         for (var i = 0; i < docs.length; i++) {
             var item = docs[i];
-            var sDocName = getFileNameWithoutExtension(item.columnSet.LinkFilename);
+            var sDocName = getFileNameWithoutExtension(item.fields.LinkFilename);
 
-            var element = $("<a target='_blank'>").attr("href", item.webUrl).addClass("docTile ms-font-m");
+            var element = $("<a target='_blank'>").attr("href", item.webUrl + "?web=1").addClass("docTile ms-font-m");
             var html = $("<div>");
             var content = $("<div class='docTileContent'>").appendTo(html);
             var text = $("<div class='docTileText'>").text(sDocName).appendTo(content);
@@ -235,7 +248,7 @@ function retrieveBikes() {
 
     $.ajax({
         type: "GET",
-        url: window.authConfig.endpoints.graph + "/beta/sharepoint/sites/" + siteId + "/lists/" + listId + "/items?expand=columnSet",
+        url: window.authConfig.endpoints.graph + "/v1.0/sites/" + siteId + "/lists/" + listId + "/items?expand=columnSet",
         dataType: "json",
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -250,30 +263,30 @@ function retrieveBikes() {
             var html = $("<div>");
 
             var image = $("<div class='itemTileImage'>").appendTo(html);
-            if (item.columnSet.Picture !== null) {
-                image.css("background-image", "url('" + item.columnSet.Picture.Url + "')");
+            if (item.fields.Picture !== null) {
+                image.css("background-image", "url('" + item.fields.Picture.Url + "')");
             }
 
             var content = $("<div class='itemTileContent'>").appendTo(html);
-            var text = $("<div class='itemTileText'>").text(item.columnSet.Title + " " + item.columnSet.Serial).appendTo(content);
+            var text = $("<div class='itemTileText'>").text(item.fields.Title + " " + item.fields.Serial).appendTo(content);
 
-            if (item.columnSet.Color_x0020_Swatch !== null) {
+            if (item.fields.Color_x0020_Swatch !== null) {
                 var color = $("<div class='itemColorArea'>").appendTo(content);
-                var colorSwatch = $("<div class='itemColorSwatch'>").css("background-color", item.columnSet.Color_x0020_Swatch).appendTo(color);
-                var colorTitle = $("<div class='itemColorTitle'>").text(item.columnSet.Color_x0020_Scheme).appendTo(color);
+                var colorSwatch = $("<div class='itemColorSwatch'>").css("background-color", item.fields.Color_x0020_Swatch).appendTo(color);
+                var colorTitle = $("<div class='itemColorTitle'>").text(item.fields.Color_x0020_Scheme).appendTo(color);
             }
 
-            if (item.columnSet.Price !== null) {
+            if (item.fields.Price !== null) {
                 var price = $("<div class='itemFieldArea'>").appendTo(content);
                 price.append("<div class='itemFieldLabel'>Price</div>");
-                $("<div class='itemFieldValue'>").text(item.columnSet.Price).appendTo(price);
+                $("<div class='itemFieldValue'>").text(item.fields.Price).appendTo(price);
                 price.append("<span> / day</span>");
             }
 
-            if (item.columnSet.Location !== null) {
+            if (item.fields.Location !== null) {
                 var location = $("<div class='itemFieldArea'>").appendTo(content);
                 location.append("<div class='itemFieldLabel'>Location</div>");
-                $("<div class='itemFieldValue'>").text(item.columnSet.Location).appendTo(location);
+                $("<div class='itemFieldValue'>").text(item.fields.Location).appendTo(location);
             }
 
 
@@ -294,7 +307,9 @@ function acquireSiteId(cb) {
 
     $.ajax({
         type: "GET",
-        url: window.authConfig.endpoints.graph + "/beta/sharepoint:" + window.appConfig.siteUrl,
+        url: window.authConfig.endpoints.graph + "/v1.0/sites/" +
+             window.appConfig.siteHost + 
+             (window.appConfig.siteUrl ? ":" + window.appConfig.siteUrl : ""),
         dataType: "json",
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -315,7 +330,7 @@ function acquireListIds(cb) {
 
     $.ajax({
         type: "GET",
-        url: window.authConfig.endpoints.graph + "/beta/sharepoint/sites/" + siteId + "/lists",
+        url: window.authConfig.endpoints.graph + "/v1.0/sites/" + siteId + "/lists",
         dataType: "json",
         headers: {
             'Authorization': 'Bearer ' + getGraphToken(),

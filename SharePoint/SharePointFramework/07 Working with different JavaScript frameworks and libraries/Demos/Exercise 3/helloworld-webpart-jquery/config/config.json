@@ -7,7 +7,7 @@
     }
   ],
   "externals": {
-    "jquery":"node_modules/jquery/dist/jquery.min.js"
+    "jquery": "node_modules/jquery/dist/jquery.min.js"
   },
   "localizedResources": {
     "helloWorldJQueryStrings": "webparts/helloWorldJQuery/loc/{locale}.js"

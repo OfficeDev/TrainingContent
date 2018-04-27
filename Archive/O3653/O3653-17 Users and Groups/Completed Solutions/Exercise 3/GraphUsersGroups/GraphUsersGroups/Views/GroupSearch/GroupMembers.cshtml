@@ -1,0 +1,42 @@
+﻿@using Microsoft.Graph
+@model List<User>
+@{
+    ViewBag.Title = "Manage Group Memberships";
+}
+<h2>@ViewBag.Title for @ViewBag.groupName</h2>
+
+@* Add new members here *@
+
+<div class="row" style="margin-top:50px;">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table id="membersTable" class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>User Principal Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr onclick="location.href = '@(Url.Action("ShowProfile", "UserSearch", new { userId = user.Id }))'">
+                            <td>
+                                @Html.DisplayFor(modelItem => user.DisplayName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => user.UserPrincipalName)
+                            <td>
+                                @* Add a remove button here *@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="btn btn-group-sm">
+            @* Add a next page button here (paging) *@
+        </div>
+    </div>
+</div>

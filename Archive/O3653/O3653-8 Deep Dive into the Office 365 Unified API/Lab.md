@@ -1,0 +1,1 @@
+The content you accessed had been moved to the following location [O3653-8 Deep Dive into the Microsoft Graph API](../O3653-8 Deep Dive into the Microsoft Graph API "O3653-8 Deep Dive into the Microsoft Graph API")

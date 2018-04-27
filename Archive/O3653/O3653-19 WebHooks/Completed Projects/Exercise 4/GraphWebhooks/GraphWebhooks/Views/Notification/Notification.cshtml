@@ -1,0 +1,48 @@
+﻿@model Microsoft.Graph.Message
+
+@{
+    ViewBag.Title = "Notification";
+}
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery.signalR-2.2.1.min.js")
+    @Scripts.Render("~/signalr/hubs")
+
+    <script>
+        $(document).ready(function () {
+            var connection = $.hubConnection();
+            var hub = connection.createHubProxy("NotificationHub");
+            hub.on("showNotification", function (messages) {
+                $.each(messages, function (index, value) {     // Iterate through the message collection
+                    var message = value;                       // Get current message
+
+                    var table = $("<table></table>");
+                    var header = $("<th>Message " + (index + 1) + "</th>").appendTo(table);
+
+                    for (prop in message) {                    // Iterate through message properties
+                        var property = message[prop];
+                        var row = $("<tr></tr>");
+
+                        $("<td></td>").text(prop).appendTo(row);
+                        $("<td></td>").text(property).appendTo(row);
+                        table.append(row);
+                    }
+                    $("#message").append(table);
+                    $("#message").append("<br />");
+                });
+            });
+            connection.start();
+        });
+
+    </script>
+}
+<h2>Messages</h2>
+<p>You'll get a notification when your user receives an email. The messages display below.</p>
+<br />
+<div id="message"></div>
+<div>
+    @using (Html.BeginForm("DeleteSubscription", "Subscription"))
+    {
+        <button type="submit">Delete subscription and sign out</button>
+    }
+</div>

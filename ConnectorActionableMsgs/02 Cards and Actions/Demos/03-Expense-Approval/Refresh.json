@@ -1,0 +1,49 @@
+{
+  "@type": "MessageCard",
+  "@context": "http://schema.org/extensions",
+  "summary": "This is the summary property",
+  "themeColor": "0075FF",
+  "sections":
+  [
+    {
+      "heroImage":
+      {
+        "image": "http://messagecardplayground.azurewebsites.net/assets/FlowLogo.png"
+      }
+    },
+    {
+      "startGroup": true,
+      "title": "{{approvalResult}}",
+      "activityImage": "http://connectorsdemo.azurewebsites.net/images/MSC12_Oscar_002.jpg",
+      "activityTitle": "Requested by **Miguel Garcia**",
+      "activitySubtitle": "m.garcia@contoso.com",
+      "facts":
+      [
+        {
+          "name": "Date submitted:",
+          "value": "06/27/2017, 2:44 PM"
+        },
+        {
+          "name": "Date processed:",
+          "value": "{{processDate}}"
+        },
+        {
+          "name": "Processed by:",
+          "value": "{{performer}}"
+        },
+        {
+          "name": "Details:",
+          "value": "Expense approved for **$123.45**."
+        },
+        {
+          "name": "Link:",
+          "value": "[Link to the expense report](http://connectorsdemo.azurewebsites.net)"
+        }
+      ]
+    },    
+    {
+      "startGroup": true,
+      "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
+    }
+  ]
+}

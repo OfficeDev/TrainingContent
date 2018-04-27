@@ -1,4 +1,4 @@
-# Create Office 365 Connectors for Microsoft Teams (preview) #
+# Create Office 365 Connectors for Microsoft Teams #
 Office 365 Connectors are a great way to get useful information and content into Microsoft Teams. Any user can connect their team to services like Trello, GitHub, Bing News, Twitter, etc., and get notified of the team's activity in that service. From tracking a team's progress in Trello, to following important hashtags in Twitter, Office 365 Connectors make it easier for your team to stay in sync and get more done.
 
 Office 365 Connectors also provide a way for developers to integrate with Microsoft Teams by building custom incoming webhooks Connectors to generate rich cards within channels.
@@ -11,14 +11,16 @@ Office 365 Connectors also provide a way for developers to integrate with Micros
    - Download it at this link [https://teams.microsoft.com/downloads](https://teams.microsoft.com/downloads).
 4. You must have curl installed.
    - Download it at this link [https://curl.haxx.se/download.html](https://curl.haxx.se/download.html).
+5. You must have Visual Studio 2017 with the ASP.NET and web application components installed.
    
 ## Exercise 1: Create a custom Incoming Webhook Connector for Microsoft Teams ##
 In this exercise, you will create an **Incoming Webhook** connector and send an HTTP request to the webhook address to create Connector Card messages.
 
-In the [01 Tabs](../01 Tabs) Team training module, you will create more complex Connector Card messages with code.
-
 ### Add an Incoming Webhook Connector to a channel ###
-1. Open **Microsoft Teams** and sign in.
+1. Open the **Microsoft Teams** application and sign in.
+
+	> **Note:** If there's not a team already created, please create one by following the steps in [01 Tabs](../01%20Tabs/Lab.md#create-a-team).
+
 2. Click **Teams** in the left panel, then select a Team. 
 3. Select the **General** Channel in the selected team.
 4. Click **...** next to the channel name, then select **Connectors**.
@@ -38,13 +40,13 @@ In the [01 Tabs](../01 Tabs) Team training module, you will create more complex 
 
 	![Screenshot of the previous step](Images/copy-incoming-webhook-url.png)
 
-8. Close the **Connectors** dialog.
+9. Close the **Connectors** dialog.
 
 ### Create a simple Connector Card message to the webhook ###
 1. Open a **command prompt** window, go to the directory that contains the **curl.exe**, and enter the following command:
 
 	````shell
-	curl -H "Content-Type: application/json" -d "{\"text\": \"Hello World!\"}" <YOUR WEBHOOK URL>
+	curl -H "Content-Type: application/json" -d "{\"text\": \"Hello World!\"}" --insecure <YOUR WEBHOOK URL>
 	````
 
 	![Screenshot of the previous step](Images/curl-command.png)
@@ -52,7 +54,7 @@ In the [01 Tabs](../01 Tabs) Team training module, you will create more complex 
 	> **Note:** Replace **&lt;YOUR WEBHOOK URL&gt;** with the webhook URL you saved when you created the **Incoming Webhook** connector.
 
 2. When the POST succeeds, you will see a simple 1 outputted by curl.
-3. Check the Cobersations tab in the Microsoft Teams application. You will see the new  card message posted to the conversation.
+3. Check the Conversations tab in the Microsoft Teams application. You will see the new  card message posted to the conversation.
 
 	![Screenshot of the previous step](Images/card-message.png)
 
@@ -60,12 +62,12 @@ Congratulations! You have created an **Incoming Webhook** Connector and sent a s
 
 ## Exercise 2: Send a Hello World card message to the Incoming Webhook Connector ##
 
-**Prerequisites:**  In order to do this exercise you must first complete exercise 1 in the [Teams - 01 Tabs](../01 Tabs) training module.
+**Prerequisites:**  In order to do this exercise you must first complete exercise 1 in the [01 Tabs](../01%20Tabs) training module.
 
 ### Add a button to send a Hello World card message to the Incoming Webhook Connector ###
 
-The steps in this lab exercise are performed on the code created in exercise 1 in the [Teams - 01 Tabs](../01 Tabs) training module.
- 
+The steps in this lab exercise are performed on the code created in exercise 1 in the [01 Tabs](../01%20Tabs) training module.
+
 1. Open the file **index.html**, add the following code after the line `<div id="splashBar"></div>`, then save the file.
 
 	````html
@@ -169,10 +171,10 @@ The steps in this lab exercise are performed on the code created in exercise 1 i
 
 	![Screenshot of the previous step](Images/website-web-config.png)
 
-	> **Note:** Please replace the **&lt;INCOMING WEBHOOK URL&gt;** placeholder with the incoming webhook connector's URL generated in the  [01 Connectors](../01 Connectors/Lab.md) module.
+	> **Note:** Please replace the **&lt;INCOMING WEBHOOK URL&gt;** placeholder with the incoming webhook connector's URL generated in [Exercise 1](#exercise-1-create-a-custom-incoming-webhook-connector-for-microsoft-teams) module.
 
 ### Publish the web site to Azure and review the tab in Microsoft Teams ###
-1. Publish the web site to the Azure Web App the same way you did in Exercise 1.
+1. Publish the web site to the Azure Web App the same way you did in [01 Tabs](../01%20Tabs/Lab.md#publish-the-web-site-to-azure).
 2. Switch to the **Microsoft Teams** application, select the Team, select the the **General** channel, then click the **Bike Sharing** tab to see the updated tab.
 
 	![Screenshot of the previous step](Images/tab-helloworld-connector.png)
@@ -243,10 +245,10 @@ The steps in this lab exercise are performed on the code created in exercise 1 i
 	    var bike = container.data("bike");
 	    if (lastAction && bike) {
 	        var message = {
-	            "text": getUserName() + " " + lastAction + " " + bike.columnSet.Title,
-	            "activityTitle": bike.columnSet.Title + " " + bike.columnSet.Serial,
-	            "activityText": bike.columnSet.Description,
-	            "activityImage": bike.columnSet.Picture.Url
+	            "text": getUserName() + " " + lastAction + " " + bike.fields.Title,
+	            "activityTitle": bike.fields.Title + " " + bike.fields.Serial,
+	            "activityText": bike.fields.Description,
+	            "activityImage": bike.fields.Picture.Url
 	        };
 	        sendConnectorMessage(message, function () {
 	            container.data("lastAction", "");
@@ -271,7 +273,7 @@ public override Task ProcessRequestAsync(HttpContext context) {
 ````
 
 ### Publish the web site to Azure and review the tab in Microsoft Teams ###
-1. Publish the web site to Azure Web App the same way you did in Exercise 1.
+1. Publish the web site to Azure Web App the same way you did in [01 Tabs](../01%20Tabs/Lab.md#publish-the-web-site-to-azure).
 2. Switch to the **Microsoft Teams** application, select the Team, select the **General** channel, then click the **Bike Sharing** tab.
 3. Click a bike, the details of the bike are shown. Click the **Check out** button and a **Notify Connector** button appears.
 
@@ -282,3 +284,6 @@ public override Task ProcessRequestAsync(HttpContext context) {
 	>**Note:** If the previous action you took on the bike was clicking the **Check In** button, then the card message will indicate the bike was checked in after you click the **Notify Connector** button.
 	
 	![Screenshot of the previous step](Images/connector-message-bikeaction.png)
+
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/02-connectors" />

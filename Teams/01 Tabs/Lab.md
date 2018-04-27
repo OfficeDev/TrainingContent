@@ -1,13 +1,14 @@
-# Create a tab for Microsoft Teams (preview) #
+# Create a tab for Microsoft Teams #
 You can build a Microsoft Teams tab from scratch or by adapting your existing web app.
 
 ## Prerequisites ##
 1. You must have an Office 365 tenant and Windows Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
 2. You must turn on Microsoft Teams for your organization.
-   - Follow the instructions in this link [https://msdn.microsoft.com/en-us/microsoft-teams/setup](https://msdn.microsoft.com/en-us/microsoft-teams/setup)
+   - Follow the instructions in this link [https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant)
 3. You must have Microsoft Teams installed.
    - Download it at this link [https://teams.microsoft.com/downloads](https://teams.microsoft.com/downloads).
-4. You must have Visual Studio 2017 installed.
+4. You must have Visual Studio 2017 with the ASP.NET and web application components installed.
+   - To ensure ASP.NET and web application components are installed in Visual Studio, go to Tools > Get Tools and Features and in the Visual Studio Installer that opens up, look in Web & Cloud and if ASP.NET and web development is not checked, check and then install. 
    
 ## Exercise 1: Create configuration and content pages for Microsoft Teams tab ##
 In this exercise, you will create a web site to host the configuration and content pages for the Microsoft Teams tab and publish it to Azure.
@@ -42,7 +43,7 @@ Here you will create an Azure Web App where you will publish the web site contai
 Here you will create an Azure Active Directory Application to allow the pages for the Microsoft Teams tab to authenticate and interact with the Microsoft Graph and SharePoint APIs.
 
 1. In a web browser, open the [Azure Portal](https://portal.azure.com/) and log in with an account with proper permissions.
-2. In the left navigation bar, select **Active Directory**, then select **App Registration** and click **Add**.
+2. In the left navigation bar, select **Azure Active Directory**, then select **App Registration** and click **Add**.
 
 	![Screenshot of the previous step](Images/app-registration.png)
 
@@ -69,7 +70,7 @@ Here you will create an Azure Active Directory Application to allow the pages fo
 
 	![Screenshot of the previous step](Images/app-add-graph-api.png)
 
-9. Click **Select permissions**, in the **Enable Access** blade, select **Read items in all site collections** in the **DELEGATED PERMISSIONS** group, then click the **Select** button at the bottom of the blade.
+9. **Select permissions** will be automatically selected. In the **Enable Access** blade, select **Read items in all site collections** in the **DELEGATED PERMISSIONS** group, then click the **Select** button at the bottom of the blade.
 
 	![Screenshot of the previous step](Images/app-enable-graph-permission.png)
 
@@ -114,7 +115,7 @@ Here you will create a document library and a list in a SharePoint site to store
 
 9. Go to the list by clicking its name.
 10. Click the gear icon on the top nav bar on the right, then select **List settings** to go to your Apps page.
-11. Click **Create column** in **Columns** section.
+11. Click the plus sign to the right of the **Title** drop down, and click **More..** to go to the **Create column** page.
 12. In the **Create Column** page, set the **Column name** to **Serial**, configure the following settings, then click the **OK** button at the bottom.
 	- In the **The type of information in this column is** field, select **Single line of text**.
 	- In all other fields, keep the default settings.
@@ -162,7 +163,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 3. Open the file **configuration.html**, add the following code into the **&lt;body&gt;** section, then save the file.
 
 	````javascript
-	<script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+	<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
         microsoftTeams.settings.registerOnSaveHandler(function(saveEvent){
@@ -180,6 +181,8 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 
 	![Screenshot of the previous step](Images/configuration.png)
 
+	> **Note:** Replace the **&lt;APPNAME&gt;** placeholder with the App name value you previously saved.
+
 #### Create the content page ####
 1. Add another **HTML Page** named **index.html** using the same steps you used to add the **configuration.html** file.
 2. Open the file **index.html**, set the **title** to be **Bike Sharing** in the **&lt;head&gt;** section.
@@ -191,11 +194,11 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 3. Add the following code into the **&lt;head&gt;** section.
 
 	````html
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/4.1.0/css/fabric.min.css">
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.3.0/css/fabric.min.css">
     <link rel="stylesheet" href="main.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
-    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.14/js/adal.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.16/js/adal.min.js"></script>
 	<script src="main.js"></script>
 	````
 
@@ -343,7 +346,7 @@ Example: example.sharepoint.com or /sites/example
 12. Open the file **logout.html**, add the following code into the **&lt;body&gt;** section, then save the file.
 
 	````html
-	<script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+	<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
         microsoftTeams.authentication.notifySuccess("");
@@ -355,9 +358,13 @@ Example: example.sharepoint.com or /sites/example
 #### Add images to the project ####
 1. In the **Solution Explorer**, right click the project and select **Add | New Folder**. Name the folder **images**.
 2. Right click the folder **images**, then select **Add | Existing Item**.
-3. In the **Add Existing Item** dialog, select **Image Files** in the file type dropdown, then locate and select the images from the [Lab Files\images](.\Lab Files\images) folder, then click **Add**.
+3. In the **Add Existing Item** dialog, select **Image Files** in the file type dropdown, then locate and select the images from the [Lab Files\package](.\Lab Files\package) folder, then click **Add**.
 
 	![Screenshot of the previous step](Images/add-images.png)
+
+	> **Note:** The images will be published to the Azure web site, and be used as the pictures in the Microsoft Teams tab.
+
+4. Add the images from the [Lab Files\images](.\Lab Files\images) folder to the **images** folder of the web site.
 
 	> **Note:** You could also add other images. They will be published to Azure web site, and be referenced in the **Picture** column of the SharePoint list where the bike information is stored.
 
@@ -377,64 +384,86 @@ Example: example.sharepoint.com or /sites/example
 
 4. Wait until the publish operation finishes.
 
+#### Create a team ####
+1. Open **Microsoft Teams** and sign in.
+2. If it's the first time for the account you're using to log in Microsoft Teams, you will be asked to create one. Enter a name for the team, keep other fields the default values, then select **Create a team**. 
+
+	![Screenshot of the previous step](Images/create-team.png)
+
+3. Then you will be asked to add some members to the team. Enter an account name in the textbox, then select **Add**. Add more members by repeating the operation. You also can skip this step by selecting **Skip**.
+
+	![Screenshot of the previous step](Images/add-team-members.png)
+
+	> **Note:** If the wizard to create a new team doesn't show, you could start to create a new team by clicking **Add team** in the bottom left corner. 
+
+	![Screenshot of the previous step](Images/add-team.png)
+
 #### Create and preview the tab in Microsoft Teams ####
 1. Locate and open the file **manifest.json** in the [Lab Files/package](./Lab Files/package) folder. Replace the **&lt;APPNAME&gt;** placeholder with the **App name** of the Azure Web App you previously created, then save the file. 
 
-	> **IMPORTANT NOTE:** You could update other properties, such as developer, description, and so on. For more information, please see [this](https://msdn.microsoft.com/en-us/microsoft-teams/schema) article.
-	> According to the [official document](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage), the $schema should be "https://statics.teams.microsoft.com/sdk/v0.4/manifest/MicrosoftTeams.schema.json". But in fact, it will cause the tab to disappear in the tab gallery when adding a tab. 
+	> **Note:** You could update other properties, such as developer, description, and so on. For more information, please see [this](https://msdn.microsoft.com/en-us/microsoft-teams/schema) article.
 
-2. In the manifest.json file, change the $schema to "https://statics.teams.microsoft.com/sdk/v0.2/manifest/MicrosoftTeams.schema.json" 
-3. In the manifest.json file, change the manifestVersion to 0.2.
-4. Save the file.
-5. Package all the files in the [Lab Files/package](./Lab Files/package) folder into a .zip file named BikeSharing.zip.
-6. Open the **Microsoft Teams**application and sign in.
-7. Click **Teams** in the left panel, then select a Team.
-8. Click **...** next to the team name and then select **View team**.
+2. Within **manifest.json**, modify the icon paths to point to include the paths within the .zip package we're about to create, and then save the manifest.json file.
+
+	````json
+      "icons": {
+        "44": "inv44.png",
+        "88": "inv88.png"
+      },
+	````
+
+3. Package the file **manifest.json** and the two image files in the [Lab Files/package](./Lab Files/package) folder into a .zip file named BikeSharing.zip.
+4. Switch to the **Microsoft Teams** application.
+5. Click **Teams** in the left panel, then select a Team.
+6. Click **...** next to the team name and then select **Manage team** (the selection has changed from **View team**, shown below).
 
 	![Screenshot of the previous step](Images/view-team.png)
 
-9. Click the **Developer (Preview)** tab, click **Upload**, select the BikeSharing.zip file, then click **Open**.
+7. Click the **Bots** tab, click **Sideload a bot or tab** at the bottom right corner, select the BikeSharing.zip file, then click **Open**.
 
 	![Screenshot of the previous step](Images/upload-tab-package.png)
 
-10. Wait a moment, the tab will appear in the **Tabs in development** list.
+8. Wait a moment, the app will appear in the **Bots** tab.
 
 	![Screenshot of the previous step](Images/tab-package-uploaded.png)
 
-11. Click the **General** Channel in the team, then click the **+** button next to the last tab.
+9. Click the **General** Channel in the team, then click the **+** button next to the last tab.
 
 	![Screenshot of the previous step](Images/add-tab.png)
 
-12. In the **Add a tab** dialog, select **Bike Sharing** in the gallery.
+10. In the **Add a tab** dialog, select **Bike Sharing** in the gallery.
 
 	![Screenshot of the previous step](Images/select-tab.png)
 
-13. In the confirmation dialog, click the **Accept** button.
+11. In the confirmation dialog, click the **Accept** button.
 
 	![Screenshot of the previous step](Images/add-tab-confirmation.png)
 
-14. In the configuration dialog, click the **Save** button.
+12. In the configuration dialog, click the **Save** button.
 
 	![Screenshot of the previous step](Images/add-tab-configuration.png)
 
-15. Wait until the tab is added and appears.
+13. Wait until the tab is added and appears.
 
 	![Screenshot of the previous step](Images/tab-added.png)
 
-16. Click the **Login** button, in the popup window, sign in with an account with proper permissions.
+14. Click the **Login** button, in the popup window, sign in with an account with proper permissions.
 
 	![Screenshot of the previous step](Images/tab-login-popup.png)
 
-17. You will see the documents and bikes are shown.
+15. You will see the documents and bikes are shown.
 
 	![Screenshot of the previous step](Images/tab-content.png)
 
-18. Click a bike, the details for the bike are shown.
+16. Click a bike, the details for the bike are shown.
 
 	![Screenshot of the previous step](Images/tab-bike-details.png)
 
-19. Click the **Check out** button to check out the bike. When **Check out** is finished, you can **Check in** the bike.
+17. Click the **Check out** button to check out the bike. When **Check out** is finished, you can **Check in** the bike.
 
 	>**Note:** The Check in and Check out functionality is a simulation.  Nothing is actually happening to any data sources when you click these buttons.
 
 Congratulations! You have created an web site and added it as a Tab in Microsoft Teams.
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/01-tabs" />
+

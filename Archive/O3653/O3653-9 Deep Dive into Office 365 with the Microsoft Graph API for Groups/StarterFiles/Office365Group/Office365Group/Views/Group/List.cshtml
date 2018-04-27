@@ -1,0 +1,28 @@
+﻿@model List<Office365Group.Models.GroupModel>
+@{ ViewBag.Title = "Group List";}
+
+<h2>Group List</h2>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Group Display Name</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.displayName)</td>
+            <td>
+                @Html.ActionLink("Conversations", "GroupConversations", new { id = item.Id }) |
+                @Html.ActionLink("Threads", "GroupThreads", new { id = item.Id }) |
+                @Html.ActionLink("Events", "GroupEvents", new { id = item.Id })|
+                @Html.ActionLink("Files", "GroupFiles", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Back to Group Home", "Index")
+</p>
+

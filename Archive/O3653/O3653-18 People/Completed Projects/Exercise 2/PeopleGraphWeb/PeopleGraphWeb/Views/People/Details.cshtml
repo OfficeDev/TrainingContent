@@ -1,0 +1,18 @@
+﻿@model PeopleGraphWeb.Models.People
+
+@{
+    ViewBag.Title = "People Details";
+}
+
+<table class="table">
+    <tr>
+        <th>Display Name</th>
+        <th>Title</th>
+        <th>Department</th>
+    </tr>
+    <tr>
+        <td>@Model.DisplayName</td>
+        <td>@Model.Title</td>
+        <td>@Model.Department</td>
+    </tr>
+</table>
