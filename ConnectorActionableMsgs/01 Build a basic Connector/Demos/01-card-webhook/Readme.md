@@ -1,44 +1,46 @@
-# Demo - Section 1: Create a Card payload and submit it via an Incoming Webhook
+# Demo - Create a Card payload and submit it via an Incoming Webhook
+
+In this demo, you will copy an example card from the Message Card Playground website and send it to an Office 365 group in your tenant.
 
 To run this demo, perform the following steps from the lab:
 
-## Exercise 1: Create a Card payload and submit it via an Incoming Webhook
-In this exercise, you will copy an example card from the Message Card Playground web site and send it to an Office 365 Group in your tenant.
+## Create a group and configure the webhook
 
-### Create Group and configure Webhook
+1. Open a browser and go to [Microsoft Outlook](https://outlook.office.com). Log in with your Office 365 credentials.
+1. Create a new group, or select an existing group.
+1. At the top-left of the screen, select the gear next to the member account. Choose **Connectors**.
 
-1. Open a browser and navigate to **https://outlook.office.com**. Log in with your Office 365 credentials.
-1. Create a new Group, or navigate to an existing Group.
-1. At the top-left of the screen, click the gear next to the member count. Choose **Connectors**.
+    ![Screenshot of group settings menu](../../Images/Exercise1-01.png)
 
-    ![](../../Images/Exercise1-01.png)
+1. In the list of connectors, scroll down and select **Incoming Webhook**. Select **Add**.
 
-1. In the list of Connectors, scroll down and then select **Incoming Webhook**. Click **Add**.
+    ![Screenshot of list of Connectors with incoming webhook highlighted](../../Images/Exercise1-02.png)
 
-    ![](../../Images/Exercise1-02.png)
+1. Enter a name for the connector and select **Create**.
+1. The page will re-display, now including a URL for the connector. Use the icon next to the URL to copy it to the clipboard.
 
-1. Enter a name for the connector and click **Create**.
-1. The page will re-display, now including a URL for the connector. Click the icon next to the URL to copy it to the clipboard.
+    ![Screenshot of incoming webhook with URL](../../Images/Exercise1-03.png)
 
-    ![](../../Images/Exercise1-03.png)
+    > Note: The URL will be used several times in this exercise, as will the clipboard. We recommend pasting the URL into Notepad or other application.
 
-    > Note: The URL will be used several times in this Exercise, as will the clipboard. We recommend pasting the URL into Notepad or other application.
+1. Select **Done**. Then close the Connector and Group settings menus.
 
-1. Click **Done**. Then close the Connector and Group settings flyouts.
+## Explore MessageCard playground
 
-### Explore MessageCard Playground
+1. In another browser tab or window, navigate to [MessageCard Playground](https://messagecardplayground.azurewebsites.net).
+1. The playground site provides for uploading a custom card definition or reviewing several samples. Use the **select a sample** dropdown to select a sample that closely matches your requirements.
 
-1. In another browser tab or window, navigate to **https://messagecardplayground.azurewebsites.net**.
-1. The playground site provides for uploading a custom card definition or reviewing several samples. Use the **select a sample** dropdown to select a sample that closely matches your requirements. (The image in this lab uses the **Connectors reference example**, but that is not required.)
+    ![Screenshot of message card sample](../../Images/Exercise1-04.png)
 
-    ![](../../Images/Exercise1-04.png)
+    > Note: The image in this lab uses the **Connectors reference example**, but that is not required.
 
-1. After selecting an example, click **Send via WebHook**.
-1. Enter or paste the URL copied earlier from the Group Connector configuration panel.
-1. Click **OK**. The card will display in the Outlook Group conversation display. (You may have to click on the **New Activity** indicator to see the card.)
+1. After selecting an example, choose **Send via WebHook**.
+1. Enter the URL copied earlier from the Group Connector configuration panel.
+1. Select **OK**. The card will display in the Microsoft Outlook group conversation display. (You may have to select the **New Activity** indicator to see the card.)
 
-### Send card via PowerShell
-It is not necessary to use the playground web site to send test messages. Any facility for sending HTTP POST requests can also send cards to the Group.
+## Send card via PowerShell
+
+It is not necessary to use the playground website to send test messages. Any facility for sending HTTP POST requests can also send cards to the group.
 
 1. In the MessageCard Playground site, select a different sample card. (This will be easier to identify in the Conversation view if the cards are different.)
 1. Select the JSON and copy it to Notepad.
@@ -52,6 +54,6 @@ It is not necessary to use the playground web site to send test messages. Any fa
     Invoke-RestMethod -ContentType "application/json" -Body $message -Uri $url -Method Post
     ```
 
-    ![](../../Images/Exercise1-06.png)
+    ![Screenshot of PowerShell command](../../Images/Exercise1-06.png)
 
     > The `Invoke-RestMethod` cmdlet will return **1** to indicate success.
