@@ -753,20 +753,3 @@ In this section, you will finish developing the Office Add-in using Angular and 
     * Reload the add-in with an existing portfolio table and see if the add-in pulls in the symbols
 
     ![Testing the add-in](./README_assets/ExcelPortfolio.gif)
-
-## Contributing
-
-If you'd like to contribute to this sample, see [CONTRIBUTING.MD](/CONTRIBUTING.md).
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Questions and comments
-
-We'd love to get your feedback about this sample. You can send your questions and suggestions in the [Issues](https://github.com/officedev/trainingcontent/issues) section of this repository.
-
-Questions about Office development in general should be posted to [Stack Overflow](https://stackoverflow.com/questions/tagged/office-js). Make sure that your questions or comments are tagged with `[office-js]`.
-
-## Additional resources
-
-* [Office Add-in platform overview](https://dev.office.com/docs/add-ins/overview/office-add-ins)
-* [Tips for creating Office Add-ins with Angular](https://dev.office.com/docs/add-ins/develop/add-ins-with-angular2)

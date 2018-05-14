@@ -1,51 +1,49 @@
-# Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
+# Build an Office Add-in using modern JavaScript tools and techniques
 
-In this lab, you will walk through building Office Add-ins using a variety of popular JavaScript tools and frameworks, including TypeScript, React, Angular, and VueJS. 
+In this lab, you will walk through building Office Add-ins using a variety of popular JavaScript tools and frameworks, including TypeScript, React, Angular, and VueJS.
 
-## Table of Contents
+## In this lab
 
-1. [Build an Office Add-in using React](#OfficeAddinReact)
-1. [Build an Office Add-in using Angular](#OfficeAddinAngular)
-1. [Build an Office Add-in using VueJS](#OfficeAddinVuejs)
-1. [Sideload and Test the Office Add-in](#SideLoadTestAddins)
+1. [Build an Office Add-in using React](#exercise1)
+1. [Build an Office Add-in using Angular](#exercise2)
+1. [Build an Office Add-in using VueJS](#exercise3)
+1. [Sideload and Test the Office Add-in](#exercise4)
 
 ## Prerequisites
 
 To complete this lab, you need the following:
 
-* Consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in  (via Office Online).
+* A consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in.
 * A lightweight code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
-* [Node.js](https://nodejs.org/). Node is required to setup, build, and run the project. Node 6.9.0 or higher, together with NPM 3 or higher are recommended.
-* [Angular CLI](https://cli.angular.io/). The Angular CLI is used to provision the Angular web application in the [Build an Office Add-in using Angular](#OfficeAddinAngular) lab.
+* [Node.js](https://nodejs.org/): Node is required to setup, build, and run the project. Node 6.9.0 or higher, together with NPM 3 or higher are recommended.
+* [Angular CLI](https://cli.angular.io/): The Angular CLI is used to provision the Angular web application in the [Build an Office Add-in using Angular](#OfficeAddinAngular) lab.
 
     ```shell
     npm install -g @angular/cli
     ```
 
-* [The Office Yeoman Generator](https://www.npmjs.com/package/generator-office). The Office Yeoman Generator is used to create the Office Add-in projects and xml manifests.
+* [Office Yeoman Generator](https://www.npmjs.com/package/generator-office): The Office Yeoman Generator is used to create the Office Add-in projects and XML manifests.
 
     ```shell
     npm install -g yo generator-office
     ```
 
-## Completed Exercises
+>Note: Finished solutions are provided in the [Demos](./Demos) folder if you get stuck. If you want to run any of the finished solutions, clone the repository, run **npm install** (from the directory of the finished solution), then **npm run start** and follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
+>
+>Note: All three exercises in this lab build the same Microsoft Excel stock portfolio solution so you can compare the experience building Office Add-ins with different modern JavaScript tools and frameworks. The add-in will allow you to get real-time stock quotes and manage a portfolio in an Microsoft Excel table. You will have the ability to add, delete, and refresh stocks. Additionally, the add-in checks for an existing portfolio upon opening and (if found) reads the stocks out of the worksheet.
 
-Finished solutions are provided in the [Demos](./Demos) folder if you get stuck. If you want to run any of the finished solutions, clone the repository, run **npm install** (from the directory of the finished solution), then **npm run start** and follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
+![Animation of the Excel Portfolio Add-in](./Images/ExcelPortfolio.gif)
 
-All three exercises in this lab build the same Excel Stock Portfolio solution so developers can compare the experience building Office Add-ins with different modern JavaScript tools and frameworks. The add-in will allow the user to get real-time stock quotes and manage a portfolio in an Excel table. Users will have the ability to add, delete, and refresh stocks. Additionally, the add-in checks for an existing portfolio upon opening and (if found) reads the stocks out of the worksheet.
+<a name="Exercise1"></a>
 
-![Excel Portfolio Add-in](./Images/ExcelPortfolio.gif)
+## Exercise 1: Build an Office Add-in using React
 
-<a name="OfficeAddinReact"></a>
-
-## 1. Build an Office Add-in using React
-
-In this exercise, you will develop an Office Add-in using React and TypeScript. You will provision a new project using the Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Office Online.
+In this exercise, you will develop an Office Add-in using React and TypeScript. You will provision a new project using the Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Microsoft Office Online.
 
 ### Provision the Office Add-in
 
 1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
-1. Run the **Office Yeoman generator** using the command "**yo office**".
+1. Run the **Office Yeoman generator** using the command `yo office`.
 
     ```shell
     yo office
@@ -62,9 +60,9 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     ![Office Yeoman Generator](./Images/YeomanReact.png)
 
-1. When then Yeoman generator completes, change directories to the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When then Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .`" for [Visual Studio Code](https://code.visualstudio.com/)).
 
-    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#SideLoadTestAddins). In the next section, you will add additional functionality to the add-in.
+    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#Exercise4). In the next section, you will add additional functionality to the add-in.
 
 ### Develop the Office Add-in
 
@@ -125,8 +123,9 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. The project template that the Office Yeoman generator created includes a number of React components that need to be updated or deleted. Start by deleting the **src/components/hero-list.tsx** file.
-1. Next, open the **src/components/header.tsx** file and modify it as seen below.
+1. The project template that the Office Yeoman generator created include a number of React components that need to be updated or deleted. Delete the **src/components/hero-list.tsx** file.
+
+1. Open the **src/components/header.tsx** file and modify it as follows:
 
     ````typescript
     import * as React from 'react';
@@ -150,7 +149,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     };
     ````
 
-1. Next, create a new React component named **waiting** at **src/components/waiting.tsx** with the code shown below. Notice this component uses the Office UI Fabric React Components for **Overlay** and **Spinner**.
+1. Create a new React component named **waiting** at **src/components/waiting.tsx** with the following code. This component uses the Office UI Fabric React Components for **Overlay** and **Spinner**.
 
     ````typescript
     import * as React from "react";
@@ -204,7 +203,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     };
     ````
 
-1. Finally, open up **src/components/app.tsx** and update it as seen below. Keep it open, as you will make a number of additional updates to this file before the end of this exercise.
+1. Open up **src/components/app.tsx** and update it as seen below. Keep it open, as you will make a number of additional updates to this file before the end of this exercise.
 
     ````typescript
     import * as React from 'react';
@@ -272,7 +271,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
             ));
             return (
                 <div className='container'>
-                    { this.state.waiting && 
+                    { this.state.waiting &&
                         <Waiting />
                     }
                     <Header title={this.props.title} />
@@ -294,7 +293,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     };
     ````
 
-1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#SideLoadTestAddins) steps.
+1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Microsoft Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#Exercise4) steps.
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
@@ -315,7 +314,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Next, create new **utils** folder under **src** and then create a file named **excelTableUtil.ts** in it (**src/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions for working with Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
+1. Create new **utils** folder under **src** and then create a file named **excelTableUtil.ts** in **src/utils/excelTableUtil.ts**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
 
     ````typescript
     /// <reference path="../../node_modules/@types/office-js/index.d.ts" />
@@ -334,7 +333,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Return to **src/components/app.tsx** and add a import reference to the **ExcelTableUtil** class we just created and create a private property inside the App class.
+1. Return to **src/components/app.tsx** and add a import reference to the **ExcelTableUtil** class we just created. Create a private property inside the App class.
 
     ````typescript
     import * as React from 'react';
@@ -347,19 +346,19 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     /* lines omitted for readability */
 
     export class App extends React.Component<AppProps, AppState> {
-        tableUtil:ExcelTableUtil = new ExcelTableUtil("Portfolio", 
+        tableUtil:ExcelTableUtil = new ExcelTableUtil("Portfolio",
             "A1:J1", [
-                "Symbol", "Last Price", 
-                "Change $", "Change %", 
+                "Symbol", "Last Price",
+                "Change $", "Change %",
                 "Quantity", "Price Paid" ,
-                "Day's Gain $", "Total Gain $", 
+                "Day's Gain $", "Total Gain $",
                 "Total Gain %", "Value"
             ]);
         constructor(props, context) {
             /* lines omitted for readability */
     ````
 
-1. Next, add functions to **src/utils/excelTableUtil.ts** for **createTable** and **ensureTable**. These functions will be used to get a handle to the Excel table (and create it if it doesn't exist).
+1. Add functions to **src/utils/excelTableUtil.ts** for `createTable` and `ensureTable`. These functions will be used to get a handle to the Microsoft Excel table and create it if it doesn't exist.
 
     ````typescript
     // Create the StocksTable and defines the header row
@@ -406,12 +405,12 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Next, add the **addRow** function to **src/utils/excelTableUtil.cs**. Notice that it call the ensureTable function we just created to ensure the Excel table has been created.
+1. Add the `addRow` function to **src/utils/excelTableUtil.cs**. Notice that it calls the `ensureTable` function we just created to ensure the Excel table has been created.
 
     ````typescript
     // Appends a row to the table
     addRow = async (data) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async (tableRef:Excel.Table) => {
                 await Excel.run(async (context) => {
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
@@ -436,13 +435,13 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Return to **src/components/app.tsx** and update the **addSymbol** function to call **getSymbol** for stock stats and then call **addRow** on the **ExcelTableUtil**. Notice the row data contains formulas.
+1. Return to **src/components/app.tsx** and update the `addSymbol` function to call `getSymbol` for stock stats and then call `addRow` on the `ExcelTableUtil`. Notice the row data contains formulas.
 
     ````typescript
     // Adds symbol
     addSymbol = async (event) => {
         if (event.key == 'Enter') {
-            let element = this.refs.newSymbol as TextField; 
+            let element = this.refs.newSymbol as TextField;
             let symbol = element.value.toUpperCase();
 
             // Get quote and add to Excel table
@@ -478,14 +477,14 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-    >**Optional**: this is a good time to test the "add symbol" function of your add-in
+    >Note: This is a good time to test the **add symbol** function of your add-in.
 
-1. Return to **/src/utils/excelTableUtil.ts** and add functions for **getColumnData** and **deleteRow**. getColumnData gets values for a column in the Excel table so a row can be identified for update or delete. deleteRow deletes a row in the Excel table based on it's index.
+1. Return to **/src/utils/excelTableUtil.ts** and add functions for `getColumnData` and `deleteRow`. `getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. `deleteRow` deletes a row in the Excel table based on it's index.
 
     ````typescript
     // Gets data for a specific named column
     getColumnData = async (column:string) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(false).then(async (tableRef:Excel.Table) => {
                 if (tableRef == null)
                     resolve([]);
@@ -513,7 +512,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     // Deletes a column based by row index
     deleteRow = async (index:number) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async (tableRef:Excel.Table) => {
                 await Excel.run(async (context) => {
                     var range = tableRef.rows.getItemAt(index).getRange();
@@ -531,7 +530,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Return to **src/components/app.tsx** and update the **deleteSymbol** function to delete the specified symbol from the Excel table. Do this by first calling **getColumnData** (on **ExcelTableUtil**) to determine the row to delete and then **deleteRow** (also on **ExcelTableUtil**) to perform the delete.
+1. Return to **src/components/app.tsx** and update the `deleteSymbol` function to delete the specified symbol from the Excel table. Do this by first calling `getColumnData` (on `ExcelTableUtil`) to determine the row to delete and then `deleteRow` (also on `ExcelTableUtil`) to perform the delete.
 
     ````typescript
     // Delete symbol
@@ -563,14 +562,14 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-    >**Optional**: this is a good time to test the "delete symbol" function of your add-in
+    >Note: This is a good time to test the **delete symbol** function of your add-in.
 
-1. Make the final update to **src/utils/excelTableUtil.ts** by adding the **updateCell** function, which updates the cell at a specific address to a specified value.
+1. Make the final update to **src/utils/excelTableUtil.ts** by adding the `updateCell` function, which updates the cell at a specific address to a specified value.
 
     ````typescript
     // Updates a specific cell in the table
     updateCell = async (address:string, value:any) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async () => {
                 await Excel.run(async (context) => {
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
@@ -589,7 +588,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-1. Next, update the **refreshSymbol** function on **src/components/app.tsx** to call **getQuote** for updated stock statistics and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call **getColumnData** to determine the cell address before calling **updateCell**.
+1. Update the `refreshSymbol` function on **src/components/app.tsx** to call `getQuote` for updated stock statistics and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call `getColumnData` to determine the cell address before calling `updateCell`.
 
     ````typescript
     // Refresh symbol
@@ -624,9 +623,9 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-    >**Optional**: this is a good time to test the "refresh symbol" function of your add-in
+    >Note: This is a good time to test the **refresh symbol** function of your add-in.
 
-1. Finally, update the **syncTable** function, which is called when the add-in is launched (in the constructor of app.tsx) to pull in any stock symbols that might already exist in the worksheet. It calls **getColumnData** to get this data.
+1. Update the `syncTable` function, which is called when the add-in is launched in the constructor of **app.tsx** to pull in any stock symbols that might already exist in the worksheet. It calls `getColumnData` to get this data.
 
     ````typescript
     // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
@@ -642,17 +641,18 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ````
 
-The Excel Portfolio Add-in written with React and TypeScript is complete. You should follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
+The Excel Portfolio Add-in written with React and TypeScript is complete. You should now follow the steps to [Sideload and Test the Office Add-in](#exercise4).
 
-<a name="OfficeAddinAngular"></a>
+<a name="Exercise2"></a>
 
-## 2. Build an Office Add-in using Angular
+## Exercise 2: Build an Office Add-in using Angular
 
 In this exercise, you will develop an Office Add-in using Angular and TypeScript. You will provision a new project using the Angular CLI and Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Office Online.
 
 ### Provision the Office Add-in
 
 1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
+
 1. Use the **Angular CLI** to provision the new application with the name **excel-portfolio**.
 
     ```shell
@@ -664,8 +664,8 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     ```shell
     cd excel-portfolio
     ```
-	
-1. Run the **Office Yeoman generator** using the command "**yo office**".
+
+1. Run the **Office Yeoman generator** using the command `yo office`.
 
     ```shell
     yo office
@@ -681,10 +681,10 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     ![Office Yeoman Generator](./Images/YeomanAngular.png)
 
-1. When then Yeoman generator completes open the project folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When then Yeoman generator completes, open the project folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
-1. Locate the **package.json** file in the root directory and modify the **start** script to use **SSL** and port **3000** (the port configured in the Office Add-in xml manifest by the Yeoman generator)
-    
+1. Locate the **package.json** file in the root directory and modify the `start` script to use **ssl** and port **3000** (the port configured in the Office Add-in xml manifest by the Yeoman generator)
+
     ```json
     "scripts": {
         "ng": "ng",
@@ -696,20 +696,20 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     },
     ```
 
-1. Next, add Office.js typings (**@types/office-js**) to the **dependencies** section.
+1. Next, add `@types/office-js` to the **dependencies** section.
 
     ```json
     "@types/office-js": "0.0.51"
     ```
 
-1. Run **npm install** at the command prompt to pull these dependencies into the project.
+1. Run `npm install` at the command prompt to pull these dependencies into the project.
 
     ```shell
     npm install
     ```
 
-1. Next, open **src/index.html** and add CDN references to **office.js** and the **Office UI Fabric**.
-    > Note: although this lab adds CDN references to Office.js and the Office UI Fabric, you can alternatively install them locally using npm. The .angular-cli.json file can be updated to include any local scripts that should be included in the webpack build.
+1. Open **src/index.html** and add CDN references to **office.js** and the **Office UI Fabric**.
+    > Note: Although this lab adds CDN references to Office.js and the Office UI Fabric, you can alternatively install them locally using npm. The **.angular-cli.json** file can be updated to include any local scripts that should be included in the webpack build.
 
     ````html
     <!doctype html>
@@ -731,13 +731,13 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     </html>
     ````
 
-1. Angular bootstraps to the UI in the **src/main.ts** file. This is where **Office.initialize** needs to be called so the add-in functions properly. First, add a typings reference to **Office.js** at the top of this file.
+1. Angular bootstraps to the UI in the **src/main.ts** file. This is where `Office.initialize` needs to be called so the add-in functions properly. First, add a type declaration reference to **Office.js** at the top of this file.
 
     ````typescript
     /// <reference path="../node_modules/@types/office-js/index.d.ts" />
     ````
 
-1. Next, locate where the **bootstrapModule** is being called to bootstrap the **AppModule** and wrap the entire statement around **Office.initialize**. You need to call Office.initialize and any page loaded in the add-in before other scripts run.
+1. Locate where the `bootstrapModule` is being called to bootstrap the `AppModule` and wrap the entire statement around `Office.initialize`. You need to call `Office.initialize` and any page loaded in the add-in before other scripts run.
 
     ````typescript
     Office.initialize = function () {
@@ -746,7 +746,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#SideLoadTestAddins). In the next section, you will add additional functionality to the add-in.
+    >Note: You should be able to run and sideload the add-in at this point. Follow the steps outlined in [Sideload and Test the Office Add-in](#Exercise4). In the next section, you will add additional functionality to the add-in.
 
 ### Develop the Office Add-in
 
@@ -851,7 +851,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     export class AppModule { }
     ````
 
-1. Angular allows you to break your solution up into components. The Angular CLI already created an app componen. Open **src/app/app.component.html** to update it's markup as seen below.
+1. Angular allows you to break your solution up into components. The Angular CLI already created an app component. Open **src/app/app.component.html** to update it's markup as seen below.
 
     ````html
     <!--The content below is only a placeholder and can be replaced.-->
@@ -862,7 +862,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         </div>
         <div class="ms-bgColor-greenDark header">
             <span class="ms-font-su ms-fontColor-white">Excel Portfolio</span>
-        </div>    
+        </div>
         <div>
             <div class="ms-MessageBanner" *ngIf="error">
                 <div class="ms-MessageBanner-content" style="text-align: left; margin-left: 40px;">
@@ -954,11 +954,11 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#sideload-the-office-add-in) steps above.
+1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#exercise4) steps above.
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
-1. The **app.component.ts** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by loading the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **app.component.ts** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by loading the `getQuote` function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
     ````typescript
     // Gets a quote by calling into the stock service
@@ -976,7 +976,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-1. Next, create new **utils** folder under **src/app** and then create a file named **excelTableUtil.ts** in it (**src/app/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions for working with Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
+1. Create new **utils** folder under **src/app** and then create a file named **excelTableUtil.ts** in it (**src/app/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions for working with Excel tables with office.js. Notice the `ExcelTableUtil` constructor accepts details about the Excel table, including the name, location, and header details.
 
     ````typescript
     /// <reference path="../../../node_modules/@types/office-js/index.d.ts" />
@@ -995,7 +995,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-1. Return to **src/app/app.component.ts** and add a import reference to the **ExcelTableUtil** class we just created and create a private property inside the **AppComponent** class (right above the constructor).
+1. Return to **src/app/app.component.ts** and add a import reference to the `ExcelTableUtil` class we just created and create a private property inside the `AppComponent` class (right above the constructor).
 
     ````typescript
     import { Component, NgZone } from '@angular/core';
@@ -1016,15 +1016,15 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         zone: NgZone = new NgZone({});
         tableUtil:ExcelTableUtil = new ExcelTableUtil(
             "Portfolio", "A1:J1", [
-                "Symbol", 
-                "Last Price", 
-                "Change $", 
-                "Change %", 
-                "Quantity", 
-                "Price Paid", 
-                "Day's Gain $", 
-                "Total Gain $", 
-                "Total Gain %", 
+                "Symbol",
+                "Last Price",
+                "Change $",
+                "Change %",
+                "Quantity",
+                "Price Paid",
+                "Day's Gain $",
+                "Total Gain $",
+                "Total Gain %",
                 "Value"
             ]
         );
@@ -1034,7 +1034,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
             /* !!! lines removed for readability !!! */
     ````
 
-1. Next, add functions to **src/app/utils/excelTableUtil.ts** for **createTable** and **ensureTable**. These functions will be used to get a handle to the Excel table (and create it if it doesn't exist).
+1. Add functions to **src/app/utils/excelTableUtil.ts** for `createTable` and `ensureTable`. These functions will be used to get a handle to the Excel table (and create it if it doesn't exist).
 
     ````typescript
     // Create the StocksTable and defines the header row
@@ -1081,12 +1081,12 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-1. Next, add the **addRow** function to **src/app/utils/excelTableUtil.cs**. Notice that it call the ensureTable function we just created to ensure the Excel table has been created.
+1. Add the `addRow` function to **src/app/utils/excelTableUtil.cs**. Notice that it call the `ensureTable` function we just created to ensure the Excel table has been created.
 
     ````typescript
     // Appends a row to the table
     addRow = async (data) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async (tableRef:Excel.Table) => {
                 await Excel.run(async (context) => {
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
@@ -1111,7 +1111,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-1. Return to **src/app/app.component.ts** and update the **addSymbol** function to call **getSymbol** for stock stats and then call **addRow** on the **ExcelTableUtil**. Notice the row data contains formulas.
+1. Return to **src/app/app.component.ts** and update the `addSymbol` function to call `getSymbol` for stock stats and then call `addRow` on the `ExcelTableUtil`. Notice the row data contains formulas.
 
     ````typescript
     // Adds symbol
@@ -1120,13 +1120,13 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         this.waiting = true;
         this.getQuote(symbol).then((res:any) => {
             let data = [
-                res.symbol, 
-                res.current, 
-                res.curr_change, 
-                res.pct_change * 100, 0, 0, 
-                "=C:C * E:E", 
-                "=(B:B * E:E) - (F:F * E:E)", 
-                "=H:H / (F:F * E:E) * 100", 
+                res.symbol,
+                res.current,
+                res.curr_change,
+                res.pct_change * 100, 0, 0
+                "=C:C * E:E",
+                "=(B:B * E:E) - (F:F * E:E)",
+                "=H:H / (F:F * E:E) * 100",
                 "=B:B * E:E"
             ];
             this.tableUtil.addRow(data).then(() => {
@@ -1142,14 +1142,14 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-    >**Optional**: this is a good time to test the "add symbol" function of your add-in
+    >Note: This is a good time to test the **add symbol** function of your add-in.
 
-1. Return to **/src/app/utils/excelTableUtil.ts** and add functions for **getColumnData** and **deleteRow**. getColumnData gets values for a column in the Excel table so a row can be identified for update or delete. deleteRow deletes a row in the Excel table based on it's index.
+1. Return to **/src/app/utils/excelTableUtil.ts** and add functions for `getColumnData` and `deleteRow`. 'getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. 'deleteRow` deletes a row in the Excel table based on its index.
 
     ````typescript
     // Gets data for a specific named column
     getColumnData = async (column:string) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(false).then(async (tableRef:Excel.Table) => {
                 if (tableRef == null)
                     resolve([]);
@@ -1177,7 +1177,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     // Deletes a column based by row index
     deleteRow = async (index:number) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async (tableRef:Excel.Table) => {
                 await Excel.run(async (context) => {
                     var range = tableRef.rows.getItemAt(index).getRange();
@@ -1195,7 +1195,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-1. Return to **src/app/app.component.ts** and update the **deleteSymbol** function to delete the specified symbol from the Excel table. Do this by first calling **getColumnData** (on **ExcelTableUtil**) to determine the row to delete and then **deleteRow** (also on **ExcelTableUtil**) to perform the delete.
+1. Return to **src/app/app.component.ts** and update the `deleteSymbol` function to delete the specified symbol from the Excel table. Do this by first calling `getColumnData` on `ExcelTableUtil` to determine the row to delete and then `deleteRow` on `ExcelTableUtil` to perform the delete.
 
     ````typescript
     // Delete symbol
@@ -1225,14 +1225,14 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-    >**Optional**: this is a good time to test the "delete symbol" function of your add-in
+    >Note: This is a good time to test the **delete symbol** function of your add-in.
 
-1. Make the final update to **src/app/utils/excelTableUtil.ts** by adding the **updateCell** function, which updates the cell at a specific address to a specified value.
+1. Make the final update to **src/app/utils/excelTableUtil.ts** by adding the `updateCell` function, which updates the cell at a specific address to a specified value.
 
     ````typescript
     // Updates a specific cell in the table
     updateCell = async (address:string, value:any) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async () => {
                 await Excel.run(async (context) => {
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
@@ -1251,7 +1251,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-1. Next, update the **refreshSymbol** function on **src/app/app.component.ts** to call **getQuote** for updated stock statistics and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call **getColumnData** to determine the cell address before calling **updateCell**.
+1. Update the `refreshSymbol` function on **src/app/app.component.ts** to call `getQuote` for updated stock statistics and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call `getColumnData` to determine the cell address before calling `updateCell`.
 
     ````typescript
     // Refresh symbol
@@ -1285,9 +1285,9 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-    >**Optional**: this is a good time to test the "refresh symbol" function of your add-in
+    >Note: This is a good time to test the **refresh symbol** function of your add-in.
 
-1. Finally, update the **syncTable** function, which is called when the add-in is launched (in the constructor of app.tsx) to pull in any stock symbols that might already exist in the worksheet. It calls **getColumnData** to get this data.
+1. Finally, update the `syncTable` function, which is called when the add-in is launched in the constructor of **app.tsx** to pull in any stock symbols that might already exist in the worksheet. It calls `getColumnData` to get this data.
 
     ````typescript
     // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
@@ -1303,18 +1303,18 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ````
 
-The Excel Portfolio Add-in written with Angular and TypeScript is complete. You should follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
+The Excel Portfolio Add-in written with Angular and TypeScript is complete. You should now follow the steps to [Sideload and Test the Office Add-in](#Exercise4).
 
-<a name="OfficeAddinVuejs"></a>
+<a name="Exercise3"></a>
 
-## 3. Build an Office Add-in using VueJS
+## Exercise 3: Build an Office Add-in using VueJS
 
 In this exercise, you will develop an Office Add-in using Vue.js and TypeScript. You will provision a new project using the Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Office Online.
 
 ### Provision the Office Add-in
 
 1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
-1. Run the **Office Yeoman generator** using the command "**yo office**".
+1. Run the **Office Yeoman generator** using the command `yo office**`.
 
     ```shell
     yo office
@@ -1331,9 +1331,9 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
     ![Office Yeoman Generator](./Images/YeomanVuejs.png)
 
-1. When then Yeoman generator completes, change directories to the project folder (for example, **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When then Yeoman generator completes, change directories to the project folder (for example, **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command `**code .**` for [Visual Studio Code](https://code.visualstudio.com/)).
 
-1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery template. We will now convert this template to leverage Vue.js. To get started, open **package.json** in the project root directory, and add the following **dependencies** for **vue** and **vue-class-component**. Add the **@microsoft/office-js** dependency if this is not present in  package.json.
+1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery template. We will now convert this template to leverage Vue.js. To get started, open **package.json** in the project root directory, and add the following **dependencies** for **vue** and **vue-class-component**. Add the `@microsoft/office-js` dependency if this is not present in **package.json**.
 
     ````json
     "dependencies": {
@@ -1347,7 +1347,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     },
     ````
 
-1. The generator creates a JQuery template that uses a single TypeScript file. To use multiple TypeScript and .vue files, configure the project to use [webpack](https://webpack.github.io/) by adding **devDependencies** for **webpack**, **vue-loader**, **vue-template-compiler**, and **ts-loader**.
+1. The generator creates a JQuery template that uses a single TypeScript file. To use multiple TypeScript and .vue files, configure the project to use [webpack](https://webpack.github.io/) by adding `devDependencies` for `webpack`, **vue-loader**, `vue-template-compiler`, and `ts-loader`.
 
     ````json
     "devDependencies": {
@@ -1366,7 +1366,8 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     ````
 
 1. Return to the terminal/command prompt and run the **npm install** command to pull in the additional dependencies and devDependencies.
-1. Next, you need to update the TypeScript config file (**tsconfig.json**) to work with webpack, support multiple modules, and Vue.js. Update your tsconfig.json as seen below.
+
+1. You need to update the **tsconfig.json** Typescript file to work with webpack, support multiple modules, and Vue.js. Update your **tsconfig.json** file as seen below.
 
     ````json
     {
@@ -1450,7 +1451,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     }
     ````
 
-1. Next, you need to update the project so that **.vue** files will be treated like TypeScript. Create a **sfc.d.ts** file in the **src** folder, and add the following code.
+1. Update the project so that **.vue** files will be treated like TypeScript. Create a **sfc.d.ts** file in the **src** folder, and add the following code.
 
     ````typescript
     declare module "*.vue" {
@@ -1471,9 +1472,9 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     },
     ````
 
-    >**NOTE**: the updated script settings does not leverage a watch for file changes like the React and Angular projects in this module. Additional webpack configuration could be applied to achieve this. Another option would be to start with the React template from the Office Yeoman generator and convert it to Vue.js.
+    >Note: The updated script settings do not leverage a watch for file changes like the React and Angular projects in this module. Additional webpack configuration could be applied to achieve this. Another option would be to start with the React template from the Office Yeoman generator and convert it to Vue.js.
 
-1. Next, open **src/index.html**, remove the **core.js** and **jquery.js** references and change the **app.js** reference to **bundle.js** (the consolidated script created by webpack). You can also replace the **header** and **main** content with **&lt;div id="app"&gt;{{welcome}}&lt;/div&gt;**.
+1. Open **src/index.html**, remove the **core.js** and **jquery.js** references and change the **app.js** reference to **bundle.js** (the consolidated script created by webpack). You can also replace the **header** and **main** content with `&lt;div id="app"&gt;{{welcome}}&lt;/div&gt;`.
 
     ````html
     <!DOCTYPE html>
@@ -1513,7 +1514,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     (() => {
         // The initialize function must be run each time a new page is loaded
         Office.initialize = (reason) => {
-            var app = new Vue({ 
+            var app = new Vue({
                 el: "#app",
                 data: {
                     welcome: "Hello Office!!!"
@@ -1688,13 +1689,13 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         import Vue from 'vue';
         import Component from 'vue-class-component';
 
-        @Component({ 
+        @Component({
             props: {
                 symbol: String,
                 index: Number
             },
             methods: {
-                refreshSymbol(index:Number) { 
+                refreshSymbol(index:Number) {
                     this.$emit("refreshSymbol", index);
                 },
                 deleteSymbol(index:Number) {
@@ -1722,16 +1723,16 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
                 <span class="ms-font-l">Stock Symbols</span>
             </div>
             <div class="pct100">
-                <input class="ms-TextField-field" 
-                    v-model="newSymbol" 
-                    v-on:keyup="addSymbol(newSymbol)" 
+                <input class="ms-TextField-field"
+                    v-model="newSymbol"
+                    v-on:keyup="addSymbol(newSymbol)"
                     placeholder="Enter a stock symbol (ex: MSFT)" />
             </div>
-            <stock v-for="(symbol, index) in symbols"  
-                v-bind:key="symbol" 
-                v-bind:symbol="symbol" 
-                v-bind:index="index" 
-                v-on:refreshSymbol="refreshSymbol(index)" 
+            <stock v-for="(symbol, index) in symbols"
+                v-bind:key="symbol"
+                v-bind:symbol="symbol"
+                v-bind:index="index"
+                v-on:refreshSymbol="refreshSymbol(index)"
                 v-on:deleteSymbol="deleteSymbol(index)"></stock>
             <div class="pct100 itemRow" v-if="symbols.length == 0">
                 <em class="ms-font-l">No symbols added</em>
@@ -1748,13 +1749,13 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         import stock from "./stock.vue";
 
         @Component({
-            data: function () { 
+            data: function () {
                 return {
                     symbols: [],
                     waiting: false,
                     error: "",
                     newSymbol: ""
-                } 
+                }
             },
             components: {
                 waiting,
@@ -1802,7 +1803,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     (() => {
         // The initialize function must be run each time a new page is loaded
         Office.initialize = (reason) => {
-            var app = new Vue({ 
+            var app = new Vue({
                 el: "#app",
                 render: h => h(root, { }),
                 components: { root }
@@ -1862,7 +1863,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     import { ExcelTableUtil } from "../utils/excelTableUtil";
 
     @Component({
-        data: function () { 
+        data: function () {
             return {
                 symbols: [],
                 waiting: false,
@@ -1870,19 +1871,19 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
                 newSymbol: "",
                 tableUtil: new ExcelTableUtil(
                     "Portfolio", "A1:J1", [
-                        "Symbol", 
-                        "Last Price", 
-                        "Change $", 
-                        "Change %", 
-                        "Quantity", 
-                        "Price Paid", 
-                        "Day's Gain $", 
-                        "Total Gain $", 
-                        "Total Gain %", 
+                        "Symbol",
+                        "Last Price",
+                        "Change $",
+                        "Change %",
+                        "Quantity",
+                        "Price Paid",
+                        "Day's Gain $",
+                        "Total Gain $",
+                        "Total Gain %",
                         "Value"
                     ]
                 )
-            } 
+            }
         },
         /* Note: The code that follows was removed for readability. */
     ````
@@ -1939,7 +1940,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     ````typescript
     // Appends a row to the table.
     addRow = async (data) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async (tableRef:Excel.Table) => {
                 await Excel.run(async (context) => {
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
@@ -1994,7 +1995,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     ````typescript
     // Gets data for a specific named column
     getColumnData = async (column:string) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(false).then(async (tableRef:Excel.Table) => {
                 if (tableRef == null)
                     resolve([]);
@@ -2022,7 +2023,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
     // Deletes a column using the row index.
     deleteRow = async (index:number) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async (tableRef:Excel.Table) => {
                 await Excel.run(async (context) => {
                     var range = tableRef.rows.getItemAt(index).getRange();
@@ -2076,7 +2077,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     ````typescript
     // Updates a specific cell in the table
     updateCell = async (address:string, value:any) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(async () => {
                 await Excel.run(async (context) => {
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
@@ -2133,47 +2134,47 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 1. Finally, update the **syncTable** function in **src/components/root.vue** to pull in any stock symbols that might already exist in the worksheet. **syncTable** is called in the constructor of app.tsx when the add-in is launched. syncTable calls **getColumnData** to get this data.
 
     ````typescript
-		syncTable() {
-			(<any>this).waiting = true;
-			(<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-				(<any>this).symbols = columnData;
-				(<any>this).waiting = false;
-			}, (err) => {
-				(<any>this).error = err;
-				(<any>this).waiting = false;
-			});
-		}
+        syncTable() {
+            (<any>this).waiting = true;
+            (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
+                (<any>this).symbols = columnData;
+                (<any>this).waiting = false;
+            }, (err) => {
+                (<any>this).error = err;
+                (<any>this).waiting = false;
+            });
+        }
     },
     ````
 
 The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
 
-<a name="SideLoadTestAddins"></a>
+<a name="Exercise4"></a>
 
 ## 4. Sideload and Test the Office Add-in
 
 This section will outline how to sideload and test an Office Add-in using OneDrive and Office Online.
 
->**NOTE**: The instructions below outline how to sideload an Office Add-in into Office Online, which works in almost any developer environment. If you are working from a PC, you can also sideload the add-in for testing in the full Win32 Office client. For more information on this approach, see the [Sideloading Office Add-ins into Office Desktop or Office Online](https://www.youtube.com/watch?v=XXsAw2UUiQo).
+>Note: The instructions below outline how to sideload an Office Add-in into Office Online, which works in almost any developer environment. If you are working from a PC, you can also sideload the add-in for testing in the full Win32 Office client. For more information on this approach, see the [Sideloading Office Add-ins into Office Desktop or Office Online](https://www.youtube.com/watch?v=XXsAw2UUiQo).
 
->**NOTE**: Office Add-ins are required to be secured by SSL. These labs leverage self-signed certificates for this that may be blocked by your browser as an untrusted certificate. If so, follow the steps for [Adding Self-Signed Certificates as Trusted Root Certificate](https://github.com/OfficeDev/generator-office/blob/master/src/docs/ssl.md).
+>Note: Office Add-ins are required to be secured by SSL. These labs leverage self-signed certificates for this that may be blocked by your browser as an untrusted certificate. If so, follow the steps for [Adding Self-Signed Certificates as Trusted Root Certificate](https://github.com/OfficeDev/generator-office/blob/master/src/docs/ssl.md).
 
 1. Open a terminal/command prompt in the location where the project is provisioned.
-1. Run the "**npm run start**" command, which will build and host the solution. This command is setup to perform a lot of complex tasks, including compiling all the TypeScript files to JavaScript, using Webpack to combine them into a single script reference, and copying all relevant files to a dist folder for hosting. When the build completes, you should see a note that "*webpack: Compiled successfully*". For the React and Angular labs, the TypeScript compiler will also stay in a "watch mode" to refresh the add-in when code changes are made. If you need to exit "watch mode", use the Ctrl-C command.
+1. Run the "**npm run start**" command, which will build and host the solution. This command is setup to perform a lot of complex tasks, including compiling all the TypeScript files to JavaScript, using Webpack to combine them into a single script reference, and copying all relevant files to a **dist** folder for hosting. When the build completes, you should see a note that "*webpack: Compiled successfully*". For the React and Angular labs, the TypeScript compiler will also stay in a "watch mode" to refresh the add-in when code changes are made. If you need to exit "watch mode", use the Ctrl-C command.
 1. Navigate and sign-in to OneDrive ([https://www.onedrive.com](https://www.onedrive.com)). OneDrive offers free consumer accounts, so if you don't have one you can create one.
 1. From the OneDrive toolbar, select **New** and then select **Excel workbook** to create a new Excel workbook.
 
     ![Creating new workbook in OneDrive](./Images/NewWorkbook.png)
 
-1. Once the new Excel workbook opens, select the Insert tab and then click on the Office Add-ins button in the ribbon.
+1. Once the new Excel workbook opens, select the **Insert** tab and then select the Office Add-ins button in the ribbon.
 
     ![Office Add-ins command in the Insert ribbon](./Images/AddinCommand.png)
 
-1. In the Office Add-in dialog, click on the Manage My Add-ins link in the top right and then select Upload My Add-in.
+1. In the Office Add-in dialog, select the Manage My Add-ins link in the top right and then select Upload My Add-in.
 
     ![Manage My Add-ins](./Images/ManageAddins.png)
 
-1. Using the file selector of the Upload Add-in dialog, browse to the add-in manifest in the root directory of your project (ex: excel-portfolio-manifest.xml) and click Upload.
+1. Using the file selector of the Upload Add-in dialog, browse to the add-in manifest in the root directory of your project (ex: excel-portfolio-manifest.xml) and select Upload.
 
     ![Upload the manifest](./Images/UploadManifest.png)
 
@@ -2181,7 +2182,7 @@ This section will outline how to sideload and test an Office Add-in using OneDri
 
     ![Show taskpane command in ribbon](./Images/ShowTaskpaneCommand.png)
 
-1. Click on the **Show Taskpane** button to bring up your Office Add-in in a task pane. Congratulations, you have successfully sideloaded an Office Add-in.
+1. Select the **Show Taskpane** button to bring up your Office Add-in in a task pane. Congratulations, you have successfully sideloaded an Office Add-in.
 1. You should test all the different operations you created:
 
     * Add a symbol by typing the symbol and pressing enter/return
