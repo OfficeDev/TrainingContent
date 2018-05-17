@@ -12,6 +12,10 @@ In this lab, you will walk through building, packaging, and deploying your Micro
 - [Build a basic Microsoft Teams Bot](./Demos/02%20-%20teams-bot1)
 - [Build a Microsoft Teams Tab](./Demos/03%20-%20teams-app1)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Fundamentals of Microsoft Teams](https://www.youtube.com/watch?v=mj5f0KUYNPo)
+
 ## Contributors
 
 |        Roles         |                        Author(s)                        |
@@ -23,10 +27,11 @@ In this lab, you will walk through building, packaging, and deploying your Micro
 
 ## Version history
 
-| Version |       Date        |             Comments              |
-| ------- | ----------------- | --------------------------------- |
-| 1.1     | February 25, 2018 | Code Review and minor corrections |
-| 1.0     | October 6, 2017   | Initial release                   |
+| Version |       Date        |                   Comments                   |
+| ------- | ----------------- | -------------------------------------------- |
+| 1.2     | May 17, 2018      | 2018Q4 content refresh & style guide updates |
+| 1.1     | February 25, 2018 | Code Review and minor corrections            |
+| 1.0     | October 6, 2017   | Initial release                              |
 
 ## Disclaimer
 

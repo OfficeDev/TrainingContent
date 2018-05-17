@@ -12,94 +12,98 @@ To run this demo, perform the following steps from the lab:
 ## Run the ngrok secure tunnel application
 
 1. Open a new **Command Prompt** window.
-1. Change to the directory that contains the ngrok.exe application.
-1. run the command `ngrok http 3007`
-1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
-1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
+
+1. Change to the directory that contains the **ngrok.exe** application.
+
+1. Run the command `ngrok http 3007`.
+
+1. The **ngrok** application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
+
+1. Minimize the ngrok command prompt window. It is no longer referenced in this exercise, but it must remain running.
 
 ## Register an application in AAD
 
 To enable an application to call the Microsoft Graph, an application registration is required. This lab uses the [Azure Active Directory v2.0 endpoint](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare).
 
-1. Open a browser to the url **https://apps.dev.microsoft.com**
-1. Log in with a Work or School account.
-1. Click **Add an app**
-1. Complete the **Register your application** section, entering an Application name and Contact email. Clear the checkbox for Guided Setup. Click **Create**
+1. Open the [Application Registration Portal](https://apps.dev.microsoft.com).
 
-    ![](../../Images/Exercise3-01.png)
+1. Log in with a work or school account.
 
-1. On the registration page, in the **Platforms** section, click **Add Platform**.
+1. Select **Add an app**.
 
-    ![](../../Images/Exercise3-02.png)
+1. Complete the **Register your application** section by entering an application name and contact email. Clear the checkbox for **Guided Setup**. Select **Create**.
 
-1. In the **Add Platform** dialog, click **Web**.
-1. Using the hostname from ngrok, enter a **Redirect URL** to the `auth.html` file.
+    ![Screenshot of app registration page.](../../Images/Exercise3-01.png)
 
-    ```url
+1. On the registration page, in the **Platforms** section, select **Add Platform**.
+
+    ![Screenshot of app registration page with platform highlighted.](../../Images/Exercise3-02.png)
+
+1. In the **Add Platform** dialog, select **Web**.
+
+1. Using the hostname from ngrok, enter a **Redirect URL** to the **auth.html** file.
+
+    ```
     https://[replace-this].ngrok.io/auth.html
     ```
 
-1. Click the **Add URL** button.
-1. Using the hostname from ngrok, enter a **Redirect URL** to the `adminconsent.html` file.
+1. Select the **Add URL** button.
 
-    ```url
+1. Using the hostname from ngrok, enter a **Redirect URL** to the **adminconsent.html** file.
+
+    ```
     https://[replace-this].ngrok.io/adminconsent.html
     ```
 
-    ![](../../Images/Exercise3-03.png)
+    ![Screenshot of properties page for application registration portal.](../../Images/Exercise3-03.png)
 
-1. Click **Save**.
-1. Make note of the Application Id. This value is used in the authentication / token code.
-1. Request permission to read Groups.
-
-    1. Scroll down to the **Microsoft Graph Permissions** section.
-    1. Next to **Delegated Permissions**, click the **Add** button.
-    1. In the **Select Permission** dialog, scroll down and select **Group.Read.All**. Click **OK**.
-
-        ![](../../Images/Exercise3-05.png)
-
-    1. Click **Save**.
+1. Select **Save**.
 
 ## Update the manifest and build the package
 
 1. Open the **manifest.json** file in the **manifest** folder.
-1. Replace all instances of **tbd.ngrok.io** with the HTTPS Forwarding address from the ngrok window. (In this example, the forwarding address is **https://0f3b4f62.ngrok.io**.) There are 6 URLs that need to be changed.
+
+1. Replace all instances of `tbd.ngrok.io` with the HTTPS forwarding address from the ngrok window. In this example, the forwarding address is **https://0f3b4f62.ngrok.io**. There are six URLs that need to be changed.
+
 1. Save the **manifest.json** file.
-1. In the **Command Prompt** window, run the command `gulp manifest`. This command will create the package as a zip file in the **package** folder
 
-    ![](../../Images/Exercise1-06.png)
+1. In the **Command Prompt** window, run the command `gulp manifest`. This command will create the package as a zip file in the **package** folder.
 
-1. Build the webpack and start the Express web server by running the following commands:
+    ![Screenshot of command prompt with teams manifest zip file generation.](../../Images/Exercise1-06.png)
+
+1. Build the webpack and start the express web server by running the following commands:
 
     ```shell
     gulp build
     gulp serve
     ```
 
-    ![](../../Images/Exercise1-07.png)
+    ![Screenshot of command prompt running Gulp.](../../Images/Exercise1-07.png)
 
-    > Note: The gulp serve process must be running in order to see the tab in the Teams application. When the process is no longer needed, press `CTRL+C` to cancel the server.
+    > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
 ## Sideload app into Microsoft Teams
 
-1. In the Microsoft Teams application, click the **Create and join team** link. Then click the **Create team** button.
+1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 
-    ![](../../Images/Exercise1-08.png)
+    ![Screenshot of Microsoft Teams application highlighting create and join team.](../../Images/Exercise1-08.png)
 
-1. Enter a team name and description. In this example, the Team is named **teams-app-1**. Click **Next**.
+1. Enter a team name and description. In this example, the team is named **teams-app-1**. Select **Next**.
+
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
-    ![](../../Images/Exercise1-09.png)
+1. The new team is shown. In the side panel on the left, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
-1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application.
+    ![Screenshot of Microsoft Teams application with manage team menu.](../../Images/Exercise1-09.png)
 
-    ![](../../Images/Exercise1-10.png)
+1. On the Manage team menu, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application. If you don't have this link, check the sideload settings in the [Getting Started article](https://msdn.microsoft.com/en-us/microsoft-teams/setup).
 
-1. Select the **teams-app-1.zip** file from the **package** folder. Click **Open**.
+    ![Screenshot of Microsoft Teams application apps menu.](../../Images/Exercise1-10.png)
 
-    ![](../../Images/Exercise1-11.png)
+1. Select the **teams-app-1.zip** file from the **package** folder. Select **Open**.
+
+    ![Screenshot of file selector in Microsoft Teams.](../../Images/Exercise1-11.png)
 
 1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
 
-    ![](../../Images/Exercise1-12.png)
+    ![Screenshot of Microsoft Teams app.](../../Images/Exercise1-12.png)
