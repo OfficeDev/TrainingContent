@@ -18,7 +18,10 @@ Here are some ways you can contribute to this documentation:
 * Report documentation bugs via GitHub Issues
 * Request new documentation at the [Office Developer Platform UserVoice](http://officespdev.uservoice.com) site.
 
-## Contribute using GitHub
+
+## Before we can accept your pull request
+
+### Minor corrections
 
 Use GitHub to contribute to this documentation without having to clone the repo to your desktop. This is the easiest way to create a pull request in this repository. Use this method to make a minor change that doesn't involve code changes. 
 
@@ -26,8 +29,10 @@ Use GitHub to contribute to this documentation without having to clone the repo 
 
 ### To Contribute using GitHub
 
-1. Find the article you want to contribute to on GitHub. 
 
+### Larger submissions
+
+1. Find the article you want to contribute to on GitHub. 
     If the article is in MSDN, choose the **suggest and submit changes** link in the **Contribute to this content** section and you'll be taken to the same article on GitHub.
 2. Once you are on the article in GitHub, sign in to GitHub (get a free account [Join GitHub](https://github.com/join).
 3. Choose the **pencil icon** (edit the file in your fork of this project) and make your changes in the **<>Edit file** window. 
@@ -64,14 +69,14 @@ Pull requests are typically reviewed within 10 business days.
 
 ## Use GitHub, Git, and this repository
 
-**Note:** Most of the information in this section can be found in [GitHub Help] articles.  If you're familiar with Git and GitHub, skip to the **Contribute and edit content** section for the specifics of the code/content flow of this repository.
+**Note:** Most of the information in this section can be found in [GitHub Help] articles.  If you're familiar with Git and GitHub, skip to the **Contribute and edit content** section for the particulars of the code/content flow of this repository.
 
 ### To set up your fork of the repository
 
-1.	Set up a GitHub account so you can contribute to this project. If you haven't done this, go to [GitHub](https://github.com/join) and do it now.
-2.	Install Git on your computer. Follow the steps in the [Setting up Git Tutorial] [Set Up Git].
-3.	Create your own fork of this repository. To do this, at the top of the page,  choose the **Fork** button.
-4.	Copy your fork to your computer. To do this, open Git Bash. At the command prompt enter:
+1.	Set up a GitHub account so you can contribute to this project. If you haven't done this already, please go to [GitHub Home] and do it now.
+2.	Set up your machine with Git. Follow the instructions in the [Setting up Git Tutorial].
+3.	Create your own fork of this repository. To do this, at the top of the page,  click the **Fork** button.
+4.	Copy your fork to your local machine. To do this, go open GitBash. At the command prompt enter:
 
         git clone https://github.com/<your user name>/<repo name>.git
 
@@ -172,10 +177,9 @@ Congratulations, you have successfully contributed to the project!
 
 ### Standard Markdown
 
-All of the articles in this repository use Markdown. A complete introduction (and listing of all the syntax) can be found at [Markdown Home](http://daringfireball.net/projects/markdown/ 
-).
- 
-## FAQ
+All of the articles in this repository use Markdown.  While a complete introduction (and listing of all the syntax) can be found at [Markdown Home], we'll cover the basics you'll need.
+
+If you're looking for a good editor, try [Markdown Pad].
 
 ### How do I get a GitHub account?
 
@@ -203,10 +207,11 @@ Pull requests are typically reviewed within 10 business days.
 ## More resources
 
 * To learn more about Markdown, go to the Git creator's site [Daring Fireball].
-* To learn more about using Git and GitHub, first check out the [GitHub Help section] [GitHub Help].
+* To learn more about using Git and GitHub, first check out the [GitHub Help].
+* [Microsoft Contributor License Agreement](https://cla.opensource.microsoft.com/)
 
 [GitHub Home]: http://github.com
 [GitHub Help]: http://help.github.com/
-[Set Up Git]: http://help.github.com/win-set-up-git/
+[Setting up Git Tutorial]: http://help.github.com/win-set-up-git/
 [Markdown Home]: http://daringfireball.net/projects/markdown/
 [Daring Fireball]: http://daringfireball.net/

@@ -284,3 +284,6 @@ public override Task ProcessRequestAsync(HttpContext context) {
 	>**Note:** If the previous action you took on the bike was clicking the **Check In** button, then the card message will indicate the bike was checked in after you click the **Notify Connector** button.
 	
 	![Screenshot of the previous step](Images/connector-message-bikeaction.png)
+
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/02-connectors" />

@@ -32,3 +32,5 @@ In this lab, you will walk through building an Actionable Message card and addin
 ## Disclaimer
 
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/ConnectorActionableMsgs/02-cards-and-actions" />
