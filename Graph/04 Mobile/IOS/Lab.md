@@ -22,28 +22,23 @@ The lab demonstrates how use an AzureAD account to authenticate and call the Mic
 
 ## Register your application with Office 365
 1. Sign into the [https://apps.dev.microsoft.com//](https://apps.dev.microsoft.com/") using your Office 365 Developer Site credentials.
-2. Click **Active Directory** on the left menu, then click on the directory for your Office 365 developer site.
-3. On the top menu, click **Applications**.
-4. Click **Add** from the bottom menu.
-5. On the **What do you want to do** page, click **Add an application my organization is developing**.
-6. On the **Tell us about your application** page, enter **IOSOffice365Calendar** for the application name and select **NATIVE CLIENT APPLICATION** for the Type.
-    ![Screenshot of the previous step](img/01.png)
-7. Click the **arrow icon** on the bottom-right corner of the page.
-8. On the Application information page, specify a Redirect URI, for this example specify http://IOSOffice365Calendar. Make note of the URI, since you'll need this later when coding the IOSOffice365Calendar project.
-9. Click the **check mark icon** on the bottom-right corner of the page.
-    ![Screenshot of the previous step](img/02.png)
-10. Once the application has been successfully added, you will be taken to the Quick Start page for the application. From here, click **Configure** on the top menu.
-    ![Screenshot of the previous step](img/03.png)
-11. On **permissions to other applications**, click **Add application**.
-    ![Screenshot of the previous step](img/04.png)
-12. Click **Microsoft Graph**, and then click the **check mark icon** on the bottom-right corner of the page.
-    ![Screenshot of the previous step](img/05.png)
-13. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
-14. Select **Read User Calendars**.
-15. Select **Sign in and read user profile**
-16. Click **Save**
-17. Copy the value specified for **Client ID**; you will need this later when coding the IOSOffice365Calendar project.
-![Screenshot of the previous step](img/06.png)
+2. Click **Add an app** button at the topright of the page.
+3. On the **Register your application** page, enter enter **IOSOffice365Calendar** for the application name. ![Screenshot of previous step](img/fig.17.png)
+4. Click **Create** from the bottom of the page.
+5. On the **IOSOffice365Calendar Registration** page, click **Add platform** under Platforms.
+6. On the **Add Platform** dialog, select **Native Application** for the application.
+    ![Screenshot of the previous step](img/fig.18.png)
+7. Click the **arrow icon** on next to the Built-in redirect URIs, an it will expand the URIs used for redirect in the native application.
+8. On the Native Application information section, make note of the Custome Redirect URIs, since you'll need this later when coding the IOSOffice365Calendar project.
+![Screenshot of the previous step](img/fig.19.png)
+9. Under th **Microsoft Graph Permissions**, add `Calendars.Read`, `User.Read` under **Delegated Permissions**. Under **Application Permissions**, add `User.Read.All (Admin Only)`.
+    ![Screenshot of the previous step](img/fig.20.png)
+10. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
+11. Select **Read User Calendars**.
+12. Select **Sign in and read user profile**
+13. Click **Save**
+14. Copy the value specified for **Application ID**; you will need this later when coding the IOSOffice365Calendar project.
+![Screenshot of the previous step](img/fig.21.png)
 
 ## Exercise 1: Add Microsoft Graph SDK for iOS, ADAL for iOS, Office Rest Client for iOS libraries to a project
 In this exercise you will use an existing application with the AzureAD
@@ -82,7 +77,11 @@ authentication included, to add Microsoft Graph SDK for iOS, ADAL for iOS, Offic
 
     ![Screenshot of the previous step](img/fig.01.png)
 
-08. Build and Run the project in an iOS Simulator to check the views. You will see a login page with buttons to access the application and to clear credentials.  At this point the app does not include the code required to authenticateor return calendar events.  Close the app.
+08. In your XCode workspace, expand the Pods > ADALiOS > Resources folder. Select the `ADAL_iPad_Storyboard.storyboard` and set the Interface Building Document Builds for `iOS 7.0 and Later`. Then select `ADAL_iPhone_Storyboard.storyboard` file set the Interface Building Document Builds for `iOS 7.0 and Later`.
+
+    ![Screenshot of the previous step](img/fig.16.png)
+
+09. Build and Run the project in an iOS Simulator to check the views. You will see a login page with buttons to access the application and to clear credentials.  At this point the app does not include the code required to authenticateor return calendar events.  Close the app.
 
     ![Screenshot of the previous step](img/fig.02.png)
 
