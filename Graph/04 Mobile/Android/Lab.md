@@ -2,8 +2,8 @@
 In this lab, you will investigate Android development with the Office 365 Calendar.
 
 ## Prerequisites ##
-1. Android Studio 2.1.1
-2. Android SDK 23 (Android 6.0)
+1. Android Studio 3.1+
+2. Android SDK 23+ (Android 6.0+)
 3. Java JDK 1.8.0
 
 ## Create Android project ##
@@ -46,28 +46,25 @@ In this lab, you will investigate Android development with the Office 365 Calend
 10. Save the file and click **Sync Project with Gradle Files** in the top tool bar.<br/>
 	![Screenshot of the previous step](Images/09.png)
 
-## Integrate Office 365 services ##
-1. Sign in to the [Azure Management Portal](https://manage.windowsazure.com/) with your Office 365 credentials.
-2. Click **ACTIVE DIRECTORY** on the left menu, go to the **DIRECTORY** tab, and then click your directory.<br/>
-	![Screenshot of the previous step](Images/10.png)
-3. Go to the **APPLICATIONS** tab on the new page.
-4. Click **ADD** button on the bottom menu.<br/>
-	![Screenshot of the previous step](Images/11.png)
-5. On the **What do you want to do** page, click **Add an application my organization is developing**.<br/>
-	![Screenshot of the previous step](Images/12.png)
-6. On the **Tell us about your application** page, specify your application **NAME** (AndroidOffice365Calendar) and select the option **NATIVE CLIENT APPLICATION** under **Type**, and then click the arrow to go to the next step.<br/>
-	![Screenshot of the previous step](Images/13.png)
-8. On the Application information page, specify a **Redirect URI**. For this example, you can specify **http://AndroidOffice365Calendar** and then click the **Checkmark** icon.
-9. Once the application has been successfully added, the Quick Start page for the application is displayed.
-10. Click the **CONFIGURE** tab.<br/>
-	![Screenshot of the previous step](Images/14.png)
-11. Click the **Add application** button.<br/>
-	![Screenshot of the previous step](Images/15.png)
-12. Click the service **Microsoft Graph** (or click the plus symbol to add the service) to add the service to the list on the right, then click the **Checkmark** icon to save your selections.<br/>
-	![Screenshot of the previous step](Images/16.png)
-14. Under **permissions to other applications** section, click the **Delegated Permissions** cell in the **Microsoft Graph** row, and check the **Have full access to user calendars** and **Sign in and read user profile** permissions.
-15. Click the **SAVE** button on the bottom menu.<br/>
-	![Screenshot of the previous step](Images/17.png)
+## Register your application with Office 365
+1. Sign into the [https://apps.dev.microsoft.com//](https://apps.dev.microsoft.com/") using your Office 365 Developer Site credentials.
+2. Click **Add an app** button at the topright of the page.
+3. On the **Register your application** page, enter enter **AndroidOffice365Calendar** for the application name. ![Screenshot of previous step](images/fig.17.png)
+4. Click **Create** from the bottom of the page.
+5. On the **AndroidOffice365Calendar Registration** page, click **Add platform** under Platforms.
+6. On the **Add Platform** dialog, select **Native Application** for the application.
+    ![Screenshot of the previous step](images/fig.18.png)
+7. Click the **arrow icon** on next to the Built-in redirect URIs, an it will expand the URIs used for redirect in the native application.
+8. On the Native Application information section, make note of the Custome Redirect URIs, since you'll need this later when coding the AndroidOffice365Calendar project.
+![Screenshot of the previous step](images/fig.19.png)
+9. Under th **Microsoft Graph Permissions**, add `Calendars.Read`, `User.Read` under **Delegated Permissions**. Under **Application Permissions**, add `User.Read.All (Admin Only)`.
+    ![Screenshot of the previous step](images/fig.20.png)
+10. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
+11. Select **Read User Calendars**.
+12. Select **Sign in and read user profile**
+13. Click **Save**
+14. Copy the value specified for **Application ID**; you will need this later when coding the AndroidOffice365Calendar project.
+![Screenshot of the previous step](images/fig.21.png)
 
 ## Code your app ##
 1. Go back to the **Android Studio**.
@@ -90,16 +87,15 @@ In this lab, you will investigate Android development with the Office 365 Calend
 	package com.microsoft.androidoffice365calendar;
 
 	public interface Constants {
-	    public static final String AAD_CLIENT_ID = "Your app client ID";
+	    public static final String AAD_CLIENT_ID = "Your app Application ID";
 	    public static final String AAD_REDIRECT_URL = "Your app redirect URL";
 	    public static final String AAD_AUTHORITY = "https://login.microsoftonline.com/common";
 	    public static final String GRAPH_RESOURCE_ID = "https://graph.microsoft.com/";
 	}
 	````
 
-	**NOTE: You can find the Client ID and Redirect URL in Microsoft Azure**
+	**NOTE: You can find the Application ID and Redirect URL in Application Registration Portal**
 
-	![Screenshot of the previous step](Images/21.png)
 6. Add new class file **AuthenticationController.java**.<br/>
 	![Screenshot of the previous step](Images/22.png)
 7. Replace the source code in the **AuthenticationController.java** class with the code below.
@@ -567,5 +563,5 @@ In this lab, you will investigate Android development with the Office 365 Calend
 
 	![Screenshot of the previous step](Images/30.png)
 20. The events are displayed.
-	![Screenshot of the previous step](Images/31.png)
+	
 

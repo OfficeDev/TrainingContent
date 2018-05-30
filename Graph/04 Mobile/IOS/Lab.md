@@ -6,44 +6,39 @@ The lab demonstrates how use an AzureAD account to authenticate and call the Mic
 
 ## Objectives
 
-- Learn how to authenticate with Azure AD
+- Learn how to authenticate with Office 365
 - Learn how to create an Microsoft Graph client to access calendar events
 - Learn how to list calendar events
 
 ## Prerequisites
 
 1. OSX 10.X environment
-2. [XCode 7][xcode-7]
+2. [XCode 9][xcode-9]
 3. [Cocoapods dependency manager][cocoapods]
 4. This lab requires you to use multiple starter files or an entire starter project from the GitHub location. You can either download the whole repo as a zip or clone the repo https://github.com/OfficeDev/TrainingContent.git for those familiar with git.
 
-[xcode-7]: https://itunes.apple.com/nz/app/xcode/id497799835?mt=12
+[xcode-9]: https://itunes.apple.com/nz/app/xcode/id497799835?mt=12
 [cocoapods]: https://cocoapods.org/
 
-## Register your application with Azure Active Directory
-1. Sign into the [https://manage.windowsazure.com/](https://manage.windowsazure.com/ "[Azure Management Portal]") using your Office 365 Developer Site credentials.
-2. Click **Active Directory** on the left menu, then click on the directory for your Office 365 developer site.
-3. On the top menu, click **Applications**.
-4. Click **Add** from the bottom menu.
-5. On the **What do you want to do** page, click **Add an application my organization is developing**.
-6. On the **Tell us about your application** page, enter **IOSOffice365Calendar** for the application name and select **NATIVE CLIENT APPLICATION** for the Type.
-    ![Screenshot of the previous step](img/01.png)
-7. Click the **arrow icon** on the bottom-right corner of the page.
-8. On the Application information page, specify a Redirect URI, for this example specify http://IOSOffice365Calendar. Make note of the URI, since you'll need this later when coding the IOSOffice365Calendar project.
-9. Click the **check mark icon** on the bottom-right corner of the page.
-    ![Screenshot of the previous step](img/02.png)
-10. Once the application has been successfully added, you will be taken to the Quick Start page for the application. From here, click **Configure** on the top menu.
-    ![Screenshot of the previous step](img/03.png)
-11. On **permissions to other applications**, click **Add application**.
-    ![Screenshot of the previous step](img/04.png)
-12. Click **Microsoft Graph**, and then click the **check mark icon** on the bottom-right corner of the page.
-    ![Screenshot of the previous step](img/05.png)
-13. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
-14. Select **Read User Calendars**.
-15. Select **Sign in and read user profile**
-16. Click **Save**
-17. Copy the value specified for **Client ID**; you will need this later when coding the IOSOffice365Calendar project.
-![Screenshot of the previous step](img/06.png)
+## Register your application with Office 365
+1. Sign into the [https://apps.dev.microsoft.com//](https://apps.dev.microsoft.com/") using your Office 365 Developer Site credentials.
+2. Click **Add an app** button at the topright of the page.
+3. On the **Register your application** page, enter enter **IOSOffice365Calendar** for the application name. ![Screenshot of previous step](img/fig.17.png)
+4. Click **Create** from the bottom of the page.
+5. On the **IOSOffice365Calendar Registration** page, click **Add platform** under Platforms.
+6. On the **Add Platform** dialog, select **Native Application** for the application.
+    ![Screenshot of the previous step](img/fig.18.png)
+7. Click the **arrow icon** on next to the Built-in redirect URIs, an it will expand the URIs used for redirect in the native application.
+8. On the Native Application information section, make note of the Custome Redirect URIs, since you'll need this later when coding the IOSOffice365Calendar project.
+![Screenshot of the previous step](img/fig.19.png)
+9. Under th **Microsoft Graph Permissions**, add `Calendars.Read`, `User.Read` under **Delegated Permissions**. Under **Application Permissions**, add `User.Read.All (Admin Only)`.
+    ![Screenshot of the previous step](img/fig.20.png)
+10. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
+11. Select **Read User Calendars**.
+12. Select **Sign in and read user profile**
+13. Click **Save**
+14. Copy the value specified for **Application ID**; you will need this later when coding the IOSOffice365Calendar project.
+![Screenshot of the previous step](img/fig.21.png)
 
 ## Exercise 1: Add Microsoft Graph SDK for iOS, ADAL for iOS, Office Rest Client for iOS libraries to a project
 In this exercise you will use an existing application with the AzureAD
@@ -82,7 +77,11 @@ authentication included, to add Microsoft Graph SDK for iOS, ADAL for iOS, Offic
 
     ![Screenshot of the previous step](img/fig.01.png)
 
-08. Build and Run the project in an iOS Simulator to check the views. You will see a login page with buttons to access the application and to clear credentials.  At this point the app does not include the code required to authenticateor return calendar events.  Close the app.
+08. In your XCode workspace, expand the Pods > ADALiOS > Resources folder. Select the `ADAL_iPad_Storyboard.storyboard` and set the Interface Building Document Builds for `iOS 7.0 and Later`. Then select `ADAL_iPhone_Storyboard.storyboard` file set the Interface Building Document Builds for `iOS 7.0 and Later`.
+
+    ![Screenshot of the previous step](img/fig.16.png)
+
+09. Build and Run the project in an iOS Simulator to check the views. You will see a login page with buttons to access the application and to clear credentials.  At this point the app does not include the code required to authenticateor return calendar events.  Close the app.
 
     ![Screenshot of the previous step](img/fig.02.png)
 
@@ -174,7 +173,7 @@ An access token is required to access Microsoft Graph APIs so your application n
 
 4. Acquire access and refresh tokens from Azure AD for the user.
 
-	```objc
+```objc
   -(void)acquireAuthTokenWithResourceId:(NSString *)resourceId completionHandler:(void (^)(BOOL authenticated, NSString* accessToken))completionBlock
   {
     ADAuthenticationError *error;
@@ -191,7 +190,7 @@ An access token is required to access Microsoft Graph APIs so your application n
                                    }
                                }];
   }
-	```
+```
     >**Note:** The first time the application runs, a request is sent to the URL specified for the AUTHORITY const, which the redirects you to a login page where you can enter your credentials. If your login is successful, the response contains the access and refresh tokens. Subsequent times when the application runs, the authentication manager will use the access or refresh token for authenticating client requests, unless the token cache is cleared.
 
 5. Finally, add code to log out the user by clearing the token cache and removing the application's cookies.
@@ -241,11 +240,11 @@ An access token is required to access Microsoft Graph APIs so your application n
    ```
 3. Open the LoginViewController.m file, add the following code to **clearAction**
 
-   ```objc
-       AuthenticationManager *authenticationManager = [AuthenticationManager sharedInstance];
+```objc
+    AuthenticationManager *authenticationManager = [AuthenticationManager sharedInstance];
     [authenticationManager clearCredentials];
     [self showMessage:@"Cookies Cleared" withTitle:@"Success"];
-   ```
+```
 
    ![Screenshot of the previous step](img/fig.11.png)
 
@@ -290,32 +289,33 @@ In this exercise you will connect your application to get a **MSGraphClient**. W
     ![Screenshot of the previous step](img/fig.07.png)
 
 03. Go to **CalendarTableViewController.h**, and import the following header files
-    ```objc
+```objc
 	#import <ADALiOS/ADAL.h>
 	#import <orc/impl/impl.h>
 	#import <MSGraphSDK/MSGraphSDK.h>
-   ```
+```
 04. Declare a property to access the Microsoft Graph client.
 
-	```objc
+```objc
 	@property (strong, nonatomic) MSGraphClient *graphCilent;
-	```
+```
 
 05. Specify the following function to store the Microsoft Graph client.
 
-	```objc
+```objc
 	-(void)initGraphClient:(MSGraphClient *)client;
-	```
-	![Screenshot of the previous step](img/fig.15.png)
+```
+	
+![Screenshot of the previous step](img/fig.15.png)
 
 06. Go to **CalendarTableViewController.m**, and add the following code to store the **MSGraphClient**
-   ```objc
+```objc
 	-(void)initGraphClient:(MSGraphClient *)client{
 	    self.graphCilent = client;
 	}
-   ```
+```
 07. Add the following code into the bottom of the function **getEvents** to get the Login user's calendar events via the MSGraphClient
-    ```objc
+```objc
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(100,100,50,50)];
     spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
     [spinner setColor:[UIColor blackColor]];
@@ -345,26 +345,29 @@ In this exercise you will connect your application to get a **MSGraphClient**. W
             [self.tableView reloadData];
         });
     }];
-   ```
-   ![Screenshot of the previous step](img/fig.06.png)
+```
+
+![Screenshot of the previous step](img/fig.06.png)
 
 08. Go to the following function
 
-   ```objc
+```objc
 	- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-   ```
+```
 
 09. Add the following code into the bottom of the function **cellForRowAtIndexPath**
 
-   ```objc
+```objc
     UILabel *subjectLabel = (UILabel *)[cell viewWithTag:100];
     subjectLabel.text = ((MSGraphEvent *)[self.eventsList objectAtIndex:indexPath.row]).subject;;
     UILabel *startLabel = (UILabel *)[cell viewWithTag:200];
     startLabel.text = [NSString stringWithFormat:@"Start: %@",[self converStringToDateString:((MSGraphEvent *)[self.eventsList objectAtIndex:indexPath.row]).start.dateTime]];
     UILabel *endLabel = (UILabel *)[cell viewWithTag:300];
     endLabel.text = [NSString stringWithFormat:@"End: %@",[self converStringToDateString:((MSGraphEvent *)[self.eventsList objectAtIndex:indexPath.row]).end.dateTime]];
-    ```
-    ![Screenshot of the previous step](img/fig.05.png)
+```
+
+![Screenshot of the previous step](img/fig.05.png)
+
 10. Build and Run the application. Click the Login button. Now you can see the  events list after you login successfully.
 
     ![Screenshot of the previous step](img/fig.04.png)
