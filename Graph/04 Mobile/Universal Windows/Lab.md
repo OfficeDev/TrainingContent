@@ -1,42 +1,38 @@
 # Calling the Microsoft Graph with a Windows Universal App
-In this lab, you will authenticate with Azure AD and get the access token, then access Office 365 data with a Windows 10 Universal Application using the Microsoft Graph.
+In this lab, you will authenticate with Office 365 and get the access token, then access Office 365 data with a Windows 10 Universal Application using the Microsoft Graph.
 
 
 ## Prerequisites
 
-- You must have an Office 365 tenant and Microsoft Azure subscription to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
-- You must have Visual Studio 2015.
+- You must have an Office 365 tenant to complete this lab. If you do not have one, the lab for **O3651-7 Setting up your Developer environment in Office 365** shows you how to obtain a trial.
+- You must have Visual Studio 2017.
 
-## Register your application with Azure Active Directory
-1. Sign into the [Azure Management Portal](https://manage.windowsazure.com/ "Azure Management Portal") using your Office 365 Developer Site credentials.
-2. Click **Active Directory** on the left menu, then click on the **directory** for your Office 365 developer site.
-3. On the top menu, click **Applications**.
-4. Click **Add** from the bottom menu.
-5. On the **What do you want to do** page, click **Add an application my organization is developing**.
-6. On the **Tell us about your application** page, specify **WinOffice365Calendar** for the application name and select **NATIVE CLIENT APPLICATION** for Type.
-![Screenshot of the previous step](img/01.png)
-7. Click the **arrow icon** on the bottom-right corner of the page.
-8. On the Application information page, specify a Redirect URI, for this example enter **http://WinOffice365Calendar**. Make note of the URI, since you'll need this later when coding the WinOffice365Calendar project. Click the **checkmark** on the bottom-right corner of the page.
-![Screenshot of the previous step](img/02.png)
-9. Once the application has been successfully added, you will be taken to the Quick Start page for the application. From here, click **Configure** on the top menu.
-![Screenshot of the previous step](img/03.png)
-10. On **permissions to other applications**, click **Add application**.
-![Screenshot of the previous step](img/04.png)
-11. Click **Microsoft Graph**, and then click the **check mark icon**. 
-![Screenshot of the previous step](img/05.png)
-12. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
-- Select **Read User Calendars**.
-- Select **Sign in and read user profile**
+## Register your application with Office 365
+1. Sign into the [https://apps.dev.microsoft.com//](https://apps.dev.microsoft.com/") using your Office 365 Developer Site credentials.
+2. Click **Add an app** button at the topright of the page.
+3. On the **Register your application** page, enter enter **WinOffice365Calendar** for the application name. ![Screenshot of previous step](img/fig.17.png)
+4. Click **Create** from the bottom of the page.
+5. On the **WinOffice365Calendar Registration** page, click **Add platform** under Platforms.
+6. On the **Add Platform** dialog, select **Native Application** for the application.
+    ![Screenshot of the previous step](img/fig.18.png)
+7. Click the **arrow icon** on next to the Built-in redirect URIs, an it will expand the URIs used for redirect in the native application.
+8. On the Native Application information section, make note of the Custome Redirect URIs, since you'll need this later when coding the AndroidOffice365Calendar project.
+![Screenshot of the previous step](img/fig.19.png)
+9. Under th **Microsoft Graph Permissions**, add `Calendars.Read`, `User.Read` under **Delegated Permissions**. Under **Application Permissions**, add `User.Read.All (Admin Only)`.
+    ![Screenshot of the previous step](img/fig.20.png)
+10. Under **permissions to other applications**, click the **Delegated Permissions** column for **Microsoft Graph**
+11. Select **Read User Calendars**.
+12. Select **Sign in and read user profile**
 13. Click **Save**
-14. Copy the value specified for **Client ID**; you will need this later when coding the WinOffice365Calendar project.
-![Screenshot of the previous step](img/06.png)
+14. Copy the value specified for **Application ID**; you will need this later when coding the WinOffice365Calendar project.
+![Screenshot of the previous step](img/fig.21.png)
 
 
 ## Exercise 1: Create a Windows 10 Universal Application and authenticate with Azure AD to get the access token
 
 An access token is required to access the Microsoft Graph, so your application needs to implement the logic to retrieve and manage access tokens.
 
-1. Launch **Visual Studio 2015** as an administrator.
+1. Launch **Visual Studio 2017** as an administrator.
 2. In Visual Studio select **File/New/Project**.
 3. In the **New Project** dialog, select **Templates/Visual C#/Windows/Universal** and click **Blank App (Universal Windows)**. Name the new project **WinOffice365Calendar** and then click **OK**.  
 
@@ -62,7 +58,6 @@ An access token is required to access the Microsoft Graph, so your application n
 
 8. Open the **AuthenticationHelper.cs** file, and enter your redirect URL.
 
-	![Screenshot of the previous step](img/09.png)
 
 9. Open **App.xaml**, and add the following code inside the Application element.
    
@@ -80,7 +75,7 @@ An access token is required to access the Microsoft Graph, so your application n
     
     ![Screenshot of the previous step](img/10.png)
 
-10. Enter your **Client ID**
+10. Enter your **Application ID** in the ida:ClientID tag.
 
     ![Screenshot of the previous step](img/11.png)
 
@@ -192,14 +187,14 @@ After returning the access token, we can access the Microsoft Graph to list cale
 02. Name the folder **Model**. 
 03. Copy the file **EventModel.cs** located in the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into the Model folder.
 04. Include the **EventModel.cs** file in the **WinOffice365Calendar** project.
-05. Copy the file **UserOperations.cs** located in the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into the **WinOffice365Calendar** project's root folder. 
+05. Copy the file **UserOperations.cs** located in the [\\\O3651\O3651-6 Mobile\Universal Windows\Lab Files](Lab Files) folder into the **WinOffice365Calendar** projects root folder. 
 06. Include the **UserOperations.cs** file in the **WinOffice365Calendar** project. 
     
     ![Screenshot of the previous step](img/16.png)
 
 07. Add the following code to the end in the **UserOperations.cs** class.
 
-	 ```c#
+	```c#
 	private GraphServiceClient GetGraphServiceClient()
     {
         var authenticationProvider = new DelegateAuthenticationProvider(
@@ -211,13 +206,13 @@ After returning the access token, we can access the Microsoft Graph to list cale
 
         return new GraphServiceClient(authenticationProvider);
     }
-   ```
+    ```
 
-   ![](img/17-1.png)
+![Screenshot](img/17-1.png)
 
 08. Add the following code to the **GetMyEvents** method in the **UserOperations.cs** class.
 
-	 ```c#
+    ```c#
 	List<EventModel> retEvents = null;
     try
     {
@@ -248,7 +243,7 @@ After returning the access token, we can access the Microsoft Graph to list cale
         el.ToString();
     }
     return retEvents;
-   ```
+    ```
    
    ![Screenshot of the previous step](img/17-2.png)
 
@@ -328,7 +323,7 @@ After returning the access token, we can access the Microsoft Graph to list cale
     }
     ```
 11. Press **F5** to run the app.
-12. Click the **Connect** button to authenticate with Azure AD.
+12. Click the **Connect** button to authenticate with Office 365.
 13. After authenticating successfully, click the **Load Events** button.
 14. You will find the events in your calendar for the last 30 days.
 
@@ -341,4 +336,4 @@ After returning the access token, we can access the Microsoft Graph to list cale
 
 In this exercise, you used the Microsoft Graph within a Windows Universal Application.
 
-**Congratulations! In this lab you have created your first Azure AD application that enabled access to the Microsoft Graph within a Windows Universal Application!**
+**Congratulations! In this lab you have created your first Office 365 application that enabled access to the Microsoft Graph within a Windows Universal Application!**
