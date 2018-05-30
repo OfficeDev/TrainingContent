@@ -16,7 +16,7 @@ In this lab, you will authenticate with Office 365 and get the access token, the
 6. On the **Add Platform** dialog, select **Native Application** for the application.
     ![Screenshot of the previous step](img/fig.18.png)
 7. Click the **arrow icon** on next to the Built-in redirect URIs, an it will expand the URIs used for redirect in the native application.
-8. On the Native Application information section, make note of the Custome Redirect URIs, since you'll need this later when coding the AndroidOffice365Calendar project.
+8. On the Native Application information section, make note of the Custome Redirect URIs, since you'll need this later when coding the WinOffice365Calendar project.
 ![Screenshot of the previous step](img/fig.19.png)
 9. Under th **Microsoft Graph Permissions**, add `Calendars.Read`, `User.Read` under **Delegated Permissions**. Under **Application Permissions**, add `User.Read.All (Admin Only)`.
     ![Screenshot of the previous step](img/fig.20.png)
