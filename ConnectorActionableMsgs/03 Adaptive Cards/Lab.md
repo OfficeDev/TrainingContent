@@ -1,19 +1,19 @@
-# Adaptive Cards – 300 Level
+# Lab: Adaptive Cards
 
-----------------
 In this lab, you will walk through building an Adaptive Card, sending it to an inbox, and refreshing the card based on actions.
 
-## Table of Contents
+## In this lab
 
-1. [Adaptive Card design and MessageCard Playground](#messagecardplayground)
-1. [Adaptive Cards with Actions and Inputs](#actionsinputs)
-1. [Card refresh](#cardrefresh)
+1. [Adaptive Card design and MessageCard Playground](#exercise1)
+1. [Adaptive Cards with actions and inputs](#exercise2)
+1. [Card refresh](#exercise3)
+1. [Update card from service](#exercise4)
 
 ## Prerequisites
 
-This lab will require an Office 365 Tenant and a user account that has a mailbox.
+This lab will require an Office 365 tenant and a user account that has a mailbox.
 
-> **NOTE - As of March, 2018, not all Office 365 Tenants support adaptive cards in Outlook.**
+>Note: As of March 2018, not all Office 365 tenants support Adaptive Cards in Outlook.
 
 ### Install developer tools
 
@@ -21,42 +21,43 @@ The developer workstation requires the following tools for this lab.
 
 #### Download ngrok
 
-The Connector registration process requires an endpoint accessible from the internet via HTTPS. To enable the exercises to work correctly, a tunneling application is required.
+The connector registration process requires an endpoint accessible from the internet via HTTPS. To enable the exercises to work correctly, a tunneling application is required.
 
 This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS endpoints to a web server running locally on the developer workstation. ngrok is a single-file download that is run from a console.
 
-<a name="messagecardplayground"></a>
+<a name="exercise1"></a>
 
-## Exercise 1. Adaptive Card design and MessageCard Playground
+## Exercise 1: Adaptive Card design and MessageCard Playground
 
-This exercise will walk you through designing an Adaptive Card and sending it via the Message Card Playground.
+This exercise will walk you through designing an Adaptive Card and sending it via the MessageCard Playground.
 
 ### Visit the MessageCard Playground
 
-Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) app.
+1. Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/).
 
-The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
+    The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
 
-There are several samples of Adaptive Cards shown on the [Samples section of the Adaptive Cards site](http://adaptivecards.io/samples/).
+    There are several samples of Adaptive Cards shown on the samples section of the [Adaptive Cards site](http://adaptivecards.io/samples/).
 
-For this lab, a sample card is provided that will be used and extended throughout the lab. The card represents a ticket opened in a fictitious support system.
+    For this lab, a sample card is provided that will be used throughout the lab. The card represents a ticket opened in a fictitious support system.
 
 ### Load the sample
 
-1. On the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) page, click the **Load a Sample...** button.
+1. On the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) page, select **Load a Sample...**.
+
 1. In the **Open file** dialog, select the file **LabFiles/message-payground/supportTicketCard.json**.
 
-    ![Message Playground Open dialog](Images/LabPlaygroundOpen.png)
+    ![Screenshot of MessageCard Playground file open menu.](Images/LabPlaygroundOpen.png)
 
 1. Review the card source and preview.
 
 ### Modify the sample
 
-The card contains the severity level of the support ticket. Adaptive Cards allows for card authors to style the card's content to properly convey the information. Since the severity level of the ticket is Critical, update the card to highlight this information.
+The card contains the severity level of the support ticket. Adaptive Cards allows for card authors to style the card's content to properly convey the information. Since the severity level of the ticket is critical, the card needs to be updated to reflect this information.
 
 1. Locate the TextBlock containing the severity level. This block starts at line 15.
 
-    ![Severity level text block](Images/SeverityLevelTextBlock.png)
+    ![Screenshot of code showing severity level.](Images/SeverityLevelTextBlock.png)
 
 1. Add the following properties to the TextBlock:
 
@@ -67,49 +68,54 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
 1. Be sure to include commas where necessary to ensure the card source is properly formatted as JSON. When complete, the TextBlock definition should match the following image:
 
-    ![Updated Severity TextBlock](Images/UpdatedSeverityTextBlock.png)
+    ![Screenshot of updated severity TextBlock.](Images/UpdatedSeverityTextBlock.png)
 
 1. The updated card now shows the severity level in large red text.
 
-    ![Support Ticket Card preview](Images/SupportTicketCardPreview.png)
+    ![Screenshot of support ticket card preview.](Images/SupportTicketCardPreview.png)
 
 ### Send the card
 
-1. Click **Send via Email** to send the card to yourself. You will be prompted to log in. If this is the first time using the Message Card Playground, you will be prompted for consent to send messages as you.
+1. Select **Send via Email** to send the card to yourself. You will be prompted to log in. If this is the first time using the Message Card Playground, you will be prompted for consent to send messages as you.
 
 1. After log in and consent, a confirmation message will display.
 
-    ![Send Confirmation](Images/SendConfirmation.png)
+    ![Screenshot of send confirmation.](Images/SendConfirmation.png)
 
-1. Open Outlook. Select the message titled "MessageCard Playground Test Card." The message will contain the card, footer text with links about the playground and card documentation, and will show the JSON payload of the card.
+1. Open **Microsoft Outlook**. Select the message titled **MessageCard Playground Test Card**. The message will contain the card, footer text with links about the MessageCard Playground and card documentation, and will show the JSON payload of the card.
 
-    ![Adaptive Card in Outlook](Images/AdaptiveCardInOutlook.png)
+    ![Screenshot of Adaptive Card received in Microsoft Outlook.](Images/AdaptiveCardInOutlook.png)
 
-<a name="actionsinputs"></a>
+<a name="exercise2"></a>
 
-## Exercise 2. Adaptive Cards with Actions and Inputs
+## Exercise 2: Adaptive Cards with actions and inputs
 
-This exercise will enhance the support ticket card from exercise 1 with Input and Action elements allowing comments on the support ticket directly from Outlook.
+This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
 
 ### Run the ngrok secure tunnel application
 
-1. Open a new **Command Prompt** window.
-1. Change to the directory that contains the ngrok.exe application.
-1. run the command `ngrok http 8011 -host-header=localhost:8011`
-1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
-1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
+1. Open a new **command prompt**.
 
-![](Images/ngrokTunnel.png)
+1. Change to the directory that contains the **ngrok.exe** application.
+
+1. Run the command `ngrok http 8011 -host-header=localhost:8011`.
+
+1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
+
+1. Minimize the ngrok command prompt window. It is no longer referenced in this exercise, but it must remain running.
+
+    ![Screenshot of ngrok command prompt with forwarding address highlighted.](Images/ngrokTunnel.png)
 
 ### Update card and send via email
 
-1. Launch Visual Studio 2017
-1. Open the solution **LabFiles/SendAdaptiveCard/SendAdaptiveCard.sln**
+1. Launch Visual Studio 2017.
+
+1. Open the solution **LabFiles/SendAdaptiveCard/SendAdaptiveCard.sln**.
+
 1. Open the file **Card.json**.
 
-We will extend the card with another element in the body as a header for comments.
+1. You will extend the card with another element in the body as a header for comments. Add a comma to the end of line 101.
 
-1. Add a comma to the end of line 101.
 1. Add the following snippet as lines 102 - 112.
 
     ````json
@@ -126,10 +132,9 @@ We will extend the card with another element in the body as a header for comment
     }
     ````
 
-We will add input and action controls to capture and submit the comments.
+1. You will add input and action controls to capture and submit the comments. Add a comma to the end of line 113. Line 113 is a closing bracket (`]`).
 
-1. Add a comma to the end of line 113. (Line 113 is a closing bracket ']')
-1. Add the following snippet as lines 114-142. This snippet should be outside of the **body** element. In the snippet, replace the token [ngrok-url-here] with the https address displayed in the ngrok window.
+1. Add the following snippet as lines 114-142. This snippet should be outside of the `body` element. In the snippet, replace the token `ngrok-url-here` with the HTTPS address displayed in the ngrok window.
 
     ````json
     "actions": [
@@ -163,101 +168,120 @@ We will add input and action controls to capture and submit the comments.
     ]
     ````
 
-The complete card JSON can be found at **/Demos/02-CardWithActionAndInput/supportTicketWithActionAndInput.json**.
+    The complete card JSON can be found [here](/Demos/02-CardWithActionAndInput/supportTicketWithActionAndInput.json).
 
-Notice the **body** element of the **Action.Http** element. The body contains a token indicated with double braces ( ` '{{comment.value}}' ` ). Inside the braces is the name of the input control. When the action is performed, the value of the input control is inserted in this token.
+    >Note: The `body` element of the `Action.Http` element contains a token indicated with double braces: `'{{comment.value}}'`. Inside the braces is the name of the input control. When the action is performed, the value of the input control is inserted in this token.
 
 ### Review message format
 
-1. In Visual Studio, open file **MessageBody.html**.
-1. Notice that the `<head>` element contains a `<script>` tag. The type for the tag is `application/adaptivecard+json`. This value instructs Outlook that the following code should be interpreted as an Adaptive card.
+1. In **Visual Studio**, open file **MessageBody.html**.
+
+1. Notice that the `<head>` element contains a `<script>` tag. The type for the tag is `application/adaptivecard+json`. This value instructs Microsoft Outlook that the code following should be interpreted as an Adaptive Card.
 
 ### Register the application
 
 1. Go to the [Application Registration Portal](https://apps.dev.microsoft.com) and sign in with either a Microsoft account or an Office 365 account.
-1. Click the **Add an app** button. Enter a name for the application and click **Create**.
-1. Click the **Add Platform** button and choose **Native Application**.
-1. Click **Save**
 
-Copy the value of **Application Id**
+1. Select the **Add an app** button. Enter a name for the application and select **Create**.
+
+1. Select the **Add Platform** button and choose **Native Application**.
+
+1. Select **Save**.
+
+1. Copy the value of **Application ID** for reference later.
 
 ### Add the application ID to the project
 
-1. Open the [App.config](App.config) file in Solution Explorer.
+1. Open the [App.config](App.config) file.
+
 1. Find the following line:
 
     ```xml
     <add key="applicationId" value="[your-app-id-here]" />
     ```
+
 1. Paste the application ID you copied from the portal into the `value`, replacing the token `[your-app-id-here]` and save the file.
 
 ### Send card via email
 
-Compile and run the **SendAdaptiveCard** solution. The solution is a console application. The application will present an Azure Active Directory login prompt. Log in with your credentials. (It is not necessary to have any specific permissions. The application will send a mail to the inbox associated to the account used to log in.)
+1. Compile and run the **SendAdaptiveCard** solution. The solution is a console application. The application will present an Microsoft Azure Active Directory login prompt. Log in with your credentials. It is not necessary to have any specific permissions. The application will send a mail to the inbox associated to the account used to log in.
 
-![send-adaptivecard-message program](Images/send-adaptivecard-message-program.png)
+    ![Screenshot of send-adaptivecard-message program.](Images/send-adaptivecard-message-program.png)
 
-The first time the application is run, you will be asked to consent the application.
+1. The first time the application is run, you will be asked to consent the application.
 
-The program will send the message and prompt to press any key to exit.
+1. The program will send the message and prompt to press any key to exit.
 
-### View and interact with Adaptive Card
+### View and interact with Adaptive Cards
 
-1. Open [Outlook for Web](https://outlook.office.com). Log in with the same credentials used to send the message.
+1. Open [Microsoft Outlook for Web](https://outlook.office.com). Log in with the same credentials used to send the message.
+
 1. Open the message. Notice the input box and OK button at the bottom of the message.
 
-![Adaptive Card with Action](Images/AdaptiveCardWithAction.png)
+    ![Screenshot of Adaptive Card with action button.](Images/AdaptiveCardWithAction.png)
 
-1. Enter a comment an click **OK**. Outlook will submit the card to the endpoint specified in the card. This submission will fail, since there is no web server listening at that address.
+1. Enter a comment an select **OK**. Microsoft Outlook will submit the card to the endpoint specified in the card. This submission will fail, since there is no web server listening at that address.
 
-![Adaptive Card Submit error](Images/AdaptiveCardSubmitError.png)
+    ![Screenshot of Adaptive Card submit error.](Images/AdaptiveCardSubmitError.png)
 
-### Inspect Http POST message
+### Inspect HTTP POST message
 
-The ngrok tunnel application received the submission from Outlook. We can view the POST message using the ngrok web interface.
+The ngrok tunnel application received the submission from Microsoft Outlook. You can view the POST message using the ngrok web interface.
 
-1. Open a browser window to `http://localhost:4040`.
-1. Click on the first request in the left column. In the right column, click on the link titled **Raw**.
-1. Observe that the request contains an Authorization header and the body contains the value as defined in the card.
+1. Open a browser window and go to `http://localhost:4040`.
 
-![ngrok Inspector](Images/ngrokInspector.png)
+1. Select the first request in the left column. In the right column, select the link titled **Raw**.
 
-<a name="cardrefresh"></a>
+1. Note that the request contains an authorization header and the body contains the value as defined in the card.
 
-## Exercise 3 - Card refresh
+    ![Screenshot of ngrok inspector.](Images/ngrokInspector.png)
 
-In this exercise, a web service will handle the calls from Outlook in support of the Adaptive Card.
+<a name="exercise3"></a>
 
-1. Open Visual Studio 2017.
-1. In Visual Studio 2017, select **File | New | Project**
-1. Create a new Visual C# project using the **ASP.Net Web Application (.NET Framework) Template**
+## Exercise 3: Card refresh
+
+In this exercise, a web service will handle the calls from Microsoft Outlook to support the Adaptive Card.
+
+1. Open **Visual Studio 2017**.
+
+1. In Visual Studio 2017, select **File > New > Project**.
+
+1. Create a new Visual C# project using the **ASP.Net Web Application (.NET Framework) Template**.
+
 1. Choose the **WebAPI** template.
-1. Click OK.
+
+1. Select **OK**.
 
 ### Update the web address of the Web API project
 
-1. In solution explorer, double click on the **Properties** node of the Web API project.
-1. In the Properties design tab, click **Web** item in the left navigation.
-1. Change the **Project Url** value to **http://localhost:8011/**
-1. Click the **Create Virtual Directory** button.
+1. In the Solution explorer, double-click on the **Properties** node of the Web API project.
 
-![Configure Web API Url](Images/ConfigureWebAPIUrl.png)
+1. In the **Properties design** tab, select **Web** item in the left navigation.
 
-1. Save and close the Properties design tab.
+1. Change the **Project URL** value to **http://localhost:8011/**.
+
+1. Select the **Create Virtual Directory** button.
+
+    ![Screenshot of the Configure Web API Url menu.](Images/ConfigureWebAPIUrl.png)
+
+1. Save and close the **Properties design** tab.
 
 ### Add the required NuGet package
 
-1. Click **Tools | NuGet Package Manager | Package Manager Console**
-1. In the **Package Manager console**, enter the command `Install-Package Microsoft.O365.ActionableMessages.Utilities`
+1. Select **Tools > NuGet Package Manager > Package Manager Console**.
+
+1. In the **Package Manager Console**, enter the command `Install-Package Microsoft.O365.ActionableMessages.Utilities`.
+
 1. Close the **Package Manager Console**.
 
 ### Add a WebAPI controller to the project for the support ticket processing
 
-1. In Solution Explorer, right-click on the **Controllers** folder and choose **Add | Controller**.
+1. In Solution Explorer, right-click on the **Controllers** folder and choose **Add > Controller**.
 
-![Add Ticket Controller](AddControllerTicket.png)
+    ![Screenshot of Add Ticket Controller menu.](Images/AddControllerTicket.png)
 
-1. Choose the **Web API 2 Controller - Empty** template. Name the controller **TicketController.
+1. Choose the **Web API 2 Controller - Empty** template. Name the controller **TicketController**.
+
 1. Add the following statements to the top of the **TicketController.cs** file.
 
     ```csharp
@@ -266,7 +290,7 @@ In this exercise, a web service will handle the calls from Outlook in support of
     using System.Threading.Tasks;
     ```
 
-1. Add the following code to the **TicketController** class. (The code can be found in file **LabFiles/support-desk/TicketController.cs**.) In the snippet, replace the token https://api.ngrok.io with the https address displayed in the ngrok window. Replace the token yourdomain.onmicrosoft.com with the email domain used to send the Adaptive Card to Outlook.
+1. Add the following code to the `TicketController` class. The code can be found in **LabFiles/support-desk/TicketController.cs**. In the snippet, replace the token `https://api.ngrok.io` with the HTTPS address displayed in the ngrok window. Replace the token `yourdomain.onmicrosoft.com` with the email domain used to send the Adaptive Card to Microsoft Outlook.
 
     ```csharp
     public class TicketController : ApiController
@@ -346,11 +370,13 @@ In this exercise, a web service will handle the calls from Outlook in support of
 
 ## Work-around
 
-> The Adaptive Card processing in OWA does not send the Headers. We need to process a content type of "text/plain"
+The Adaptive Card processing in OWA does not send the headers. We need to process a content type of **text/plain**.
 
-1. Right-click on the project and choose **Add | Class**. Name the class **TextMediaTypeFormatter**.
+1. Right-click on the project and choose **Add > Class**. Name the class **TextMediaTypeFormatter**.
+
 1. Update the content of the **TextMediaTypeFormatter** class with the code from the file **LabFiles/support-desk/TextMediaTypeFormatter.cs**.
-1. Update the **Global.asax.cs** class, adding the following to the end of the **Application_Start** method.
+
+1. Update the **Global.asax.cs** class by adding the following to the end of the `Application_Start` method.
 
     ```csharp
     // Work-around until Outlook sends headers.
@@ -358,37 +384,43 @@ In this exercise, a web service will handle the calls from Outlook in support of
     GlobalConfiguration.Configuration.Formatters.Insert(0, new TextMediaTypeFormatter());
     ```
 
-Run the web project. If prompted, choose to trust the development certificate.
+1. Run the web project. If prompted, choose to trust the development certificate.
 
-### Interact with the Card
+### Interact with the card
 
-Return to Outlook for Web. Enter a comment in the box and click **OK**.
+1. Return to Microsoft Outlook for web.
 
-Outlook will POST the input from the card to the ngrok tunnel, which will forward the request to the WebAPI project. The project simply replies with a specific header:
+1. Enter a comment in the box and select **OK**.
 
-`response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");`
+    Outlook will POST the input from the card to the ngrok tunnel which will forward the request to the WebAPI project. The project simply replies with a specific header: `response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");`
 
-The value of the header is rendered at the bottom of the card.
+    The value of the header is rendered at the bottom of the card.
 
-![Card Action Status](Images/CardActionStatus.png)
+    ![Screenshot of card action status.](Images/CardActionStatus.png)
 
-## Exercise 4 - Update card from service
+<a name="exercise4"></a>
 
-The card can be updated from the service in response to an Action. This exercise will use the Authoring SDK to build a refreshed card and update the message in Outlook.
+## Exercise 4: Update card from service
+
+The card can be updated from the service in response to an action. This exercise will use the Authoring SDK to build a refreshed card and update the message in Outlook.
 
 ### Add NuGet package
 
-1. Click **Tools | NuGet Package Manager | Package Manager Console**
-1. In the **Package Manager console**, enter the command `Install-Package AdaptiveCards -IncludePrerelease`
+1. Select **Tools > NuGet Package Manager > Package Manager Console**.
+
+1. In the **Package Manager Console**, enter the command `Install-Package AdaptiveCards -IncludePrerelease`.
+
 1. Close the **Package Manager Console**.
 
 ### Create class for Action.Http
 
-The Action.Http element is not part of the Adaptive Cards SDK. (This action is an extension created for Outlook.) Create a class to model this action:
+The Action.Http element is not part of the Adaptive Cards SDK. This action is an extension created for Outlook. You need to create a class to model this action.
 
-1. Right-click on the project file and choose **Add | Class**
-1. Name the class **AdaptiveHttpAction**
-1. In the **AdaptiveHttpAction.cs** class, replace the class definition with the following (the code is available in the **LabFiles/RefreshAdaptiveCard/AdaptiveHttpAction.cs** file):
+1. Right-click on the project file and choose **Add > Class**.
+
+1. Name the class **AdaptiveHttpAction**.
+
+1. In the **AdaptiveHttpAction.cs** class, replace the class definition with the following. The code is available in the **LabFiles/RefreshAdaptiveCard/AdaptiveHttpAction.cs** file.
 
     ```csharp
     public class AdaptiveHttpAction : AdaptiveAction
@@ -418,8 +450,10 @@ The Action.Http element is not part of the Adaptive Cards SDK. (This action is a
 
 ### Create the data model
 
-1. Right-click on the **Models** folder and choose **Add | Class**.
+1. Right-click on the **Models** folder and choose **Add > Class**.
+
 1. Name the class **Comment**.
+
 1. In the **Comment.cs** class, replace the class definition with the following:
 
     ```csharp
@@ -435,11 +469,15 @@ The Action.Http element is not part of the Adaptive Cards SDK. (This action is a
 
 The refresh card follows a format similar to the rest of the lab. The base definition of the refresh card will be added to the project as an embedded resource.
 
-1. Right-click on the project and choose **Add | JSON File**.
+1. Right-click on the project and choose **Add > JSON File**.
+
 1. Name the file **refreshCard.json**.
+
 1. Replace the contents of the **refreshCard.json** file with the code from file **LabFiles/RefreshAdaptiveCard/refreshCard.json**.
-1. Select the **refreshCard.json** file in **Solution Explorer** and press **F4**.
-1. In the **Properties Pane**, set the **Build Action** of the file to **Embedded Resource**.
+
+1. Select the **refreshCard.json** file in **Solution Explorer** and select **F4**.
+
+1. In the **Properties pane**, set the **Build Action** of the file to **Embedded Resource**.
 
 ### Extend the TicketController
 
@@ -459,7 +497,7 @@ The refresh card follows a format similar to the rest of the lab. The base defin
     #endregion
     ```
 
-1. Insert the following code below that line in Business Logic region:
+1. Insert the following code below that line in `Business Logic` region:
 
     ```csharp
     #region Business logic code here to process the support ticket.
@@ -490,7 +528,7 @@ The refresh card follows a format similar to the rest of the lab. The base defin
     #endregion
     ```
 
-1. The business logic code references two helper methods. Add these methods to the **TicketController** class (the code is available in the **LabFiles/RefreshAdapterCard/CardHelperFunctions.cs** file):
+1. The business logic code references two helper methods. Add these methods to the **TicketController** class. The code is available in the **LabFiles/RefreshAdapterCard/CardHelperFunctions.cs** file.
 
     ```csharp
     private AdaptiveCard CreateRefreshCard(List<Models.Comment> comments)
@@ -586,11 +624,14 @@ The refresh card follows a format similar to the rest of the lab. The base defin
     }
     ```
 
-### Add comments in Outlook and view refreshed card
+### Add comments in Microsoft Outlook and view refreshed card
 
-1. Return to Outlook for Web.
+1. Return to Microsoft Outlook for Web.
+
 1. Locate the message containing the Adaptive Card.
-1. Enter a message in the comment box and click **OK**.
-1. Observe the card update with the comment added.
 
-  ![Refreshed Card in Outlook](Images/RefreshedCardInOutlook.png)
+1. Enter a message in the comment box and select **OK**.
+
+1. Observe that the card updates with the comment added.
+
+    ![Screenshot of refreshed card in Microsoft Outlook.](Images/RefreshedCardInOutlook.png)

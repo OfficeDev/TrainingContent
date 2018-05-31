@@ -1,4 +1,4 @@
-# Connectors & Actionable Messages: Adaptive Cards - 300 Level
+# Connectors & Actionable Messages: Adaptive Cards
 
 This module covers building an Adaptive card, handling actions and refreshing the card information.
 
@@ -19,13 +19,15 @@ In the lab, you will walk through building an Adaptive Card, sending it to an in
 |        Roles         |                        Author(s)                        |
 | -------------------- | ------------------------------------------------------- |
 | Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) @paulschaelfein         |
+| QA                   | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
 | Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
 
 ## Version history
 
-| Version |      Date      |    Comments     |
-| ------- | -------------- | --------------- |
-| 1.0     | March 21, 2018 | Initial release |
+| Version |      Date      |                   Comments                   |
+| ------- | -------------- | -------------------------------------------- |
+| 1.1     | May 31, 2018   | 2018Q4 content refresh & style guide updates |
+| 1.0     | March 21, 2018 | Initial release                              |
 
 ## Disclaimer
 
