@@ -26,9 +26,11 @@ In the lab, you will walk through building an Adaptive Card, sending it to an in
 
 | Version |      Date      |                   Comments                   |
 | ------- | -------------- | -------------------------------------------- |
-| 1.1     | May 31, 2018   | 2018Q4 content refresh & style guide updates |
+| 1.1     | June 8, 2018   | 2018Q4 content refresh & style guide updates |
 | 1.0     | March 21, 2018 | Initial release                              |
 
 ## Disclaimer
 
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/ConnectorActionableMsgs/03-adaptive-cards" />

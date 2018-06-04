@@ -45,7 +45,8 @@ This exercise will walk you through designing an Adaptive Card and sending it vi
 
 1. On the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) page, select **Load a Sample...**.
 
-1. In the **Open file** dialog, select the file **LabFiles/message-payground/supportTicketCard.json**.
+1. In the **Open file** dialog, select the file **LabFiles/MessageCardPlayground/supportTicketCard.json**.
+
 
     ![Screenshot of MessageCard Playground file open menu.](Images/LabPlaygroundOpen.png)
 
@@ -157,9 +158,12 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
               "method": "POST",
               "title": "OK",
               "url": "[ngrok-url-here]/api/ticket",
-              "headers": {
-                "content-type": "application/json"
-              },
+              "headers": [
+                {
+                  "name":"content-type",
+                  "value": "application/json"
+                }
+              ],
               "body": "{ 'comment' : '{{comment.value}}' }"
             }
           ]
@@ -315,7 +319,7 @@ In this exercise, a web service will handle the calls from Microsoft Outlook to 
       /// <param name="value">Value from the POST request body.</param>
       /// <returns>The asynchronous task.</returns>
       // POST api/ticket
-      public async Task<HttpResponseMessage> Post([FromBody]string value)
+      public async Task<HttpResponseMessage> Post(Models.CardResponse cardResponse)
       {
         HttpRequestMessage request = this.ActionContext.Request;
 
@@ -362,29 +366,13 @@ In this exercise, a web service will handle the calls from Microsoft Outlook to 
         response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");
 
         // Further business logic code here to process the support ticket.
+        #region Business logic code here to process the support ticket.
+        #endregion
 
         return response;
       }
     }
     ```
-
-## Work-around
-
-The Adaptive Card processing in OWA does not send the headers. We need to process a content type of **text/plain**.
-
-1. Right-click on the project and choose **Add > Class**. Name the class **TextMediaTypeFormatter**.
-
-1. Update the content of the **TextMediaTypeFormatter** class with the code from the file **LabFiles/support-desk/TextMediaTypeFormatter.cs**.
-
-1. Update the **Global.asax.cs** class by adding the following to the end of the `Application_Start` method.
-
-    ```csharp
-    // Work-around until Outlook sends headers.
-    // Add a reference here to the new MediaTypeFormatter that adds text/plain support
-    GlobalConfiguration.Configuration.Formatters.Insert(0, new TextMediaTypeFormatter());
-    ```
-
-1. Run the web project. If prompted, choose to trust the development certificate.
 
 ### Interact with the card
 
@@ -394,7 +382,7 @@ The Adaptive Card processing in OWA does not send the headers. We need to proces
 
     Outlook will POST the input from the card to the ngrok tunnel which will forward the request to the WebAPI project. The project simply replies with a specific header: `response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");`
 
-    The value of the header is rendered at the bottom of the card.
+    The value of the header is rendered in a pop-up dialog.
 
     ![Screenshot of card action status.](Images/CardActionStatus.png)
 
@@ -463,6 +451,12 @@ The Action.Http element is not part of the Adaptive Cards SDK. This action is an
       public DateTime CommentDate { get; set; }
       public string CommentText { get; set; }
     }
+
+    public class CardResponse
+    {
+      public string Comment { get; set; }
+      public string CachedComents { get; set; }
+    }
     ```
 
 ### Add base card definition
@@ -503,12 +497,11 @@ The refresh card follows a format similar to the rest of the lab. The base defin
     #region Business logic code here to process the support ticket.
     List<Models.Comment> comments = new List<Models.Comment>();
 
-    JObject requestObject = JObject.Parse(value);
-    string newComment = (string)requestObject["comment"];
+    string newComment = cardResponse.Comment;
 
-    JArray cachedComments = (JArray)requestObject["cachedComments"];
-    if (cachedComments != null)
+    if (cardResponse.CachedComments != null)
     {
+      JArray cachedComments = (JArray)cardResponse.CachedComments;
       comments.AddRange(cachedComments.ToObject<List<Models.Comment>>());
     }
 
@@ -589,9 +582,9 @@ The refresh card follows a format similar to the rest of the lab. The base defin
               {
                 new AdaptiveTextInput()
                 {
-                  Id ="comment",
-                  IsMultiline =true,
-                  Placeholder ="Enter your comment"
+                  Id = "comment",
+                  IsMultiline = true,
+                  Placeholder = "Enter your comment"
                 }
               }
             },
@@ -607,8 +600,8 @@ The refresh card follows a format similar to the rest of the lab. The base defin
                       "Content-Type","application/json"
                     }
                   },
-                  Title ="OK",
-                  UrlString =$"{WebServiceHost}/api/Ticket",
+                  Title = "OK",
+                  UrlString = $"{WebServiceHost}/api/Ticket",
                   Body = httpBody.ToString()
                 }
               }

@@ -20,7 +20,7 @@
     /// <param name="value">Value from the POST request body.</param>
     /// <returns>The asynchronous task.</returns>
     // POST api/ticket
-    public async Task<HttpResponseMessage> Post([FromBody]string value)
+    public async Task<HttpResponseMessage> Post(CardResponse cardResponse)
     {
       HttpRequestMessage request = this.ActionContext.Request;
 
