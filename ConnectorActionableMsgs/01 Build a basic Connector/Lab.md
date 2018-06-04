@@ -4,9 +4,9 @@ In this lab, you will learn the steps to create and send connector cards to Offi
 
 ## In this lab
 
-1. [Create a card payload and submit it via an incoming webhook](#exercise1)
-1. [Add functionality to an existing web site](#exercise2)
-1. [Sideload connector to Microsoft Teams](#exercise3)
+1. [Create a card payload and submit it via an incoming webhook](#Exercise_1:_Create_a_card_payload_and_submit_it_via_an_incoming_webhook)
+1. [Add functionality to an existing web site](#Exercise_2:_Add_connector_functionality_to_existing_website)
+1. [Sideload connector to Microsoft Teams](#Exercise_3:_Sideload_the_Connector_to_Microsoft_Teams)
 
 ## Prerequisites
 
@@ -25,8 +25,6 @@ This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS 
 #### Code editors
 
 The steps and code samples in this lab use [Visual Studio 2017](https://www.visualstudio.com/) for websites using C#.
-
-<a name="exercise1"></a>
 
 ## Exercise 1: Create a card payload and submit it via an incoming webhook
 
@@ -60,8 +58,12 @@ In this exercise, you will copy an example card from the Message Card Playground
 
     ![Screenshot of message card sample](Images/Exercise1-04.png)
 
-    > Note: The image in this lab uses the **Connectors reference example**, but that is not required.
+    > Note: The image in this lab uses the **MessageCard layout emulation**, but that is not required.
 
+    >Note: If you get an error that the post request failed, "Error: Summary or Text is required". Please add the following property to the JSON sample right under the "version" property and before the "body" property.
+    ```html
+    "summary", "Your Subject Goes Here"
+    ```
 1. After selecting an example, choose **Send via WebHook**.
 1. Enter the URL copied earlier from the Group Connector configuration panel.
 1. Select **OK**. The card will display in the Microsoft Outlook group conversation display. (You may have to select the **New Activity** indicator to see the card.)
@@ -85,8 +87,6 @@ It is not necessary to use the playground website to send test messages. Any fac
     ![Screenshot of PowerShell command](Images/Exercise1-06.png)
 
     > The `Invoke-RestMethod` cmdlet will return **1** to indicate success.
-
-<a name="exercise2"></a>
 
 ## Exercise 2: Add connector functionality to existing website
 
@@ -298,7 +298,7 @@ This exercise will add connector functionality to an existing website. First, a 
 
 1. Press **F5** to build and run the project. Verify that the setup page is available by appending `/connector/setup` to the localhost URL. In this example `http://localhost:20455/connector/setup`.
 
-    ![Screenshot of project URL](Images/Exercise2-03.png)
+    ![Screenshot of setup page](Images/Exercise2-03.png)
 
 1. Stop debugging.
 
@@ -310,11 +310,7 @@ This exercise will add connector functionality to an existing website. First, a 
 
     >Note: If this were a real solution you would want to enable SSL Encryption (by changing the value to true) because the connector requires it.  During testing ngrok is handling the HTTPS->HTTP redirection.
 
-    ```html
-    <p align="center">
-        <img src="Images/Exercise2-04.png">
-    </p>
-    ```
+    ![Screenshot of project URL](Images/Exercise2-04.png)
 
 1. Open a new **Command Prompt** window.
 
@@ -324,11 +320,7 @@ This exercise will add connector functionality to an existing website. First, a 
 
 1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
-    ```html
-    <p align="center">
-    <img src="Images/Exercise2-05.png">
-    </p>
-    ```
+    ![Screenshot of ngrok command prompt](Images/Exercise2-05.png)
 
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
 
@@ -379,8 +371,6 @@ Following the steps found on [docs.microsoft.com](https://docs.microsoft.com/en-
     ![Screenshot of welcome message from Connector](Images/Exercise2-09.png)
 
 This completes Exercise 2.
-
-<a name="exercise3"></a>
 
 ## Exercise 3: Sideload the Connector to Microsoft Teams
 
@@ -437,7 +427,7 @@ The Connector is now sideloaded into the Microsoft Teams application.
 
     ![Screenshot of connectors list in Microsoft Teams](Images/Exercise3-06.png)
 
-1. An dialog window is shown with the general and notification information described on the Connector Developer portal. Select the **Visit site to install** button.
+1. A dialog window is shown with the general and notification information described on the Connector Developer portal. Select the **Visit site to install** button.
 
     ![Screenshot of information dialog in Microsoft Teams](Images/Exercise3-07.png)
 

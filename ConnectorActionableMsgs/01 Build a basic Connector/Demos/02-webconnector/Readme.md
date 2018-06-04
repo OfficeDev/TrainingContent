@@ -2,7 +2,7 @@
 
 This demo adds connector functionality to an existing website. First, a new website must be created. The following steps create a default MVC website and walk through the steps for adding a connector. All code can be found in the [Lab Files](../../Lab%20Files) folder, which was based on an application with the name **WebApplication1**.
 
-To run this demo, perfom the following steps:
+To run this demo, perform the following steps:
 
 1. Open **Visual Studio 2017**
 
@@ -210,11 +210,11 @@ To run this demo, perfom the following steps:
 
 1. Press **F5** to build and run the project. Verify that the setup page is available by appending `/connector/setup` to the localhost URL. In this example `http://localhost:20455/connector/setup`.
 
-    ![Screenshot of project URL](../../Images/Exercise2-03.png)
+    ![Screenshot of setup page](../../Images/Exercise2-03.png)
 
 1. Stop debugging.
 
-### Run the ngrok secure tunnel application
+## Run the ngrok secure tunnel application
 
 1. Choose the **csproj** file and select **F4** to display the Properties pane.
 
@@ -222,11 +222,7 @@ To run this demo, perfom the following steps:
 
     >Note: If this were a real solution you would want to enable SSL Encryption (by changing the value to true) because the connector requires it.  During testing ngrok is handling the HTTPS->HTTP redirection.
 
-    ```html
-    <p align="center">
-        <img src="Images/Exercise2-04.png">
-    </p>
-    ```
+    ![Screenshot of project URL](Images/Exercise2-04.png)
 
 1. Open a new **Command Prompt** window.
 
@@ -236,15 +232,11 @@ To run this demo, perfom the following steps:
 
 1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
-    ```html
-    <p align="center">
-    <img src="Images/Exercise2-05.png">
-    </p>
-    ```
+    ![Screenshot of ngrok command prompt](Images/Exercise2-05.png)
 
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
 
-### Register the connector
+## Register the connector
 
 Following the steps found on [docs.microsoft.com](https://docs.microsoft.com/en-us/outlook/actionable-messages/connectors-dev-dashboard#build-your-own-connector), register a connector for Office 365. Make sure you are using an account that has access to Microsoft Outlook to test later.
 

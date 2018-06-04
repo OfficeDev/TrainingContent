@@ -32,7 +32,12 @@ To run this demo, perform the following steps from the lab:
 
     ![Screenshot of message card sample](../../Images/Exercise1-04.png)
 
-    > Note: The image in this lab uses the **Connectors reference example**, but that is not required.
+    > Note: The image in this lab uses the **MessageCard layout emulation**, but that is not required.
+
+    >Note: If you get an error that the post request failed, "Error: Summary or Text is required". Please add the following property to the JSON sample right under the "version" property and before the "body" property.
+    ```html
+    "summary", "Your Subject Goes Here"
+    ```
 
 1. After selecting an example, choose **Send via WebHook**.
 1. Enter the URL copied earlier from the Group Connector configuration panel.

@@ -2,7 +2,7 @@
 
 To complete this demo, the prerequisites for developing Apps for Microsoft Teams must be completed. The setup steps are detailed on the [Getting Started page](https://msdn.microsoft.com/en-us/microsoft-teams/setup). Pay special attention to the sections **Prepare your Office 365 tenant** and **Use Teams App Studio**.
 
-To run this demo, perfom the following steps:
+To run this demo, perform the following steps:
 
 ## Sideload app into Microsoft Teams
 
@@ -55,7 +55,7 @@ The Connector is now sideloaded into the Microsoft Teams application.
 
     ![Screenshot of connectors list in Microsoft Teams](../../Images/Exercise3-06.png)
 
-1. An dialog window is shown with the general and notification information described on the Connector Developer portal. Select the **Visit site to install** button.
+1. A dialog window is shown with the general and notification information described on the Connector Developer portal. Select the **Visit site to install** button.
 
     ![Screenshot of information dialog in Microsoft Teams](../../Images/Exercise3-07.png)
 
