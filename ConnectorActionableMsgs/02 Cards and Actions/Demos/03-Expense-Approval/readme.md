@@ -33,7 +33,7 @@ When the Web API is called, the application needs to validate the OAuth bearer t
 1. In Visual Studio, add a folder named **Models** and add a class named **ValidationModel**. Replace the code with the following:
 
     ````csharp
-    using Microsoft.O365.ActionableMessages.Authentication;
+    using Microsoft.O365.ActionableMessages.Utilities;
     using System.Net.Http;
 
     namespace ExpenseApproval.Models
@@ -53,7 +53,7 @@ When the Web API is called, the application needs to validate the OAuth bearer t
 
     ````csharp
     using ExpenseApproval.Models;
-    using Microsoft.O365.ActionableMessages.Authentication;
+    using Microsoft.O365.ActionableMessages.Utilities;
     using System;
     using System.Configuration;
     using System.Net;
@@ -230,7 +230,7 @@ The JSON contains placeholders that are replaced with actual values by the code.
 
 ## Implement the controller
 
-1. Rename the default controller class named **ValuesController** to **ExpenseController**. Replace the class contents with the following.
+1. Add a new controller class named **ExpenseController**. Replace the class contents with the following.
 
     ````csharp
     using ExpenseApproval.Helpers;

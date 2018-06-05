@@ -14,25 +14,21 @@ This demo requires an Office 365 subscription with an active mailbox and a **Mic
 
     The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. Each of these samples provides an interesting component of the syntax used to design a card. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
 
-1. In the drop-down menu, choose **Twitter - Hero Image**.
+1. In the drop-down menu, choose **GitHub - Issue opened**.
 
-    ![Screenshot of hero image sample card.](../../Images/twitterheroimage.png)
+    ![Screenshot of GitHub - Issue opened card.](Images/Exercise1_02.png)
 
 ## Modify a sample
 
-1. Edit the `activityTitle` element to surround it with three asterisks instead of two:
+1. Edit the `activityTitle` element to surround it with two asterisks instead of none:
 
-    ![Screenshot of hero image sample code with activity title highlighted.](../../Images/activitytitle.png)
+    ![Screenshot of Microsoft Flow approval with title highlighted.](Images/Exercise1_03.png)
 
     >Note: You can use basic markdown formatting for text elements within the card.
 
-1. Open your browser and go to the [SpaceX Twitter page](https://twitter.com/SpaceX/status/908827608678244352) from September 15, 2017.
+1. Open your browser and go to the [Training Content Issue 493](https://github.com/OfficeDev/TrainingContent/issues/493).
 
-    ![Screenshot of SpaceX Twitter account.](../../Images/spacextwitter.png)
-
-1. Replace the `activitySubtitle`, `activityText`, and `heroImage` properties to reflect the information shown in that tweet.
-
-1. Change the `potentialAction` element to use the OpenUri URL to the tweet.
+    ![Screenshot of GitHub Training Content Issue 493.](Images/Exercise1_04.png)
 
 1. Replace the JSON in the MessageCard Playground app with the following code:
 
@@ -40,48 +36,54 @@ This demo requires an Office 365 subscription with an active mailbox and a **Mic
     {
       "@type": "MessageCard",
       "@context": "http://schema.org/extensions",
-      "themeColor": "E81123",
+      "summary": "Issue 176715375",
+      "themeColor": "0078D7",
+      "title": "Issue opened: \"Is the Stock Service Down?\"",
       "sections": [
         {
-          "activityTitle": "**SpaceX**",
-          "activitySubtitle": "@SpaceX - 15 Sep 2017",
-          "activityImage": "https://pbs.twimg.com/profile_images/671865418701606912/HECw8AzK_400x400.jpg",
-          "activityText": "After a month-long stay at the @Space_Station, Dragon returns to Earth on Sunday, September 17 → [https://go.nasa.gov/2h3ysMu](https://go.nasa.gov/2h3ysMu)",
-          "heroImage": {
-                    "image": "https://pbs.twimg.com/media/DJtJmfMUEAAmwEj.jpg"
-          },
-          "potentialAction": [
+          "activityTitle": "MatthewMcD",
+          "activitySubtitle": "5/20/2018, 12:36pm",
+          "activityImage": "https://avatars1.githubusercontent.com/u/7558738?s=460&v=4",
+          "facts": [
             {
-              "@type": "OpenUri",
-              "name": "View in Twitter",
-              "targets": [
-                {
-                  "os": "default",
-                  "uri": "https://twitter.com/SpaceX/status/908827608678244352"
-                }
-              ]
+              "name": "Repository:",
+              "value": "OfficeDev\\TrainingContent"
+            },
+            {
+              "name": "Issue #:",
+              "value": "493"
             }
+          ],
+          "text": "Attempting the Office Add-In modules. Attempting to connect to https://estx.azurewebsites.net/api/quote/msft and getting 500 Server Error. Who controls that endpoint?"
+        }
+      ],
+      "potentialAction": [
+        {
+          "@type": "OpenUri",
+          "name": "View in GitHub",
+          "targets": [
+            { "os": "default", "uri": "https://github.com/OfficeDev/TrainingContent/issues/493" }
           ]
         }
       ]
     }
     ````
 
-    ![Screenshot of JSON and Twitter card side by side.](../../Images/updatedspacex.png)
+    ![Screenshot of JSON and GitHub - Issue opened card side by side.](Images/Exercise1_05.png)
 
-    The message card now reflects a different tweet. This demonstrates how your application can change the information in a card and send it to a user or group.
+    The message card now reflects a different GitHub issue. This demonstrates how your application can change the information in a card and send it to a user or group.
 
-1. Select the **View in Twitter** button to see the new tweet.
+1. Select the **View in GitHub** button to see the issue.
 
-    ![Screenshot of action message in MessageCard Playground app.](../../Images/sandboxaction.png)
+    ![Screenshot of action message in MessageCard Playground app.](Images/Exercise1_06.png)
 
     Actions in the MessageCard Playground app are disabled, only prompting the information that you provided in the card. However, you can send the card to your Office 365 email account to view the card and interact with its actions.
 
 1. Select the **Send via Email** button to send the card to yourself in email. If you are not logged in to the MessageCard Playground it will prompt you to log in and then ask for your consent.  When consent is given the MessageCard Playground page will reload and you will need to load the sample again.
 
-    ![Screenshot of test message card in email.](../../Images/spacexcardemail.png)
+    ![Screenshot of test message card in email.](Images/Exercise1_07.png)
 
-1. Select the **View in Twitter** button and see that your browser opens and the original Twitter page is displayed.
+1. Select the **View in GitHub** button and see that your browser opens and the original GitHub issue page is displayed.
 
 1. Explore the other samples in the MessageCard Playground app. These are good references to use as a basis for your own card design.
 
