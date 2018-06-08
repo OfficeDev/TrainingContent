@@ -275,3 +275,5 @@ As you test the bot, you will notice that the character count is not correct. Yo
 9. Observe the random number the Bot returns. 
 
 Congratulations! You have created a simple Bot and added it to Microsoft Teams.
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/03-bots" />

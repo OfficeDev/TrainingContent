@@ -1,15 +1,18 @@
 # Getting Started with the Microsoft Graph
-----------
 
 This GitHub repository folder houses all of the content for the "Getting started with SharePoint Framework" training.
 
 - Module 01: [Getting started in Office 365 with the Microsoft Graph API](./01%20Getting%20started%20in%20Office%20365%20with%20the%20Microsoft%20Graph%20API)
-- Module 01-1: [Building Graph Applications](01-1%20Building%20Graph%20Applications)
-- Module 01-2: [Authenticate and connect with Microsoft Graph](01-2%20Authenticate%20and%20connect%20with%20Microsoft%20Graph)
 - Module 02: [Deep Dive into Azure AD in Office 365 with the Microsoft Graph API](02%20Deep%20Dive%20into%20Azure%20AD%20in%20Office%20365%20with%20the%20Microsoft%20Graph%20API)
 - Module 03: [Deep Dive into the Office 365 Unified API](03%20Deep%20Dive%20into%20the%20Office%20365%20Unified%20API)
 - Module 04: [Mobile](04%20Mobile)
 - Module 05: [Deep dive into native Universal Windows App Development with Office 365 APIs](05%20Deep%20dive%20into%20native%20Universal%20Windows%20App%20Development%20with%20Office%20365%20APIs)
+
+Some modules have been relocated to their own repositories under the [Microsoft Graph organization in Github](https://github.com/microsoftgraph). Please refer to those additional modules in addition to the ones found above:
+
+- [Building Microsoft Graph Applications](https://github.com/microsoftgraph/msgraph-training-building-apps)
+- [Authenticate and Connect to Microsoft Graph](https://github.com/microsoftgraph/msgraph-training-authentication)
+- [Microsoft Graph Capabilities](https://github.com/microsoftgraph/msgraph-training-webhooks-customdata-insights)
 
 ----------
 

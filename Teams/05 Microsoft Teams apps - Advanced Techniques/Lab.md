@@ -1,4 +1,5 @@
 # Microsoft Teams apps - Advanced Techniques
+
 In this lab, you will use advanced techniques to build a more-sophisticated bot, a compose extension and a Microsoft Teams app that has multiple components.
 
 ## Table of Contents
@@ -9,9 +10,10 @@ In this lab, you will use advanced techniques to build a more-sophisticated bot,
 
 ## Prerequisites
 
-Refer to the Prerequisites section in the [lab manual for Module 4](../04 Fundamentals of Microsoft Teams).
+Refer to the Prerequisites section in the [lab manual for Module 4](../04 Fundamentals of Microsoft Teams/Lab.md#prerequisites).
 
 <a name="exercise1"></a>
+
 ## Exercise 1: Advanced Teams Bot capabilities
 
 This section of the lab creates a Bot Framework bot and extends it with Microsoft Teams functionality. In this exercise, you will create a bot to interact with the Teams API.
@@ -51,9 +53,8 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 ### Register the bot
 
-1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
-1. Click **Register**. (If the Register button is not shown, click **My bots** in the top navigation.)
-1. Complete the Bot profile section, entering a Display name, Bot handle and description.
+1. Go to the Microsoft Bot Framework portal at https://dev.botframework.com/bots/new and sign in. (The bot registration portal accepts a Work or School Account or a Microsoft Account.)
+1. Complete the Bot profile section, entering a Display name, unique Bot handle and description.
 
     ![](Images/Exercise1-04.png)
 
@@ -99,7 +100,7 @@ Packaging a bot for Microsoft Teams requires that a manifest file (and related r
 
 Perform the following in Visual Studio.
 
-1.  Right-click on the project, choose Add | New Folder. Name the folder **Manifest**.
+1. Right-click on the project, choose Add | New Folder. Name the folder **Manifest**.
 1. Add the displayed files from the **Lab Files** folder of this repository.
 
     ![](Images/Exercise1-08.png)
@@ -177,18 +178,18 @@ Perform the following in Visual Studio.
 
 The Microsoft Teams engineering group built and maintains extensions to the Bot Builder SDK. These packages (for .Net  and Node.js) extend the basic Bot Builder classes and methods with the following:
 
-* Specialized Teams card types like the Office 365 Connector card
-* Consuming and setting Teams-specific channel data on activities
-* Processing compose extension requests
-* Handling rate limiting
+- Specialized Teams card types like the Office 365 Connector card
+- Consuming and setting Teams-specific channel data on activities
+- Processing compose extension requests
+- Handling rate limiting
 
 Both packages install dependencies, including the Bot Builder SDK.
 
 In Visual Studio, install the **Microsoft.Bot.Connector.Teams** package via the **Package Manager Console**:
 
-```powershell
-Install-Package Microsoft.Bot.Connector.Teams
-```
+  ```powershell
+  Install-Package Microsoft.Bot.Connector.Teams
+  ```
 
 ### Update bot to send 1:1 message when added and to new team members
 
@@ -336,11 +337,11 @@ Although not strictly necessary, in this lab the bot will be added to a new Team
 
 1. Enter a team name and description. In this example, the Team is named **teams-bot-1**. Click **Next**.
 1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
-1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **View team** from the context menu.
+1. The new team is shown. In the left-side panel, click the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![](Images/Exercise1-12.png)
 
-1. On the View team display, click **Apps** in the tab strip. Then click the **Sideload an app** link at the bottom right corner of the application.
+1. On the Manage team display, click **Apps** in the tab strip. Then click the **Upload a custom app** link at the bottom right corner of the application.
 1. Select the zip file (**teams-bot1.zip** in this example) from the *bin* folder. Click **Open**.
 1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
 
@@ -625,7 +626,11 @@ This section of the lab extends the bot from Exercise 1 with Microsoft Teams fun
           break;
 
         case ActivityTypes.Invoke:
-          await ComposeHelpers.HandleInvoke(activity);
+          var composeResponse = await ComposeHelpers.HandleInvoke(activity);
+          var stringContent = new StringContent(composeResponse);
+          HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
+          httpResponseMessage.Content = stringContent;
+          return httpResponseMessage;
           break;
 
         default:
@@ -816,6 +821,7 @@ The Compose Extension is configured for use in a Channel (due to the scopes ente
 This concludes Exercise 2.
 
 <a name="exercise3"></a>
+
 ## Exercise 3: Microsoft Teams Apps with multiple capabilities
 
 This section of the lab creates a Microsoft Teams app from the Tab and Bot created previously along with a connector.
@@ -832,7 +838,7 @@ In Microsoft Teams, full functionality for Office 365 Connectors is restricted t
 
     ![](Images/Exercise3-01.png)
 
-1. Select **Incoming Webhook** from the list, then click **Add**.
+1. Find **Incoming Webhook** in the list, click **Add** then **Install**.
 
   ![](Images/Exercise3-02.png)
 
@@ -848,8 +854,8 @@ In Microsoft Teams, full functionality for Office 365 Connectors is restricted t
 
     ```powershell
     $message = Get-Content .\sample-connector-message.json
-    $url = <YOUR WEBHOOK URL>
-    Invoke-RestMethod -ContentType="application/json" -Body $message -Uri <YOUR WEBHOOK URL> -Method Post
+    $url = "<YOUR WEBHOOK URL>"
+    Invoke-RestMethod -ContentType "application/json" -Body $message -Uri $url -Method Post
     ```
 
     ![](Images/Exercise3-03.png)
@@ -872,12 +878,13 @@ In Microsoft Teams, full functionality for Office 365 Connectors is restricted t
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this lab, but it must remain running.
 
 ### Office 365 Connector registration
+
 The following steps are used to register an Office 365 Connector.
 
 1. Register the Connector on the [Connectors Developer Dashboard](https://go.microsoft.com/fwlink/?LinkID=780623). Log on the the site and click **New Connector**.
 1. On the **New Connector** page:
 
-    1. Complete the Name and Description as appropriate for your connector.
+    1. Complete the Name and Description as appropriate for your connector. Upload the **bot-icon-blue-300x300.png** from the Lab Files folder for your logo.
 
         ![](Images/Exercise3-05.png)
 
@@ -897,7 +904,7 @@ The following steps are used to register an Office 365 Connector.
 
     1. Agree to the terms and conditions and click **Save**
 
-1. The registration page will refresh with additional buttons in the integration section. The buttons provide sample code for the **Landing** page and a `manifest.json` file for a Teams app. Save both of these assets.
+1. The registration page will refresh with additional buttons in the integration section. The buttons provide sample code for the **Landing** page and a `manifest.json` file for a Teams app. Save both of these assets. In a text editor paste the Landing page code copied from the registration page and replace all of the double quotes `"` with the single quote character `'`. You will need this code in a moment.
 
 ### Add Connector to existing Bot
 
@@ -924,7 +931,7 @@ In Visual Studio 2017, open the **teams-bot2** solution from the `Demos/02 - tea
     using System.Net.Http.Headers;
     ```
 
-1. Add the following `Landing` method to the `ConnectorController`.
+1. Add the following `Landing` method to the `ConnectorController` class.
 
     ```cs
     [HttpGet]
@@ -933,9 +940,7 @@ In Visual Studio 2017, open the **teams-bot2** solution from the `Demos/02 - tea
       var htmlBody = "<html><title>Set up connector</title><body>";
       htmlBody += "<H2>Adding your Connector Portal-registered connector</H2>";
       htmlBody += "<p>Click the button to initiate the registration and consent flow for the connector in the selected channel.</p>";
-      htmlBody += "<a href='https://outlook.office.com/connectors/Connect?state=myAppsState&app_id=ef5b13e5-261c-47f3-a7a8-6f00ef3b9930&callback_url=https://1ad3dcd5.ngrok.io/api/connector/redirect'>";
-      htmlBody += "<img src='https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png' alt='Connect to Office 365'></img >";
-      htmlBody += "</a>";
+      htmlBody += "[Landing Page Code]";
 
       var response = Request.CreateResponse(HttpStatusCode.OK);
       response.Content = new StringContent(htmlBody);
@@ -943,7 +948,7 @@ In Visual Studio 2017, open the **teams-bot2** solution from the `Demos/02 - tea
       return response;
     }
     ```
-
+1. Replace the `[Landing Page Code]` token with the landing page code you edited previously.
 1. Add the following `Redirect` method to the `ConnectorController` class.
 
     ```cs
@@ -989,11 +994,11 @@ In Visual Studio 2017, open the **teams-bot2** solution from the `Demos/02 - tea
 
     ![](Images/Exercise3-10.png)
 
-1. Click the **Connect to Office 365** button. Office 365 will process the registration flow, which may include login and Team/Channel selection. Make note of teh selected Teamd-Channel and click **Allow**.
+1. Click the **Connect to Office 365** button. Office 365 will process the registration flow, which may include login and Team/Channel selection. Make note of the selected Team-Channel and click **Allow**.
 
     ![](Images/Exercise3-12.png)
 
-1. The dialog will display the **Redirect** action which presents the information registration provided by Office 365. In a production application, this information must be presisted and used to sent notifications to the channel.
+1. The dialog will display the **Redirect** action which presents the information registration provided by Office 365. In a production application, this information must be persisted and used to sent notifications to the channel.
 
     ![](Images/Exercise3-13.png)
 

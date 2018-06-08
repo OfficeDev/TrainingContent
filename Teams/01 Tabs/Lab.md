@@ -338,11 +338,9 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 	````
 
 7. In the **Solution Explorer**, right click the project and select **Add | Existing Item**. Locate and select the **main.js** file from the [Lab Files](./Lab Files) folder, then click the **Add** button.
-8. Open the **main.js** file, replace the **&lt;TENANT&gt;** placeholder with the name of your tenant, the **&lt;CLIENTID&gt;** placeholder with the **Application ID** of the app you previously registered, and the **&lt;RELATIVE SITE URL&gt;** placeholder with the relative URL of your site within the default site collection(eg. /sites/example).
-
-	> **Note:** If you are using the root site of the default site collection, please replace the **&lt;RELATIVE SITE URL&gt;** placeholder with null.
-
-9. Replace the **&lt;BIKE DOCUMENTS&gt;** placeholder with the name of the SharePoint document library you previously created, the **&lt;BIKE INVENTORY&gt;** placeholder with the name of the SharePoint list you previously created, as well as replacing the **&lt;APPNAME&gt;** placeholder. 
+8. Open the **main.js** file, replace the **&lt;TENANT&gt;** placeholder with the name of your tenant, the **&lt;CLIENTID&gt;** placeholder with the **Application ID** of the app you previously registered, and the **&lt;RELATIVE SITE URL&gt;** placeholder with the relative url of your site.
+Example: example.sharepoint.com or /sites/example
+9. Replace the **&lt;BIKEDOCUMENTS&gt;** placeholder with the name of the SharePoint document library you previously created, the **&lt;BIKEINVENTORY&gt;** placeholder with the name of the SharePoint list you previously created, as well as replacing the **&lt;APPNAME&gt;** placeholder. 
 10. Save the file.
 11. Add an **HTML Page** named **logout.html** using the same steps you used to add the **configuration.html** file.
 12. Open the file **logout.html**, add the following code into the **&lt;body&gt;** section, then save the file.
@@ -355,7 +353,7 @@ Here you will use Visual Studio to create a web site to host the pages for the M
     </script>
 	````
 
-	> **Note:** Rhe logout.html is used as the post log out redirect page.
+	> **Note:** Page logout.html is used as the post log out redirect page.
 
 #### Add images to the project ####
 1. In the **Solution Explorer**, right click the project and select **Add | New Folder**. Name the folder **images**.
@@ -466,3 +464,6 @@ Here you will use Visual Studio to create a web site to host the pages for the M
 	>**Note:** The Check in and Check out functionality is a simulation.  Nothing is actually happening to any data sources when you click these buttons.
 
 Congratulations! You have created an web site and added it as a Tab in Microsoft Teams.
+
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/01-tabs" />
+

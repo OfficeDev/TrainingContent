@@ -1,7 +1,6 @@
 # Cards and Actions Using Outlook Actionable Messages – 300 Level
-----------------
-In this lab, you will walk through building building an Actionable Message card using the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) app.
 
+In this lab, you will walk through building building an Actionable Message card using the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) app.
 
 ## Prerequisites
 
@@ -10,7 +9,6 @@ This demo requires an Office 365 subscription with an active mailbox and a **Mic
 ## Setup
 
 This lab will use an Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new Web App using the Free pricing plan. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
-
 
 ## 1. Actionable Messages card design and MessageCard Playground
 
@@ -30,7 +28,7 @@ One of the simplest sample cards to start with is the **Twitter - Hero Image** s
 
 This card demonstrates basic text formatting with markdown, using images, and provides a sample of potential actions.
 
-### Modify a sample 
+### Modify a sample
 
 Edit the **activityTitle** element to surround it with three asterisks instead of two:
 
@@ -48,34 +46,35 @@ You will use the information on that page to see how to customize a card sample.
 
 ````json
 {
-	"@type": "MessageCard",
-	"@context": "http://schema.org/extensions",
-	"themeColor": "E81123",
-	"sections": [
-		{
-			"activityTitle": "**SpaceX**",
-			"activitySubtitle": "@SpaceX - 15 Sep 2017",
-			"activityImage": "https://pbs.twimg.com/profile_images/671865418701606912/HECw8AzK_400x400.jpg",
-			"activityText": "After a month-long stay at the @Space_Station, Dragon returns to Earth on Sunday, September 17 → [https://go.nasa.gov/2h3ysMu](https://go.nasa.gov/2h3ysMu)",
-			"heroImage": {
+  "@type": "MessageCard",
+  "@context": "http://schema.org/extensions",
+  "themeColor": "E81123",
+  "sections": [
+    {
+      "activityTitle": "**SpaceX**",
+      "activitySubtitle": "@SpaceX - 15 Sep 2017",
+      "activityImage": "https://pbs.twimg.com/profile_images/671865418701606912/HECw8AzK_400x400.jpg",
+      "activityText": "After a month-long stay at the @Space_Station, Dragon returns to Earth on Sunday, September 17 → [https://go.nasa.gov/2h3ysMu](https://go.nasa.gov/2h3ysMu)",
+      "heroImage": {
                 "image": "https://pbs.twimg.com/media/DJtJmfMUEAAmwEj.jpg"			    
-			},
-			"potentialAction": [
-				{
-					"@type": "OpenUri",
-					"name": "View in Twitter",
-					"targets": [
-						{
-							"os": "default",
-							"uri": "https://twitter.com/SpaceX/status/908827608678244352"
-						}
-					]
-				}
-			]
-		}
-	]
+      },
+      "potentialAction": [
+        {
+          "@type": "OpenUri",
+          "name": "View in Twitter",
+          "targets": [
+            {
+              "os": "default",
+              "uri": "https://twitter.com/SpaceX/status/908827608678244352"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ````
+
 ![](../../Images/updatedspacex.png)
 
 The message card now reflects a different tweet. This demonstrates how your application can change the information in a card and send it to a user or group.
@@ -92,7 +91,9 @@ Finally, click the **View in Twitter** button and see that your browser opens an
 Explore the other samples in the MessageCard Playground app. These are good references from which to base your own card design. 
 
 ### Create a card
+
 The card you will use for the rest of the lab represents a fictitious expense approval system and has the following markup:
+
 ````json
 {
     "@type": "MessageCard",
@@ -195,8 +196,9 @@ The card you will use for the rest of the lab represents a fictitious expense ap
         "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
       }
     ]
-  }  
+  }
 ````
+
 Note the *YOURWEBAPPNAME.azurewebsites.net* placeholder used in this sample. Replace it with the Azure Web App URL that you created earlier in this lab.
 
 **Replace** the JSON data in the MessageCard Playground app with this JSON data, making sure that the URL for your Azure Web App uses the https protocol.
@@ -206,4 +208,3 @@ Click **Send via Email** to send the card to yourself.
 Check your email and open the message. Click the **Approve** button. You will see text below the button that says "The action could not be completed." We have not yet registered the action or implemented the web site, we will do that in this lab.
 
 Finally, **save** the JSON representing the expense report to your file system. You will use this later in the lab.
-
