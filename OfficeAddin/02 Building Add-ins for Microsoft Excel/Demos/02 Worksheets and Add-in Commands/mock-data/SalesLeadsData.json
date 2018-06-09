@@ -1,0 +1,482 @@
+[
+ {
+   "Topic": "Expressed interest in A. Datum X line of printers",
+   "Account": "Northwind Traders",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "6/5/2016",
+   "Probability": 70,
+   "EstRevenue": 105689
+ },
+ {
+   "Topic": "Audio Equipment",
+   "Account": "Wide World Importers",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "4/20/2018",
+   "Probability": 10,
+   "EstRevenue": 871078
+ },
+ {
+   "Topic": "Interested in our newer offerings",
+   "Account": "A. Datum",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "7/9/2016",
+   "Probability": 60,
+   "EstRevenue": 75000
+ },
+ {
+   "Topic": "Printers",
+   "Account": "Adventure Works",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "7/15/2018",
+   "Probability": 80,
+   "EstRevenue": 493130
+ },
+ {
+   "Topic": "Video Hardware Upgrade",
+   "Account": "Adventure Works",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "11/30/2018",
+   "Probability": 30,
+   "EstRevenue": 475000
+ },
+ {
+   "Topic": "Refrigeration Smart Sensors",
+   "Account": "Tailspin Toys",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "12/6/2016",
+   "Probability": 40,
+   "EstRevenue": 35500
+ },
+ {
+   "Topic": "4G Enabled Tablets",
+   "Account": "Southridge Video",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "5/6/2018",
+   "Probability": 60,
+   "EstRevenue": 32575
+ },
+ {
+   "Topic": "Home Electronic Systems Upgrade",
+   "Account": "Fourth Coffee",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "1/12/2016",
+   "Probability": 20,
+   "EstRevenue": 314200
+ },
+ {
+   "Topic": "Home PC",
+   "Account": "Adventure Works",
+   "Owner": "Amy Alberts",
+   "EstCloseDate": "8/31/2018",
+   "Probability": 20,
+   "EstRevenue": 2470860
+ },
+ {
+   "Topic": "Notebooks",
+   "Account": "City Power & Light",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "8/31/2016",
+   "Probability": 60,
+   "EstRevenue": 8844147
+ },
+ {
+   "Topic": "Mobile Computing",
+   "Account": "Tailspin Toys",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "2/2/2016",
+   "Probability": 40,
+   "EstRevenue": 222600
+ },
+ {
+   "Topic": "Mobile Computing Purchase",
+   "Account": "Blue Yonder Airlines",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "3/1/2016",
+   "Probability": 40,
+   "EstRevenue": 218750
+ },
+ {
+   "Topic": "Mobile Computing Expansion",
+   "Account": "Northwind Traders",
+   "Owner": "David So",
+   "EstCloseDate": "7/17/2018",
+   "Probability": 40,
+   "EstRevenue": 2160000
+ },
+ {
+   "Topic": "Product SKU JJ202",
+   "Account": "Adventure Works",
+   "Owner": "Dan Jump",
+   "EstCloseDate": "12/9/2018",
+   "Probability": 80,
+   "EstRevenue": 2134000
+ },
+ {
+   "Topic": "PC Selection",
+   "Account": "Humongous Insurance",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "7/13/2016",
+   "Probability": 60,
+   "EstRevenue": 209568
+ },
+ {
+   "Topic": "Video Hardware Update",
+   "Account": "Fourth Coffee",
+   "Owner": "Dan Jump",
+   "EstCloseDate": "8/10/2018",
+   "Probability": 50,
+   "EstRevenue": 2086850
+ },
+ {
+   "Topic": "PC",
+   "Account": "Fabrikam, Inc.",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "12/10/2018",
+   "Probability": 70,
+   "EstRevenue": 207812
+ },
+ {
+   "Topic": "Computers",
+   "Account": "Tailspin Toys",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "5/31/2016",
+   "Probability": 60,
+   "EstRevenue": 200000
+ },
+ {
+   "Topic": "Portable Computing",
+   "Account": "Northwind Traders",
+   "Owner": "Molly Clark",
+   "EstCloseDate": "7/27/2018",
+   "Probability": 60,
+   "EstRevenue": 2000000
+ },
+ {
+   "Topic": "Laptops",
+   "Account": "Proseware, Inc.",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "5/26/2016",
+   "Probability": 40,
+   "EstRevenue": 136120
+ },
+ {
+   "Topic": "Some interest in our JJ line of products",
+   "Account": "City Power & Light",
+   "Owner": "Molly Clark",
+   "EstCloseDate": "5/19/2018",
+   "Probability": 40,
+   "EstRevenue": 1023000
+ },
+ {
+   "Topic": "Home Electronics Consolidation",
+   "Account": "The Phone Company",
+   "Owner": "Molly Clark",
+   "EstCloseDate": "6/15/2018",
+   "Probability": 60,
+   "EstRevenue": 900000
+ },
+ {
+   "Topic": "Home Entertainment",
+   "Account": "Fourth Coffee",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "6/8/2018",
+   "Probability": 50,
+   "EstRevenue": 807500
+ },
+ {
+   "Topic": "Video Recording Equipment",
+   "Account": "Adventure Works",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "5/10/2018",
+   "Probability": 60,
+   "EstRevenue": 607000
+ },
+ {
+   "Topic": "Notebook Upgrade",
+   "Account": "The Phone Company",
+   "Owner": "Dan Jump",
+   "EstCloseDate": "4/29/2018",
+   "Probability": 50,
+   "EstRevenue": 409700
+ },
+ {
+   "Topic": "Personal Mobile Devices",
+   "Account": "Proseware, Inc.",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "9/29/2016",
+   "Probability": 60,
+   "EstRevenue": 298500
+ },
+ {
+   "Topic": "CRM Implementation for Alpine",
+   "Account": "Alpine Ski Shop",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "9/15/2016",
+   "Probability": null,
+   "EstRevenue": 240000
+ },
+ {
+   "Topic": "Chic CRM - Opportunity 2",
+   "Account": "Chic Department Stores",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "11/15/2016",
+   "Probability": 80,
+   "EstRevenue": 240000
+ },
+ {
+   "Topic": "CRM Implementation for Chic - NA Opp",
+   "Account": "Chic Department Stores",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "2/15/2016",
+   "Probability": 80,
+   "EstRevenue": 2190000
+ },
+ {
+   "Topic": "Likely order SKU M1600 & M1650 this year",
+   "Account": "Alpine Ski House",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "6/5/2016",
+   "Probability": 60,
+   "EstRevenue": 6987500
+ },
+ {
+   "Topic": "Chic CRM - Opportunity 5",
+   "Account": "Chic Department Stores",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "8/25/2016",
+   "Probability": 80,
+   "EstRevenue": 180000
+ },
+ {
+   "Topic": "CRM Implementation for Chic - APAC Opp",
+   "Account": "Chic Department Stores",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "10/15/2016",
+   "Probability": 80,
+   "EstRevenue": 1700000
+ },
+ {
+   "Topic": "Chic CRM - Opportunity 4",
+   "Account": "Chic Department Stores",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "2/15/2016",
+   "Probability": 80,
+   "EstRevenue": 8600001
+ },
+ {
+   "Topic": "Chic CRM - Opportunity 3",
+   "Account": "Chic Department Stores",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "5/15/2016",
+   "Probability": 80,
+   "EstRevenue": 5140000
+ },
+ {
+   "Topic": "Video Streaming Equipment",
+   "Account": "The Phone Company",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "9/2/2016",
+   "Probability": 80,
+   "EstRevenue": 9125000
+ },
+ {
+   "Topic": "Computer Upgrade",
+   "Account": "Alpine Ski House",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "4/17/2016",
+   "Probability": 60,
+   "EstRevenue": 4993375
+ },
+ {
+   "Topic": "RM Tool",
+   "Account": "Active Transport Inc.",
+   "Owner": "SYSTEM",
+   "EstCloseDate": "2/15/2017",
+   "Probability": 50,
+   "EstRevenue": 80000
+ },
+ {
+   "Topic": "Video Broadcasting Equipment Upgrade",
+   "Account": "Nonskid Tire Company",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "6/29/2018",
+   "Probability": 40,
+   "EstRevenue": 74820
+ },
+ {
+   "Topic": "Installing E1000 System in Coffeehouses",
+   "Account": "Fourth Coffee",
+   "Owner": "Molly Clark",
+   "EstCloseDate": "4/8/2018",
+   "Probability": 80,
+   "EstRevenue": 67500
+ },
+ {
+   "Topic": "Ready to buy product SKU E Series",
+   "Account": "Fabrikam, Inc.",
+   "Owner": "Anne Weiler",
+   "EstCloseDate": "9/19/2018",
+   "Probability": 60,
+   "EstRevenue": 40450
+ },
+ {
+   "Topic": "Home Electronics",
+   "Account": "Fabrikam, Inc.",
+   "Owner": "Sven Mortensen",
+   "EstCloseDate": "9/13/2016",
+   "Probability": 80,
+   "EstRevenue": 36314
+ },
+ {
+   "Topic": "Likely will order 18 of SKU JJ202 this year",
+   "Account": "Alpine Ski House",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "12/20/2017",
+   "Probability": 90,
+   "EstRevenue": 30000
+ },
+ {
+   "Topic": "need to follow up",
+   "Account": "Contoso Pharmaceuticals",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "1/23/2018",
+   "Probability": 95,
+   "EstRevenue": 26000
+ },
+ {
+   "Topic": "Needs to restock SKU AX305; will buy 25-50",
+   "Account": "Blue Yonder Airlines",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "11/17/2017",
+   "Probability": 30,
+   "EstRevenue": 25000
+ },
+ {
+   "Topic": "Will be ordering about 110 items of all types",
+   "Account": "Coho Winery",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "2/21/2018",
+   "Probability": 80,
+   "EstRevenue": 25000
+ },
+ {
+   "Topic": "Small Personal Electronics",
+   "Account": "Tailspin Toys",
+   "Owner": "SYSTEM",
+   "EstCloseDate": "6/9/2018",
+   "Probability": 60,
+   "EstRevenue": 22368
+ },
+ {
+   "Topic": "Ultrabooks",
+   "Account": "Coho Winery",
+   "Owner": "Anne Weiler",
+   "EstCloseDate": "4/23/2018",
+   "Probability": 80,
+   "EstRevenue": 21990
+ },
+ {
+   "Topic": "CRM Ticketing Opportunity",
+   "Account": "Alpine Ski Shop",
+   "Owner": "SYSTEM",
+   "EstCloseDate": "2/15/2017",
+   "Probability": 80,
+   "EstRevenue": 20000
+ },
+ {
+   "Topic": "6 orders of Product SKU JJ202",
+   "Account": "Fabrikam, Inc.",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "9/20/2017",
+   "Probability": 90,
+   "EstRevenue": 10000
+ },
+ {
+   "Topic": "Cellphones",
+   "Account": "City Power & Light",
+   "Owner": "Molly Clark",
+   "EstCloseDate": "5/5/2018",
+   "Probability": 20,
+   "EstRevenue": 0
+ },
+ {
+   "Topic": "Audio Format",
+   "Account": "Northwind Traders",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "5/5/2018",
+   "Probability": 5,
+   "EstRevenue": 66000
+ },
+ {
+   "Topic": "Home Appliances",
+   "Account": "A. Datum",
+   "Owner": "SYSTEM",
+   "EstCloseDate": "5/15/2018",
+   "Probability": 80,
+   "EstRevenue": 0
+ },
+ {
+   "Topic": "Audio Output",
+   "Account": "Wide World Importers",
+   "Owner": "SYSTEM",
+   "EstCloseDate": "5/25/2018",
+   "Probability": 80,
+   "EstRevenue": 0
+ },
+ {
+   "Topic": "Mobile Device",
+   "Account": "Stylish Department Stores",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "5/28/2018",
+   "Probability": 60,
+   "EstRevenue": 11000
+ },
+ {
+   "Topic": "Audio Visual",
+   "Account": "Adventure Works",
+   "Owner": "SYSTEM",
+   "EstCloseDate": "6/14/2018",
+   "Probability": 80,
+   "EstRevenue": 0
+ },
+ {
+   "Topic": "Mobile Phones",
+   "Account": "Raw Materials Inc",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "6/17/2018",
+   "Probability": 40,
+   "EstRevenue": 13000
+ },
+ {
+   "Topic": "Sound System",
+   "Account": "Litware",
+   "Owner": "Christa Geller",
+   "EstCloseDate": "11/12/2018",
+   "Probability": 60,
+   "EstRevenue": 988888
+ },
+ {
+   "Topic": "Some interest in our products",
+   "Account": "Trey Research",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "3/19/2016",
+   "Probability": 20,
+   "EstRevenue": 99000
+ },
+ {
+   "Topic": "New store opened this year - follow up",
+   "Account": "A. Datum",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "4/12/2016",
+   "Probability": 60,
+   "EstRevenue": 150000
+ },
+ {
+   "Topic": "Interested in new cell phone release",
+   "Account": "School of Fine Art",
+   "Owner": "Sudhi Murthy",
+   "EstCloseDate": "10/10/2016",
+   "Probability": 40,
+   "EstRevenue": 88000
+ }
+]
