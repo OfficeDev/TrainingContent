@@ -1,6 +1,7 @@
 # Office Add-ins
 
-- [05 - Using Modern JavaScript](./05%20Using%20modern%20JavaScript)
+* [01 - Building Office Add-ins for Word](./01%20Building%20Add-ins%20for%20Microsoft%20Word)
+* [05 - Using Modern JavaScript](./05%20Using%20modern%20JavaScript)
 
 ----------
 
