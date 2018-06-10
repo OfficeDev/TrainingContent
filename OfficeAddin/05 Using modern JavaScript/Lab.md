@@ -4,19 +4,19 @@ In this lab, you will walk through building Office Add-ins using a variety of po
 
 ## In this lab
 
-1. [Build an Office Add-in using React](#exercise1)
-1. [Build an Office Add-in using Angular](#exercise2)
-1. [Build an Office Add-in using VueJS](#exercise3)
-1. [Sideload and Test the Office Add-in](#exercise4)
+1. [Build an Office Add-in using React](#exercise-1-build-an-office-add-in-using-react)
+1. [Build an Office Add-in using Angular](#exercise-2-build-an-office-add-in-using-angular)
+1. [Build an Office Add-in using VueJS](#exercise-3-build-an-office-add-in-using-vuejs)
+1. [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in)
 
 ## Prerequisites
 
 To complete this lab, you need the following:
 
 * A consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in.
-* A lightweight code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
-* [Node.js](https://nodejs.org/): Node is required to setup, build, and run the project. Node 6.9.0 or higher, together with NPM 3 or higher are recommended.
-* [Angular CLI](https://cli.angular.io/): The Angular CLI is used to provision the Angular web application in the [Build an Office Add-in using Angular](#OfficeAddinAngular) lab.
+* Code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
+* [Node.js](https://nodejs.org/) LTS: Node is required to setup, build, and run the project.
+* [Angular CLI](https://cli.angular.io/) v6: The Angular CLI is used to provision the Angular web application in the [Build an Office Add-in using Angular](#exercise-2-build-an-office-add-in-using-angular) exercise.
 
     ```shell
     npm install -g @angular/cli
@@ -28,13 +28,11 @@ To complete this lab, you need the following:
     npm install -g yo generator-office
     ```
 
->Note: Finished solutions are provided in the [Demos](./Demos) folder if you get stuck. If you want to run any of the finished solutions, clone the repository, run **npm install** (from the directory of the finished solution), then **npm run start** and follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
->
->Note: All three exercises in this lab build the same Microsoft Excel stock portfolio solution so you can compare the experience building Office Add-ins with different modern JavaScript tools and frameworks. The add-in will allow you to get real-time stock quotes and manage a portfolio in an Microsoft Excel table. You will have the ability to add, delete, and refresh stocks. Additionally, the add-in checks for an existing portfolio upon opening and (if found) reads the stocks out of the worksheet.
+* A free API key from [Alpha Vantage](https://www.alphavantage.co): Registration is free and you will use the API key when creating stock quote requests.
+
+> Note: All three exercises in this lab build the same Microsoft Excel stock portfolio solution so you can compare the experience building Office Add-ins with different modern JavaScript tools and frameworks. The add-in will allow you to get real-time stock quotes and manage a portfolio in an Microsoft Excel table. You will have the ability to add, delete, and refresh stocks. Additionally, the add-in checks for an existing portfolio upon opening and (if found) reads the stocks out of the worksheet.
 
 ![Animation of the Excel Portfolio Add-in](./Images/ExcelPortfolio.gif)
-
-<a name="Exercise1"></a>
 
 ## Exercise 1: Build an Office Add-in using React
 
@@ -60,15 +58,15 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     ![Office Yeoman Generator](./Images/YeomanReact.png)
 
-1. When then Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .`" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When then Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
-    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#Exercise4). In the next section, you will add additional functionality to the add-in.
+    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
 ### Develop the Office Add-in
 
-1. Open **src/assets/styles/global.scss** and add the following styles to the end of the file.
+1. Open **src/styles.less** and add the following styles to the end of the file.
 
-    ````css
+    ```css
     .container {
         .overlay {
             position: absolute;
@@ -121,13 +119,15 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
             margin-bottom: 5px;
         }
     }
-    ````
+    ```
 
-1. The project template that the Office Yeoman generator created include a number of React components that need to be updated or deleted. Delete the **src/components/hero-list.tsx** file.
+1. The project template that the Office Yeoman generator created include a number of React components that need to be updated or deleted.
 
-1. Open the **src/components/header.tsx** file and modify it as follows:
+    Delete the **src/components/HeroList.tsx** file.
 
-    ````typescript
+1. Open the **src/components/Header.tsx** file and replace the contents with the following code:
+
+    ```typescript
     import * as React from 'react';
 
     export interface HeaderProps {
@@ -145,505 +145,577 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                     <span className="ms-font-su ms-fontColor-white">{this.props.title}</span>
                 </div>
             );
-        };
-    };
-    ````
+        }
+    }
+    ```
 
-1. Create a new React component named **waiting** at **src/components/waiting.tsx** with the following code. This component uses the Office UI Fabric React Components for **Overlay** and **Spinner**.
+1. Create a new React component named **Waiting** in the **src/components** folder and add the following code.
 
-    ````typescript
-    import * as React from "react";
-    import { Overlay, Spinner, SpinnerSize } from "office-ui-fabric-react";
+    This component uses the Office UI Fabric React Components for **Overlay** and **Spinner**.
+
+    ```typescript
+    import * as React from 'react';
+    import { Overlay, Spinner, SpinnerSize } from 'office-ui-fabric-react';
 
     export class Waiting extends React.Component<any, any> {
-        constructor(props, context) {
-            super(props, context);
-        }
+      constructor(props, context) {
+        super(props, context);
+      }
 
-        render() {
-            return (
-                <Overlay isDarkThemed={ true } className="overlay">
-                    <div className="spinner">
-                        <Spinner size={SpinnerSize.large} />
-                    </div>
-                </Overlay>
-            );
-        };
-    };
-    ````
+      render() {
+        return (
+          <Overlay isDarkThemed={true} className="overlay">
+            <div className="spinner">
+              <Spinner size={SpinnerSize.large} />
+            </div>
+          </Overlay>
+        );
+      }
+    }
+    ```
 
-1. Create a new React component named **stock-item** at **src/components/stock-item.tsx** with the code shown below. This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
+1. Create a new React component named **StockItem** in the **src/components** folder and add the following code.
 
-    ````typescript
+    This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
+
+    ```typescript
     import * as React from 'react';
 
     export interface StockItemProps {
-        symbol: string;
-        index: number;
-        onDelete: any;
-        onRefresh: any;
+      symbol: string;
+      index: number;
+      onDelete: any;
+      onRefresh: any;
     }
 
     export class StockItem extends React.Component<StockItemProps, any> {
-        constructor(props, context) {
-            super(props, context);
-        }
+      constructor(props, context) {
+        super(props, context);
+      }
 
-        render() {
-            return (
-                <div className="pct100 itemRow">
-                    <div className="left">{this.props.symbol}</div>
-                    <div className="right">
-                        <div className="left icon"><i className="ms-Icon ms-Icon--Refresh" aria-hidden="true" onClick={this.props.onRefresh}></i></div>
-                        <div className="left icon"><i className="ms-Icon ms-Icon--Delete" aria-hidden="true" onClick={this.props.onDelete}></i></div>
-                    </div>
-                </div>
-            );
-        };
-    };
-    ````
+      render() {
+        return (
+          <div className="pct100 itemRow">
+            <div className="left">{this.props.symbol}</div>
+            <div className="right">
+              <div className="left icon">
+                <i className="ms-Icon ms-Icon--Refresh" aria-hidden="true" onClick={this.props.onRefresh} />
+              </div>
+              <div className="left icon">
+                <i className="ms-Icon ms-Icon--Delete" aria-hidden="true" onClick={this.props.onDelete} />
+              </div>
+            </div>
+          </div>
+        );
+      }
+    }
+    ```
 
-1. Open up **src/components/app.tsx** and update it as seen below. Keep it open, as you will make a number of additional updates to this file before the end of this exercise.
+1. Open **src/components/App.tsx** and replace it's contents with the following code.
 
-    ````typescript
+    ```typescript
     import * as React from 'react';
     import { TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
     import { Header } from './header';
     import { Waiting } from './waiting';
-    import { StockItem } from './stock-item';
+    import { StockItem } from './StockItem';
 
     export interface AppProps {
-        title: string;
+      title: string;
     }
 
     export interface AppState {
-        listItems: string[];
-        waiting: boolean;
-        error: string;
+      listItems: string[];
+      waiting: boolean;
+      error: string;
     }
 
-    export class App extends React.Component<AppProps, AppState> {
-        constructor(props, context) {
-            super(props, context);
-            this.state = {
-                listItems: [],
-                waiting: false,
-                error: ""
-            };
-
-            // Sync stocks already in Excel table
-            this.syncTable().then(() => {});
-        }
-
-        // Adds symbol
-        addSymbol = async (event) => {
-            //TODO
-            console.log(event);
-        }
-
-        // Delete symbol
-        deleteSymbol = async (index) => {
-            //TODO
-            console.log(index);
-        }
-
-        // Refresh symbol
-        refreshSymbol = async (index:number) => {
-            //TODO
-            console.log(index);
-        }
-
-        // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
-        syncTable = async () => {
-            //TODO
-            console.log("sync");
-        }
-
-        // Gets a quote by calling into the stock service
-        getQuote = async (symbol:string) => {
-            //TODO
-            console.log(symbol);
-        }
-
-        render() {
-            const stocks = this.state.listItems.map((symbol, index) => (
-                <StockItem symbol={symbol} index={index} onDelete={this.deleteSymbol.bind(this, index)} onRefresh={this.refreshSymbol.bind(this, index)} />
-            ));
-            return (
-                <div className='container'>
-                    { this.state.waiting &&
-                        <Waiting />
-                    }
-                    <Header title={this.props.title} />
-                    { (this.state.error != "") &&
-                        <MessageBar messageBarType={MessageBarType.error} isMultiline={false} onDismiss={ () => {this.setState({error: ""})} }>{this.state.error}</MessageBar>
-                    }
-                    <div className="padding10">
-                        <div className="pct100 tbl-head">
-                            <span className="ms-font-l">Stock Symbols</span>
-                        </div>
-                        <div className="pct100">
-                            <TextField ref="newSymbol" onKeyPress={this.addSymbol.bind(this)} placeholder="Enter a stock symbol (ex: MSFT)" />
-                        </div>
-                        {stocks}
-                    </div>
-                </div>
-            );
+    export default class App extends React.Component<AppProps, AppState> {
+      constructor(props, context) {
+        super(props, context);
+        this.state = {
+          listItems: [],
+          waiting: false,
+          error: ''
         };
-    };
-    ````
 
-1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Microsoft Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#Exercise4) steps.
+        // Sync stocks already in Excel table
+        this.syncTable().then(() => {});
+      }
+
+      // Adds symbol
+      addSymbol = async event => {
+        //TODO
+        console.log(event);
+      }
+
+      // Delete symbol
+      deleteSymbol = async index => {
+        //TODO
+        console.log(index);
+      }
+
+      // Refresh symbol
+      refreshSymbol = async (index: number) => {
+        //TODO
+        console.log(index);
+      }
+
+      // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
+      syncTable = async () => {
+        //TODO
+        console.log('sync');
+      }
+
+      // Gets a quote by calling into the stock service
+      getQuote = async (symbol: string) => {
+        //TODO
+        console.log(symbol);
+      }
+
+      render() {
+        const stocks = this.state.listItems.map((symbol, index) => (
+          <StockItem
+            symbol={symbol}
+            index={index}
+            onDelete={this.deleteSymbol.bind(this, index)}
+            onRefresh={this.refreshSymbol.bind(this, index)}
+          />
+        ));
+        return (
+          <div className="container">
+            {this.state.waiting && <Waiting />}
+            <Header title={this.props.title} />
+            {this.state.error != '' && (
+              <MessageBar
+                messageBarType={MessageBarType.error}
+                isMultiline={false}
+                onDismiss={() => {
+                  this.setState({ error: '' });
+                }}>
+                {this.state.error}
+              </MessageBar>
+            )}
+            <div className="padding10">
+              <div className="pct100 tbl-head">
+                <span className="ms-font-l">Stock Symbols</span>
+              </div>
+              <div className="pct100">
+                <TextField ref="newSymbol" onKeyPress={this.addSymbol.bind(this)} placeholder="Enter a stock symbol (ex: MSFT)" />
+              </div>
+              {stocks}
+            </div>
+          </div>
+        );
+      }
+    }
+    ```
+
+1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Excel Online. It should look similar to the following image.
+
+    > If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in) steps.
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
-1. The **app.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **App.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
-    ````typescript
-    // Gets a quote by calling into the stock service
-    getQuote = async (symbol:string) => {
-        return new Promise((resolve, reject) => {
-            let url = `https://estx.azurewebsites.net/api/quote/${symbol}`;
-            fetch(url).then((res) => {
-                if (res.ok)
-                    resolve(res.json());
-                else
-                    reject("Error getting quote");
-            });
-        });
+    ```typescript
+    getQuote = async (symbol: string) => {
+      return new Promise((resolve, reject) => {
+        const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+
+        fetch(queryEndpoint)
+          .then((res: any) => {
+            if (!res.ok) {
+              reject('Error getting quote');
+            }
+            return res.json();
+          })
+          .then((jsonResponse: any) => {
+            const quote: any = jsonResponse['Stock Quotes'][0];
+            resolve(quote);
+          });
+      });
     }
-    ````
+    ```
 
-1. Create new **utils** folder under **src** and then create a file named **excelTableUtil.ts** in **src/utils/excelTableUtil.ts**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
+1. Create new **utils** folder in the **src** folder, then create a file named **ExcelTableUtil.tsx**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
 
-    ````typescript
-    /// <reference path="../../node_modules/@types/office-js/index.d.ts" />
-
+    ```typescript
     export class ExcelTableUtil {
-        tableName:string;
-        location:string;
-        headers:string[];
-        constructor(tableName:string, location:string, headers:string[]) {
-            this.tableName = tableName;
-            this.location = location;
-            this.headers = headers;
-        }
-
-        // ExcelTableUtil functions here
+      tableName: string;
+      location: string;
+      headers: string[];
+      constructor(tableName: string, location: string, headers: string[]) {
+        this.tableName = tableName;
+        this.location = location;
+        this.headers = headers;
+      }
     }
-    ````
+    ```
 
-1. Return to **src/components/app.tsx** and add a import reference to the **ExcelTableUtil** class we just created. Create a private property inside the App class.
+1. Implement the ExcelTableUtil utility class:
+    1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
+    1. Add the following methods `ExcelTableUtil` class. These methods get a handle to the Microsoft Excel table and create it if it doesn't exist.
 
-    ````typescript
-    import * as React from 'react';
-    import { TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
-    import { Header } from './header';
-    import { Waiting } from './waiting';
-    import { StockItem } from './stock-item';
-    import { ExcelTableUtil } from '../utils/excelTableUtil';
-
-    /* lines omitted for readability */
-
-    export class App extends React.Component<AppProps, AppState> {
-        tableUtil:ExcelTableUtil = new ExcelTableUtil("Portfolio",
-            "A1:J1", [
-                "Symbol", "Last Price",
-                "Change $", "Change %",
-                "Quantity", "Price Paid" ,
-                "Day's Gain $", "Total Gain $",
-                "Total Gain %", "Value"
-            ]);
-        constructor(props, context) {
-            /* lines omitted for readability */
-    ````
-
-1. Add functions to **src/utils/excelTableUtil.ts** for `createTable` and `ensureTable`. These functions will be used to get a handle to the Microsoft Excel table and create it if it doesn't exist.
-
-    ````typescript
-    // Create the StocksTable and defines the header row
-    createTable = async () => {
-        return new Promise(async (resolve, reject) => {
-            await Excel.run(async (context) => {
+        ```typescript
+        // Create the StocksTable and defines the header row
+          createTable = async () => {
+            return new Promise(async (resolve, reject) => {
+              await Excel.run(async context => {
                 // Create a proxy object for the active worksheet and create the table
-                var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var tableRef = sheet.tables.add(this.location, true);
+                const sheet = context.workbook.worksheets.getActiveWorksheet();
+                const tableRef = sheet.tables.add(this.location, true);
                 tableRef.name = this.tableName;
                 tableRef.getHeaderRowRange().values = [this.headers];
                 return context.sync().then(() => {
-                    resolve(tableRef);
+                  resolve(tableRef);
                 });
-            }).catch((createError) => {
+              }).catch(createError => {
                 reject(createError);
+              });
             });
-        });
-    }
+          }
 
-    // Ensures the Excel table is created
-    ensureTable = async (forceCreate:boolean) => {
-        return new Promise(async (resolve, reject) => {
-            await Excel.run(async (context) => {
+          // Ensures the Excel table is created
+          ensureTable = async (forceCreate: boolean) => {
+            return new Promise(async (resolve, reject) => {
+              await Excel.run(async context => {
                 // Create a proxy object for the active worksheet and try getting table reference
-                var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var tableRef = sheet.tables.getItem(this.tableName);
+                const sheet = context.workbook.worksheets.getActiveWorksheet();
+                const tableRef = sheet.tables.getItem(this.tableName);
                 return context.sync().then(() => {
-                    resolve(tableRef);
+                  resolve(tableRef);
                 });
-            }).catch(() => {
+              }).catch(() => {
                 if (forceCreate) {
-                    // Unable to find table...create it
-                    this.createTable().then(async (tableRef) => {
-                        resolve(tableRef);
-                    }, (createError) => {
-                        reject(createError);
-                    });
-                }
-                else
-                    resolve(null);
-            });
-        });
-    }
-    ````
-
-1. Add the `addRow` function to **src/utils/excelTableUtil.cs**. Notice that it calls the `ensureTable` function we just created to ensure the Excel table has been created.
-
-    ````typescript
-    // Appends a row to the table
-    addRow = async (data) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
-                await Excel.run(async (context) => {
-                    var sheet = context.workbook.worksheets.getActiveWorksheet();
-                    // Add the new row
-                    tableRef.rows.add(null, [data]);
-                    // Autofit columns and rows if supported by API
-                    if (Office.context.requirements.isSetSupported("ExcelApi", 1.2)) {
-                        sheet.getUsedRange().format.autofitColumns();
-                        sheet.getUsedRange().format.autofitRows();
+                  // Unable to find table...create it
+                  this.createTable().then(
+                    async tableRef => {
+                      resolve(tableRef);
+                    },
+                    createError => {
+                      reject(createError);
                     }
-                    sheet.activate();
-                    return context.sync().then(() => {
-                        resolve();
-                    });
-                }).catch((err) => {
-                    reject(err);
-                });
-            }, (err) => {
-                reject(err);
+                  );
+                } else {
+                  resolve(null);
+                }
+              });
             });
-        });
-    }
-    ````
+          }
+        }
+        ```
 
-1. Return to **src/components/app.tsx** and update the `addSymbol` function to call `getSymbol` for stock stats and then call `addRow` on the `ExcelTableUtil`. Notice the row data contains formulas.
+    1. Add the following method to the `ExcelTableUtil` class.
+  
+        Notice that it calls the `ensureTable` function we just created to ensure the Excel table has been created.
 
-    ````typescript
-    // Adds symbol
-    addSymbol = async (event) => {
-        if (event.key == 'Enter') {
-            let element = this.refs.newSymbol as TextField;
-            let symbol = element.value.toUpperCase();
+        ```typescript
+        // Appends a row to the table
+        addRow = async (data) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async (tableRef: Excel.Table) => {
+                await Excel.run(async context => {
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  // Add the new row
+                  tableRef.rows.add(null, [data]);
+                  // Autofit columns and rows if supported by API
+                  if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
+                    sheet.getUsedRange().format.autofitColumns();
+                    sheet.getUsedRange().format.autofitRows();
+                  }
+                  sheet.activate();
+                  return context.sync().then(() => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
+                });
+              },
+              err => {
+                reject(err);
+              }
+            );
+          });
+        }
+        ```
+
+1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/components/App.tsx** file.
+    1. Add the following `import` statement after the existing `import` statements for the the new **ExcelTableUtil** class.
+
+        ```typescript
+        import { ExcelTableUtil } from '../utils/excelTableUtil';
+        ```
+
+    1. Add the following constant after the `import` statements and update the **{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}** to use your API key.
+
+        ```typescript
+        const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
+        ```
+
+    1. Add the following private member to the `App` class:
+
+        ```typescript
+        tableUtil: ExcelTableUtil = new ExcelTableUtil('Portfolio', 'A1:H1', [
+          'Symbol',
+          'Last Price',
+          'Timestamp',
+          'Quantity',
+          'Price Paid',
+          'Total Gain',
+          'Total Gain %',
+          'Value'
+        ]);
+        ```
+
+    1. Update the `addSymbol()` method to the following code:
+
+        ```typescript
+        // Adds symbol
+        addSymbol = async (event) => {
+          if (event.key === 'Enter') {
+            const element = this.refs.newSymbol as TextField;
+            const symbol = element.value.toUpperCase();
 
             // Get quote and add to Excel table
             this.setState({ waiting: true });
-            this.getQuote(symbol).then((res:any) => {
-                let data = [
-                    res.symbol, //Symbol
-                    res.current, //Last Price
-                    res.curr_change, //Change $
-                    res.pct_change * 100, //Change %
-                    0, //Quantity (user provided)
-                    0, //Price Paid (user provided)
-                    "=C:C * E:E", //Day's Gain $
-                    "=(B:B * E:E) - (F:F * E:E)", //Total Gain $
-                    "=H:H / (F:F * E:E) * 100", //Total Gain %
-                    "=B:B * E:E" //Value
+            this.getQuote(symbol).then(
+              (res: any) => {
+                const data = [
+                  res['1. symbol'], //Symbol
+                  res['2. price'], //Last Price
+                  res['4. timestamp'], // Timestamp of quote,
+                  0, // quantity (manually entered)
+                  0, // price paid (manually entered)
+                  '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
+                  '=H:H / (E:E * D:D) * 100', //Total Gain %
+                  '=B:B * D:D' //Value
                 ];
-                this.tableUtil.addRow(data).then(() => {
+                this.tableUtil.addRow(data).then(
+                  () => {
                     let symbols = this.state.listItems;
                     symbols.unshift(element.state.value.toUpperCase());
                     this.setState({ listItems: symbols });
-                    element.setState({ value: "" });
-                    this.setState({waiting: false});
-                }, (err) => {
-                    this.setState({error: err});
-                    this.setState({waiting: false});
-                });
-            }, (err) => {
-                this.setState({error: err});
-                this.setState({waiting: false});
-            });
+                    element.setState({ value: '' });
+                    this.setState({ waiting: false });
+                  },
+                  err => {
+                    this.setState({ error: err });
+                    this.setState({ waiting: false });
+                  }
+                );
+              },
+              err => {
+                this.setState({ error: err });
+                this.setState({ waiting: false });
+              }
+            );
+          }
         }
-    }
-    ````
+        ```
 
-    >Note: This is a good time to test the **add symbol** function of your add-in.
+        >Note: This is a good time to test the **add symbol** function of your add-in.
 
-1. Return to **/src/utils/excelTableUtil.ts** and add functions for `getColumnData` and `deleteRow`. `getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. `deleteRow` deletes a row in the Excel table based on it's index.
+1. Update the **ExcelTableUtil** utility to add support for accessing and deleting rows:
+    1. Locate and open the **src/components/ExcelTableUtil.tsx** file.
+    1. Add the following methods to the `ExcelTableUtil` class:
 
-    ````typescript
-    // Gets data for a specific named column
-    getColumnData = async (column:string) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(false).then(async (tableRef:Excel.Table) => {
-                if (tableRef == null)
-                    resolve([]);
-                else {
-                    await Excel.run(async (context) => {
-                        // Get column range by column name
-                        var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
-                        // Sync to populate proxy objects with data from Excel
-                        return context.sync().then(async () => {
-                            let data:string[] = [];
-                            for (var i = 0; i < colRange.values.length; i++) {
-                                data.push(colRange.values[i].toString());
-                            }
-                            resolve(data);
-                        });
-                    }).catch((err) => {
-                        reject(err);
-                    });
-                }
-            }, (err) => {
-                reject(err);
-            });
-        });
-    }
-
-    // Deletes a column based by row index
-    deleteRow = async (index:number) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
-                await Excel.run(async (context) => {
-                    var range = tableRef.rows.getItemAt(index).getRange();
-                    range.delete(Excel.DeleteShiftDirection.up);
+        ```typescript
+        // Gets data for a specific named column
+        getColumnData = async (column: string) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(false).then(
+              async (tableRef: Excel.Table) => {
+                if (tableRef == null) {
+                  resolve([]);
+                } else {
+                  await Excel.run(async context => {
+                    // Get column range by column name
+                    const colRange = tableRef.columns
+                      .getItem(column)
+                      .getDataBodyRange()
+                      .load('values');
+                    // Sync to populate proxy objects with data from Excel
                     return context.sync().then(async () => {
-                        resolve();
+                      let data: string[] = [];
+                      for (let i = 0; i < colRange.values.length; i++) {
+                        data.push(colRange.values[i].toString());
+                      }
+                      resolve(data);
                     });
-                }).catch((err) => {
+                  }).catch(err => {
                     reject(err);
-                });
-            }, (err) => {
+                  });
+                }
+              },
+              err => {
                 reject(err);
-            });
-        });
-    }
-    ````
+              }
+            );
+          });
+        }
 
-1. Return to **src/components/app.tsx** and update the `deleteSymbol` function to delete the specified symbol from the Excel table. Do this by first calling `getColumnData` (on `ExcelTableUtil`) to determine the row to delete and then `deleteRow` (also on `ExcelTableUtil`) to perform the delete.
+        // Deletes a column based by row index
+        deleteRow = async (index: number) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async (tableRef: Excel.Table) => {
+                await Excel.run(async context => {
+                  const range = tableRef.rows.getItemAt(index).getRange();
+                  range.delete(Excel.DeleteShiftDirection.up);
+                  return context.sync().then(async () => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
+                });
+              },
+              err => {
+                reject(err);
+              }
+            );
+          });
+        }
+        ```
 
-    ````typescript
-    // Delete symbol
-    deleteSymbol = async (index) => {
-        // Delete from Excel table by index number
-        let symbols = this.state.listItems;
-        let symbol = symbols[index];
-        this.setState({ waiting: true });
-        this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // make sure the symbol was found in the Excel table
-            if (columnData.indexOf(symbol) != -1) {
-                this.tableUtil.deleteRow(columnData.indexOf(symbol)).then(async () => {
+1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/components/App.tsx** file.
+    1. Locate and update the `deleteSymbol()` method in the `App` class to delete specifying symbol from the Excel table
+
+        ```typescript
+        // Delete symbol
+        deleteSymbol = async index => {
+          // Delete from Excel table by index number
+          let symbols = this.state.listItems;
+          let symbol = symbols[index];
+          this.setState({ waiting: true });
+          this.tableUtil.getColumnData('Symbol').then(
+            async (columnData: string[]) => {
+              // make sure the symbol was found in the Excel table
+              if (columnData.indexOf(symbol) !== -1) {
+                this.tableUtil.deleteRow(columnData.indexOf(symbol)).then(
+                  async () => {
                     symbols.splice(index, 1);
                     this.setState({ listItems: symbols });
-                    this.setState({waiting: false});
-                }, (err) => {
-                    this.setState({error: err});
-                    this.setState({waiting: false});
-                });
-            }
-            else {
+                    this.setState({ waiting: false });
+                  },
+                  err => {
+                    this.setState({ error: err });
+                    this.setState({ waiting: false });
+                  }
+                );
+              } else {
                 symbols.splice(index, 1);
-                this.setState({waiting: false});
+                this.setState({ waiting: false });
+              }
+            },
+            err => {
+              this.setState({ error: err });
+              this.setState({ waiting: false });
             }
-        }, (err) => {
-            this.setState({error: err});
-            this.setState({waiting: false});
-        });
-    }
-    ````
+          );
+        }
+        ```
 
     >Note: This is a good time to test the **delete symbol** function of your add-in.
 
-1. Make the final update to **src/utils/excelTableUtil.ts** by adding the `updateCell` function, which updates the cell at a specific address to a specified value.
+1. Update the **ExcelTableUtil** utility to add support for refreshing rows in the table:
+    1. Locate and open the **src/components/ExcelTableUtil.tsx** file.
+    1. Add the following methods to the `ExcelTableUtil` class:
 
-    ````typescript
-    // Updates a specific cell in the table
-    updateCell = async (address:string, value:any) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(async () => {
-                await Excel.run(async (context) => {
-                    var sheet = context.workbook.worksheets.getActiveWorksheet();
-                    var range = sheet.getRange(address);
-                    range.values = [[value]];
-                    return context.sync().then(async () => {
-                        resolve();
-                    });
-                }).catch((err) => {
-                    reject(err);
+        ```typescript
+        // Updates a specific cell in the table
+        updateCell = async (address: string, value: any) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async () => {
+                await Excel.run(async context => {
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  const range = sheet.getRange(address);
+                  range.values = [[value]];
+                  return context.sync().then(async () => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
                 });
-            }, (err) => {
+              },
+              err => {
                 reject(err);
-            });
-        });
-    }
-    ````
+              }
+            );
+          });
+        }
+        ```
 
-1. Update the `refreshSymbol` function on **src/components/app.tsx** to call `getQuote` for updated stock statistics and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call `getColumnData` to determine the cell address before calling `updateCell`.
+1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/components/App.tsx** file.
+    1. Locate and update the `refreshSymbol()` method in the `App` class to refresh specifying symbol in the Excel table
 
-    ````typescript
-    // Refresh symbol
-    refreshSymbol = async (index:number) => {
-        // Refresh stock quote and update Excel table
-        let symbols = this.state.listItems;
-        let symbol = symbols[index];
-        this.setState({ waiting: true });
-        this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // make sure the symbol was found in the Excel table
-            var rowIndex = columnData.indexOf(symbol);
-            if (rowIndex != -1) {
-                this.getQuote(symbol).then((res:any) => {
-                    // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                    this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current).then(async () => {
+        ```typescript
+        // Refresh symbol
+        refreshSymbol = async (index: number) => {
+          // Refresh stock quote and update Excel table
+          let symbols = this.state.listItems;
+          let symbol = symbols[index];
+          this.setState({ waiting: true });
+          this.tableUtil.getColumnData('Symbol').then(
+            async (columnData: string[]) => {
+              // make sure the symbol was found in the Excel table
+              const rowIndex = columnData.indexOf(symbol);
+              if (rowIndex !== -1) {
+                this.getQuote(symbol).then((res: any) => {
+                  // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
+                  this.tableUtil
+                    .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current)
+                    .then(
+                      async () => {
                         this.setState({ waiting: false });
-                    }, (err) => {
-                        this.setState({error: err});
+                      },
+                      err => {
+                        this.setState({ error: err });
                         this.setState({ waiting: false });
-                    });
+                      }
+                    );
                 });
-            }
-            else {
-                this.setState({error: "Symbol not in table"});
+              } else {
+                this.setState({ error: 'Symbol not in table' });
                 symbols.splice(index, 1);
                 this.setState({ waiting: false });
+              }
+            },
+            err => {
+              this.setState({ error: err });
+              this.setState({ waiting: false });
             }
-        }, (err) => {
-            this.setState({error: err});
-            this.setState({ waiting: false });
-        });
-    }
-    ````
+          );
+        }
+        ```
 
     >Note: This is a good time to test the **refresh symbol** function of your add-in.
 
-1. Update the `syncTable` function, which is called when the add-in is launched in the constructor of **app.tsx** to pull in any stock symbols that might already exist in the worksheet. It calls `getColumnData` to get this data.
+1. Update the `syncTable` function, which is called when the add-in is launched in the constructor of **App.tsx** to pull in any stock symbols that might already exist in the worksheet. It calls `getColumnData` to get this data.
 
-    ````typescript
-    // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
+    ```typescript
     syncTable = async () => {
-        this.setState({ waiting: true });
-        this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            this.setState({ listItems: columnData });
-            this.setState({ waiting: false });
-        }, (err) => {
-            this.setState({error: err});
-            this.setState({ waiting: false });
-        });
+      this.setState({ waiting: true });
+      this.tableUtil.getColumnData('Symbol').then(
+        async (columnData: string[]) => {
+          this.setState({ listItems: columnData });
+          this.setState({ waiting: false });
+        },
+        err => {
+          this.setState({ error: err });
+          this.setState({ waiting: false });
+        }
+      );
     }
-    ````
+    ```
 
-The Excel Portfolio Add-in written with React and TypeScript is complete. You should now follow the steps to [Sideload and Test the Office Add-in](#exercise4).
-
-<a name="Exercise2"></a>
+The Excel Portfolio Add-in written with React and TypeScript is complete. You should now follow the steps to [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
 
 ## Exercise 2: Build an Office Add-in using Angular
 
@@ -681,37 +753,42 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     ![Office Yeoman Generator](./Images/YeomanAngular.png)
 
-1. When then Yeoman generator completes, open the project folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When then Yeoman generator completes, open the project folder in a code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
-1. Locate the **package.json** file in the root directory and modify the `start` script to use **ssl** and port **3000** (the port configured in the Office Add-in xml manifest by the Yeoman generator)
+1. Alter the `package.json` generated by the Angular CLI for Office Add-in specific requirements:
+    1. Locate & open the **package.json** file in the root of the project.
+    1. Update the `scripts "start"` script to use **ssl** and port **3000** (the port configured in the Office Add-in xml manifest by the Yeoman generator)
 
     ```json
     "scripts": {
-        "ng": "ng",
-        "start": "ng serve --ssl true --port 3000",
-        "build": "ng build",
-        "test": "ng test",
-        "lint": "ng lint",
-        "e2e": "ng e2e"
+      ...
+      "start": "ng serve --ssl true --port 3000",
+      ...
     },
     ```
 
-1. Next, add `@types/office-js` to the **dependencies** section.
-
-    ```json
-    "@types/office-js": "0.0.51"
-    ```
-
-1. Run `npm install` at the command prompt to pull these dependencies into the project.
+1. Update the project dependencies to update references to RXJS:
+    1. Open a command prompt.
+    1. Change to the directory in the root of the project, where the `package.json` file is located.
+    1. Execute the following command:
 
     ```shell
-    npm install
+    npm install rxjs@6.2.0 rxjs-compat@6.2.0 --save
     ```
 
-1. Open **src/index.html** and add CDN references to **office.js** and the **Office UI Fabric**.
+1. Add the Office.js TypeScript type declarations to the project:
+    1. Open a command prompt.
+    1. Change to the directory in the root of the project, where the `package.json` file is located.
+    1. Execute the following command:
+
+        ```shell
+        npm install @types/office-js --save-dev
+        ```
+
+1. Open **src/index.html** and add CDN references to **office.js** and the **Office UI Fabric** to the `<head>` and `<body>` sections of the file:
     > Note: Although this lab adds CDN references to Office.js and the Office UI Fabric, you can alternatively install them locally using npm. The **.angular-cli.json** file can be updated to include any local scripts that should be included in the webpack build.
 
-    ````html
+    ```html
     <!doctype html>
     <html lang="en">
     <head>
@@ -720,6 +797,8 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         <base href="/">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+
         <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.min.css" />
         <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.components.min.css" />
     </head>
@@ -729,30 +808,37 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         <script type="text/javascript" src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/js/fabric.min.js"></script>
     </body>
     </html>
-    ````
+    ```
 
-1. Angular bootstraps to the UI in the **src/main.ts** file. This is where `Office.initialize` needs to be called so the add-in functions properly. First, add a type declaration reference to **Office.js** at the top of this file.
+1. Update the Angular app's bootstrapping process to initialize the Office Add-in:
+    1. Locate and open the **src/main.ts** file.
+    1. Add the following line to the top of the file to import the TypeScript type declaration:
 
-    ````typescript
-    /// <reference path="../node_modules/@types/office-js/index.d.ts" />
-    ````
+        ```typescript
+        /// <reference types="@types/office-js/index" />
+        ```
 
-1. Locate where the `bootstrapModule` is being called to bootstrap the `AppModule` and wrap the entire statement around `Office.initialize`. You need to call `Office.initialize` and any page loaded in the add-in before other scripts run.
+    1. Locate where the `bootstrapModule()` is being called to bootstrap the `AppModule`. Replace the the entire bootstrapping code with the following code:
 
-    ````typescript
-    Office.initialize = function () {
-        platformBrowserDynamic().bootstrapModule(AppModule)
-            .catch(err => console.log(err));
-    }
-    ````
+    ```typescript
+    Office.initialize = () => {
+      platformBrowserDynamic()
+        .bootstrapModule(AppModule)
+        .catch(err => console.log(err));
+    };
+    ```
 
-    >Note: You should be able to run and sideload the add-in at this point. Follow the steps outlined in [Sideload and Test the Office Add-in](#Exercise4). In the next section, you will add additional functionality to the add-in.
+    >Note: You should be able to run and sideload the add-in at this point. Follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
+    >
+    > If the add-in does not load an you eventually see an error message in the task pane, it's likely your workstation is not configured to trust the self-signed certificate used by the Angular CLI. Verify this by trying to navigate to https://localhost:3000/assets/icon-32.png and look at the browser's address bar. If it says something other than "secure", this is the issue as Office will not load add-ins from an unsecure / untrusted location. Refer to the steps in the following document to resolve this before proceeding: [Adding Self-Signed Certificates as Trusted Root Certificate](https://github.com/OfficeDev/generator-office/blob/master/src/docs/ssl.md).
+
+    ![Screenshot showing the Angular Office Add-in working](./Images/angular-addin-01.png)
 
 ### Develop the Office Add-in
 
 1. Open **src/styles.css** and replace the entire file with the contents show below.
 
-    ````css
+    ```css
     /* You can add global styles to this file, and also import other style files */
     .header {
         padding: 10px;
@@ -823,37 +909,36 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     .tbl-head {
         margin-bottom: 5px;
     }
-    ````
+    ```
 
-1. Copy the **spinner.gif** image from the **README_assets** folder into **src/assets** of your project directory. The Office UI Fabric has a spinner component, but would take additional effort to implement it in an Angular project (at least without adding a jquery reference). Here is the image if you want to copy from here.
+1. Copy the **spinner.gif** image from the **LabFiles** folder into **src/assets** of your project directory.
 
     ![Spinner](./Images/spinner.gif)
 
-1. Because the add-in will call a REST API, you need to load Angular's HttpModule. Open **src/app/app.module.ts**, import the **HttpModule** and add it to the **imports** section of the **@NgModule** declaration.
+1. Update the app module to import Angular's HttpModule that you will use to call a REST API:
+    1. Open the **src/app/app.module.ts** file.
+    1. Add the following `import` statement after the existing `import` statements:
 
-    ````typescript
-    import { BrowserModule } from '@angular/platform-browser';
-    import { NgModule } from '@angular/core';
-    import { HttpModule } from '@angular/http';
-    import { AppComponent } from './app.component';
+        ```typescript
+        import { HttpModule } from '@angular/http';
+        ```
 
-    @NgModule({
-        declarations: [
-            AppComponent
-        ],
-        imports: [
+    1. Add the `HttpModule` after the existing `BrowserModule` to the `imports` array that is passed into the `@NgModule` decorator:
+
+        ```typescript
+        @NgModule({
+          ...
+          imports: [
             BrowserModule,
             HttpModule
-        ],
-        providers: [],
-        bootstrap: [AppComponent]
-    })
-    export class AppModule { }
-    ````
+          ],
+          ...
+        })
+        ```
 
 1. Angular allows you to break your solution up into components. The Angular CLI already created an app component. Open **src/app/app.component.html** to update it's markup as seen below.
 
-    ````html
+    ```html
     <!--The content below is only a placeholder and can be replaced.-->
     <div>
         <div *ngIf="waiting">
@@ -897,415 +982,455 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
             </div>
         </div>
     </div>
-    ````
+    ```
 
 1. Next, open **src/app/app.component.ts** and update it as follows.
 
-    ````typescript
+    ```typescript
     import { Component, NgZone } from '@angular/core';
     import 'rxjs/add/operator/map';
+    import { Observable } from 'rxjs';
+    import { map } from 'rxjs/operators';
     import { Http } from '@angular/http';
 
     @Component({
-        selector: 'app-root',
-        templateUrl: './app.component.html',
-        styleUrls: ['./app.component.css']
+      selector: 'app-root',
+      templateUrl: './app.component.html',
+      styleUrls: ['./app.component.css']
     })
     export class AppComponent {
-        // AppComponent properties
-        symbols:string[] = [];
-        error:string = null;
-        waiting = false;
-        zone: NgZone = new NgZone({});
+      // AppComponent properties
+      symbols: string[] = [];
+      error: string = null;
+      waiting = false;
+      zone: NgZone = new NgZone({});
 
-        // AppComponent constructor
-        constructor(private http: Http) {
-            this.syncTable().then(() => {});
-        }
-        // Adds symbol
-        addSymbol = async (symbol:string) => {
-            //TODO
-            console.log(symbol);
-        }
+      // AppComponent constructor
+      constructor(private http: Http) {
+        this.syncTable().then(() => {});
+      }
+      // Adds symbol
+      addSymbol = async (symbol: string) => {
+        //TODO
+        console.log(symbol);
+      }
 
-        // Delete symbol
-        deleteSymbol = async (index:number) => {
-            //TODO
-            console.log(index);
-        }
+      // Delete symbol
+      deleteSymbol = async (index: number) => {
+        //TODO
+        console.log(index);
+      }
 
-        // Refresh symbol
-        refreshSymbol = async (index:number) => {
-            //TODO
-            console.log(index);
-        }
+      // Refresh symbol
+      refreshSymbol = async (index: number) => {
+        //TODO
+        console.log(index);
+      }
 
-        // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
-        syncTable = async () => {
-            //TODO
-            console.log("syncTable");
-        }
+      // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
+      syncTable = async () => {
+        //TODO
+        console.log('syncTable');
+      }
 
-        // Gets a quote by calling into the stock service
-        getQuote = async (symbol:string) => {
-            //TODO
-            console.log(symbol);
-        }
+      // Gets a quote by calling into the stock service
+      getQuote = async (symbol: string) => {
+        //TODO
+        console.log(symbol);
+      }
     }
-    ````
+    ```
 
-1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#exercise4) steps above.
+1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in) steps above.
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
-1. The **app.component.ts** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by loading the `getQuote` function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **app.component.ts** file has a number of placeholder functions that you will complete to get the add-in functioning.
+    1. Locate & open the **src/app/appcomponent.ts** file.
+    1. Add the following constant after the `import` statements and update the **{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}** to use your API key.
 
-    ````typescript
-    // Gets a quote by calling into the stock service
-    getQuote = async (symbol:string) => {
-        return new Promise((resolve, reject) => {
-            let url = `https://estx.azurewebsites.net/api/quote/${symbol}`;
-            this.http.get(url)
-                .map(res => res.json())
-                .subscribe(
-                    res => resolve(res),
-                    err => reject(err),
-                    () => console.log(`Quote for ${symbol.toUpperCase()} complete`)
-                );
-        });
-    }
-    ````
+        ```typescript
+        const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
+        ```
+
+    1. Locate the `getQuote()` method. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+
+        ```typescript
+        // Gets a quote by calling into the stock service
+        getQuote = async (symbol:string) => {
+          return new Promise((resolve, reject) => {
+            const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(
+              symbol
+            )}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+
+            fetch(queryEndpoint)
+              .then((res: any) => {
+                if (!res.ok) {
+                  reject('Error getting quote');
+                }
+                return res.json();
+              })
+              .then((jsonResponse: any) => {
+                const quote: any = jsonResponse['Stock Quotes'][0];
+                resolve(quote);
+              });
+          });
+        }
+        ```
 
 1. Create new **utils** folder under **src/app** and then create a file named **excelTableUtil.ts** in it (**src/app/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions for working with Excel tables with office.js. Notice the `ExcelTableUtil` constructor accepts details about the Excel table, including the name, location, and header details.
 
-    ````typescript
+    ```typescript
     /// <reference path="../../../node_modules/@types/office-js/index.d.ts" />
 
     export class ExcelTableUtil {
-        tableName:string;
-        location:string;
-        headers:string[];
-        constructor(tableName:string, location:string, headers:string[]) {
-            this.tableName = tableName;
-            this.location = location;
-            this.headers = headers;
-        }
+      tableName: string;
+      location: string;
+      headers: string[];
+      constructor(tableName: string, location: string, headers: string[]) {
+        this.tableName = tableName;
+        this.location = location;
+        this.headers = headers;
+      }
 
-        // ExcelTableUtil functions here
+      // ExcelTableUtil functions here
     }
-    ````
+    ```
 
-1. Return to **src/app/app.component.ts** and add a import reference to the `ExcelTableUtil` class we just created and create a private property inside the `AppComponent` class (right above the constructor).
+1. Implement the ExcelTableUtil utility class:
+    1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
+    1. Add the following methods `ExcelTableUtil` class. These methods get a handle to the Microsoft Excel table and create it if it doesn't exist.
 
-    ````typescript
-    import { Component, NgZone } from '@angular/core';
-    import 'rxjs/add/operator/map';
-    import { Http } from '@angular/http';
-    import { ExcelTableUtil } from './utils/excelTableUtil';
-
-    @Component({
-        selector: 'app-root',
-        templateUrl: './app.component.html',
-        styleUrls: ['./app.component.css']
-    })
-    export class AppComponent {
-        // AppComponent properties
-        symbols:string[] = [];
-        error:string = null;
-        waiting = false;
-        zone: NgZone = new NgZone({});
-        tableUtil:ExcelTableUtil = new ExcelTableUtil(
-            "Portfolio", "A1:J1", [
-                "Symbol",
-                "Last Price",
-                "Change $",
-                "Change %",
-                "Quantity",
-                "Price Paid",
-                "Day's Gain $",
-                "Total Gain $",
-                "Total Gain %",
-                "Value"
-            ]
-        );
-
-        // AppComponent constructor
-        constructor(private http: Http) {
-            /* !!! lines removed for readability !!! */
-    ````
-
-1. Add functions to **src/app/utils/excelTableUtil.ts** for `createTable` and `ensureTable`. These functions will be used to get a handle to the Excel table (and create it if it doesn't exist).
-
-    ````typescript
-    // Create the StocksTable and defines the header row
-    createTable = async () => {
-        return new Promise(async (resolve, reject) => {
-            await Excel.run(async (context) => {
+        ```typescript
+        // Create the StocksTable and defines the header row
+          createTable = async () => {
+            return new Promise(async (resolve, reject) => {
+              await Excel.run(async context => {
                 // Create a proxy object for the active worksheet and create the table
-                var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var tableRef = sheet.tables.add(this.location, true);
+                const sheet = context.workbook.worksheets.getActiveWorksheet();
+                const tableRef = sheet.tables.add(this.location, true);
                 tableRef.name = this.tableName;
                 tableRef.getHeaderRowRange().values = [this.headers];
                 return context.sync().then(() => {
-                    resolve(tableRef);
+                  resolve(tableRef);
                 });
-            }).catch((createError) => {
+              }).catch(createError => {
                 reject(createError);
+              });
             });
-        });
-    }
+          }
 
-    // Ensures the Excel table is created
-    ensureTable = async (forceCreate:boolean) => {
-        return new Promise(async (resolve, reject) => {
-            await Excel.run(async (context) => {
+          // Ensures the Excel table is created
+          ensureTable = async (forceCreate: boolean) => {
+            return new Promise(async (resolve, reject) => {
+              await Excel.run(async context => {
                 // Create a proxy object for the active worksheet and try getting table reference
-                var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var tableRef = sheet.tables.getItem(this.tableName);
+                const sheet = context.workbook.worksheets.getActiveWorksheet();
+                const tableRef = sheet.tables.getItem(this.tableName);
                 return context.sync().then(() => {
-                    resolve(tableRef);
+                  resolve(tableRef);
                 });
-            }).catch(() => {
+              }).catch(() => {
                 if (forceCreate) {
-                    // Unable to find table...create it
-                    this.createTable().then(async (tableRef) => {
-                        resolve(tableRef);
-                    }, (createError) => {
-                        reject(createError);
-                    });
-                }
-                else
-                    resolve(null);
-            });
-        });
-    }
-    ````
-
-1. Add the `addRow` function to **src/app/utils/excelTableUtil.cs**. Notice that it call the `ensureTable` function we just created to ensure the Excel table has been created.
-
-    ````typescript
-    // Appends a row to the table
-    addRow = async (data) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
-                await Excel.run(async (context) => {
-                    var sheet = context.workbook.worksheets.getActiveWorksheet();
-                    // Add the new row
-                    tableRef.rows.add(null, [data]);
-                    // Autofit columns and rows if supported by API
-                    if (Office.context.requirements.isSetSupported("ExcelApi", 1.2)) {
-                        sheet.getUsedRange().format.autofitColumns();
-                        sheet.getUsedRange().format.autofitRows();
+                  // Unable to find table...create it
+                  this.createTable().then(
+                    async tableRef => {
+                      resolve(tableRef);
+                    },
+                    createError => {
+                      reject(createError);
                     }
-                    sheet.activate();
-                    return context.sync().then(() => {
-                        resolve();
-                    });
-                }).catch((err) => {
-                    reject(err);
-                });
-            }, (err) => {
-                reject(err);
-            });
-        });
-    }
-    ````
-
-1. Return to **src/app/app.component.ts** and update the `addSymbol` function to call `getSymbol` for stock stats and then call `addRow` on the `ExcelTableUtil`. Notice the row data contains formulas.
-
-    ````typescript
-    // Adds symbol
-    addSymbol = async (symbol:string) => {
-        // Get quote and add to Excel table
-        this.waiting = true;
-        this.getQuote(symbol).then((res:any) => {
-            let data = [
-                res.symbol,
-                res.current,
-                res.curr_change,
-                res.pct_change * 100, 0, 0
-                "=C:C * E:E",
-                "=(B:B * E:E) - (F:F * E:E)",
-                "=H:H / (F:F * E:E) * 100",
-                "=B:B * E:E"
-            ];
-            this.tableUtil.addRow(data).then(() => {
-                this.symbols.unshift(symbol.toUpperCase());
-                this.waiting = false;
-            }, (err) => {
-                this.error = err;
-            });
-        }, (err) => {
-            this.error = err;
-            this.waiting = false;
-        });
-    }
-    ````
-
-    >Note: This is a good time to test the **add symbol** function of your add-in.
-
-1. Return to **/src/app/utils/excelTableUtil.ts** and add functions for `getColumnData` and `deleteRow`. 'getColumnData` gets values for a column in the Excel table so a row can be identified for update or delete. 'deleteRow` deletes a row in the Excel table based on its index.
-
-    ````typescript
-    // Gets data for a specific named column
-    getColumnData = async (column:string) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(false).then(async (tableRef:Excel.Table) => {
-                if (tableRef == null)
-                    resolve([]);
-                else {
-                    await Excel.run(async (context) => {
-                        // Get column range by column name
-                        var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
-                        // Sync to populate proxy objects with data from Excel
-                        return context.sync().then(async () => {
-                            let data:string[] = [];
-                            for (var i = 0; i < colRange.values.length; i++) {
-                                data.push(colRange.values[i].toString());
-                            }
-                            resolve(data);
-                        });
-                    }).catch((err) => {
-                        reject(err);
-                    });
+                  );
+                } else {
+                  resolve(null);
                 }
-            }, (err) => {
-                reject(err);
+              });
             });
-        });
-    }
+          }
+        }
+        ```
 
-    // Deletes a column based by row index
-    deleteRow = async (index:number) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
+    1. Add the following method to the `ExcelTableUtil` class.
+  
+        Notice that it calls the `ensureTable` function we just created to ensure the Excel table has been created.
+
+        ```typescript
+        // Appends a row to the table
+        addRow = async (data) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async (tableRef: Excel.Table) => {
+                await Excel.run(async context => {
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  // Add the new row
+                  tableRef.rows.add(null, [data]);
+                  // Autofit columns and rows if supported by API
+                  if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
+                    sheet.getUsedRange().format.autofitColumns();
+                    sheet.getUsedRange().format.autofitRows();
+                  }
+                  sheet.activate();
+                  return context.sync().then(() => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
+                });
+              },
+              err => {
+                reject(err);
+              }
+            );
+          });
+        }
+        ```
+
+1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/app/app.component.ts** file.
+    1. Add the following `import` statement after the existing `import` statements for the the new **ExcelTableUtil** class.
+
+        ```typescript
+        import { ExcelTableUtil } from './utils/excelTableUtil';
+        ```
+
+    1. Add the following private members to the `AppComponent` class:
+
+        ```typescript
+        symbols: string[] = [];
+        error: string = null;
+        waiting = false;
+        zone: NgZone = new NgZone({});
+
+        tableUtil: ExcelTableUtil = new ExcelTableUtil('Portfolio', 'A1:H1', [
+          'Symbol',
+          'Last Price',
+          'Timestamp',
+          'Quantity',
+          'Price Paid',
+          'Total Gain',
+          'Total Gain %',
+          'Value'
+        ]);
+        ```
+
+    1. Update the `addSymbol()` method to the following code:
+
+        ```typescript
+        // Adds symbol
+        addRow = async (data) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async (tableRef: Excel.Table) => {
                 await Excel.run(async (context) => {
-                    var range = tableRef.rows.getItemAt(index).getRange();
-                    range.delete(Excel.DeleteShiftDirection.up);
-                    return context.sync().then(async () => {
-                        resolve();
-                    });
-                }).catch((err) => {
-                    reject(err);
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  // Add the new row
+                  tableRef.rows.add(null, [data]);
+                  // Autofit columns and rows if supported by API
+                  if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
+                    sheet.getUsedRange().format.autofitColumns();
+                    sheet.getUsedRange().format.autofitRows();
+                  }
+                  sheet.activate();
+                  return context.sync().then(() => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
                 });
-            }, (err) => {
+              },
+              err => {
                 reject(err);
-            });
-        });
-    }
-    ````
+              }
+            );
+          });
+        }
+        ```
 
-1. Return to **src/app/app.component.ts** and update the `deleteSymbol` function to delete the specified symbol from the Excel table. Do this by first calling `getColumnData` on `ExcelTableUtil` to determine the row to delete and then `deleteRow` on `ExcelTableUtil` to perform the delete.
+1. Update the **ExcelTableUtil** utility to add support for accessing and deleting rows:
+    1. Locate and open the **src/components/ExcelTableUtil.tsx** file.
+    1. Add the following methods to the `ExcelTableUtil` class:
 
-    ````typescript
-    // Delete symbol
-    deleteSymbol = async (index:number) => {
-        // Delete from Excel table by index number
-        let symbol = this.symbols[index];
-        this.waiting = true;
-        this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // make sure the symbol was found in the Excel table
-            if (columnData.indexOf(symbol) != -1) {
-                this.tableUtil.deleteRow(columnData.indexOf(symbol)).then(async () => {
-                    this.symbols.splice(index, 1);
-                    this.waiting = false;
-                }, (err) => {
-                    this.error = err;
-                    this.waiting = false;
+        ```typescript
+        // Gets data for a specific named column
+        getColumnData = async (column: string) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(false).then(
+              async (tableRef: Excel.Table) => {
+                if (tableRef == null) {
+                  resolve([]);
+                } else {
+                  await Excel.run(async context => {
+                    // Get column range by column name
+                    const colRange = tableRef.columns
+                      .getItem(column)
+                      .getDataBodyRange()
+                      .load('values');
+                    // Sync to populate proxy objects with data from Excel
+                    return context.sync().then(async () => {
+                      let data: string[] = [];
+                      for (let i = 0; i < colRange.values.length; i++) {
+                        data.push(colRange.values[i].toString());
+                      }
+                      resolve(data);
+                    });
+                  }).catch(err => {
+                    reject(err);
+                  });
+                }
+              },
+              err => {
+                reject(err);
+              }
+            );
+          });
+        }
+
+        // Deletes a column based by row index
+        deleteRow = async (index: number) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async (tableRef: Excel.Table) => {
+                await Excel.run(async context => {
+                  const range = tableRef.rows.getItemAt(index).getRange();
+                  range.delete(Excel.DeleteShiftDirection.up);
+                  return context.sync().then(async () => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
                 });
-            }
-            else {
+              },
+              err => {
+                reject(err);
+              }
+            );
+          });
+        }
+        ```
+
+1. Update the **AppComponent** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/app/app.component.ts** file.
+
+    ```typescript
+    // Delete symbol
+    deleteSymbol = async (index: number) => {
+      // Delete from Excel table by index number
+      const symbol = this.symbols[index];
+      this.waiting = true;
+      this.tableUtil.getColumnData('Symbol').then(
+        async (columnData: string[]) => {
+          // make sure the symbol was found in the Excel table
+          if (columnData.indexOf(symbol) !== -1) {
+            this.tableUtil.deleteRow(columnData.indexOf(symbol))
+            .then(async () => {
                 this.symbols.splice(index, 1);
                 this.waiting = false;
-            }
-        }, (err) => {
-            this.error = err;
+            }, err => {
+              this.error = err;
+              this.waiting = false;
+            });
+          } else {
+            this.symbols.splice(index, 1);
             this.waiting = false;
-        });
+          }
+        }, (err) => {
+          this.error = err;
+          this.waiting = false;
+        }
+      );
     }
-    ````
+    ```
 
     >Note: This is a good time to test the **delete symbol** function of your add-in.
 
-1. Make the final update to **src/app/utils/excelTableUtil.ts** by adding the `updateCell` function, which updates the cell at a specific address to a specified value.
+1. Update the **ExcelTableUtil** utility to add support for refreshing rows in the table:
+    1. Locate and open the **src/components/ExcelTableUtil.tsx** file.
+    1. Add the following methods to the `ExcelTableUtil` class:
 
-    ````typescript
-    // Updates a specific cell in the table
-    updateCell = async (address:string, value:any) => {
-        return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(async () => {
-                await Excel.run(async (context) => {
-                    var sheet = context.workbook.worksheets.getActiveWorksheet();
-                    var range = sheet.getRange(address);
-                    range.values = [[value]];
-                    return context.sync().then(async () => {
-                        resolve();
-                    });
-                }).catch((err) => {
-                    reject(err);
+        ```typescript
+        // Updates a specific cell in the table
+        updateCell = async (address: string, value: any) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async () => {
+                await Excel.run(async context => {
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  const range = sheet.getRange(address);
+                  range.values = [[value]];
+                  return context.sync().then(async () => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
                 });
-            }, (err) => {
+              },
+              err => {
                 reject(err);
-            });
-        });
-    }
-    ````
+              }
+            );
+          });
+        }
+        ```
 
-1. Update the `refreshSymbol` function on **src/app/app.component.ts** to call `getQuote` for updated stock statistics and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call `getColumnData` to determine the cell address before calling `updateCell`.
+1. Update the **AppComponent** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/app/app.component.ts** file.
+    1. Update the `refreshSymbol()` method to the following:
 
-    ````typescript
-    // Refresh symbol
-    refreshSymbol = async (index:number) => {
-        // Refresh stock quote and update Excel table
-        let symbol = this.symbols[index];
-        this.waiting = true;
-        this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // make sure the symbol was found in the Excel table
-            var rowIndex = columnData.indexOf(symbol);
-            if (rowIndex != -1) {
-                this.getQuote(symbol).then((res:any) => {
-                    // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                    this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current).then(async () => {
-                        this.waiting = false;
-                    }, (err) => {
-                        this.error = err;
-                        this.waiting = false;
-                    });
+        ```typescript
+        // Refresh symbol
+        refreshSymbol = async (index: number) => {
+          // Refresh stock quote and update Excel table
+          const symbol = this.symbols[index];
+          this.waiting = true;
+          this.tableUtil.getColumnData('Symbol')
+            .then(async (columnData: string[]) => {
+              // make sure the symbol was found in the Excel table
+              const rowIndex = columnData.indexOf(symbol);
+              if (rowIndex !== -1) {
+                this.getQuote(symbol).then((res: any) => {
+                  // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
+                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current)
+                  .then(async () => {
+                    this.waiting = false;
+                  }, (err) => {
+                    this.error = err;
+                    this.waiting = false;
+                  });
                 });
-            }
-            else {
+              } else {
                 this.error = `${symbol} not found in Excel`;
                 this.symbols.splice(index, 1);
                 this.waiting = false;
-            }
-        }, (err) => {
-            this.error = err;
-            this.waiting = false;
-        });
-    }
-    ````
+              }
+            }, (err) => {
+              this.error = err;
+              this.waiting = false;
+            });
+        }
+        ```
 
     >Note: This is a good time to test the **refresh symbol** function of your add-in.
 
-1. Finally, update the `syncTable` function, which is called when the add-in is launched in the constructor of **app.tsx** to pull in any stock symbols that might already exist in the worksheet. It calls `getColumnData` to get this data.
+    1. Finally, update the `syncTable()` method to the following:
 
-    ````typescript
-    // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
-    syncTable = async () => {
-        this.waiting = true;
-        this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            this.symbols = columnData;
-            this.waiting = false;
-        }, (err) => {
-            this.error = err;
-            this.waiting = false;
-        });
-    }
-    ````
+        ```typescript
+        // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
+        syncTable = async () => {
+          this.waiting = true;
+          this.tableUtil.getColumnData('Symbol')
+            .then(async (columnData: string[]) => {
+              this.symbols = columnData;
+              this.waiting = false;
+            }, (err) => {
+              this.error = err;
+              this.waiting = false;
+            });
+        }
+        ```
 
-The Excel Portfolio Add-in written with Angular and TypeScript is complete. You should now follow the steps to [Sideload and Test the Office Add-in](#Exercise4).
-
-<a name="Exercise3"></a>
+The Excel Portfolio Add-in written with Angular and TypeScript is complete. You should now follow the steps to [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
 
 ## Exercise 3: Build an Office Add-in using VueJS
 
@@ -1335,7 +1460,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
 1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery template. We will now convert this template to leverage Vue.js. To get started, open **package.json** in the project root directory, and add the following **dependencies** for **vue** and **vue-class-component**. Add the `@microsoft/office-js` dependency if this is not present in **package.json**.
 
-    ````json
+    ```json
     "dependencies": {
         "@microsoft/office-js": "1.1.4",
         "core-js": "2.5.3",
@@ -1345,11 +1470,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         "vue":"2.5.13",
         "vue-class-component":"6.2.0",
     },
-    ````
+    ```
 
 1. The generator creates a JQuery template that uses a single TypeScript file. To use multiple TypeScript and .vue files, configure the project to use [webpack](https://webpack.github.io/) by adding `devDependencies` for `webpack`, **vue-loader**, `vue-template-compiler`, and `ts-loader`.
 
-    ````json
+    ```json
     "devDependencies": {
         "@types/jquery": "3.3.0",
         "@types/office-js": "0.0.51",
@@ -1363,13 +1488,13 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         "vue-template-compiler": "2.5.13",
         "webpack": "2.3.1"
     }
-    ````
+    ```
 
 1. Return to the terminal/command prompt and run the **npm install** command to pull in the additional dependencies and devDependencies.
 
 1. You need to update the **tsconfig.json** Typescript file to work with webpack, support multiple modules, and Vue.js. Update your **tsconfig.json** file as seen below.
 
-    ````json
+    ```json
     {
         "compilerOptions": {
             "target": "es5",
@@ -1393,11 +1518,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             "node_modules"
         ]
     }
-    ````
+    ```
 
 1. Create a **webpack.config.js** file in the project root directory to configure webpack for this project, and add the following code.
 
-    ````javascript
+    ```javascript
     var path = require('path')
     var webpack = require('webpack')
 
@@ -1449,20 +1574,20 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         },
         devtool: '#eval-source-map'
     }
-    ````
+    ```
 
 1. Update the project so that **.vue** files will be treated like TypeScript. Create a **sfc.d.ts** file in the **src** folder, and add the following code.
 
-    ````typescript
+    ```typescript
     declare module "*.vue" {
         import Vue from 'vue'
         export default Vue
     }
-    ````
+    ```
 
 1. Next, go back to the **package.json** file in the project root directory and update the **scripts** section to use webpack, as shown below.
 
-    ````javascript
+    ```javascript
     "scripts": {
         "tsc": "tsc -p tsconfig.json",
         "server": "browser-sync start --config bsconfig.json",
@@ -1470,13 +1595,13 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         "start": "rimraf dist && npm run tsc && webpack --config webpack.config.js --colors --progress --bail && npm run copy && npm run server",
         "validate": "./node_modules/.bin/validate-office-addin"
     },
-    ````
+    ```
 
     >Note: The updated script settings do not leverage a watch for file changes like the React and Angular projects in this module. Additional webpack configuration could be applied to achieve this. Another option would be to start with the React template from the Office Yeoman generator and convert it to Vue.js.
 
 1. Open **src/index.html**, remove the **core.js** and **jquery.js** references and change the **app.js** reference to **bundle.js** (the consolidated script created by webpack). You can also replace the **header** and **main** content with `&lt;div id="app"&gt;{{welcome}}&lt;/div&gt;`.
 
-    ````html
+    ```html
     <!DOCTYPE html>
     <html>
     <head>
@@ -1504,11 +1629,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     </body>
 
     </html>
-    ````
+    ```
 
 1. Finally, update **src/app.ts** to import Vue and initialize it within the **Office.initialize** callback. You need to call Office.initialize and any page loaded in the add-in before other scripts run.
 
-    ````typescript
+    ```typescript
     import Vue  from 'vue';
 
     (() => {
@@ -1523,15 +1648,15 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             console.log(app);
         };
     })();
-    ````
+    ```
 
-    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#SideLoadTestAddins). In the next section, you will add additional functionality to the add-in.
+    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
 ### Develop the Office Add-in
 
 1. Open **src/app.css** and replace the entire file with the contents show below.
 
-    ````css
+    ```css
     /* You can add global styles to this file, and also import other style files */
     .header {
         padding: 10px;
@@ -1601,7 +1726,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     .tbl-head {
         margin-bottom: 5px;
     }
-    ````
+    ```
 
 1. Copy the **spinner.gif** image from the **README_assets** folder into **src/assets** of your project directory. The Office UI Fabric has a spinner component, but would take additional effort to implement it in a Vue.js project (at least without adding a jquery reference). Here is the image if you want to copy from here.
 
@@ -1611,7 +1736,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
 1. Next, create a **src/components/waiting.vue** file and modify it as shown below.
 
-    ````html
+    ```html
     <template>
     <div>
         <div class="overlay"></div>
@@ -1628,11 +1753,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         name: 'waiting'
     }
     </script>
-    ````
+    ```
 
 1. Next, create a new Vue component named **headerComponent** by creating a new file at **src/components/headerComponent.vue**, and then inserting the code shown below. Notice this component uses a number of predefined Office UI Fabric style classes.
 
-    ````html
+    ```html
     <template>
         <div>
         <div class="ms-bgColor-greenDark header">
@@ -1670,11 +1795,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         error:String;
     }
     </script>
-    ````
+    ```
 
 1. Create a new Vue component named **stock** at **src/components/stock.vue**, and then add the code shown below. This component will display a stock with refresh and delete commands. Notice how the refresh and delete commands emit to the parent.
 
-    ````html
+    ```html
     <template>
         <div class="pct100 itemRow">
             <div class="left ms-font-l">{{symbol}}</div>
@@ -1709,11 +1834,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             index:Number;
         }
     </script>
-    ````
+    ```
 
 1. Finally, Create a new file named **src/components/root.vue** and update it as shown below. Keep this file open because you will make several updates to it before the end of this exercise.
 
-    ````html
+    ```html
     <template>
     <div>
         <waiting v-if="waiting"></waiting>
@@ -1792,11 +1917,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             name: 'root'
         }
     </script>
-    ````
+    ```
 
 1. Open **src/app.ts** and update it as shown below. This imports all the Vue components you just created and renders the **root** component in the **#app** container.
 
-    ````typescript
+    ```typescript
     import Vue  from 'vue';
     import root from './components/root.vue';
 
@@ -1810,15 +1935,15 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             });
         };
     })();
-    ````
+    ```
 
-1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#SideLoadTestAddins).
+1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
 1. The **root.vue** file has a number of placeholder functions that you'll update to complete the add-in. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as shown below.
 
-    ````typescript
+    ```typescript
     getQuote(symbol:string) {
         return new Promise((resolve, reject) => {
             let url = `https://estx.azurewebsites.net/api/quote/${symbol}`;
@@ -1830,11 +1955,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             });
         });
     },
-    ````
+    ```
 
 1. Next, create a new **utils** folder under **src**, and then create a file named **excelTableUtil.ts** in it (**src/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions to work with Excel tables using office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
 
-    ````typescript
+    ```typescript
     /// <reference path="../../node_modules/@types/office-js/index.d.ts" />
 
     export class ExcelTableUtil {
@@ -1849,11 +1974,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
         // ExcelTableUtil functions here
     }
-    ````
+    ```
 
 1. Return to **src/components/root.vue** and add an import reference to the **ExcelTableUtil** class we just created. Next, create a private property inside the data property of the component.
 
-    ````typescript
+    ```typescript
     /* Note: The preceding template code was removed for readability. */
     import Vue from 'vue';
     import Component from 'vue-class-component';
@@ -1886,11 +2011,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             }
         },
         /* Note: The code that follows was removed for readability. */
-    ````
+    ```
 
 1. Next, add functions to **src/utils/excelTableUtil.ts** for **createTable** and **ensureTable**. These functions will be used to get a handle to the Excel table, or create one if a handle doesn't exist.
 
-    ````typescript
+    ```typescript
     // Create the Stock table and define the header row
     createTable = async () => {
         return new Promise(async (resolve, reject) => {
@@ -1933,11 +2058,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             });
         });
     }
-    ````
+    ```
 
 1. Next, add the **addRow** function to **src/utils/excelTableUtil.cs**. Notice that **addRow** calls the ensureTable function we just created to ensure the Excel table has been created.
 
-    ````typescript
+    ```typescript
     // Appends a row to the table.
     addRow = async (data) => {
         return new Promise(async (resolve, reject) => {
@@ -1963,11 +2088,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             });
         });
     }
-    ````
+    ```
 
 1. Return to **src/components/root.vue** and update the **addSymbol** function to call **getQuote** for stock statistics, and then call **addRow** on **ExcelTableUtil**. Notice the row data contains formulas.
 
-    ````typescript
+    ```typescript
     addSymbol(symbol:string) {
       if ((<KeyboardEvent>event).key == "Enter") {
         (<any>this).waiting = true;
@@ -1986,13 +2111,13 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         });
       }
     },
-    ````
+    ```
 
     >**Optional**: This is a good time to test the addSymbol function of your add-in.
 
 1. Return to **/src/utils/excelTableUtil.ts** and add functions for **getColumnData** and **deleteRow**. getColumnData gets values in a column in the Excel table. These values are then used to find a row which is updated or deleted. deleteRow deletes a row in the Excel table using an index.
 
-    ````typescript
+    ```typescript
     // Gets data for a specific named column
     getColumnData = async (column:string) => {
         return new Promise(async (resolve, reject) => {
@@ -2039,11 +2164,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             });
         });
     }
-    ````
+    ```
 
 1. Return to **src/components/root.vue** and update the **deleteSymbol** function to delete the specified symbol in the Excel table.  Using **ExcelTableUtil**, first call **getColumnData** to determine the row to delete, and then call **deleteRow** to perform the delete.
 
-    ````typescript
+    ```typescript
     deleteSymbol(index:number) {
         // Delete from the Excel table using the index number.
         let symbol = (<any>this).symbols[index];
@@ -2068,13 +2193,13 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             (<any>this).waiting = false;
         });
     },
-    ````
+    ```
 
     >**Optional**: This is a good time to test the deleteSymbol function of your add-in.
 
 1. Make the final update to **src/utils/excelTableUtil.ts** by adding the **updateCell** function, which updates the cell at a specific address to a specified value.
 
-    ````typescript
+    ```typescript
     // Updates a specific cell in the table
     updateCell = async (address:string, value:any) => {
         return new Promise(async (resolve, reject) => {
@@ -2094,11 +2219,11 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             });
         });
     }
-    ````
+    ```
 
 1. Next, update the **refreshSymbol** function in **src/components/root.vue** to call **getQuote** for updated stock statistics, and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call **getColumnData** to determine the cell address before calling **updateCell**.
 
-    ````typescript
+    ```typescript
     refreshSymbol(index:number) {
         // Refresh stock quote and update the Excel table.
         let symbol = (<any>this).symbols[index];
@@ -2127,13 +2252,13 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             (<any>this).waiting = false;
         });
     },
-    ````
+    ```
 
     >**Optional**: This is a good time to test the refreshSymbol function of your add-in.
 
-1. Finally, update the **syncTable** function in **src/components/root.vue** to pull in any stock symbols that might already exist in the worksheet. **syncTable** is called in the constructor of app.tsx when the add-in is launched. syncTable calls **getColumnData** to get this data.
+1. Finally, update the **syncTable** function in **src/components/root.vue** to pull in any stock symbols that might already exist in the worksheet. **syncTable** is called in the constructor of App.tsx when the add-in is launched. syncTable calls **getColumnData** to get this data.
 
-    ````typescript
+    ```typescript
         syncTable() {
             (<any>this).waiting = true;
             (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
@@ -2145,51 +2270,60 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             });
         }
     },
-    ````
+    ```
 
-The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](#SideLoadTestAddins).
+The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
 
-<a name="Exercise4"></a>
-
-## 4. Sideload and Test the Office Add-in
+## Exercise 4: Sideload and Test the Office Add-in
 
 This section will outline how to sideload and test an Office Add-in using OneDrive and Office Online.
 
 >Note: The instructions below outline how to sideload an Office Add-in into Office Online, which works in almost any developer environment. If you are working from a PC, you can also sideload the add-in for testing in the full Win32 Office client. For more information on this approach, see the [Sideloading Office Add-ins into Office Desktop or Office Online](https://www.youtube.com/watch?v=XXsAw2UUiQo).
-
+>
 >Note: Office Add-ins are required to be secured by SSL. These labs leverage self-signed certificates for this that may be blocked by your browser as an untrusted certificate. If so, follow the steps for [Adding Self-Signed Certificates as Trusted Root Certificate](https://github.com/OfficeDev/generator-office/blob/master/src/docs/ssl.md).
 
 1. Open a terminal/command prompt in the location where the project is provisioned.
-1. Run the "**npm run start**" command, which will build and host the solution. This command is setup to perform a lot of complex tasks, including compiling all the TypeScript files to JavaScript, using Webpack to combine them into a single script reference, and copying all relevant files to a **dist** folder for hosting. When the build completes, you should see a note that "*webpack: Compiled successfully*". For the React and Angular labs, the TypeScript compiler will also stay in a "watch mode" to refresh the add-in when code changes are made. If you need to exit "watch mode", use the Ctrl-C command.
-1. Navigate and sign-in to OneDrive ([https://www.onedrive.com](https://www.onedrive.com)). OneDrive offers free consumer accounts, so if you don't have one you can create one.
-1. From the OneDrive toolbar, select **New** and then select **Excel workbook** to create a new Excel workbook.
+1. Execute the command **npm run start** to which will build and start the solution.
+
+    This command is setup to perform a lot of complex tasks, including:
+
+      * compiling all the TypeScript files to JavaScript
+      * using Webpack to create a single bundle of all script and CSS resources
+      * copy all relevant files to the **dist** folder
+
+    When the build completes, you should see a note that "*webpack: Compiled successfully*".
+
+    For the React and Angular labs, the TypeScript compiler will also stay in a "watch mode" to refresh the add-in when code changes are made.
+
+    If you need to exit "watch mode", press <kbd>CTRL</kbd>+<kbd>C</kbd> in the command prompt / terminal.
+
+1. Navigate and sign-in to OneDrive: [https://www.onedrive.com](https://www.onedrive.com).
+1. From the OneDrive toolbar, select **New > Excel workbook** to create a new Excel workbook.
 
     ![Creating new workbook in OneDrive](./Images/NewWorkbook.png)
 
-1. Once the new Excel workbook opens, select the **Insert** tab and then select the Office Add-ins button in the ribbon.
+1. Once the new Excel workbook opens, select the **Insert > Office Add-ins** button in the ribbon.
 
     ![Office Add-ins command in the Insert ribbon](./Images/AddinCommand.png)
 
-1. In the Office Add-in dialog, select the Manage My Add-ins link in the top right and then select Upload My Add-in.
+1. In the **Office Add-ins** dialog, select the **Upload My Add-in** link in the top right:
 
     ![Manage My Add-ins](./Images/ManageAddins.png)
 
-1. Using the file selector of the Upload Add-in dialog, browse to the add-in manifest in the root directory of your project (ex: excel-portfolio-manifest.xml) and select Upload.
+1. Using the file selector of the Upload Add-in dialog, browse to the add-in manifest in the root directory of your project (**excel-portfolio-manifest.xml**) and select **Upload**.
 
     ![Upload the manifest](./Images/UploadManifest.png)
 
-1. Uploading the add-in manifest should add a new ribbon button for launching your add-in. Look for the **Show Taskpane** button on the far right of the Home tab.
+1. Uploading the add-in manifest will add a new ribbon button for launching your add-in. Look for the **Show Taskpane** button on the far right of the Home tab.
 
     ![Show taskpane command in ribbon](./Images/ShowTaskpaneCommand.png)
 
-1. Select the **Show Taskpane** button to bring up your Office Add-in in a task pane. Congratulations, you have successfully sideloaded an Office Add-in.
+1. Select the **Show Taskpane** button to bring up your Office Add-in in a task pane.
 1. You should test all the different operations you created:
 
-    * Add a symbol by typing the symbol and pressing enter/return
+    * Add a symbol by typing the symbol and pressing <kbd>enter</kbd> or <kbd>return</kbd>
     * Refresh a symbol (helps to clear out the **Last Price** cell when outside trading hours)
     * Delete a symbol
     * Reload the add-in with an existing portfolio table and see if the add-in pulls in the symbols
 
     ![Testing the add-in](./Images/ExcelPortfolio.gif)
-
-1. By testing in Office Online, you can easily use browser developer tools to investigate any bugs or review the logs.

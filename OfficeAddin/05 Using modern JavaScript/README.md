@@ -23,14 +23,13 @@ This module has been recorded and is available in the Office Development YouTube
 |        Roles         |                        Author(s)                        |
 | -------------------- | ------------------------------------------------------- |
 | Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| QA                   | Matt McDermott (Microsoft MVP, AbleBlue) @MatthewMcD    |
 | Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
 
 ## Version history
 
 | Version |       Date        |                   Comments                   |
 | ------- | ----------------- | -------------------------------------------- |
-| 1.2     | May 14, 2018      | 2018Q4 content refresh & style guide updates |
+| 1.2     | June 11, 2018     | 2018Q4 content refresh & style guide updates |
 | 1.1     | February 25, 2018 | Code review and typos                        |
 | 1.0     |                   | Initial release                              |
 
