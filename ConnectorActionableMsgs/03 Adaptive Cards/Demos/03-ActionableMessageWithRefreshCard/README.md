@@ -19,7 +19,7 @@ This demo will show an actionable message with an adaptive card. The card is ref
 ## Update card and send via email
 
 1. Open Outlook.
-1. Open the message from Demo 2 with subject **MessageCard Playground Test Card**.
+1. Open the message from Demo 2 with subject *#Card Playground Test Card**.
 1. Enter a sample message and select **OK*.
 1. The message card will refresh, including the message just submitted.
 

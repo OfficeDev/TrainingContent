@@ -10,7 +10,7 @@ In the lab, you will walk through building an Adaptive Card, sending it to an in
 
 ## Demos
 
-- [Creating and sending cards](./Demos/01-MessageCardPlayground)
+- [Creating and sending cards](./Demos/01-CardPlayground)
 - [Cards with Actions and Inputs](./Demos/02-CardWithActionAndInput)
 - [Refreshing an Adaptive Card](./Demos/03-ActionableMessageWithRefreshCard)
 

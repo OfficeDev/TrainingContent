@@ -22,14 +22,14 @@ This demo uses PowerShell. It also requires an Office 365 subscription with an a
 
 1. Point out that Action.Submit is not supported by Outlook. Outlook implemented an action (Action.Http) this is not supported in other hosts. Action.Http is discussed later in the module.
 
-## Send an Adaptive card using Message Card Playground
+## Send an Adaptive card using Card Playground
 
-Open the browser to the [Message Card Playground](https://messagecardplayground.azurewebsites.net) site. The site shows a sample card. Replace the sample with the `supportTicketCard.json` in the demo folder.
+Open the browser to the [Card Playground](https://messagecardplayground.azurewebsites.net) site. The site shows a sample card. Replace the sample with the `supportTicketCard.json` in the demo folder.
 
 1. Select the **Load a Sample...** button.
-1. In the **Open file** dialog, navigate to the `Demos/01-MessageCardPlayground` folder. Select the file `supportTicketCard.json`
+1. In the **Open file** dialog, navigate to the `Demos/01-CardPlayground` folder. Select the file `supportTicketCard.json`
 
-    ![Message Playground Open dialog](PlaygroundOpen.png)
+    ![Card Playground Open dialog](PlaygroundOpen.png)
 
 1. Review the card source and preview.
 1. Select the **Send via Email** button.
@@ -38,6 +38,6 @@ Open the browser to the [Message Card Playground](https://messagecardplayground.
 
     ![Send Confirmation](../../Images/SendConfirmation.png)
 
-1. Open Outlook. Select the message titled "MessageCard Playground Test Card." The message will contain the card, footer text with links about the playground and card documentation, and will show the JSON payload of the card.
+1. Open Outlook. Select the message titled "Card Playground Test Card." The message will contain the card, footer text with links about the playground and card documentation, and will show the JSON payload of the card.
 
     ![Adaptive Card in Outlook](../../Images/AdaptiveCardInOutlook.png)

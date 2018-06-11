@@ -4,7 +4,7 @@ In this lab, you will walk through building an Adaptive Card, sending it to an i
 
 ## In this lab
 
-1. [Adaptive Card design and MessageCard Playground](#exercise1)
+1. [Adaptive Card design and Card Playground](#exercise1)
 1. [Adaptive Cards with actions and inputs](#exercise2)
 1. [Card refresh](#exercise3)
 1. [Update card from service](#exercise4)
@@ -27,15 +27,15 @@ This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS 
 
 <a name="exercise1"></a>
 
-## Exercise 1: Adaptive Card design and MessageCard Playground
+## Exercise 1: Adaptive Card design and Card Playground
 
-This exercise will walk you through designing an Adaptive Card and sending it via the MessageCard Playground.
+This exercise will walk you through designing an Adaptive Card and sending it via the Card Playground.
 
-### Visit the MessageCard Playground
+### Visit the Card Playground
 
-1. Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/).
+1. Visit the [Card Playground](https://messagecardplayground.azurewebsites.net/).
 
-    The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
+    The Card Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
 
     There are several samples of Adaptive Cards shown on the samples section of the [Adaptive Cards site](http://adaptivecards.io/samples/).
 
@@ -43,12 +43,12 @@ This exercise will walk you through designing an Adaptive Card and sending it vi
 
 ### Load the sample
 
-1. On the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) page, select **Load a Sample...**.
+1. On the [Card Playground](https://messagecardplayground.azurewebsites.net/) page, select **Load a Sample...**.
 
-1. In the **Open file** dialog, select the file **LabFiles/MessageCardPlayground/supportTicketCard.json**.
+1. In the **Open file** dialog, select the file **LabFiles/CardPlayground/supportTicketCard.json**.
 
 
-    ![Screenshot of MessageCard Playground file open menu.](Images/LabPlaygroundOpen.png)
+    ![Screenshot of Card Playground file open menu.](Images/LabPlaygroundOpen.png)
 
 1. Review the card source and preview.
 
@@ -83,7 +83,7 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
     ![Screenshot of send confirmation.](Images/SendConfirmation.png)
 
-1. Open **Microsoft Outlook**. Select the message titled **MessageCard Playground Test Card**. The message will contain the card, footer text with links about the MessageCard Playground and card documentation, and will show the JSON payload of the card.
+1. Open **Microsoft Outlook**. Select the message titled **Card Playground Test Card**. The message will contain the card, footer text with links about the Card Playground and card documentation, and will show the JSON payload of the card.
 
     ![Screenshot of Adaptive Card received in Microsoft Outlook.](Images/AdaptiveCardInOutlook.png)
 
