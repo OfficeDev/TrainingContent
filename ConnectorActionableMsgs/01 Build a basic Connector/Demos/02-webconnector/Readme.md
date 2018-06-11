@@ -166,7 +166,7 @@ To run this demo, perform the following steps:
         Select the button to call the "register" endpoint in the sample app, which will register the Connector for the selected channel.
     </p>
 
-    <a href="https://outlook.office.com/connectors/Connect?state=State_Info_To_Preserve&app_id=[ApplicationID]&callback_url=[NGROK_HTTPS]/connector/register">
+    <a href="https://outlook.office.com/connectors/Connect?state=myAppsState&app_id=[ApplicationID]&callback_url=[NGROK_HTTPS]/connector/register">
         <img src="https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png" alt="Register The Channel" />
     </a>
     ````

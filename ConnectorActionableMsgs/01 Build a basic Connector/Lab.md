@@ -34,7 +34,7 @@ In this exercise, you will copy an example card from the Message Card Playground
 
 1. Open a browser and go to [Microsoft Outlook](https://outlook.office.com). Log in with your Office 365 credentials.
 1. Create a new group, or select an existing group.
-1. At the top-left of the screen, select the gear next to the member account. Choose **Connectors**.
+1. At the top-right of the screen, select the gear next to the member account. Choose **Connectors**.
 
     ![Screenshot of group settings menu](Images/Exercise1-01.png)
 
@@ -253,9 +253,8 @@ This exercise will add connector functionality to an existing website. First, a 
     <p>
         Select the button to call the "register" endpoint in the sample app, which will register the Connector for the selected channel.
     </p>
-
-    <a href="https://outlook.office.com/connectors/Connect?state=State_Info_To_Preserve&app_id=[ApplicationID]&callback_url=[NGROK_HTTPS]/connector/register">
-        <img src="https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png" alt="Register The Channel" />
+    <a href="https://outlook.office.com/connectors/Connect?state=myAppsState&app_id=[ApplicationID]&callback_url=[NGROK_HTTPS]/connector/register">
+        <img src="https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png" alt="Connect to Office 365"></img>
     </a>
     ````
 
@@ -334,11 +333,9 @@ Following the steps found on [docs.microsoft.com](https://docs.microsoft.com/en-
 
 1. For the **Redirect URLs** field, use the forwarding HTTPS address from ngrok prepended to the route to the register endpoint. In the example, this is `https://8555a1a2.ngrok.io/connector/register`.
 
-1. In the **Enable this integration for** section, select **Outlook**, **Inbox** and **Group** as well as **Microsoft Teams**.
-
 1. Agree to the terms and conditions and choose **Save**.
 
-1. The registration page URL's query string will contain the **id** of the connector. Further, a **Copy Code** button is available that will copy the registration 'button' HTML code to your clipboard. You already have the HTML, so you will modify it by hand. Make note of the **id** as you will use in the following steps. In addition, when you sideload the connector into Microsoft Teams in [Exercise 3](#exercise3), you will make use of the **Download Manifest** feature.
+1. The registration page URL's query string will contain the **id** of the connector. Further, a **Copy Snippet** button is available that will copy the registration 'button' HTML code to your clipboard. You already have the HTML, so you can modify it by hand. Make note of the **id** query string parameter as you will use in the following steps. In addition, when you sideload the connector into Microsoft Teams in [Exercise 3](#exercise3), you will make use of the **Download Manifest** feature.
 
     ![Screenshot of Connectors Developer Dashboard with the Connector ID highlighted](Images/Exercise2-06.png)
 
@@ -348,9 +345,13 @@ Following the steps found on [docs.microsoft.com](https://docs.microsoft.com/en-
 
 1. Open the `/Views/Connector/Setup.cshtml` file.
 
-1. Modify the **Register Office365** button's HTML to include the Connector ID and ngrok HTTPS URL from above. The **ID** replaces `[ApplicationID]` and the ngrok HTTPS URL replaces `[NGROK_HTTPS]`.
+1. Modify the **Register Office365** button's HTML to include the Connector ID and ngrok HTTPS URL from above. The **ID** replaces `[ApplicationID]` and the ngrok HTTPS URL replaces `[NGROK_HTTPS]`. For example:
 
-    ![Screenshot of HTML with connector ID and ngrok URL highlighted.](Images/Exercise2-07.png)
+    ````html
+    <a href="https://outlook.office.com/connectors/Connect?state=myAppsState&app_id=a64a31c1-5901-4af0-98cd-1c98ba42ba39&callback_url=https://8555a1a2.ngrok.io/connector/register">
+        <img src="https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png" alt="Connect to Office 365"></img>
+    </a>
+    ````
 
 ### Add the connector to your inbox
 
