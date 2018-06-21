@@ -1,8 +1,6 @@
-## Build an Office Add-in using React
+# Build an Office Add-in using React
 
 This demo shows how to build and Office Add-in using React with TypeScript. In addition to Office.js, the demo uses the Office Fabric UI for styling and formatting the user experience.
-
-## Running the project
 
 The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](../../Lab.md#sideload-the-office-add-in).
 
@@ -21,9 +19,11 @@ The finished solution is provided in this folder to simplify demonstrations. If 
 
 In this exercise, you will develop an Office Add-in using React and TypeScript. You will provision a new project using the Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Microsoft Office Online.
 
+## Running the project
+
 ### Provision the Office Add-in
 
-1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
+1. Open a terminal/command prompt, and change directories to the location where you want to create the project.
 1. Run the **Office Yeoman generator** using the command `yo office`.
 
     ```shell
@@ -36,12 +36,12 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     * Which Office client application would you like to support? **Excel**
     * Would you like to create a new add-in? **Yes, I need to create a new web app and manifest for my add-in.**
     * Would you like to use TypeScript? **Yes**
-    * Choose a framework **React**
+    * Choose a framework: **React**
     * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
 
     ![Office Yeoman Generator](../../Images/YeomanReact.png)
 
-1. When then Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When the Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
     >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
@@ -132,7 +132,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ```
 
-1. Create a new React component named **Waiting** in the **src/components** folder and add the following code.
+1. Create a new React component named **Waiting.tsx** in the **src/components** folder and add the following code.
 
     This component uses the Office UI Fabric React Components for **Overlay** and **Spinner**.
 
@@ -157,7 +157,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ```
 
-1. Create a new React component named **StockItem** in the **src/components** folder and add the following code.
+1. Create a new React component named **StockItem.tsx** in the **src/components** folder and add the following code.
 
     This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
 
@@ -339,7 +339,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 1. Implement the ExcelTableUtil utility class:
     1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
-    1. Add the following methods `ExcelTableUtil` class. These methods get a handle to the Microsoft Excel table and create it if it doesn't exist.
+    1. Add the following methods `ExcelTableUtil` class. These methods access the table in Excel, or creates the table if it doesn't exist.
 
         ```typescript
         // Create the StocksTable and defines the header row
@@ -360,7 +360,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
             });
           }
 
-          // Ensures the Excel table is created
+          // Ensures the Excel table is created and tries to get a table reference
           ensureTable = async (forceCreate: boolean) => {
             return new Promise(async (resolve, reject) => {
               await Excel.run(async context => {
@@ -372,7 +372,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 });
               }).catch(() => {
                 if (forceCreate) {
-                  // Unable to find table...create it
+                  // Create a new table because an existing table was not found.
                   this.createTable().then(
                     async tableRef => {
                       resolve(tableRef);
@@ -404,7 +404,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                   const sheet = context.workbook.worksheets.getActiveWorksheet();
                   // Add the new row
                   tableRef.rows.add(null, [data]);
-                  // Autofit columns and rows if supported by API
+                  // Autofit columns and rows if your Office version supports the API.
                   if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
                     sheet.getUsedRange().format.autofitColumns();
                     sheet.getUsedRange().format.autofitRows();
@@ -577,7 +577,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
           this.setState({ waiting: true });
           this.tableUtil.getColumnData('Symbol').then(
             async (columnData: string[]) => {
-              // make sure the symbol was found in the Excel table
+              // Ensure the symbol was found in the Excel table
               if (columnData.indexOf(symbol) !== -1) {
                 this.tableUtil.deleteRow(columnData.indexOf(symbol)).then(
                   async () => {
@@ -636,7 +636,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
     1. Locate and open the **src/components/App.tsx** file.
-    1. Locate and update the `refreshSymbol()` method in the `App` class to refresh specifying symbol in the Excel table
+    1. Locate and update the `refreshSymbol()` method in the `App` class to specify a symbol to refresh in the Excel table.
 
         ```typescript
         // Refresh symbol
@@ -647,7 +647,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
           this.setState({ waiting: true });
           this.tableUtil.getColumnData('Symbol').then(
             async (columnData: string[]) => {
-              // make sure the symbol was found in the Excel table
+              // Ensure the symbol was found in the Excel table
               const rowIndex = columnData.indexOf(symbol);
               if (rowIndex !== -1) {
                 this.getQuote(symbol).then((res: any) => {

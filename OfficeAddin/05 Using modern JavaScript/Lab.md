@@ -40,7 +40,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 ### Provision the Office Add-in
 
-1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
+1. Open a terminal/command prompt, and change directories to the location where you want to create the project.
 1. Run the **Office Yeoman generator** using the command `yo office`.
 
     ```shell
@@ -53,12 +53,12 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     * Which Office client application would you like to support? **Excel**
     * Would you like to create a new add-in? **Yes, I need to create a new web app and manifest for my add-in.**
     * Would you like to use TypeScript? **Yes**
-    * Choose a framework **React**
+    * Choose a framework: **React**
     * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
 
     ![Office Yeoman Generator](./Images/YeomanReact.png)
 
-1. When then Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When the Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
     >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
@@ -149,7 +149,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ```
 
-1. Create a new React component named **Waiting** in the **src/components** folder and add the following code.
+1. Create a new React component named **Waiting.tsx** in the **src/components** folder and add the following code.
 
     This component uses the Office UI Fabric React Components for **Overlay** and **Spinner**.
 
@@ -174,7 +174,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ```
 
-1. Create a new React component named **StockItem** in the **src/components** folder and add the following code.
+1. Create a new React component named **StockItem.tsx** in the **src/components** folder and add the following code.
 
     This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
 
@@ -356,7 +356,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 1. Implement the ExcelTableUtil utility class:
     1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
-    1. Add the following methods `ExcelTableUtil` class. These methods get a handle to the Microsoft Excel table and create it if it doesn't exist.
+    1. Add the following methods `ExcelTableUtil` class. These methods access the table in Excel, or creates the table if it doesn't exist.
 
         ```typescript
         // Create the StocksTable and defines the header row
@@ -377,7 +377,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
             });
           }
 
-          // Ensures the Excel table is created
+          // Ensures the Excel table is created and tries to get a table reference
           ensureTable = async (forceCreate: boolean) => {
             return new Promise(async (resolve, reject) => {
               await Excel.run(async context => {
@@ -389,7 +389,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 });
               }).catch(() => {
                 if (forceCreate) {
-                  // Unable to find table...create it
+                  // Create a new table because an existing table was not found.
                   this.createTable().then(
                     async tableRef => {
                       resolve(tableRef);
@@ -421,7 +421,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                   const sheet = context.workbook.worksheets.getActiveWorksheet();
                   // Add the new row
                   tableRef.rows.add(null, [data]);
-                  // Autofit columns and rows if supported by API
+                  // Autofit columns and rows if your Office version supports the API.
                   if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
                     sheet.getUsedRange().format.autofitColumns();
                     sheet.getUsedRange().format.autofitRows();
@@ -594,7 +594,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
           this.setState({ waiting: true });
           this.tableUtil.getColumnData('Symbol').then(
             async (columnData: string[]) => {
-              // make sure the symbol was found in the Excel table
+              // Ensure the symbol was found in the Excel table
               if (columnData.indexOf(symbol) !== -1) {
                 this.tableUtil.deleteRow(columnData.indexOf(symbol)).then(
                   async () => {
@@ -664,7 +664,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
           this.setState({ waiting: true });
           this.tableUtil.getColumnData('Symbol').then(
             async (columnData: string[]) => {
-              // make sure the symbol was found in the Excel table
+              // Ensure the symbol was found in the Excel table
               const rowIndex = columnData.indexOf(symbol);
               if (rowIndex !== -1) {
                 this.getQuote(symbol).then((res: any) => {
@@ -723,7 +723,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
 ### Provision the Office Add-in
 
-1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
+1. Open a terminal/command prompt, and change directories to the location where you want to create the project.
 
 1. Use the **Angular CLI** to provision the new application with the name **excel-portfolio**.
 
@@ -753,7 +753,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     ![Office Yeoman Generator](./Images/YeomanAngular.png)
 
-1. When then Yeoman generator completes, open the project folder in a code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When the Yeoman generator completes, open the project folder in a code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
 1. Alter the `package.json` generated by the Angular CLI for Office Add-in specific requirements:
     1. Locate & open the **package.json** file in the root of the project.
@@ -836,7 +836,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
 ### Develop the Office Add-in
 
-1. Open **src/styles.css** and replace the entire file with the contents show below.
+1. Open **src/styles.css** and replace the entire file with the contents shown below.
 
     ```css
     /* You can add global styles to this file, and also import other style files */
@@ -1099,54 +1099,53 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
 1. Implement the ExcelTableUtil utility class:
     1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
-    1. Add the following methods `ExcelTableUtil` class. These methods get a handle to the Microsoft Excel table and create it if it doesn't exist.
+    1. Add the following methods `ExcelTableUtil` class. These methods access the table in Excel, or creates the table if it doesn't exist.
 
         ```typescript
         // Create the StocksTable and defines the header row
-          createTable = async () => {
-            return new Promise(async (resolve, reject) => {
-              await Excel.run(async context => {
-                // Create a proxy object for the active worksheet and create the table
-                const sheet = context.workbook.worksheets.getActiveWorksheet();
-                const tableRef = sheet.tables.add(this.location, true);
-                tableRef.name = this.tableName;
-                tableRef.getHeaderRowRange().values = [this.headers];
-                return context.sync().then(() => {
-                  resolve(tableRef);
-                });
-              }).catch(createError => {
-                reject(createError);
+        createTable = async () => {
+          return new Promise(async (resolve, reject) => {
+            await Excel.run(async context => {
+              // Create a proxy object for the active worksheet and create the table
+              const sheet = context.workbook.worksheets.getActiveWorksheet();
+              const tableRef = sheet.tables.add(this.location, true);
+              tableRef.name = this.tableName;
+              tableRef.getHeaderRowRange().values = [this.headers];
+              return context.sync().then(() => {
+                resolve(tableRef);
               });
+            }).catch(createError => {
+              reject(createError);
             });
-          }
+          });
+        }
 
-          // Ensures the Excel table is created
-          ensureTable = async (forceCreate: boolean) => {
-            return new Promise(async (resolve, reject) => {
-              await Excel.run(async context => {
-                // Create a proxy object for the active worksheet and try getting table reference
-                const sheet = context.workbook.worksheets.getActiveWorksheet();
-                const tableRef = sheet.tables.getItem(this.tableName);
-                return context.sync().then(() => {
-                  resolve(tableRef);
-                });
-              }).catch(() => {
-                if (forceCreate) {
-                  // Unable to find table...create it
-                  this.createTable().then(
-                    async tableRef => {
-                      resolve(tableRef);
-                    },
-                    createError => {
-                      reject(createError);
-                    }
-                  );
-                } else {
-                  resolve(null);
-                }
+        // Ensures the Excel table is created and tries to get a table reference
+        ensureTable = async (forceCreate: boolean) => {
+          return new Promise(async (resolve, reject) => {
+            await Excel.run(async context => {
+              // Create a proxy object for the active worksheet and try getting table reference
+              const sheet = context.workbook.worksheets.getActiveWorksheet();
+              const tableRef = sheet.tables.getItem(this.tableName);
+              return context.sync().then(() => {
+                resolve(tableRef);
               });
+            }).catch(() => {
+              if (forceCreate) {
+                // Create a new table because an existing table was not found.
+                this.createTable().then(
+                  async tableRef => {
+                    resolve(tableRef);
+                  },
+                  createError => {
+                    reject(createError);
+                  }
+                );
+              } else {
+                resolve(null);
+              }
             });
-          }
+          });
         }
         ```
 
@@ -1164,7 +1163,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
                   const sheet = context.workbook.worksheets.getActiveWorksheet();
                   // Add the new row
                   tableRef.rows.add(null, [data]);
-                  // Autofit columns and rows if supported by API
+                  // Autofit columns and rows if your Office version supports the API.
                   if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
                     sheet.getUsedRange().format.autofitColumns();
                     sheet.getUsedRange().format.autofitRows();
@@ -1320,7 +1319,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
       this.waiting = true;
       this.tableUtil.getColumnData('Symbol').then(
         async (columnData: string[]) => {
-          // make sure the symbol was found in the Excel table
+          // Ensure the symbol was found in the Excel table
           if (columnData.indexOf(symbol) !== -1) {
             this.tableUtil.deleteRow(columnData.indexOf(symbol))
             .then(async () => {
@@ -1386,7 +1385,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
           this.waiting = true;
           this.tableUtil.getColumnData('Symbol')
             .then(async (columnData: string[]) => {
-              // make sure the symbol was found in the Excel table
+              // Ensure the symbol was found in the Excel table
               const rowIndex = columnData.indexOf(symbol);
               if (rowIndex !== -1) {
                 this.getQuote(symbol).then((res: any) => {
@@ -1438,7 +1437,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
 ### Provision the Office Add-in
 
-1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
+1. Open a terminal/command prompt, and change directories to the location where you want to create the project.
 1. Run the **Office Yeoman generator** using the command `yo office**`.
 
     ```shell
@@ -1451,12 +1450,12 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     * Which Office client application would you like to support? **Excel**
     * Would you like to create a new add-in? **Yes, I need to create a new web app and manifest for my add-in.**
     * Would you like to use TypeScript? **Yes**
-    * Choose a framework **JQuery**
+    * Choose a framework: **JQuery**
     * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
 
     ![Office Yeoman Generator](./Images/YeomanVuejs.png)
 
-1. When then Yeoman generator completes, change directories to the project folder (for example, **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command `**code .**` for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When the Yeoman generator completes, change directories to the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
 
 1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery template. We will now convert this template to leverage Vue.js. To get started, open **package.json** in the project root directory, and add the following **dependencies** for **vue** and **vue-class-component**. Add the `@microsoft/office-js` dependency if this is not present in **package.json**.
 
@@ -2034,7 +2033,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         });
     }
 
-    // Ensures the Excel table is created
+    // Ensures the Excel table is created and tries to get a table reference
     ensureTable = async (forceCreate:boolean) => {
         return new Promise(async (resolve, reject) => {
             await Excel.run(async (context) => {
@@ -2046,7 +2045,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
                 });
             }).catch(() => {
                 if (forceCreate) {
-                    // Table was not found, so we create it.
+                    // Create a new table because an existing table was not found.
                     this.createTable().then(async (tableRef) => {
                         resolve(tableRef);
                     }, (createError) => {
@@ -2071,7 +2070,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
                     // Add the new row.
                     tableRef.rows.add(null, [data]);
-                    // Autofit columns and rows if supported by Excel.
+                    // Autofit columns and rows if your Office version supports the API.
                     if (Office.context.requirements.isSetSupported("ExcelApi", 1.2)) {
                         sheet.getUsedRange().format.autofitColumns();
                         sheet.getUsedRange().format.autofitRows();
@@ -2229,7 +2228,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         let symbol = (<any>this).symbols[index];
         (<any>this).waiting = true;
         (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // Make sure the symbol was found in the Excel table.
+            // Ensure the symbol was found in the Excel table
             var rowIndex = columnData.indexOf(symbol);
             if (rowIndex != -1) {
                 (<any>this).getQuote(symbol).then((res:any) => {

@@ -96,7 +96,7 @@ import { ExcelTableUtil } from "../utils/excelTableUtil";
       let symbol = (<any>this).symbols[index];
       (<any>this).waiting = true;
       (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-        // make sure the symbol was found in the Excel table
+        // Ensure the symbol was found in the Excel table
         if (columnData.indexOf(symbol) != -1) {
           (<any>this).tableUtil.deleteRow(columnData.indexOf(symbol)).then(async () => {
             (<any>this).symbols.splice(index, 1);
@@ -120,7 +120,7 @@ import { ExcelTableUtil } from "../utils/excelTableUtil";
       let symbol = (<any>this).symbols[index];
       (<any>this).waiting = true;
       (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-        // make sure the symbol was found in the Excel table
+        // Ensure the symbol was found in the Excel table
         var rowIndex = columnData.indexOf(symbol);
         if (rowIndex != -1) {
           (<any>this).getQuote(symbol).then((res:any) => {

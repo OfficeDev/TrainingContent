@@ -26,7 +26,7 @@ export class ExcelTableUtil {
     });
   }
 
-  // Ensures the Excel table is created
+  // Ensures the Excel table is created and tries to get a table reference
   ensureTable = async (forceCreate: boolean) => {
     return new Promise(async (resolve, reject) => {
       await Excel.run(async context => {
@@ -38,7 +38,7 @@ export class ExcelTableUtil {
         });
       }).catch(() => {
         if (forceCreate) {
-          // Unable to find table...create it
+          // Create a new table because an existing table was not found.
           this.createTable().then(
             async tableRef => {
               resolve(tableRef);
@@ -63,7 +63,7 @@ export class ExcelTableUtil {
             const sheet = context.workbook.worksheets.getActiveWorksheet();
             // Add the new row
             tableRef.rows.add(null, [data]);
-            // Autofit columns and rows if supported by API
+            // Autofit columns and rows if your Office version supports the API.
             if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
               sheet.getUsedRange().format.autofitColumns();
               sheet.getUsedRange().format.autofitRows();

@@ -1,25 +1,8 @@
-# Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
-
-In this demo, you will build an Office Add-in using a VueJS, a popular JavaScript framework.
-
-## Running the project
-
-The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](#sideload-the-office-add-in).
-
-## Table of contents
-
-* [Introduction](#introduction)
-* [Prerequisites](#prerequisites)
-* [Provision the Office Add-in](#provision-the-office-add-in)
-* [Sideload the Office Add-in](#sideload-the-office-add-in)
-* [Develop the Office Add-in](#develop-the-office-add-in)
-* [Questions and comments](#questions-and-comments)
-* [Contributing](#contributing)
-* [Additional resources](#additional-resources)
-
-## Introduction
+# Build an Office Add-in using VueJS
 
 This sample shows how to build and Office Add-in using Vue.js with TypeScript. In addition to Office.js, the sample uses the Office Fabric UI for styling and formatting the user experience.
+
+The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](#sideload-the-office-add-in).
 
 ## Prerequisites
 
@@ -34,7 +17,9 @@ To complete this lab, you need the following:
     npm install -g yo generator-office
     ```
 
-## Provision the Office Add-in
+## Running the project
+
+### Provision the Office Add-in
 
 In this section you will use the Office Yeoman generator and Node Package Manager (npm) to provision and configure the Office Add-in project.
 
@@ -52,12 +37,12 @@ In this section you will use the Office Yeoman generator and Node Package Manage
     * Which Office client application would you like to support? **Excel**
     * Would you like to create a new add-in? **Yes, I need to create a new web app and manifest for my add-in.**
     * Would you like to use TypeScript? **Yes**
-    * Choose a framework **JQuery**
+    * Choose a framework: **JQuery**
     * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
 
     ![Office Yeoman Generator](./README_assets/Yeoman.png)
 
-1. When then Yeoman generator completes, change directories to the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When the Yeoman generator completes, change directories to the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
 
 1. The Office Yeoman generator does not have a Vue.js template, so the instructions had you select the JQuery template which you will now convert to leverage Vue.js. Start by opening **package.json** in the project root directory and add **dependencies** on **vue** and **vue-class-component**. 
 
@@ -691,7 +676,7 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
         });
     }
 
-    // Ensures the Excel table is created
+    // Ensures the Excel table is created and tries to get a table reference
     ensureTable = async (forceCreate:boolean) => {
         return new Promise(async (resolve, reject) => {
             await Excel.run(async (context) => {
@@ -703,7 +688,7 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
                 });
             }).catch(() => {
                 if (forceCreate) {
-                    // Unable to find table...create it
+                    // Create a new table because an existing table was not found.
                     this.createTable().then(async (tableRef) => {
                         resolve(tableRef);
                     }, (createError) => {
@@ -728,7 +713,7 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
                     var sheet = context.workbook.worksheets.getActiveWorksheet();
                     // Add the new row
                     tableRef.rows.add(null, [data]);
-                    // Autofit columns and rows if supported by API
+                    // Autofit columns and rows if your Office version supports the API.
                     if (Office.context.requirements.isSetSupported("ExcelApi", 1.2)) {
                         sheet.getUsedRange().format.autofitColumns();
                         sheet.getUsedRange().format.autofitRows();
@@ -831,7 +816,7 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
         let symbol = (<any>this).symbols[index];
         (<any>this).waiting = true;
         (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // make sure the symbol was found in the Excel table
+            // Ensure the symbol was found in the Excel table
             if (columnData.indexOf(symbol) != -1) {
                 (<any>this).tableUtil.deleteRow(columnData.indexOf(symbol)).then(async () => {
                     (<any>this).symbols.splice(index, 1);
@@ -886,7 +871,7 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
         let symbol = (<any>this).symbols[index];
         (<any>this).waiting = true;
         (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // make sure the symbol was found in the Excel table
+            // Ensure the symbol was found in the Excel table
             var rowIndex = columnData.indexOf(symbol);
             if (rowIndex != -1) {
                 (<any>this).getQuote(symbol).then((res:any) => {

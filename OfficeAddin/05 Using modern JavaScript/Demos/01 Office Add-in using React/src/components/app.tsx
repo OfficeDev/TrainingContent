@@ -91,7 +91,7 @@ export default class App extends React.Component<AppProps, AppState> {
     this.setState({ waiting: true });
     this.tableUtil.getColumnData('Symbol').then(
       async (columnData: string[]) => {
-        // make sure the symbol was found in the Excel table
+        // Ensure the symbol was found in the Excel table
         if (columnData.indexOf(symbol) !== -1) {
           this.tableUtil.deleteRow(columnData.indexOf(symbol)).then(
             async () => {
@@ -124,7 +124,7 @@ export default class App extends React.Component<AppProps, AppState> {
     this.setState({ waiting: true });
     this.tableUtil.getColumnData('Symbol').then(
       async (columnData: string[]) => {
-        // make sure the symbol was found in the Excel table
+        // Ensure the symbol was found in the Excel table
         const rowIndex = columnData.indexOf(symbol);
         if (rowIndex !== -1) {
           this.getQuote(symbol).then((res: any) => {
