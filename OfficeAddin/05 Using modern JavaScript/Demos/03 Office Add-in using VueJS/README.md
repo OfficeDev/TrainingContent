@@ -6,7 +6,7 @@ The finished solution is provided in this folder to simplify demonstrations. If 
 
 ## Prerequisites
 
-To complete this lab, you need the following:
+To complete this ldemoab, you need the following:
 
 * Consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in  (via Office Online).
 * A lightweight code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
@@ -17,15 +17,10 @@ To complete this lab, you need the following:
     npm install -g yo generator-office
     ```
 
-## Running the project
-
 ### Provision the Office Add-in
 
-In this section you will use the Office Yeoman generator and Node Package Manager (npm) to provision and configure the Office Add-in project.
-
-1. Open a terminal/command prompt, and change directories to the location where you want the project provisioned.
-
-1. Run the **Office Yeoman generator** using the command "**yo office**".
+1. Open a terminal/command prompt, and change directories to the location where you want to create the project.
+1. Run the **Office Yeoman generator** using the command `yo office**`.
 
     ```shell
     yo office
@@ -40,265 +35,145 @@ In this section you will use the Office Yeoman generator and Node Package Manage
     * Choose a framework: **JQuery**
     * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
 
-    ![Office Yeoman Generator](./README_assets/Yeoman.png)
+    ![Office Yeoman Generator](../../Images/YeomanVuejs.png)
 
-1. When the Yeoman generator completes, change directories to the project folder (ex: **cd excel-portfolio**) and open the folder in your favorite code editor (you can use the command "**code .**" for [Visual Studio Code](https://code.visualstudio.com/)).
+1. When the Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
-1. The Office Yeoman generator does not have a Vue.js template, so the instructions had you select the JQuery template which you will now convert to leverage Vue.js. Start by opening **package.json** in the project root directory and add **dependencies** on **vue** and **vue-class-component**. 
+    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
-    ````javascript
-    "dependencies": {
-        "core-js": "2.5.3",
-        "jquery": "3.3.1",
-        "office-addin-validator": "1.0.5",
-        "office-ui-fabric-js": "1.5.0",
-        "vue":"2.5.13",
-        "vue-class-component":"6.2.0"
-    },
-    ````
+1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery project template as the starting point so you need to convert the project to leverage Vue.js.
+    1. Open a command prompt and change directory to the root folder of the project.
+        1. Execute the following commands to install the necessary Vue dependency packages & remove jQuery:
 
-1. Unfortunately, the JQuery template the generator uses puts everything into a single TypeScript file. To handle multiple TypeScript (and .vue) files, the project needs to be configured to use [webpack](https://webpack.github.io/). Add **devDependencies** for **webpack**, **vue-loader**, **vue-template-compiler**, and **ts-loader**.
+            ```shell
+            npm install vue vue-class-component --save
+            npm uninstall jquery --save
+            ```
 
-    ````javascript
-    "devDependencies": {
-        "@types/jquery": "3.3.0",
-        "@types/office-js": "0.0.51",
-        "browser-sync": "2.23.6",
-        "concurrently": "3.5.1",
-        "cpx": "1.5.0",
-        "rimraf": "2.6.2",
-        "ts-loader": "2.3.7",
-        "typescript": "2.7.2",
-        "vue-loader": "14.1.1",
-        "vue-template-compiler": "2.5.13",
-        "webpack": "2.3.1"
-    }
-    ````
+        1. Execute the following command to install the necessary dev dependency packages and remove jQuery:
 
-1. Return to the terminal/command prompt and run the **npm install** command to pull in the additional dependencies and devDependencies.
+            ```shell
+            npm install vue-loader vue-template-compiler --save-dev
+            npm uninstall @types/jquery --save-dev
+            ```
 
-1. Next, you need to update the TypeScript config file (**tsconfig.json**) to work with webpack and support multiple modules and Vue.js. Update it as seen below.
+    1. Locate and open the **webpack.config.js** file in the project root directory. It needs to be updated to support Vue JS.
+        1. Locate the section **resolve** and add `.vue` to the array of extensions:
+        1. Add the following constant to the top of the file, after the existing plugin imports:
 
-    ````javascript
-    {
-        "compilerOptions": {
-            "target": "es5",
-            "module": "es6",
-            "moduleResolution": "node",
-            "sourceMap": true,
-            "emitDecoratorMetadata": true,
-            "experimentalDecorators": true,
-            "removeComments": false,
-            "noImplicitAny": false,
-            "noEmitOnError": true,
-            "rootDir": "src",
-            "outDir": "src",
-            "allowSyntheticDefaultImports": true,
-            "lib": [
-                "dom",
-                "es2015"
-            ]
-        },
-        "exclude": [
-            "node_modules"
-        ]
-    }
-    ````
+            ```js
+            const VueLoaderPlugin = require('vue-loader/lib/plugin');
+            ```
 
-1. Create a **webpack.config.js** file in the project root directory to configure webpack for this project. Updated it as seen below.
+        1. Add an **alias** for **Vue**:
 
-    ````javascript
-    var path = require('path')
-    var webpack = require('webpack')
-
-    module.exports = {
-        context: path.resolve(__dirname, 'src'),
-        entry: './app.ts',
-        resolve: {
-            extensions: ['.js', '.json', '.ts', '.vue'],
-            alias: {
+            ```js
+            resolve: {
+              extensions: ['.ts', '.tsx', '.html', '.js', '.vue'],
+              alias: {
                 vue$: 'vue/dist/vue.js'
-            }
-        },
-        output: {
-            path: path.resolve(__dirname, './dist'),
-            publicPath: '/dist/',
-            filename: 'bundle.js'
-        },
-        module: {
-            rules: [
+              }
+            },
+            ```
+
+        1. Locate the existing TypeScript loader in the **modules.rules**... it is the one with the `test: /\.tsx?$/` as the test rule entry. Replace the entire TypeScript loader with the following so TypeScript code in Vue templates is also transpiled to JavaScript:
+
+            ```js
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: [{
+                  loader: 'ts-loader',
+                  options: {
+                    appendTsSuffixTo: [/\.vue$/],
+                    transpileOnly: true
+                  }
+                }]
+            },
+            ```
+
+        1. Add a new object to the **module.rules** array so Webpack will use the Vue-specific loader:
+
+            ```js
+            module: {
+              rules: [
+                ..
                 {
-                    test: /\.ts$/,
-                    loader: 'ts-loader',
-                    options: {
-                        appendTsSuffixTo: [/\.vue$/]
-                    }
+                  test: /\.vue$/,
+                  loader: 'vue-loader',
+                  options: { esModule: true }
                 },
-                {
-                    test: /\.vue$/,
-                    loader: 'vue-loader',
-                    options: {
-                        esModule: true
-                    }
-                },
-                {
-                    test: /\.(png|jpg|gif|svg)$/,
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[ext]?[hash]'
-                    }
-                }
+                ..
+              ]
+            },
+            ```
+
+        1. Add the Vue loader plugin into the collection of **plugins**:
+
+            ```js
+            plugins: [
+              ...
+              new VueLoaderPlugin()
             ]
-        },
-        devServer: {
-            historyApiFallback: true,
-            noInfo: true
-        },
-        performance: {
-            hints: false
-        },
-        devtool: '#eval-source-map'
-    }
-    ````
+            ```
 
-1. Next, you need to update the project so that **.vue** files will be treated like TypeScript. Create a **sfc.d.ts** file at **src/sfc.d.ts** and update it as seen below.
+    1. Update the project so that **.vue** files will be treated like TypeScript. Create a **sfc.d.ts** file in the **src** folder, and add the following code.
 
-    ````typescript
-    declare module "*.vue" {
-        import Vue from 'vue'
-        export default Vue
-    }
-    ````
+        ```typescript
+        declare module "*.vue" {
+          import Vue from 'vue'
+          export default Vue
+        }
+        ```
 
-1. Next, go back to the **package.json** file in the project root directory and update the **scripts** section to leverage webpack as seen below.
+    1. Locate and open the **index.html** file in the project root directory.
+        1. Replace the `<body>` element with the following:
 
-    ````javascript
-    "scripts": {
-        "tsc": "tsc -p tsconfig.json",
-        "server": "browser-sync start --config bsconfig.json",
-        "copy": "cpx \"src/**/!(*.ts)\" dist",
-        "start": "rimraf dist && npm run tsc && webpack --config webpack.config.js --colors --progress --bail && npm run copy && npm run server",
-        "validate": "./node_modules/.bin/validate-office-addin"
-    },
-    ````
+          ```html
+          <body class="ms-font-m ms-welcome">
+            <div id="app">{{welcome}}</div>
+            <script type="text/javascript" src="node_modules/office-ui-fabric-js/dist/js/fabric.js"></script>
+          </body>
+          ```
 
-    > **NOTE**: the updated script settings does not leverage a watch for file changed like the React and Angular projects in this module. Additional webpack configuration could be applied to archive this. Another option would be to start with the React template from the Office Yeoman generator and convert it to Vue.js.
+    1. Locate and open the **src/index.ts** file.
+        1. Add the following `import` statement after the existing `import`:
 
-1. Next, open **src/index.html**, remove the **core.js** and **jquery.js** references and change the **app.js** reference to **bundle.js** (the consolidated script created by webpack). You can also replace the **header** and **main** content with **&lt;div id="app"&gt;{{welcome}}&lt;/div&gt;**.
+            ```ts
+            import Vue  from 'vue';
+            ```
 
-    ````html
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Excel Portfolio</title>
+        1. Remove the existing `$(document).ready();` event code that leverages JQuery:
 
-        <!-- Office JavaScript API -->
-        <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.debug.js"></script>
+            ```ts
+            $(document).ready(() => {
+              $('#run').click(run);
+            });
+            ```
 
-        <!-- LOCAL -->
-        <link rel="stylesheet" href="node_modules/office-ui-fabric-js/dist/css/fabric.min.css" />
-        <link rel="stylesheet" href="node_modules/office-ui-fabric-js/dist/css/fabric.components.css" />
+        1. Replace the contents of the `Office.initialize()` function with the following, replacing the JQuery code with code that updates the UI.
 
-        <!-- Template styles -->
-        <link href="app.css" rel="stylesheet" type="text/css" />
-    </head>
-
-    <body class="ms-font-m ms-welcome">
-        <div id="app">{{welcome}}</div>
-
-        <script type="text/javascript" src="node_modules/office-ui-fabric-js/dist/js/fabric.js"></script>
-        <script type="text/javascript" src="bundle.js"></script>
-    </body>
-
-    </html>
-    ````
-
-1. Finally, update **src/app.ts** to import Vue and initialize it within the **Office.initialize** callback.
-
-    ````typescript
-    import Vue  from 'vue';
-
-    (() => {
-        // The initialize function must be run each time a new page is loaded
-        Office.initialize = (reason) => {
-            var app = new Vue({ 
+            ```ts
+            Office.initialize = (reason) => {
+              var app = new Vue({
                 el: "#app",
                 data: {
-                    welcome: "Hello Office!!!"
+                  welcome: "Hello Office!!!"
                 }
-            });
-            console.log(app);
-        };
-    })();
-    ````
+              });
+              console.log(app);
+            };
+            ```
 
-    > **IMPORTANT**: you need to call Office.initialize and any page loaded in the add-in before other scripts run.
+    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
-## Sideload the Office Add-in
+      ![Screenshot showing the Vue based Office Add-in running in Excel](../../Images/vue-addin-01.png)
 
-In this section you will sideload the Office Add-in using OneDrive and Office Online.
+### Develop the Office Add-in
 
->**NOTE**: The instructions below outline how to sideload an Office Add-in into Office Online, which works in almost any developer environment. If you are working from a PC, you can also sideload the add-in for testing in the full Win32 Office client. For more information on this approach, see the [Sideloading Office Add-ins into Office Desktop or Office Online](https://www.youtube.com/watch?v=XXsAw2UUiQo).
+1. Open **app.css** and replace the entire file with following:
 
->**NOTE**: Office Add-ins are required to be secured by SSL. These labs leverage self-signed certificates for this that may be blocked by your browser as an untrusted certificate. If so, follow the steps for [Adding Self-Signed Certificates as Trusted Root Certificate](https://github.com/OfficeDev/generator-office/blob/master/src/docs/ssl.md).
-
-1. Open a terminal/command prompt in the location where the project is provisioned.
-
-1. Run the "**npm run start**" command, which will build and host the solution. This command is setup to perform a lot of complex tasks, including compiling all the TypeScript files to JavaScript, using Webpack to combine them into a single script reference, and copying all relevant files to a dist folder for hosting. When the build completes, you should see a note that "*webpack: Compiled successfully*". If you need to exit the web host use the Ctrl-C command.
-
-1. Navigate and sign-in to OneDrive ([https://www.onedrive.com](https://www.onedrive.com)). OneDrive offers free consumer accounts, so if you don't have one you can create one.
-
-1. From the OneDrive toolbar, select **New** and then select **Excel workbook** to create a new Excel workbook.
-
-    ![Creating new workbook in OneDrive](./README_assets/NewWorkbook.png)
-
-1. Once the new Excel workbook opens, select the Insert tab and then click on the Office Add-ins button in the ribbon.
-
-    ![Office Add-ins command in the Insert ribbon](./README_assets/AddinCommand.png)
-
-1. In the Office Add-in dialog, click on the Manage My Add-ins link in the top right and then select Upload My Add-in.
-
-    ![Manage My Add-ins](./README_assets/ManageAddins.png)
-
-1. Using the file selector of the Upload Add-in dialog, browse to the add-in manifest in the root directory of your project (ex: excel-portfolio-manifest.xml) and click Upload.
-
-    ![Upload the manifest](./README_assets/UploadManifest.png)
-
-1. Uploading the add-in manifest should add a new ribbon button for launching your add-in. Look for the **Show Taskpane** button on the far right of the Home tab.
-
-    ![Show taskpane command in ribbon](./README_assets/ShowTaskpaneCommand.png)
-
-1. Click on the **Show Taskpane** button to bring up your Office Add-in in a task pane. It should say "Welcome to app!" with an Angular logo below it.
-
-    ![Add-in after initially loading](./README_assets/AddinInit.png)
-
-1. Go back to the **src/index.html** file and modify div to include a class of **ms-font-su**.
-
-    ````html
-    <div id="app" class="ms-font-su">{{welcome}}</div>
-    ````
-
-1. In the terminal/command window, use the **Ctrl-C** command to break out of the web host and run the **npm run start** command again.
-
-1. When webpack has completed, you need to manually refresh the Office Add-in by right clicking it in the browser and reloading the frame.
-
-    ![Reload the add-in frame in Office Online](./README_assets/ReloadFrame.png)
-
-1. After the refresh, you should see the welcome message increase in size as seen below.
-
-    ![Add-in after making change to message](./README_assets/AddinInitWatch.png)
-
-## Develop the Office Add-in
-
-In this section, you will finish developing the Office Add-in using Vue.js and TypeScript. The add-in will allow the user to get real-time stock quotes and manage a portfolio in an Excel table. Users will have the ability to add, delete, and refresh stocks. Additionally, the add-in should check for an existing portfolio upon opening and (if found) read the stocks out of the worksheet.
-
-1. Open **src/app.css** and replace the entire file with the contents show below.
-
-    ````css
-    /* You can add global styles to this file, and also import other style files */
+    ```css
     .header {
         padding: 10px;
     }
@@ -360,7 +235,6 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
         padding-top: 4px;
         padding-bottom: 4px;
     }
-
     .itemRow:hover {
         background-color: #eeeeee;
     }
@@ -368,17 +242,14 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
     .tbl-head {
         margin-bottom: 5px;
     }
-    ````
+    ```
 
-1. Copy the **spinner.gif** image from the **README_assets** folder into **src/assets** of your project directory. The Office UI Fabric has a spinner component, but would take additional effort to implement it in a Vue.js project (at least without adding a jquery reference). Here is the image if you want to copy from here.
+1. Copy the **spinner.gif** image from the **LabFiles** folder into **src/assets** folder.
 
-    ![Spinner](./README_assets/spinner.gif)
+1. Create a new folder **components** in the existing **src** folder to hold the Vue components:
+1. Create a **src/components/Waiting.vue** file and add the following code to it:
 
-1. Similar to React and Angular, Vue.js supports custom components. Although these can be built a number of ways,  this exercise will create **.vue** files that combine templates and TypeScript leveraging the **vue-class-component** package. You have already setup the TypeScript compiler and webpack to handle these tiles. Start by creating a **components** folder under **src** (ex: **src/components**).
-
-1. Next, create a **src/components/waiting.vue** file and modify it as seen below.
-
-    ````html
+    ```html
     <template>
     <div>
         <div class="overlay"></div>
@@ -392,33 +263,33 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
 
     @Component({})
     export default class waiting extends Vue {
-        name: 'waiting'
+      name: 'waiting'
     }
     </script>
-    ````
+    ```
 
-1. Next, create a new Vue component named **headerComponent** at **src/components/headerComponent.vue** with the code shown below. Notice this component uses a number of predefined Office UI Fabric style classes.
+1. Creating a new file **src/components/HeaderComponent.vue** and ad the following code:
 
-    ````html
+    ```html
     <template>
-        <div>
+      <div>
         <div class="ms-bgColor-greenDark header">
-            <span class="ms-font-su ms-fontColor-white">{{title}}</span>
+          <span class="ms-font-su ms-fontColor-white">{{title}}</span>
         </div>
         <div class="ms-MessageBanner" v-if="error">
-            <div class="ms-MessageBanner-content" style="text-align: left; margin-left: 40px;">
-                <div class="ms-MessageBanner-text ms-font-s-plus">
-                    <div class="ms-MessageBanner-clipper">
-                        <i class="ms-Icon ms-Icon--Error"></i>
-                        <span style="vertical-align: top;">&nbsp;{{error}}</span>
-                    </div>
-                </div>
+          <div class="ms-MessageBanner-content" style="text-align: left; margin-left: 40px;">
+            <div class="ms-MessageBanner-text ms-font-s-plus">
+              <div class="ms-MessageBanner-clipper">
+                <i class="ms-Icon ms-Icon--Error"></i>
+                <span style="vertical-align: top;">&nbsp;{{error}}</span>
+              </div>
             </div>
-            <button class="ms-MessageBanner-close" v-on:click="error = null;">
-                <i class="ms-Icon ms-Icon--Clear"></i>
-            </button>
+          </div>
+          <button class="ms-MessageBanner-close" v-on:click="error = null;">
+            <i class="ms-Icon ms-Icon--Clear"></i>
+          </button>
         </div>
-        </div>
+      </div>
     </template>
 
     <script lang="ts">
@@ -426,30 +297,30 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
     import Component from 'vue-class-component';
 
     @Component({
-        props: {
-            title: String,
-            error: String
-        }
+      props: {
+        title: String,
+        error: String
+      }
     })
     export default class headerComponent extends Vue {
-        name: 'headerComponent';
-        title:String;
-        error:String;
+      name: 'headerComponent';
+      title: String;
+      error: String;
     }
     </script>
-    ````
+    ```
 
-1. Create a new React component named **stock** at **src/components/stock.vue** with the code shown below. This component will display a stock with commands for refresh and delete. Notice how the refresh and delete commands emit to the parent.
+1. Creating a new file **src/components/Stock.vue** and ad the following code:
 
-    ````html
+    ```html
     <template>
-        <div class="pct100 itemRow">
-            <div class="left ms-font-l">{{symbol}}</div>
-            <div class="right">
-                <div class="left icon"><i class="ms-Icon ms-Icon--Refresh" aria-hidden="true" v-on:click="refreshSymbol(index)"></i></div>
-                <div class="left icon"><i class="ms-Icon ms-Icon--Delete" aria-hidden="true" v-on:click="deleteSymbol(index)"></i></div>
-            </div>
+      <div class="pct100 itemRow">
+        <div class="left ms-font-l">{{symbol}}</div>
+        <div class="right">
+          <div class="left icon"><i class="ms-Icon ms-Icon--Refresh" aria-hidden="true" v-on:click="refreshSymbol(index)"></i></div>
+          <div class="left icon"><i class="ms-Icon ms-Icon--Delete" aria-hidden="true" v-on:click="deleteSymbol(index)"></i></div>
         </div>
+      </div>
     </template>
 
     <script lang="ts">
@@ -457,467 +328,494 @@ In this section, you will finish developing the Office Add-in using Vue.js and T
     import Component from 'vue-class-component';
 
     @Component({
-        props: {
-            symbol: String,
-            index: Number
+      props: {
+        symbol: String,
+        index: Number
+      },
+      methods: {
+        refreshSymbol(index:Number) {
+          this.$emit("refreshSymbol", index);
         },
-        methods: {
-            refreshSymbol(index:Number) { 
-                this.$emit("refreshSymbol", index);
-            },
-            deleteSymbol(index:Number) {
-                this.$emit("deleteSymbol", index);
-            }
+        deleteSymbol(index:Number) {
+          this.$emit("deleteSymbol", index);
         }
+      }
     })
     export default class stock extends Vue {
-        name: 'stock';
-        symbol:string;
-        index:Number;
+      name: 'stock';
+      symbol: string;
+      index: Number;
     }
     </script>
-    ````
+    ```
 
-1. Finally, open up **src/components/root.vue** and update it as seen below. Keep it open, as you will make a number of additional updates to this file before the end of this exercise.
+1. Creating a new file **src/components/Root.vue** and ad the following code:
 
-    ````html
+    ```html
     <template>
     <div>
-        <waiting v-if="waiting"></waiting>
-        <header-component v-bind:error="error" title="Excel Portfolio"></header-component>
-        <div class="padding10">
-            <div class="pct100 tbl-head">
-                <span class="ms-font-l">Stock Symbols</span>
-            </div>
-            <div class="pct100">
-                <input class="ms-TextField-field" 
-                    v-model="newSymbol" 
-                    v-on:keyup="addSymbol(newSymbol)" 
-                    placeholder="Enter a stock symbol (ex: MSFT)" />
-            </div>
-            <stock v-for="(symbol, index) in symbols"  
-                v-bind:key="symbol" 
-                v-bind:symbol="symbol" 
-                v-bind:index="index" 
-                v-on:refreshSymbol="refreshSymbol(index)" 
-                v-on:deleteSymbol="deleteSymbol(index)"></stock>
-            <div class="pct100 itemRow" v-if="symbols.length == 0">
-                <em class="ms-font-l">No symbols added</em>
-            </div>
+      <waiting v-if="waiting"></waiting>
+      <header-component v-bind:error="error" title="Excel Portfolio"></header-component>
+      <div class="padding10">
+        <div class="pct100 tbl-head">
+          <span class="ms-font-l">Stock Symbols</span>
         </div>
+        <div class="pct100">
+          <input class="ms-TextField-field"
+              v-model="newSymbol"
+              v-on:keyup="addSymbol(newSymbol)"
+              placeholder="Enter a stock symbol (ex: MSFT)" />
+        </div>
+        <stock v-for="(symbol, index) in symbols"
+            v-bind:key="symbol"
+            v-bind:symbol="symbol"
+            v-bind:index="index"
+            v-on:refreshSymbol="refreshSymbol(index)"
+            v-on:deleteSymbol="deleteSymbol(index)"></stock>
+        <div class="pct100 itemRow" v-if="symbols.length == 0">
+          <em class="ms-font-l">No symbols added</em>
+        </div>
+      </div>
     </div>
     </template>
 
     <script lang="ts">
-    import Vue from 'vue';
-    import Component from 'vue-class-component';
-    import waiting from "./waiting.vue";
-    import headerComponent from "./headerComponent.vue";
-    import stock from "./stock.vue";
+      import Vue from 'vue';
+      import Component from 'vue-class-component';
+      import waiting from "./Waiting.vue";
+      import headerComponent from "./HeaderComponent.vue";
+      import stock from "./Stock.vue";
 
-    @Component({
-        data: function () { 
-            return {
-                symbols: [],
-                waiting: false,
-                error: "",
-                newSymbol: ""
-            } 
+      @Component({
+        data: function () {
+          return {
+            symbols: [],
+            waiting: false,
+            error: "",
+            newSymbol: ""
+          }
         },
         components: {
-            waiting,
-            headerComponent,
-            stock
+          waiting,
+          headerComponent,
+          stock
         },
         methods: {
-            getQuote(symbol:string) {
-                //TODO
-                console.log(symbol);
-            },
-            addSymbol(symbol:string) {
-                //TODO
-                console.log(symbol);
-            },
-            deleteSymbol(index:number) {
-                //TODO
-                console.log(index);
-            },
-            refreshSymbol(index:number) {
-                //TODO
-                console.log(index);
-            },
-            syncTable() {
-                //TODO
-                console.log("sync table");
-            }
+          getQuote(symbol:string) {
+            //TODO
+            console.log(symbol);
+          },
+          addSymbol(symbol:string) {
+            //TODO
+            console.log(symbol);
+          },
+          deleteSymbol(index:number) {
+            //TODO
+            console.log(index);
+          },
+          refreshSymbol(index:number) {
+            //TODO
+            console.log(index);
+          },
+          syncTable() {
+            //TODO
+            console.log("sync table");
+          }
         },
         mounted: function () {
-            (<any>this).syncTable();
+          (<any>this).syncTable();
         }
-    })
-    export default class root extends Vue {
+      })
+      export default class root extends Vue {
         name: 'root'
-    }
+      }
     </script>
-    ````
+    ```
 
-1. Open **src/app.ts** and update it as seen below. This imports all the Vue components you just created and renders the **root** component in the **#app** container.
+1. Locate and open **src/index.ts** and update it to load the components that you just created in the project.
+    1. Add the following `import` statement after the existing `import` statements:
 
-    ````typescript
-    import Vue  from 'vue';
-    import root from './components/root.vue';
+        ```ts
+        import root from './components/Root.vue';
+        ```
 
-    (() => {
-        // The initialize function must be run each time a new page is loaded
+    1. Update the `Office.initialize` function to load the Vue root component as follows:
+
+        ```typescript
+        import Vue  from 'vue';
+        import root from './components/Root.vue';
+
         Office.initialize = (reason) => {
-            var app = new Vue({ 
-                el: "#app",
-                render: h => h(root, { }),
-                components: { root }
-            });
+          var app = new Vue({
+            el: "#app",
+            render: h => h(root, {}),
+            comments: { root }
+          });
+          console.log(app);
         };
-    })();
-    ````
+        ```
 
-1. Although the app's functionality isn't complete, the visual markup is. You can see it by saving all your work and returning to Office Online. It should look similar to below. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#sideload-the-office-add-in) steps above.
+1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
 
-    ![Add-in with visual markup complete](./README_assets/AddinVisual.png)
+    ![Add-in with visual markup complete](../../Images/AddinVisual.png)
 
-1. The **root.vue** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locading the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **src/components/Root.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
-    ````typescript
+    ```typescript
     getQuote(symbol:string) {
-        return new Promise((resolve, reject) => {
-            let url = `https://estx.azurewebsites.net/api/quote/${symbol}`;
-            fetch(url).then((res) => {
-                if (res.ok)
-                    resolve(res.json());
-                else
-                    reject("Error getting quote");
-            });
-        });
-    },
-    ````
+      return new Promise((resolve, reject) => {
+        const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
 
-1. Next, create new **utils** folder under **src** and then create a file named **excelTableUtil.ts** in it (**src/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions for working with Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
+        fetch(queryEndpoint)
+          .then((res: any) => {
+            if (!res.ok) {
+              reject('Error getting quote');
+            }
+            return res.json();
+          })
+          .then((jsonResponse: any) => {
+            const quote: any = jsonResponse['Stock Quotes'][0];
+            resolve(quote);
+          });
+      });
+    }
+    ```
 
-    ````typescript
-    /// <reference path="../../node_modules/@types/office-js/index.d.ts" />
+1. Create new **utils** folder in the **src** folder, then create a file named **ExcelTableUtil.tsx**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
 
+    ```typescript
     export class ExcelTableUtil {
-        tableName:string;
-        location:string;
-        headers:string[];
-        constructor(tableName:string, location:string, headers:string[]) {
-            this.tableName = tableName;
-            this.location = location;
-            this.headers = headers;
+      tableName: string;
+      location: string;
+      headers: string[];
+      constructor(tableName: string, location: string, headers: string[]) {
+        this.tableName = tableName;
+        this.location = location;
+        this.headers = headers;
+      }
+    }
+    ```
+
+1. Implement the ExcelTableUtil utility class:
+    1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
+    1. Add the following methods `ExcelTableUtil` class. These methods access the table in Excel, or creates the table if it doesn't exist.
+
+        ```typescript
+        // Create the StocksTable and defines the header row
+        createTable = async () => {
+          return new Promise(async (resolve, reject) => {
+            await Excel.run(async context => {
+              // Create a proxy object for the active worksheet and create the table
+              const sheet = context.workbook.worksheets.getActiveWorksheet();
+              const tableRef = sheet.tables.add(this.location, true);
+              tableRef.name = this.tableName;
+              tableRef.getHeaderRowRange().values = [this.headers];
+              return context.sync().then(() => {
+                resolve(tableRef);
+              });
+            }).catch(createError => {
+              reject(createError);
+            });
+          });
         }
 
-        // ExcelTableUtil functions here
-    }
-    ````
-
-1. Return to **src/components/root.vue** and add a import reference to the **ExcelTableUtil** class we just created and create a private property inside the data property of the component.
-
-    ````typescript
-    /* !!! template removed for readability !!! */
-    import Vue from 'vue';
-    import Component from 'vue-class-component';
-    import waiting from "./waiting.vue";
-    import headerComponent from "./headerComponent.vue";
-    import stock from "./stock.vue";
-    import { ExcelTableUtil } from "../utils/excelTableUtil";
-
-    @Component({
-        data: function () { 
-            return {
-                symbols: [],
-                waiting: false,
-                error: "",
-                newSymbol: "",
-                tableUtil: new ExcelTableUtil(
-                    "Portfolio", "A1:J1", [
-                        "Symbol", 
-                        "Last Price", 
-                        "Change $", 
-                        "Change %", 
-                        "Quantity", 
-                        "Price Paid", 
-                        "Day's Gain $", 
-                        "Total Gain $", 
-                        "Total Gain %", 
-                        "Value"
-                    ]
-                )
-            }
-        },
-        /* !!! lines removed for readability !!! */
-    ````
-
-1. Next, add functions to **src/utils/excelTableUtil.ts** for **createTable** and **ensureTable**. These functions will be used to get a handle to the Excel table (and create it if it doesn't exist).
-
-    ````typescript
-    // Create the StocksTable and defines the header row
-    createTable = async () => {
-        return new Promise(async (resolve, reject) => {
-            await Excel.run(async (context) => {
-                // Create a proxy object for the active worksheet and create the table
-                var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var tableRef = sheet.tables.add(this.location, true);
-                tableRef.name = this.tableName;
-                tableRef.getHeaderRowRange().values = [this.headers];
-                return context.sync().then(() => {
-                    resolve(tableRef);
-                });
-            }).catch((createError) => {
-                reject(createError);
-            });
-        });
-    }
-
-    // Ensures the Excel table is created and tries to get a table reference
-    ensureTable = async (forceCreate:boolean) => {
-        return new Promise(async (resolve, reject) => {
-            await Excel.run(async (context) => {
-                // Create a proxy object for the active worksheet and try getting table reference
-                var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var tableRef = sheet.tables.getItem(this.tableName);
-                return context.sync().then(() => {
-                    resolve(tableRef);
-                });
+        // Ensures the Excel table is created and tries to get a table reference
+        ensureTable = async (forceCreate: boolean) => {
+          return new Promise(async (resolve, reject) => {
+            await Excel.run(async context => {
+              // Create a proxy object for the active worksheet and try getting table reference
+              const sheet = context.workbook.worksheets.getActiveWorksheet();
+              const tableRef = sheet.tables.getItem(this.tableName);
+              return context.sync().then(() => {
+                resolve(tableRef);
+              });
             }).catch(() => {
-                if (forceCreate) {
-                    // Create a new table because an existing table was not found.
-                    this.createTable().then(async (tableRef) => {
-                        resolve(tableRef);
-                    }, (createError) => {
-                        reject(createError);
-                    });
-                }
-                else
-                    resolve(null);
+              if (forceCreate) {
+                // Create a new table because an existing table was not found.
+                this.createTable().then(
+                  async tableRef => {
+                    resolve(tableRef);
+                  },
+                  createError => {
+                    reject(createError);
+                  }
+                );
+              } else {
+                resolve(null);
+              }
             });
-        });
-    }
-    ````
+          });
+        }
+        ```
 
-1. Next, add the **addRow** function to **src/utils/excelTableUtil.cs**. Notice that it call the ensureTable function we just created to ensure the Excel table has been created.
+    1. Add the following method to the `ExcelTableUtil` class.
+  
+        Notice that it calls the `ensureTable` function we just created to ensure the Excel table has been created.
 
-    ````typescript
-    // Appends a row to the table
-    addRow = async (data) => {
-        return new Promise(async (resolve, reject) => { 
-            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
-                await Excel.run(async (context) => {
-                    var sheet = context.workbook.worksheets.getActiveWorksheet();
-                    // Add the new row
-                    tableRef.rows.add(null, [data]);
-                    // Autofit columns and rows if your Office version supports the API.
-                    if (Office.context.requirements.isSetSupported("ExcelApi", 1.2)) {
-                        sheet.getUsedRange().format.autofitColumns();
-                        sheet.getUsedRange().format.autofitRows();
-                    }
-                    sheet.activate();
-                    return context.sync().then(() => {
-                        resolve();
-                    });
-                }).catch((err) => {
-                    reject(err);
+        ```typescript
+        // Appends a row to the table
+        addRow = async (data) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(
+              async (tableRef: Excel.Table) => {
+                await Excel.run(async context => {
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  // Add the new row
+                  tableRef.rows.add(null, [data]);
+                  // Autofit columns and rows if your Office version supports the API.
+                  if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
+                    sheet.getUsedRange().format.autofitColumns();
+                    sheet.getUsedRange().format.autofitRows();
+                  }
+                  sheet.activate();
+                  return context.sync().then(() => {
+                    resolve();
+                  });
+                }).catch(err => {
+                  reject(err);
                 });
+              },
+              err => {
+                reject(err);
+              }
+            );
+          });
+        }
+        ```
+
+1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/components/Root.vue** file.
+    1. Add the following `import` statement after the existing `import` statements for the the new **ExcelTableUtil** class.
+
+        ```typescript
+        import { ExcelTableUtil } from '../utils/ExcelTableUtil';
+        ```
+
+    1. Add the following constant after the `import` statements and update the **{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}** to use your API key.
+
+        ```typescript
+        const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
+        ```
+
+    1. Locate the return statement for the `data: function ()` in the `@Component`. Add a new property `tableUtil` to the object returned, as shown int he following code:
+
+        ```typescript
+        data: function () {
+          return {
+            symbols: [],
+            waiting: false,
+            error: "",
+            newSymbol: "",
+            tableUtil: new ExcelTableUtil('Portfolio', 'A1:H1', [
+              'Symbol',
+              'Last Price',
+              'Timestamp',
+              'Quantity',
+              'Price Paid',
+              'Total Gain',
+              'Total Gain %',
+              'Value'
+            ])
+          };
+        },
+        ```
+
+    1. Update the `addSymbol()` method to the following code:
+
+        ```typescript
+        // Adds symbol
+        addSymbol(symbol: string) {
+          if ((<KeyboardEvent>event).key == "Enter") {
+            this.waiting = true;
+            this.getQuote(symbol).then((res:any) => {
+              let data = [
+                res['1. symbol'], //Symbol
+                res['2. price'], //Last Price
+                res['4. timestamp'], // Timestamp of quote
+                0,
+                0,
+                '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
+                '=H:H / (E:E * D:D) * 100', //Total Gain %
+                '=B:B * D:D' //Value
+              ];
+              this.tableUtil.addRow(data).then(() => {
+                this.symbols.unshift(symbol);
+                this.waiting = false;
+                this.newSymbol = "";
+              }, (err) => {
+                this.error = err;
+              });
+            }, (err) => {
+              this.error = err;
+              this.waiting = false;
+            });
+          }
+        },
+        ```
+
+        >Note: This is a good time to test the **add symbol** function of your add-in.
+
+1. Update the **ExcelTableUtil** utility to add support for accessing and deleting rows:
+    1. Locate and open the **src/utils/ExcelTableUtil.TS** file.
+    1. Add the following methods to the `ExcelTableUtil` class:
+
+        ```typescript
+        // Gets data for a specific named column
+        getColumnData = async (column:string) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(false).then(async (tableRef:Excel.Table) => {
+              if (tableRef == null)
+                resolve([]);
+              else {
+                await Excel.run(async (context) => {
+                  // Get column range of values by column name.
+                  var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                  // Sync to populate proxy objects with data from Excel
+                  return context.sync().then(async () => {
+                    let data:string[] = [];
+                    for (var i = 0; i < colRange.values.length; i++) {
+                      data.push(colRange.values[i].toString());
+                    }
+                    resolve(data);
+                  });
+                }).catch((err) => {
+                  reject(err);
+                });
+              }
+            }, (err) => {
+              reject(err);
+            });
+          });
+        }
+
+        // Deletes a column using the row index.
+        deleteRow = async (index:number) => {
+          return new Promise(async (resolve, reject) => {
+            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
+              await Excel.run(async (context) => {
+                var range = tableRef.rows.getItemAt(index).getRange();
+                range.delete(Excel.DeleteShiftDirection.up);
+                return context.sync().then(async () => {
+                  resolve();
+                });
+              }).catch((err) => {
+                reject(err);
+              });
             }, (err) => {
                 reject(err);
             });
-        });
-    }
-    ````
-
-1. Return to **src/components/root.vue** and update the **addSymbol** function to call **getSymbol** for stock stats and then call **addRow** on the **ExcelTableUtil**. Notice the row data contains formulas.
-
-    ````typescript
-    addSymbol(symbol:string) {
-      if ((<KeyboardEvent>event).key == "Enter") {
-        (<any>this).waiting = true;
-        (<any>this).getQuote(symbol).then((res:any) => {
-          let data = [res.symbol, res.current, res.curr_change, res.pct_change * 100, 0, 0, "=C:C * E:E", "=(B:B * E:E) - (F:F * E:E)", "=H:H / (F:F * E:E) * 100", "=B:B * E:E"];
-          (<any>this).tableUtil.addRow(data).then(() => {
-            (<any>this).symbols.unshift(symbol);
-            (<any>this).waiting = false;
-            (<any>this).newSymbol = "";
-          }, (err) => {
-            (<any>this).error = err;
           });
-        }, (err) => {
+        }
+        ```
+
+1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/components/Root.vue** file.
+
+    ```typescript
+    deleteSymbol(index:number) {
+      // Delete from the Excel table using the index number.
+      let symbol = (<any>this).symbols[index];
+      (<any>this).waiting = true;
+      (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
+          // Make sure the symbol was found in the Excel table
+          if (columnData.indexOf(symbol) != -1) {
+              (<any>this).tableUtil.deleteRow(columnData.indexOf(symbol)).then(async () => {
+                  (<any>this).symbols.splice(index, 1);
+                  (<any>this).waiting = false;
+              }, (err) => {
+                  (<any>this).error = err;
+                  (<any>this).waiting = false;
+              });
+          }
+          else {
+              (<any>this).symbols.splice(index, 1);
+              (<any>this).waiting = false;
+          }
+      }, (err) => {
           (<any>this).error = err;
           (<any>this).waiting = false;
-        });
-      }
+      });
     },
-    ````
+    ```
 
-    >**Optional**: this is a good time to test the "add symbol" function of your add-in
+    >**Optional**: This is a good time to test the deleteSymbol function of your add-in.
 
-1. Return to **/src/utils/excelTableUtil.ts** and add functions for **getColumnData** and **deleteRow**. getColumnData gets values for a column in the Excel table so a row can be identified for update or delete. deleteRow deletes a row in the Excel table based on it's index.
+1. Update the **ExcelTableUtil** utility to add support for refreshing rows in the table:
+    1. Locate and open the **src/utils/ExcelTableUtil.ts** file.
+    1. Add the following methods to the `ExcelTableUtil` class:
 
-    ````typescript
-    // Gets data for a specific named column
-    getColumnData = async (column:string) => {
-        return new Promise(async (resolve, reject) => { 
-            this.ensureTable(false).then(async (tableRef:Excel.Table) => {
-                if (tableRef == null)
-                    resolve([]);
-                else {
+        ```typescript
+        // Updates a specific cell in the table
+        updateCell = async (address:string, value:any) => {
+            return new Promise(async (resolve, reject) => {
+                this.ensureTable(true).then(async () => {
                     await Excel.run(async (context) => {
-                        // Get column range by column name
-                        var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
-                        // Sync to populate proxy objects with data from Excel
+                        var sheet = context.workbook.worksheets.getActiveWorksheet();
+                        var range = sheet.getRange(address);
+                        range.values = [[value]];
                         return context.sync().then(async () => {
-                            let data:string[] = [];
-                            for (var i = 0; i < colRange.values.length; i++) {
-                                data.push(colRange.values[i].toString());
-                            }
-                            resolve(data);
+                            resolve();
                         });
                     }).catch((err) => {
                         reject(err);
                     });
-                }
-            }, (err) => {
-                reject(err);
-            });
-        });
-    }
-
-    // Deletes a column based by row index
-    deleteRow = async (index:number) => {
-        return new Promise(async (resolve, reject) => { 
-            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
-                await Excel.run(async (context) => {
-                    var range = tableRef.rows.getItemAt(index).getRange();
-                    range.delete(Excel.DeleteShiftDirection.up);
-                    return context.sync().then(async () => {
-                        resolve();
-                    });
-                }).catch((err) => {
-                    reject(err);
-                });
-            }, (err) => {
-                reject(err);
-            });
-        });
-    }
-    ````
-
-1. Return to **src/components/root.vue** and update the **deleteSymbol** function to delete the specified symbol from the Excel table. Do this by first calling **getColumnData** (on **ExcelTableUtil**) to determine the row to delete and then **deleteRow** (also on **ExcelTableUtil**) to perform the delete.
-
-    ````typescript
-    deleteSymbol(index:number) {
-        // Delete from Excel table by index number
-        let symbol = (<any>this).symbols[index];
-        (<any>this).waiting = true;
-        (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-            // Ensure the symbol was found in the Excel table
-            if (columnData.indexOf(symbol) != -1) {
-                (<any>this).tableUtil.deleteRow(columnData.indexOf(symbol)).then(async () => {
-                    (<any>this).symbols.splice(index, 1);
-                    (<any>this).waiting = false;
                 }, (err) => {
-                    (<any>this).error = err;
-                    (<any>this).waiting = false;
-                });
-            }
-            else {
-                (<any>this).symbols.splice(index, 1);
-                (<any>this).waiting = false;
-            }
-        }, (err) => {
-            (<any>this).error = err;
-            (<any>this).waiting = false;
-        });
-    },
-    ````
-
-    >**Optional**: this is a good time to test the "delete symbol" function of your add-in
-
-1. Make the final update to **src/utils/excelTableUtil.ts** by adding the **updateCell** function, which updates the cell at a specific address to a specified value.
-
-    ````typescript
-    // Updates a specific cell in the table
-    updateCell = async (address:string, value:any) => {
-        return new Promise(async (resolve, reject) => { 
-            this.ensureTable(true).then(async () => {
-                await Excel.run(async (context) => {
-                    var sheet = context.workbook.worksheets.getActiveWorksheet();
-                    var range = sheet.getRange(address);
-                    range.values = [[value]];
-                    return context.sync().then(async () => {
-                        resolve();
-                    });
-                }).catch((err) => {
                     reject(err);
                 });
-            }, (err) => {
-                reject(err);
             });
-        });
-    }
-    ````
+        }
+        ```
 
-1. Next, update the **refreshSymbol** function on **src/components/root.vue** to call **getQuote** for updated stock statistics and then update the last trade cell in the Excel table. Similar to deleteSymbol, this function will call **getColumnData** to determine the cell address before calling **updateCell**.
+1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
+    1. Locate and open the **src/components/Root.vue** file.
+    1. Locate and update the `refreshSymbol()` method to specify a symbol to refresh in the Excel table.
 
-    ````typescript
-    refreshSymbol(index:number) {
-        // Refresh stock quote and update Excel table
-        let symbol = (<any>this).symbols[index];
-        (<any>this).waiting = true;
-        (<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
+        ```typescript
+        refreshSymbol(index:number) {
+          // Refresh stock quote and update the Excel table.
+          let symbol = this.symbols[index];
+          this.waiting = true;
+          this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
             // Ensure the symbol was found in the Excel table
             var rowIndex = columnData.indexOf(symbol);
             if (rowIndex != -1) {
-                (<any>this).getQuote(symbol).then((res:any) => {
-                    // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                    (<any>this).tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current).then(async () => {
-                        (<any>this).waiting = false;
-                    }, (err) => {
-                        (<any>this).error = err;
-                        (<any>this).waiting = false;
-                    });
+              this.getQuote(symbol).then((res:any) => {
+                  // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
+                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current).then(async () => {
+                  this.waiting = false;
+                }, (err) => {
+                  this.error = err;
+                  this.waiting = false;
                 });
+              });
             }
             else {
-                (<any>this).error = `${symbol} not found in Excel`;
-                (<any>this).symbols.splice(index, 1);
-                (<any>this).waiting = false;
+              this.error = `${symbol} not found in Excel`;
+              this.symbols.splice(index, 1);
+              this.waiting = false;
             }
-        }, (err) => {
-            (<any>this).error = err;
-            (<any>this).waiting = false;
-        });
-    },
-    ````
+          }, (err) => {
+            this.error = err;
+            this.waiting = false;
+          });
+        },
+        ```
 
-    >**Optional**: this is a good time to test the "refresh symbol" function of your add-in
+    >**Optional**: This is a good time to test the refreshSymbol function of your add-in.
 
-1. Finally, update the **syncTable** function in **src/components/root.vue**, which is called when the add-in is launched (in the constructor of app.tsx) to pull in any stock symbols that might already exist in the worksheet. It calls **getColumnData** to get this data.
+    1. Finally, update the `syncTable()` method to the following:
 
-    ````typescript
-		syncTable() {
-			(<any>this).waiting = true;
-			(<any>this).tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
-				(<any>this).symbols = columnData;
-				(<any>this).waiting = false;
-			}, (err) => {
-				(<any>this).error = err;
-				(<any>this).waiting = false;
-			});
-		}
-    },
-    ````
+        ```typescript
+        syncTable() {
+          this.waiting = true;
+          this.tableUtil.getColumnData("Symbol").then(async (columnData:string[]) => {
+            this.symbols = columnData;
+            this.waiting = false;
+          }, (err) => {
+            this.error = err;
+            this.waiting = false;
+          });
+        }
+        ```
 
-1. Test your work by returning to Excel Online. If you previously closed the Excel Online window or if your Office Online session has expired (the add-in doesn't seem to load), follow the [Sideload the Office Add-in](#sideload-the-office-add-in) steps above. You should test all the different operations you created:
-    * Add a symbol by typing the symbol and pressing enter/return
-    * Refresh a symbol (helps to clear out the **Last Price** cell when outside trading hours)
-    * Delete a symbol
-    * Reload the add-in with an existing portfolio table and see if the add-in pulls in the symbols
-
-    ![Testing the add-in](./README_assets/ExcelPortfolio.gif)
+The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).

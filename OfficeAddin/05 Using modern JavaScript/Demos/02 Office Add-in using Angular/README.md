@@ -522,32 +522,37 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
         ```typescript
         // Adds symbol
-        addRow = async (data) => {
-          return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(
-              async (tableRef: Excel.Table) => {
-                await Excel.run(async (context) => {
-                  const sheet = context.workbook.worksheets.getActiveWorksheet();
-                  // Add the new row
-                  tableRef.rows.add(null, [data]);
-                  // Autofit columns and rows if supported by API
-                  if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
-                    sheet.getUsedRange().format.autofitColumns();
-                    sheet.getUsedRange().format.autofitRows();
-                  }
-                  sheet.activate();
-                  return context.sync().then(() => {
-                    resolve();
-                  });
-                }).catch(err => {
-                  reject(err);
-                });
-              },
-              err => {
-                reject(err);
-              }
-            );
-          });
+        addSymbol = async (symbol: string) => {
+          this.waiting = true;
+
+          // Get quote and add to Excel table
+          this.getQuote(symbol).then(
+            (res: any) => {
+              const data = [
+                res['1. symbol'], //Symbol
+                res['2. price'], //Last Price
+                res['4. timestamp'], // Timestamp of quote,
+                0, // quantity (manually entered)
+                0, // price paid (manually entered)
+                '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
+                '=H:H / (E:E * D:D) * 100', //Total Gain %
+                '=B:B * D:D' //Value
+              ];
+              this.tableUtil.addRow(data).then(
+                () => {
+                  this.symbols.unshift(symbol.toUpperCase());
+                  this.waiting = false;
+                },
+                (err: any) => {
+                  this.error = err;
+                }
+              );
+            },
+            err => {
+              this.error = err;
+              this.waiting = false;
+            }
+          ); // this.getquote
         }
         ```
 
@@ -614,7 +619,6 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         ```
 
 1. Update the **AppComponent** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
     1. Locate and open the **src/app/app.component.ts** file.
 
     ```typescript
