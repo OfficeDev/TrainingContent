@@ -2,44 +2,44 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>AdminConsent</title>
-	<!-- inject:css -->
-	<!-- endinject -->
+  <meta charset="UTF-8">
+  <title>AdminConsent</title>
+  <!-- inject:css -->
+  <!-- endinject -->
 </head>
 
 <body>
-	<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
-	<!-- inject:js -->
-	<!-- endinject -->
+  <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+  <!-- inject:js -->
+  <!-- endinject -->
 
-	<script type="text/javascript">
-		function getURLParam(name) {
-			var url = window.location.search.substring(1);
-			var variables = url.split('&');
-			for (var i = 0; i < variables.length; i++) {
-				var variable = variables[i].split('=');
-				if (variable[0] === name) {
-					return decodeURIComponent(variable[1]);
-				}
-			}
-		}
+  <script type="text/javascript">
+    function getURLParam(name) {
+      var url = window.location.search.substring(1);
+      var variables = url.split('&');
+      for (var i = 0; i < variables.length; i++) {
+        var variable = variables[i].split('=');
+        if (variable[0] === name) {
+          return decodeURIComponent(variable[1]);
+        }
+      }
+    }
 
-		var ac = new teamsApp1.AdminConsent();
+    var ac = new teamsApp1.AdminConsent();
 
-		var response = getURLParam("admin_consent");
-		if (response) {
-			ac.processResponse(true);
-		} else {
-			var error = getURLParam("error_description")
-			if (error) {
-				ac.processResponse(false, error);
-			} else {
-				var tenantId = getURLParam("tenantId");
-				ac.requestConsent(tenantId);
-			}
-		}
-	</script>
+    var response = getURLParam("admin_consent");
+    if (response) {
+      ac.processResponse(true);
+    } else {
+      var error = getURLParam("error_description")
+      if (error) {
+        ac.processResponse(false, error);
+      } else {
+        var tenantId = getURLParam("tenantId");
+        ac.requestConsent(tenantId);
+      }
+    }
+  </script>
 </body>
 
 </html>

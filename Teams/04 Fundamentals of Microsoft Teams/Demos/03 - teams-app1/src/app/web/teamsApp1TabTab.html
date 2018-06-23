@@ -3,27 +3,22 @@
 
 <head>
   <meta charset="UTF-8">
-	<title>teams app1 Tab</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/msteams-app.css">
+  <title>teams app1 Tab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- inject:css -->
   <!-- endinject -->
   </style>
 </head>
 
-<body class="ts-middle">
-		<div id='app'>
-			Loading...
-		</div>
-		<div>
-			<button id="getDataButton">Get MSGraph Data</button>
-			<div id="graph"></div>
-		</div>
+<body>
+  <div id='app'>
+    Loading...
+  </div>
   <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
   <!-- inject:js -->
   <!-- endinject -->
   <script type='text/javascript'>
-    var tab = new teamsApp1.teamsApp1TabTab();
-    tab.doStuff();
+    teamsApp1.teamsApp1TabTab.render(document.getElementById('app'), {});
   </script>
 </body>
 

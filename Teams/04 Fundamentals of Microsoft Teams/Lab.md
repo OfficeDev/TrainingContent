@@ -95,8 +95,8 @@ This exercise introduces the Yeoman generator and its capabilities for scaffoldi
 1. Select **Use the current folder** for the file location and select **Enter**. The next set of prompts asks for specific information about your Microsoft Teams app:
     - Accept the default **teams app1** as the name of your Microsoft Teams app project and press **Enter**.
     - Enter your name and press **Enter**.
-    - Enter **https://tbd.ngrok.io** as the URL where you will host this tab and press **Enter**. You will change this URL later in the exercise.
     - Accept the default selection of **Tab** for what you want to add to your project and press **Enter**.
+    - Enter **https://tbd.ngrok.io** as the URL where you will host this tab and press **Enter**. You will change this URL later in the exercise.
     - Accept the default **teams app1 Tab** as the default tab name and press **Enter**.
 
       ![Screenshot of Yeoman Teams generator.](Images/Exercise1-02.png)
@@ -267,6 +267,8 @@ This section of the lab introduces the Bot Framework template and its capabiliti
         ![Screenshot of configuration form for teams bot.](Images/Exercise2-05.png)
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use, and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialogue box. The **Connect to channels** page is displayed for the newly-created bot.
+
+**Note:** The Bot migration message (shown in red) can be ignored for Microsoft Teams bots.
 
 1. The bot must then be connected to Microsoft Teams. Select the **Teams** logo.
 
@@ -512,83 +514,69 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 
 **Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
 
-1. Open the file **web/teamsApp1TabConfig.html**.
+1. Open the file **scripts/teamsApp1TabConfig.tsx**.
+1. At the top of the file is an `import` statement with several components from `msteams-ui-components-react'. Add `Dropdown` to the list of componentns.
+1. Locate the `ITeamsApp1TabConfigState` class. Rename the `value` property to `selectedConfiguration`.
 
-1. Locate the `<div>` element with the class of `settings-container`. Replace that element with the following code snippet.
-
-    ```html
-    <div class="settings-container">
-      <div class="section-caption">Settings</div>
-      <div class="form-field-title">
-        <div for="graph">Microsoft Graph Functionality:</div>
-      </div>
-      <div>
-        <select name="graph" id="graph"  class="form-control" onchange="onChange(this.value);">
-          <option value="" selected>Select one...</option>>
-          <option value="member">Member information</option>
-          <option value="group">Group information (requires admin consent)</option>
-        </select>
-      </div>
-      <div class="form-field-title">
-        <a href="#" onclick="requestConsent();">Provide administrator consent - click if Tenant Admin</a>
-      </div>
-    </div>
-    ```
-
-1. Add the following function to the `<script>` tag on the page.
-
-    ```js
-    function requestConsent() {
-      c.getAdminConsent();
-      return false;
+    ```typescript
+    export interface IteamsApp1TabConfigState extends ITeamsBaseComponentState {
+      selectedConfiguration: string;
     }
     ```
 
-1. Open the file **scripts/teamsApp1TabConfig.ts**.
-
-1. Locate the constructor method. Replace the constructor with the following code snippet. The snippet includes code to save the **tenantId** for use in the admin consent process.
+1. Locate the `teamsApp1TabConfig` class. Create the following member variables by inserting the lines before the first method.
 
     ```typescript
-    tenantId?: string;
+    configOptions = [
+      { key: 'MBR', value: 'Member information' },
+      { key: 'GRP', value: 'Group information (requires admin consent)' }
+    ];
+    selectedOption: string = "";
+    tenantId?: string = "";
+    ```
 
-    constructor() {
-      microsoftTeams.initialize();
+1. In the `teamsApp1TabConfig` class is a method named `componentWillMount`. In this method, there is a call to `microsoftTeams.getContext`. Update the `getContext` callback to use the proper state variable, and to update the tenant id.
 
-      microsoftTeams.getContext((context: microsoftTeams.Context) => {
-        TeamsTheme.fix(context);
-        this.tenantId = context.tid;
-
-        // hack: the state should be retrieved from storage, not from Teams
-        let val = <HTMLInputElement>document.getElementById("graph");
-        if (context.entityId) {
-          val.value = context.entityId;
-        }
-        this.setValidityState(val.value !== "");
+    ```typescript
+    microsoftTeams.getContext((context: microsoftTeams.Context) => {
+      this.tenantId = context.tid;
+      this.setState({
+        selectedConfiguration: context.entityId
       });
+      this.setValidityState(true);
+    });
+    ```
 
-      microsoftTeams.settings.registerOnSaveHandler((saveEvent: microsoftTeams.settings.SaveEvent) => {
-        let val = <HTMLInputElement>document.getElementById("graph");
+1. In the `componentWillMount` method is a call to `microsoftTeams.settings.setSettings`. Update the parameter of this method call to use the proper state variable.
 
-        // Calculate host dynamically to enable local debugging
-        let host = "https://" + window.location.host;
-        microsoftTeams.settings.setSettings({
-          contentUrl: host + "/teamsApp1TabTab.html",
-          suggestedDisplayName: 'teamsApp1 Tab',
-          removeUrl: host + "/teamsApp1TabRemove.html",
-          // hack: the state should be stored in external storage, not in Teams
-          entityId: val.value
+    ```typescript
+    microsoftTeams.settings.setSettings({
+      contentUrl: host + "/teamsApp1TabTab.html?data=",
+      suggestedDisplayName: 'teams app1 Tab',
+      removeUrl: host + "/teamsApp1TabRemove.html",
+      entityId: this.state.selectedConfiguration
+    });
+    ```
+
+1. Add the following snippet as a new method to the `teamsApp1TabConfig` class.
+
+    ```typescript
+    private onConfigSelect(cfgOption: string) {
+      let selectedItem = this.configOptions.filter((pos, idx) => pos.key === cfgOption)[0];
+      if (selectedItem) {
+        this.setState({
+          selectedConfiguration: selectedItem.key
         });
-
-        saveEvent.notifySuccess();
-
-      });
+        this.selectedOption = selectedItem.value;
+        this.setValidityState(true);
+      }
     }
     ```
 
-1. The tab configuration page has a link for granting admin consent. This link requires the `tenantId`, which is not known until runtime. The anchor tag has an `onclick` event. Add the following function to the `teamsApp1TabConfigure` object.
+1. The tab configuration page has a button for granting admin consent. Admin consent requires the `tenantId`, which is not known until runtime, so the button has an `onclick` event. Add the following function to the `teamsApp1TabConfigure` class.
 
     ```typescript
-    public getAdminConsent() {
+    private getAdminConsent() {
       microsoftTeams.authentication.authenticate({
         url: "/adminconsent.html?tenantId=" + this.tenantId,
         width: 800,
@@ -597,6 +585,30 @@ The tab in this exercise can be configured to read information from Microsoft Gr
         failureCallback: (err) => { }
       });
     }
+    ```
+
+1. Locate the `<PanelHeader>` element. Replace the text of the `<div>` element.
+
+    ```html
+    <div style={styles.header}>Settings</div>
+    ```
+
+1. Locate the `<PanelBody>` element. Replace the contents of the `<PanelBody>` element with the following snippet.
+
+    ```typescript
+    <PanelBody>
+      <div style={styles.section}>Microsoft Graph Functionality</div>
+      <Dropdown
+        autoFocus
+        mainButtonText={this.selectedOption}
+        style={{ width: '100%' }}
+        items={
+          this.configOptions.map((cfgOpt, idx) => {
+            return ({ text: cfgOpt.value, onClick: () => this.onConfigSelect(cfgOpt.key) });
+          })
+        }
+      />
+    </PanelBody>
     ```
 
 1. Add a new file to the **web** folder named **adminconsent.html**.
@@ -705,7 +717,7 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 
     ![Screenshot of tab menu with settings highlighted.](Images/Exercise3-06.png)
 
-1. Select the **Provide administrator consent - click if Tenant Admin** link.
+1. Click the **Provide administrator consent - click if Tenant Admin** button.
 
     ![Screenshot of teams app1 with member information displayed.](Images/Exercise3-07.png)
 
@@ -719,69 +731,29 @@ With the tab configured, the content page can now render information as selected
 
 **Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
 
-1. Open the file **web/teamsApp1TabTab.html**.
+1. Open the file **scripts/teamsApp1TabTab.tsx**.
 
-1. Locate the `<div>` element with the ID of `app`. Replace that element with the following code snippet.
+1. Locate the `IteamsApp1TabTabState` interface. Replace the interface definition with the following.
 
-    ```html
-    <div id='app'>
-      Loading...
-    </div>
-    <div>
-      <button id="getDataButton">Get MSGraph Data</button>
-      <div id="graph"></div>
-    </div>
+    ```typescript
+    export interface IteamsApp1TabTabState extends ITeamsBaseComponentState {
+      entityId?: string;
+      graphData?: string;
+    }
     ```
 
-1. Add the following CSS link to the `<head>` element.
-
-    ```html
-    <link rel="stylesheet" type="text/css" href="assets/css/msteams-app.css">
-    ```
-
-1. Open the file **scripts/teamsApp1TabTab.ts**.
-
-1. Locate the constructor method.  Replace the constructor with the following code snippet. The snippet includes code to save the configured value as a class-level variable.
+1. Locate the `teamsApp1TabTab` class. Add the following class-level variable declarations.
 
     ```typescript
     configuration?: string;
     groupId?: string;
     token?: string;
-
-    /**
-    * Constructor for teamsApp1Tab that initializes the Microsoft Teams script
-    */
-    constructor() {
-      microsoftTeams.initialize();
-    }
-    ```
-
-1. Locate the `doStuff` method. Replace the method with the following code snippet. This method will display the configured value and attach a handler to the GetData button.
-
-    ```typescript
-    public doStuff() {
-      let button = document.getElementById('getDataButton');
-      button!.addEventListener('click', e => { this.refresh(); });
-
-      microsoftTeams.getContext((context: microsoftTeams.Context) => {
-        TeamsTheme.fix(context);
-        this.groupId = context.groupId;
-        // hack
-        if (context.entityId) {
-          this.configuration = context.entityId;
-          let element = document.getElementById('app');
-          if (element) {
-            element.innerHTML = `The value is: ${this.configuration}`;
-          }
-        }
-      });
-    }
     ```
 
 1. Add the following function to the `teamsApp1TabTab` object. This function runs in response to the button selection.
 
     ```typescript
-    public refresh() {
+    private getGraphData() {
       let token = "";
 
       let graphElement = document.getElementById("graph");
@@ -824,6 +796,19 @@ With the tab configured, the content page can now render information as selected
       var result = JSON.parse(req.responseText);
       document.getElementById("graph")!.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
     }
+    ```
+
+1. Locate the `<PanelBody>` element. Replace that element with the following code snippet.
+
+    ```typescript
+    <PanelBody>
+      <div style={styles.section}>
+        {this.state.graphData}
+      </div>
+      <div style={styles.section}>
+        <PrimaryButton onClick={() => this.getGraphData()}>Get Microsoft Graph data</PrimaryButton>
+      </div>
+    </PanelBody>
     ```
 
 1. Add a new file to the **web** folder named **auth.html**.
@@ -935,6 +920,6 @@ With the tab configured, the content page can now render information as selected
     export * from './auth';
     ```
 
-1. Refresh the tab in Microsoft Teams. Select the **Get MSGraph Data** button to invoke the authentication and call to **graph.microsoft.com**.
+1. Refresh the tab in Microsoft Teams. Select the **Get Microsoft Graph Data** button to invoke the authentication and call to **graph.microsoft.com**.
 
     ![Screenshot of Microsoft Teams app with Microsoft Graph data displayed.](Images/Exercise3-09.png)

@@ -330,4 +330,4 @@ declare namespace microsoftTeams {
          */
         subEntityWebUrl?: string;
     }
-} 
+}
