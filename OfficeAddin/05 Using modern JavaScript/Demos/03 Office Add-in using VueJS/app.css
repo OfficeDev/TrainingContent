@@ -1,0 +1,73 @@
+/* 
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
+
+.header {
+    padding: 10px;
+}
+
+.content {
+    margin-top: 10px;
+}
+
+.hover:hover {
+    background: #f8f8f8;
+}
+
+.overlay {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background: hsla(0,0%,100%,.4);
+    z-index: 1000;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -20px;
+    z-index: 1100;
+}
+
+.ms-MessageBar-content {
+    padding: 2px !important;
+}
+
+.pct100 {
+    width: 100%;
+    float: left;
+}
+
+.padding10 {
+    padding: 10px;
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.icon {
+    padding-left: 8px;
+    cursor: pointer;
+}
+
+.itemRow {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.itemRow:hover {
+    background-color: #eeeeee;
+}
+
+.tbl-head {
+    margin-bottom: 5px;
+}

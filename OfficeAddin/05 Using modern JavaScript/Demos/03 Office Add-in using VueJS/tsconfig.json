@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "allowJs": true,
         "target": "es5",
         "module": "es6",
         "moduleResolution": "node",
@@ -8,10 +9,7 @@
         "experimentalDecorators": true,
         "removeComments": false,
         "noImplicitAny": false,
-        "noEmitOnError": true,
-        "rootDir": "src",
-        "outDir": "src",
-        "allowSyntheticDefaultImports": true,
+        "outDir": "dist",
         "lib": [
             "dom",
             "es2015"

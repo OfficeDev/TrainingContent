@@ -1,4 +1,4 @@
-# Office Add-ins: Build an Office Add-in using modern JavaScript tools and techniques - 300 Level
+# Build an Office Add-in using modern JavaScript tools and techniques
 
 This module walks through building applications using multiple technologies.
 
@@ -14,19 +14,24 @@ In this lab, you will walk through building Office Add-ins using a variety of po
 - [Build an Office Add-in using Angular](./Demos/02%20Office%20Add-in%20using%20Angular)
 - [Build an Office Add-in using VueJS](./Demos/03%20Office%20Add-in%20using%20VueJS)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Build an Office Add-in using modern JavaScript tools and techniques](https://www.youtube.com/watch?v=Aszwh_h5MtM)
+
 ## Contributors
+
 |        Roles         |                        Author(s)                        |
 | -------------------- | ------------------------------------------------------- |
 | Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| QA                   | Matt McDermott (Microsoft MVP, AbleBlue) @MatthewMcD    |
 | Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
 
 ## Version history
 
-| Version |       Date        |       Comments        |
-| ------- | ----------------- | --------------------- |
-| 1.1     | February 25, 2018 | Code review and typos |
-| 1.0     |                   | Initial release       |
+| Version |       Date        |                   Comments                   |
+| ------- | ----------------- | -------------------------------------------- |
+| 1.2     | June 11, 2018     | 2018Q4 content refresh & style guide updates |
+| 1.1     | February 25, 2018 | Code review and typos                        |
+| 1.0     |                   | Initial release                              |
 
 ## Disclaimer
 
