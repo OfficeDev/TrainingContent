@@ -20,7 +20,6 @@ This module has been recorded and is available in the Office Development YouTube
 
 |        Roles         |                        Author(s)                        |
 | -------------------- | ------------------------------------------------------- |
-| QA                   | Matt McDermott (Microsoft MVP, AbleBlue) @MatthewMcD    |
 | Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
 | Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
 | Sponsor / Support    | Mike Ammerlaan (Microsfot) @mammerla                    |
@@ -29,7 +28,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |       Date        |                   Comments                   |
 | ------- | ----------------- | -------------------------------------------- |
-| 1.2     | May 17, 2018      | 2018Q4 content refresh & style guide updates |
+| 1.2     | June 26, 2018      | 2018Q4 content refresh & style guide updates |
 | 1.1     | February 25, 2018 | Code Review and minor corrections            |
 | 1.0     | October 6, 2017   | Initial release                              |
 
