@@ -20,16 +20,15 @@ This module has been recorded and is available in the Office Development YouTube
 
 |        Roles         |                        Author(s)                        |
 | -------------------- | ------------------------------------------------------- |
-| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
 | Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| QA                   | Matt McDermott (Microsoft MVP, AbleBlue) @MatthewMcD    |
+| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
 | Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
 
 ## Version history
 
 | Version |       Date        |                   Comments                   |
 | ------- | ----------------- | -------------------------------------------- |
-| 1.3     | May 17, 2018      | 2018Q4 content refresh & style guide updates |
+| 1.3     | June 22, 2018      | 2018Q4 content refresh & style guide updates |
 | 1.2     | February 25, 2018 | Code Review and minor corrections            |
 | 1.0.1   | October 9, 2017   | Typo & bugfixes                              |
 | 1.0     | October 6, 2017   | Initial release                              |
