@@ -238,7 +238,7 @@ The project template creates a messages controller that receives messages from t
           if (EventHelpers.MemberAddedIsBot(message))
           {
             // Fetch the members in the current conversation
-            ChannelAccount[] channelAccount =
+            IList<ChannelAccount> channelAccount =
               await client.Conversations.GetConversationMembersAsync(
                 message.Conversation.Id);
             IEnumerable<TeamsChannelAccount> members =
@@ -316,7 +316,7 @@ The project template creates a messages controller that receives messages from t
         };
 
         // Post the message to chat conversation with user
-        await client.Conversations.SendToConversationAsync(newActivity, response.Id);
+        await client.Conversations.SendToConversationAsync(newActivity);
       }
     }
     ```
@@ -748,7 +748,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
           }
 
           // This is the response object that will get sent back to the compose extension request.
-          ComposeExtensionResponse invokeResponse = null;
+          ComposeExtensionResponse invokeResponse = new ComposeExtensionResponse();
 
           // search our data
           var resultData = BotChannels.GetBotChannels().FindAll(t => t.Title.Contains(param));
@@ -895,147 +895,3 @@ In Microsoft Teams, full functionality for Office 365 Connectors is restricted t
 
     > Note: The action buttons will not work. Action buttons work only for connectors registered and published in the Microsoft Office store.
 
-### Run the ngrok secure tunnel application
-
-1. Open a new **Command Prompt** window.
-
-1. Change to the directory that contains the **ngrok.exe** application.
-
-1. Run the command `ngrok http [port] -host-header=localhost:[port]` Replace `[port]` with the port portion of the URL noted above.
-
-1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using https. This address is required in the next step.
-
-1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
-
-### Office 365 connector registration
-
-The following steps are used to register an Office 365 connector.
-
-1. Register the connector on the [Connectors Developer Dashboard](https://go.microsoft.com/fwlink/?LinkID=780623). Log on the the site and click **New Connector**.
-
-1. On the **New Connector** page, complete the name and description as appropriate for your connector. Upload the **bot-icon-blue-300x300.png** from the lab files folder for your logo.
-
-    ![Screenshot of new connector dialog box.](Images/Exercise3-05.png)
-
-1. In the Events/Notifications section, the list of events are displayed when registering the connector in the Microsoft Teams user interface on a consent dialog. The connector framework will only allow cards sent by your connector to have **Actions URLs** that match what is provided here.
-
-    ![Screenshot of event section in connector developer dashboard.](Images/Exercise3-06.png)
-
-1. The **Landing page for your users for Groups or Teams** is a URL that is rendered by the Microsoft Teams application when users initiate the registration flow from a channel. This page is rendered in a dialog box provided by Microsoft Teams. The **Redirect URLs** is a list of valid URLs to which the completed registration information can be sent. This functionality is similar to the redirect URL processing for Azure Active Directory apps.
-
-1. For this lab, ensure that the hostname matches the ngrok forwarding address. For the landing page, append `/api/connector/landing` to the hostname. For the redirect page, append `/api/connector/redirect` to the hostname.
-
-    ![Screenshot of dialog box showing redirect URLs.](Images/Exercise3-07.png)
-
-1. In the **Enable this integration for** section, both **Group** and **Microsoft Teams** must be selected.
-
-    ![Screenshot of dialog box showing integration options.](Images/Exercise3-08.png)
-
-1. Agree to the terms and conditions and select **Save**.
-
-1. The registration page will refresh with additional buttons in the integration section. The buttons provide sample code for the **Landing** page and a **manifest.json** file for a Microsoft Teams app. Save both of these assets.
-
-1. In a text editor, paste the landing page code copied from the registration page and replace all of the double quotes `"` with the single quote character `'`. You will need this code in a moment.
-
-### Add connector to existing bot
-
-In Visual Studio 2017, open the **teams-bot2** solution from the **Demos/02 - teams-bot2** folder. This bot will serve as the foundation for the complete Microsoft Teams app.
-
-1. Open the **manifest.json** file in the solution's **Manifest** folder.
-
-1. Replace the empty `connectors` node in the **manifest.json** file with the `connectors` node from the downloaded manifest. Save and close **manifest.json**.
-
-1. Open the file **WebApiConfig.cs** in the **App_Start** folder.
-
-1. Modify the route configuration as shown. The original `routeTemplate` is `"api/{controller}/{id}"`. Replace the `id` token with the `action` token. Once complete, the statement should read as follows.
-
-    ```cs
-    config.Routes.MapHttpRoute(
-      name: "DefaultApi",
-      routeTemplate: "api/{controller}/{action}",
-      defaults: new { id = RouteParameter.Optional }
-    );
-    ```
-
-1. Right-click on the **Controllers** folder and select **Add > Controller...** Choose **Web API 2 Controller - Empty** and select **Add**. Name the new controller **ConnectorController** and select **Add**.
-1. Add the following to the top of the `ConnectorController`.
-
-    ```cs
-    using System.Threading.Tasks;
-    using System.Net.Http.Headers;
-    ```
-
-1. Add the following `Landing` method to the `ConnectorController` class.
-
-    ```cs
-    [HttpGet]
-    public async Task<HttpResponseMessage> Landing()
-    {
-      var htmlBody = "<html><title>Set up connector</title><body>";
-      htmlBody += "<H2>Adding your Connector Portal-registered connector</H2>";
-      htmlBody += "<p>Click the button to initiate the registration and consent flow for the connector in the selected channel.</p>";
-      htmlBody += "[Landing Page Code]";
-
-      var response = Request.CreateResponse(HttpStatusCode.OK);
-      response.Content = new StringContent(htmlBody);
-      response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-      return response;
-    }
-    ```
-1. Replace the `[Landing Page Code]` token with the landing page code you edited previously.
-
-1. Add the following `Redirect` method to the `ConnectorController` class.
-
-    ```cs
-    [HttpGet]
-    public async Task<HttpResponseMessage> Redirect()
-    {
-      // Parse register message from connector, find the group name and webhook url
-      //var query = req.query;
-      var query = Request.GetQueryNameValuePairs();
-      string webhook_url = query.LastOrDefault(p => p.Key.Equals("webhook_url")).Value;
-      var group_name = query.LastOrDefault(p => p.Key.Equals("group_name")).Value;
-      var appType = query.LastOrDefault(p => p.Key.Equals("app_type")).Value;
-      var state = query.LastOrDefault(p => p.Key.Equals("state")).Value;
-
-      var htmlBody = "<html><body><H2>Registered Connector added</H2>";
-      htmlBody += "<li><b>App Type:</b> " + appType + "</li>";
-      htmlBody += "<li><b>Group Name:</b> " + group_name + "</li>";
-      htmlBody += "<li><b>State:</b> " + state + "</li>";
-      htmlBody += "<li><b>Web Hook URL stored:</b> " + webhook_url + "</li>";
-      htmlBody += "</body></html>";
-
-      var response = Request.CreateResponse(HttpStatusCode.OK);
-      response.Content = new StringContent(htmlBody);
-      response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-      return response;
-    }
-    ```
-
-1. Press **F5** to run the application. This will also build the app package.
-
-1. Re-sideload the application following the steps used earlier.
-
-### Add connector to a channel
-
-1. Click **...** next to the channel name, then select **Connectors**.
-
-    ![Screenshot of menu displaying connector option.](Images/Exercise3-01.png)
-
-1. Move to the bottom of the connector list. A section named **Sideloaded** contains the connector described by the app. Select **Configure**.
-
-    ![Screenshot of connector list.](Images/Exercise3-09.png)
-
-1. An dialog box is shown with general and notification information described on the Connector Developer portal. Select the **Visit site to install** button.
-
-    ![Screenshot of dialog box showing notification information.](Images/Exercise3-10.png)
-
-1. Select the **Connect to Office 365** button. Office 365 will process the registration flow, which may include login and team/channel selection. Make note of the selected team/channel and select **Allow**.
-
-    ![Screenshot of dialog box for connecting to Microsoft Office 365.](Images/Exercise3-12.png)
-
-1. The dialog box will display the **Redirect** action which presents the information registration provided by Microsoft Office 365. In a production application, this information must be persisted and used to sent notifications to the channel.
-
-    ![Screenshot of registered connector information.](Images/Exercise3-13.png)
-
-    > Note: Before your connector can receive callbacks for actionable messages, you must register it and publish the app.

@@ -26,7 +26,7 @@ public class EventHelpers
     };
 
     // Post the message to chat conversation with user
-    await client.Conversations.SendToConversationAsync(newActivity, response.Id);
+    await client.Conversations.SendToConversationAsync(newActivity);
   }
 
 }
