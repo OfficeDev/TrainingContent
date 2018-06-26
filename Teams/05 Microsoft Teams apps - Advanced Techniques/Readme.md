@@ -12,25 +12,30 @@ In this lab, you will use advanced techniques to build a more-sophisticated bot,
 - [Compose Extensions](./Demos/02%20-%20teams-bot2)
 - [Microsoft Teams Apps with multiple capabilities](./Demos/03%20-%20teams-bot2)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Microsoft Teams apps - Advanced Techniques](https://www.youtube.com/watch?v=eErVMow78zg)
+
 ## Contributors
 
 |        Roles         |                        Author(s)                        |
 | -------------------- | ------------------------------------------------------- |
 | Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
 | Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
+| QA                   | Matt McDermott (Microsoft MVP, AbleBlue) @MatthewMcD    |
 | Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
 
 ## Version history
 
-| Version |       Date        |             Comments              |
-| ------- | ----------------- | --------------------------------- |
-| 1.2     | February 25, 2018 | Code Review and minor corrections |
-| 1.0.1   | October 9, 2017   | Typo & bugfixes                   |
-| 1.0     | October 6, 2017   | Initial release                   |
+| Version |       Date        |                   Comments                   |
+| ------- | ----------------- | -------------------------------------------- |
+| 1.3     | May 17, 2018      | 2018Q4 content refresh & style guide updates |
+| 1.2     | February 25, 2018 | Code Review and minor corrections            |
+| 1.0.1   | October 9, 2017   | Typo & bugfixes                              |
+| 1.0     | October 6, 2017   | Initial release                              |
 
 ## Disclaimer
 
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
 
 <img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/05-microsoft-teams-apps-advanced-techniques" />
-
