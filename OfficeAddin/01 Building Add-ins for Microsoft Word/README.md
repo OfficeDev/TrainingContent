@@ -14,6 +14,10 @@ This lab will walk through the development of an Office Add-in for Microsoft Wor
 - [Images, HTML and Tables](./Demos/02%20Images%20HTML%20and%20Tables)
 - [Content Controls](./Demos/03%20Content%20Controls)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Building Office Add-ins for Word](https://youtu.be/p8kVfT7roic)
+
 ## Contributors
 
 |        Roles         |                        Author(s)                        |
