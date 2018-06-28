@@ -131,10 +131,13 @@
             "method": "POST",
             "title": "OK",
             "url": "[ngrok-url-here]/api/ticket",
-            "headers": {
-              "content-type": "application/json"
-            },
-            "body": "{ 'comment' : '{{comment.value}}' }"
+              "headers": [
+                {
+                  "name": "content-type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{ 'comment' : '{{comment.value}}' }"
           }
         ]
       }
