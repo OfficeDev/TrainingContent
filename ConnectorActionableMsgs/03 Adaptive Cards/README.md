@@ -14,6 +14,10 @@ In the lab, you will walk through building an Adaptive Card, sending it to an in
 - [Cards with Actions and Inputs](./Demos/02-CardWithActionAndInput)
 - [Refreshing an Adaptive Card](./Demos/03-ActionableMessageWithRefreshCard)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Connectors & Actionable Messages: Adaptive Cards](https://youtu.be/X6Cs-MIefyo)
+
 ## Contributors
 
 |        Roles         |                        Author(s)                        |
@@ -26,6 +30,7 @@ In the lab, you will walk through building an Adaptive Card, sending it to an in
 
 | Version |      Date      |                   Comments                   |
 | ------- | -------------- | -------------------------------------------- |
+| 1.2     | July 2, 2018   | Added screencast                             |
 | 1.1     | June 8, 2018   | 2018Q4 content refresh & style guide updates |
 | 1.0     | March 21, 2018 | Initial release                              |
 
