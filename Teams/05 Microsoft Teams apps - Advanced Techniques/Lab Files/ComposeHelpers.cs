@@ -47,10 +47,10 @@ namespace teams_bot2
       }
 
       // This is the response object that will get sent back to the compose extension request.
-      ComposeExtensionResponse invokeResponse = null;
+      ComposeExtensionResponse invokeResponse = new ComposeExtensionResponse();
 
       // search our data
-      var resultData = BotChannels.GetBotChannels().FindAll(t => t.Title.Contains(param));
+      var resultData = BotChannels.GetBotChannels().FindAll(t => t.Title.ToLowerInvariant().Contains(param.ToLowerInvariant()));
 
       // format the results
       var results = new ComposeExtensionResult()
