@@ -4,12 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>teams app1 Tab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- inject:css -->
   <!-- endinject -->
   </style>
 </head>
 
-<body class="ts-middle">
+<body>
   <div id='app'>
     Loading...
   </div>
@@ -17,8 +18,7 @@
   <!-- inject:js -->
   <!-- endinject -->
   <script type='text/javascript'>
-    var tab = new teamsApp1.teamsApp1TabTab();
-    tab.doStuff();
+    teamsApp1.teamsApp1TabTab.render(document.getElementById('app'), {});
   </script>
 </body>
 

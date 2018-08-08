@@ -6,3 +6,4 @@
 // Added by generator-teams
 export * from './teamsApp1TabConfig';
 export * from './teamsApp1TabTab';
+export * from './teamsApp1TabRemove';
