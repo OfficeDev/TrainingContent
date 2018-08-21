@@ -1,6 +1,6 @@
 {
   "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.0",
+  "manifestVersion": "1.2",
   "id": "[microsoft-app-id]",
   "version": "0.0.1",
   "packageName": "io.ngrok.[from-ngrok]",
@@ -52,7 +52,6 @@
   ],
   "connectors": [],
   "composeExtensions": [],
-  "needsIdentity": true,
   "permissions": [
     "identity",
     "messageTeamMembers"
