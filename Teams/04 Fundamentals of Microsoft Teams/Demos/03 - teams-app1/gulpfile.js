@@ -5,7 +5,6 @@
 var gulp = require('gulp');
 var webpack = require('webpack');
 var inject = require('gulp-inject');
-var runSequence = require('run-sequence');
 const zip = require('gulp-zip');
 var nodemon = require('nodemon');
 var argv = require('yargs').argv;
@@ -17,7 +16,6 @@ var request = require('request');
 var path = require('path');
 
 var injectSources = ["./dist/web/scripts/**/*.js", './dist/web/assets/**/*.css']
-var typeScriptFiles = ["./src/**/*.ts?"]
 var staticFiles = ["./src/app/**/*.html", "./src/app/**/*.ejs", "./src/app/web/assets/**/*"]
 var htmlFiles = ["./src/app/**/*.html", "./src/app/**/*.ejs"]
 var watcherfiles = ["./src/**/*.*"]
@@ -27,25 +25,15 @@ var manifestFiles = ["./src/manifest/**/*.*"]
 /**
  * Watches source files and invokes the build task
  */
-gulp.task('watch', function () {
-    gulp.watch('./src/**/*.*', ['build']);
+gulp.task('watch', () => {
+    gulp.watch(watcherfiles, gulp.series('build'));
 });
 
-
-/**
- * Creates the tab manifest
- */
-gulp.task('manifest', ['validate-manifest'], () => {
-    // TODO: add version injection here
-    gulp.src(manifestFiles)
-        .pipe(zip('teams-app-1.zip'))
-        .pipe(gulp.dest('package'));
-});
 
 /**
  * Webpack bundling
  */
-gulp.task('webpack', function (callback) {
+gulp.task('webpack', (callback) => {
     var webpackConfig = require(process.cwd() + '/webpack.config')
     webpack(webpackConfig, function (err, stats) {
         if (err) throw new PluginError("webpack", err);
@@ -69,18 +57,17 @@ gulp.task('webpack', function (callback) {
 /**
  * Copies static files
  */
-gulp.task('static:copy', function () {
+gulp.task('static:copy', () => {
     return gulp.src(staticFiles, {
             base: "./src/app"
         })
         .pipe(gulp.dest('./dist/'));
-})
+});
 
 /**
  * Injects script into pages
  */
-gulp.task('static:inject', ['static:copy'], function () {
-
+gulp.task('static:inject', () => {
     var injectSrc = gulp.src(injectSources);
 
     var injectOptions = {
@@ -97,9 +84,7 @@ gulp.task('static:inject', ['static:copy'], function () {
 /**
  * Build task, that uses webpack and injects scripts into pages
  */
-gulp.task('build', function () {
-    runSequence('webpack', 'static:inject')
-});
+gulp.task('build', gulp.series('webpack', 'static:copy', 'static:inject'));
 
 /**
  * Schema validation
@@ -142,7 +127,7 @@ gulp.task('validate-manifest', (callback) => {
 /**
  * Task for local debugging
  */
-gulp.task('serve', ['build', 'watch'], function (cb) {
+gulp.task('nodemon', (cb) => {
     var started = false;
     var debug = argv.debug !== undefined;
 
@@ -157,3 +142,16 @@ gulp.task('serve', ['build', 'watch'], function (cb) {
         }
     });
 });
+
+gulp.task('serve', gulp.series('build', 'nodemon', 'watch'));
+
+/**
+ * Creates the tab manifest
+ */
+gulp.task('zip', () => {
+    return gulp.src(manifestFiles)
+        .pipe(zip('teams-app-1.zip'))
+        .pipe(gulp.dest('package'));
+});
+
+gulp.task('manifest', gulp.series('validate-manifest', 'zip'));

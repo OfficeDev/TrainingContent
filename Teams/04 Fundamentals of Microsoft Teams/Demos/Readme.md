@@ -12,4 +12,4 @@ gulp manifest
 gulp serve
 ```
 
-To sideload the app into Microsoft Teams, refer to the [lab manual](../Lab.md).
+To upload the app into Microsoft Teams, refer to the [lab manual](../Lab.md).

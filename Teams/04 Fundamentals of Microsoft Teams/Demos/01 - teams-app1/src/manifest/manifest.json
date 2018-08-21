@@ -1,9 +1,9 @@
 {
   "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.0",
+  "manifestVersion": "1.2",
   "id": "4e1bb2e4-4af3-e2e8-8a13-5d9b07a48b44",
   "version": "0.0.1",
-  "packageName": "io.ngrok.016014a2",
+  "packageName": "io.ngrok.tbd",
   "developer": {
     "name": "Office Developer",
     "websiteUrl": "https://tbd.ngrok.io",
@@ -26,7 +26,10 @@
   "configurableTabs": [
     {
       "configurationUrl": "https://tbd.ngrok.io/teamsApp1TabConfig.html",
-       "canUpdateConfiguration": true, "scopes": ["team"]
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ]
     }
   ],
   "staticTabs": [],

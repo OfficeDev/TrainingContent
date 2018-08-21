@@ -1,3 +1,7 @@
+// Copyright (c) Wictor Wilén. All rights reserved. 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 var webpack = require('webpack');
 
 var path = require('path');
@@ -21,6 +25,7 @@ var config = [{
                 __dirname + '/src/app/server.ts'
             ],
         },
+        mode: debug ? 'development' : 'production',
         output: {
             path: __dirname + '/dist',
             filename: '[name].js',
@@ -38,7 +43,7 @@ var config = [{
             __filename: false,
         },
         module: {
-            loaders: [{
+            rules: [{
                 test: /\.tsx?$/,
                 exclude: [/lib/, /dist/],
                 loader: "ts-loader"
@@ -52,6 +57,7 @@ var config = [{
                 __dirname + '/src/app/scripts/client.ts'
             ]
         },
+        mode: debug ? 'development' : 'production',
         output: {
             path: __dirname + '/dist/web/scripts',
             filename: '[name].js',
@@ -67,7 +73,7 @@ var config = [{
         },
         target: 'web',
         module: {
-            loaders: [{
+            rules: [{
                     test: /\.tsx?$/,
                     exclude: [/lib/, /dist/],
                     loader: "ts-loader",
@@ -81,7 +87,14 @@ var config = [{
                 }
             ]
         },
-        plugins: []
+        plugins: [],
+        performance: {
+            maxEntrypointSize: 400000,
+            maxAssetSize: 400000,
+            assetFilter: function(assetFilename) {
+                return assetFilename.endsWith('.js');
+              }
+        }
     }
 ];
 

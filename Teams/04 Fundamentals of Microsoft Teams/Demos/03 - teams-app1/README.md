@@ -23,7 +23,7 @@ To run this demo, perform the following steps from the lab:
 
 ## Register an application in AAD
 
-To enable an application to call the Microsoft Graph, an application registration is required. This lab uses the [Azure Active Directory v2.0 endpoint](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare).
+To enable an application to call the Microsoft Graph API, an application registration is required. This lab uses the [Azure Active Directory v2.0 endpoint](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare).
 
 1. Open the [Application Registration Portal](https://apps.dev.microsoft.com).
 
@@ -82,7 +82,7 @@ To enable an application to call the Microsoft Graph, an application registratio
 
     > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
-## Sideload app into Microsoft Teams
+## Upload app into Microsoft Teams
 
 1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 

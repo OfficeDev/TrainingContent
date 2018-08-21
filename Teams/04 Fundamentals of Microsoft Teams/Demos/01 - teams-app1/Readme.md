@@ -6,7 +6,7 @@ To run this demo, perform the following steps from the lab:
 
 1. Install developer tools
 1. Install NodeJS and npm
-1. Install Yeoman and gulp
+1. Install Yeoman, gulp, gulp-cli and typescript
 1. Download ngrok
 
 ## Run the ngrok secure tunnel application
@@ -15,21 +15,28 @@ To run this demo, perform the following steps from the lab:
 1. Change to the directory that contains the ngrok.exe application.
 1. Run the command `ngrok http 3007`
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
+
+    ![Screenshot of ngrok highlighting local host.](../../Images/Exercise1-04.png)
+
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
 
 ## Update the manifest and build the package
 
-1. Open a new **Command Prompt** window.
+1. Return to the first **Command Prompt** window in which the generator was run.
 
-1. Change to the directory that contains the **ngrok.exe** application.
+1. Launch **VS Code** by running the command `code .`
 
-1. Run the command `ngrok http 3007`.
+    ![Screenshot of Visual Studio highlighting teams app code.](Images/Exercise1-05.png)
 
-1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
+1. Open the **manifest.json** file in the **manifest** folder.
 
-1. Minimize the ngrok command prompt window. It is no longer referenced in this exercise, but it must remain running.
+1. Replace all instances of `tbd.ngrok.io` with the HTTPS forwarding address from the ngrok window. In this example, the forwarding address is **0f3b4f62.ngrok.io**. There are five URLs that need to be changed.
 
-    ![Screenshot of ngrok highlighting local host.](../../Images/Exercise1-04.png)
+1. Save the **manifest.json** file.
+
+1. In the **Command Prompt** window, run the command `gulp manifest`. This command will create the package as a zip file in the **package** folder.
+
+    ![Screenshot of command prompt with teams manifest zip file generation.](Images/Exercise1-06.png)
 
 1. Build the webpack and start the express web server by running the following commands:
 
@@ -42,7 +49,7 @@ To run this demo, perform the following steps from the lab:
 
     > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
-## Sideload app into Microsoft Teams
+## Upload app into Microsoft Teams
 
 1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 
@@ -74,7 +81,7 @@ To run this demo, perform the following steps from the lab:
 
 1. Select the **+** icon at the end of the tab strip.
 
-1. In the tab gallery, sideloaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
+1. In the tab gallery, uploaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
 
     ![Screenshot of tab gallery with teams app1 highlighted.](../../Images/Exercise1-13.png)
 
