@@ -4,9 +4,9 @@ In this lab, you will learn the steps to create and send connector cards to Offi
 
 ## In this lab
 
-1. [Create a card payload and submit it via an incoming webhook](#Exercise_1:_Create_a_card_payload_and_submit_it_via_an_incoming_webhook)
-1. [Add functionality to an existing web site](#Exercise_2:_Add_connector_functionality_to_existing_website)
-1. [Sideload connector to Microsoft Teams](#Exercise_3:_Sideload_the_Connector_to_Microsoft_Teams)
+1. [Create a card payload and submit it via an incoming webhook](#exercise-1-create-a-card-payload-and-submit-it-via-an-incoming-webhook)
+1. [Add functionality to an existing web site](#exercise-2-add-connector-functionality-to-existing-website)
+1. [Sideload connector to Microsoft Teams](#exercise-3-sideload-the-connector-to-microsoft-teams)
 
 ## Prerequisites
 
@@ -60,20 +60,11 @@ In this exercise, you will copy an example card from the Message Card Playground
 
     > Note: The image in this lab uses the **MessageCard layout emulation**, but that is not required.
 
-    >Note: If you get an error that the post request failed, "Error: Summary or Text is required". Please add the following property to the JSON sample right under the "version" property and before the "body" property.
-    ```html
-    "summary", "Your Subject Goes Here"
-    ```
-1. After selecting an example, choose **Send via WebHook**.
-1. Enter the URL copied earlier from the Group Connector configuration panel.
-1. Select **OK**. The card will display in the Microsoft Outlook group conversation display. (You may have to select the **New Activity** indicator to see the card.)
-
 ### Send card via PowerShell
 
 It is not necessary to use the playground website to send test messages. Any facility for sending HTTP POST requests can also send cards to the group.
 
-1. In the MessageCard Playground site, select a different sample card. (This will be easier to identify in the Conversation view if the cards are different.)
-1. Select the JSON and copy it to Notepad.
+1. Select the JSON of a card from teh MessageCard Playground and copy it to Notepad.
 1. Save the card source as **connector-card.json**.
 1. Open **Windows PowerShell** and change to the directory containing the **connector-card.json** file.
 1. Execute the following commands:
@@ -394,7 +385,7 @@ Side loading a Microsoft Teams Connector requires a zip file containing a manife
 
 1. Add the manifest.json plus the `Lab Files/Teams/connector-icon-20x20.png` and `Lab Files/Teams/connector-icon-96x96.png` to a zip file. In this demo, the zip file is named **TeamsConnector.zip**.
 
-1. In the Microsoft Teams application, select the **Add team** link. Then select the **Create team** button.
+1. In the Microsoft Teams application, select the **Create a team** link. Then select the **Create team** button.
 
     ![Screenshot of Microsoft Teams](Images/Exercise3-01.png)
 
