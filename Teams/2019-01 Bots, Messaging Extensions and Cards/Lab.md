@@ -51,9 +51,6 @@ This section of the lab creates a bot framework bot and extends it with Microsof
     - The `AppId` and `AppPassword` from the bot framework registration page have to be recorded in the project's `web.config`
     - The bot must be added to Microsoft Teams
 
-
-$$$ HERE $$$
-
 ### Find the project URL
 
 1. In Solution Explorer, double-click on **Properties**.
@@ -82,6 +79,8 @@ $$$ HERE $$$
 
 1. Go to the [Microsoft Bot Framework](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work or school account or a Microsoft account.
 
+> **NOTE:** You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.
+
 1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
 
     ![Screenshot of bot profile information page.](Images/Exercise1-04.png)
@@ -97,6 +96,8 @@ $$$ HERE $$$
         ![Screenshot of configuration page with messaging endpoint and app ID displayed.](Images/Exercise1-05.png)
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
+
+> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
 
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
@@ -215,6 +216,8 @@ Both packages install dependencies, including the Bot Builder SDK.
     Install-Package Microsoft.Bot.Connector.Teams
     ```
 
+
+$$$ HERE $$$
 ### Update bot to implement message handling
 
 The project template creates a messages controller that receives messages from the bot service. This controller checks the incoming activity to determine if it is a user or system message. This step of the lab will implement the system message handling.
