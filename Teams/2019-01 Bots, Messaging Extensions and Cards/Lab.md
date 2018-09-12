@@ -216,8 +216,6 @@ Both packages install dependencies, including the Bot Builder SDK.
     Install-Package Microsoft.Bot.Connector.Teams
     ```
 
-
-$$$ HERE $$$
 ### Update bot to implement message handling
 
 The project template creates a messages controller that receives messages from the bot service. This controller checks the incoming activity to determine if it is a user or system message. This step of the lab will implement the system message handling.
@@ -232,7 +230,7 @@ The project template creates a messages controller that receives messages from t
     using Polly;
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
+    using System.Linq;
     ```
 
 1. Locate the `HandleSystemMessage` method. Replace the method with the following code. The code is available in the **Lab Files/HandleSystemMessageAsync.cs** file.
@@ -244,10 +242,7 @@ The project template creates a messages controller that receives messages from t
       switch (eventData.EventType)
       {
         case TeamEventType.MembersAdded:
-          var client = new ConnectorClient(
-                new Uri(message.ServiceUrl),
-                ConfigurationManager.AppSettings["MicrosoftAppId"],
-                ConfigurationManager.AppSettings["MicrosoftAppPassword"]);
+          var connector = new ConnectorClient(new Uri(message.ServiceUrl));
           client.SetRetryPolicy(
             RetryHelpers.DefaultPolicyBuilder.WaitAndRetryAsync(
               new[] { TimeSpan.FromSeconds(2),
@@ -259,7 +254,7 @@ The project template creates a messages controller that receives messages from t
           var botAccount = message.Recipient;
           var channelData = message.GetChannelData<TeamsChannelData>();
 
-          if (EventHelpers.MemberAddedIsBot(message))
+          if (message.MembersAdded.Any(m => m.Id.Equals(botAccount.Id)))
           {
             // Fetch the members in the current conversation
             IList<ChannelAccount> channelAccount =
@@ -271,15 +266,18 @@ The project template creates a messages controller that receives messages from t
             // send a OneToOne message to each member
             foreach (TeamsChannelAccount member in members)
             {
-              await EventHelpers.SendOneToOneWelcomeMessage(
+              await MessageHelpers.SendOneToOneWelcomeMessage(
                 client, channelData, botAccount, member, tenantId);
             }
           }
           else
           {
-            // send a OneToOne message to new member
-            await EventHelpers.SendOneToOneWelcomeMessage(
-              client, channelData, botAccount, message.From, tenantId);
+            // send a OneToOne message to new members
+            foreach (TeamsChannelAccount member in message.MembersAdded.AsTeamsChannelAccounts())
+            {
+              await MessageHelpers.SendOneToOneWelcomeMessage(
+                client, channelData, botAccount, member, tenantId);
+            }
           }
           break;
         case TeamEventType.MembersRemoved:
@@ -305,18 +303,13 @@ The project template creates a messages controller that receives messages from t
     await HandleSystemMessageAsync(activity);
     ```
 
-1. In **Solution Explorer**, add a new class named `EventHelpers` to the project.
+1. In **Solution Explorer**, add a new class named `MessageHelpers` to the project.
 
-1. Replace the generated `EventHelpers` class with the following code. The code is in the `Lab Files/EventHelper.cs` file.
+1. Replace the generated `MessageHelpers` class with the following code. The code is in the `Lab Files/MessageHelpers.cs` file.
 
     ```cs
-    public class EventHelpers
+    public class MessageHelpers
     {
-      public static bool MemberAddedIsBot(Activity memberAddedActivity)
-      {
-        return memberAddedActivity.MembersAdded.Any(m => m.Id.Equals(memberAddedActivity.Recipient.Id));
-      }
-
       public static async Task SendOneToOneWelcomeMessage(
         ConnectorClient client,
         TeamsChannelData channelData,
@@ -345,7 +338,7 @@ The project template creates a messages controller that receives messages from t
     }
     ```
 
-1. Add the following statements to the top of the **EventHelpers.cs** file.
+1. Add the following statements to the top of the **MessageHelpers.cs** file.
 
     ```cs
     using Microsoft.Bot.Connector;
@@ -355,7 +348,7 @@ The project template creates a messages controller that receives messages from t
 
 1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
 
-### Sideload app into Microsoft Teams
+### Upload app into Microsoft Teams
 
 Although not strictly necessary, in this lab the bot will be added to a new team.
 
@@ -373,23 +366,40 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. On the Manage team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application.
 
-1. Select the zip file (**teams-bot1.zip** in this example) from the **bin** folder. Select **Open**.
+1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
 
 1. The app is displayed. The description and icon for the app is displayed.
 
     ![Screenshot of Microsoft Teams with new app displayed.](Images/Exercise1-13.png)
 
-    The app is now sideloaded into the Microsoft Teams application and the bot is available.
+    The app is now uploaded into the Microsoft Teams application and the bot is available.
 
-    > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `EventHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
+    > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `MessageHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
 
     ![Screenshot of Microsoft Teams displaying new bot installed.](Images/Exercise1-14.png)
 
-### Update messages to reflect current state
+### Using the Teams API to send and receive files
 
-The bot extension for Microsoft Teams provides an easy mechanism to update a message. This step of the lab demonstrates that as well as utility functions for messages.
+A bot can directly send and receive files with users in the personal context using Teams APIs. Files shared in Teams typically appear as cards, and allow rich in-app viewing. This step of the lab demonstrates sending and receiving files.
 
 1. Stop the debugger.
+
+1. Open the **manifest.json** file in the **Manifest** folder.
+
+1. Locate the **bots** node of the document. After the **botId** node, and an entry to indicate the bot supports files. The **bots** node should be similar to the following:
+
+    ```json
+    "bots": [
+      {
+        "botId": "[microsoft-app-id]",
+        "supportsFiles": true,
+        "scopes": [
+          "personal",
+         "team"
+        ]
+      }
+    ],
+    ```
 
 1. Open the **RootDialog.cs** file in the **Dialogs** folder.
 
