@@ -28,11 +28,12 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |      Date      |                   Comments                   |
-| ------- | -------------- | -------------------------------------------- |
-| 1.2     | July 2, 2018   | Added screencast                             |
-| 1.1     | June 8, 2018   | 2018Q4 content refresh & style guide updates |
-| 1.0     | March 21, 2018 | Initial release                              |
+| Version |        Date        |                   Comments                   |
+| ------- | ------------------ | -------------------------------------------- |
+| 1.3     | September 12, 2018 | 2018Q4 content refresh                       |
+| 1.2     | July 2, 2018       | Added screencast                             |
+| 1.1     | June 8, 2018       | 2018Q4 content refresh & style guide updates |
+| 1.0     | March 21, 2018     | Initial release                              |
 
 ## Disclaimer
 

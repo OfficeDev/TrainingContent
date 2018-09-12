@@ -17,7 +17,7 @@
     /// <summary>
     /// The POST method for the ticket controller.
     /// </summary>
-    /// <param name="value">Value from the POST request body.</param>
+    /// <param name="cardResponse">Value from the POST request body.</param>
     /// <returns>The asynchronous task.</returns>
     // POST api/ticket
     public async Task<HttpResponseMessage> Post(CardResponse cardResponse)
