@@ -4,9 +4,9 @@ In this lab, you will walk through building an Actionable Message card and addin
 
 ## In this lab
 
-1. [Actionable Messages card design and MessageCard Playground](#Exercise_1:_Actionable_Messages_card_design_and_MessageCard_Playground)
-1. [Sending Actionable Messages](#Exercise_2:_Sending_Actionable_Messages)
-1. [Adding actions to cards](#Exercise_3:_Adding_actions_to_cards)
+1. [Actionable Messages card design and MessageCard Playground](#exercise-1-actionable-Messages-card-design-and-messagecard-playground)
+1. [Sending Actionable Messages](#exercise-2-sending-actionable-messages)
+1. [Adding actions to cards](#exercise-3-adding-actions-to-cards)
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This lab uses Visual Studio 2017. It also requires an Microsoft Office 365 subsc
 
 ## Setup
 
-This lab will use an Microsoft Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](https://portal.azure.com) and create a new web app using the free pricing tier. Copy the URL (for example, https://mywebapp.azurewebsites.net) for later use.
+This lab will use an Microsoft Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](<https://portal.azure.com>) and create a new web app using the free pricing tier. Copy the URL (for example, <https://mywebapp.azurewebsites.net>) for later use.
 
 ## Exercise 1: Actionable Messages card design and MessageCard Playground
 
@@ -28,13 +28,11 @@ This lab will walk you through designing an Actionable Message card using the [M
 
     The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. Each of these samples provides an interesting component of the syntax used to design a card. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
 
-1. In the drop-down menu, choose **GitHub - Issue opened**.
-
-    ![Screenshot of GitHub - Issue opened card.](Images/Exercise1_02.png)
+1. In the drop-down menu, choose **Microsoft Flow Approval**.
 
 ### Modify a sample
 
-1. Edit the `activityTitle` element to surround it with two asterisks instead of none:
+1. Edit the `activityTitle` element to surround it with three asterisks instead of two, note how the text changes:
 
     ![Screenshot of Microsoft Flow approval with title highlighted.](Images/Exercise1_03.png)
 
@@ -204,7 +202,7 @@ This lab will walk you through designing an Actionable Message card using the [M
 
 1. Select **Send via Email** to send the card to yourself.
 
-1. Check your email and open the message. Select the **approve** button. You will see text below the button that says "The action could not be completed." This happened because you have not yet registered the action or implemented the web site, you will do that in this lab.
+1. Check your email and open the message. Select the **approve** button. You will see text below the button that says "The remote endpoint returned an error (HTTP Forbidden). Please try again later." This happened because you have not yet registered the action or implemented the web site, you will do that in this lab.
 
 1. Save the JSON representing the expense report to your file system. You will use this later in the lab.
 
@@ -256,7 +254,7 @@ The first section of this lab demonstrated how to design a card, the second sect
 
 1. Open your browser and go to the [Actionable Email Developer Dashboard](https://outlook.office.com/connectors/oam/publish). Select **New Provider**.
 
-1. Provide a name and image for your provider. When prompted for an email, enter the email used for the sender. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure Web App as an HTTPS URL (for instance, https://myapp.azurewebsites.net). The scope of submission determines how you will use the provider. Choose **My Mailbox** as the scope.
+1. Provide a name and image for your provider. When prompted for an email, enter the email used for the sender. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure Web App as an HTTPS URL (for instance, <https://myapp.azurewebsites.net>). The scope of submission determines how you will use the provider. Choose **My Mailbox** as the scope.
 
     >Note: A scope of "My Mailbox" will only allow actions in cards from your inbox. A scope of "Organization" will allow you to send Actionable Messages to others in your organization, and a scope of "Global" allows you to send to users inside and outside your organization. If you choose "Organization" or "Global" then your application must first be reviewed and approved before proceeding.
 
