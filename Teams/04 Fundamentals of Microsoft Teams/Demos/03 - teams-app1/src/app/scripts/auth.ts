@@ -1,3 +1,5 @@
+import * as Msal from 'msal';
+
 /**
 * Implementation of the teams app1 Auth page
 */
@@ -16,23 +18,15 @@ export class Auth {
     // Setup auth parameters for MSAL
     let graphAPIScopes: string[] = ["https://graph.microsoft.com/user.read", "https://graph.microsoft.com/group.read.all"];
     let userAgentApplication = new Msal.UserAgentApplication(
-      "1c8a3619-428e-455b-8827-9174562e3649",
+      "[app-id-from-registration]",
       "https://login.microsoftonline.com/common",
       this.tokenReceivedCallback);
 
     if (userAgentApplication.isCallback(window.location.hash)) {
-      userAgentApplication.handleAuthenticationResponse(
-        window.location.hash,
-        (token) => {
-          if (this.user == null) {
-            this.user = userAgentApplication.getUser()!;
-            this.getToken(userAgentApplication, graphAPIScopes);
-          } else {
-            microsoftTeams.authentication.notifySuccess(token);
-          }
-        },
-        (error) => { microsoftTeams.authentication.notifyFailure(error); }
-      );
+      var user = userAgentApplication.getUser();
+      if (user) {
+        this.getToken(userAgentApplication, graphAPIScopes);
+      }
     } else {
       this.user = userAgentApplication.getUser();
       if (!this.user) {
@@ -46,8 +40,8 @@ export class Auth {
   }
 
   private getToken(userAgentApplication: Msal.UserAgentApplication, graphAPIScopes: string[]) {
-    // In order to call the Graph API, an access token needs to be acquired.
-    // Try to acquire the token used to query Graph API silently first:
+    // In order to call the Microsoft Graph API, an access token needs to be acquired.
+    // Try to acquire the token used to query Microsoft Graph API silently first:
     userAgentApplication.acquireTokenSilent(graphAPIScopes).then(
       (token) => {
         //After the access token is acquired, return to MS Teams, sending the acquired token

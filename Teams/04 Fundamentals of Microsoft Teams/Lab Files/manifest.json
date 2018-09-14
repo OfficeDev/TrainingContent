@@ -1,6 +1,6 @@
 {
-  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.0",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
   "id": "[microsoft-app-id]",
   "version": "0.0.1",
   "packageName": "io.ngrok.[from-ngrok]",
@@ -19,10 +19,10 @@
     "full": "TODO: add full description here"
   },
   "icons": {
-    "outline": "bot-icon-20x20.png",
-    "color": "bot-icon-96x96.png"
+    "outline": "bot-icon-32x32.png",
+    "color": "bot-icon-192x192.png"
   },
-  "accentColor": "#FFFFFF",
+  "accentColor": "#D85028",
   "configurableTabs": [],
   "staticTabs": [],
   "bots": [
@@ -52,7 +52,6 @@
   ],
   "connectors": [],
   "composeExtensions": [],
-  "needsIdentity": true,
   "permissions": [
     "identity",
     "messageTeamMembers"
