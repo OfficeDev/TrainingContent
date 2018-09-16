@@ -216,7 +216,7 @@ Both packages install dependencies, including the Bot Builder SDK.
     Install-Package Microsoft.Bot.Connector.Teams
     ```
 
-### Update bot to implement message handling
+### Update bot to implement event (system message) handling
 
 The project template creates a messages controller that receives messages from the bot service. This controller checks the incoming activity to determine if it is a user or system message. This step of the lab will implement the system message handling.
 
@@ -254,6 +254,8 @@ The project template creates a messages controller that receives messages from t
           var botAccount = message.Recipient;
           var channelData = message.GetChannelData<TeamsChannelData>();
 
+          // if the bot is in the collection of added members,
+          // then send a welcome to all team members
           if (message.MembersAdded.Any(m => m.Id.Equals(botAccount.Id)))
           {
             // Fetch the members in the current conversation
@@ -305,18 +307,33 @@ The project template creates a messages controller that receives messages from t
 
 1. In **Solution Explorer**, add a new class named `MessageHelpers` to the project.
 
-1. Replace the generated `MessageHelpers` class with the following code. The code is in the `Lab Files/MessageHelpers.cs` file.
+1. Replace the generated `MessageHelpers` class with the following code. The code is in the `Lab Files/MessageHelpers.cs` file. (Note that the help message includes capabilities that are implemented later in this lab.)
 
     ```cs
     public class MessageHelpers
     {
+      public static string CreateHelpMessage(string firstLine)
+      {
+        var sb = new StringBuilder();
+        sb.AppendLine(firstLine);
+        sb.AppendLine();
+        sb.AppendLine("Here's what I can help you do:");
+        sb.AppendLine();
+        sb.AppendLine("* Create a new job posting");
+        sb.AppendLine("* List all your open positions");
+        sb.AppendLine("* Show top recent candidates for a Req ID, for example: top candidates 0F812D01");
+        sb.AppendLine("* Show details about a candidate, for example: candidate details John Smith 0F812D01");
+        sb.AppendLine("* Schedule interview for name and Req ID, for example: schedule interview John Smith 0F812D01");
+        return sb.ToString();
+        }
+
       public static async Task SendOneToOneWelcomeMessage(
         ConnectorClient client,
         TeamsChannelData channelData,
         ChannelAccount botAccount, ChannelAccount userAccount,
         string tenantId)
       {
-        string welcomeMessage = $"The team {channelData.Team.Name} has CardBot - helping your team understand Cards.";
+        string welcomeMessage = CreateHelpMessage($"The team {channelData.Team.Name} has the Talent Management bot- helping your team to find and hire candidates.");
 
         // create or get existing chat conversation with user
         var response = client.Conversations.CreateOrGetDirectConversation(botAccount, userAccount, tenantId);
@@ -343,6 +360,7 @@ The project template creates a messages controller that receives messages from t
     ```cs
     using Microsoft.Bot.Connector;
     using Microsoft.Bot.Connector.Teams.Models;
+    using System.Text;
     using System.Threading.Tasks;
     ```
 
@@ -378,9 +396,9 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
     ![Screenshot of Microsoft Teams displaying new bot installed.](Images/Exercise1-14.png)
 
-### Using the Teams API to send and receive files
+### Using the Teams API to send files
 
-A bot can directly send and receive files with users in the personal context using Teams APIs. Files shared in Teams typically appear as cards, and allow rich in-app viewing. This step of the lab demonstrates sending and receiving files.
+A bot can directly send and receive files with users in the personal context using Teams APIs. Files shared in Teams typically appear as cards, and allow rich in-app viewing. This step of the lab demonstrates sending and receiving files. (Files sent to the bot are simply echoed back to the user. To receive a files from the bot, the `resume` command will send a résumé of the specified candidate.)
 
 1. Stop the debugger.
 
@@ -407,6 +425,9 @@ A bot can directly send and receive files with users in the personal context usi
 
     ```cs
     using Microsoft.Bot.Connector.Teams;
+    using Newtonsoft.Json.Linq;
+    using System.Collections.Generic;
+    using System.Linq;
     ```
 
 1. Locate the `MessageReceivedAsync` method. This is the standard Bot Framework code to respond to a message. Replace the code in the method with this Microsoft Teams Bot extension code.
@@ -414,245 +435,202 @@ A bot can directly send and receive files with users in the personal context usi
     ```cs
     var activity = await result as Activity;
 
-    // calculate something for us to return
-    int length = (activity.Text ?? string.Empty).Length;
+    // Strip out all mentions.  As all channel messages to a bot must @mention the bot itself, you must strip out the bot name at minimum.
+    // This uses the extension SDK function GetTextWithoutMentions() to strip out ALL mentions
+    var text = activity.GetTextWithoutMentions();
 
-    ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-    Activity reply = activity.CreateReply($"You sent {activity.Text} which was {activity.Text.Length} characters");
-    var msgToUpdate = await connector.Conversations.ReplyToActivityAsync(reply);
-
-    // Simulate external activity
-    System.Threading.Thread.Sleep(5000);
-
-    var withoutMentions = activity.GetTextWithoutMentions();
-
-    Activity updatedReply = activity.CreateReply($"Actually, removing the @ mention, it was {withoutMentions.Length} characters");
-    await connector.Conversations.UpdateActivityAsync(reply.Conversation.Id, msgToUpdate.Id, updatedReply);
-    ```
-
-1. Press **F5** to test the changes to the bot logic. It is not necessary to re-sideload the bot unless the manifest file is changed.
-
-1. In a channel, @ mention the bot. The initial response will have the wrong character count, but the message will update five seconds later with the correct value. Depending on the bot service latency, you may not see the original response.
-
-    ![Screenshot of the bot message highlighting updated time stamp.](Images/Exercise1-15.png)
-
-### Respond with cards instead of text
-
-The Bot Framework allows for responding with cards instead of simply text. Microsoft Teams supports a subset of the cards in the Bot Framework. This section of the lab will add a dialog class to respond with cards.
-
-1. Stop the debugger.
-
-1. Open the **WebApiConfig.cs** file in the **App_Start** folder.
-
-1. Update the `JsonConvert.DefaultSettings` property to ignore reference loops when serializing response.
-
-    ```cs
-    JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+    if (text == null && (activity.Attachments != null && activity.Attachments.Count == 0))
     {
-      ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-      ContractResolver = new CamelCasePropertyNamesContractResolver(),
-      Formatting = Newtonsoft.Json.Formatting.Indented,
-      NullValueHandling = NullValueHandling.Ignore,
-    };
-    ```
-
-1. Open the **RootDialog.cs** file in the **Dialogs** folder.
-
-1. Add the following to the top of the file.
-
-    ```cs
-    using System.Threading;
-    ```
-
-1. Replace the `StartAsync` method with the following snippet:
-
-    ```cs
-    public async Task StartAsync(IDialogContext context)
-    {
-      context.Wait(MessageReceivedAsync);
+      // if the activity is not a system event, and it does not have text or attachment, treat it as a SubmitAction
+      //await HandleSubmitAction(context, activity);
     }
-    ```
-
-1. Replace the `MessageReceivedAsync` method with the following snippet. If the incoming message contains "ping" then a message with an alert is returned. If the incoming message contains "card" then the message is passed to the `CardsDialog`.
-
-    ```cs
-    public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+    else
     {
-      var activity = await result as Activity;
-
-      if (activity.GetTextWithoutMentions().ToLower().Trim() == "ping")
+      #region Receive file
+      // If a file was sent, echo back its name try to read it.
+      if (activity.Attachments != null && activity.Attachments.Count > 0)
       {
-        ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-        Activity reply = activity.CreateReply();
-        reply.NotifyUser();
-        reply.Summary = "One ping only, please.";
-        reply.Text += "Give me a ping, Vasili. One ping only, please.";
-        await connector.Conversations.ReplyToActivityAsync(reply);
-      }
-      else if (activity.Text.ToLower().Contains("card"))
-      {
-        await context.Forward(new Dialogs.CardsDialog(), this.ResumeAfterCardsDialog, activity, CancellationToken.None);
-      }
-      else
-      {
-        // calculate something for us to return
-        int length = (activity.Text ?? string.Empty).Length;
-
-        ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-        Activity reply = activity.CreateReply($"You sent {activity.Text} which was {activity.Text.Length} characters");
-        var msgToUpdate = await connector.Conversations.ReplyToActivityAsync(reply);
-
-        // Simulate external activity
-        System.Threading.Thread.Sleep(5000);
-
-        var withoutMentions = activity.GetTextWithoutMentions();
-
-        Activity updatedReply = activity.CreateReply($"Actually, removing the @ mention, it was {withoutMentions.Length} characters");
-        await connector.Conversations.UpdateActivityAsync(reply.Conversation.Id, msgToUpdate.Id, updatedReply);
-      }
-    }
-    ```
-
-1. Add the following method to the `RootDialog` class.
-
-    ```cs
-    private async Task ResumeAfterCardsDialog(IDialogContext context, IAwaitable<IMessageActivity> result)
-    {
-      context.Wait(this.MessageReceivedAsync);
-    }
-    ```
-
-1. In **Solution Explorer**, add a new class to the **Dialogs** folder. Name the class **CardsDialogs**.
-
-1. Add the following to the top of the class.
-
-    ```cs
-    using System.Threading.Tasks;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Connector;
-    using Microsoft.Bot.Connector.Teams;
-    ```
-
-1. Replace the class declaration with the following snippet. This code is in the **Lab Files/CardsDialogs.cs** file.
-
-    ```cs
-    [Serializable]
-    public class CardsDialog : IDialog<IMessageActivity>
-    {
-      private const string HeroCard = "Hero card";
-      private const string ThumbnailCard = "Thumbnail card";
-
-      private IEnumerable<string> options = new List<string> { HeroCard, ThumbnailCard };
-
-      public async Task StartAsync(IDialogContext context)
-      {
-        context.Wait(this.MessageReceivedAsync);
-      }
-
-      public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-      {
-        var message = await result;
-
-        string cardName = message.GetTextWithoutMentions().Trim().ToLower();
-        if (cardName == HeroCard.ToLower())
+        foreach (var attachment in activity.Attachments)
         {
-          await DisplaySelectedCard(context, HeroCard);
+          if (attachment.ContentType == FileDownloadInfo.ContentType)
+          {
+            await context.PostAsync($"Received a file named {attachment.Name}");
+            await ProcessAttachment(attachment, context);
+          }
         }
-        else if (cardName == ThumbnailCard.ToLower())
+      }
+      #endregion
+
+      if (!String.IsNullOrEmpty(text))
+      {
+        // Check for supported commands
+        // This simple text parsing assumes the command is the first token,
+        // and parameters are the remainder.
+        var split = text.Split(' ');
+        // The user is asking for one of the supported commands.
+        if (split.Length >= 2)
         {
-          await DisplaySelectedCard(context, ThumbnailCard);
+          var cmd = split[0].ToLower();
+          var keywords = split.Skip(1).ToArray();
+
+          #region Commands
+
+          if (cmd.Contains("resume"))
+          {
+            // Return "resume file" for the given candidate name.
+            await HandleResumeCommand(context, keywords);
+          }
+
+          #endregion
+
+        }
+        else if (text.Contains("help"))
+        {
+          // Respond with standard help message.
+          await MessageHelpers.SendMessage(context, MessageHelpers.CreateHelpMessage("Sure, I can provide help info about me."));
+        }
+        else if (text.Contains("welcome") || text.Contains("hello") || text.Contains("hi"))
+        {
+          await MessageHelpers.SendMessage(context, MessageHelpers.CreateHelpMessage("## Welcome to the Contoso Talent Management app"));
+        }
+        else
+        // Don't know what to say so this is the generic handling here.
+        {
+          await MessageHelpers.SendMessage(context, MessageHelpers.CreateHelpMessage("I'm sorry, I did not understand you :("));
+        }
+      }
+    }
+    context.Wait(MessageReceivedAsync);
+  }
+    ```
+
+1. In **Solution Explorer**, add a new class named `FileHelpers` to the project.
+
+1. Replace the generated `FileHelpers` class with the following code. The code is in the `Lab Files/FileHelpers.cs` file.
+
+    ```cs
+    public class FileHelpers
+    {
+      internal static async Task ProcessAttachment(Attachment attachment, IDialogContext context)
+      {
+        var replyMessage = context.MakeMessage();
+
+        if (attachment.ContentType == FileDownloadInfo.ContentType)
+        {
+          FileDownloadInfo downloadInfo = (attachment.Content as JObject).ToObject<FileDownloadInfo>();
+          if (downloadInfo != null)
+          {
+            if (downloadInfo.FileType == "txt")
+            {
+              try
+              {
+                var httpClient = new HttpClient();
+                HttpResponseMessage response = await httpClient.GetAsync(downloadInfo.DownloadUrl);
+                var fileContents = await response.Content.ReadAsStringAsync();
+
+                replyMessage.Text = (fileContents.Length < 25)
+                  ? $"File contents: {fileContents}"
+                  : $"First 25 bytes: {fileContents.Substring(0, 25)}";
+              }
+              catch (Exception ex)
+              {
+                replyMessage.Text = $"Could not read file: {ex.Message}";
+              }
+            }
+          }
+        }
+        await context.PostAsync(replyMessage);
+      }
+
+      internal static async Task<Activity> ProcessFileConsentResponse(object invokeValue)
+      {
+        Activity reply = new Activity
+        {
+          Type = ActivityTypes.Message
+        };
+
+        var response = ((JObject)invokeValue).ToObject<FileConsentCardResponse>();
+
+        if (response.Action == FileConsentCardResponse.AcceptAction)
+        {
+          var context = (JObject)response.Context;
+          var name = (string)context["name"];
+          var fileId = (string)context["fileId"];
+
+          //
+          //  Access the file from some storage location and capture its metadata
+          //
+          //var fileID = "abc";
+          var fileSize = 1500;
+
+          var fileContent = $"This is the resume for {name}";
+          fileContent += new String(' ', fileSize - fileContent.Length);
+
+          var httpContent = new StringContent(fileContent);
+          httpContent.Headers.ContentLength = fileContent.Length;
+          httpContent.Headers.ContentRange =
+            new System.Net.Http.Headers.ContentRangeHeaderValue(0, fileContent.Length - 1, fileContent.Length);
+
+          var httpClient = new HttpClient();
+          var httpResponse = await httpClient.PutAsync(response.UploadInfo.UploadUrl, httpContent);
+          var responseText = await httpResponse.Content.ReadAsStringAsync();
+
+          if (httpResponse.IsSuccessStatusCode)
+          {
+            var responseObject = JObject.Parse(responseText);
+
+            var uploadedName = (string)responseObject["name"];
+            var contentUrl = (string)responseObject["webUrl"];
+
+            FileInfoCard card = new FileInfoCard()
+            {
+              ContentUrl = (string)responseObject["webUrl"],
+              Name = (string)responseObject["name"],
+              FileType = System.IO.Path.GetExtension(uploadedName).Replace(".", ""),
+              UniqueId = (string)responseObject["id"]
+            };
+
+            reply.Attachments.Add(card.ToAttachment());
+          }
+          else
+          {
+            reply.Text =  responseText;
+          }
         }
         else
         {
-          var reply = context.MakeMessage();
-          reply.Text = "I don't support that kind of card.";
-          await context.PostAsync(reply);
-          context.Done(reply);
+          reply.Text = "Upload was declined";
         }
-      }
-
-      public async Task DisplaySelectedCard(IDialogContext context, string selectedCard)
-      {
-        var message = context.MakeMessage();
-        var attachment = GetSelectedCard(selectedCard);
-        message.Attachments.Add(attachment);
-
-        await context.PostAsync(message);
-
-        context.Done(message);
-
-        //context.Wait(this.MessageReceivedAsync);
-      }
-
-      private static Attachment GetSelectedCard(string selectedCard)
-      {
-        switch (selectedCard)
-        {
-          case HeroCard:
-            return GetHeroCard();
-          case ThumbnailCard:
-            return GetThumbnailCard();
-          default:
-            return GetHeroCard();
-        }
-      }
-
-      private static Attachment GetHeroCard()
-      {
-        var heroCard = new HeroCard
-        {
-          Title = "BotFramework Hero Card",
-          Subtitle = "Your bots — wherever your users are talking",
-          Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
-          Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
-          Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
-        };
-        return heroCard.ToAttachment();
-      }
-
-      private static Attachment GetThumbnailCard()
-      {
-        var thumbnailCard = new ThumbnailCard
-        {
-          Title = "BotFramework Thumbnail Card",
-          Subtitle = "Your bots — wherever your users are talking",
-          Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
-          Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
-          Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
-        };
-        return thumbnailCard.ToAttachment();
+        return reply;
       }
     }
     ```
 
-### Provide a user menu
+1. Add the following statements to the top of the **FileHelpers.cs** file.
 
-1. Open the **manifest.json** file in the **Manifest** folder.
-
-1. Locate the `/bots/commandLists/commands` node.
-
-1. Replace the `commands` node with the following:
-
-    ```json
-    "commands": [
-      {
-        "title": "Hero card",
-        "description": "Display a sample Hero card"
-      },
-      {
-        "title": "Thumbnail card",
-        "description": "Display a sample Thumbnail"
-      }
-    ]
+    ```cs
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using Newtonsoft.Json.Linq;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Threading.Tasks;
     ```
 
-1. Press **F5** to re-package the bot and start the web service. Re-sideload the app to update the capabilities with the new menu.
+1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams. (It is not necessary to remove the app from the team first.)
 
-1. Choosing one of the commands from the manifest will display a sample card. Entering the word **'card'** without **'hero'** or **'thumbnail'** will result in a message about unsupported card types. Any other message is echoed as before.
+1. In a private chat with the bot, the message compose area now includes the attachment icon. Clicking the icon presents a context menu with the supported choices for the source of the file.
 
-    ![Screenshot of menu with thumbnail card highlighted.](Images/Exercise1-16.png)
+    ![Screenshot of the Microsoft Teams message compose control with the attachment icon highlighted](Images/Exercise1-15.png)
 
-    ![Screenshot of thumbnail card example.](Images/Exercise1-17.png)
+1. Continue to select and upload a file. You must select the send button after the file is uploaded.
+
+1. In a private chat with the bot, issue the command `resume for john smith`. The bot will responed with a **FileConsent** card. The bot can only send files when consent is granted by the user.
+
+1. Once consent is granted, the bot can upload the file to the OneDrive of the user. The bot will display a `FileInfo` card, enabling the user to view the file.
+
+    ![Screenshot of the bot conversation displaying sent and received files.](Images/Exercise1-16.png)
 
 <a name="exercise2"></a>
 
