@@ -2,7 +2,11 @@
 
 This sample shows how to build and Office Add-in using Vue.js with TypeScript. In addition to Office.js, the sample uses the Office Fabric UI for styling and formatting the user experience.
 
-The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow the steps to [Sideload the Office Add-in](#sideload-the-office-add-in).
+The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow one of these methods to sideload and test the Office Add-in.
+
+* Windows: [Sideload Office Add-ins on Windows](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/create-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins)
+* Word Online: [Sideload Office Add-ins in Office Online](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing#sideload-an-office-add-in-on-office-online)
+* iPad and Mac: [Sideload Office Add-ins on iPad and Mac](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-ipad-and-mac)
 
 ## Prerequisites
 
@@ -27,19 +31,16 @@ To complete this ldemoab, you need the following:
     ```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
-    * Would you like to create a new subfolder for your project? **Yes**
+    * Choose a project type **Office Add-in project using Jquery framework**
+    * Choose a script type **Typescript**
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**
-    * Would you like to create a new add-in? **Yes, I need to create a new web app and manifest for my add-in.**
-    * Would you like to use TypeScript? **Yes**
-    * Choose a framework: **JQuery**
-    * For more information and resources on your next steps, we have created a resource.html file in your project. Would you like to open it now while we finish creating your project? **No**
 
     ![Office Yeoman Generator](../../Images/YeomanVuejs.png)
 
 1. When the Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
-    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
+    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
 1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery project template as the starting point so you need to convert the project to leverage Vue.js.
     1. Open a command prompt and change directory to the root folder of the project.
@@ -165,7 +166,7 @@ To complete this ldemoab, you need the following:
             };
             ```
 
-    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
+    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
       ![Screenshot showing the Vue based Office Add-in running in Excel](../../Images/vue-addin-01.png)
 
@@ -455,7 +456,7 @@ To complete this ldemoab, you need the following:
         };
         ```
 
-1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
+1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in).
 
     ![Add-in with visual markup complete](../../Images/AddinVisual.png)
 
@@ -561,6 +562,7 @@ To complete this ldemoab, you need the following:
                 await Excel.run(async context => {
                   const sheet = context.workbook.worksheets.getActiveWorksheet();
                   // Add the new row
+                  tableRef = sheet.tables.getItem(this.tableName);
                   tableRef.rows.add(null, [data]);
                   // Autofit columns and rows if your Office version supports the API.
                   if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {
@@ -781,7 +783,7 @@ To complete this ldemoab, you need the following:
             if (rowIndex != -1) {
               this.getQuote(symbol).then((res:any) => {
                   // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current).then(async () => {
+                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price']).then(async () => {
                   this.waiting = false;
                 }, (err) => {
                   this.error = err;
@@ -818,4 +820,4 @@ To complete this ldemoab, you need the following:
         }
         ```
 
-The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
+The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in).
