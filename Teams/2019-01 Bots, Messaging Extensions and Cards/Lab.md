@@ -205,7 +205,7 @@ The Microsoft Teams engineering group built and maintains extensions to the Bot 
 
 - Specialized teams card types like the Office 365 connector card
 - Consuming and setting teams-specific channel data on activities
-- Processing compose extension requests
+- Processing messaging extension requests
 - Handling rate limiting
 
 Both packages install dependencies, including the Bot Builder SDK.
@@ -396,9 +396,9 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
     ![Screenshot of Microsoft Teams displaying new bot installed.](Images/Exercise1-14.png)
 
-### Using the Teams API to send files
+### Using the Teams API to receive and send files
 
-A bot can directly send and receive files with users in the personal context using Teams APIs. Files shared in Teams typically appear as cards, and allow rich in-app viewing. This step of the lab demonstrates sending and receiving files. (Files sent to the bot are simply echoed back to the user. To receive a files from the bot, the `resume` command will send a résumé of the specified candidate.)
+A bot can directly send and receive files with users in the personal context using Teams APIs. Files shared in Teams typically appear as cards, and allow rich in-app viewing. This step of the lab demonstrates sending and receiving files. (Files sent to the bot are simply echoed back to the user. To receive a file from the bot, the `resume` command will send a résumé of the specified candidate.)
 
 1. Stop the debugger.
 
@@ -417,6 +417,70 @@ A bot can directly send and receive files with users in the personal context usi
         ]
       }
     ],
+    ```
+
+1. Open the **MessagesController.cs** file in the **Controllers** folder.
+
+1. Locate the `Post` method. Replace the method with the following code.
+
+    ```cs
+    public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
+    {
+      if (activity.GetActivityType() == ActivityTypes.Message)
+      {
+        await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+      }
+      else if (activity.Type == ActivityTypes.Invoke)
+      {
+        if (activity.Name == "fileConsent/invoke")
+        {
+          await HandleFileConsentActivity(activity);
+        }
+      }
+      else
+      {
+        await HandleSystemMessageAsync(activity);
+      }
+      var response = Request.CreateResponse(HttpStatusCode.OK);
+      return response;
+    }
+    ```
+
+1. Add the following method to the **MessagesController.cs** file.
+
+    ```cs
+    private async Task HandleFileConsentActivity(Activity activity)
+    {
+      Activity reply;
+      try
+      {
+        reply = await FileHelpers.ProcessFileConsentResponse(activity.Value);
+      }
+      catch (Exception ex)
+      {
+        reply = new Activity { Text = ex.ToString() };
+      }
+
+      // Production bot would retrieve the message containing the FileConsent card and update it with results.
+      // This would prevent the user from consenting again
+      //
+      //var consentMessageReplyConversationId  = <read from state>
+      //var consentMessageReplyId = <read from state>
+      //Activity updatedReply = activity.CreateReply(messageText);
+      //await connector.Conversations.UpdateActivityAsync(consentMessageReplyConversationId, consentMessageReplyId, updatedReply);
+
+      // sending files happens in personal scope, so send a 1:1 message
+      var user = activity.From;
+      var bot = activity.Recipient;
+      var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+      var tenantId = activity.GetTenantId();
+
+      // create or get existing chat conversation with user
+      var response = connector.Conversations.CreateOrGetDirectConversation(bot, user, tenantId);
+      reply.Conversation = new ConversationAccount { Id = response.Id };
+      // Post the message to chat conversation with user
+      await connector.Conversations.SendToConversationAsync(reply);
+    }
     ```
 
 1. Open the **RootDialog.cs** file in the **Dialogs** folder.
@@ -626,7 +690,7 @@ A bot can directly send and receive files with users in the personal context usi
 
 1. Continue to select and upload a file. You must select the send button after the file is uploaded.
 
-1. In a private chat with the bot, issue the command `resume for john smith`. The bot will responed with a **FileConsent** card. The bot can only send files when consent is granted by the user.
+1. In a private chat with the bot, issue the command `resume for john smith`. The bot will respond with a **FileConsent** card. The bot can only send files when consent is granted by the user.
 
 1. Once consent is granted, the bot can upload the file to the OneDrive of the user. The bot will display a `FileInfo` card, enabling the user to view the file.
 
@@ -634,177 +698,100 @@ A bot can directly send and receive files with users in the personal context usi
 
 <a name="exercise2"></a>
 
-## Exercise 2: Compose Extensions
+## Exercise 2: Messaging Extensions
 
-This section of the lab extends the bot from exercise 1 with Microsoft Teams functionality called compose extension. Compose extensions provide help for users when composing a message for posting in a channel or in one-to-one chats.
+This section of the lab extends the bot from exercise 1 with Microsoft Teams functionality called messaging extension. Messaging extensions provide help for users when composing a message for posting in a channel or in one-to-one chats.
+
+The messaging extension code requires data that can be displayed. The data generation code and supporting images are provided in the **LabFiles\DataModel** folder. The files in this folder can be added to the project without modification.
+
+1. In Visual Studio, install the **Bogus** package via the **Package Manager Console**.
+
+    ```powershell
+    Install-Package Bogus
+    ```
+
+1. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **DataModels**.
+
+1. Add the displayed files from the **LabFiles\DataModel** folder to the **DataModels** folder in Visual Studio.
+
+    ![Screenshot of the Solution Explorer window with the DataModels folder highlighted](Images/Exercise2-01.png)
+
+1. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **images**.
+
+1. Add the displayed files from the **LabFiles\DataModel\images** folder to the **images** folder in Visual Studio.
+
+    ![Screenshot of the Solution Explorer window with the images folder highlighted](Images/Exercise2-02.png)
+
+1. In Visual Studio, install the **Bogus** package via the **Package Manager Console**.
+
+    ```powershell
+    Install-Package AdaptiveCards
+    ```
 
 1. Open the **MessagesController.cs** file in the **Controllers** folder.
 
-1. Locate the `Post` method. Replace the method the following snippet. Rather than repeating if statements, the logic is converted to a switch statement. Compose extensions are posted to the bot via an `Invoke` message.
+1. Locate the `Post` method. Replace the method the following snippet. Messaging extensions are posted to the bot via an `Invoke` message.
 
     ```cs
     public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
     {
-      switch (activity.Type)
+      if (activity.GetActivityType() == ActivityTypes.Message)
       {
-        case ActivityTypes.Message:
-          await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
-          break;
+        await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+      }
+      else if (activity.Type == ActivityTypes.Invoke)
+      {
+        if (activity.Name == "fileConsent/invoke")
+        {
+          await HandleFileConsentActivity(activity);
+        }
+        else if (activity.IsComposeExtensionQuery())
+        {
+          // Determine the response object to reply with
+          MessagingExtension msgExt = new MessagingExtension(activity);
+          var invokeResponse = await msgExt.CreateResponse();
 
-        case ActivityTypes.ConversationUpdate:
-          await HandleSystemMessageAsync(activity);
-          break;
-
-        case ActivityTypes.Invoke:
-          var composeResponse = await ComposeHelpers.HandleInvoke(activity);
-          var stringContent = new StringContent(composeResponse);
-          HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
-          httpResponseMessage.Content = stringContent;
-          return httpResponseMessage;
-          break;
-
-        default:
-          break;
+          // Messaging Extensions require the response body to have the response data
+          // explicitly return the response rather that falling thru to the default return
+          return Request.CreateResponse(HttpStatusCode.OK, invokeResponse);
+        }
+      }
+      else
+      {
+        await HandleSystemMessageAsync(activity);
       }
       var response = Request.CreateResponse(HttpStatusCode.OK);
       return response;
     }
     ```
 
-1. In **Solution Explorer**, add a new class to the project. Name the class `BotChannelsData`. Replace the generated class with the code from file **Lab Files/BotChannelData.cs**.
+1. In **Solution Explorer**, add a new class to the project. Name the class **MessagingExtensionHelper**. Add the code from the **Lab Files/MessagingExtensionHelper.cs** file.
 
-    ```cs
-    using System.Collections.Generic;
-
-    namespace teams_bot2
-    {
-      public class BotChannel
-      {
-        public string Title { get; set; }
-        public string LogoUrl { get; set; }
-      }
-
-      public class BotChannels
-      {
-        public static List<BotChannel> GetBotChannels()
-        {
-          var data = new List<BotChannel>();
-          data.Add(new BotChannel { Title = "Bing", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/bing.png" });
-          data.Add(new BotChannel { Title = "Cortana", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/cortana.png" });
-          data.Add(new BotChannel { Title = "Direct Line", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/directline.png" });
-          data.Add(new BotChannel { Title = "Email", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/email.png" });
-          data.Add(new BotChannel { Title = "Facebook Messenger", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/facebook.png" });
-          data.Add(new BotChannel { Title = "GroupMe", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/groupme.png" });
-          data.Add(new BotChannel { Title = "Kik", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/kik.png" });
-          data.Add(new BotChannel { Title = "Microsoft Teams", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/msteams.png" });
-          data.Add(new BotChannel { Title = "Skype", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skype.png" });
-          data.Add(new BotChannel { Title = "Skype for Business", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skypeforbusiness.png" });
-          data.Add(new BotChannel { Title = "Slack", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/slack.png" });
-          data.Add(new BotChannel { Title = "Telegram", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/telegram.png" });
-          data.Add(new BotChannel { Title = "Twilio (SMS)", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/sms.png" });
-          data.Add(new BotChannel { Title = "Web Chat", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/webchat.png" });
-          return data;
-        }
-      }
-    }
-    ```
-
-1. In **Solution Explorer**, add a new class to the project. Name the class **ComposeHelpers**. Add the code from the **Lab Files/ComposeHelpers.cs** file.
+1. Add the following to the top of the **MessagingExtensionHelper.cs** file.
 
     ```cs
     using Microsoft.Bot.Connector;
     using Microsoft.Bot.Connector.Teams;
     using Microsoft.Bot.Connector.Teams.Models;
-    using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
+    using Newtonsoft.Json.Linq;
+    using OfficeDev.Talent.Management;
+    using System.Globalization;
     using System.Threading.Tasks;
-
-    namespace teams_bot2
-    {
-      public class ComposeHelpers
-      {
-        public static async Task<HttpResponseMessage> HandleInvoke(Activity activity)
-        {
-          // these are the values specified in manifest.json
-          string COMMANDID = "searchCmd";
-          string PARAMNAME = "searchText";
-
-          var unrecognizedResponse = new HttpResponseMessage(HttpStatusCode.BadRequest);
-          unrecognizedResponse.Content = new StringContent("Invoke request was not recognized.");
-
-          if (!activity.IsComposeExtensionQuery())
-          {
-            return unrecognizedResponse;
-          }
-
-          // This helper method gets the query as an object.
-          var query = activity.GetComposeExtensionQueryData();
-          if (query.CommandId == null || query.Parameters == null)
-          {
-            return unrecognizedResponse;
-          }
-
-          if (query.CommandId != COMMANDID)
-          {
-            return unrecognizedResponse;
-          }
-
-          var param = query.Parameters.FirstOrDefault(p => p.Name.Equals(PARAMNAME)).Value.ToString();
-          if (String.IsNullOrEmpty(param))
-          {
-            return unrecognizedResponse;
-          }
-
-          // This is the response object that will get sent back to the compose extension request.
-          ComposeExtensionResponse invokeResponse = new ComposeExtensionResponse();
-
-          // search our data
-          var resultData = BotChannels.GetBotChannels().FindAll(t => t.Title.Contains(param));
-
-          // format the results
-          var results = new ComposeExtensionResult()
-          {
-            AttachmentLayout = "list",
-            Type = "result",
-            Attachments = new List<ComposeExtensionAttachment>(),
-          };
-
-          foreach (var resultDataItem in resultData)
-          {
-            var card = new ThumbnailCard()
-            {
-              Title = resultDataItem.Title,
-              Images = new List<CardImage>() { new CardImage() { Url = resultDataItem.LogoUrl } }
-            };
-
-            var composeExtensionAttachment = card.ToAttachment().ToComposeExtensionAttachment();
-            results.Attachments.Add(composeExtensionAttachment);
-          }
-
-          invokeResponse.ComposeExtension = results;
-
-          // Return the response
-          StringContent stringContent;
-          try
-          {
-            stringContent = new StringContent(JsonConvert.SerializeObject(invokeResponse));
-          }
-          catch (Exception ex)
-          {
-            stringContent = new StringContent(ex.ToString());
-          }
-          var response = new HttpResponseMessage(HttpStatusCode.OK);
-          response.Content = stringContent;
-          return response;
-        }
-
-      }
-    }
     ```
+
+1. In **Solution Explorer**, add a new class to the project. Name the class **CardHelper**. Add the code from the **Lab Files/CardHelper.cs** file.
+
+1. Add the following to the top of the **CardHelper.cs** file.
+
+    ```cs
+    using AdaptiveCards;
+    using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using Newtonsoft.Json.Linq;
+    using OfficeDev.Talent.Management;
+    ```
+
+1. In **Solution Explorer**, add a new JSON file to the project. Name the file **cardtemplate.json**. Add the code from the **Lab Files/cardtemplate.json** file.
 
 1. Open the **manifest.json** file in the **Manifest** folder. Locate the `composeExtensions` node and replace it with the following snippet. Replace the `[MicrosoftAppId]` token with the app ID from the settings page of the [bot registration](https://dev.botframework.com).
 
@@ -813,20 +800,20 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
       {
         "botId": "[MicrosoftAppId]",
         "scopes": [
+          "personal",
           "team"
         ],
-        "canUpdateConfiguration": true,
         "commands": [
           {
             "id": "searchCmd",
-            "description": "Search Bot Channels",
-            "title": "Bot Channels",
-            "initialRun": false,
+            "title": "Search positions",
+            "initialRun": true,
+            "description": "Search open positions by keyword",
             "parameters": [
               {
-                "name": "searchText",
-                "description": "Enter your search text",
-                "title": "Search Text"
+              "name": "keyword",
+              "title": "Keywords",
+              "description": "Position keywords"
               }
             ]
           }
@@ -837,23 +824,27 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
 
 1. Press **F5** to re-build the app package and start the debugger.
 
-1. Re-sideload the app. Since the **manifest.json** file has been updated, the bot must be re-sideloaded to the Microsoft Teams application.
+1. Re-upload the app. Since the **manifest.json** file has been updated, the bot must be re-uploaded to the Microsoft Teams application.
 
-### Invoke the compose extension
+### Invoke the messaging extension
 
-The compose extension is configured for use in a channel due to the scopes entered in the manifest.
+The messaging extension is configured for use in a channel due to the scopes entered in the manifest.
 
 1. The extension is invoked by selecting the **ellipsis** below the compose box and selecting the bot.
 
-    ![Screenshot of search in bot channels.](Images/Exercise2-01.png)
+    ![Screenshot of Microsoft Teams messaging extension.](Images/Exercise2-03.png)
 
-    ![Screenshot of bot channel search with Microsoft Teams displayed in the list of results.](Images/Exercise2-02.png)
+1. If the `initialRun` property of a command  is set to true, Microsoft Teams will issue that command immediately when the extension is opened. Your service can respond to this query with a set of prepopulated results. This can be useful for displaying, for instance, recently viewed items, favorites, or any other information that is not dependent on user input.
 
-    ![Screenshot of Microsoft Teams bot in bot channel.](Images/Exercise2-03.png)
+    ![Screenshot of messaging extension with prepopulated results.](Images/Exercise2-04.png)
+
+1. Selecting an item in the messaging extension will populate the message compose area the result. The user can then augment the message.
+
+    ![Screenshot of Microsoft Teams message compose area with extension result shown.](Images/Exercise2-05.png)
 
 <a name="exercise3"></a>
 
-## Exercise 3: Microsoft Teams apps with multiple capabilities
+## Exercise 3: Using cards in Microsoft Teams
 
 This section of the lab creates a Microsoft Teams app from the tab and bot created previously along with a connector.
 

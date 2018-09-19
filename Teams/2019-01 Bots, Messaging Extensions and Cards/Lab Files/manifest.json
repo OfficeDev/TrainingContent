@@ -27,11 +27,11 @@
         {
             "botId": "[microsoft-app-id]",
             "scopes": [
-                "personal",
-                "team"
+              "team"
             ]
         }
     ],
+    "composeExtensions": [],
     "permissions": [
         "identity",
         "messageTeamMembers"
