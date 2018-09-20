@@ -846,55 +846,80 @@ The messaging extension is configured for use in a channel due to the scopes ent
 
 ## Exercise 3: Using cards in Microsoft Teams
 
-This section of the lab creates a Microsoft Teams app from the tab and bot created previously along with a connector.
+This section of the lab extends the bot to answer specific commands with Cards that present the requested information.
 
-### Office 365 connector & webhooks
+1. Open the **RootDialog.cs** file in the **Dialogs** folder.
 
-In Microsoft Teams, full functionality for Office 365 Connectors is restricted to connectors that have been published to the Microsoft Office store. However, communicating with Microsoft Teams using Office 365 connectors is identical to using the incoming webhook. This exercise will show the messaging mechanics via the webhook feature and then show the Microsoft Teams user interface experience for registering a connector.
+1. Locate the `Commands` region in the  `MessageReceivedAsync` method. The region contains an `if` statement with the expression `cmd.contains("resume")`. Replace that `if` block with the following to implement additional bot commands.
 
-### Incoming webhook
+    ```cs
+    #region Commands
 
-1. Select **Teams** in the left panel, then select a team.
+    if (cmd.Contains("resume"))
+    {
+      // Return "resume file" for the given candidate name.
+      await HandleResumeCommand(context, keywords);
+    }
+    else if (cmd.Contains("schedule"))
+    {
+      await CommandHandlers.HandleScheduleCommand(context, activity, keywords);
+    }
+    else if (cmd.Contains("open"))
+    {
+      await CommandHandlers.HandleOpenCommand(context);
+    }
+    else if (cmd.Contains("candidate"))
+    {
+      await CommandHandlers.HandleCandidateCommand(context, activity, keywords);
+    }
+    else if (cmd.Contains("new"))
+    {
+      await CommandHandlers.HandleNewCommand(context);
+    }
+    else if (cmd.Contains("assign"))
+    {
+      await CommandHandlers.HandleAssignCommand(context, split);
+    }
 
-1. Select the **General** channel in the selected team.
-
-1. Select **...** next to the channel name, then select **Connectors**.
-
-    ![SCreenshot of channel name with general menu displayed.](Images/Exercise3-01.png)
-
-1. Find **Incoming Webhook** in the list, select **Add** then **Install**.
-
-  ![Screenshot of list of connectors.](Images/Exercise3-02.png)
-
-1. Enter a name for the webhook, upload an image to associate with the data from the webhook, then select **Create**.
-
-1. Select the button next to the webhook URL to copy it. You will use the webhook URL in a subsequent step.
-
-1. Select **Done**.
-
-1. Close the **Connectors** dialog.
-
-### Create a simple connector card message to the webhook
-
-1. Copy the **sample-connector-message.json** file from the **Lab Files** folder to your development machine.
-
-1. Open a **PowerShell** window, go to the directory that contains the **sample-connector-message.json**, and enter the following commands:
-
-    ```powershell
-    $message = Get-Content .\sample-connector-message.json
-    $url = "<YOUR WEBHOOK URL>"
-    Invoke-RestMethod -ContentType "application/json" -Body $message -Uri $url -Method Post
+    #endregion
     ```
 
-    ![Screenshot of PowerShell code displaying webhook URL.](Images/Exercise3-03.png)
+1. In **Solution Explorer**, add a new class named `CommandHandlers` to the project.
 
-    > **Note:** Replace `<YOUR WEBHOOK URL>` with the webhook URL you saved when you created the **Incoming Webhook** connector.
+1. Replace the generated `CommandHandlers` class with the code in the `Lab Files/CommandHandlers.cs` file.
 
-1. When the POST succeeds, you will see a simple **"1"** outputted by the `Invoke-RestMethod` cmdlet.
+To understand how cards are used in Bot messages, review the following methods in the `CommandHandlers` class:
 
-1. Check the conversations tab in the Microsoft Teams application. You will see the new card message posted to the conversation.
+- The `SendScheduleInterviewMessage` method creates an Office 365 Connector card. This card captures user input and contains an action to post the data back to the bot. The card data is sent using an `invoke` message.
 
-    ![Screenshot of card message in Microsoft Teams.](Images/Exercise3-04.png)
+1. To process the invoke, open the **MessagesController.cs** file.
 
-    > Note: The action buttons will not work. Action buttons work only for connectors registered and published in the Microsoft Office store.
+1. In the `Post` method, locate the `if` block that tests for the `activity.Name == "fileConsent/invoke"`.
 
+1. Add the following after that block.
+
+    ```cs
+    else if (activity.IsO365ConnectorCardActionQuery())
+    {
+      Newtonsoft.Json.Linq.JObject ctx = activity.Value as Newtonsoft.Json.Linq.JObject;
+      if ((string)ctx["actionId"] == "scheduleInterview")
+      {
+        activity.Text = "schedule interview invoke";
+        await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+      }
+    }
+    ```
+
+- The `SendCandidateDetailsMessage` method creates and Adaptive card showcasing many capabilities of Adaptive cards.
+
+1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has not changed, there is no need to re-uploaded the app.
+
+1. In a channel with the bot added, @ mention the bot with the command **schedule interview John Smith 0F812D01**. (The name and id specified do not matter, but the command must have at least 5 words.)
+
+1. The bot will display a card with a date picker.
+
+  ![Screenshot of Microsoft Teams showing a message with a card containing a date picker](Images/Exercise3-01.png)
+
+1. Enter or select a date and select the **Schedule** button. The bot will reply with a message containing the schedule details.
+
+  ![Screenshot of Microsoft Teams showing a message and reply with interview details](Images/Exercise3-02.png)
