@@ -16,4 +16,4 @@
 
 1. In a channel, @ message the bot and issue the command `resume John Smith`. (The actual name specified does not matter, but both a given and surname must be provided.)
 
-1. The bot will respond with a file card. The actual file is added to the OneDrive of the current user, in a folder named after the bot. In this demo, the folder is named **Applications\office-talent-management**.
+1. The bot will respond with a file card. The actual file is added to the OneDrive of the current user, in a folder named after the bot. In this demo, the folder is named **Applications\officedev-talent-management**.

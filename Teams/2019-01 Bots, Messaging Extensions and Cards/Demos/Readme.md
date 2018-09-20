@@ -30,7 +30,7 @@ Make the following updates to the demo solution.
 
 1. In Visual Studio 2017, select **File > Open > Project/Solution**.
 
-1. Select the **office-talent-management.sln** file from the **Demos\solution** folder.
+1. Select the **officedev-talent-management.sln** file from the **Demos\solution** folder.
 
 ### Find the project URL
 
