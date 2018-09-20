@@ -1,12 +1,12 @@
-# Demos Readme
+# Demos
 
 The module has three demos. The application to run is the same for each demo.
 
 The step-by-step instructions for each demo are detailed in the following files:
 
-1. [Demo 1: Sending and receiving files](./readme01.md)
-1. [Demo 2: Messaging Extension](./readme02.md)
-1. [Demo 3: Adaptive Cards in Microsoft Teams](./readme03.md)
+1. [Sending and receiving files](./readme01.md)
+1. [Messaging Extension](./readme02.md)
+1. [Adaptive Cards in Microsoft Teams](./readme03.md)
 
 To run the demo application, perform the following steps.
 
@@ -90,7 +90,6 @@ Make the following updates to the demo solution.
 
     >**Note:** Selecting **Settings** in the top navigation will re-display the profile and configuration sections. This can be used to update the messaging endpoint in the event ngrok is stopped, or the bot is moved to staging & production.
 
-
 ### Configure the web project
 
 The bot project must be configured with information from the registration.
@@ -146,7 +145,6 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 The bot is not installed and ready to run. Refer to the appropriate demo instructions to continue.
 
-1. [Demo 1: Sending and receiving files](./readme01.md)
-1. [Demo 2: Messaging Extension](./readme02.md)
-1. [Demo 3: Adaptive Cards in Microsoft Teams](./readme03.md)
-
+1. [Sending and receiving files](./readme01.md)
+1. [Messaging Extension](./readme02.md)
+1. [Adaptive Cards in Microsoft Teams](./readme03.md)

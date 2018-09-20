@@ -8,10 +8,9 @@ In the lab, you will walk through building a bot that demonstrates several capab
 
 ## Demos
 
-- [Microsoft Teams context and events for bots](./Demos/[tbd])
-- [Messaging Extensions](./Demos/[tbd])
-- [Using cards in Microsoft Teams](./Demos/[tbd])
-
+- [Microsoft Teams context and events for bots](./Demos/readme01.md)
+- [Messaging Extensions](./Demos/readme02.md)
+- [Using cards in Microsoft Teams](./Demos/readme03.md)
 
 ## Contributors
 
@@ -23,9 +22,9 @@ In the lab, you will walk through building a bot that demonstrates several capab
 
 ## Version history
 
-| Version |       Date        |                   Comments                   |
-| ------- | ----------------- | -------------------------------------------- |
-| 1.0     | September 2018    | Initial release                              |
+| Version |        Date        |    Comments     |
+| ------- | ------------------ | --------------- |
+| 1.0     | September 20, 2018 | Initial release |
 
 ## Disclaimer
 
