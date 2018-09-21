@@ -169,16 +169,71 @@ The app is now installed. The following exercises will extend this app.
 
 In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder Tabs.
 
-1. In **Solution Explorer**, add a new HTML Page named `Candidates` to the project.
+1. Add the displayed files from the **Lab Files** folder of this repository.
 
-1. Replace the generated html with the following code. The code is in  the `LabFiles\candidates.html` file.
+    ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise1-01.png)
 
+1. Open the **candidates.html** file just added to the project.
 
-  <script>
-    $(document).ready(function () {
-      microsoftTeams.initialize();
-      microsoftTeams.getContext(function (context) {
-        $('#hiring-manager-name').text(context.upn);
+1. Add the following tag within the `<head>` tag in the file. This script will initialize the Teams JavaScript API and then get the Teams context object. The UPN of the current user is extracted from the context and displayed on the page.
+
+    ```js
+    <script>
+      $(document).ready(function () {
+        microsoftTeams.initialize();
+        microsoftTeams.getContext(function (context) {
+          $('#hiring-manager-upn').text(context.upn);
+        });
       });
-    });
-  </script>
+    </script>
+    ```
+
+1. Open the **manifest.json** file in the **Manifest** folder.
+
+1. Locate the `composeExtensions` node fo the **manifest.json** file. Add the following node as a sibling (at the same level) as the `composeExtensions` node. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address from the ngrok tunnel application.
+
+    ```json
+    "staticTabs": [
+      {
+        "entityId": "candidatesTab",
+        "name": "Candidates",
+        "contentUrl": "https://[from-ngrok].ngrok.io/Tabs/candidates.html",
+        "websiteUrl": "https://[from-ngrok].ngrok.io/Tabs/candidates.html?web=1",
+        "scopes": [
+          "personal"
+        ]
+      }
+    ],
+    ```
+
+1. Locate the `validDomains` node in the **manifest.json**. Ensure that the host from the ngrok forwarding address is included in the `validDomains` node. (Do not enter the URI scheme, only the host. For example: `ab29ba51.ngrok.io`).
+
+1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
+
+### Remove and upload app
+
+In the left-side panel of Microsoft Teams, select the ellipses next to the team name. Choose **Manage team** from the context menu.
+
+    ![Screenshot of Microsoft Teams with Manage Team highlighted.](Images/Starter-08.png)
+
+1. On the Manage team display, select **Apps** in the tab strip. Locate app in the list and select the trash can icon on the right.
+
+    ![Screenshot of Microsoft Teams highlighting the trash can icon next to an app.](Images/Exercise1-02.png)
+
+1. Select the **Uninstall** button to complete to uninstall the app.
+
+1. Select the **Upload a custom app** link at the bottom right corner of the application.
+
+1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
+
+1. The app is displayed. The description and icon for the app is displayed.
+
+    ![Screenshot of Microsoft Teams with new app displayed.](Images/Starter-09.png)
+
+1. Select the **Chat** icon in the left-side panel of Microsoft Teams.
+
+1. Select the conversation with the Talent Management Bot.
+
+1. The new tab is shown in the Tab Strip above the conversation. Select the tab to display the html page.
+
+    ![Screenshot of Microsoft Teams showing the static tab added in the lab.](Images/Exercise1-03.png)
