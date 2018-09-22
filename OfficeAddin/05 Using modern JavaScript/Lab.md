@@ -748,7 +748,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
     ![Office Yeoman Generator](./Images/YeomanAngular.png)
 
-1. When the Yeoman generator completes, locate the **Excel Portfolio** folder and delete the following files:
+1. When the Yeoman generator completes, locate the **excel-portfolio/Excel Portfolio** folder and delete the following folders & files:
     * node_modules folder
     * package.json
     * package-lock.json
@@ -1883,7 +1883,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
     ![Add-in with visual markup complete](./Images/AddinVisual.png)
 
-1. The **src/components/Root.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **src/components/Root.vue** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
     ```typescript
     getQuote(symbol:string) {
@@ -1921,7 +1921,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     ```
 
 1. Implement the ExcelTableUtil utility class:
-    1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
+    1. Locate and open the file **src/utils/ExcelTableUtil.ts**.
     1. Add the following methods `ExcelTableUtil` class. These methods access the table in Excel, or creates the table if it doesn't exist.
 
         ```typescript
@@ -2271,7 +2271,7 @@ This section will outline how to sideload and test an Office Add-in using OneDri
 1. Use one of these methods to sideload and test the Office Add-in.
 
 * Windows: [Sideload Office Add-ins on Windows](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/create-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins)
-* Word Online: [Sideload Office Add-ins in Office Online](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing#sideload-an-office-add-in-on-office-online)
+* Office Online: [Sideload Office Add-ins in Office Online](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing#sideload-an-office-add-in-on-office-online)
 * iPad and Mac: [Sideload Office Add-ins on iPad and Mac](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-ipad-and-mac)
 
 1. Select the **Show Taskpane** button to bring up your Office Add-in in a task pane.
