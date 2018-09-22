@@ -78,7 +78,7 @@ If you completed module 1, then you may skip ahead to [Exercise 1 - Tabs](#exerc
     ![Screenshot of bot profile information page.](./Images/Starter-03.png)
 
 1. Complete the configuration section.
-    - For the Messaging endpoint, use the forwarding HTTPS address from ngrok prepended to the route to the `MessagesController` in the Visual Studio project. In the example, this is `https://52bfb8b1.ngrok.io/API/Messages`.
+    - For the Messaging endpoint, prepend the forwarding HTTPS address from ngrok  to the route to the `MessagesController` in the Visual Studio project. In the example, this is `https://52bfb8b1.ngrok.io/API/Messages`.
     - Select the **Create Microsoft App ID and password button**. This opens a new browser window.
     - In the new browser window, the application is registered in Azure Active Directory. Select **Generate an app password to continue**.
     - An app password is generated. Copy the password and save it. You will use it in a subsequent step.
@@ -173,7 +173,7 @@ In Visual Studio right-click on the project, choose **Add > New Folder**. Name t
 
     ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise1-01.png)
 
-1. Open the **candidates.html** file just added to the project.
+1. Open the **candidates.html** file in the **Tabs** folder.
 
 1. Add the following tag within the `<head>` tag in the file. This script will initialize the Teams JavaScript API and then get the Teams context object. The UPN of the current user is extracted from the context and displayed on the page.
 
@@ -185,6 +185,69 @@ In Visual Studio right-click on the project, choose **Add > New Folder**. Name t
           $('#hiring-manager-upn').text(context.upn);
         });
       });
+    </script>
+    ```
+
+1. Open the **channelconfig.html** file in the **Tabs** folder.
+
+1. Add the following tag within the `<head>` tag in the file. This script will perform the following required steps for tab configuration:
+    - Initialize the Microsoft Teams Library.
+    - Set the 'Save' Button state based on the field content.
+    - Register a function as the Save Handler
+    - Set the Microsoft Teams settings for the tab, including th url of the content page and the Entity Id for the tab.
+
+    ```javascript
+    <script type="text/javascript">
+      $(document).ready(function () {
+
+        // These are the variables that decide what tab configuration to save
+        var host = `https://${window.location.hostname}`;
+        var name = '';
+        var posting = '';
+        var entity = '';
+        var url = '';
+        var websiteUrl = '';
+        var context;
+
+        // Initialize the Microsoft Teams Library
+        microsoftTeams.initialize();
+
+        // Set the 'Save' Button state based on name field content
+        $('#name').on('input', function () {
+          if ($('#name').val().length != 0) {
+            microsoftTeams.settings.setValidityState(true);
+          }
+          else {
+            microsoftTeams.settings.setValidityState(false);
+          }
+        });
+
+        // Save handler when user clicked on Save button
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+          microsoftTeams.getContext(function (context) {
+            name = $('#name').val();
+            posting = $('#posting').val();
+
+            url = `${host}/Tabs/channeltab.html?teamId=` +
+              `${encodeURIComponent(context.teamId)}` +
+              `&channelId=${encodeURIComponent(context.channelId)}` +
+              `&posting=${encodeURIComponent(posting)}`;
+
+            websiteUrl = url + `&web=1`;
+
+            entity = `candidatetab-${name}-${context.teamId}-${context.channelId}`;
+
+            microsoftTeams.settings.setSettings({
+              entityId: entity,
+              contentUrl: url,
+              suggestedDisplayName: name,
+              websiteUrl: websiteUrl
+            });
+
+            saveEvent.notifySuccess();
+          });
+        });
+      }
     </script>
     ```
 
@@ -204,6 +267,16 @@ In Visual Studio right-click on the project, choose **Add > New Folder**. Name t
         ]
       }
     ],
+    "configurableTabs": [
+      {
+        "configurationUrl": "https://[from-ngrok].ngrok.io/Tabs/channelconfig.html",
+        "canUpdateConfiguration": true,
+        "scopes": [
+          "groupchat",
+          "team"
+        ]
+      }
+    ],
     ```
 
 1. Locate the `validDomains` node in the **manifest.json**. Ensure that the host from the ngrok forwarding address is included in the `validDomains` node. (Do not enter the URI scheme, only the host. For example: `ab29ba51.ngrok.io`).
@@ -212,7 +285,7 @@ In Visual Studio right-click on the project, choose **Add > New Folder**. Name t
 
 ### Remove and upload app
 
-In the left-side panel of Microsoft Teams, select the ellipses next to the team name. Choose **Manage team** from the context menu.
+1. In the left-side panel of Microsoft Teams, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
     ![Screenshot of Microsoft Teams with Manage Team highlighted.](Images/Starter-08.png)
 
@@ -229,6 +302,26 @@ In the left-side panel of Microsoft Teams, select the ellipses next to the team 
 1. The app is displayed. The description and icon for the app is displayed.
 
     ![Screenshot of Microsoft Teams with new app displayed.](Images/Starter-09.png)
+
+### Add tab to team view
+
+Configurable tabs are displayed in a channel.
+
+1. Tabs are not automatically displayed for the team. To add the tab, select **General** channel in the team.
+
+1. Select the **+** icon at the end of the tab strip.
+
+1. In the tab gallery, uploaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
+
+    ![Screenshot of tab gallery with the talent management app highlighted.](Images/Exercise1-04.png)
+
+1. Type a name for the tab and select a position. Select **Save**.
+
+1. The tab is displayed in the channel tab strip.
+
+    ![Screenshot of Microsoft Teams showing the configurable tab added in the lab](Images/Exercise1-05.png)
+
+Static tabs are displayed in the chat view with the bot.
 
 1. Select the **Chat** icon in the left-side panel of Microsoft Teams.
 
