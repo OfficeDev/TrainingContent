@@ -62,6 +62,7 @@ export class ExcelTableUtil {
           await Excel.run(async (context) => {
             const sheet = context.workbook.worksheets.getActiveWorksheet();
             // Add the new row
+            tableRef = sheet.tables.getItem(this.tableName);
             tableRef.rows.add(null, [data]);
             // Autofit columns and rows if your Office version supports the API.
             if (Office.context.requirements.isSetSupported('ExcelApi', 1.2)) {

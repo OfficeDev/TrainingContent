@@ -138,7 +138,7 @@
           if (rowIndex != -1) {
             this.getQuote(symbol).then((res:any) => {
                 // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current).then(async () => {
+                this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price']).then(async () => {
                 this.waiting = false;
               }, (err) => {
                 this.error = err;
