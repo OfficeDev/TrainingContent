@@ -8,8 +8,9 @@ In the lab, you will walk through extending a Microsoft Teams app with Tabs and 
 
 ## Demos
 
-- [TBD](./Demos/readme01.md)
-- [TBD](./Demos/readme02.md)
+- [Demo 1: Add tabs to a Microsoft Teams App](./readme01.md)
+- [Demo 2: Connectors](./readme02.md)
+
 
 ## Contributors
 
@@ -29,4 +30,4 @@ In the lab, you will walk through extending a Microsoft Teams app with Tabs and 
 
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
 
-<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/01-tabs-and-cconnectors" />
+<img src="https://telemetry.sharepointpnp.com/TrainingContent/Teams/02-tabs-and-connectors" />
