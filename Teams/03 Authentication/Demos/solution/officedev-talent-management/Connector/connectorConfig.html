@@ -1,0 +1,66 @@
+﻿<html>
+<head>
+	<title>Configure</title>
+	<script src="https://unpkg.com/@microsoft/teams-js@1.3.5/dist/MicrosoftTeams.min.js" integrity="sha384-t1ID2NmMGB5huCWZdo2EV4RXQ9H/+VDaxxWeUfWuuVuYIc62+Xj7M5re4yqbpbDt" crossorigin="anonymous"></script>	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../Tabs/msteams-16.css" />
+	<link rel="stylesheet" type="text/css" href="../Tabs/talent-mgmt.css" />
+	<script type="text/javascript">
+		var host = `https://${window.location.hostname}`;
+		var name = '';
+		var posting = '';
+		var entity = '';
+		var url = '';
+		var webhookUrl = '';
+		var context;
+
+		$(document).ready(function () {
+			// Initialize the Microsoft Teams Library
+			microsoftTeams.initialize();
+
+			microsoftTeams.settings.getSettings(function (settings) {
+				webhookUrl = settings.webhookUrl;
+				$('#webhookurl').text(webhookUrl);
+			});
+
+			// Set the 'Save' Button state
+			microsoftTeams.settings.setValidityState(true);
+
+			// Save handler when user clicked on Save button
+			microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+				microsoftTeams.getContext(function (context) {
+
+					url = `${host}/Connector/connectorConfig.html`;
+
+					entity = `connector-officedev-${context.teamId}-${context.channelId}`;
+
+					microsoftTeams.settings.setSettings({
+						entityId: entity,
+						contentUrl: url,
+						configName: 'OfficeDev Talent Management'
+					});
+
+					saveEvent.notifySuccess();
+
+				});
+			});
+		});
+	</script>
+</head>
+<body class="theme-light" style="width:94%">
+	<div class="surface">
+		<div class="panel" style="width:100%">
+			<p>The connector configuration process returns the assigned webhook URL as part of the Microsoft Teams API settings object. You code should store this URL for use by the system providing the connected data.</p>
+			<p>This lab simply displays the URL on this page and demonstrates the API code to get the value. The URL should be treated securely.</p>
+
+			<p>The table below shows the connector configuration. When first displayed, the values will be blank. Select the Save button to create the connection, then select the manage option to show the values.</p>
+			<table>
+				<tr>
+					<td>webhookUrl</td>
+					<td><span id="webhookUrl"></span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>
