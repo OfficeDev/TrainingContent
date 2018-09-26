@@ -4,16 +4,14 @@ In this lab, you will walk through building an Adaptive Card, sending it to an i
 
 ## In this lab
 
-1. [Adaptive Card design and Card Playground](#exercise1)
-1. [Adaptive Cards with actions and inputs](#exercise2)
-1. [Card refresh](#exercise3)
-1. [Update card from service](#exercise4)
+1. [Adaptive Card design and Card Playground](#exercise-1-adaptive-card-design-and-card-playground)
+1. [Adaptive Cards with actions and inputs](#exercise-2-adaptive-cards-with-actions-and-inputs)
+1. [Card refresh](#exercise-3-card-refresh)
+1. [Update card from service](#exercise-4-update-card-from-service)
 
 ## Prerequisites
 
 This lab will require an Office 365 tenant and a user account that has a mailbox.
-
->Note: As of March 2018, not all Office 365 tenants support Adaptive Cards in Outlook.
 
 ### Install developer tools
 
@@ -24,8 +22,6 @@ The developer workstation requires the following tools for this lab.
 The connector registration process requires an endpoint accessible from the internet via HTTPS. To enable the exercises to work correctly, a tunneling application is required.
 
 This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS endpoints to a web server running locally on the developer workstation. ngrok is a single-file download that is run from a console.
-
-<a name="exercise1"></a>
 
 ## Exercise 1: Adaptive Card design and Card Playground
 
@@ -83,8 +79,6 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
     ![Screenshot of Adaptive Card received in Microsoft Outlook.](Images/AdaptiveCardInOutlook.png)
 
-<a name="exercise2"></a>
-
 ## Exercise 2: Adaptive Cards with actions and inputs
 
 This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
@@ -111,7 +105,7 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
 
 1. Open the file **Card.json**.
 
-1. You will extend the card with another element in the body as a header for comments. Add a comma to the end of line 101.
+1. You will extend the card with another element in the body as a header for comments. Add a comma to the end of line 101 and press return.
 
 1. Add the following snippet as lines 102 - 112.
 
@@ -129,7 +123,7 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
     }
     ````
 
-1. You will add input and action controls to capture and submit the comments. Add a comma to the end of line 113. Line 113 is a closing bracket (`]`).
+1. You will add input and action controls to capture and submit the comments. Add a comma to the end of line 113 and press return. Line 113 is a closing bracket (`]`).
 
 1. Add the following snippet as lines 114-142. This snippet should be outside of the `body` element. In the snippet, replace the token `ngrok-url-here` with the HTTPS address displayed in the ngrok window.
 
@@ -228,15 +222,13 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
 
 The ngrok tunnel application received the submission from Microsoft Outlook. You can view the POST message using the ngrok web interface.
 
-1. Open a browser window and go to `http://localhost:4040`.
+1. Open a browser window and go to <http://localhost:4040>.
 
 1. Select the first request in the left column. In the right column, select the link titled **Raw**.
 
 1. Note that the request contains an authorization header and the body contains the value as defined in the card.
 
     ![Screenshot of ngrok inspector.](Images/ngrokInspector.png)
-
-<a name="exercise3"></a>
 
 ## Exercise 3: Card refresh
 
@@ -312,7 +304,7 @@ In this exercise, a web service will handle the calls from Microsoft Outlook to 
       /// <summary>
       /// The POST method for the ticket controller.
       /// </summary>
-      /// <param name="value">Value from the POST request body.</param>
+      /// <param name="cardResponse">Value from the POST request body.</param>
       /// <returns>The asynchronous task.</returns>
       // POST api/ticket
       public async Task<HttpResponseMessage> Post(Models.CardResponse cardResponse)
@@ -372,17 +364,17 @@ In this exercise, a web service will handle the calls from Microsoft Outlook to 
 
 ### Interact with the card
 
+1. Start Visual Studio Debugger.
+
 1. Return to Microsoft Outlook for web.
 
 1. Enter a comment in the box and select **OK**.
 
     Outlook will POST the input from the card to the ngrok tunnel which will forward the request to the WebAPI project. The project simply replies with a specific header: `response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");`
 
-    The value of the header is rendered in a pop-up dialog.
+    The value of the header is rendered for a short time at the top of the email.
 
     ![Screenshot of card action status.](Images/CardActionStatus.png)
-
-<a name="exercise4"></a>
 
 ## Exercise 4: Update card from service
 
@@ -451,7 +443,7 @@ The Action.Http element is not part of the Adaptive Cards SDK. This action is an
     public class CardResponse
     {
       public string Comment { get; set; }
-      public string CachedComents { get; set; }
+      public string CachedComments { get; set; }
     }
     ```
 
@@ -474,7 +466,6 @@ The refresh card follows a format similar to the rest of the lab. The base defin
 1. Add the following `using` statements to the top of the **TicketController.cs** file:
 
     ```csharp
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System.IO;
     using System.Reflection;
@@ -614,6 +605,8 @@ The refresh card follows a format similar to the rest of the lab. The base defin
     ```
 
 ### Add comments in Microsoft Outlook and view refreshed card
+
+1. Start Visual Studio Debugger.
 
 1. Return to Microsoft Outlook for Web.
 
