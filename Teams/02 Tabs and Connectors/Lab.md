@@ -167,7 +167,7 @@ The app is now installed. The following exercises will extend this app.
 
     - The app has been uploaded to Microsoft Teams.
 
-In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder Tabs.
+1. In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder Tabs.
 
 1. Add the displayed files from the **Lab Files** folder of this repository.
 
@@ -330,3 +330,108 @@ Static tabs are displayed in the chat view with the bot.
 1. The new tab is shown in the Tab Strip above the conversation. Select the tab to display the html page.
 
     ![Screenshot of Microsoft Teams showing the static tab added in the lab.](Images/Exercise1-03.png)
+
+## Exercise 2: Connectors
+
+Connectors for Microsoft Teams must be registered on the [Connectors Developer Dashboard](https://aka.ms/connectorsdashboard).
+
+1. In a browser, navigate to https://aka.ms/connectorsdashboard.
+
+1. Select New Connector
+
+1. Provide a name, logo, descriptions and website for the connector.
+
+1. The **Configuration page for your Connector** is not used for Microsoft Teams, however a url must be provided.
+
+1. The **Valid domains** is used for actionable messages. Provide the forwarding address from the ngrok tunnel application.
+
+1. Accept the terms and conditions and select **Save**. The page will refresh with additional information.
+
+    ![Screenshot of the Connector Developer Dashboard showing a registered connector.](Images/Exercise2-02.png)
+
+1. The connector Id is required for the Teams manifest. The Id is included in the query string of the completed page on the Connector Developer Dashboard. Alternatively, download the manifest and copy from the generated file. (You will add the connector to the existing Teams app, so the downloaded manifest is not necessary.)
+
+Update the Visual Studio solution.
+
+1. In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder Connector.
+
+1. Add the displayed files from the **Lab Files** folder of this repository.
+
+    ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise2-01.png)
+
+1. Open the **connectorconfig.html** file in the **Tabs** folder.
+
+1. Add the following tag within the `<head>` tag in the file. This script will initialize the Teams JavaScript API and then use the API to register the webhook. In addition to setting the webhook URL, the script will set the contentUrl property. For connectors, the contentUrl specifies the page to show when a user invokes the configure action on a connector.
+
+    ```js
+    <script type="text/javascript">
+      var host = `https://${window.location.hostname}`;
+
+      $(document).ready(function () {
+        // Initialize the Microsoft Teams Library
+        microsoftTeams.initialize();
+
+        microsoftTeams.settings.getSettings(function (settings) {
+          webhookUrl = settings.webhookUrl;
+          $('#webhookurl').text(webhookUrl);
+        });
+
+        // Set the 'Save' Button state
+        microsoftTeams.settings.setValidityState(true);
+
+        // Save handler when user clicked on Save button
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+          microsoftTeams.getContext(function (context) {
+
+            url = `${host}/Connector/connectorConfig.html`;
+
+            entity = `connector-officedev-${context.teamId}-${context.channelId}`;
+
+            microsoftTeams.settings.setSettings({
+              entityId: entity,
+              contentUrl: url,
+              configName: 'OfficeDev Talent Management'
+            });
+
+            saveEvent.notifySuccess();
+
+          });
+        });
+      });
+    </script>
+    ```
+
+1. Open the **manifest.json** file in the **Manifest** folder.
+
+1. Locate the `configurableTabs` node of the **manifest.json** file. Add the following node as a sibling (at the same level) as the `configurableTabs` node. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address from the ngrok tunnel application.
+
+    ```json
+    "connectors": [
+      {
+        "connectorId": "c63a8789-739b-4afd-91db-0e1bd7f213b9",
+        "scopes": [
+          "team"
+        ],
+        "configurationUrl": "https://[from-ngrok].ngrok.io/Connector/connectorConfig.html"
+      }
+    ],
+    ```
+
+1. Locate the `validDomains` node in the **manifest.json**. Ensure that the host from the ngrok forwarding address is included in the `validDomains` node. (Do not enter the URI scheme, only the host. For example: `ab29ba51.ngrok.io`).
+
+1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
+
+Connect to a channel
+
+1. To add the connector, select the elipsis to the right of **General** channel in the team. Then select **Connectors**.
+
+    ![]()
+
+1. Connectors from uploaded Microsoft Teams app displayed at the bottom of this list. Scroll to the bottom and choose
+**OfficeDev Talent Management**.
+
+    ![]()
+
+1. The Connector configuration page is displayed. Select **Save** to register the connector.
+
+1. From the Connector list, select **OfficeDev Talent Management**. Select **Configure**. THe configuration page will display the webhook URL for posting to the channel.
