@@ -4,7 +4,7 @@ This module covers building an Actionable Message card and adding actions.
 
 ## Lab
 
-In this lab, you will walk through building an Actionable Message card and adding actions. 
+In this lab, you will walk through building an Actionable Message card and adding actions.
 
 - [Lab Manual](./Lab.md)
 
@@ -28,11 +28,12 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |       Date        |                   Comments                   |
-| ------- | ----------------- | -------------------------------------------- |
-| 1.2     | June 6, 2018      | 2018Q4 content refresh & style guide updates |
-| 1.1     | March 3, 2018     | Code Review and minor corrections            |
-| 1.0     | November 10, 2017 | Initial release                              |
+| Version |        Date        |                   Comments                   |
+| ------- | ------------------ | -------------------------------------------- |
+| 1.3     | September 12, 2018 | 2019Q1 content refresh                       |
+| 1.2     | June 6, 2018       | 2018Q4 content refresh & style guide updates |
+| 1.1     | March 3, 2018      | Code Review and minor corrections            |
+| 1.0     | November 10, 2017  | Initial release                              |
 
 ## Disclaimer
 
