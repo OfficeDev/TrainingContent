@@ -4,7 +4,7 @@
 
 This GitHub repo houses all of the content for the "Introduction to Microsoft Teams" training.
 
-- [01 - Tabs in Microsoft Teams](01%20Tabs/Lab.md)
+- [01 - Bots, Messaging Extensions, and Cards](01%20Bots,%20Messaging%20Extensions%20and%20Cards)
 - [02 - Connectors in Microsoft Teams](02%20Connectors/Lab.md)
 - [03 - Bots in Microsoft Teams](03%20Bots/Lab.md)
 - [04 - Fundamentals of Microsoft Teams](./04%20Fundamentals%20of%20Microsoft%20Teams)
