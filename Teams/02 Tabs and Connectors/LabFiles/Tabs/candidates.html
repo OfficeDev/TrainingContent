@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>View candidate</title>
+  <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
+  <link rel="stylesheet" href="talent-mgmt.css" />
+</head>
+
+<body>
+  <div class="container-fluid panel" id="header_section">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-7">
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h3 class="display-7">Your potential candidates</h3>
+            <div>Contact info: <span id="hiring-manager-upn"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="container applicant-info">
+          <div class="row align-items-center">
+            <div class="col-sm">
+              <h1>5</h1>
+              <div>APPLIED</div>
+            </div>
+            <div class="col-sm divider">
+              <h1>3</h1>
+              <div>SCREENED</div>
+            </div>
+            <div class="col-sm divider">
+              <h1>2</h1>
+              <div>INTERVIEWED</div>
+            </div>
+            <div class="col-sm divider">
+              <h1>1</h1>
+              <div>OFFERED</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px">
+    <h5 style="display: inline">
+      Active applicants
+    </h5>
+    <span class="label">2 items</span>
+  </div>
+
+  <div id="active_applicants">
+    <div class="container-fluid" id="job_details">
+      <div class="row justify-content-between">
+        <div class="col-1"></div>
+        <div class="col-3">Name</div>
+        <div class="col-2">Date applied</div>
+        <div class="col-2">Internal</div>
+        <div class="col-2">Current stage</div>
+      </div>
+
+      <div class="row justify-content-between align-items-center panel candidate">
+        <div class="col-1">
+          <span class="circle-crop">
+            <img src="/images/female/candidate_1.png" class="profile" />
+          </span>
+        </div>
+        <div class="col-3">Meena Atul</div>
+        <div class="col-2">09/29/2017</div>
+        <div class="col-2">No</div>
+        <div class="col-2">Interviewing</div>
+      </div>
+
+      <div class="row justify-content-between align-items-center panel candidate" style="margin-bottom: 2px">
+        <div class="col-1">
+          <span class="circle-crop">
+            <img src="/images/female/candidate_2.png" class="profile" />
+          </span>
+        </div>
+        <div class="col-3">Kayo Miwa</div>
+        <div class="col-2">09/22/2017</div>
+        <div class="col-2">No</div>
+        <div class="col-2">Applied</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px">
+    <h5 style="display: inline">
+      Closed applicants
+    </h5>
+    <span class="label">1 item</span>
+  </div>
+
+  <div id="closed_applicants">
+    <div class="container-fluid" id="job_details">
+      <div class="row justify-content-between">
+        <div class="col-1"></div>
+        <div class="col-3">Name</div>
+        <div class="col-2">Date applied</div>
+        <div class="col-2">Internal</div>
+        <div class="col-2">Current stage</div>
+      </div>
+
+      <div class="row justify-content-between align-items-center panel candidate" style="margin-bottom: 2px">
+        <div class="col-1">
+          <span class="circle-crop">
+            <img src="/images/male/candidate_3.png" class="profile" />
+          </span>
+        </div>
+        <div class="col-3">Roberto Ribeiro</div>
+        <div class="col-2">09/22/2017</div>
+        <div class="col-2">Yes</div>
+        <div class="col-2">Interviewing</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

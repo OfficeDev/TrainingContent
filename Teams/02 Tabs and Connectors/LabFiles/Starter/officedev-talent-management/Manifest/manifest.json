@@ -1,0 +1,64 @@
+{
+	"$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+	"manifestVersion": "1.3",
+	"version": "1.0.0",
+	"id": "883168db-03e6-4978-b1c6-08d67a362038",
+	"packageName": "io.ngrok.fe9a9b28",
+	"developer": {
+		"name": "Office Developer",
+		"websiteUrl": "https://fe9a9b28.ngrok.io",
+		"privacyUrl": "https://fe9a9b28.ngrok.io/privacy",
+		"termsOfUseUrl": "https://fe9a9b28.ngrok.io/termsofuse"
+	},
+	"icons": {
+		"color": "bot-icon-color-192x192.png",
+		"outline": "bot-icon-outline-32x32.png"
+	},
+	"name": {
+		"short": "officedev-talent-bot ",
+		"full": "Talent Management Bot - OfficeDev"
+	},
+	"description": {
+		"short": "Training Content module 2019-01",
+		"full": "Demonstration bot for the Training Content repository"
+	},
+	"accentColor": "#0EA20E",
+	"bots": [
+		{
+			"botId": "883168db-03e6-4978-b1c6-08d67a362038",
+			"supportsFiles": true,
+			"scopes": [
+				"personal",
+				"team"
+			]
+		}
+	],
+	"composeExtensions": [
+		{
+			"botId": "883168db-03e6-4978-b1c6-08d67a362038",
+			"scopes": [
+				"team"
+			],
+			"commands": [
+				{
+					"id": "searchPositions",
+					"title": "Search positions",
+					"initialRun": true,
+					"description": "Search open positions by keyword",
+					"parameters": [
+						{
+							"name": "keyword",
+							"title": "Keywords",
+							"description": "Position keywords"
+						}
+					]
+				}
+			]
+		}
+	],
+	"permissions": [
+		"identity",
+		"messageTeamMembers"
+	],
+	"validDomains": []
+}
