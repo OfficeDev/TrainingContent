@@ -4,8 +4,8 @@ The module has two demos. The application to run is the same for each demo.
 
 The step-by-step instructions for each demo are detailed in the following files:
 
-1. [Demo 1: Add tabs to a Microsoft Teams App](./readme01.md)
-1. [Demo 2: Connectors](./readme02.md)
+1. [Demo 1: Add authentication to a tab](./readme01.md)
+1. [Demo 2: Add authentication to a bot](./readme02.md)
 
 To run the demo application, perform the following steps.
 
@@ -39,7 +39,7 @@ Make the following updates to the demo solution.
 
 1. Note the project URL.
 
-    ![Screenshot of Solution Explorer highlighting project URL.](../Images/Exercise1-02.png)
+    ![Screenshot of Solution Explorer highlighting project URL.](../Images/Demo-01.png)
 
 ### Run the ngrok secure tunnel application
 
@@ -53,7 +53,7 @@ Make the following updates to the demo solution.
 
 1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
 
-    ![Screenshot of ngrok command prompt with local host highlighted.](../Images/Exercise1-03.png)
+    ![Screenshot of ngrok command prompt with local host highlighted.](../Images/Demo-02.png)
 
 ### Register the bot
 
@@ -63,7 +63,7 @@ Make the following updates to the demo solution.
 
 1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
 
-    ![Screenshot of bot profile information page.](../Images/Exercise1-04.png)
+    ![Screenshot of bot profile information page.](../Images/Demo-03.png)
 
 1. Complete the configuration section.
     - For the Messaging endpoint, use the forwarding HTTPS address from ngrok prepended to the route to the `MessagesController` in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/API/Messages`.
@@ -73,7 +73,7 @@ Make the following updates to the demo solution.
     - Select **OK** to close the dialog box.
     - Select the **Finish and go back to Bot Framework** button to close the new browser window and populate the app ID in the **Paste your app ID below to continue textbox**.
 
-        ![Screenshot of configuration page with messaging endpoint and app ID displayed.](../Images/Exercise1-05.png)
+        ![Screenshot of configuration page with messaging endpoint and app ID displayed.](../Images/Demo-04.png)
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
 
@@ -81,14 +81,13 @@ Make the following updates to the demo solution.
 
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
-    ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](../Images/Exercise1-06.png)
+    ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](../Images/Demo-05.png)
 
 1. Once the connection is complete, ensure the connection is enabled and select **Done**. The bot registration is complete.
 
-    ![Screenshot of Microsoft Bot Framework with configuration message displayed.](../Images/Exercise1-07.png)
+    ![Screenshot of Microsoft Bot Framework with configuration message displayed.](../Images/Demo-06.png)
 
     >**Note:** Selecting **Settings** in the top navigation will re-display the profile and configuration sections. This can be used to update the messaging endpoint in the event ngrok is stopped, or the bot is moved to staging & production.
-
 
 ### Configure the web project
 
@@ -119,15 +118,15 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
 
-    ![Screenshot of Microsoft Teams with Create Team button highlighted.](Images/Exercise1-11.png)
+    ![Screenshot of Microsoft Teams with Create Team button highlighted.](../Images/Demo-07.png)
 
-1. Enter a team name and description. In this example, the team is named **teams-bot-1**. Select **Next**.
+1. Enter a team name and description. Select **Next**.
 
-1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
+1. Invite others from the organization to the team. The demo provides more impact with members in addition to the owner.
 
 1. The new team is shown. In the left-side panel, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
-    ![Screenshot of Microsoft Teams with Manage Team highlighted.](Images/Exercise1-12.png)
+    ![Screenshot of Microsoft Teams with Manage Team highlighted.](../Images/Demo-08.png)
 
 1. On the Manage team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application.
 
@@ -135,15 +134,11 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. The app is displayed. The description and icon for the app is displayed.
 
-    ![Screenshot of Microsoft Teams with new app displayed.](Images/Exercise1-13.png)
+    ![Screenshot of Microsoft Teams with new app displayed.](../Images/Demo-09.png)
 
     The app is now uploaded into the Microsoft Teams application and the bot is available.
 
-    > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `MessageHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
+The app is now installed and ready to run. Refer to the appropriate demo instructions to continue.
 
-    ![Screenshot of Microsoft Teams displaying new bot installed.](Images/Exercise1-14.png)
-
-The bot is not installed and ready to run. Refer to the appropriate demo instructions to continue.
-
-1. [Demo 1: Add tabs to a Microsoft Teams App](./readme01.md)
-1. [Demo 2: Connectors](./readme02.md)
+1. [Demo 1: Add authentication to a tab](./readme01.md)
+1. [Demo 2: Add authentication to a bot](./readme02.md)
