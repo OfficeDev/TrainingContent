@@ -13,6 +13,10 @@ Developing apps for Microsoft Teams requires preparation for both the Office 365
 
 For the Office 365 Tenant, the setup steps are detailed on the [Getting Started page](https://msdn.microsoft.com/en-us/microsoft-teams/setup). Note that while the getting started page indicates that the Public Developer Preview is optional, this lab includes steps that are not possible unless the preview is enabled.
 
+### Azure Subscription
+
+The Azure Bot service requires an Azure subscription. A free trial subscription is sufficient.
+
 ### Install developer tools
 
 The developer workstation requires the following tools for this lab.
@@ -156,6 +160,8 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 The app is now installed. The following exercises will extend this app.
 
+<a name="exercise1"></a>
+
 ## Exercise 1: Add authentication to a tab
 
 In this exercise, an additional tab is added to the app to show the hiring team (which is the membership of the current group). Although the Microsoft Teams API can provide the group members, this information is intended to facilitate communication with those members. To get the authoritative information about a user, the Microsoft Graph must be called.
@@ -263,3 +269,210 @@ Configurable tabs are displayed in a channel.
 1. The tab is displayed in the channel tab strip.
 
     ![Screenshot of Microsoft Teams showing the configurable tab added in the lab](Images/Exercise1-05.png)
+
+<a name="exercise2"></a>
+
+## Exercise 2: Add authentication to a bot
+
+In this exercise, an additional command is added to the bot to display the profile of the current user.
+
+### Create a Bot Service Channel registration
+
+The bot framework can facilitate the token acquisition for a bot. This requires the bot to be registered with the Azure Bot service and a second application registration (separate from the bot itself) is required.
+
+1. Open the [Azure Portal](https://portal.azure.com).
+
+The Bot can be connected to the application created in Exercise 1. Updates to that application are required.
+
+1. In the Azure Portal, select **Azure Active Directory**.
+
+1. Select **App Registrations**. Select **View All registrations**.
+
+1. Select the application created in Exercise 1.
+
+1. Copy the **Application Id**.
+
+1. Select **Settings**. In the **General** section, select **Reply URLs**.
+
+1. Add the following as a reply url: `https://token.botframework.com/.auth/web/redirect`.
+
+1. In the **API Access** section, select **Keys**.
+
+1. Under Passwords, create a `BotLogin` key. Set its Duration to **Never expires**.
+
+1. Select Save and record the key value. You provide this later for the application secret.
+
+The application must be associated with the Bot.
+
+1. Select **Create a resource**.
+
+1. In the **Search the marketplace** box, enter `bot`.
+
+1. Choose **Bot Channels Registration**
+
+1. Select the **Create** button.
+
+1. Complete the **Bot Channels Registration** blade. For the messaging endpoint, use the ngrok tunnel endpoint prepended to `/api/messages`. Allow the service to auto-create an application.
+
+1. When the deployment completes, go to the resource in the Azure portal.
+
+1. In the **Bot Management** section, select **Channels**.
+
+1. Click on the Microsoft Teams logo to create a connection to Teams. Agree to the Terms of Service.
+
+1. In the **Bot Management** section, selet *Settings**.
+
+1. Select **Add Setting** in the **OAuth Connection Settings** section.
+
+1. Fill in the form as follows:
+    - For Name, enter a name for your connection. You'll use in your bot code.
+    - For Service Provider, select `Azure Active Directory`. Once you select this, the Azure AD-specific fields will be displayed.
+    - For Client id, enter the application ID that you recorded for your Azure AD v1 application.
+    - For Client secret, enter the key that your recorded for your application's BotLogin key.
+    - For Grant Type, enter `authorization_code`.
+    - For Login URL, enter `https://login.microsoftonline.com`.
+    - For Tenant ID, enter the tenant ID for your Azure Active Directory, for example `microsoft.com` or `common`.
+    - For Resource URL, enter `https://graph.microsoft.com/`.
+    - Leave Scopes blank.
+
+1. Select Save.
+
+1. Record the bot's id and secret. To manage these:
+    - In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
+    - The **Microsoft App Id** is displayed. Record this value.
+    - Select the **Manage** link. This will open the Application Registration Portal.
+    - Select **Generate New Password**. Record the new value.
+
+### Update Visual Studio solution configuration
+
+1. In Visual Studio, right-click on the project in Soution Explorer.
+
+1. Select **Add > Reference**.
+
+1. Add a reference to **System.Configuration**. Select **OK**.
+
+1. Open the `web.config` file.
+
+1. Add a new key to the `appSettings` section.
+
+    ```xml
+    <add key="ConnectionName" value="<your-AAD-connection-name>"/>
+    ```
+
+1. Change the values for `MicrosoftAppId` and `MicrosoftAppPassword` to the values from the Azure Bot Service registration.
+
+1. Open the `manifest.json` file in the **Manifest** folder.
+
+1. Locate the `bots` node. Replace the `botId` value with the Microsoft App Id from the Azure Bot Service registration.
+
+1. Locate the `validDomains` node. Add the domain `token.botframework.com`. (The node value is a string array.)
+
+### Update Bot to process logins
+
+1. Open the `MessagesController.cs` file in the **Controllers** folder.
+
+1. In the `Post` method, the `Type` property of incoming Activity is inspected. In the branch of the code where the Activity.Type property is `ActivityTypes.Invoke`, add the following code:
+
+    ```csharp
+    else if (activity.IsTeamsVerificationInvoke())
+    {
+      await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+    }
+    ```
+
+1. Open the `RootDialog.cs` file in the **Dialogs** folder.
+
+1. In the `MessageReceivedAsync` method, after the region named **Commands**, the message text is inspected for single-word commands. Add the following test to the method:
+
+    ```csharp
+    else if (text.Contains("profile"))
+    {
+      await CommandHandlers.HandleProfileCommand(context);
+      return;
+    }
+    ```
+
+1. Open the `CommandHelpers.cs` file in the root folder of the project.
+
+1. Add the following methods to the **CommandHandlers** class.
+
+    ```cs
+    #region HandleProfileCommand
+
+    private static string ConnectionName = System.Configuration.ConfigurationManager.AppSettings["ConnectionName"];
+
+    public static async Task HandleProfileCommand(IDialogContext context)
+    {
+      // Display information about the logged in user
+      context.Call(CreateGetTokenDialog(), ListMe);
+    }
+
+    private static GetTokenDialog CreateGetTokenDialog()
+    {
+      return new GetTokenDialog(
+          ConnectionName,
+          $"Please sign in to {ConnectionName} to proceed.",
+          "Sign In",
+          2,
+          "Hmm. Something went wrong, let's try again.");
+    }
+
+    private static async Task ListMe(IDialogContext context, IAwaitable<GetTokenResponse> tokenResponse)
+    {
+      try
+      {
+        var token = await tokenResponse;
+
+        var httpRequest = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://graph.microsoft.com/v1.0/me");
+        httpRequest.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Token);
+
+        var httpClient = new System.Net.Http.HttpClient();
+        System.Net.Http.HttpResponseMessage response = await httpClient.SendAsync(httpRequest);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        JObject me = JObject.Parse(responseContent);
+
+        await context.PostAsync($"You are {me["displayName"]} and your title is {me["jobTitle"]}.");
+      }
+      catch (Exception ex)
+      {
+        await context.PostAsync($"Error: {ex.Message}");
+      }
+
+    }
+
+    #endregion
+    ```
+
+    1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
+
+### Remove and re-upload app
+
+1. In the left-side panel of Microsoft Teams, select the ellipses next to the team name. Choose **Manage team** from the context menu.
+
+    ![Screenshot of Microsoft Teams with Manage Team highlighted.](Images/Starter-08.png)
+
+1. On the Manage team display, select **Apps** in the tab strip. Locate app in the list and select the trash can icon on the right.
+
+    ![Screenshot of Microsoft Teams highlighting the trash can icon next to an app.](Images/Exercise1-03.png)
+
+1. Select the **Uninstall** button to complete to uninstall the app.
+
+1. Select the **Upload a custom app** link at the bottom right corner of the application.
+
+1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
+
+1. The app is displayed. The description and icon for the app is displayed.
+
+    ![Screenshot of Microsoft Teams with new app displayed.](Images/Starter-09.png)
+
+### Use the new Profile command
+
+1. In a channel conversation, "at" mention the bot and issue the command `profile`.
+
+1. The bot will attempt to acquire a token for the current user from the Azure Bot Service. If the token is stale, missing, does not have the requested scopes or is otherwise not valid, the bot will reply with a sign-in card.
+
+    ![Screenshot of bot with signin card](Images/Exercise2-01.png)
+
+1. Once sign-in ins complete, the bot will access profile information for the current user and write a message.
+
+    ![Screenshot of bot with profile information message](Images/Exercise2-02.png)

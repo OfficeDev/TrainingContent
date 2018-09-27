@@ -3,12 +3,12 @@
 	"manifestVersion": "1.3",
 	"version": "1.0.0",
 	"id": "883168db-03e6-4978-b1c6-08d67a362038",
-	"packageName": "io.ngrok.f7abd247",
+	"packageName": "io.ngrok.[from ngrok]",
 	"developer": {
 		"name": "Office Developer",
-		"websiteUrl": "https://f7abd247.ngrok.io",
-		"privacyUrl": "https://f7abd247.ngrok.io/privacy",
-		"termsOfUseUrl": "https://f7abd247.ngrok.io/termsofuse"
+		"websiteUrl": "https://[from ngrok].ngrok.io",
+		"privacyUrl": "https://[from ngrok].ngrok.io/privacy",
+		"termsOfUseUrl": "https://[from ngrok].ngrok.io/termsofuse"
 	},
 	"icons": {
 		"color": "bot-icon-color-192x192.png",
@@ -25,7 +25,7 @@
 	"accentColor": "#0EA20E",
 	"bots": [
 		{
-			"botId": "883168db-03e6-4978-b1c6-08d67a362038",
+			"botId": "[MicrosoftAppId]",
 			"supportsFiles": true,
 			"scopes": [
 				"personal",
@@ -35,7 +35,7 @@
 	],
 	"composeExtensions": [
 		{
-			"botId": "883168db-03e6-4978-b1c6-08d67a362038",
+			"botId": "[MicrosoftAppId]",
 			"scopes": [
 				"team"
 			],
@@ -60,8 +60,8 @@
 		{
 			"entityId": "candidatesTab",
 			"name": "Candidates",
-			"contentUrl": "https://f7abd247.ngrok.io/Tabs/candidates.html",
-			"websiteUrl": "https://f7abd247.ngrok.io/Tabs/candidates.html?web=1",
+			"contentUrl": "https://[from ngrok].ngrok.io/Tabs/candidates.html",
+			"websiteUrl": "https://[from ngrok].ngrok.io/Tabs/candidates.html?web=1",
 			"scopes": [
 				"personal"
 			]
@@ -69,7 +69,7 @@
 	],
 	"configurableTabs": [
 		{
-			"configurationUrl": "https://f7abd247.ngrok.io/Tabs/channelconfig.html",
+			"configurationUrl": "https://[from ngrok].ngrok.io/Tabs/channelconfig.html",
 			"canUpdateConfiguration": true,
 			"scopes": [
 				"groupchat",
@@ -77,18 +77,9 @@
 			]
 		}
 	],
-	"connectors": [
-		{
-			"connectorId": "c63a8789-739b-4afd-91db-0e1bd7f213b9",
-			"scopes": [
-				"team"
-			],
-			"configurationUrl": "https://f7abd247.ngrok.io/Connector/connectorConfig.html"
-		}
-	],
 	"permissions": [
 		"identity",
 		"messageTeamMembers"
 	],
-	"validDomains": [ "f7abd247.ngrok.io" ]
+	"validDomains": [ "[from ngrok].ngrok.io" ]
 }
