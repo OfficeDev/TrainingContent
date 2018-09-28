@@ -4,8 +4,8 @@ The module has two demos. The application to run is the same for each demo.
 
 The step-by-step instructions for each demo are detailed in the following files:
 
-1. [Demo 1: Add authentication to a tab](./readme01.md)
-1. [Demo 2: Add authentication to a bot](./readme02.md)
+1. [Add authentication to a tab](./readme01.md)
+1. [Add authentication to a bot](./readme02.md)
 
 To run the demo application, perform the following steps.
 
