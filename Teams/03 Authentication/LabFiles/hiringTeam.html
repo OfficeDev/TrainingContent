@@ -1,0 +1,178 @@
+﻿<html>
+<head>
+	<title>Hiring Team</title>
+	<script src="https://unpkg.com/@microsoft/teams-js@1.3.5/dist/MicrosoftTeams.min.js" integrity="sha384-t1ID2NmMGB5huCWZdo2EV4RXQ9H/+VDaxxWeUfWuuVuYIc62+Xj7M5re4yqbpbDt" crossorigin="anonymous"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
+	<link rel="stylesheet" href="talent-mgmt.css" />
+
+	<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js" integrity="sha384-lIk8T3uMxKqXQVVfFbiw0K/Nq+kt1P3NtGt/pNexiDby2rKU6xnDY8p16gIwKqgI" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		let upn = undefined;
+		let groupId = undefined;
+
+		// ADAL.js configuration
+		let config = {
+      clientId: "[AAD-app-id]",
+			redirectUri: window.location.origin + "/Tabs/auth.html",       // This should be in the list of redirect uris for the AAD app
+			cacheLocation: "localStorage",
+			navigateToLoginRequestUrl: false,
+		};
+
+		function getGraphData() {
+
+			// Setup extra query parameters for ADAL
+			// - openid and profile scope adds profile information to the id_token
+			// - login_hint provides the expected user name
+			if (upn) {
+				config.extraQueryParameters = "scope=openid+profile+user.readbasic.all&login_hint=" + encodeURIComponent(this.upn);
+			} else {
+				config.extraQueryParameters = "scope=openid+profile+user.readbasic.all";
+			}
+
+			let authContext = new AuthenticationContext(config); // from the ADAL.js library
+
+			// See if there's a cached user and it matches the expected user
+			let user = authContext.getCachedUser();
+			if (user) {
+				if (user.userName !== upn) {
+					// User doesn't match, clear the cache
+					authContext.clearCache();
+				}
+			}
+
+			// Get the id token (which is the access token for resource = clientId)
+			let token = authContext.getCachedToken(config.clientId);
+			if (token) {
+				//getData(token);
+				showProfileInformation(token);
+			} else {
+				// No token, or token is expired
+				authContext._renewIdToken(function (err, idToken) {
+					if (err) {
+						console.log("Renewal failed: " + err);
+
+						// Failed to get the token silently; show the login button
+						$("#btnLogin").css({ display: "" });
+					} else {
+						//getData(idToken);
+						showProfileInformation(idToken);
+					}
+				});
+			}
+
+		}
+
+		function getData(token) {
+			let graphEndpoint = 'https://graph.microsoft.com/v1.0/groups/' + this.groupId + '/members?$select=displayName,jobTitle';
+
+			var req = new XMLHttpRequest();
+			req.open("GET", graphEndpoint, false);
+			req.setRequestHeader("Authorization", "Bearer " + token);
+			req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
+			req.send();
+			var result = JSON.parse(req.responseText);
+
+			for (i = 0; i++; i
+				< result.length) {
+				var div = document.createElement("div");
+				div.innerHTML = '<div class="row justify-content-between align-items-center panel candidate">' +
+					'<div class="col-3">' + result[i].displayName + '</div>' +
+					'<div class="col-2">' + result[i].jobTitle + '</div>' +
+					'</div>';
+				document.getElementById("hiring_team").append(div.firstChild);
+			}
+		}
+
+
+		// Login to Azure AD
+		function login() {
+			//$("#divError").text("").css({ display: "none" });
+			//$("#divProfile").css({ display: "none" });
+
+			microsoftTeams.authentication.authenticate({
+				url: window.location.origin + "/Tabs/auth.html",
+				width: 600,
+				height: 535,
+				successCallback: function (result) {
+					// AuthenticationContext is a singleton
+					let authContext = new AuthenticationContext();
+					let idToken = authContext.getCachedToken(config.clientId);
+					if (idToken) {
+						//this.getData(idToken);
+						showProfileInformation(idToken);
+					} else {
+						console.error("Error getting cached id token. This should never happen.");
+						// At this point we have to get the user involved, so show the login button
+						$("#btnLogin").css({ display: "" });
+					}
+				},
+				failureCallback: function (reason) {
+					console.log("Login failed: " + reason);
+					if (reason === "CancelledByUser" || reason === "FailedToOpenWindow") {
+						console.log("Login was blocked by popup blocker or canceled by user.");
+					}
+					// At this point we have to get the user involved, so show the login button
+					$("#btnLogin").css({ display: "" });
+
+					//$("#divError").text(reason).css({ display: "" });
+					//$("#divProfile").css({ display: "none" });
+				}
+			});
+		}
+
+		$(document).ready(function () {
+			microsoftTeams.initialize();
+			microsoftTeams.getContext(function (context) {
+				this.upn = context.upn;
+				this.groupId = context.groupId;
+				this.getGraphData();
+			});
+		})
+	</script>
+</head>
+<body>
+	<div class="container-fluid panel" id="header_section">
+		<div class="row align-items-center justify-content-between">
+			<div class="col-7">
+				<div class="jumbotron jumbotron-fluid">
+					<div class="container">
+						<h3 class="display-7">Senior Software Engineer</h3>
+						<div>Req ID 04057</div>
+						<div>Hiring Manager: Julian Morelli</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-5">
+				<div class="container applicant-info">
+					<div class="row align-items-center">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="margin-top: 30px">
+		<h5 style="display: inline">
+			Hiring Team
+		</h5>
+	</div>
+
+	<div>
+		<!-- Login button -->
+		<button id="btnLogin" onclick="login()" style="display: none">Login to Azure AD</button>
+	</div>
+
+	<div id="active_applicants">
+		<div class="container-fluid" id="hiring_team">
+			<div class="row justify-content-between">
+				<div class="col-3">Name</div>
+				<div class="col-2">Title</div>
+			</div>
+
+
+		</div>
+	</div>
+
+</body>
+</html>
