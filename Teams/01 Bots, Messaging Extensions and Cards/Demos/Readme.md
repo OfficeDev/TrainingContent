@@ -119,7 +119,7 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
 
-    ![Screenshot of Microsoft Teams with Create Team button highlighted.](Images/Exercise1-11.png)
+    ![Screenshot of Microsoft Teams with Create Team button highlighted.](../Images/Exercise1-11.png)
 
 1. Enter a team name and description. In this example, the team is named **teams-bot-1**. Select **Next**.
 
@@ -127,7 +127,7 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. The new team is shown. In the left-side panel, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
-    ![Screenshot of Microsoft Teams with Manage Team highlighted.](Images/Exercise1-12.png)
+    ![Screenshot of Microsoft Teams with Manage Team highlighted.](../Images/Exercise1-12.png)
 
 1. On the Manage team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application.
 
@@ -135,13 +135,13 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. The app is displayed. The description and icon for the app is displayed.
 
-    ![Screenshot of Microsoft Teams with new app displayed.](Images/Exercise1-13.png)
+    ![Screenshot of Microsoft Teams with new app displayed.](../Images/Exercise1-13.png)
 
     The app is now uploaded into the Microsoft Teams application and the bot is available.
 
     > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `MessageHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
 
-    ![Screenshot of Microsoft Teams displaying new bot installed.](Images/Exercise1-14.png)
+    ![Screenshot of Microsoft Teams displaying new bot installed.](../Images/Exercise1-14.png)
 
 The bot is not installed and ready to run. Refer to the appropriate demo instructions to continue.
 
