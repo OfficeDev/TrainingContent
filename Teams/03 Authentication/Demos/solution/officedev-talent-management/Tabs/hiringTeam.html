@@ -21,15 +21,6 @@
 
 		function getGraphData() {
 
-			// Setup extra query parameters for ADAL
-			// - openid and profile scope adds profile information to the id_token
-			// - login_hint provides the expected user name
-			if (upn) {
-				config.extraQueryParameters = "scope=openid+profile+user.readbasic.all&login_hint=" + encodeURIComponent(this.upn);
-			} else {
-				config.extraQueryParameters = "scope=openid+profile+user.readbasic.all";
-			}
-
 			let authContext = new AuthenticationContext(config); // from the ADAL.js library
 
 			// See if there's a cached user and it matches the expected user
@@ -44,19 +35,17 @@
 			// Get the id token (which is the access token for resource = clientId)
 			let token = authContext.getCachedToken(config.clientId);
 			if (token) {
-				//getData(token);
-				showProfileInformation(token);
+				getData(token);
 			} else {
 				// No token, or token is expired
-				authContext._renewIdToken(function (err, idToken) {
+				authContext._renewIdToken("https://graph.microsoft.com", function (err, idToken) {
 					if (err) {
 						console.log("Renewal failed: " + err);
 
 						// Failed to get the token silently; show the login button
 						$("#btnLogin").css({ display: "" });
 					} else {
-						//getData(idToken);
-						showProfileInformation(idToken);
+						getData(idToken);
 					}
 				});
 			}
