@@ -39,7 +39,7 @@ Make the following updates to the demo solution.
 
 1. Note the project URL.
 
-    ![Screenshot of Solution Explorer highlighting project URL.](../Images/Exercise1-02.png)
+    ![Screenshot of Solution Explorer highlighting project URL.](../Images/Starter-01.png)
 
 ### Run the ngrok secure tunnel application
 
@@ -53,7 +53,7 @@ Make the following updates to the demo solution.
 
 1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
 
-    ![Screenshot of ngrok command prompt with local host highlighted.](../Images/Exercise1-03.png)
+    ![Screenshot of ngrok command prompt with local host highlighted.](../Images/Starter-02.png)
 
 ### Register the bot
 
@@ -63,7 +63,7 @@ Make the following updates to the demo solution.
 
 1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
 
-    ![Screenshot of bot profile information page.](../Images/Exercise1-04.png)
+    ![Screenshot of bot profile information page.](../Images/Starter-03.png)
 
 1. Complete the configuration section.
     - For the Messaging endpoint, use the forwarding HTTPS address from ngrok prepended to the route to the `MessagesController` in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/API/Messages`.
@@ -73,7 +73,7 @@ Make the following updates to the demo solution.
     - Select **OK** to close the dialog box.
     - Select the **Finish and go back to Bot Framework** button to close the new browser window and populate the app ID in the **Paste your app ID below to continue textbox**.
 
-        ![Screenshot of configuration page with messaging endpoint and app ID displayed.](../Images/Exercise1-05.png)
+        ![Screenshot of configuration page with messaging endpoint and app ID displayed.](../Images/Starter-04.png)
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
 
@@ -81,11 +81,11 @@ Make the following updates to the demo solution.
 
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
-    ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](../Images/Exercise1-06.png)
+    ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](../Images/Starter-05.png)
 
 1. Once the connection is complete, ensure the connection is enabled and select **Done**. The bot registration is complete.
 
-    ![Screenshot of Microsoft Bot Framework with configuration message displayed.](../Images/Exercise1-07.png)
+    ![Screenshot of Microsoft Bot Framework with configuration message displayed.](../Images/Starter-06.png)
 
     >**Note:** Selecting **Settings** in the top navigation will re-display the profile and configuration sections. This can be used to update the messaging endpoint in the event ngrok is stopped, or the bot is moved to staging & production.
 
