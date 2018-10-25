@@ -243,7 +243,7 @@ The project template creates a messages controller that receives messages from t
       {
         case TeamEventType.MembersAdded:
           var connector = new ConnectorClient(new Uri(message.ServiceUrl));
-          client.SetRetryPolicy(
+          connector.SetRetryPolicy(
             RetryHelpers.DefaultPolicyBuilder.WaitAndRetryAsync(
               new[] { TimeSpan.FromSeconds(2),
                       TimeSpan.FromSeconds(5),
@@ -260,7 +260,7 @@ The project template creates a messages controller that receives messages from t
           {
             // Fetch the members in the current conversation
             IList<ChannelAccount> channelAccount =
-              await client.Conversations.GetConversationMembersAsync(
+              await connector.Conversations.GetConversationMembersAsync(
                 message.Conversation.Id);
             IEnumerable<TeamsChannelAccount> members =
               channelAccount.AsTeamsChannelAccounts();
@@ -269,7 +269,7 @@ The project template creates a messages controller that receives messages from t
             foreach (TeamsChannelAccount member in members)
             {
               await MessageHelpers.SendOneToOneWelcomeMessage(
-                client, channelData, botAccount, member, tenantId);
+                connector, channelData, botAccount, member, tenantId);
             }
           }
           else
@@ -278,7 +278,7 @@ The project template creates a messages controller that receives messages from t
             foreach (TeamsChannelAccount member in message.MembersAdded.AsTeamsChannelAccounts())
             {
               await MessageHelpers.SendOneToOneWelcomeMessage(
-                client, channelData, botAccount, member, tenantId);
+                connector, channelData, botAccount, member, tenantId);
             }
           }
           break;
