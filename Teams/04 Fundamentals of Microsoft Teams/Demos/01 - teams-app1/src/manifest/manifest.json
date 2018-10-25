@@ -1,14 +1,14 @@
 {
-  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.0",
-  "id": "2f616d76-399e-2ffa-da01-327281e0ba39",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "id": "4e1bb2e4-4af3-e2e8-8a13-5d9b07a48b44",
   "version": "0.0.1",
-  "packageName": "io.ngrok.e39e4215",
+  "packageName": "io.ngrok.tbd",
   "developer": {
     "name": "Office Developer",
-    "websiteUrl": "https://e39e4215.ngrok.io",
-    "privacyUrl": "https://e39e4215.ngrok.io/privacy.html",
-    "termsOfUseUrl": "https://e39e4215.ngrok.io/tou.html"
+    "websiteUrl": "https://tbd.ngrok.io",
+    "privacyUrl": "https://tbd.ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://tbd.ngrok.io/tou.html"
   },
   "name": {
     "short": "teams app1",
@@ -19,13 +19,13 @@
     "full": "TODO: add full description here"
   },
   "icons": {
-    "outline": "icon-20x20.png",
-    "color": "icon-96x96.png"
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
   },
-  "accentColor": "#FFFFFF",
+  "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://e39e4215.ngrok.io/teamsApp1TabConfig.html",
+      "configurationUrl": "https://tbd.ngrok.io/teamsApp1TabConfig.html",
       "canUpdateConfiguration": true,
       "scopes": [
         "team"
@@ -41,6 +41,6 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "e39e4215.ngrok.io"
+    "tbd.ngrok.io"
   ]
 }

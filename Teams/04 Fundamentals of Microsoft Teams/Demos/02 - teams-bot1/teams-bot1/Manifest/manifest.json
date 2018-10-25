@@ -1,61 +1,60 @@
 {
-	"$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
-	"manifestVersion": "1.0",
-	"id": "0dce8843-8175-42f8-9989-0decf32b5b45",
-	"version": "0.0.1",
-	"packageName": "io.ngrok.b68b462b",
-	"developer": {
-		"name": "Office Developer",
-		"websiteUrl": "https://b68b462b.ngrok.io",
-		"privacyUrl": "https://b68b462b.ngrok.io/privacy.html",
-		"termsOfUseUrl": "https://b68b462b.ngrok.io/tou.html"
-	},
-	"name": {
-		"short": "teams bot1",
-		"full": "teams bot1"
-	},
-	"description": {
-		"short": "TODO: add short description here",
-		"full": "TODO: add full description here"
-	},
-	"icons": {
-		"outline": "bot-icon-20x20.png",
-		"color": "bot-icon-96x96.png"
-	},
-	"accentColor": "#FFFFFF",
-	"configurableTabs": [],
-	"staticTabs": [],
-	"bots": [
-			{
-				"botId": "0dce8843-8175-42f8-9989-0decf32b5b45",
-				"needsChannelSelector": true,
-				"isNotificationOnly": false,
-				"scopes": [
-					"team",
-					"personal"
-				],
-				"commandLists": [
-					{
-						"scopes": [
-							"team",
-							"personal"
-						],
-						"commands": [
-							{
-								"title": "Help",
-								"description": "Shows help information"
-							}
-						]
-					}
-				]
-			}
-	],
-	"connectors": [],
-	"composeExtensions": [],
-	"needsIdentity": true,
-	"permissions": [
-		"identity",
-		"messageTeamMembers"
-	],
-	"validDomains": []
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "id": "[microsoft-app-id]",
+  "version": "0.0.1",
+  "packageName": "io.ngrok.[from-ngrok]",
+  "developer": {
+    "name": "Office Developer",
+    "websiteUrl": "https://[from-ngrok].ngrok.io",
+    "privacyUrl": "https://[from-ngrok].ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://[from-ngrok].ngrok.io/tou.html"
+  },
+  "name": {
+    "short": "teams bot1",
+    "full": "teams bot1"
+  },
+  "description": {
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
+  },
+  "icons": {
+    "outline": "bot-icon-32x32.png",
+    "color": "bot-icon-192x192.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [],
+  "staticTabs": [],
+  "bots": [
+    {
+      "botId": "[microsoft-app-id]",
+      "needsChannelSelector": true,
+      "isNotificationOnly": false,
+      "scopes": [
+        "team",
+        "personal"
+      ],
+      "commandLists": [
+        {
+          "scopes": [
+            "team",
+            "personal"
+          ],
+          "commands": [
+            {
+              "title": "Help",
+              "description": "Shows help information"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
 }

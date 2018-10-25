@@ -18,7 +18,7 @@
 					if (EventHelpers.MemberAddedIsBot(message))
 					{
 						// Fetch the members in the current conversation
-						ChannelAccount[] channelAccount = await client.Conversations.GetConversationMembersAsync(message.Conversation.Id);
+						IList<ChannelAccount> channelAccount = await client.Conversations.GetConversationMembersAsync(message.Conversation.Id);
 						IEnumerable<TeamsChannelAccount> members = channelAccount.AsTeamsChannelAccounts();
 
 						// send a OneToOne message to each member

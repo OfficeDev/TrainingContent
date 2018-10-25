@@ -4,31 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <title>teams app1 Tab: Configuration</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="assets/css/msteams-app.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- inject:css -->
   <!-- endinject -->
 </head>
 
 <body>
-  <div class="settings-container">
-    <div class="section-caption">Settings</div>
-      <div class="form-field-title">
-        <div for="data">Enter setting</div>
+    <div id='app'>
+        Loading...
       </div>
-      <div class="form-field-input">
-        <input type="text" class="form-control" maxlength="75" required="" onkeydown='onChange(this.value)' id='data' autofocus>
-      </div>
-  </div>
-  <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
-  <!-- inject:js -->
-  <!-- endinject -->
-  <script type='text/javascript'>
-    var c = new teamsApp1.teamsApp1TabConfigure();
-    function onChange(val) {
-      c.setValidityState(val.length !== 0);
-    }
-  </script>
+      <!-- inject:js -->
+      <!-- endinject -->
+      <script type='text/javascript'>
+        teamsApp1.teamsApp1TabConfig.render(document.getElementById('app'), {});
+      </script>
+
 </body>
 
 </html>

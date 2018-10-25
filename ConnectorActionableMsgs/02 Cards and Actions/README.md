@@ -1,10 +1,10 @@
-# Connectors & Actionable Messages: Cards and actions using Outlook Actionable Messages - 300 Level
+# Connectors & Actionable Messages: Cards and actions using Outlook Actionable Messages
 
 This module covers building an Actionable Message card and adding actions.
 
 ## Lab
 
-In this lab, you will walk through building an Actionable Message card and adding actions. 
+In this lab, you will walk through building an Actionable Message card and adding actions.
 
 - [Lab Manual](./Lab.md)
 
@@ -13,6 +13,10 @@ In this lab, you will walk through building an Actionable Message card and addin
 - [Message Card Playground](./Demos/01-MessageCard-Playground)
 - [Send Actionable Message](./Demos/02-Send-Actionable-Messages)
 - [Expense Approval](./Demos/03-Expense-Approval)
+
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Cards and actions using Outlook Actionable Messages](https://www.youtube.com/watch?v=GSv_Akg58PE)
 
 ## Contributors
 
@@ -24,10 +28,12 @@ In this lab, you will walk through building an Actionable Message card and addin
 
 ## Version history
 
-| Version |       Date        |             Comments              |
-| ------- | ----------------- | --------------------------------- |
-| 1.1     | March 3, 2018     | Code Review and minor corrections |
-| 1.0     | November 10, 2017 | Initial release                   |
+| Version |        Date        |                   Comments                   |
+| ------- | ------------------ | -------------------------------------------- |
+| 1.3     | September 12, 2018 | 2019Q1 content refresh                       |
+| 1.2     | June 6, 2018       | 2018Q4 content refresh & style guide updates |
+| 1.1     | March 3, 2018      | Code Review and minor corrections            |
+| 1.0     | November 10, 2017  | Initial release                              |
 
 ## Disclaimer
 

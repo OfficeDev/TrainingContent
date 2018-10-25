@@ -1,43 +1,43 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div>
-  <div *ngIf="waiting">
-    <div class="overlay"></div>
-    <img class="spinner" src="/assets/spinner.gif"/>
-  </div>
-  <div class="ms-bgColor-greenDark header">
-      <span class="ms-font-su ms-fontColor-white">Excel Portfolio</span>
-  </div>
-  <div>
-    <div class="ms-MessageBanner" *ngIf="error">
-      <div class="ms-MessageBanner-content" style="text-align: left; margin-left: 40px;">
-        <div class="ms-MessageBanner-text ms-font-s-plus">
-          <div class="ms-MessageBanner-clipper">
-              <i class="ms-Icon ms-Icon--Error"></i>
-              <span style="vertical-align: top;">&nbsp;{{error}}</span>
-          </div>
+    <!--The content below is only a placeholder and can be replaced.-->
+    <div>
+        <div *ngIf="waiting">
+            <div class="overlay"></div>
+            <img class="spinner" src="/assets/spinner.gif"/>
         </div>
-      </div>
-      <button class="ms-MessageBanner-close" (click)="error = null;">
-        <i class="ms-Icon ms-Icon--Clear"></i>
-      </button>
-    </div>
-    <div class="padding10">
-      <div class="pct100 tbl-head">
-        <span class="ms-font-l">Stock Symbols</span>
-      </div>
-      <div class="pct100">
-        <input class="ms-TextField-field" #newSymbol (keyup.enter)="addSymbol(newSymbol.value); newSymbol.value = '';" placeholder="Enter a stock symbol (ex: MSFT)" />
-      </div>
-      <div class="pct100 itemRow" *ngFor="let symbol of symbols; let i = index" >
-        <div class="left ms-font-l">{{symbol}}</div>
-        <div class="right">
-            <div class="left icon" (click)="refreshSymbol(i)"><i class="ms-Icon ms-Icon--Refresh" aria-hidden="true"></i></div>
-            <div class="left icon" (click)="deleteSymbol(i)"><i class="ms-Icon ms-Icon--Delete" aria-hidden="true"></i></div>
+        <div class="ms-bgColor-greenDark header">
+            <span class="ms-font-su ms-fontColor-white">Excel Portfolio</span>
         </div>
-      </div>
-      <div class="pct100 itemRow" *ngIf="symbols.length == 0">
-        <em class="ms-font-l">No symbols added</em>
-      </div>
+        <div>
+            <div class="ms-MessageBanner" *ngIf="error">
+                <div class="ms-MessageBanner-content" style="text-align: left; margin-left: 40px;">
+                    <div class="ms-MessageBanner-text ms-font-s-plus">
+                        <div class="ms-MessageBanner-clipper">
+                            <i class="ms-Icon ms-Icon--Error"></i>
+                            <span style="vertical-align: top;">&nbsp;{{error}}</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="ms-MessageBanner-close" (click)="error = null;">
+                    <i class="ms-Icon ms-Icon--Clear"></i>
+                </button>
+            </div>
+            <div class="padding10">
+                <div class="pct100 tbl-head">
+                    <span class="ms-font-l">Stock Symbols</span>
+                </div>
+                <div class="pct100">
+                    <input class="ms-TextField-field" #newSymbol (keyup.enter)="addSymbol(newSymbol.value); newSymbol.value = '';" placeholder="Enter a stock symbol (ex: MSFT)" />
+                </div>
+                <div class="pct100 itemRow" *ngFor="let symbol of symbols; let i = index" >
+                    <div class="left ms-font-l">{{symbol}}</div>
+                    <div class="right">
+                        <div class="left icon" (click)="refreshSymbol(i)"><i class="ms-Icon ms-Icon--Refresh" aria-hidden="true"></i></div>
+                        <div class="left icon" (click)="deleteSymbol(i)"><i class="ms-Icon ms-Icon--Delete" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+                <div class="pct100 itemRow" *ngIf="symbols.length == 0">
+                    <em class="ms-font-l">No symbols added</em>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>

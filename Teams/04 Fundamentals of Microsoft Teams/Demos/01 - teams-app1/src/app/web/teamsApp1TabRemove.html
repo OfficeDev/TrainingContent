@@ -4,20 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <title>teams app1 Tab: Remove</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="assets/css/msteams-app.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- inject:css -->
   <!-- endinject -->
+  </style>
 </head>
 
 <body>
-   <div id='settings-container'>
-       You can just add stuff here if you want to clean up when removing the tab. For instance, if you have stored data in an external repository, you can delete or archive it here.
-   </div>
-   <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+  <div id='app'>
+    Loading...
+  </div>
   <!-- inject:js -->
   <!-- endinject -->
-
+  <script type='text/javascript'>
+    teamsApp1.teamsApp1TabRemove.render(document.getElementById('app'), {});
+  </script>
 </body>
 
 </html>

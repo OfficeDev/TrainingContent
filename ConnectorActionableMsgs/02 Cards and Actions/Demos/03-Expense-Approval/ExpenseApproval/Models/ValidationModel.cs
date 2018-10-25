@@ -1,4 +1,4 @@
-﻿using Microsoft.O365.ActionableMessages.Authentication;
+﻿using Microsoft.O365.ActionableMessages.Utilities;
 using System.Net.Http;
 
 namespace ExpenseApproval.Models

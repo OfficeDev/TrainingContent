@@ -1,28 +1,35 @@
-var path = require('path')
-var webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
-    entry: './app.ts',
+    devtool: 'source-map',
+    entry: {
+        app: './src/index.ts',
+        'function-file': './function-file/function-file.ts'
+    },
     resolve: {
-        extensions: ['.js', '.json', '.ts', '.vue'],
+        extensions: ['.ts', '.tsx', '.html', '.js', '.vue'],
         alias: {
             vue$: 'vue/dist/vue.js'
         }
     },
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/dist/',
-        filename: 'bundle.js'
-    },
     module: {
         rules: [
             {
-                test: /\.ts$/,
-                loader: 'ts-loader',
-                options: {
-                    appendTsSuffixTo: [/\.vue$/]
-                }
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: [{
+                  loader: 'ts-loader',
+                  options: {
+                    appendTsSuffixTo: [/\.vue$/],
+                    transpileOnly: true
+                  }
+                }]
+            },
+            {
+                test: /\.html$/,
+                exclude: /node_modules/,
+                use: 'html-loader'
             },
             {
                 test: /\.vue$/,
@@ -32,20 +39,21 @@ module.exports = {
                 }
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?[hash]'
-                }
+                test: /\.(png|jpg|jpeg|gif)$/,
+                use: 'file-loader'
             }
         ]
     },
-    devServer: {
-        historyApiFallback: true,
-        noInfo: true
-    },
-    performance: {
-        hints: false
-    },
-    devtool: '#eval-source-map'
-}
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html',
+            chunks: ['app']
+        }),
+        new HtmlWebpackPlugin({
+            template: './function-file/function-file.html',
+            filename: 'function-file/function-file.html',
+            chunks: ['function-file']
+        }),
+        new VueLoaderPlugin()
+    ]
+};

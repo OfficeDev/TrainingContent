@@ -1,4 +1,4 @@
-# Office Add-ins: Building Office Add-ins for Excel - 100 Level
+# Office Add-ins: Building Office Add-ins for Excel
 
 This module walks through development of Office Add-ins for Microsoft Excel.
 
@@ -14,6 +14,10 @@ This lab will walk through the development of an Office Add-in for Microsoft Exc
 - [Worksheets and Add-in Commands](./Demos/02%20Worksheets%20and%20Add-in%20Commands)
 - [Dialogs](./Demos/03%20Dialogs)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Building Office Add-ins for Excel](https://youtu.be/KQIxNbd0mW4)
+
 ## Contributors
 
 |        Roles         |                        Author(s)                        |
@@ -22,9 +26,11 @@ This lab will walk through the development of an Office Add-in for Microsoft Exc
 
 ## Version history
 
-| Version |     Date     |    Comments     |
-| ------- | ------------ | --------------- |
-| 1.0     | June 8, 2018 | Initial release |
+| Version |     Date      |     Comments      |
+| ------- | ------------- | ----------------- |
+| 1.2     | Sept 14, 2018 | Quarterly refresh |
+| 1.1     | June 28, 2018 | Added screencast  |
+| 1.0     | June 8, 2018  | Initial release   |
 
 ## Disclaimer
 

@@ -1,8 +1,14 @@
+// Copyright (c) Wictor Wilén. All rights reserved. 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
 
 var webpack = require('webpack');
 
 var path = require('path');
 var fs = require('fs');
+var argv = require('yargs').argv;
+
+var debug = argv.debug !== undefined;
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
@@ -13,23 +19,23 @@ fs.readdirSync('node_modules')
         nodeModules[mod] = 'commonjs ' + mod;
     });
 
-var config = [
-    {
+var config = [{
         entry: {
             server: [
                 __dirname + '/src/app/server.ts'
             ],
         },
+        mode: debug ? 'development' : 'production',
         output: {
             path: __dirname + '/dist',
-            filename: '[name].js'
+            filename: '[name].js',
+            devtoolModuleFilenameTemplate: debug ? '[absolute-resource-path]' : '[]'
         },
         externals: nodeModules,
         devtool: 'source-map',
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
-            alias: {
-            }
+            alias: {}
         },
         target: 'node',
         node: {
@@ -37,16 +43,13 @@ var config = [
             __filename: false,
         },
         module: {
-            loaders: [
-                {
-                    test: /\.tsx?$/,
-                    exclude: [/lib/, /dist/],
-                    loader: "ts-loader"
-                }
-            ]
+            rules: [{
+                test: /\.tsx?$/,
+                exclude: [/lib/, /dist/],
+                loader: "ts-loader"
+            }]
         },
-        plugins: [
-        ]
+        plugins: []
     },
     {
         entry: {
@@ -54,35 +57,44 @@ var config = [
                 __dirname + '/src/app/scripts/client.ts'
             ]
         },
+        mode: debug ? 'development' : 'production',
         output: {
             path: __dirname + '/dist/web/scripts',
             filename: '[name].js',
             libraryTarget: 'umd',
-            library: 'teamsApp1'
+            library: 'teamsApp1',
+            publicPath: '/scripts/'
         },
-        externals: {
-        },
+        externals: {},
         devtool: 'source-map',
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
-            alias: {
-            }
+            alias: {}
         },
         target: 'web',
         module: {
-            loaders: [
-                {
+            rules: [{
                     test: /\.tsx?$/,
                     exclude: [/lib/, /dist/],
                     loader: "ts-loader",
                     options: {
-                        configFileName: "tsconfig-client.json"                        
+                        configFile: "tsconfig-client.json"
                     }
+                },
+                {
+                    test: /\.(eot|svg|ttf|woff|woff2)$/,
+                    loader: 'file-loader?name=public/fonts/[name].[ext]'
                 }
             ]
         },
-        plugins: [
-        ]
+        plugins: [],
+        performance: {
+            maxEntrypointSize: 400000,
+            maxAssetSize: 400000,
+            assetFilter: function(assetFilename) {
+                return assetFilename.endsWith('.js');
+              }
+        }
     }
 ];
 

@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
-        "moduleResolution": "classic",
+        "moduleResolution": "node",
         "noImplicitAny": false,
         "strictNullChecks": true,
         "jsx": "react",

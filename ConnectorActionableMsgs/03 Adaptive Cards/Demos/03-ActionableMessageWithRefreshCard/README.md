@@ -6,7 +6,7 @@ This demo will show an actionable message with an adaptive card. The card is ref
 
 1. Open a new **Command Prompt** window.
 1. Change to the directory that contains the ngrok.exe application.
-1. run the command `ngrok http 8011 -host-header=localhost:8011`
+1. Run the command `ngrok http 8011 -host-header=localhost:8011`
 1. The ngrok application will fill the entire prompt window. Make note of the Forwarding address using https. This address is required in the next step.
 1. Minimize the ngrok Command Prompt window. It is no longer referenced in this exercise, but it must remain running.
 
@@ -19,8 +19,8 @@ This demo will show an actionable message with an adaptive card. The card is ref
 ## Update card and send via email
 
 1. Open Outlook.
-1. Open the message from Demo 2 with subject **MessageCard Playground Test Card**.
-1. Enter a sample message and click **OK*.
+1. Open the message from Demo 2 with subject *#Card Playground Test Card**.
+1. Enter a sample message and select **OK*.
 1. The message card will refresh, including the message just submitted.
 
    ![Refreshed Card in Outlook](../../Images/RefreshedCardInOutlook.png)

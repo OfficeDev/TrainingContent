@@ -18,10 +18,6 @@ namespace WebApplication1
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
       RouteConfig.RegisterRoutes(RouteTable.Routes);
       BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-      // Work-around until Outlook sends headers.
-      // Add a reference here to the new MediaTypeFormatter that adds text/plain support
-      GlobalConfiguration.Configuration.Formatters.Insert(0, new TextMediaTypeFormatter());
     }
   }
 }

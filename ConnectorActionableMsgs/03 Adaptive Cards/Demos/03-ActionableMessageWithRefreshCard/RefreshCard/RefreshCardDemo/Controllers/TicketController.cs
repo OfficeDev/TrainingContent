@@ -21,10 +21,10 @@ namespace WebApplication1.Controllers
     // Replace https://api.ngrok.io with your service domain URL.
     // For example, if the service URL is https://api.xyz.com/finance/expense?id=1234,
     // then replace https://api.ngrok.io with https://api.xyz.com
-    private const string WebServiceHost = "https://scon.ngrok.io";
+    private const string WebServiceHost = "https://api.ngrok.io";
 
     // Replace yourdomain.onmicrosoft.com with your email domain.
-    private const string SenderEmailDomain = "schaeflein365.onmicrosoft.com";
+    private const string SenderEmailDomain = "yourdomain.onmicrosoft.com";
 
     /// <summary>
     /// The 'Bearer' token type.
@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
     /// <param name="value">Value from the POST request body.</param>
     /// <returns>The asynchronous task.</returns>
     // POST api/ticket
-    public async Task<HttpResponseMessage> Post([FromBody]string value)
+    public async Task<HttpResponseMessage> Post(CardResponse cardResponse)
     {
       HttpRequestMessage request = this.ActionContext.Request;
 
@@ -82,12 +82,11 @@ namespace WebApplication1.Controllers
       #region Business logic code here to process the support ticket.
       List<Models.Comment> comments = new List<Models.Comment>();
 
-      JObject requestObject = JObject.Parse(value);
-      string newComment = (string)requestObject["comment"];
+      string newComment = cardResponse.Comment;
 
-      JArray cachedComments = (JArray)requestObject["cachedComments"];
-      if (cachedComments != null)
+      if (cardResponse.CachedComments != null)
       {
+        JArray cachedComments = (JArray)cardResponse.CachedComments;
         comments.AddRange(cachedComments.ToObject<List<Models.Comment>>());
       }
 
