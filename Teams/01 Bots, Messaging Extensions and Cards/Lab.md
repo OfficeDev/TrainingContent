@@ -788,7 +788,7 @@ The messaging extension code requires data that can be displayed. The data gener
 
     ![Screenshot of the Solution Explorer window with the images folder highlighted](Images/Exercise2-02.png)
 
-1. In Visual Studio, install the **Bogus** package via the **Package Manager Console**.
+1. In Visual Studio, install the **AdaptiveCards** package via the **Package Manager Console**.
 
     ```powershell
     Install-Package AdaptiveCards
