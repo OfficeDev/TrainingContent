@@ -519,7 +519,7 @@ A bot can directly send and receive files with users in the personal context usi
           if (attachment.ContentType == FileDownloadInfo.ContentType)
           {
             await context.PostAsync($"Received a file named {attachment.Name}");
-            await ProcessAttachment(attachment, context);
+            await FileHelpers.ProcessAttachment(attachment, context);
           }
         }
       }
