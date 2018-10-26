@@ -814,9 +814,7 @@ The messaging extension code requires data that can be displayed. The data gener
         else if (activity.IsComposeExtensionQuery())
         {
           // Determine the response object to reply with
-          MessagingExtension msgExt = new MessagingExtension(activity);
-          var invokeResponse = await msgExt.CreateResponse();
-
+          var invokeResponse = await MessagingExtensionHelper.CreateResponse(activity);
           // Messaging Extensions require the response body to have the response data
           // explicitly return the response rather that falling thru to the default return
           return Request.CreateResponse(HttpStatusCode.OK, invokeResponse);
@@ -871,7 +869,7 @@ The messaging extension code requires data that can be displayed. The data gener
         ],
         "commands": [
           {
-            "id": "searchCmd",
+            "id": "searchPositions",
             "title": "Search positions",
             "initialRun": true,
             "description": "Search open positions by keyword",
