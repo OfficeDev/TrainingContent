@@ -64,7 +64,7 @@ You can use any code editor or IDE that supports these technologies, however the
 
 #### Bot template for Visual Studio 2017
 
-Download and install the [bot application template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.BotBuilderV3). The extension can be installed by double-clicking on the VSIX file.
+Download and install the [bot application template](https://github.com/Microsoft/BotFramework-Samples/blob/master/docs-samples/CSharp/Simple-LUIS-Notes-Sample/VSIX/BotBuilderVSIX_V3.zip). The extension can be installed by extracting the zip file and double-clicking on the VSIX file.
 
    ![Screenshot of templates directory highlighting bot application.](Images/BotTemplate.png)
 
