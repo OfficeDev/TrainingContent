@@ -373,7 +373,7 @@ Update the Visual Studio solution.
 
         microsoftTeams.settings.getSettings(function (settings) {
           webhookUrl = settings.webhookUrl;
-          $('#webhookurl').text(webhookUrl);
+          $('#webhookUrl').text(webhookUrl);
         });
 
         // Set the 'Save' Button state
