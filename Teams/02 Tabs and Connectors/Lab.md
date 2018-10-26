@@ -247,7 +247,7 @@ The app is now installed. The following exercises will extend this app.
             saveEvent.notifySuccess();
           });
         });
-      }
+      });
     </script>
     ```
 
