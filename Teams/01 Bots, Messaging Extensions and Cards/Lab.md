@@ -952,6 +952,17 @@ This section of the lab extends the bot to answer specific commands with Cards t
 
 1. Replace the generated `CommandHandlers` class with the code in the `Lab Files/CommandHandlers.cs` file.
 
+1. Add the following using statements at the top of the `CommandHandlers` class:
+
+    ```cs
+    using AdaptiveCards;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using Newtonsoft.Json.Linq;
+    using OfficeDev.Talent.Management;
+    ```
+
 To understand how cards are used in Bot messages, review the following methods in the `CommandHandlers` class:
 
 - The `SendScheduleInterviewMessage` method creates an Office 365 Connector card. This card captures user input and contains an action to post the data back to the bot. The card data is sent using an `invoke` message.
