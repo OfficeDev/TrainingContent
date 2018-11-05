@@ -243,7 +243,7 @@ The project template creates a messages controller that receives messages from t
       {
         case TeamEventType.MembersAdded:
           var connector = new ConnectorClient(new Uri(message.ServiceUrl));
-          client.SetRetryPolicy(
+          connector.SetRetryPolicy(
             RetryHelpers.DefaultPolicyBuilder.WaitAndRetryAsync(
               new[] { TimeSpan.FromSeconds(2),
                       TimeSpan.FromSeconds(5),
@@ -260,7 +260,7 @@ The project template creates a messages controller that receives messages from t
           {
             // Fetch the members in the current conversation
             IList<ChannelAccount> channelAccount =
-              await client.Conversations.GetConversationMembersAsync(
+              await connector.Conversations.GetConversationMembersAsync(
                 message.Conversation.Id);
             IEnumerable<TeamsChannelAccount> members =
               channelAccount.AsTeamsChannelAccounts();
@@ -269,7 +269,7 @@ The project template creates a messages controller that receives messages from t
             foreach (TeamsChannelAccount member in members)
             {
               await MessageHelpers.SendOneToOneWelcomeMessage(
-                client, channelData, botAccount, member, tenantId);
+                connector, channelData, botAccount, member, tenantId);
             }
           }
           else
@@ -278,7 +278,7 @@ The project template creates a messages controller that receives messages from t
             foreach (TeamsChannelAccount member in message.MembersAdded.AsTeamsChannelAccounts())
             {
               await MessageHelpers.SendOneToOneWelcomeMessage(
-                client, channelData, botAccount, member, tenantId);
+                connector, channelData, botAccount, member, tenantId);
             }
           }
           break;
@@ -519,7 +519,7 @@ A bot can directly send and receive files with users in the personal context usi
           if (attachment.ContentType == FileDownloadInfo.ContentType)
           {
             await context.PostAsync($"Received a file named {attachment.Name}");
-            await ProcessAttachment(attachment, context);
+            await FileHelpers.ProcessAttachment(attachment, context);
           }
         }
       }
@@ -567,6 +567,72 @@ A bot can directly send and receive files with users in the personal context usi
     context.Wait(MessageReceivedAsync);
   }
     ```
+
+Below the MessageReceivedAsync method, add this method to the RootDialog class.
+
+  ```cs
+		private static async Task HandleResumeCommand(IDialogContext context, string[] keywords)
+		{
+			if (keywords.Length > 0)
+			{
+				string name = string.Join(" ", keywords).ToLower();
+
+				//
+				//  Access the file from some storage location and capture its metadata
+				//
+				var fileID = "abc";
+				var fileSize = 1500;
+
+
+				IMessageActivity reply = context.MakeMessage();
+				reply.Attachments = new List<Attachment>();
+
+				JObject acceptContext = new JObject();
+				// Fill in any additional context to be sent back when the user accepts the file.
+				acceptContext["fileId"] = fileID;
+				acceptContext["name"] = name;
+
+				JObject declineContext = new JObject();
+				// Fill in any additional context to be sent back when the user declines the file.
+
+				FileConsentCard card = new FileConsentCard()
+				{
+					Name = $"{name} resume.txt",
+					AcceptContext = acceptContext,
+					DeclineContext = declineContext,
+					SizeInBytes = fileSize,
+					Description = $"Here is the resume for {name}"
+				};
+
+				reply.Attachments.Add(card.ToAttachment());
+
+				// A production bot would save the reply id so it can be updated later with file send status
+				// https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-state?view=azure-bot-service-3.0
+				//
+				//var consentMessageReplyId = (reply as Activity).Id;
+				//var consentMessageReplyConversationId = reply.Conversation.Id;
+
+
+				await context.PostAsync(reply);
+			}
+		}
+
+  ```
+
+1. Open the MessageHelpers.cs file and add the following using statement at the top:
+
+  ```cs
+  using Microsoft.Bot.Builder.Dialogs;
+  ```
+
+  Then add the following method:
+
+  ```cs
+  	public static async Task SendMessage(IDialogContext context, string message)
+		{
+			await context.PostAsync(message);
+		}
+  ```
 
 1. In **Solution Explorer**, add a new class named `FileHelpers` to the project.
 
@@ -722,7 +788,7 @@ The messaging extension code requires data that can be displayed. The data gener
 
     ![Screenshot of the Solution Explorer window with the images folder highlighted](Images/Exercise2-02.png)
 
-1. In Visual Studio, install the **Bogus** package via the **Package Manager Console**.
+1. In Visual Studio, install the **AdaptiveCards** package via the **Package Manager Console**.
 
     ```powershell
     Install-Package AdaptiveCards
@@ -748,9 +814,7 @@ The messaging extension code requires data that can be displayed. The data gener
         else if (activity.IsComposeExtensionQuery())
         {
           // Determine the response object to reply with
-          MessagingExtension msgExt = new MessagingExtension(activity);
-          var invokeResponse = await msgExt.CreateResponse();
-
+          var invokeResponse = await MessagingExtensionHelper.CreateResponse(activity);
           // Messaging Extensions require the response body to have the response data
           // explicitly return the response rather that falling thru to the default return
           return Request.CreateResponse(HttpStatusCode.OK, invokeResponse);
@@ -805,7 +869,7 @@ The messaging extension code requires data that can be displayed. The data gener
         ],
         "commands": [
           {
-            "id": "searchCmd",
+            "id": "searchPositions",
             "title": "Search positions",
             "initialRun": true,
             "description": "Search open positions by keyword",
@@ -887,6 +951,17 @@ This section of the lab extends the bot to answer specific commands with Cards t
 1. In **Solution Explorer**, add a new class named `CommandHandlers` to the project.
 
 1. Replace the generated `CommandHandlers` class with the code in the `Lab Files/CommandHandlers.cs` file.
+
+1. Add the following using statements at the top of the `CommandHandlers` class:
+
+    ```cs
+    using AdaptiveCards;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using Newtonsoft.Json.Linq;
+    using OfficeDev.Talent.Management;
+    ```
 
 To understand how cards are used in Bot messages, review the following methods in the `CommandHandlers` class:
 

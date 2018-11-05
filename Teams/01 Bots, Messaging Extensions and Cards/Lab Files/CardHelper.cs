@@ -282,7 +282,7 @@ public class CardHelper
       date = "{{interviewDate.value}}"
     };
 
-    updateDateAction.Actions.Add(new O365ConnectorCardHttpPOST("HttpPOST", "Schedule", "scheduleInterview", actionBody.ToString()));
+    updateDateAction.Actions.Add(new O365ConnectorCardHttpPOST("HttpPOST", "Schedule", "scheduleInterview", Newtonsoft.Json.JsonConvert.SerializeObject(actionBody)));
     updateDateAction.Inputs.Add(new O365ConnectorCardDateInput("DateInput", "interviewDate", false, "Interview date", new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).ToString("MMM d, yyyy"), false));
     section.PotentialAction.Add(updateDateAction);
 
