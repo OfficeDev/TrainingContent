@@ -1,0 +1,15 @@
+﻿{
+  "name": "TeamsBot",
+  "services": [
+    {
+      "type": "endpoint",
+      "name": "development",
+      "endpoint": "https://5c0c876a.ngrok.io/api/messages",
+      "appId": "e07719cb-21d6-4f42-9a6c-8ff234203daa",
+      "appPassword": "kcbHKBPA35?tgxkFB043}@)",
+      "id": "1"
+    }
+  ],
+  "padlock": "",
+  "version": "2.0"
+}

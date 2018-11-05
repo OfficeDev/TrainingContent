@@ -23,6 +23,6 @@
   "devDependencies": {
     "@types/office-js": "^0.0.37",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "browser-sync": "2.18.13"
+    "browser-sync": "^2.24.7"
   }
 }
