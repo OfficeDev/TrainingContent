@@ -11,6 +11,9 @@ In the lab, you will walk through extending a Microsoft Teams app with Tabs and 
 - [Demo 1: Add tabs to a Microsoft Teams App](./readme01.md)
 - [Demo 2: Connectors](./readme02.md)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Tabs and Connectors](https://youtu.be/wE_w1TA_qjQ)
 
 ## Contributors
 
@@ -22,9 +25,10 @@ In the lab, you will walk through extending a Microsoft Teams app with Tabs and 
 
 ## Version history
 
-| Version |        Date        |    Comments     |
-| ------- | ------------------ | --------------- |
-| 1.0     | September 27, 2018 | Initial release |
+| Version |        Date        |       Comments        |
+| ------- | ------------------ | --------------------- |
+| 1.1     | October 23, 2018   | Added screencast link |
+| 1.0     | September 27, 2018 | Initial release       |
 
 ## Disclaimer
 

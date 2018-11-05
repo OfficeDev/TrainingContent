@@ -12,6 +12,10 @@ In the lab, you will walk through building a bot that demonstrates several capab
 - [Messaging Extensions](./Demos/readme02.md)
 - [Using cards in Microsoft Teams](./Demos/readme03.md)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Bots, Messaging Extensions, and Cards](https://youtu.be/kmtBvvp-smE)
+
 ## Contributors
 
 |        Roles         |                        Author(s)                        |
@@ -22,9 +26,10 @@ In the lab, you will walk through building a bot that demonstrates several capab
 
 ## Version history
 
-| Version |        Date        |    Comments     |
-| ------- | ------------------ | --------------- |
-| 1.0     | September 20, 2018 | Initial release |
+| Version |        Date        |       Comments        |
+| ------- | ------------------ | --------------------- |
+| 1.1     | October 23, 2018   | Added screencast link |
+| 1.0     | September 20, 2018 | Initial release       |
 
 ## Disclaimer
 
