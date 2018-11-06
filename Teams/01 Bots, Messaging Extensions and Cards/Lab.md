@@ -370,7 +370,7 @@ The project template creates a messages controller that receives messages from t
 
 Although not strictly necessary, in this lab the bot will be added to a new team.
 
-1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
+1. In the Microsoft Teams application, select the **Add team** link. Then select the **Create team** button.
 
     ![Screenshot of Microsoft Teams with Create Team button highlighted.](Images/Exercise1-11.png)
 
@@ -750,7 +750,7 @@ Below the MessageReceivedAsync method, add this method to the RootDialog class.
 
 1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams. (It is not necessary to remove the app from the team first.)
 
-1. In a private chat with the bot, the message compose area now includes the attachment icon. Clicking the icon presents a context menu with the supported choices for the source of the file.
+1. In a private chat with the bot, the message compose area now includes the attachment icon. Selecting the icon presents a context menu with the supported choices for the source of the file.
 
     ![Screenshot of the Microsoft Teams message compose control with the attachment icon highlighted](Images/Exercise1-15.png)
 

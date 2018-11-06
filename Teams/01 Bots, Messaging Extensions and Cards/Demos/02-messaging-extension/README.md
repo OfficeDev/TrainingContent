@@ -109,7 +109,7 @@ The bot project must be configured with information from the registration.
 
 Although not strictly necessary, in this lab the bot will be added to a new team.
 
-1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
+1. In the Microsoft Teams application, select the **Add team** link. Then select the **Create team** button.
 
     ![Screenshot of Microsoft Teams with Create Team button highlighted.](../../Images/Exercise1-11.png)
 
