@@ -435,4 +435,4 @@ Update the Visual Studio solution.
 1. The Connector configuration page is displayed. Select **Save** to register the connector.
 
     ![Screenshot of connector configuration page](Images/Exercise2-05.png)
-1. From the Connector list, select **OfficeDev Talent Management**. Select **Configure**. THe configuration page will display the webhook URL for posting to the channel.
+1. From the Connector list, select **OfficeDev Talent Management**. Select **Configure**. The configuration page will display the webhook URL for posting to the channel.
