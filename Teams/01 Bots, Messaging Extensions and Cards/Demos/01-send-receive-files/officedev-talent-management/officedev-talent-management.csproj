@@ -45,14 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdaptiveCards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\AdaptiveCards.1.0.3\lib\net452\AdaptiveCards.dll</HintPath>
-    </Reference>
     <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Bogus, Version=23.0.3.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bogus.23.0.3\lib\net40\Bogus.dll</HintPath>
     </Reference>
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
       <HintPath>..\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
@@ -156,31 +150,6 @@
   <ItemGroup>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
-    <Content Include="images\calendar_icon.png" />
-    <Content Include="images\color_icon.png" />
-    <Content Include="images\female\candidate_1.png" />
-    <Content Include="images\female\candidate_2.png" />
-    <Content Include="images\female\candidate_3.png" />
-    <Content Include="images\female\candidate_4.png" />
-    <Content Include="images\female\candidate_5.png" />
-    <Content Include="images\image1.png" />
-    <Content Include="images\image2.png" />
-    <Content Include="images\image3.png" />
-    <Content Include="images\image4.png" />
-    <Content Include="images\image5.png" />
-    <Content Include="images\image6.png" />
-    <Content Include="images\image7.png" />
-    <Content Include="images\image8.png" />
-    <Content Include="images\image9.png" />
-    <Content Include="images\location_icon.png" />
-    <Content Include="images\male\candidate_1.png" />
-    <Content Include="images\male\candidate_2.png" />
-    <Content Include="images\male\candidate_3.png" />
-    <Content Include="images\male\candidate_4.png" />
-    <Content Include="images\male\candidate_5.png" />
-    <Content Include="images\profile_1.png" />
-    <Content Include="images\profile_2.png" />
-    <Content Include="images\profile_3.png" />
     <Content Include="Manifest\bot-icon-color-192x192.png" />
     <Content Include="Manifest\bot-icon-outline-32x32.png" />
     <Content Include="officedev_talent_management.bot" />
@@ -190,20 +159,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="CardHelper.cs" />
-    <Compile Include="CommandHandlers.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="DataModel\Candidate.cs" />
-    <Compile Include="DataModel\InterviewRequest.cs" />
-    <Compile Include="DataModel\OpenPosition.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="FileHelpers.cs" />
     <Compile Include="MessageHelpers.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\PositionCandidateData.cs" />
-    <Compile Include="MessagingExtensionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +173,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Manifest\manifest.json" />
-    <Content Include="cardtemplate.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

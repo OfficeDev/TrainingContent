@@ -3,6 +3,10 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams.Models;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace officedev_talent_management
 {
@@ -23,13 +27,10 @@ namespace officedev_talent_management
 			sb.AppendLine("* Schedule interview for name and Req ID, for example: schedule interview John Smith 0F812D01");
 			return sb.ToString();
 		}
-		public static async Task SendMessage(IDialogContext context, string message)
-		{
-			await context.PostAsync(message);
-		}
 
 		public static async Task SendOneToOneWelcomeMessage(
-			ConnectorClient connector, TeamsChannelData channelData,
+			ConnectorClient connector,
+			TeamsChannelData channelData,
 			ChannelAccount botAccount, ChannelAccount userAccount,
 			string tenantId)
 		{
@@ -53,31 +54,9 @@ namespace officedev_talent_management
 			await connector.Conversations.SendToConversationAsync(newActivity);
 		}
 
-		public static async Task SendPriorityMessage(
-			string messageText, string messageSummary,
-			ConnectorClient connector,
-			ChannelAccount botAccount, ChannelAccount userAccount,
-			string tenantId)
+		public static async Task SendMessage(IDialogContext context, string message)
 		{
-			// create or get existing chat conversation with user
-			var response = connector.Conversations.CreateOrGetDirectConversation(botAccount, userAccount, tenantId);
-
-			// Construct the message to post to conversation
-			Activity newActivity = new Activity()
-			{
-				Text = messageText,
-				Summary = messageSummary,
-				Type = ActivityTypes.Message,
-				Conversation = new ConversationAccount
-				{
-					Id = response.Id
-				},
-				DeliveryMode = "notification"
-			};
-
-			// Post the message to chat conversation with user
-			await connector.Conversations.SendToConversationAsync(newActivity);
-
+			await context.PostAsync(message);
 		}
 
 	}

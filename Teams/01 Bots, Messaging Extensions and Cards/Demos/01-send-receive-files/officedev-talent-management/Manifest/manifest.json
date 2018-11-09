@@ -33,29 +33,7 @@
 			]
 		}
 	],
-	"composeExtensions": [
-		{
-			"botId": "[bot-id]",
-			"scopes": [
-				"team"
-			],
-			"commands": [
-				{
-					"id": "searchPositions",
-					"title": "Search positions",
-					"initialRun": true,
-					"description": "Search open positions by keyword",
-					"parameters": [
-						{
-							"name": "keyword",
-							"title": "Keywords",
-							"description": "Position keywords"
-						}
-					]
-				}
-			]
-		}
-	],
+	"composeExtensions": [],
 	"permissions": [
 		"identity",
 		"messageTeamMembers"

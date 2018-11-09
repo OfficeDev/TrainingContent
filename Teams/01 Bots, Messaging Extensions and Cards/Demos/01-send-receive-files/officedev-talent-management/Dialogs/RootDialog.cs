@@ -43,7 +43,7 @@ namespace officedev_talent_management.Dialogs
 					{
 						if (attachment.ContentType == FileDownloadInfo.ContentType)
 						{
-							//await context.PostAsync($"Received a file named {attachment.Name}");
+							await context.PostAsync($"Received a file named {attachment.Name}");
 							await FileHelpers.ProcessAttachment(attachment, context);
 						}
 					}
@@ -60,7 +60,7 @@ namespace officedev_talent_management.Dialogs
 					if (split.Length >= 2)
 					{
 						var cmd = split[0].ToLower();
-						var keywords = split.Skip(2).ToArray();
+						var keywords = split.Skip(1).ToArray();
 
 						#region Commands
 
@@ -69,29 +69,8 @@ namespace officedev_talent_management.Dialogs
 							// Return "resume file" for the given candidate name.
 							await HandleResumeCommand(context, keywords);
 						}
-						else if (cmd.Contains("schedule"))
-						{
-							await CommandHandlers.HandleScheduleCommand(context, activity, keywords);
-						}
-						else if (cmd.Contains("open"))
-						{
-							await CommandHandlers.HandleOpenCommand(context);
-						}
-						else if (cmd.Contains("candidate"))
-						{
-							await CommandHandlers.HandleCandidateCommand(context, activity, keywords);
-						}
-						else if (cmd.Contains("new"))
-						{
-							await CommandHandlers.HandleNewCommand(context);
-						}
-						else if (cmd.Contains("assign"))
-						{
-							await CommandHandlers.HandleAssignCommand(context, split);
-						}
 
 						#endregion
-
 					}
 					else if (text.Contains("help"))
 					{
@@ -111,9 +90,6 @@ namespace officedev_talent_management.Dialogs
 			}
 			context.Wait(MessageReceivedAsync);
 		}
-
-
-
 
 		private static async Task HandleResumeCommand(IDialogContext context, string[] keywords)
 		{
