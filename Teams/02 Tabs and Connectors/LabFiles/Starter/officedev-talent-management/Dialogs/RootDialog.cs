@@ -1,12 +1,12 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Connector.Teams;
-using Microsoft.Bot.Connector.Teams.Models;
+﻿using Microsoft.Bot.Connector.Teams;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Teams.Models;
 
 namespace officedev_talent_management.Dialogs
 {
@@ -43,7 +43,7 @@ namespace officedev_talent_management.Dialogs
 					{
 						if (attachment.ContentType == FileDownloadInfo.ContentType)
 						{
-							//await context.PostAsync($"Received a file named {attachment.Name}");
+							await context.PostAsync($"Received a file named {attachment.Name}");
 							await FileHelpers.ProcessAttachment(attachment, context);
 						}
 					}
@@ -60,7 +60,7 @@ namespace officedev_talent_management.Dialogs
 					if (split.Length >= 2)
 					{
 						var cmd = split[0].ToLower();
-						var keywords = split.Skip(2).ToArray();
+						var keywords = split.Skip(1).ToArray();
 
 						#region Commands
 
@@ -91,7 +91,6 @@ namespace officedev_talent_management.Dialogs
 						}
 
 						#endregion
-
 					}
 					else if (text.Contains("help"))
 					{

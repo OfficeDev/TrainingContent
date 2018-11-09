@@ -45,7 +45,6 @@ namespace officedev_talent_management
 				{
 					// Determine the response object to reply with
 					var invokeResponse = await MessagingExtensionHelper.CreateResponse(activity);
-
 					// Messaging Extensions require the response body to have the response data
 					// explicitly return the response rather that falling thru to the default return
 					return Request.CreateResponse(HttpStatusCode.OK, invokeResponse);
@@ -57,6 +56,39 @@ namespace officedev_talent_management
 			}
 			var response = Request.CreateResponse(HttpStatusCode.OK);
 			return response;
+		}
+
+		private async Task HandleFileConsentActivity(Activity activity)
+		{
+			Activity reply;
+			try
+			{
+				reply = await FileHelpers.ProcessFileConsentResponse(activity.Value);
+			}
+			catch (Exception ex)
+			{
+				reply = new Activity { Text = ex.ToString() };
+			}
+
+			// Production bot would retrieve the message containing the FileConsent card and update it with results.
+			// This would prevent the user from consenting again
+			//
+			//var consentMessageReplyConversationId  = <read from state>
+			//var consentMessageReplyId = <read from state>
+			//Activity updatedReply = activity.CreateReply(messageText);
+			//await connector.Conversations.UpdateActivityAsync(consentMessageReplyConversationId, consentMessageReplyId, updatedReply);
+
+			// sending files happens in personal scope, so send a 1:1 message
+			var user = activity.From;
+			var bot = activity.Recipient;
+			var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+			var tenantId = activity.GetTenantId();
+
+			// create or get existing chat conversation with user
+			var response = connector.Conversations.CreateOrGetDirectConversation(bot, user, tenantId);
+			reply.Conversation = new ConversationAccount { Id = response.Id };
+			// Post the message to chat conversation with user
+			await connector.Conversations.SendToConversationAsync(reply);
 		}
 
 		private async Task<Activity> HandleSystemMessageAsync(Activity message)
@@ -74,8 +106,8 @@ namespace officedev_talent_management
 					);
 
 					var tenantId = message.GetTenantId();
-					var channelData = message.GetChannelData<TeamsChannelData>();
 					var botAccount = message.Recipient;
+					var channelData = message.GetChannelData<TeamsChannelData>();
 
 					// if the bot is in the collection of added members, 
 					// then send a welcometo all team members
@@ -97,13 +129,11 @@ namespace officedev_talent_management
 					}
 					else
 					{
-						string messageText = MessageHelpers.CreateHelpMessage($"The team {channelData.Team.Name} has the Talent Management bot- helping your team to find and hire candidates.");
-						string messageSummary = "This team has the Talent Management bot";
 						// send a OneToOne message to new members
 						foreach (TeamsChannelAccount member in message.MembersAdded.AsTeamsChannelAccounts())
 						{
-							await MessageHelpers.SendPriorityMessage(messageText, messageSummary,
-								connector, botAccount, member, tenantId);
+							await MessageHelpers.SendOneToOneWelcomeMessage(
+								connector, channelData, botAccount, member, tenantId);
 						}
 					}
 					break;
@@ -121,48 +151,6 @@ namespace officedev_talent_management
 					break;
 			}
 			return null;
-		}
-
-		private async Task HandleFileConsentActivity(Activity activity)
-		{ 
-			Activity reply;
-			try
-			{
-				reply = await FileHelpers.ProcessFileConsentResponse(activity.Value);
-			}
-			catch (Exception ex)
-			{
-				reply = new Activity { Text = ex.ToString() };
-			}
-
-			// Production bot would retrieve the message containing the FileConsent card and update it with results.
-			// This would prevent the user from consenting again 
-			//
-			//var consentMessageReplyConversationId  = <read from state>
-			//var consentMessageReplyId = <read from state>
-			//Activity updatedReply = activity.CreateReply(messageText);
-			//await connector.Conversations.UpdateActivityAsync(consentMessageReplyConversationId, consentMessageReplyId, updatedReply);
-
-			// sending files happens in personal scope, so send a 1:1 message
-			var user = activity.From;
-			var bot = activity.Recipient;
-			var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-			var tenantId = activity.GetTenantId();
-
-			try
-			{
-				// create or get existing chat conversation with user
-				var response = connector.Conversations.CreateOrGetDirectConversation(bot, user, tenantId);
-
-				reply.Conversation = new ConversationAccount { Id = response.Id };
-
-			}
-			catch (Exception ex)
-			{
-				var paul = ex.Message;
-			}
-			// Post the message to chat conversation with user
-			await connector.Conversations.SendToConversationAsync(reply);
 		}
 	}
 }

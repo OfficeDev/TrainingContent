@@ -1,15 +1,14 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using AdaptiveCards;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams.Models;
 using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
-/////
+using OfficeDev.Talent.Management;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
-using OfficeDev.Talent.Management;
-using AdaptiveCards;
 
 namespace officedev_talent_management
 {

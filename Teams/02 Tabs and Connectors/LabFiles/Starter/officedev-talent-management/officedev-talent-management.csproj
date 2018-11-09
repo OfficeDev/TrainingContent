@@ -51,8 +51,8 @@
     <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Bogus, Version=23.0.3.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bogus.23.0.3\lib\net40\Bogus.dll</HintPath>
+    <Reference Include="Bogus, Version=24.3.1.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bogus.24.3.1\lib\net40\Bogus.dll</HintPath>
     </Reference>
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
       <HintPath>..\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
@@ -196,13 +196,13 @@
     <Compile Include="DataModel\Candidate.cs" />
     <Compile Include="DataModel\InterviewRequest.cs" />
     <Compile Include="DataModel\OpenPosition.cs" />
+    <Compile Include="DataModel\PositionCandidateData.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="FileHelpers.cs" />
-    <Compile Include="MessageHelpers.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\PositionCandidateData.cs" />
+    <Compile Include="MessageHelpers.cs" />
     <Compile Include="MessagingExtensionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -219,7 +219,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
