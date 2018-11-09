@@ -5,7 +5,7 @@
       {
         case TeamEventType.MembersAdded:
           var connector = new ConnectorClient(new Uri(message.ServiceUrl));
-          client.SetRetryPolicy(
+          connector.SetRetryPolicy(
             RetryHelpers.DefaultPolicyBuilder.WaitAndRetryAsync(
               new[] { TimeSpan.FromSeconds(2),
                       TimeSpan.FromSeconds(5),
@@ -16,11 +16,13 @@
           var botAccount = message.Recipient;
           var channelData = message.GetChannelData<TeamsChannelData>();
 
+          // if the bot is in the collection of added members,
+          // then send a welcome to all team members
           if (message.MembersAdded.Any(m => m.Id.Equals(botAccount.Id)))
           {
             // Fetch the members in the current conversation
             IList<ChannelAccount> channelAccount =
-              await client.Conversations.GetConversationMembersAsync(
+              await connector.Conversations.GetConversationMembersAsync(
                 message.Conversation.Id);
             IEnumerable<TeamsChannelAccount> members =
               channelAccount.AsTeamsChannelAccounts();
@@ -29,7 +31,7 @@
             foreach (TeamsChannelAccount member in members)
             {
               await MessageHelpers.SendOneToOneWelcomeMessage(
-                client, channelData, botAccount, member, tenantId);
+                connector, channelData, botAccount, member, tenantId);
             }
           }
           else
@@ -38,7 +40,7 @@
             foreach (TeamsChannelAccount member in message.MembersAdded.AsTeamsChannelAccounts())
             {
               await MessageHelpers.SendOneToOneWelcomeMessage(
-                client, channelData, botAccount, member, tenantId);
+                connector, channelData, botAccount, member, tenantId);
             }
           }
           break;

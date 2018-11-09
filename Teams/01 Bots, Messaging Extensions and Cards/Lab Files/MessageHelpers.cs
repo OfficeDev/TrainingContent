@@ -16,7 +16,7 @@ public class MessageHelpers
   }
 
   public static async Task SendOneToOneWelcomeMessage(
-    ConnectorClient client,
+    ConnectorClient connector,
     TeamsChannelData channelData,
     ChannelAccount botAccount, ChannelAccount userAccount,
     string tenantId)
@@ -24,7 +24,7 @@ public class MessageHelpers
     string welcomeMessage = CreateHelpMessage($"The team {channelData.Team.Name} has the Talent Management bot- helping your team to find and hire candidates.");
 
     // create or get existing chat conversation with user
-    var response = client.Conversations.CreateOrGetDirectConversation(botAccount, userAccount, tenantId);
+    var response = connector.Conversations.CreateOrGetDirectConversation(botAccount, userAccount, tenantId);
 
     // Construct the message to post to conversation
     Activity newActivity = new Activity()
@@ -38,6 +38,6 @@ public class MessageHelpers
     };
 
     // Post the message to chat conversation with user
-    await client.Conversations.SendToConversationAsync(newActivity);
+    await connector.Conversations.SendToConversationAsync(newActivity);
   }
 }

@@ -67,19 +67,7 @@ public class FileHelpers
 
       if (httpResponse.IsSuccessStatusCode)
       {
-        var responseObject = JObject.Parse(responseText);
-
-        var uploadedName = (string)responseObject["name"];
-        var contentUrl = (string)responseObject["webUrl"];
-
-        FileInfoCard card = new FileInfoCard()
-        {
-          ContentUrl = (string)responseObject["webUrl"],
-          Name = (string)responseObject["name"],
-          FileType = System.IO.Path.GetExtension(uploadedName).Replace(".", ""),
-          UniqueId = (string)responseObject["id"]
-        };
-
+        FileInfoCard card = FileInfoCard.FromFileUploadInfo(response.UploadInfo);
         reply.Attachments.Add(card.ToAttachment());
       }
       else

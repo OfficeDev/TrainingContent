@@ -97,13 +97,13 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
 
-> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
+> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
 
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
     ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](Images/Exercise1-06.png)
 
-1. Once the connection is complete, ensure the connection is enabled and select **Done**. The bot registration is complete.
+1. Select the **Save** button. Agree to the Terms of Service. The bot registration is complete.
 
     ![Screenshot of Microsoft Bot Framework with configuration message displayed.](Images/Exercise1-07.png)
 
@@ -146,7 +146,7 @@ Packaging a bot for Microsoft Teams requires that a manifest file and related re
 
     ![Screenshot of Solution Explorer with unload project highlighted.](Images/Exercise1-09.png)
 
-1. Right-click on the project file and choose **Edit [project-name].csproj**. In the image, the project name is teams-bot1.
+1. Right-click on the project file and choose **Edit [project-name].csproj**.
 
 1. Move to the bottom of the file. Add the following target to the file. Be sure to add the target outside of the comment. This target will invoke a custom build task to compress the files in the manifest directory.
 
@@ -322,13 +322,14 @@ The project template creates a messages controller that receives messages from t
         sb.AppendLine("* Create a new job posting");
         sb.AppendLine("* List all your open positions");
         sb.AppendLine("* Show top recent candidates for a Req ID, for example: top candidates 0F812D01");
-        sb.AppendLine("* Show details about a candidate, for example: candidate details John Smith 0F812D01");
-        sb.AppendLine("* Schedule interview for name and Req ID, for example: schedule interview John Smith 0F812D01");
+        sb.AppendLine("* Show details about a candidate, for example: candidate John Smith 0F812D01");
+        sb.AppendLine("* Get a résumé for a candidate, for example: resume John Smith");
+        sb.AppendLine("* Schedule interview for name and Req ID, for example: schedule John Smith 0F812D01");
         return sb.ToString();
         }
 
       public static async Task SendOneToOneWelcomeMessage(
-        ConnectorClient client,
+        ConnectorClient connector,
         TeamsChannelData channelData,
         ChannelAccount botAccount, ChannelAccount userAccount,
         string tenantId)
@@ -336,7 +337,7 @@ The project template creates a messages controller that receives messages from t
         string welcomeMessage = CreateHelpMessage($"The team {channelData.Team.Name} has the Talent Management bot- helping your team to find and hire candidates.");
 
         // create or get existing chat conversation with user
-        var response = client.Conversations.CreateOrGetDirectConversation(botAccount, userAccount, tenantId);
+        var response = connector.Conversations.CreateOrGetDirectConversation(botAccount, userAccount, tenantId);
 
         // Construct the message to post to conversation
         Activity newActivity = new Activity()
@@ -350,7 +351,7 @@ The project template creates a messages controller that receives messages from t
         };
 
         // Post the message to chat conversation with user
-        await client.Conversations.SendToConversationAsync(newActivity);
+        await connector.Conversations.SendToConversationAsync(newActivity);
       }
     }
     ```
@@ -489,6 +490,7 @@ A bot can directly send and receive files with users in the personal context usi
 
     ```cs
     using Microsoft.Bot.Connector.Teams;
+    using Microsoft.Bot.Connector.Teams.Models;
     using Newtonsoft.Json.Linq;
     using System.Collections.Generic;
     using System.Linq;
@@ -565,74 +567,70 @@ A bot can directly send and receive files with users in the personal context usi
       }
     }
     context.Wait(MessageReceivedAsync);
-  }
     ```
 
-Below the MessageReceivedAsync method, add this method to the RootDialog class.
+1. Below the MessageReceivedAsync method, add this method to the RootDialog class.
 
-  ```cs
-		private static async Task HandleResumeCommand(IDialogContext context, string[] keywords)
-		{
-			if (keywords.Length > 0)
-			{
-				string name = string.Join(" ", keywords).ToLower();
+    ```cs
+    private static async Task HandleResumeCommand(IDialogContext context, string[] keywords)
+    {
+      if (keywords.Length > 0)
+      {
+        string name = string.Join(" ", keywords).ToLower();
 
-				//
-				//  Access the file from some storage location and capture its metadata
-				//
-				var fileID = "abc";
-				var fileSize = 1500;
+        //
+        //  Access the file from some storage location and capture its metadata
+        //
+        var fileID = "abc";
+        var fileSize = 1500;
 
+        IMessageActivity reply = context.MakeMessage();
+        reply.Attachments = new List<Attachment>();
 
-				IMessageActivity reply = context.MakeMessage();
-				reply.Attachments = new List<Attachment>();
+        JObject acceptContext = new JObject();
+        // Fill in any additional context to be sent back when the user accepts the file.
+        acceptContext["fileId"] = fileID;
+        acceptContext["name"] = name;
 
-				JObject acceptContext = new JObject();
-				// Fill in any additional context to be sent back when the user accepts the file.
-				acceptContext["fileId"] = fileID;
-				acceptContext["name"] = name;
+        JObject declineContext = new JObject();
+        // Fill in any additional context to be sent back when the user declines the file.
 
-				JObject declineContext = new JObject();
-				// Fill in any additional context to be sent back when the user declines the file.
+        FileConsentCard card = new FileConsentCard()
+        {
+          Name = $"{name} resume.txt",
+          AcceptContext = acceptContext,
+          DeclineContext = declineContext,
+          SizeInBytes = fileSize,
+          Description = $"Here is the resume for {name}"
+        };
 
-				FileConsentCard card = new FileConsentCard()
-				{
-					Name = $"{name} resume.txt",
-					AcceptContext = acceptContext,
-					DeclineContext = declineContext,
-					SizeInBytes = fileSize,
-					Description = $"Here is the resume for {name}"
-				};
+        reply.Attachments.Add(card.ToAttachment());
 
-				reply.Attachments.Add(card.ToAttachment());
+        // A production bot would save the reply id so it can be updated later with file send status
+        // https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-state?view=azure-bot-service-3.0
+        //
+        //var consentMessageReplyId = (reply as Activity).Id;
+        //var consentMessageReplyConversationId = reply.Conversation.Id;
 
-				// A production bot would save the reply id so it can be updated later with file send status
-				// https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-state?view=azure-bot-service-3.0
-				//
-				//var consentMessageReplyId = (reply as Activity).Id;
-				//var consentMessageReplyConversationId = reply.Conversation.Id;
-
-
-				await context.PostAsync(reply);
-			}
-		}
-
-  ```
+        await context.PostAsync(reply);
+     }
+    }
+    ```
 
 1. Open the MessageHelpers.cs file and add the following using statement at the top:
 
-  ```cs
-  using Microsoft.Bot.Builder.Dialogs;
-  ```
+    ```cs
+    using Microsoft.Bot.Builder.Dialogs;
+    ```
 
-  Then add the following method:
+1. Add the following method to the `MessageHelpers` class:
 
-  ```cs
-  	public static async Task SendMessage(IDialogContext context, string message)
-		{
-			await context.PostAsync(message);
-		}
-  ```
+    ```cs
+    public static async Task SendMessage(IDialogContext context, string message)
+    {
+     await context.PostAsync(message);
+    }
+    ```
 
 1. In **Solution Explorer**, add a new class named `FileHelpers` to the project.
 
@@ -707,19 +705,7 @@ Below the MessageReceivedAsync method, add this method to the RootDialog class.
 
           if (httpResponse.IsSuccessStatusCode)
           {
-            var responseObject = JObject.Parse(responseText);
-
-            var uploadedName = (string)responseObject["name"];
-            var contentUrl = (string)responseObject["webUrl"];
-
-            FileInfoCard card = new FileInfoCard()
-            {
-              ContentUrl = (string)responseObject["webUrl"],
-              Name = (string)responseObject["name"],
-              FileType = System.IO.Path.GetExtension(uploadedName).Replace(".", ""),
-              UniqueId = (string)responseObject["id"]
-            };
-
+            FileInfoCard card = FileInfoCard.FromFileUploadInfo(response.UploadInfo);
             reply.Attachments.Add(card.ToAttachment());
           }
           else
@@ -748,7 +734,7 @@ Below the MessageReceivedAsync method, add this method to the RootDialog class.
     using System.Threading.Tasks;
     ```
 
-1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams. (It is not necessary to remove the app from the team first.)
+1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
 
 1. In a private chat with the bot, the message compose area now includes the attachment icon. Selecting the icon presents a context menu with the supported choices for the source of the file.
 
@@ -756,7 +742,7 @@ Below the MessageReceivedAsync method, add this method to the RootDialog class.
 
 1. Continue to select and upload a file. You must select the send button after the file is uploaded.
 
-1. In a private chat with the bot, issue the command `resume for john smith`. The bot will respond with a **FileConsent** card. The bot can only send files when consent is granted by the user.
+1. In a private chat with the bot, issue the command `resume john smith`. The bot will respond with a **FileConsent** card. The bot can only send files when consent is granted by the user.
 
 1. Once consent is granted, the bot can upload the file to the OneDrive of the user. The bot will display a `FileInfo` card, enabling the user to view the file.
 
@@ -768,15 +754,13 @@ Below the MessageReceivedAsync method, add this method to the RootDialog class.
 
 This section of the lab extends the bot from exercise 1 with Microsoft Teams functionality called messaging extension. Messaging extensions provide help for users when composing a message for posting in a channel or in one-to-one chats.
 
-The messaging extension code requires data that can be displayed. The data generation code and supporting images are provided in the **LabFiles\DataModel** folder. The files in this folder can be added to the project without modification.
-
 1. In Visual Studio, install the **Bogus** package via the **Package Manager Console**.
 
     ```powershell
     Install-Package Bogus
     ```
 
-1. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **DataModels**.
+1. The messaging extension code requires data that can be displayed. The data generation code and supporting images are provided in the **LabFiles\DataModel** folder. The files in this folder can be added to the project without modification. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **DataModels**.
 
 1. Add the displayed files from the **LabFiles\DataModel** folder to the **DataModels** folder in Visual Studio.
 
@@ -796,7 +780,7 @@ The messaging extension code requires data that can be displayed. The data gener
 
 1. Open the **MessagesController.cs** file in the **Controllers** folder.
 
-1. Locate the `Post` method. Replace the method the following snippet. Messaging extensions are posted to the bot via an `Invoke` message.
+1. Locate the `Post` method. Replace the method with the following snippet. Messaging extensions are posted to the bot via an `Invoke` message.
 
     ```cs
     public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
@@ -961,13 +945,16 @@ This section of the lab extends the bot to answer specific commands with Cards t
     using Microsoft.Bot.Connector.Teams.Models;
     using Newtonsoft.Json.Linq;
     using OfficeDev.Talent.Management;
+    using System.Threading.Tasks;
     ```
 
 To understand how cards are used in Bot messages, review the following methods in the `CommandHandlers` class:
 
 - The `SendScheduleInterviewMessage` method creates an Office 365 Connector card. This card captures user input and contains an action to post the data back to the bot. The card data is sent using an `invoke` message.
 
-1. To process the invoke, open the **MessagesController.cs** file.
+- The `SendCandidateDetailsMessage` method creates an Adaptive card showcasing many capabilities of Adaptive cards.
+
+1. To process the Office 365 Connector card invoke, open the **MessagesController.cs** file.
 
 1. In the `Post` method, locate the `if` block that tests for the `activity.Name == "fileConsent/invoke"`.
 
@@ -985,11 +972,9 @@ To understand how cards are used in Bot messages, review the following methods i
     }
     ```
 
-- The `SendCandidateDetailsMessage` method creates and Adaptive card showcasing many capabilities of Adaptive cards.
-
 1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has not changed, there is no need to re-uploaded the app.
 
-1. In a channel with the bot added, @ mention the bot with the command **schedule interview John Smith 0F812D01**. (The name and id specified do not matter, but the command must have at least 5 words.)
+1. In a channel with the bot added, @ mention the bot with the command **schedule John Smith 0F812D01**. (The name and id specified do not matter, but the command must have 4 words.)
 
 1. The bot will display a card with a date picker.
 
