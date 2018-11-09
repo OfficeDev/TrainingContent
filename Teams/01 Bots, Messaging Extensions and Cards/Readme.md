@@ -26,10 +26,11 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |        Date        |       Comments        |
-| ------- | ------------------ | --------------------- |
-| 1.1     | October 23, 2018   | Added screencast link |
-| 1.0     | September 20, 2018 | Initial release       |
+| Version |        Date        |       Comments         |
+| ------- | ------------------ | ---------------------- |
+| 1.2     | November 9, 2018   | 2019Q2 content refresh |
+| 1.1     | October 23, 2018   | Added screencast link  |
+| 1.0     | September 20, 2018 | Initial release        |
 
 ## Disclaimer
 
