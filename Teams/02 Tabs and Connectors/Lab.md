@@ -95,7 +95,7 @@ If you completed module 1, then you may skip ahead to [Exercise 1 - Tabs](#exerc
 
     ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](./Images/Starter-05.png)
 
-1. Once the connection is complete, ensure the connection is enabled and select **Done**. The bot registration is complete.
+1. Select the **Save** button. Agree to the Terms of Service. The bot registration is complete.
 
     ![Screenshot of Microsoft Bot Framework with configuration message displayed.](./Images/Starter-06.png)
 
@@ -120,6 +120,7 @@ The bot project must be configured with information from the registration.
     - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
     - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
     - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
+    - The `botId` property in the `composeExtensions` collection property also requires the app ID from registratation. Replace the token `[microsoft-app-id]` with the app ID.
     - Save and close the **manifest.json** file.
 
 1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
@@ -152,9 +153,9 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
     > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `MessageHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
 
-    ![Screenshot of Microsoft Teams displaying new bot installed.](Images/Exercise1-14.png)
-
 The app is now installed. The following exercises will extend this app.
+
+<a name="exercise1"></a>
 
 ## Exercise 1: Tabs
 
@@ -194,7 +195,7 @@ The app is now installed. The following exercises will extend this app.
     - Initialize the Microsoft Teams Library.
     - Set the 'Save' Button state based on the field content.
     - Register a function as the Save Handler
-    - Set the Microsoft Teams settings for the tab, including th url of the content page and the Entity Id for the tab.
+    - Set the Microsoft Teams settings for the tab, including the url of the content page and the Entity Id for the tab.
 
     ```javascript
     <script type="text/javascript">
@@ -253,7 +254,7 @@ The app is now installed. The following exercises will extend this app.
 
 1. Open the **manifest.json** file in the **Manifest** folder.
 
-1. Locate the `composeExtensions` node fo the **manifest.json** file. Add the following node as a sibling (at the same level) as the `composeExtensions` node. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address from the ngrok tunnel application.
+1. Locate the `composeExtensions` node of the **manifest.json** file. Add the following node as a sibling (at the same level) as the `composeExtensions` node. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address from the ngrok tunnel application.
 
     ```json
     "staticTabs": [
@@ -331,6 +332,8 @@ Static tabs are displayed in the chat view with the bot.
 
     ![Screenshot of Microsoft Teams showing the static tab added in the lab.](Images/Exercise1-03.png)
 
+<a name="exercise2"></a>
+
 ## Exercise 2: Connectors
 
 Connectors for Microsoft Teams must be registered on the [Connectors Developer Dashboard](https://aka.ms/connectorsdashboard).
@@ -359,7 +362,7 @@ Update the Visual Studio solution.
 
     ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise2-01.png)
 
-1. Open the **connectorconfig.html** file in the **Tabs** folder.
+1. Open the **connectorconfig.html** file in the **Connector** folder.
 
 1. Add the following tag within the `<head>` tag in the file. This script will initialize the Teams JavaScript API and then use the API to register the webhook. In addition to setting the webhook URL, the script will set the contentUrl property. For connectors, the contentUrl specifies the page to show when a user invokes the configure action on a connector.
 
@@ -408,7 +411,7 @@ Update the Visual Studio solution.
     ```json
     "connectors": [
       {
-        "connectorId": "c63a8789-739b-4afd-91db-0e1bd7f213b9",
+        "connectorId": "[from-connector-dashboard]",
         "scopes": [
           "team"
         ],
@@ -432,7 +435,30 @@ Update the Visual Studio solution.
 
     ![Screenshot of Connector list highlighting the uploaded app](Images/Exercise2-04.png)
 
-1. The Connector configuration page is displayed. Select **Save** to register the connector.
+1. The Connector configuration page is displayed. Copy the webhookUrl value. Select **Save** to register the connector.
 
     ![Screenshot of connector configuration page](Images/Exercise2-05.png)
-1. From the Connector list, select **OfficeDev Talent Management**. Select **Configure**. THe configuration page will display the webhook URL for posting to the channel.
+
+The connector can be used by posting a connector card to the webhookUrl.
+
+1. Copy the **sample-connector-message.json** file from the **Lab Files\Connector** folder to your development machine.
+
+1. Open a **PowerShell** window, go to the directory that contains the **sample-connector-message.json**, and enter the following commands:
+
+    ```powershell
+    $message = Get-Content .\sample-connector-message.json
+    $url = "<YOUR WEBHOOK URL>"
+    Invoke-RestMethod -ContentType "application/json" -Body $message -Uri $url -Method Post
+    ```
+
+    ![Screenshot of PowerShell code displaying webhook URL.](Images/Exercise2-06.png)
+
+    > **Note:** Replace `<YOUR WEBHOOK URL>` with the webhook URL you saved when you created the **Incoming Webhook** connector.
+
+1. When the POST succeeds, you will see a simple **"1"** outputted by the `Invoke-RestMethod` cmdlet.
+
+1. Check the conversations tab in the Microsoft Teams application. You will see the new card message posted to the conversation.
+
+    ![Screenshot of card message in Microsoft Teams.](Images/Exercise2-07.png)
+
+    > Note: The action buttons will not work. Action buttons work only for connectors registered and published in the Microsoft Office store.
