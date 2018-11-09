@@ -191,18 +191,17 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CardHelper.cs" />
-    <Compile Include="CommandHandlers.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="DataModel\Candidate.cs" />
     <Compile Include="DataModel\InterviewRequest.cs" />
     <Compile Include="DataModel\OpenPosition.cs" />
+    <Compile Include="DataModel\PositionCandidateData.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="FileHelpers.cs" />
-    <Compile Include="MessageHelpers.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\PositionCandidateData.cs" />
+    <Compile Include="MessageHelpers.cs" />
     <Compile Include="MessagingExtensionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -219,7 +218,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

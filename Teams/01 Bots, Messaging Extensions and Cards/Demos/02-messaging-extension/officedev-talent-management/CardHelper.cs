@@ -3,7 +3,6 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams.Models;
 using Newtonsoft.Json.Linq;
 using OfficeDev.Talent.Management;
-///
 using System;
 using System.Collections.Generic;
 using System.Linq;

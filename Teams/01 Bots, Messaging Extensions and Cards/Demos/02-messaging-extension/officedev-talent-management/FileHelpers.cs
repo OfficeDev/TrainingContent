@@ -3,9 +3,13 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams.Models;
 using Newtonsoft.Json.Linq;
-using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace officedev_talent_management
 {
@@ -14,12 +18,10 @@ namespace officedev_talent_management
 		internal static async Task ProcessAttachment(Attachment attachment, IDialogContext context)
 		{
 			var replyMessage = context.MakeMessage();
-			replyMessage.Text = $"Received a file named {attachment.Name}\n\n";
 
 			if (attachment.ContentType == FileDownloadInfo.ContentType)
 			{
 				FileDownloadInfo downloadInfo = (attachment.Content as JObject).ToObject<FileDownloadInfo>();
-
 				if (downloadInfo != null)
 				{
 					if (downloadInfo.FileType == "txt")
@@ -30,7 +32,7 @@ namespace officedev_talent_management
 							HttpResponseMessage response = await httpClient.GetAsync(downloadInfo.DownloadUrl);
 							var fileContents = await response.Content.ReadAsStringAsync();
 
-							replyMessage.Text += (fileContents.Length < 25)
+							replyMessage.Text = (fileContents.Length < 25)
 								? $"File contents: {fileContents}"
 								: $"First 25 bytes: {fileContents.Substring(0, 25)}";
 						}
@@ -41,7 +43,6 @@ namespace officedev_talent_management
 					}
 				}
 			}
-
 			await context.PostAsync(replyMessage);
 		}
 
@@ -86,13 +87,7 @@ namespace officedev_talent_management
 					var uploadedName = (string)responseObject["name"];
 					var contentUrl = (string)responseObject["webUrl"];
 
-					FileInfoCard card = new FileInfoCard()
-					{
-						ContentUrl = (string)responseObject["webUrl"],
-						Name = (string)responseObject["name"],
-						FileType = System.IO.Path.GetExtension(uploadedName).Replace(".", ""),
-						UniqueId = (string)responseObject["id"]
-					};
+					FileInfoCard card = FileInfoCard.FromFileUploadInfo(response.UploadInfo);
 
 					reply.Attachments.Add(card.ToAttachment());
 				}
