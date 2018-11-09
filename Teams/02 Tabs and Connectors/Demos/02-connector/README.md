@@ -1,4 +1,4 @@
-# Tabs
+# Connector
 
 In this demo, you will demonstrate configurable and static tabs in a Microsoft Teams app.
 
