@@ -266,11 +266,9 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
     ![Screenshot of channel menu with Microsoft Teams icon highlighted.](Images/Exercise2-06.png)
 
-1. When the connection is complete, ensure the connection is enabled and select **Done**.
+1. Select the **Save** button. Agree to the Terms of Service. The bot registration is complete.
 
     ![Screenshot of MSTeams bot confirmation page.](Images/Exercise2-07.png)
-
-    The bot registration is complete. Selecting **Settings** in the top navigation will re-display the profile and configuration sections. This can be used to update the messaging endpoint in the event ngrok is stopped, or the bot is moved to production.
 
 ### Configure the web project
 
@@ -740,28 +738,23 @@ With the tab configured, the content page can now render information as selected
 
     ```typescript
     private getGraphData() {
-      let token = "";
+      this.setState({
+        graphData: "Loading..."
+      });
 
-      let graphElement = document.getElementById("graph");
-      graphElement!.innerText = "Loading...";
-      if (token == null) {
-        microsoftTeams.authentication.authenticate({
-          url: "/auth.html",
-          width: 400,
-          height: 400,
-          successCallback: (data) => {
-            // Note: token is only good for one hour
-            token = data!;
-            this.getData(token);
-          },
-          failureCallback: function (err) {
-            document.getElementById("graph")!.innerHTML = "Failed to authenticate and get token.<br/>" + err;
-          }
-        });
-      }
-      else {
-        this.getData(token);
-      }
+      microsoftTeams.authentication.authenticate({
+        url: "/auth.html",
+        width: 400,
+        height: 400,
+        successCallback: (data) => {
+          // Note: token is only good for one hour
+          token = data!;
+          this.getData(token);
+        },
+        failureCallback: function (err) {
+          document.getElementById("graph")!.innerHTML = "Failed to authenticate and get token.<br/>" + err;
+        }
+      });
     }
     ```
 
