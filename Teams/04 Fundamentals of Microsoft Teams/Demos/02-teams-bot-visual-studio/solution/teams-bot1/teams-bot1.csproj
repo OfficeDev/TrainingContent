@@ -7,13 +7,13 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2C9A9BD5-A8CD-4880-AE4E-555AF95FD0F0}</ProjectGuid>
+    <ProjectGuid>{54738E8A-0B1E-4583-8443-917856BC5B46}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>teams_bot1</RootNamespace>
     <AssemblyName>teams-bot1</AssemblyName>
-    <!--<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>-->
+    <!--<TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>-->
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <UseIISExpress>true</UseIISExpress>
@@ -226,20 +226,20 @@
 			<Using Namespace="System.IO.Compression" />
 			<Code Type="Fragment" Language="cs">
 				<![CDATA[
-          if (File.Exists(OutputFileName))
-          {
-            if (!OverwriteExistingFile)
-            {
-              return false;
-            }
-            File.Delete(OutputFileName);
-          }
-          ZipFile.CreateFromDirectory
-          (
-            InputBaseDirectory, OutputFileName,
-            CompressionLevel.Optimal, IncludeBaseDirectory
-          );
-        ]]>
+      if (File.Exists(OutputFileName))
+      {
+        if (!OverwriteExistingFile)
+        {
+          return false;
+        }
+        File.Delete(OutputFileName);
+      }
+      ZipFile.CreateFromDirectory
+      (
+        InputBaseDirectory, OutputFileName,
+        CompressionLevel.Optimal, IncludeBaseDirectory
+      );
+    ]]>
 			</Code>
 		</Task>
 	</UsingTask>

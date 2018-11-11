@@ -1,15 +1,74 @@
-# Demo - Section 2: Build a basic Microsoft Teams Bot
+# Create and test a basic Microsoft Teams bot using Visual Studio
 
-To run this demo:
+In this demo, you will demonstrate the Bot Framework extension for Visual Studio, testing a bot in the bot framework registration site and uploading a bot to Microsoft Teams.
+
+## Prerequisites
+
+Developing apps for Microsoft Teams requires preparation for both the Office 365 tenant and the development workstation.
+
+For the Office 365 Tenant, the setup steps are detailed on the [Getting Started page](https://msdn.microsoft.com/en-us/microsoft-teams/setup). Note that while the getting started page indicates that the Public Developer Preview is optional, this lab includes steps that are not possible unless the preview is enabled.
+
+### Install developer tools
+
+The developer workstation requires the following tools for this lab.
+
+#### Install NodeJS & NPM
+
+Install [NodeJS](https://nodejs.org/) Long Term Support (LTS) version. If you have NodeJS already installed please check you have the latest version using `node -v`. It should return the current [LTS version](https://nodejs.org/en/download/). Allowing the **Node setup** program to update the computer `PATH` during setup will make the console-based tasks in this easier to accomplish.
+
+After installing node, make sure **npm** is up to date by running following command:
+
+````shell
+npm install -g npm
+````
+
+#### Install Yeoman, Gulp-cli and TypeScript
+
+[Yeoman](http://yeoman.io/) helps you start new projects, and prescribes best practices and tools to help you stay productive. This lab uses a Yeoman generator for Microsoft Teams to quickly create a working, JavaScript-based solution. The generated solution uses Gulp, Gulp CLI and TypeScript to run tasks.
+
+Enter the following command to install the prerequisites:
+
+````shell
+npm install -g yo gulp-cli typescript
+````
+
+#### Install Yeoman Teams generator
+
+The Yeoman Teams generator helps you quickly create a Microsoft Teams solution project with boilerplate code and a project structure & tools to rapidly create and test your app.
+
+Enter the following command to install the Yeoman Teams generator:
+
+````shell
+npm install generator-teams -g
+````
+
+#### Download ngrok
+
+As Microsoft Teams is an entirely cloud-based product, it requires all services it accesses to be available from the cloud using HTTPS endpoints. To enable the exercises to work within Microsoft Teams, a tunneling application is required.
+
+This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS endpoints to a web server running locally on the developer workstation. ngrok is a single-file download that is run from a console.
+
+#### Code editors
+
+Tabs in Microsoft Teams are HTML pages hosted in an iframe. The pages can reference CSS and JavaScript like any web page in a browser.
+
+Microsoft Teams supports much of the common [bot framework](https://dev.botframework.com/) functionality. The Bot Framework provides an SDK for C# and Node.
+
+You can use any code editor or IDE that supports these technologies, however the steps and code samples in this training use [Visual Studio Code](https://code.visualstudio.com/) for tabs using HTML/JavaScript and [Visual Studio 2017](https://www.visualstudio.com/) for bots using the C# SDK.
+
+#### Bot template for Visual Studio 2017
+
+Download and install the [bot template for C#](https://github.com/Microsoft/BotFramework-Samples/tree/master/docs-samples/CSharp/Simple-LUIS-Notes-Sample/VSIX) from Github. Additional step-by-step information for creating a bot to run locally is available on the [Create a bot with the Bot Builder SDK for .NET page](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-quickstart?view=azure-bot-service-3.0) in the Azure Bot Service documentation.
+
+  > **Note:** This lab uses the BotBuilder V3 SDK. BotBuilder V4 SDK was recently released. All new development should be targeting the BotBuilder V4 SDK. In our next release, this sample will be updated to the BotBuilder V4 SDK.
+
 
 1. Download and install the [bot application template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.BotBuilderV3). The extension can be installed by double-clicking on the VSIX file.
 
-2. Perform the following steps from the lab
-
-## Download NuGet packages
+## Create and test a basic Microsoft Teams bot using Visual Studio
 
 1. Launch Visual Studio 2017 as an administrator
-1. In Visual Studio 2017, select **File > Open > Project/Solution**. Select the `teams-bot1.sln` from the `Demos` folder.
+1. In Visual Studio 2017, select **File > Open > Project/Solution**. Select the `teams-bot1.sln` from the `Demos\02-teams-bot-visual-studio` folder.
 
 ## Configure URL
 
@@ -31,7 +90,7 @@ To run this demo:
 
 1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
 
-    ![Screenshot of command prompt with local host highlighted.](Images/Exercise2-03.png)
+    ![Screenshot of command prompt with local host highlighted.](../../Images/Exercise2-03.png)
 
 ## Register the bot
 
@@ -58,11 +117,9 @@ To run this demo:
 
     ![Screenshot of channel menu with Microsoft Teams icon highlighted.](../../Images/Exercise2-06.png)
 
-1. When the connection is complete, ensure the connection is enabled and select **Done**.
+1. Select the **Save** button. Agree to the Terms of Service. The bot registration is complete.
 
     ![Screenshot of MSTeams bot confirmation page.](../../Images/Exercise2-07.png)
-
-    The bot registration is complete. Selecting **Settings** in the top navigation will re-display the profile and configuration sections. This can be used to update the messaging endpoint in the event ngrok is stopped, or the bot is moved to production.
 
 ## Configure the web project
 
@@ -84,7 +141,7 @@ Although not strictly necessary, in this demo you will add the bot to a new team
 
 1. In the Microsoft Teams application, select the ellipses next to the team name. Choose **Manage team** from the menu.
 
-    ![Screenshot of Microsoft Teams with manage team menu highlighted.](Images/Exercise2-12.png)
+    ![Screenshot of Microsoft Teams with manage team menu highlighted.](../../Images/Exercise2-12.png)
 
 1. On the manage team page, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application.
 
@@ -92,7 +149,7 @@ Although not strictly necessary, in this demo you will add the bot to a new team
 
 1. The app is displayed. Notice the description and icon for the app from the manifest is displayed.
 
-    ![Screenshot of Microsoft Teams bot with information about the bot highlighted.](Images/Exercise2-13.png)
+    ![Screenshot of Microsoft Teams bot with information about the bot highlighted.](../../Images/Exercise2-13.png)
 
     The app is now uploaded into the Microsoft Teams application and the bot is available.
 
