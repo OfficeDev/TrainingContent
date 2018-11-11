@@ -8,8 +8,8 @@ In this lab, you will walk through building, packaging, and deploying your Micro
 
 ## Demos
 
-- [Teams application packaging and testing](./Demos/01%20-%20teams-app1)
-- [Build a basic Microsoft Teams Bot](./Demos/02%20-%20teams-bot1)
+- [Create and test a basic Microsoft Teams app using Yeoman](./Demos/01-teams-app-yeoman)
+- [Create and test a basic Microsoft Teams bot using Visual Studio](./Demos/02-teams-bot-visual-studio)
 - [Build a Microsoft Teams Tab](./Demos/03%20-%20teams-app1)
 
 ## Watch the Module
@@ -29,6 +29,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |       Date        |                   Comments                   |
 | ------- | ----------------- | -------------------------------------------- |
+| 1.4     | November 11, 2018 | 2019Q2 content refresh                       |
 | 1.3     | August 15, 2018   | 2019Q1 content refresh                       |
 | 1.2     | June 26, 2018     | 2018Q4 content refresh & style guide updates |
 | 1.1     | February 25, 2018 | Code Review and minor corrections            |

@@ -1,15 +1,13 @@
-# Demos
+# Microsoft Teams Training Module - Fundamentals of Microsoft Teams
 
-This directory contains the completed code for **teams-app1** in the [lab manual](../Lab.md). If you do not want to go through all the steps for building the app, you may run the completed code samples.
+This folder contains demos for the Microsoft Teams module on Fundamentals of Microsoft Teams.
 
-Keep in mind, some code configuration settings may be required to make the samples run and execute like the lab manuals demonstrate. Refer to the [lab manual](../Lab.md) for each exercise for more details.
+## Demos
 
-To build the demo project(s), open a Command Window and execute the following commands:
+* [Create and test a basic Microsoft Teams app using Yeoman](./01-teams-app-yeoman/README.md)
+* [Create and test a basic Microsoft Teams bot using Visual Studio](./02-teams-bot-visual-studio/README.md)
+* [Call the Microsoft Graph API inside a tab](./03-tab-graph/README.md)
 
-```shell
-npm install
-gulp manifest
-gulp serve
-```
+## Running demonstrations
 
-To upload the app into Microsoft Teams, refer to the [lab manual](../Lab.md).
+Each demonstration is included as source code for convenience.
