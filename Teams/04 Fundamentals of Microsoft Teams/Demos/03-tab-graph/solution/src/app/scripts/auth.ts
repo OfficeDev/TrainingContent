@@ -1,5 +1,4 @@
 import * as Msal from 'msal';
-
 /**
 * Implementation of the teams app1 Auth page
 */
@@ -18,7 +17,7 @@ export class Auth {
     // Setup auth parameters for MSAL
     let graphAPIScopes: string[] = ["https://graph.microsoft.com/user.read", "https://graph.microsoft.com/group.read.all"];
     let userAgentApplication = new Msal.UserAgentApplication(
-      "[app-id-from-registration]",
+      "817b1dff-f8c2-4c6d-b324-13bf5fab647f",
       "https://login.microsoftonline.com/common",
       this.tokenReceivedCallback);
 
