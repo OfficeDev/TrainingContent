@@ -28,14 +28,14 @@ After installing node, make sure **npm** is up to date by running following comm
 npm install -g npm
 ````
 
-#### Install Yeoman, Gulp, Gulp-cli and TypeScript
+#### Install Yeoman, Gulp-cli and TypeScript
 
 [Yeoman](http://yeoman.io/) helps you start new projects, and prescribes best practices and tools to help you stay productive. This lab uses a Yeoman generator for Microsoft Teams to quickly create a working, JavaScript-based solution. The generated solution uses Gulp, Gulp CLI and TypeScript to run tasks.
 
 Enter the following command to install the prerequisites:
 
 ````shell
-npm install -g yo gulp gulp-cli typescript
+npm install -g yo gulp-cli typescript
 ````
 
 #### Install Yeoman Teams generator
@@ -45,7 +45,7 @@ The Yeoman Teams generator helps you quickly create a Microsoft Teams solution p
 Enter the following command to install the Yeoman Teams generator:
 
 ````shell
-npm install generator-teams@preview -g
+npm install generator-teams -g
 ````
 
 #### Download ngrok
@@ -64,9 +64,9 @@ You can use any code editor or IDE that supports these technologies, however the
 
 #### Bot template for Visual Studio 2017
 
-Download and install the [bot application template](https://github.com/Microsoft/BotFramework-Samples/blob/master/docs-samples/CSharp/Simple-LUIS-Notes-Sample/VSIX/BotBuilderVSIX_V3.zip). The extension can be installed by extracting the zip file and double-clicking on the VSIX file.
+Download and install the [bot template for C#](https://github.com/Microsoft/BotFramework-Samples/tree/master/docs-samples/CSharp/Simple-LUIS-Notes-Sample/VSIX) from Github. Additional step-by-step information for creating a bot to run locally is available on the [Create a bot with the Bot Builder SDK for .NET page](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-quickstart?view=azure-bot-service-3.0) in the Azure Bot Service documentation.
 
-   ![Screenshot of templates directory highlighting bot application.](Images/BotTemplate.png)
+  > **Note:** This lab uses the BotBuilder V3 SDK. BotBuilder V4 SDK was recently released. All new development should be targeting the BotBuilder V4 SDK. In our next release, this sample will be updated to the BotBuilder V4 SDK.
 
 <a name="exercise1"></a>
 
