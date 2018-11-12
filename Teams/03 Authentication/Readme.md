@@ -4,12 +4,11 @@
 
 In the lab, you will walk through extending a Microsoft Teams app with Authentication.
 
-- [Lab manual](./Lab.md)
+> **NOTE:** This lab is currently being rewritten & have been temporarily withdrawn during this process.
 
 ## Demos
 
-1. [Add authentication to a tab](./Demos/readme01.md)
-1. [Add authentication to a bot](./Demos/readme02.md)
+> **NOTE:** This demos are currently being rewritten & have been temporarily withdrawn during this process.
 
 ## Watch the Module
 
@@ -25,10 +24,11 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |        Date        |       Comments        |
-| ------- | ------------------ | --------------------- |
-| 1.1     | October 23, 2018   | Added screencast link |
-| 1.0     | September 28, 2018 | Initial release       |
+| Version |        Date        |                  Comments                   |
+| ------- | ------------------ | ------------------------------------------- |
+| 1.2     | November 13, 2018  | Retracted lab & demos for regression issues |
+| 1.1     | October 23, 2018   | Added screencast link                       |
+| 1.0     | September 28, 2018 | Initial release                             |
 
 ## Disclaimer
 
