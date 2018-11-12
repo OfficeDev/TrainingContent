@@ -1,4 +1,4 @@
-# Lab: Microsoft Teams apps - advanced techniques
+# Lab: Microsoft Teams - Bots, Messaging Extensions, and Cards
 
 In this lab, you will walk through building a bot that demonstrates several capabilities of Microsoft Teams: events, messaging extensions and cards.
 
@@ -12,7 +12,7 @@ In this lab, you will walk through building a bot that demonstrates several capa
 
 Developing apps for Microsoft Teams requires preparation for both the Office 365 tenant and the development workstation.
 
-For the Office 365 Tenant, the setup steps are detailed on the [Prepare your Office 365 Tenant page](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant).
+For the Office 365 Tenant, the setup steps are detailed on the [Prepare your Office 365 tenant page](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant). Note that while the getting started page indicates that the Public Developer Preview is optional, this lab includes steps that are not possible unless the preview is enabled. Information about the Developer Preview program and participation instructions are detailed on the [What is the Developer Preview for Microsoft Teams? page](https://docs.microsoft.com/en-us/microsoftteams/platform/resources/dev-preview/developer-preview-intro).
 
 ### Install developer tools
 
@@ -28,7 +28,7 @@ This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS 
 
 Download and install the [bot template for C#](https://github.com/Microsoft/BotFramework-Samples/tree/master/docs-samples/CSharp/Simple-LUIS-Notes-Sample/VSIX) from Github. Additional step-by-step information for creating a bot to run locally is available on the [Create a bot with the Bot Builder SDK for .NET page](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-quickstart?view=azure-bot-service-3.0) in the Azure Bot Service documentation.
 
-  > **Note:** This lab uses the BotBuilder V3 SDK. BotBuilder V4 SDK was recently released. All new development should be targeting the BotBuilder V4 SDK. In our next release, this sample will be updated to the BotBuilder V4 SDK.
+  > **Note:** This lab uses the BotBuilder v3 SDK. BotBuilder v4 SDK was recently released. All new development should be targeting the BotBuilder v4 SDK. In our next release, this sample will be updated to the BotBuilder v4 SDK.
 
 <a name="exercise1"></a>
 
@@ -36,13 +36,15 @@ Download and install the [bot template for C#](https://github.com/Microsoft/BotF
 
 This section of the lab creates a bot framework bot and extends it with Microsoft Teams functionality. In this exercise, you will create a bot to respond to events in Microsoft Teams and to use the Microsoft Teams-specific bot APIs to interrogate the context in which the bot is running.
 
-1. Launch Visual Studio 2017 as an administrator.
+1. Launch **Visual Studio 2017** as an administrator: right-click **Visual Studio 2017** and select **Run as administrator**.
 
 1. In Visual Studio 2017, select **File > New > Project**.
 
-1. Create a new Visual C# project using the **Bot Builder Echo Bot**.
+1. Create a new Visual C# project using the **Bot Builder Echo Bot** (**Visual C# > Bot Framework > Bot Builder Echo Bot**).
 
    ![Screenshot of new project menu in Visual Studio.](Images/Exercise1-01.png)
+
+   > **Note:** The template may also be called the **Simple Echo Bot Application** depending when you installed the bot template for Visual Studio.
 
 1. Build the solution to download all configured NuGet packages. In order to run the bot inside Microsoft Teams:
 
@@ -53,23 +55,22 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 ### Find the project URL
 
-1. In Solution Explorer, double-click on **Properties**.
+1. In **Solution Explorer** tool window, double-click on **Properties**.
 
-1. In the properties designer, select the **Web** tab.
+1. In the **Properties** designer, select the **Web** tab.
 
-1. Note the project URL.
+1. Note the **Project Url**.
 
     ![Screenshot of Solution Explorer highlighting project URL.](Images/Exercise1-02.png)
 
 ### Run the ngrok secure tunnel application
 
 1. Open a new **Command Prompt** window.
-
 1. Change to the directory that contains the **ngrok.exe** application.
 
-1. Run the command `ngrok http [port] -host-header=localhost:[port]`. Replace `[port]` with the port portion of the URL noted above.
+1. Run the command `ht= http [port] -host-header=localhost:[port]`. Replace `[port]` with the port portion of the URL noted above.
 
-1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
+    The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
 1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
 
@@ -79,7 +80,7 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 1. Go to the [Microsoft Bot Framework](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work or school account or a Microsoft account.
 
-> **NOTE:** You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.
+    > **NOTE:** You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure.
 
 1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
 
@@ -97,7 +98,7 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
 
-> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
+    > **Note:** The Bot migration message (shown in red) can be ignored for Microsoft Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
 
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
@@ -113,13 +114,13 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 The bot project must be configured with information from the registration.
 
-1. In **Visual Studio**, open the **Web.config** file. Locate the `<appSettings>` section.
+1. In **Visual Studio**, open the **Web.config** file and locate the `<appSettings>` section.
 
-1. Enter the `BotId`. The `BotId` is the **Bot handle** from the **Configuration** section of the registration.
+1. Enter the `BotId`. The `BotId` is the **Bot handle** from the **Configuration** section of the bot registration.
 
-1. Enter the `MicrosoftAppId` from the **Configuration** section of the registration.
+1. Enter the `MicrosoftAppId` from the **Configuration** section of the app registration.
 
-1. Enter the `MicrosoftAppPassword`, the auto-generated app password displayed in the dialog box during registration.
+1. Enter the `MicrosoftAppPassword`, the auto-generated app password displayed in the dialog box during app registration.
 
     > **Note:** If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
 
@@ -129,11 +130,11 @@ Packaging a bot for Microsoft Teams requires that a manifest file and related re
 
 1. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **Manifest**.
 
-1. Add the displayed files from the **Lab Files** folder of this repository.
+1. Add the displayed files from the **[Lab Files](./Lab%20Files)** folder of this lab.
 
     ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise1-08.png)
 
-1. Open the **manifest.json** file just added to the project. The `manifest.json` file requires several updates:
+1. Open the **manifest.json** file just added to the project. The **manifest.json** file requires several updates:
     - The `id` property must contain the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
     - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
     - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
@@ -142,7 +143,7 @@ Packaging a bot for Microsoft Teams requires that a manifest file and related re
 
 ### Compress the manifest folder
 
-1. In Solution Explorer, right-click on the project and choose **Unload Project**. If prompted, select **Yes** to save changes.
+1. In the **Solution Explorer** tool window, right-click on the project and choose **Unload Project**. If prompted, select **Yes** to save changes.
 
     ![Screenshot of Solution Explorer with unload project highlighted.](Images/Exercise1-09.png)
 
@@ -195,9 +196,9 @@ Packaging a bot for Microsoft Teams requires that a manifest file and related re
 
 1. Save and close the project file.
 
-1. In Solution Explorer, right-click on the project and choose **Reload Project**.
+1. In the **Solution Explorer** tool window, right-click on the project and choose **Reload Project**.
 
-1. Press **Ctrl+Shift+B** to build the project. The new **AfterBuild target** will run, creating a zip file in the build output folder **`bin`**.
+1. Press **Ctrl+Shift+B** to build the project. The new **AfterBuild target** will run, creating a zip file in the build output folder **bin**.
 
 ### Install the Microsoft.Bot.Connector.Teams package
 
@@ -210,7 +211,7 @@ The Microsoft Teams engineering group built and maintains extensions to the Bot 
 
 Both packages install dependencies, including the Bot Builder SDK.
 
-1. In Visual Studio, install the **Microsoft.Bot.Connector.Teams** package via the **Package Manager Console**.
+1. In Visual Studio, install the **Microsoft.Bot.Connector.Teams** package via the **Tools > NuGet Package Manager > Package Manager Console**.
 
     ```powershell
     Install-Package Microsoft.Bot.Connector.Teams
@@ -221,7 +222,6 @@ Both packages install dependencies, including the Bot Builder SDK.
 The project template creates a messages controller that receives messages from the bot service. This controller checks the incoming activity to determine if it is a user or system message. This step of the lab will implement the system message handling.
 
 1. Open the file **Controllers/MessagesController.cs**.
-
 1. Add the following statements to the top of the file.
 
     ```cs
@@ -233,7 +233,7 @@ The project template creates a messages controller that receives messages from t
     using System.Linq;
     ```
 
-1. Locate the `HandleSystemMessage` method. Replace the method with the following code. The code is available in the **Lab Files/HandleSystemMessageAsync.cs** file.
+1. Locate the `HandleSystemMessage` method. Replace the method with the following code. The code is available in the **[Lab Files\HandleSystemMessageAsync.cs](./Lab%20Files/HandleSystemMessageAsync.cs)** file.
 
     ```cs
     private async Task<Activity> HandleSystemMessageAsync(Activity message)
@@ -305,9 +305,18 @@ The project template creates a messages controller that receives messages from t
     await HandleSystemMessageAsync(activity);
     ```
 
-1. In **Solution Explorer**, add a new class named `MessageHelpers` to the project.
+1. In the **Solution Explorer** tool window, add a new class file named **MessageHelpers** to the project.
 
-1. Replace the generated `MessageHelpers` class with the following code. The code is in the `Lab Files/MessageHelpers.cs` file. (Note that the help message includes capabilities that are implemented later in this lab.)
+1. Add the following statements to the top of the **MessageHelpers.cs** file.
+
+    ```cs
+    using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using System.Text;
+    using System.Threading.Tasks;
+    ```
+
+1. Replace the generated `MessageHelpers` class with the following code. The code is in the **[Lab Files\MessageHelpers.cs](./Lab%20Files/MessageHelpers.cs)** file. (*Note that the help message includes capabilities that are implemented later in this lab.*)
 
     ```cs
     public class MessageHelpers
@@ -356,16 +365,7 @@ The project template creates a messages controller that receives messages from t
     }
     ```
 
-1. Add the following statements to the top of the **MessageHelpers.cs** file.
-
-    ```cs
-    using Microsoft.Bot.Connector;
-    using Microsoft.Bot.Connector.Teams.Models;
-    using System.Text;
-    using System.Threading.Tasks;
-    ```
-
-1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
+1. In Visual Studio, press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
 
 ### Upload app into Microsoft Teams
 
@@ -399,9 +399,9 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 ### Using the Teams API to receive and send files
 
-A bot can directly send and receive files with users in the personal context using Teams APIs. Files shared in Teams typically appear as cards, and allow rich in-app viewing. This step of the lab demonstrates sending and receiving files. (Files sent to the bot are simply echoed back to the user. To receive a file from the bot, the `resume` command will send a résumé of the specified candidate.)
+A bot can directly send and receive files with users in the personal context using Teams APIs. Files shared in Teams typically appear as cards, and allow rich in-app viewing. This step of the lab demonstrates sending and receiving files. (Files sent to the bot are simply echoed back to the user. To receive a file from the bot, the **resume** command will send a résumé of the specified candidate.)
 
-1. Stop the debugger.
+1. If the **Visual Studio 2017** debugger is still running from the previous step, stop the debugger.
 
 1. Open the **manifest.json** file in the **Manifest** folder.
 
@@ -414,7 +414,7 @@ A bot can directly send and receive files with users in the personal context usi
         "supportsFiles": true,
         "scopes": [
           "personal",
-         "team"
+          "team"
         ]
       }
     ],
@@ -569,7 +569,7 @@ A bot can directly send and receive files with users in the personal context usi
     context.Wait(MessageReceivedAsync);
     ```
 
-1. Below the MessageReceivedAsync method, add this method to the RootDialog class.
+1. Below the **MessageReceivedAsync** method, add this method to the **RootDialog** class.
 
     ```cs
     private static async Task HandleResumeCommand(IDialogContext context, string[] keywords)
@@ -617,7 +617,7 @@ A bot can directly send and receive files with users in the personal context usi
     }
     ```
 
-1. Open the MessageHelpers.cs file and add the following using statement at the top:
+1. Open the **MessageHelpers.cs** file and add the following using statement at the top:
 
     ```cs
     using Microsoft.Bot.Builder.Dialogs;
@@ -632,9 +632,21 @@ A bot can directly send and receive files with users in the personal context usi
     }
     ```
 
-1. In **Solution Explorer**, add a new class named `FileHelpers` to the project.
+1. In the **Solution Explorer** tool window, add a new class file named **FileHelpers** to the project.
 
-1. Replace the generated `FileHelpers` class with the following code. The code is in the `Lab Files/FileHelpers.cs` file.
+1. Add the following statements to the top of the **FileHelpers.cs** file.
+
+    ```cs
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using Newtonsoft.Json.Linq;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    ```
+
+1. Replace the generated `FileHelpers` class with the following code. The code is in the **[Lab Files\FileHelpers.cs](Lab%20Files/FileHelpers.cs)** file.
 
     ```cs
     public class FileHelpers
@@ -722,31 +734,20 @@ A bot can directly send and receive files with users in the personal context usi
     }
     ```
 
-1. Add the following statements to the top of the **FileHelpers.cs** file.
-
-    ```cs
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Connector;
-    using Microsoft.Bot.Connector.Teams.Models;
-    using Newtonsoft.Json.Linq;
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    ```
-
-1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
-
+1. In Visual Studio, press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
 1. In a private chat with the bot, the message compose area now includes the attachment icon. Selecting the icon presents a context menu with the supported choices for the source of the file.
 
     ![Screenshot of the Microsoft Teams message compose control with the attachment icon highlighted](Images/Exercise1-15.png)
 
-1. Continue to select and upload a file. You must select the send button after the file is uploaded.
+1. Continue to select and upload a text file. You must select the send button after the file is uploaded.
 
 1. In a private chat with the bot, issue the command `resume john smith`. The bot will respond with a **FileConsent** card. The bot can only send files when consent is granted by the user.
 
 1. Once consent is granted, the bot can upload the file to the OneDrive of the user. The bot will display a `FileInfo` card, enabling the user to view the file.
 
     ![Screenshot of the bot conversation displaying sent and received files.](Images/Exercise1-16.png)
+
+1. In **Visual Studio 2017**, stop the application.
 
 <a name="exercise2"></a>
 
@@ -760,15 +761,15 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     Install-Package Bogus
     ```
 
-1. The messaging extension code requires data that can be displayed. The data generation code and supporting images are provided in the **LabFiles\DataModel** folder. The files in this folder can be added to the project without modification. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **DataModels**.
+1. The messaging extension code requires data that can be displayed. The data generation code and supporting images are provided in the **[Lab Files\DataModel](./Lab%20Files/DataModel)** folder. The files in this folder can be added to the project without modification. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **DataModels**.
 
-1. Add the displayed files from the **LabFiles\DataModel** folder to the **DataModels** folder in Visual Studio.
+1. Add the displayed files from the **[Lab Files\DataModel](./Lab%20Files/DataModel)** folder to the **DataModels** folder in Visual Studio.
 
     ![Screenshot of the Solution Explorer window with the DataModels folder highlighted](Images/Exercise2-01.png)
 
 1. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **images**.
 
-1. Add the displayed files from the **LabFiles\DataModel\images** folder to the **images** folder in Visual Studio.
+1. Add the displayed files from the **[Lab Files\DataModel\images](./Lab%20Files/DataModel/images)** folder to the **images** folder in Visual Studio.
 
     ![Screenshot of the Solution Explorer window with the images folder highlighted](Images/Exercise2-02.png)
 
@@ -813,7 +814,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     }
     ```
 
-1. In **Solution Explorer**, add a new class to the project. Name the class **MessagingExtensionHelper**. Add the code from the **Lab Files/MessagingExtensionHelper.cs** file.
+1. In the **Solution Explorer** tool window, add a new class to the project. Name the class **MessagingExtensionHelper**. Add the code from the **[Lab Files\MessagingExtensionHelper.cs](./Lab%20Files/MessagingExtensionHelper.cs)** file.
 
 1. Add the following to the top of the **MessagingExtensionHelper.cs** file.
 
@@ -827,7 +828,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     using System.Threading.Tasks;
     ```
 
-1. In **Solution Explorer**, add a new class to the project. Name the class **CardHelper**. Add the code from the **Lab Files/CardHelper.cs** file.
+1. In the **Solution Explorer** tool window, add a new class to the project. Name the class **CardHelper**. Add the code from the **[Lab Files\CardHelper.cs](./Lab%20Files/CardHelper.cs)** file.
 
 1. Add the following to the top of the **CardHelper.cs** file.
 
@@ -839,7 +840,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     using OfficeDev.Talent.Management;
     ```
 
-1. In **Solution Explorer**, add a new JSON file to the project. Name the file **cardtemplate.json**. Add the code from the **Lab Files/cardtemplate.json** file.
+1. In the **Solution Explorer** tool window, add a new JSON file to the project. Name the file **cardtemplate.json**. Add the code from the **[Lab Files\cardtemplate.json](./Lab%20Files\cardtemplate.json)** file.
 
 1. Open the **manifest.json** file in the **Manifest** folder. Locate the `composeExtensions` node and replace it with the following snippet. Replace the `[MicrosoftAppId]` token with the app ID from the settings page of the [bot registration](https://dev.botframework.com).
 
@@ -870,7 +871,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     ],
     ```
 
-1. Press **F5** to re-build the app package and start the debugger.
+1. In **Visual Studio 2017**, press **F5** to re-build the app package and start the debugger.
 
 1. Re-upload the app. Since the **manifest.json** file has been updated, the bot must be re-uploaded to the Microsoft Teams application.
 
@@ -932,9 +933,9 @@ This section of the lab extends the bot to answer specific commands with Cards t
     #endregion
     ```
 
-1. In **Solution Explorer**, add a new class named `CommandHandlers` to the project.
+1. In the **Solution Explorer** tool window, add a new lass named **CommandHandlers** to the project.
 
-1. Replace the generated `CommandHandlers` class with the code in the `Lab Files/CommandHandlers.cs` file.
+1. Replace the generated `CommandHandlers` class with the code in the **[Lab Files\CommandHandlers.cs](./Lab%20Files/CommandHandlers.cs)** file.
 
 1. Add the following using statements at the top of the `CommandHandlers` class:
 
@@ -948,17 +949,16 @@ This section of the lab extends the bot to answer specific commands with Cards t
     using System.Threading.Tasks;
     ```
 
-To understand how cards are used in Bot messages, review the following methods in the `CommandHandlers` class:
+    To understand how cards are used in Bot messages, review the following methods in the `CommandHandlers` class:
 
-- The `SendScheduleInterviewMessage` method creates an Office 365 Connector card. This card captures user input and contains an action to post the data back to the bot. The card data is sent using an `invoke` message.
-
-- The `SendCandidateDetailsMessage` method creates an Adaptive card showcasing many capabilities of Adaptive cards.
+    - The `SendScheduleInterviewMessage` method creates an Office 365 Connector card. This card captures user input and contains an action to post the data back to the bot. The card data is sent using an `invoke` message.
+    - The `SendCandidateDetailsMessage` method creates an Adaptive card showcasing many capabilities of Adaptive cards.
 
 1. To process the Office 365 Connector card invoke, open the **MessagesController.cs** file.
 
 1. In the `Post` method, locate the `if` block that tests for the `activity.Name == "fileConsent/invoke"`.
 
-1. Add the following after that block.
+1. Add the following code after that block.
 
     ```cs
     else if (activity.IsO365ConnectorCardActionQuery())
@@ -972,14 +972,14 @@ To understand how cards are used in Bot messages, review the following methods i
     }
     ```
 
-1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has not changed, there is no need to re-uploaded the app.
+1. In Visual Studio, press **F5** to compile, create the package and start the debugger. Since the manifest file has not changed, there is no need to re-uploaded the app.
 
 1. In a channel with the bot added, @ mention the bot with the command **schedule John Smith 0F812D01**. (The name and id specified do not matter, but the command must have 4 words.)
 
 1. The bot will display a card with a date picker.
 
-  ![Screenshot of Microsoft Teams showing a message with a card containing a date picker](Images/Exercise3-01.png)
+    ![Screenshot of Microsoft Teams showing a message with a card containing a date picker](Images/Exercise3-01.png)
 
 1. Enter or select a date and select the **Schedule** button. The bot will reply with a message containing the schedule details.
 
-  ![Screenshot of Microsoft Teams showing a message and reply with interview details](Images/Exercise3-02.png)
+    ![Screenshot of Microsoft Teams showing a message and reply with interview details](Images/Exercise3-02.png)

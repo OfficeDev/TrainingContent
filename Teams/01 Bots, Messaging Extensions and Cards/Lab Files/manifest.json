@@ -26,10 +26,11 @@
     "bots": [
         {
             "botId": "[microsoft-app-id]",
+            "supportsFiles": true,
             "scopes": [
+              "personal",
               "team"
-            ]
-        }
+            ]        }
     ],
     "composeExtensions": [],
     "permissions": [
