@@ -10,7 +10,7 @@ In this lab, you will walk through building, packaging, and deploying your Micro
 
 - [Create and test a basic Microsoft Teams app using Yeoman](./Demos/01-teams-app-yeoman)
 - [Create and test a basic Microsoft Teams bot using Visual Studio](./Demos/02-teams-bot-visual-studio)
-- [Build a Microsoft Teams Tab](./Demos/03-tab-graph)
+- [Call the Microsoft Graph API inside a tab](./Demos/03-tab-graph)
 
 ## Watch the Module
 
