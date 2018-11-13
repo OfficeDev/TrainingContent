@@ -51,7 +51,9 @@ export class teamsApp1Tab extends TeamsBaseComponent<IteamsApp1TabProps, IteamsA
           this.getData(this.token);
         },
         failureCallback: function (err) {
-          document.getElementById("app")!.innerHTML = "Failed to authenticate and get token.<br/>" + err;
+          this.setState({
+            graphData: "Failed to authenticate and get token.<br/>" + err;
+          });
         }
       });
     }
@@ -68,7 +70,9 @@ export class teamsApp1Tab extends TeamsBaseComponent<IteamsApp1TabProps, IteamsA
       req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
       req.send();
       var result = JSON.parse(req.responseText);
-      document.getElementById("app")!.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+      this.setState({
+        graphData: JSON.stringify(result, null, 2)
+      });
     }
 
     public componentWillMount() {
