@@ -24,39 +24,61 @@
 -->
 
 <html>
+
 <head>
-	<title>Silent Authentication Sample Login</title>
+  <title>Silent Authentication Sample Login</title>
 </head>
+
 <body>
-	<script src="https://unpkg.com/@microsoft/teams-js@1.3.5/dist/MicrosoftTeams.min.js" integrity="sha384-t1ID2NmMGB5huCWZdo2EV4RXQ9H/+VDaxxWeUfWuuVuYIc62+Xj7M5re4yqbpbDt" crossorigin="anonymous"></script>
-	<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js" integrity="sha384-lIk8T3uMxKqXQVVfFbiw0K/Nq+kt1P3NtGt/pNexiDby2rKU6xnDY8p16gIwKqgI" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@microsoft/teams-js@1.3.5/dist/MicrosoftTeams.min.js" integrity="sha384-t1ID2NmMGB5huCWZdo2EV4RXQ9H/+VDaxxWeUfWuuVuYIc62+Xj7M5re4yqbpbDt"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
+  <script src="https://secure.aadcdn.microsoftonline-p.com/lib/0.2.3/js/msal.js"></script>
 
-	<script type="text/javascript">
-		microsoftTeams.initialize();
+  <script type="text/javascript">
 
-		// ADAL.js configuration
-		let config = {
-			clientId: "[AAD-app-id]",
-			redirectUri: window.location.origin + "/Tabs/auth.html",       // This should be in the list of redirect uris for the AAD app
-			cacheLocation: "localStorage",
-			navigateToLoginRequestUrl: false
-		};
-		let authContext = new AuthenticationContext(config);
+    microsoftTeams.initialize();
 
-		if (authContext.isCallback(window.location.hash)) {
-			authContext.handleWindowCallback(window.location.hash);
-			// Only call notifySuccess or notifyFailure if this page is in the authentication popup
-			if (window.opener) {
-				if (authContext.getCachedUser()) {
-					microsoftTeams.authentication.notifySuccess();
-				} else {
-					microsoftTeams.authentication.notifyFailure(authContext.getLoginError());
-				}
-			}
-		}
-		else {
-			authContext.login();
-		}
-	</script>
+    let applicationConfig = {
+      clientID: "[AzureAppId]",
+      tenantID: "[AzureTenantName]",
+      graphScopes: ["Group.Read.All", "User.Read.All"]
+    };
+
+    let authority = "https://login.microsoftonline.com/" + applicationConfig.tenantID;
+
+    var logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose });
+
+    function loggerCallback(logLevel, message, piiLoggingEnabled) {
+      console.log(message);
+    }
+
+    let userAgentApp = new Msal.UserAgentApplication(applicationConfig.clientID, authority, acquireTokenRedirectCallBack,
+      { storeAuthStateInCookie: true, cacheLocation: "localStorage", logger: logger });
+
+
+    userAgentApp.acquireTokenSilent(applicationConfig.graphScopes).then(function (accessToken) {
+      microsoftTeams.authentication.notifySuccess(accessToken);
+    }, function (error) {
+      console.log(error);
+      userAgentApp.acquireTokenRedirect(applicationConfig.graphScopes);
+    });
+
+    function acquireTokenRedirectCallBack(errorDesc, token, error, tokenType) {
+      if (token) {
+        this.acquireTokenSilent(applicationConfig.graphScopes).then(function (accessToken) {
+          microsoftTeams.authentication.notifySuccess(accessToken);
+        }, function (error) {
+          console.log(error);
+        });
+      }
+      else if (errorDesc || error) {
+        console.log(error + ':' + errorDesc);
+        userAgentApp.loginRedirect(applicationConfig.graphScopes, authority);
+      }
+    }
+
+  </script>
 </body>
+
 </html>
