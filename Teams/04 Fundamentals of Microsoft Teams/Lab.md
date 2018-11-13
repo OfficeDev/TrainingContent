@@ -308,7 +308,7 @@ Packaging a bot for Microsoft Teams is identical to packaging a tab. A manifest 
 
 1. Right-click on the project, choose **Add > New Folder**. Name the folder **Manifest**.
 
-1. Add the displayed files from the **Lab Files** folder of this repository.
+1. Add the files from the **[Lab Files](./Lab%20Files)** folder of this lab shown in the following figure:
 
     ![Screenshot of Visual Studio file list highlighting bot manifest folder.](Images/Exercise2-09.png)
 
@@ -410,7 +410,7 @@ Although not strictly necessary, in this lab you will add the bot to a new team.
 
 ## Exercise 3: Call the Microsoft Graph API inside a tab
 
-This section of the lab will extend the tab created in Exercise 1 to call the Microsoft Graph API. The exercise contains many code files. The **Lab Files** folder contains files that contain the code and are provided to facilitate copying the code.
+This section of the lab will extend the tab created in Exercise 1 to call the Microsoft Graph API. The exercise contains many code files. The **[Lab Files](/Lab%20Files)** folder contains files that contain the code and are provided to facilitate copying the code.
 
 ### Run the ngrok secure tunnel application
 
@@ -474,7 +474,7 @@ To enable an application to call the Microsoft Graph API, an application registr
 
 1. In the **Select Permission** dialog, scroll down and select **Group.Read.All**. Select **OK**.
 
-      ![Screenshot of permissions menu in application registration portal.](Images/Exercise3-05.png)
+    ![Screenshot of permissions menu in application registration portal.](Images/Exercise3-05.png)
 
 1. Select **Save**.
 
@@ -494,7 +494,7 @@ To enable an application to call the Microsoft Graph API, an application registr
 
 The tab in this exercise can be configured to read information from Microsoft Graph API about the current member or about the group in which the channel exists. Perform the following to update the tab configuration.
 
-**Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
+> **Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
 
 1. Open the file **scripts/teamsApp1TabConfig.tsx**.
 1. At the top of the file is an `import` statement with several components from `msteams-ui-components-react`. Add `Dropdown` to the list of components.
@@ -695,7 +695,7 @@ The tab in this exercise can be configured to read information from Microsoft Gr
     export * from './adminconsent';
     ```
 
-1. Following the steps from [Exercise 1]("#exercise1") , redeploy the app.
+1. Following the steps from [Exercise 1]("#exercise1"), redeploy the app.
 
 1. Add the tab to a channel, or update the settings of the tab in the existing channel. To update the settings of an existing tab, select the chevron next to the tab name.
 
@@ -713,7 +713,7 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 
 With the tab configured, the content page can now render information as selected.  Perform the following to update the tab content.
 
-**Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
+> **Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
 
 1. Open the file **scripts/teamsApp1Tab.tsx**.
 
