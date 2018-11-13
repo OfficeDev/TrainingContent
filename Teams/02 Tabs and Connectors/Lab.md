@@ -31,13 +31,13 @@ You can use any code editor or IDE that supports these technologies, however the
 
 ### Starter solution
 
-The exercises in this lab will extend the Microsoft Teams app built in the module [01 - Bots, Messaging Extensions and Cards](../01%20Bots%2C%20Messaging%20Extensions%20and%20Cards). A working copy of that application is in the **LabFiles\Starter** folder.
+The exercises in this lab will extend the Microsoft Teams app built in the module [01 - Bots, Messaging Extensions and Cards](../01%20Bots%2C%20Messaging%20Extensions%20and%20Cards). A working copy of that application is in the **[LabFiles\Starter](./LabFiles\Starter)** folder of this lab.
 
 If you completed module 1, then you may skip ahead to [Exercise 1 - Tabs](#exercise1)
 
 ## Update Starter solution
 
-1. Launch Visual Studio 2017 as an administrator.
+1. Launch **Visual Studio 2017** as an administrator: right-click **Visual Studio 2017** and select **Run as administrator**.
 
 1. In Visual Studio 2017, select **File > Open > Project/Solution**.
 
@@ -71,7 +71,7 @@ If you completed module 1, then you may skip ahead to [Exercise 1 - Tabs](#exerc
 
 1. Go to the [Microsoft Bot Framework](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work or school account or a Microsoft account.
 
-> **NOTE:** You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.
+> **NOTE:** You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure.
 
 1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
 
@@ -89,7 +89,7 @@ If you completed module 1, then you may skip ahead to [Exercise 1 - Tabs](#exerc
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
 
-> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
+> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
 
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
@@ -107,11 +107,11 @@ The bot project must be configured with information from the registration.
 
 1. In **Visual Studio**, open the **Web.config** file. Locate the `<appSettings>` section.
 
-1. Enter the `BotId`. The `BotId` is the **Bot handle** from the **Configuration** section of the registration.
+1. Enter the `BotId`. The `BotId` is the **Bot handle** from the **Configuration** section of the bot registration.
 
-1. Enter the `MicrosoftAppId` from the **Configuration** section of the registration.
+1. Enter the `MicrosoftAppId` from the **Configuration** section of the app registration.
 
-1. Enter the `MicrosoftAppPassword`, the auto-generated app password displayed in the dialog box during registration.
+1. Enter the `MicrosoftAppPassword`, the auto-generated app password displayed in the dialog box during app registration.
 
     > **Note:** If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
 
@@ -120,7 +120,7 @@ The bot project must be configured with information from the registration.
     - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
     - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
     - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
-    - The `botId` property in the `composeExtensions` collection property also requires the app ID from registratation. Replace the token `[microsoft-app-id]` with the app ID.
+    - The `botId` property in the `composeExtensions` collection property also requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
     - Save and close the **manifest.json** file.
 
 1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
@@ -160,6 +160,7 @@ The app is now installed. The following exercises will extend this app.
 ## Exercise 1: Tabs
 
 1. Ensure that the following pre-requisites are complete:
+
     - The updated starter solution or the solution from module 1 is open in Visual Studio 2017.
 
     - The ngrok secure tunnel application is running with the correct local URL.
@@ -168,9 +169,11 @@ The app is now installed. The following exercises will extend this app.
 
     - The app has been uploaded to Microsoft Teams.
 
-1. In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder Tabs.
+1. In Visual Studio 2017, if the debugger is still running from the previous setup steps, stop the debugger.
 
-1. Add the displayed files from the **Lab Files** folder of this repository.
+1. In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder **Tabs**.
+
+1. Add the five (5) files shown in the following figure from the **[LabFiles\Tabs](./LabFiles/Tabs)** folder of this lab.
 
     ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise1-01.png)
 
@@ -191,13 +194,13 @@ The app is now installed. The following exercises will extend this app.
 
 1. Open the **channelconfig.html** file in the **Tabs** folder.
 
-1. Add the following tag within the `<head>` tag in the file. This script will perform the following required steps for tab configuration:
+1. Add the following code tag within the `<head>` tag in the file. This script will perform the following required steps for tab configuration:
     - Initialize the Microsoft Teams Library.
     - Set the 'Save' Button state based on the field content.
     - Register a function as the Save Handler
     - Set the Microsoft Teams settings for the tab, including the url of the content page and the Entity Id for the tab.
 
-    ```javascript
+    ```js
     <script type="text/javascript">
       $(document).ready(function () {
 
@@ -310,7 +313,7 @@ Configurable tabs are displayed in a channel.
 
 1. Tabs are not automatically displayed for the team. To add the tab, select **General** channel in the team.
 
-1. Select the **+** icon at the end of the tab strip.
+1. Select the **+** icon at the end of the tab strip in the main Microsoft Teams pane for the **General** channel, next to the existing **Wiki** tab.
 
 1. In the tab gallery, uploaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
 
@@ -326,7 +329,7 @@ Static tabs are displayed in the chat view with the bot.
 
 1. Select the **Chat** icon in the left-side panel of Microsoft Teams.
 
-1. Select the conversation with the Talent Management Bot.
+1. Select the conversation with the **Talent Management Bot**.
 
 1. The new tab is shown in the Tab Strip above the conversation. Select the tab to display the html page.
 
@@ -340,25 +343,32 @@ Connectors for Microsoft Teams must be registered on the [Connectors Developer D
 
 1. In a browser, navigate to https://aka.ms/connectorsdashboard.
 
-1. Select New Connector
+1. Select **New Connector**.
 
-1. Provide a name, logo, descriptions and website for the connector.
+1. Use the following details to udpate the form:
+  - **Connector name**: OfficeDev Team Management
+  - **Short description of yoru app**: Team management
+  - **Detailed description of what your Connector does**: Connector created for team management
+  - **Company webiste**: *{enter the ngrok URL}*
+  - **Configuration page for your Connector**: *{enter the ngrok URL}*
 
-1. The **Configuration page for your Connector** is not used for Microsoft Teams, however a url must be provided.
+    > NOTE: This field is not used by Microsoft Teams, but you must enter something.
 
-1. The **Valid domains** is used for actionable messages. Provide the forwarding address from the ngrok tunnel application.
+  - **Valid domains**: https://f044969c.ngrok.io
+
+    > NOTE: This field is used for actionable messages.
 
 1. Accept the terms and conditions and select **Save**. The page will refresh with additional information.
 
     ![Screenshot of the Connector Developer Dashboard showing a registered connector.](Images/Exercise2-02.png)
 
-1. The connector Id is required for the Teams manifest. The Id is included in the query string of the completed page on the Connector Developer Dashboard. Alternatively, download the manifest and copy from the generated file. (You will add the connector to the existing Teams app, so the downloaded manifest is not necessary.)
+1. The connector Id is required for the Teams manifest. The Id is included in the URL of the completed page on the Connector Developer Dashboard. Alternatively, download the manifest and copy from the generated file. (You will add the connector to the existing Teams app, so the downloaded manifest is not necessary.)
 
-Update the Visual Studio solution.
+Now, update the Visual Studio solution.
 
-1. In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder Connector.
+1. In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder **Connector**.
 
-1. Add the displayed files from the **Lab Files** folder of this repository.
+1. Add the two (2) files from the **[LabFiles\Connector](./LabFiles/Connector)** folder of this repository.
 
     ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise2-01.png)
 
@@ -406,7 +416,7 @@ Update the Visual Studio solution.
 
 1. Open the **manifest.json** file in the **Manifest** folder.
 
-1. Locate the `configurableTabs` node of the **manifest.json** file. Add the following node as a sibling (at the same level) as the `configurableTabs` node. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address from the ngrok tunnel application.
+1. Locate the `configurableTabs` node of the **manifest.json** file. Add the following node as a sibling (at the same level) as the `configurableTabs` node. 
 
     ```json
     "connectors": [
@@ -420,18 +430,20 @@ Update the Visual Studio solution.
     ],
     ```
 
+    1. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address from the ngrok tunnel application.
+    1. Replace the token `[from-connector-dashboard]` with the unique identifier for the connector you just created.
+
 1. Locate the `validDomains` node in the **manifest.json**. Ensure that the host from the ngrok forwarding address is included in the `validDomains` node. (Do not enter the URI scheme, only the host. For example: `ab29ba51.ngrok.io`).
 
 1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
 
 ## Connect to a channel
 
-1. To add the connector, select the elipsis to the right of **General** channel in the team. Then select **Connectors**.
+1. To add the connector, select the ellipsis to the right of **General** channel in the team. Then select **Connectors**.
 
     ![Screenshot of Teams showing steps to add a connector](Images/Exercise2-03.png)
 
-1. Connectors from uploaded Microsoft Teams app displayed at the bottom of this list. Scroll to the bottom and choose
-**OfficeDev Talent Management**.
+1. Connectors from uploaded Microsoft Teams app displayed at the bottom of this list. Scroll to the bottom and choose **OfficeDev Talent Management**.
 
     ![Screenshot of Connector list highlighting the uploaded app](Images/Exercise2-04.png)
 
