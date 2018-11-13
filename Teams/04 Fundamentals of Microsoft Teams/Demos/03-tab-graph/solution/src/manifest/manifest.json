@@ -1,14 +1,14 @@
 {
   "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
   "manifestVersion": "1.2",
-  "id": "d0bfd1a4-aab0-72f6-0bb8-1400d18f3cb5",
+  "id": "95d0e46f-d419-2aff-13e0-73c344750f1c",
   "version": "0.0.1",
-  "packageName": "io.ngrok.dbef3d7d",
+  "packageName": "io.ngrok.89bc667e",
   "developer": {
-    "name": "Office Developer",
-    "websiteUrl": "https://dbef3d7d.ngrok.io",
-    "privacyUrl": "https://dbef3d7d.ngrok.io/privacy.html",
-    "termsOfUseUrl": "https://dbef3d7d.ngrok.io/tou.html"
+    "name": "Andrew Connell",
+    "websiteUrl": "https://89bc667e.ngrok.io",
+    "privacyUrl": "https://89bc667e.ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://89bc667e.ngrok.io/tou.html"
   },
   "name": {
     "short": "teams app1",
@@ -25,7 +25,7 @@
   "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://dbef3d7d.ngrok.io/teamsApp1TabConfig.html",
+      "configurationUrl": "https://89bc667e.ngrok.io/teamsApp1TabConfig.html",
       "canUpdateConfiguration": true,
       "scopes": [
         "team"
@@ -41,6 +41,6 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "dbef3d7d.ngrok.io"
+    "89bc667e.ngrok.io"
   ]
 }

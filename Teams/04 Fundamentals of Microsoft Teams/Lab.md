@@ -596,7 +596,7 @@ The tab in this exercise can be configured to read information from Microsoft Gr
     </PanelBody>
     ```
 
-1. Add a new file to the **web** folder named **adminconsent.html**.
+1. Add a new file to the **web** folder in the project named **adminconsent.html**.
 
 1. Add the following to the **adminconsent.html** file.
 
@@ -695,7 +695,10 @@ The tab in this exercise can be configured to read information from Microsoft Gr
     export * from './adminconsent';
     ```
 
-1. Following the steps from [Exercise 1]("#exercise1"), redeploy the app.
+1. Following the steps from [Exercise 1]("#exercise1"), redeploy the app. To summarize:
+    - Execute `gulp manifest` from the command prompt to rebuild the manifest.
+    - Execute `gulp build` & `gulp serve` to rebuild & start the local web server.
+    - In Microsoft Teams, go to the **Manage Team** page, select **Apps** and re-upload the app.
 
 1. Add the tab to a channel, or update the settings of the tab in the existing channel. To update the settings of an existing tab, select the chevron next to the tab name.
 
@@ -708,6 +711,10 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 1. Verify that the Azure Active Directory login and consent flow completes. If you log in with an account that is not a tenant administrator, the consent action will fail. Admin consent is only necessary to view the group calendar, not the member information.
 
     ![Screenshot of Microsoft Teams consent page.](Images/Exercise3-08.png)
+
+    After selecting **Accept** to approve the permission request, you are taken back to Microsoft Teams.
+
+    Select **Save** in the **teams app1 > Settings** dialog.
 
 ### Content page and authentication
 
@@ -748,11 +755,11 @@ With the tab configured, the content page can now render information as selected
         height: 400,
         successCallback: (data) => {
           // Note: token is only good for one hour
-          token = data!;
-          this.getData(token);
+          this.token = data!;
+          this.getData(this.token);
         },
         failureCallback: function (err) {
-          document.getElementById("graph")!.innerHTML = "Failed to authenticate and get token.<br/>" + err;
+          document.getElementById("app")!.innerHTML = "Failed to authenticate and get token.<br/>" + err;
         }
       });
     }
@@ -773,7 +780,7 @@ With the tab configured, the content page can now render information as selected
       req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
       req.send();
       var result = JSON.parse(req.responseText);
-      document.getElementById("graph")!.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+      document.getElementById("app")!.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
     }
     ```
 

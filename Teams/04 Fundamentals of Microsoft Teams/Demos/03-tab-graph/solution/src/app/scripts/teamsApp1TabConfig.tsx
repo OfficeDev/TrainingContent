@@ -3,13 +3,13 @@ import {
     PrimaryButton,
     TeamsComponentContext,
     ConnectedComponent,
+    Dropdown,
     Panel,
     PanelBody,
     PanelHeader,
     PanelFooter,
     Input,
-    Surface,
-    Dropdown
+    Surface
 } from 'msteams-ui-components-react';
 import { render } from 'react-dom';
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from 'msteams-react-base-component'
@@ -27,12 +27,34 @@ export interface IteamsApp1TabConfigProps extends ITeamsBaseComponentProps {
  * Implementation of teams app1 Tab configuration page
  */
 export class teamsApp1TabConfig  extends TeamsBaseComponent<IteamsApp1TabConfigProps, IteamsApp1TabConfigState> {
-  configOptions = [
-    { key: 'MBR', value: 'Member information'},
-    { key: 'GRP', value: 'Group information (requires admin consent)'}
-  ];
-  selectedOption: string = "";
-  tenantId?: string = "";
+
+    configOptions = [
+      { key: 'MBR', value: 'Member information' },
+      { key: 'GRP', value: 'Group information (requires admin consent)' }
+    ];
+    selectedOption: string = "";
+    tenantId?: string = "";
+
+    private onConfigSelect(cfgOption: string) {
+      let selectedItem = this.configOptions.filter((pos, idx) => pos.key === cfgOption)[0];
+      if (selectedItem) {
+        this.setState({
+          selectedConfiguration: selectedItem.key
+        });
+        this.selectedOption = selectedItem.value;
+        this.setValidityState(true);
+      }
+    }
+
+    private getAdminConsent() {
+      microsoftTeams.authentication.authenticate({
+        url: "/adminconsent.html?tenantId=" + this.tenantId,
+        width: 800,
+        height: 600,
+        successCallback: () => { },
+        failureCallback: (err) => { }
+      });
+    }
 
     public componentWillMount() {
         this.updateTheme(this.getQueryVariable('theme'));
@@ -44,47 +66,27 @@ export class teamsApp1TabConfig  extends TeamsBaseComponent<IteamsApp1TabConfigP
             microsoftTeams.initialize();
 
             microsoftTeams.getContext((context: microsoftTeams.Context) => {
-                this.setState({
-                    selectedConfiguration: context.entityId
-                });
-                this.setValidityState(true);
+              this.tenantId = context.tid;
+              this.setState({
+                selectedConfiguration: context.entityId
+              });
+              this.setValidityState(true);
             });
 
             microsoftTeams.settings.registerOnSaveHandler((saveEvent: microsoftTeams.settings.SaveEvent) => {
                 // Calculate host dynamically to enable local debugging
                 const host = "https://" + window.location.host;
                 microsoftTeams.settings.setSettings({
-                    contentUrl: host + "/teamsApp1Tab.html?data=",
-                    suggestedDisplayName: 'teams app1 Tab',
-                    removeUrl: host + "/teamsApp1TabRemove.html",
-                    entityId: this.state.selectedConfiguration
+                  contentUrl: host + "/teamsApp1Tab.html?data=",
+                  suggestedDisplayName: 'teams app1 Tab',
+                  removeUrl: host + "/teamsApp1TabRemove.html",
+                  entityId: this.state.selectedConfiguration
                 });
                 saveEvent.notifySuccess();
             });
         } else {
         }
     }
-
-  private onConfigSelect(cfgOption: string) {
-    let selectedItem = this.configOptions.filter((pos, idx) => pos.key === cfgOption)[0];
-    if (selectedItem) {
-      this.setState({
-        selectedConfiguration: selectedItem.key
-      });
-      this.selectedOption = selectedItem.value;
-      this.setValidityState(true);
-    }
-  }
-
-  private getAdminConsent() {
-    microsoftTeams.authentication.authenticate({
-      url: "/adminconsent.html?tenantId=" + this.tenantId,
-      width: 800,
-      height: 600,
-      successCallback: () => { },
-      failureCallback: (err) => { }
-    });
-  }
 
     public render() {
         return (
@@ -109,23 +111,23 @@ export class teamsApp1TabConfig  extends TeamsBaseComponent<IteamsApp1TabConfigP
                                 <PanelHeader>
                                     <div style={styles.header}>Settings</div>
                                 </PanelHeader>
-                          <PanelBody>
-                            <div style={styles.section}>Microsoft Graph Functionality</div>
-                            <Dropdown
-                              autoFocus
-                              mainButtonText={this.selectedOption}
-                              style={{ width: '100%' }}
-                              items={
-                                this.configOptions.map((cfgOpt, idx) => {
-                                  return ({ text: cfgOpt.value, onClick: () => this.onConfigSelect(cfgOpt.key) });
-                                })
-                              }
-                            />
-                            <div style={styles.section}>
-                              <PrimaryButton onClick={() => this.getAdminConsent()}>Provide administrator consent - click if Tenant Admin</PrimaryButton>
-                            </div>
-                          </PanelBody>
-                                                          <PanelFooter>
+                                <PanelBody>
+                                  <div style={styles.section}>Microsoft Graph Functionality</div>
+                                  <Dropdown
+                                    autoFocus
+                                    mainButtonText={this.selectedOption}
+                                    style={{ width: '100%' }}
+                                    items={
+                                      this.configOptions.map((cfgOpt, idx) => {
+                                        return ({ text: cfgOpt.value, onClick: () => this.onConfigSelect(cfgOpt.key) });
+                                      })
+                                    }
+                                  />
+                                  <div style={styles.section}>
+                                    <PrimaryButton onClick={() => this.getAdminConsent()}>Provide administrator consent - click if Tenant Admin</PrimaryButton>
+                                  </div>
+                                </PanelBody>
+                                <PanelFooter>
                                 </PanelFooter>
                             </Panel>
                         </Surface>

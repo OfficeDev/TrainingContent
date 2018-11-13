@@ -17,8 +17,8 @@ import * as microsoftTeams from '@microsoft/teams-js';
  * State for the teamsApp1TabTab React component
  */
 export interface IteamsApp1TabState extends ITeamsBaseComponentState {
-  entityId?: string;
-  graphData?: string;
+      entityId?: string;
+      graphData?: string;
 }
 
 /**
@@ -32,15 +32,14 @@ export interface IteamsApp1TabProps extends ITeamsBaseComponentProps {
  * Implementation of the teams app1 Tab content page
  */
 export class teamsApp1Tab extends TeamsBaseComponent<IteamsApp1TabProps, IteamsApp1TabState> {
-  configuration?: string;
-  groupId?: string;
-  token?: string;
+    configuration?: string;
+    groupId?: string;
+    token?: string;
 
-  private getGraphData() {
-    this.setState({
-      graphData: "Loading..."
-    });
-
+    private getGraphData() {
+      this.setState({
+        graphData: "Loading..."
+      });
 
       microsoftTeams.authentication.authenticate({
         url: "/auth.html",
@@ -48,31 +47,29 @@ export class teamsApp1Tab extends TeamsBaseComponent<IteamsApp1TabProps, IteamsA
         height: 400,
         successCallback: (data) => {
           // Note: token is only good for one hour
-          let token = data!;
-          this.getData(token);
+          this.token = data!;
+          this.getData(this.token);
         },
         failureCallback: function (err) {
           document.getElementById("graph")!.innerHTML = "Failed to authenticate and get token.<br/>" + err;
         }
       });
-  }
-
-  public getData(token: string) {
-    let graphEndpoint = "https://graph.microsoft.com/v1.0/me";
-    if (this.configuration === "group") {
-      graphEndpoint = "https://graph.microsoft.com/v1.0/groups/" + this.groupId;
     }
 
-    var req = new XMLHttpRequest();
-    req.open("GET", graphEndpoint, false);
-    req.setRequestHeader("Authorization", "Bearer " + token);
-    req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
-    req.send();
-    var result = JSON.parse(req.responseText);
-    this.setState({
-      graphData: JSON.stringify(result, null, 2)
-    });
-  }
+    public getData(token: string) {
+      let graphEndpoint = "https://graph.microsoft.com/v1.0/me";
+      if (this.configuration === "group") {
+        graphEndpoint = "https://graph.microsoft.com/v1.0/groups/" + this.groupId;
+      }
+
+      var req = new XMLHttpRequest();
+      req.open("GET", graphEndpoint, false);
+      req.setRequestHeader("Authorization", "Bearer " + token);
+      req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
+      req.send();
+      var result = JSON.parse(req.responseText);
+      document.getElementById("graph")!.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+    }
 
     public componentWillMount() {
         this.updateTheme(this.getQueryVariable('theme'));
@@ -121,17 +118,17 @@ export class teamsApp1Tab extends TeamsBaseComponent<IteamsApp1TabProps, IteamsA
                                 <PanelHeader>
                                     <div style={styles.header}>This is your tab</div>
                                 </PanelHeader>
-                          <PanelBody>
-                            <div style={styles.section}>
-                              {this.state.graphData}
-                            </div>
-                            <div style={styles.section}>
-                              <PrimaryButton onClick={() => this.getGraphData()}>Get Microsoft Graph data</PrimaryButton>
-                            </div>
-                          </PanelBody>
-                                                          <PanelFooter>
+                                <PanelBody>
+                                  <div style={styles.section}>
+                                    {this.state.graphData}
+                                  </div>
+                                  <div style={styles.section}>
+                                    <PrimaryButton onClick={() => this.getGraphData()}>Get Microsoft Graph data</PrimaryButton>
+                                  </div>
+                                </PanelBody>
+                                <PanelFooter>
                                     <div style={styles.footer}>
-                                        (C) Copyright Office Developer
+                                        (C) Copyright Andrew Connell
                                     </div>
                                 </PanelFooter>
                             </Panel>
