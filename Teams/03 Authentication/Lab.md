@@ -11,7 +11,7 @@ In this lab, you will walk through extending a Microsoft Teams app with the capa
 
 Developing apps for Microsoft Teams requires preparation for both the Office 365 tenant and the development workstation.
 
-For the Office 365 Tenant, the setup steps are detailed on the [Get started developing apps for Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started). Note that while the getting started page indicates that the Public Developer Preview is optional, this lab includes steps that are not possible unless the preview is enabled.
+For the Office 365 Tenant, the setup steps are detailed on the [Get started developing apps for Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started).  Note that while the getting started page indicates that the Public Developer Preview is optional, this lab includes steps that are not possible unless the preview is enabled. Information about the Developer Preview program and participation instructions are detailed on the [What is the Developer Preview for Microsoft Teams? page](https://docs.microsoft.com/en-us/microsoftteams/platform/resources/dev-preview/developer-preview-intro).
 
 ### Administrator credentials to tenant
 
@@ -328,35 +328,41 @@ Configurable tabs are displayed in a channel.
 
 ## Exercise 2: Add authentication to a bot
 
-In this exercise, an additional command is added to the bot to display the profile of the current user.
+In this exercise, an additional command is added to the bot to display the profile of the current user. This information is retrieved from the Microsoft Graph API.
 
-### Create a Bot Service Channel registration
+When the bot was registered, an application registration was created in the AAD tenant. While it is possible to update this registration, the recommended practice is to create a separate application registration to represent your code. This new application must have permission to read the current user profile information. The application registered in Exercise 1 has this permission granted already. In this exercise, that application is reference using AzureAppId and AzureTenantID.
 
-The bot framework can facilitate the token acquisition for a bot. This requires the bot to be registered with the Azure Bot service and a second application registration (separate from the bot itself) is required.
+### Update the Application Registration
+
+The bot framework can facilitate the token acquisition for a bot. This requires the bot to be registered with the Azure Bot service and an OAuth connection to the Azure application configured.
 
 1. Open the [Azure Portal](https://portal.azure.com).
-
-The Bot can be connected to the application created in Exercise 1. Updates to that application are required.
 
 1. In the Azure Portal, select **Azure Active Directory**.
 
 1. Select **App Registrations**. Select **View All registrations**.
 
-1. Select the application created in Exercise 1.
+1. Select the application created in Exercise 1. The suggested name was **Talent Management application**.
 
 1. Copy the **Application Id**.
 
+    > NOTE: You will use this Application Id in the bot code. This value is referred to as the "AzureAppID".
+
 1. Select **Settings**. In the **General** section, select **Reply URLs**.
 
-1. Add the following as a reply url: `https://token.botframework.com/.auth/web/redirect`.
+1. Add the following as a reply url: `https://token.botframework.com/.auth/web/redirect`. (The existing reply url for the tab can remain.) Select **Save**.
 
 1. In the **API Access** section, select **Keys**.
 
-1. Under Passwords, create a `BotLogin` key. Set its Duration to **Never expires**.
+1. On the **Keys** blade, under **Passwords**, create a key with the description `BotLogin`. Set its Duration to **Never expires**.
 
-1. Select Save and record the key value. You provide this later for the application secret.
+1. Select **Save**. Record the key value.
 
-The application must be associated with the Bot.
+    > NOTE: You will use this secret in the bot code. This value is referred to as the "AzureAppSecret".
+
+### Create a Bot Service Channel registration
+
+1. Close all open blades in the Azure Portal.
 
 1. Select **Create a resource**.
 
@@ -366,66 +372,95 @@ The application must be associated with the Bot.
 
 1. Select the **Create** button.
 
-1. Complete the **Bot Channels Registration** blade. For the messaging endpoint, use the ngrok tunnel endpoint prepended to `/api/messages`. Allow the service to auto-create an application.
+1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name to distinguish this registration from the bot registered on the Bot Framework portal and from the application registered to access the Microsoft Graph API. A suggested name is `OfficeTalentBotAzureService`.
 
-1. When the deployment completes, go to the resource in the Azure portal.
+1. For the messaging endpoint, use the ngrok tunnel endpoint prepended to `/api/messages`.
+
+1. Allow the service to auto-create an application.
+
+1. Select **Create**.
+
+1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration. (The suggested name was **OfficeTalenBotAzureServie**.)
 
 1. In the **Bot Management** section, select **Channels**.
 
-1. Click on the Microsoft Teams logo to create a connection to Teams. Agree to the Terms of Service.
+1. Click on the Microsoft Teams logo to create a connection to Teams. Select **Save**. Agree to the Terms of Service.
 
-1. In the **Bot Management** section, selet *Settings**.
+1. In the **Bot Management** section, select *Settings**.
 
 1. Select **Add Setting** in the **OAuth Connection Settings** section.
 
 1. Fill in the form as follows:
-    - For Name, enter a name for your connection. You'll use in your bot code.
+    - For Name, enter `TalentManagementApplication`.
+      > NOTE: You will use this name in your bot code. This value is referred to as the "OAuthConnectionName".
     - For Service Provider, select `Azure Active Directory`. Once you select this, the Azure AD-specific fields will be displayed.
-    - For Client id, enter the application ID that you recorded for your Azure AD v1 application.
-    - For Client secret, enter the key that your recorded for your application's BotLogin key.
-    - For Grant Type, enter `authorization_code`.
-    - For Login URL, enter `https://login.microsoftonline.com`.
-    - For Tenant ID, enter the tenant ID for your Azure Active Directory, for example `microsoft.com` or `common`.
-    - For Resource URL, enter `https://graph.microsoft.com/`.
+    - For **Client id**, enter the **AzureAppID** recorded in exercise 1.
+    - For **Client secret**, enter the **AzureAppSecret** recorded earlier when updating the Azure application. The secret has the description **BotLogin**.
+    - For **Grant Type**, enter `authorization_code`.
+    - For **Login URL**, enter `https://login.microsoftonline.com`.
+    - For **Tenant ID**, enter the **AzureTenantID** recorded in exercise 1.
+    - For **Resource URL**, enter `https://graph.microsoft.com/`.
     - Leave Scopes blank.
 
 1. Select Save.
 
-1. Record the bot's id and secret. To manage these:
-    - In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
-    - The **Microsoft App Id** is displayed. Record this value.
-    - Select the **Manage** link. This will open the Application Registration Portal.
-    - Select **Generate New Password**. Record the new value.
+#### Record the Bot Channel Registration Bot Id and secret.
+
+The Visual Studio solution will use the Bot Channel Registration, replacing the Bot Framework registration.
+
+1. In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
+
+1. The **Microsoft App Id** is displayed. Record this value.
+
+    > NOTE: You will use this app Id in the Visual Studio application configuration. This value is referred to as the "BotChannelRegistrationId".
+
+1. Next to the **Microsoft App Id**, select the **Manage** link. This will open the Application Registration Portal in a new tab. If prompted, log in with the same credentials used for the Azure Portal.
+
+1. In the **Application Secrets** section, select **Generate New Password**. A new password is created and displayed in a popup dialog. Record the new password.
+
+    > NOTE: You will use this password in the Visual Studio application configuration. This value is referred to as the "BotChannelRegistrationPassword".
+
+1. You may close the browser tab containing the Application Registration Portal. It is no longer needed.
 
 ### Update Visual Studio solution configuration
 
-1. In Visual Studio, right-click on the project in Soution Explorer.
+1. In **Visual Studio**, right-click on the project in **Solution Explorer**.
 
 1. Select **Add > Reference**.
 
 1. Add a reference to **System.Configuration**. Select **OK**.
 
-1. Open the `web.config` file.
+1. Open the **web.config** file.
 
-1. Add a new key to the `appSettings` section.
+1. Add a new key to the `appSettings` section. (Ensure the value matches the OAuthConnectionName recorded earlier from the Bot Channel Registration.)
 
     ```xml
-    <add key="ConnectionName" value="<your-AAD-connection-name>"/>
+    <add key="OAuthConnectionName" value="TalentManagementApplication"/>
     ```
 
-1. Change the values for `MicrosoftAppId` and `MicrosoftAppPassword` to the values from the Azure Bot Service registration.
+1. Change the value for the key `MicrosoftAppId` to the value named BotChannelRegistrationId recorded earlier.
 
-1. Open the `manifest.json` file in the **Manifest** folder.
+1. Change the value for the key `MicrosoftAppPassword` to the value named BotChannelRegistrationPassword recorded earlier.
 
-1. Locate the `bots` node. Replace the `botId` value with the Microsoft App Id from the Azure Bot Service registration.
+1. Save and close the **web.config** file.
+
+1. Open the **manifest.json** file in the **Manifest** folder.
+
+1. Locate the `id` property.  Replace the `botId` value with the BotChannelRegistrationId recorded earlier.
+
+1. Locate the `name` node. Change short and long names to differentiate the BotChannelRegistration bot from the BotFramework bot.
+
+1. Locate the `bots` node. Replace the `botId` value with the BotChannelRegistrationId recorded earlier.
 
 1. Locate the `validDomains` node. Add the domain `token.botframework.com`. (The node value is a string array.)
 
-### Update Bot to process logins
+1. Save and close **manifest.json**.
 
-1. Open the `MessagesController.cs` file in the **Controllers** folder.
+### Update Bot to process new command
 
-1. In the `Post` method, the `Type` property of incoming Activity is inspected. In the branch of the code where the Activity.Type property is `ActivityTypes.Invoke`, add the following code:
+1. Open the **MessagesController.cs** file in the **Controllers** folder.
+
+1. In the `Post` method, the `Type` property of the incoming Activity is inspected. In the branch of the code where the Activity.Type property is `ActivityTypes.Invoke`, add the following code:
 
     ```csharp
     else if (activity.IsTeamsVerificationInvoke())
@@ -434,7 +469,7 @@ The application must be associated with the Bot.
     }
     ```
 
-1. Open the `RootDialog.cs` file in the **Dialogs** folder.
+1. Open the **RootDialog.cs** file in the **Dialogs** folder.
 
 1. In the `MessageReceivedAsync` method, after the region named **Commands**, the message text is inspected for single-word commands. Add the following test to the method:
 
@@ -446,14 +481,14 @@ The application must be associated with the Bot.
     }
     ```
 
-1. Open the `CommandHelpers.cs` file in the root folder of the project.
+1. Open the **CommandHelpers.cs** file in the root folder of the project.
 
 1. Add the following methods to the **CommandHandlers** class.
 
     ```cs
     #region HandleProfileCommand
 
-    private static string ConnectionName = System.Configuration.ConfigurationManager.AppSettings["ConnectionName"];
+    private static string ConnectionName = System.Configuration.ConfigurationManager.AppSettings["OAuthConnectionName"];
 
     public static async Task HandleProfileCommand(IDialogContext context)
     {
@@ -527,6 +562,9 @@ The application must be associated with the Bot.
 
     ![Screenshot of bot with signin card](Images/Exercise2-01.png)
 
+1. On the sign-in card, select **Sign in**. Microsoft Teams will display a popup dialog with the Azure AD login. Complete the login.
+
 1. Once sign-in ins complete, the bot will access profile information for the current user and write a message.
 
     ![Screenshot of bot with profile information message](Images/Exercise2-02.png)
+
