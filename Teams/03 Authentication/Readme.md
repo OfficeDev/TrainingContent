@@ -8,8 +8,8 @@ In the lab, you will walk through extending a Microsoft Teams app with Authentic
 
 ## Demos
 
-1. [Add authentication to a tab](./Demos/readme01.md)
-1. [Add authentication to a bot](./Demos/readme02.md)
+1. [Add authentication to a tab](./Demos/01-add-authentication-tab/README.md)
+1. [Add authentication to a bot](./Demos/02-add-authentication-bot/README.md)
 
 ## Watch the Module
 

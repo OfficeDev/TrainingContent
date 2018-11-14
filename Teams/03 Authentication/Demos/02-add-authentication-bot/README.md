@@ -234,7 +234,7 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
 
-    ![Screenshot of Microsoft Teams with Create Team button highlighted.](../Images/Demo-07.png)
+    ![Screenshot of Microsoft Teams with Create Team button highlighted.](../../Images/Demo-07.png)
 
 1. Enter a team name and description. Select **Next**.
 
@@ -242,17 +242,15 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. The new team is shown. In the left-side panel, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
-    ![Screenshot of Microsoft Teams with Manage Team highlighted.](../Images/Demo-08.png)
+    ![Screenshot of Microsoft Teams with Manage Team highlighted.](../../Images/Demo-08.png)
 
 1. On the Manage team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application.
 
 1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
 
-1. The app is displayed. The description and icon for the app is displayed.
+1. The app is loaded to the Team. The description and icon for the app is displayed.
 
-    ![Screenshot of Microsoft Teams with new app displayed.](../Images/Demo-09.png)
-
-    The app is now uploaded into the Microsoft Teams application and the bot is available.
+    ![Screenshot of Microsoft Teams with new app displayed.](../../Images/Demo-09.png)
 
 ### Use the new Profile command
 

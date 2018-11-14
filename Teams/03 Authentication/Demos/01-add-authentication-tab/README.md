@@ -167,11 +167,9 @@ Although not strictly necessary, in this demo the app is added to a new team.
 
 1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
 
-1. The app is displayed. The description and icon for the app is displayed.
+1. The app is loaded to the Team. The description and icon for the app is displayed.
 
     ![Screenshot of Microsoft Teams with new app displayed.](../../Images/Starter-09.png)
-
-    The app is now uploaded into the Microsoft Teams application and the bot is available.
 
 ## Add tab to team view
 
