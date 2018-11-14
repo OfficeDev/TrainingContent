@@ -202,7 +202,7 @@ When the bot was registered, an application registration was created in the AAD 
 1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
 
     ```
-    https://[from-ngrok]/Tabs/auth.html
+    https://[from-ngrok].ngrok.io/Tabs/auth.html
     ```
 
 1. Select **Create**.
@@ -343,7 +343,7 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Copy the **Application Id**.
 
-    > NOTE: You will use this Application Id in the bot code. This value is referred to as the "AzureAppID".
+    > NOTE: This value should match the entry in the AppWorksheet named "AzureAppID".
 
 1. Select **Settings**. In the **General** section, select **Reply URLs**.
 
@@ -355,7 +355,7 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Select **Save**. Record the key value.
 
-    > NOTE: You will use this secret in the bot code. This value is referred to as the "AzureAppSecret".
+    > **NOTE:** Record the key value on the AppWorksheet as the "AzureAppSecret".
 
 ### Create a Bot Service Channel registration
 
@@ -371,7 +371,11 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name to distinguish this registration from the bot registered on the Bot Framework portal and from the application registered to access the Microsoft Graph API. A suggested name is `OfficeTalentBotAzureService`.
 
-1. For the messaging endpoint, use the ngrok tunnel endpoint prepended to `/api/messages`.
+1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+
+    ```
+    https://[from-ngrok].ngrok.io/api/Messages
+    ```
 
 1. Allow the service to auto-create an application.
 
@@ -389,13 +393,13 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Fill in the form as follows:
     - For Name, enter `TalentManagementApplication`.
-      > NOTE: You will use this name in your bot code. This value is referred to as the "OAuthConnectionName".
+      > NOTE: Record this name on the AppWorksheet as "OAuthConnectionName".
     - For Service Provider, select `Azure Active Directory`. Once you select this, the Azure AD-specific fields will be displayed.
-    - For **Client id**, enter the **AzureAppID** recorded in exercise 1.
-    - For **Client secret**, enter the **AzureAppSecret** recorded earlier when updating the Azure application. The secret has the description **BotLogin**.
+    - For **Client id**, enter the value recorded on the AppWorksheet as **AzureAppID**.
+    - For **Client secret**, enter the value recorded on the AppWorksheet as **AzureAppSecret**
     - For **Grant Type**, enter `authorization_code`.
     - For **Login URL**, enter `https://login.microsoftonline.com`.
-    - For **Tenant ID**, enter the **AzureTenantID** recorded in exercise 1.
+    - For **Tenant ID**, enter the value recorded on the AppWorksheet as **AzureTenantID**.
     - For **Resource URL**, enter `https://graph.microsoft.com/`.
     - Leave Scopes blank.
 
@@ -409,13 +413,13 @@ The Visual Studio solution will use the Bot Channel Registration, replacing the 
 
 1. The **Microsoft App Id** is displayed. Record this value.
 
-    > NOTE: You will use this app Id in the Visual Studio application configuration. This value is referred to as the "BotChannelRegistrationId".
+    > NOTE: Record the **Microsoft App Id** on the AppWorksheet as the "BotChannelRegistrationId".
 
 1. Next to the **Microsoft App Id**, select the **Manage** link. This will open the Application Registration Portal in a new tab. If prompted, log in with the same credentials used for the Azure Portal.
 
 1. In the **Application Secrets** section, select **Generate New Password**. A new password is created and displayed in a popup dialog. Record the new password.
 
-    > NOTE: You will use this password in the Visual Studio application configuration. This value is referred to as the "BotChannelRegistrationPassword".
+    > NOTE: Record the password on the AppWorksheet as the "BotChannelRegistrationPassword".
 
 1. You may close the browser tab containing the Application Registration Portal. It is no longer needed.
 
@@ -435,19 +439,19 @@ The Visual Studio solution will use the Bot Channel Registration, replacing the 
     <add key="OAuthConnectionName" value="TalentManagementApplication"/>
     ```
 
-1. Change the value for the key `MicrosoftAppId` to the value named BotChannelRegistrationId recorded earlier.
+1. Change the value for the key `MicrosoftAppId` to the value on the AppWorksheet named **BotChannelRegistrationId**.
 
-1. Change the value for the key `MicrosoftAppPassword` to the value named BotChannelRegistrationPassword recorded earlier.
+1. Change the value for the key `MicrosoftAppPassword` to the value on the AppWorksheet named **BotChannelRegistrationPassword**.
 
 1. Save and close the **web.config** file.
 
 1. Open the **manifest.json** file in the **Manifest** folder.
 
-1. Locate the `id` property.  Replace the `botId` value with the BotChannelRegistrationId recorded earlier.
+1. Locate the `id` property.  Replace the `botId` value with the value on the AppWorksheet named **BotChannelRegistrationId**.
 
 1. Locate the `name` node. Change short and long names to differentiate the BotChannelRegistration bot from the BotFramework bot.
 
-1. Locate the `bots` node. Replace the `botId` value with the BotChannelRegistrationId recorded earlier.
+1. Locate the `bots` node. Replace the `botId` value with the value on the AppWorksheet named **BotChannelRegistrationId**.
 
 1. Locate the `validDomains` node. Add the domain `token.botframework.com`. (The node value is a string array.)
 

@@ -118,7 +118,7 @@ Make the following updates to the demo solution.
 
 1. Select **Save**. Record the key value.
 
-    > NOTE: You will use this secret in the bot code. This value is referred to as the "AzureAppSecret".
+    > **NOTE:** Record the key value on the AppWorksheet as the "AzureAppSecret".
 
 1. On the **Settings** blade, select **Required permissions**.
 
@@ -152,7 +152,11 @@ Make the following updates to the demo solution.
 
 1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name to distinguish this registration from the bot registered on the Bot Framework portal and from the application registered to access the Microsoft Graph API. A suggested name is `OfficeTalentBotAzureService`.
 
-1. For the messaging endpoint, use the ngrok tunnel endpoint prepended to `/api/messages`.
+1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+
+    ```
+    https://[from-ngrok].ngrok.io/api/Messages
+    ```
 
 1. Allow the service to auto-create an application.
 
@@ -169,7 +173,7 @@ Make the following updates to the demo solution.
 1. Select **Add Setting** in the **OAuth Connection Settings** section.
 
     - For Name, enter `TalentManagementApplication`.
-      > NOTE: You will use this name in your bot code. This value is referred to as the "OAuthConnectionName".
+      > NOTE: Record this name on the AppWorksheet as "OAuthConnectionName".
     - For Service Provider, select `Azure Active Directory`. Once you select this, the Azure AD-specific fields will be displayed.
     - For **Client id**, enter the value recorded on the AppWorksheet as **AzureAppID**.
     - For **Client secret**, enter the value recorded on the AppWorksheet as **AzureAppSecret**

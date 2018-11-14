@@ -1,4 +1,4 @@
-ngrok forwarding address id: [Created when running ngrok utility - prerequisites]
+ngrok forwarding address id: [Created when running ngrok utility - prerequisites (8 characters)]
 
 BotId:                [Created in Bot Framework portal - starter solution]
 MicrosoftAppPassword: [Created in Bot Framework portal - starter solution]
