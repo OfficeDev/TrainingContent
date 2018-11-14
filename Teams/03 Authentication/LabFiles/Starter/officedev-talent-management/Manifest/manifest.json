@@ -34,9 +34,7 @@
     }
   ],
   "composeExtensions": [],
-  "staticTabs": []
-    }
-  ],
+  "staticTabs": [],
   "configurableTabs": [
     {
       "configurationUrl": "https://[from ngrok].ngrok.io/Tabs/channelconfig.html",
