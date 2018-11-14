@@ -1,0 +1,13 @@
+ngrok forwarding address id: [Created when running ngrok utility - prerequisites]
+
+BotId:                [Created in Bot Framework portal - starter solution]
+MicrosoftAppPassword: [Created in Bot Framework portal - starter solution]
+MicrosoftAppID:       [Created in Bot Framework portal - starter solution]
+
+AzureAppID:     [Created in Azure Portal - exercise 1]
+AzureTenantID:  [Created in Azure Portal - exercise 1]
+AzureAppSecret: [Created in Azure Portal - exercise 1]
+
+OAuthConnectionName:            [Created in Azure Bot Service - exercise 2]
+BotChannelRegistrationId:       [Created in Azure Bot Service - exercise 2]
+BotChannelRegistrationPassword: [Created in Azure Bot Service/ARP - exercise 2]

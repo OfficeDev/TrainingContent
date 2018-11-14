@@ -7,6 +7,10 @@ In this lab, you will walk through extending a Microsoft Teams app with the capa
 - [Add authentication to a tab](#exercise1)
 - [Add authentication to a bot](#exercise2)
 
+## Application Registration worksheet
+
+This lab requires the registration of multiple applications in Azure Active Directory (Azure AD), the Bot Framework and the Azure Portal. The **LabFiles** folder of this module contains a file named **AppWorksheet.txt** which can be used to record the various ids and secrets generated in the lab.
+
 ## Prerequisites
 
 Developing apps for Microsoft Teams requires preparation for both the Office 365 tenant and the development workstation.
@@ -67,7 +71,9 @@ The exercises in this lab will extend the Microsoft Teams app built in the modul
 
 1. Run the command `ngrok http [port] -host-header=localhost:[port]`. Replace `[port]` with the port portion of the URL noted above.
 
-1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
+1. The ngrok application will fill the entire prompt window.
+
+    > **NOTE:** Record the **Forwarding address** using https on the AppWorksheet as the "ngrok forwarding address".
 
 1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
 
@@ -75,31 +81,24 @@ The exercises in this lab will extend the Microsoft Teams app built in the modul
 
 ### Register the bot
 
-1. Register a bot on the Microsoft Bot Framework portal. You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.
+1. Register a bot on the Microsoft Bot Framework portal. You must use this link to create a new bot: https://dev.botframework.com/bots/new. Log in with Work or School account that is an administrator for the Azure AD tenant. (If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.)
 
-1. Complete the **Bot profile** section, entering a display name, unique bot handle and description.
+1. Complete the **Bot profile** section, entering a display name, unique bot handle and description. (It is recommended to include **bot** in the name to help distinguish this entry later in the lab.)
 
-    > **NOTE:** This lab will create multiple entries in the Azure Active Directory, so clear naming of entries will enable a successful application. It is recommended to include **bot** in the name to help distinguish this entry later in the lab.
-
-    > **NOTE:** Copy the Bot handle and save it. You will use it in a subsequent step. This value is referred to as the "BotID".
+    > **NOTE:** Record the **Bot handle** on the AppWorksheet as the "BotID".
 
     ![Screenshot of bot profile information page.](./Images/Starter-03.png)
 
 1. Complete the configuration section.
-    - For the Messaging endpoint, use the forwarding HTTPS address from ngrok prepended to the route to the `MessagesController` in the Visual Studio project.
-
-      ```http
-      https://[from-ngrok].ngrok.io/api/messages
-      ```
-
+    - For the Messaging endpoint, use the value recorded on the AppWorksheet as **ngrok forwarding address** prepended to the route to the `MessagesController` in the Visual Studio project.
     - Select the **Create Microsoft App ID and password button**. This opens a new browser window. If prompted to login, use the same account as the Bot Framework Portal.
     - In the new browser window, the application is registered in Azure Active Directory. Select **Generate an app password to continue**.
     - An app password is generated.
-      > **NOTE:** Copy the password and save it. You will use it in a subsequent step. This value is referred to as the "MicrosoftAppPassword".
+      > **NOTE:** Record the password on the AppWorksheet as the "MicrosoftAppPassword".
     - Select **OK** to close the dialog box.
     - Select the **Finish and go back to Bot Framework** button to close the new browser window
     - The app ID from Azure Active Directory will be set in the Configuration section. (The page instructions are **Paste your app ID below to continue textbox**, but the value is already filled in.)
-      > **NOTE:** Copy the app ID and save it. You will use it in a subsequent step. This value is referred to as the "MicrosoftAppID".
+      > **NOTE:** Record the app ID on the AppWorksheet as the "MicrosoftAppID".
 
     ![Screenshot of configuration page with messaging endpoint and app ID displayed.](./Images/Starter-04.png)
 
@@ -123,30 +122,28 @@ The bot project must be configured with information from the registration.
 
 1. In **Visual Studio**, open the **Web.config** file. Locate the `<appSettings>` section.
 
-1. Enter the `BotId`. The `BotId` is the **Bot handle** from the **Configuration** section of the bot registration.
+1. Replace the token `[BotId]` with the value recorded on the AppWorksheet as **BotId**.
 
-1. Enter the `MicrosoftAppId` from the **Configuration** section of the bot registration.
+1. Replace the token `[MicrosoftAppId]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
 
-1. Enter the `MicrosoftAppPassword`, the auto-generated app password displayed in the dialog box during bot registration.
-
-    > **Note:** If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
+1. Replace the token `[MicrosoftAppPassword]` with the value recorded on the AppWorksheet as **MicrosoftAppPassword**.
 
 1. Save and close the **web.config** file.
 
 1. In the **Manifest** folder , open the **manifest.json** file. The **manifest.json** file requires several updates:
-    - The `id` property must contain the app ID from registration. Replace the token `[MicrosoftAppID]` with the app ID.
-    - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
-    - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
-    - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[MicrosoftAppID]` with the app ID.
+    - The `id` property must contain the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
+    - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+    - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+    - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
     - The `configurableTabs` property also contains a URL. This value will be updated later in the lab, so no update is required at this time.
-    - The `validDomains` property requires a string array of all domains that will be accessed by the Teams app. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
+    - The `validDomains` property requires a string array of all domains that will be accessed by the Teams app. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
     - Save and close the **manifest.json** file.
 
 1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
 
 ### Upload app into Microsoft Teams
 
-Although not strictly necessary, in this lab the bot will be added to a new team.
+Although not strictly necessary, in this lab the bot will be added to a new team. Use the same team throughout this lab.
 
 1. In the Microsoft Teams application, click the **Add team** link. Then click the **Create team** button.
 
@@ -164,7 +161,7 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 
 1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
 
-1. The app is displayed. The description and icon for the app is displayed.
+1. The app is loaded to the Team. The description and icon for the app is displayed.
 
     ![Screenshot of Microsoft Teams with new app displayed.](Images/Starter-09.png)
 
@@ -190,7 +187,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. In the **Directory Properties** blade, copy the **Directory ID**.
 
-    > **NOTE:** You will use this Directory ID in javascript files that support the new tab. This value is referred to as the "AzureTenantID".
+    > **NOTE:** Record the **Directory ID** on the AppWorksheet as the "AzureTenantID".
 
 1. Close the **Directory Properties** blade, returning to the **Overview** blade.
 
@@ -202,7 +199,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. Select `Web app / API` for the **Application type**
 
-1. Enter the following address **Sign-in URL**, replacing the placeholder [from-ngrok] with the https tunnel address. (The Sign-in URL is case-sensitive.)
+1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
 
     ```
     https://[from-ngrok]/Tabs/auth.html
@@ -212,7 +209,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. On the application blade, copy the **Application Id**.
 
-    > **NOTE:** You will use this Application Id in javascript files that support the new tab. This value is referred to as the "AzureAppID".
+    > **NOTE:** Record the **Application Id** on the AppWorksheet as the "AzureAppID".
 
 1. Select **Manifest**.
 
@@ -228,7 +225,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. In the **Required permissions** blade, select **Select and API**.
 
-1. In the **Select an API blade**, select **Microsoft Graph**. Select the **Select** button at the bottom of the blade.
+1. In the **Select an API blade** blade, select **Microsoft Graph**. Select the **Select** button at the bottom of the blade.
 
 1. In the resulting **Enable access** blade, select the following Delegated permissions:
     - **Read all users' full profiles**
@@ -244,7 +241,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. In **Visual Studio**, open the `manifest.json` file in the **Manifest** folder.
 
-1. Locate the `configurableTabs` node of the document. Replace the existing tab definition with the following entry. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
+1. Locate the `configurableTabs` node of the document. Replace the existing tab definition with the following entry. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
 
     ```json
     {
@@ -262,15 +259,15 @@ When the bot was registered, an application registration was created in the AAD 
 - hiringTeamConfig.html
 - auth.html
 
-1. Open file **hiringTeam.html** in the **Tabs** folder.
+1. Open file **auth.html** in the **Tabs** folder. The **auth.html** contains javascript code that will use the MSAL library to acquire an access token for the Microsoft Graph API.
 
-1. Replace the token `[AzureAppID]` with the application id copied from the AAD portal earlier.
+- Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
+- Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
 
-1. Open file **auth.html** in the **Tabs** folder.
+1. Open file **hiringTeam.html** in the **Tabs** folder. The **hiringTeam.html** page contains javascript code that will use the Microsoft Teams API to open the authentication window, calling auth.html. The resulting access token is used to call the Microsoft Graph API.
 
-1. Replace the token `[AzureAppID]` with the Azure Application Id copied from the AAD portal.
-
-1. Replace the token `[AzureTenantID]` with the Azure Tenant Id copied from the AAD portal.
+- Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
+- Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
 
 1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
 
@@ -404,7 +401,7 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Select Save.
 
-#### Record the Bot Channel Registration Bot Id and secret.
+#### Record the Bot Channel Registration Bot Id and secret
 
 The Visual Studio solution will use the Bot Channel Registration, replacing the Bot Framework registration.
 
