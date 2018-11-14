@@ -132,11 +132,11 @@ The bot project must be configured with information from the registration.
 
 1. In the **Manifest** folder , open the **manifest.json** file. The **manifest.json** file requires several updates:
     - The `id` property must contain the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
-    - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
-    - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+    - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
+    - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
     - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
     - The `configurableTabs` property also contains a URL. This value will be updated later in the lab, so no update is required at this time.
-    - The `validDomains` property requires a string array of all domains that will be accessed by the Teams app. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+    - The `validDomains` property requires a string array of all domains that will be accessed by the Teams app. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
     - Save and close the **manifest.json** file.
 
 1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
@@ -199,7 +199,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. Select `Web app / API` for the **Application type**
 
-1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
+1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
 
     ```
     https://[from-ngrok].ngrok.io/Tabs/auth.html
@@ -241,7 +241,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. In **Visual Studio**, open the `manifest.json` file in the **Manifest** folder.
 
-1. Locate the `configurableTabs` node of the document. Replace the existing tab definition with the following entry. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+1. Locate the `configurableTabs` node of the document. Replace the existing tab definition with the following entry. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
 
     ```json
     {
@@ -287,7 +287,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
 
-1. The app is displayed. The description and icon for the app is displayed.
+1. The app is loaded to the Team. The description and icon for the app is displayed.
 
     ![Screenshot of Microsoft Teams with new app displayed.](Images/Starter-09.png)
 
@@ -327,7 +327,7 @@ Configurable tabs are displayed in a channel.
 
 In this exercise, an additional command is added to the bot to display the profile of the current user. This information is retrieved from the Microsoft Graph API.
 
-When the bot was registered, an application registration was created in the AAD tenant. While it is possible to update this registration, the recommended practice is to create a separate application registration to represent your code. This new application must have permission to read the current user profile information. The application registered in Exercise 1 has this permission granted already. In this exercise, that application is reference using AzureAppId and AzureTenantID.
+When the bot was registered, an application registration was created in the AAD tenant. While it is possible to update this registration, the recommended practice is to create a separate application registration to represent your code. This new application must have permission to read the current user profile information. The application registered in Exercise 1 has this permission granted already. In this exercise, that application is referenced using AzureAppId and AzureTenantID.
 
 ### Update the Application Registration
 
@@ -371,7 +371,7 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name to distinguish this registration from the bot registered on the Bot Framework portal and from the application registered to access the Microsoft Graph API. A suggested name is `OfficeTalentBotAzureService`.
 
-1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
+1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
 
     ```
     https://[from-ngrok].ngrok.io/api/Messages
@@ -381,20 +381,20 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Select **Create**.
 
-1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration. (The suggested name was **OfficeTalenBotAzureServie**.)
+1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration. (The suggested name was **OfficeTalentBotAzureService**.)
 
 1. In the **Bot Management** section, select **Channels**.
 
 1. Click on the Microsoft Teams logo to create a connection to Teams. Select **Save**. Agree to the Terms of Service.
 
-1. In the **Bot Management** section, select *Settings**.
+1. In the **Bot Management** section, select **Settings**.
 
 1. Select **Add Setting** in the **OAuth Connection Settings** section.
 
 1. Fill in the form as follows:
     - For Name, enter `TalentManagementApplication`.
       > NOTE: Record this name on the AppWorksheet as "OAuthConnectionName".
-    - For Service Provider, select `Azure Active Directory`. Once you select this, the Azure AD-specific fields will be displayed.
+    - For **Service Provider**, select `Azure Active Directory`. Once you select this, the Azure AD-specific fields will be displayed.
     - For **Client id**, enter the value recorded on the AppWorksheet as **AzureAppID**.
     - For **Client secret**, enter the value recorded on the AppWorksheet as **AzureAppSecret**
     - For **Grant Type**, enter `authorization_code`.
@@ -406,8 +406,6 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 1. Select Save.
 
 #### Record the Bot Channel Registration Bot Id and secret
-
-The Visual Studio solution will use the Bot Channel Registration, replacing the Bot Framework registration.
 
 1. In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
 
@@ -425,6 +423,8 @@ The Visual Studio solution will use the Bot Channel Registration, replacing the 
 
 ### Update Visual Studio solution configuration
 
+The Visual Studio solution will use the Bot Channel Registration, replacing the Bot Framework registration.
+
 1. In **Visual Studio**, right-click on the project in **Solution Explorer**.
 
 1. Select **Add > Reference**.
@@ -433,25 +433,25 @@ The Visual Studio solution will use the Bot Channel Registration, replacing the 
 
 1. Open the **web.config** file.
 
-1. Add a new key to the `appSettings` section. (Ensure the value matches the OAuthConnectionName recorded earlier from the Bot Channel Registration.)
+1. Add a new key to the `appSettings` section. Replace the token **[OAuthConnectionName]** with the value recorded on the AppWorksheet named **OAuthConnectionName**.
 
     ```xml
-    <add key="OAuthConnectionName" value="TalentManagementApplication"/>
+    <add key="OAuthConnectionName" value="[OAuthConnectionName]"/>
     ```
 
-1. Change the value for the key `MicrosoftAppId` to the value on the AppWorksheet named **BotChannelRegistrationId**.
+1. Change the value for the key `MicrosoftAppId` to the value recorded on the AppWorksheet named **BotChannelRegistrationId**.
 
-1. Change the value for the key `MicrosoftAppPassword` to the value on the AppWorksheet named **BotChannelRegistrationPassword**.
+1. Change the value for the key `MicrosoftAppPassword` to the value recorded on the AppWorksheet named **BotChannelRegistrationPassword**.
 
 1. Save and close the **web.config** file.
 
 1. Open the **manifest.json** file in the **Manifest** folder.
 
-1. Locate the `id` property.  Replace the `botId` value with the value on the AppWorksheet named **BotChannelRegistrationId**.
+1. Locate the `id` property.  Replace the `botId` value with the value recorded on the AppWorksheet named **BotChannelRegistrationId**.
 
 1. Locate the `name` node. Change short and long names to differentiate the BotChannelRegistration bot from the BotFramework bot.
 
-1. Locate the `bots` node. Replace the `botId` value with the value on the AppWorksheet named **BotChannelRegistrationId**.
+1. Locate the `bots` node. Replace the `botId` value with the value recorded on the AppWorksheet named **BotChannelRegistrationId**.
 
 1. Locate the `validDomains` node. Add the domain `token.botframework.com`. (The node value is a string array.)
 
@@ -551,7 +551,7 @@ The Visual Studio solution will use the Bot Channel Registration, replacing the 
 
 1. Select the zip file from the **bin** folder that represents your app. Select **Open**.
 
-1. The app is displayed. The description and icon for the app is displayed.
+1. The app is loaded to the Team. The description and icon for the app is displayed.
 
     ![Screenshot of Microsoft Teams with new app displayed.](Images/Starter-09.png)
 
