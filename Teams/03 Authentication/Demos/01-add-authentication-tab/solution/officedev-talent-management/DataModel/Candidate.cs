@@ -1,6 +1,6 @@
 ﻿namespace OfficeDev.Talent.Management
 {
-	public class Candidate
+  public class Candidate
     {
         public string Name { get; set; }
         public int Hires { get; set; }

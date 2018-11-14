@@ -8,32 +8,32 @@ using System.Reflection;
 
 namespace officedev_talent_management
 {
-	public class WebApiApplication : System.Web.HttpApplication
-	{
-		protected void Application_Start()
-		{
-			GlobalConfiguration.Configure(WebApiConfig.Register);
+  public class WebApiApplication : System.Web.HttpApplication
+  {
+    protected void Application_Start()
+    {
+      GlobalConfiguration.Configure(WebApiConfig.Register);
 
-			Conversation.UpdateContainer(
-			builder =>
-			{
-				builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
+      Conversation.UpdateContainer(
+      builder =>
+      {
+        builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 
-							// Bot Storage: Here we register the state storage for your bot. 
-							// Default store: volatile in-memory store - Only for prototyping!
-							// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
-							// For samples and documentation, see: [https://github.com/Microsoft/BotBuilder-Azure](https://github.com/Microsoft/BotBuilder-Azure)
-							var store = new InMemoryDataStore();
+              // Bot Storage: Here we register the state storage for your bot.
+              // Default store: volatile in-memory store - Only for prototyping!
+              // We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+              // For samples and documentation, see: [https://github.com/Microsoft/BotBuilder-Azure](https://github.com/Microsoft/BotBuilder-Azure)
+              var store = new InMemoryDataStore();
 
-							// Other storage options
-							// var store = new TableBotDataStore("...DataStorageConnectionString..."); // requires Microsoft.BotBuilder.Azure Nuget package 
-							// var store = new DocumentDbBotDataStore("cosmos db uri", "cosmos db key"); // requires Microsoft.BotBuilder.Azure Nuget package 
+              // Other storage options
+              // var store = new TableBotDataStore("...DataStorageConnectionString..."); // requires Microsoft.BotBuilder.Azure Nuget package
+              // var store = new DocumentDbBotDataStore("cosmos db uri", "cosmos db key"); // requires Microsoft.BotBuilder.Azure Nuget package
 
-							builder.Register(c => store)
-									.Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-									.AsSelf()
-									.SingleInstance();
-			});
-		}
-	}
+              builder.Register(c => store)
+                  .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
+                  .AsSelf()
+                  .SingleInstance();
+      });
+    }
+  }
 }
