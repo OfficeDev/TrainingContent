@@ -30,7 +30,7 @@ Make the following updates to the demo solution.
 
 1. In **Visual Studio 2017**, select **File > Open > Project/Solution**.
 
-1. Select the **officedev-talent-management.sln** file from the **Demos\solution** folder.
+1. Select the **officedev-talent-management.sln** file from the **Demos\01-add-authentication-tab\solution** folder.
 
 ### Find the project URL
 
@@ -38,7 +38,7 @@ Make the following updates to the demo solution.
 
 1. In the **Properties** designer, select the **Web** tab.
 
-1. Note the project URL.
+1. Note the **Project URL**.
 
     ![Screenshot of Solution Explorer highlighting project URL.](../../Images/Demo-01.png)
 
@@ -80,9 +80,9 @@ Make the following updates to the demo solution.
 
 1. Enter a name for the application. A suggested name is `Talent Management application` which distinguishes this application from the bot.
 
-1. Select `Web app / API` for the **Application type*
+1. Select `Web app / API` for the **Application type**.
 
-1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
+1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
 
     ```
     https://[from-ngrok]/Tabs/auth.html
@@ -90,7 +90,7 @@ Make the following updates to the demo solution.
 
 1. Select **Create**.
 
-1. On the application blade, copy the **Application Id**.
+1. On the **Application blade**, copy the **Application Id**.
 
     > **NOTE:** Record the **Application Id** on the AppWorksheet as the "AzureAppID".
 
@@ -102,15 +102,21 @@ Make the following updates to the demo solution.
 
 1. Select **Save** and then close the **Edit manifest blade**.
 
-1. On the application page, select **Settings**.
+1. Select **Settings**. In the **General** section, select **Reply URLs**.
 
-1. In the **Settings** blade, select **Required permissions**.
+1. Add the following as a reply url: `https://token.botframework.com/.auth/web/redirect`. (The existing reply url for the tab can remain.) Select **Save**.
 
-1. In the **Required permissions** blade, select **Select and API**.
+1. On the **Application blade**, select **Settings**.
 
-1. In the **Select an API blade** blade, select **Microsoft Graph**. Select the **Select** button at the bottom of the blade.
+1. On the **Settings** blade, select **Required permissions**.
 
-1. In the resulting **Enable access** blade, select the following Delegated permissions:
+1. On the **Required permissions** blade, select **Add**.
+
+1. On the **Add API access** blade, select **Select an API**.
+
+1. On the **Select an API blade** blade, select **Microsoft Graph**. Select the **Select** button at the bottom of the blade.
+
+1. On the resulting **Enable access** blade, select the following Delegated permissions:
     - **Read all users' full profiles**
     - **Read all groups**
     - **Sign users in**
