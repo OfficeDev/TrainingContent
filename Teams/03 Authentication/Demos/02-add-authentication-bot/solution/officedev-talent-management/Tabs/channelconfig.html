@@ -1,0 +1,83 @@
+﻿<html>
+<head>
+	<title>Configure</title>
+	<script src="https://unpkg.com/@microsoft/teams-js@1.3.0-alpha.2/dist/MicrosoftTeams.min.js" integrity="sha384-6JAsCxxInE6zkSX+kviN0ConhywPw9/6cly7bPY5U2BKHMbju5g5v/Xso0aIzR+U" crossorigin="anonymous"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="msteams-16.css" />
+	<link rel="stylesheet" type="text/css" href="talent-mgmt.css" />
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+			// These are the variables that decide what tab configuration to save
+			var host = `https://${window.location.hostname}`;
+			var name = '';
+			var posting = '';
+			var entity = '';
+			var url = '';
+			var websiteUrl = '';
+			var context;
+
+			// Initialize the Microsoft Teams Library
+			microsoftTeams.initialize();
+
+			// Set the 'Save' Button state based on name field content
+			$('#name').on('input', function () {
+				if ($('#name').val().length != 0) {
+					microsoftTeams.settings.setValidityState(true);
+				}
+				else {
+					microsoftTeams.settings.setValidityState(false);
+				}
+			});
+
+			// Save handler when user clicked on Save button
+			microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+				microsoftTeams.getContext(function (context) {
+					name = $('#name').val();
+					posting = $('#posting').val();
+
+					url = `${host}/Tabs/channeltab.html?teamId=` +
+						`${encodeURIComponent(context.teamId)}` +
+						`&channelId=${encodeURIComponent(context.channelId)}` +
+						`&posting=${encodeURIComponent(posting)}`;
+
+					websiteUrl = url + `&web=1`;
+
+					entity = `todotab-${name}-${context.teamId}-${context.channelId}`;
+
+					microsoftTeams.settings.setSettings({
+						entityId: entity,
+						contentUrl: url,
+						suggestedDisplayName: name,
+						websiteUrl: websiteUrl
+					});
+
+					saveEvent.notifySuccess();
+				});
+			});
+		});
+	</script>
+</head>
+<body class="theme-light" style="width:94%">
+	<div class="surface">
+		<div class="panel" style="width:100%">
+			<div class="font-base">Discuss potential candidates right within your team by setting up a tab.</div>
+			<div class="row input-container" style="width: 50%">
+				<div class="label">Tab name</div>
+				<input type="text" name="name" id="name" value="" class="input-field" autofocus />
+			</div>
+			<div class="row input-container">
+				<div class="label">Select job posting </div>
+				<select id="posting" name="posting">
+					<option value="posting1">Senior Software Engineer - 040457 / HM: Julian Morelli</option>
+					<option value="posting2">Principal Product Manager - 040458 / HM: Larry Jin</option>
+					<option value="posting3">Software Engineer II - 040460 / HM: Bill Bliss</option>
+					<option value="posting4">Marketing Manager - 040443 / HM: Bhrighu Sareen</option>
+					<option value="posting5">Software Engineer - 040572 / HM: Sujeet Mehta</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
