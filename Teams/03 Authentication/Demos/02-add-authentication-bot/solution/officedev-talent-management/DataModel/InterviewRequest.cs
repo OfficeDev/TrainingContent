@@ -2,7 +2,7 @@
 
 namespace OfficeDev.Talent.Management
 {
-	public class InterviewRequest
+  public class InterviewRequest
     {
         public Candidate Candidate { get; set; }
         public string ReqId { get; set; }
