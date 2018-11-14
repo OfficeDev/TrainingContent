@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "20be5bfa-bf1b-421f-b2ad-0b4230c9a8f7",
+  "packageName": "io.ngrok.1d74cd33",
+  "developer": {
+    "name": "Office Developer",
+    "websiteUrl": "https://1d74cd33.ngrok.io",
+    "privacyUrl": "https://1d74cd33.ngrok.io/privacy",
+    "termsOfUseUrl": "https://1d74cd33.ngrok.io/termsofuse"
+  },
+  "icons": {
+    "color": "bot-icon-color-192x192.png",
+    "outline": "bot-icon-outline-32x32.png"
+  },
+	"name": {
+		"short": "officedev-bot 2019-02 2nd",
+		"full": "Talent Management Bot - OfficeDev 2019-02 2nd"
+	},
+  "description": {
+    "short": "Training Content module 2019-02",
+    "full": "Demonstration bot for the Training Content repository"
+  },
+  "accentColor": "#0EA20E",
+  "bots": [
+    {
+      "botId": "20be5bfa-bf1b-421f-b2ad-0b4230c9a8f7",
+      "supportsFiles": true,
+      "scopes": [
+        "personal",
+        "team"
+      ]
+    }
+  ],
+  "composeExtensions": [],
+  "staticTabs": [
+    {
+      "entityId": "candidatesTab",
+      "name": "Candidates",
+      "contentUrl": "https://1d74cd33.ngrok.io/Tabs/candidates.html",
+      "websiteUrl": "https://1d74cd33.ngrok.io/Tabs/candidates.html?web=1",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "configurableTabs": [
+			{
+				"configurationUrl": "https://1d74cd33.ngrok.io/Tabs/hiringTeamConfig.html",
+				"canUpdateConfiguration": true,
+				"scopes": [
+					"team"
+				]
+			}
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [ "1d74cd33.ngrok.io" ]
+}

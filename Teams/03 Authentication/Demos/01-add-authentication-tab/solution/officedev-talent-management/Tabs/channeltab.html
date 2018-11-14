@@ -1,0 +1,163 @@
+<html>
+<head>
+  <title>View candidate</title>
+  <script src="https://unpkg.com/@microsoft/teams-js@1.3.0-alpha.2/dist/MicrosoftTeams.min.js" integrity="sha384-6JAsCxxInE6zkSX+kviN0ConhywPw9/6cly7bPY5U2BKHMbju5g5v/Xso0aIzR+U" crossorigin="anonymous"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
+  <link rel="stylesheet" href="talent-mgmt.css" />
+</head>
+<body>
+  <div class="container-fluid panel" id="header_section">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-7">
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h3 class="display-7">Senior Software Engineer</h3>
+            <div>Req ID 04057</div>
+            <div>Hiring Manager: Julian Morelli</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="container applicant-info">
+          <div class="row align-items-center">
+            <div class="col-sm">
+              <h1>3</h1>
+              <div>APPLIED</div>
+            </div>
+            <div class="col-sm divider">
+              <h1>2</h1>
+              <div>SCREENED</div>
+            </div>
+            <div class="col-sm divider">
+              <h1>2</h1>
+              <div>INTERVIEWED</div>
+            </div>
+            <div class="col-sm divider">
+              <h1>0</h1>
+              <div>OFFERED</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid" id="job_details">
+    <div class="row justify-content-between">
+      <div class="col-7 panel">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="font-weight-bold">Job details</div>
+            </div>
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-7">
+              <p>We are looking for a Senior Software Engineer to produce and implement functional sotware solutions.
+                You will work with management to define the software specifications and then implement them ...</p>
+            </div>
+            <div class="col-4">
+              <p>
+                <img src="../images/location_icon.png" style="width: 20px; height: 20px; display: inline; margin-right: 5px" />
+                <span>San Francisco, CA</span>
+              </p>
+              <p>
+                <img src="../images/calendar_icon.png" style="width: 20px; height: 20px; display: inline; margin-right: 5px" />
+                <span>As soon as possible</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-5" style="padding-right: 0px; padding-left: 15px;">
+        <div class="panel container-fluid" style="min-height: 125px">
+          <div class="row">
+            <div class="col-12">
+              <div class="font-weight-bold">Hiring team</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <span class="circle-crop">
+                <img src="../images/profile_1.png" class="profile" />
+              </span>
+              <span class="circle-crop">
+                <img src="../images/profile_2.png" class="profile" />
+              </span>
+              <span class="circle-crop">
+                <img src="../images/profile_3.png" class="profile" />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px">
+    <h5 style="display: inline">
+      Active applicants
+    </h5>
+    <span class="label">3 items</span>
+  </div>
+
+  <div id="active_applicants">
+    <div class="container-fluid" id="job_details">
+      <div class="row justify-content-between">
+        <div class="col-1"></div>
+        <div class="col-3">Name</div>
+        <div class="col-2">Date applied</div>
+        <div class="col-2">Internal</div>
+        <div class="col-2">Current stage</div>
+      </div>
+
+      <div class="row justify-content-between align-items-center panel candidate">
+        <div class="col-1">
+          <span class="circle-crop">
+            <img src="../images/female/candidate_1.png" class="profile" />
+          </span>
+        </div>
+        <div class="col-3">Meena Atul</div>
+        <div class="col-2">09/29/2017</div>
+        <div class="col-2">No</div>
+        <div class="col-2">Interviewing</div>
+      </div>
+
+      <div class="row justify-content-between align-items-center panel candidate" style="margin-bottom: 2px">
+        <div class="col-1">
+          <span class="circle-crop">
+            <img src="../images/female/candidate_2.png" class="profile" />
+          </span>
+        </div>
+        <div class="col-3">Kayo Miwa</div>
+        <div class="col-2">09/22/2017</div>
+        <div class="col-2">No</div>
+        <div class="col-2">Applied</div>
+      </div>
+
+      <div class="row justify-content-between align-items-center panel candidate" style="margin-bottom: 2px">
+        <div class="col-1">
+          <span class="circle-crop">
+            <img src="../images/male/candidate_3.png" class="profile" />
+          </span>
+        </div>
+        <div class="col-3">Roberto Ribeiro</div>
+        <div class="col-2">09/22/2017</div>
+        <div class="col-2">Yes</div>
+        <div class="col-2">Interviewing</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px">
+    <h5 style="display: inline">
+      Close applicants
+    </h5>
+    <span class="label">0 items</span>
+  </div>
+
+  <div id="closed_applicants">
+  </div>
+</body>
+</html>
