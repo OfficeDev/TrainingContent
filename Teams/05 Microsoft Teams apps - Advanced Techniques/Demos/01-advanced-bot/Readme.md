@@ -14,12 +14,6 @@ As Microsoft Teams is an entirely cloud-based product, it requires all services 
 
 This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS endpoints to a web server running locally on the developer workstation. ngrok is a single-file download that is run from a console.
 
-#### Bot template for Visual Studio 2017
-
-Download and install the [bot template for C#](https://github.com/Microsoft/BotFramework-Samples/tree/master/docs-samples/CSharp/Simple-LUIS-Notes-Sample/VSIX) from Github. Additional step-by-step information for creating a bot to run locally is available on the [Create a bot with the Bot Builder SDK for .NET page](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-quickstart?view=azure-bot-service-3.0) in the Azure Bot Service documentation.
-
-  > **Note:** This lab uses the BotBuilder V3 SDK. BotBuilder V4 SDK was recently released. All new development should be targeting the BotBuilder V4 SDK. In our next release, this sample will be updated to the BotBuilder V4 SDK.
-
 ## Run the ngrok secure tunnel application
 
 1. Open a new **Command Prompt** window.
@@ -56,7 +50,7 @@ Download and install the [bot template for C#](https://github.com/Microsoft/BotF
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
 
-> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
+    > **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
 
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
@@ -116,21 +110,18 @@ The demo application will send a message when it is added to a team.
 
 1. On the Manage team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application.
 
-1. Select the zip file (**teams-bot1.zip** in this example) from the **bin** folder. Select **Open**.
+1. Select the file **teams-m5-bot.zip** from the **bin** folder. Select **Open**.
 
 1. The app is displayed. The description and icon for the app is displayed.
 
     ![Screenshot of Microsoft Teams with new app displayed.](../../Images/Exercise1-13.png)
 
-    The app is now uploaded into the Microsoft Teams application and the bot is available.
 
-    > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `EventHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
+Adding the bot to a team invokes the system message **ConversationUpdated**. The code in the `MessagesController.cs` file determines if an event has occurred. The code in `EventHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
 
-  ![Screenshot of Microsoft Teams displaying new bot installed.](../../Images/Exercise1-14.png)
+![Screenshot of Microsoft Teams displaying new bot installed.](../../Images/Exercise1-14.png)
 
-> If possible, add another user to the team. Then, log into Teams as that user to see the new 1:1 message. (Rather than sign-out of the Teams application, you can use https://teams.microsoft.com in an In-Private session of the browser.).
-
-Code for responding to events is in the `MessagesController` class.
+1. If possible, add another user to the team. Then, log into Teams as that user to see the new 1:1 message. (Rather than sign-out of the Teams application, you can use https://teams.microsoft.com in an In-Private session of the browser.).
 
 ## Demo: Advanced Message Features
 
