@@ -10,7 +10,21 @@ In this lab, you will use advanced techniques to build a more sophisticated bot,
 
 ## Prerequisites
 
-Refer to the prerequisites section in the lab manual for [Module 4](../04FundamentalsofMicrosoftTeams/Lab.md#prerequisites).
+Developing apps for Microsoft Teams requires preparation for both the Office 365 tenant and the development workstation.
+
+For the Office 365 Tenant, the setup steps are detailed on the [Prepare your Office 365 tenant page](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant). Note that while the getting started page indicates that the Public Developer Preview is optional, this lab includes steps that are not possible unless the preview is enabled. Information about the Developer Preview program and participation instructions are detailed on the [What is the Developer Preview for Microsoft Teams? page](https://docs.microsoft.com/en-us/microsoftteams/platform/resources/dev-preview/developer-preview-intro).
+
+#### Download ngrok
+
+As Microsoft Teams is an entirely cloud-based product, it requires all services it accesses to be available from the cloud using HTTPS endpoints. To enable the exercises to work within Microsoft Teams, a tunneling application is required.
+
+This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS endpoints to a web server running locally on the developer workstation. ngrok is a single-file download that is run from a console.
+
+#### Bot template for Visual Studio 2017
+
+Download and install the [bot template for C#](https://github.com/Microsoft/BotFramework-Samples/tree/master/docs-samples/CSharp/Simple-LUIS-Notes-Sample/VSIX) from Github. Additional step-by-step information for creating a bot to run locally is available on the [Create a bot with the Bot Builder SDK for .NET page](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-quickstart?view=azure-bot-service-3.0) in the Azure Bot Service documentation.
+
+  > **Note:** This lab uses the BotBuilder V3 SDK. BotBuilder V4 SDK was recently released. All new development should be targeting the BotBuilder V4 SDK. In our next release, this sample will be updated to the BotBuilder V4 SDK.
 
 <a name="exercise1"></a>
 
@@ -18,7 +32,7 @@ Refer to the prerequisites section in the lab manual for [Module 4](../04Fundame
 
 This section of the lab creates a bot framework bot and extends it with Microsoft Teams functionality. In this exercise, you will create a bot to interact with the Microsoft Teams API.
 
-1. Launch Visual Studio 2017 as an administrator.
+1. Launch **Visual Studio 2017**.
 
 1. In Visual Studio 2017, select **File > New > Project**.
 
@@ -35,9 +49,9 @@ This section of the lab creates a bot framework bot and extends it with Microsof
 
 Before registering the bot, note the URL configured for the solution in Visual Studio.
 
-1. In Solution Explorer, double-click on **Properties**.
+1. In **Solution Explorer**, double-click on **Properties**.
 
-1. In the properties designer, select the **Web** tab.
+1. In the **Properties** designer, select the **Web** tab.
 
 1. Note the project URL.
 
@@ -61,6 +75,8 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 1. Go to the [Microsoft Bot Framework](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work or school account or a Microsoft account.
 
+    > NOTE: You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot** button in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.
+
 1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
 
     ![Screenshot of bot profile information page.](Images/Exercise1-04.png)
@@ -77,11 +93,13 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
 
+> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
+
 1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
 
     ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](Images/Exercise1-06.png)
 
-1. Once the connection is complete, ensure the connection is enabled and select **Done**. The bot registration is complete.
+1. Select the **Save button. Agree to the Terms of Service. The bot registration is complete.
 
     ![Screenshot of Microsoft Bot Framework with configuration message displayed.](Images/Exercise1-07.png)
 
@@ -287,6 +305,14 @@ The project template creates a messages controller that receives messages from t
 
 1. In **Solution Explorer**, add a new class named `EventHelpers` to the project.
 
+1. Add the following statements to the top of the **EventHelpers.cs** file.
+
+    ```cs
+    using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using System.Threading.Tasks;
+    ```
+
 1. Replace the generated `EventHelpers` class with the following code. The code is in the `Lab Files/EventHelper.cs` file.
 
     ```cs
@@ -325,14 +351,6 @@ The project template creates a messages controller that receives messages from t
     }
     ```
 
-1. Add the following statements to the top of the **EventHelpers.cs** file.
-
-    ```cs
-    using Microsoft.Bot.Connector;
-    using Microsoft.Bot.Connector.Teams.Models;
-    using System.Threading.Tasks;
-    ```
-
 1. Press **F5** to build the solution and package and start the web service in the debugger. The debugger will start the default browser, which can be ignored. The next step uses the teams client.
 
 ### Upload app into Microsoft Teams
@@ -361,7 +379,7 @@ Add the bot to a team.
 
 The bot extension for Microsoft Teams provides an easy mechanism to update a message. This step of the lab demonstrates that as well as utility functions for messages.
 
-1. Stop the debugger.
+1. In **Visual Studio**, stop the debugger if it is still running.
 
 1. Open the **RootDialog.cs** file in the **Dialogs** folder.
 
@@ -402,7 +420,7 @@ The bot extension for Microsoft Teams provides an easy mechanism to update a mes
 
 The Bot Framework allows for responding with cards instead of simply text. Microsoft Teams supports a subset of the cards in the Bot Framework. This section of the lab will add a dialog class to respond with cards.
 
-1. Stop the debugger.
+1. In **Visual Studio**, stop the debugger if it is still running.
 
 1. Open the **WebApiConfig.cs** file in the **App_Start** folder.
 
@@ -435,23 +453,14 @@ The Bot Framework allows for responding with cards instead of simply text. Micro
     }
     ```
 
-1. Replace the `MessageReceivedAsync` method with the following snippet. If the incoming message contains "ping" then a message with an alert is returned. If the incoming message contains "card" then the message is passed to the `CardsDialog`.
+1. Replace the `MessageReceivedAsync` method with the following snippet. If the incoming message contains "card" then the message is passed to the `CardsDialog`.
 
     ```cs
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
     {
       var activity = await result as Activity;
 
-      if (activity.GetTextWithoutMentions().ToLower().Trim() == "ping")
-      {
-        ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-        Activity reply = activity.CreateReply();
-        reply.NotifyUser();
-        reply.Summary = "One ping only, please.";
-        reply.Text += "Give me a ping, Vasili. One ping only, please.";
-        await connector.Conversations.ReplyToActivityAsync(reply);
-      }
-      else if (activity.Text.ToLower().Contains("card"))
+      if (activity.Text.ToLower().Contains("card"))
       {
         await context.Forward(new Dialogs.CardsDialog(), this.ResumeAfterCardsDialog, activity, CancellationToken.None);
       }
@@ -527,7 +536,7 @@ The Bot Framework allows for responding with cards instead of simply text. Micro
         else
         {
           var reply = context.MakeMessage();
-          reply.Text = "I don't support that kind of card.";
+          reply.Text = "I do not understand that kind of card.";
           await context.PostAsync(reply);
           context.Done(reply);
         }
@@ -542,8 +551,6 @@ The Bot Framework allows for responding with cards instead of simply text. Micro
         await context.PostAsync(message);
 
         context.Done(message);
-
-        //context.Wait(this.MessageReceivedAsync);
       }
 
       private static Attachment GetSelectedCard(string selectedCard)
@@ -654,12 +661,6 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
 
 1. In **Solution Explorer**, add a new class to the project. Name the class `BotChannelsData`.
 
-1. Add the following to the top of the class.
-
-    ```cs
-    using System.Collections.Generic;
-    ```
-
 1. Replace the class declaration with the following snippet. This code is in the **Lab Files/BotChannelData.cs** file.
 
     ```cs
@@ -702,9 +703,6 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
     using Microsoft.Bot.Connector.Teams;
     using Microsoft.Bot.Connector.Teams.Models;
     using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -832,27 +830,21 @@ The messaging extension is configured for use in a channel due to the scopes ent
 
 1. The extension is invoked by selecting the **ellipsis** below the compose box and selecting the bot.
 
-    ![Screenshot of search in bot channels.](Images/Exercise2-01.png)
+    ![Screenshot of Microsoft Teams highlighting the steps to invoke a messaging extension](Images/Exercise2-01.png)
 
-    ![Screenshot of bot channel search with Microsoft Teams displayed in the list of results.](Images/Exercise2-02.png)
+    ![Screenshot of Microsoft Teams with the messaging extension for this lab open.](Images/Exercise2-02.png)
 
-    ![Screenshot of Microsoft Teams bot in bot channel.](Images/Exercise2-03.png)
+    ![Screenshot of Microsoft Teams highlighting a search within a messaging extension](Images/Exercise2-03.png)
+
+    ![Screenshot of Microsoft Teams displaying the message compose area with a card inserted from a messaging extension](Images/Exercise2-04.png)
 
 <a name="exercise3"></a>
 
-## Exercise 3: Microsoft Teams apps with multiple capabilities
+## Exercise 3: Incoming webhooks
 
-This section of the lab creates a Microsoft Teams app from the tab and bot created previously along with a connector.
+This section of the lab creates an incoming webhook connector and sends a card to the channel using the webhook.
 
-### Office 365 connector & webhooks
-
-In Microsoft Teams, full functionality for Office 365 Connectors is restricted to connectors that have been published to the Microsoft Office store. However, communicating with Microsoft Teams using Office 365 connectors is identical to using the incoming webhook. This exercise will show the messaging mechanics via the webhook feature and then show the Microsoft Teams user interface experience for registering a connector.
-
-### Incoming webhook
-
-1. Select **Teams** in the left panel, then select a team.
-
-1. Select the **General** channel in the selected team.
+1. In **Microsoft Teams**, select a channel in team.
 
 1. Select **...** next to the channel name, then select **Connectors**.
 
