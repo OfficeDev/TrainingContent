@@ -345,11 +345,11 @@ Connectors for Microsoft Teams must be registered on the [Connectors Developer D
 
 1. Select **New Connector**.
 
-1. Use the following details to udpate the form:
+1. Use the following details to update the form:
   - **Connector name**: OfficeDev Team Management
-  - **Short description of yoru app**: Team management
+  - **Short description of your app**: Team management
   - **Detailed description of what your Connector does**: Connector created for team management
-  - **Company webiste**: *{enter the ngrok URL}*
+  - **Company website**: *{enter the ngrok URL}*
   - **Configuration page for your Connector**: *{enter the ngrok URL}*
 
     > NOTE: This field is not used by Microsoft Teams, but you must enter something.
