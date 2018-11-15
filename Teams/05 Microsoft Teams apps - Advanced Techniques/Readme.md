@@ -8,9 +8,9 @@ In this lab, you will use advanced techniques to build a more-sophisticated bot,
 
 ## Demos
 
-- [Advanced Teams Bot capabilities](./Demos/01-advanced-bot/README.md)
-- [Create a Messaging Extension](./Demos/02-messaging-extension/README.md)
-- [Incoming webhook](./Demos/03-incoming-webhook/README.md)
+- [Advanced Teams Bot capabilities](./Demos/01-advanced-bot/Readme.md)
+- [Create a Messaging Extension](./Demos/02-messaging-extension/Readme.md)
+- [Incoming webhook](./Demos/03-incoming-webhook/Readme.md)
 
 ## Watch the Module
 
