@@ -6,11 +6,11 @@ In this demo, you will demonstrate the incoming webhook capability of Microsoft 
 
 1. Select **...** next to the channel name, then select **Connectors**.
 
-    ![Screenshot of channel name with general menu displayed.](Images/Exercise3-01.png)
+    ![Screenshot of channel name with general menu displayed.](../../Images/Exercise3-01.png)
 
 1. Find **Incoming Webhook** in the list, select **Add** then **Install**.
 
-  ![Screenshot of list of connectors.](Images/Exercise3-02.png)
+  ![Screenshot of list of connectors.](../../Images/Exercise3-02.png)
 
 1. Enter a name for the webhook, upload an image to associate with the data from the webhook, then select **Create**.
 
@@ -32,7 +32,7 @@ In this demo, you will demonstrate the incoming webhook capability of Microsoft 
     Invoke-RestMethod -ContentType "application/json" -Body $message -Uri $url -Method Post
     ```
 
-    ![Screenshot of PowerShell code displaying webhook URL.](Images/Exercise3-03.png)
+    ![Screenshot of PowerShell code displaying webhook URL.](../../Images/Exercise3-03.png)
 
     > **Note:** Replace `<YOUR WEBHOOK URL>` with the webhook URL you saved when you created the **Incoming Webhook** connector.
 
@@ -40,6 +40,6 @@ In this demo, you will demonstrate the incoming webhook capability of Microsoft 
 
 1. Check the conversations tab in the Microsoft Teams application. You will see the new card message posted to the conversation.
 
-    ![Screenshot of card message in Microsoft Teams.](Images/Exercise3-04.png)
+    ![Screenshot of card message in Microsoft Teams.](../../Images/Exercise3-04.png)
 
     > Note: The action buttons will not work. Action buttons work only for connectors registered and published in the Microsoft Office store.

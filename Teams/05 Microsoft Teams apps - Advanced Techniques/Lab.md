@@ -6,7 +6,7 @@ In this lab, you will use advanced techniques to build a more sophisticated bot,
 
 - [Advanced Microsoft Teams bot capabilities](#exercise1)
 - [Messaging extensions](#exercise2)
-- [Microsoft Teams apps with multiple capabilities](#exercise3)
+- [Incoming webhooks](#exercise3)
 
 ## Prerequisites
 
@@ -99,7 +99,7 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
     ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](Images/Exercise1-06.png)
 
-1. Select the **Save button. Agree to the Terms of Service. The bot registration is complete.
+1. Select the **Save** button. Agree to the Terms of Service. The bot registration is complete.
 
     ![Screenshot of Microsoft Bot Framework with configuration message displayed.](Images/Exercise1-07.png)
 
@@ -138,7 +138,7 @@ Packaging a bot for Microsoft Teams requires that a manifest file and related re
 
 ### Compress the manifest folder
 
-1. In Solution Explorer, right-click on the project and choose **Unload Project**. If prompted, select **Yes** to save changes.
+1. In **Solution Explorer**, right-click on the project and choose **Unload Project**. If prompted, select **Yes** to save changes.
 
     ![Screenshot of Solution Explorer with unload project highlighted.](Images/Exercise1-09.png)
 
@@ -191,7 +191,7 @@ Packaging a bot for Microsoft Teams requires that a manifest file and related re
 
 1. Save and close the project file.
 
-1. In Solution Explorer, right-click on the project and choose **Reload Project**.
+1. In **Solution Explorer**, right-click on the project and choose **Reload Project**.
 
 1. Press **Ctrl+Shift+B** to build the project. The new **AfterBuild target** will run, creating a zip file in the build output folder **`bin`**.
 
@@ -363,13 +363,11 @@ Add the bot to a team.
 
 1. On the Manage team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application.
 
-1. Select the zip file (**teams-bot1.zip** in this example) from the **bin** folder. Select **Open**.
+1. Select the zip file from the **bin** folder. Select **Open**.
 
-1. The app is displayed. The description and icon for the app is displayed.
+1. The app is now uploaded into the Microsoft Teams application and the bot is available.
 
     ![Screenshot of Microsoft Teams with new app displayed.](Images/Exercise1-13.png)
-
-    The app is now uploaded into the Microsoft Teams application and the bot is available.
 
     > **Note:** Adding the bot to a team invokes the system message **ConversationUpdated**. The code in `EventHelpers.cs` determines if the message is in response to the bot being added, and initiates a 1:1 message with each member of the team.
 
@@ -832,9 +830,15 @@ The messaging extension is configured for use in a channel due to the scopes ent
 
     ![Screenshot of Microsoft Teams highlighting the steps to invoke a messaging extension](Images/Exercise2-01.png)
 
+1. The extension is displayed. If the **initialRun** property is set to `true`, the extension is invoked and the results displayed. Since the **initialRun** property is `false`, the **description** is displayed. Note that the **parameters/description** property is displayed as an input hint in the search box.
+
     ![Screenshot of Microsoft Teams with the messaging extension for this lab open.](Images/Exercise2-02.png)
 
+1. Type in the search box. After several characters are entered, the messaging extension is called and the results displayed. (Search for `sky` to see multiple results.)
+
     ![Screenshot of Microsoft Teams highlighting a search within a messaging extension](Images/Exercise2-03.png)
+
+1. Select a result card. The selected card is inserted into the message compose area. The user can augment the message with text as desired. The card/message is not sent until the users selects the send button.
 
     ![Screenshot of Microsoft Teams displaying the message compose area with a card inserted from a messaging extension](Images/Exercise2-04.png)
 
@@ -878,9 +882,9 @@ This section of the lab creates an incoming webhook connector and sends a card t
 
     > **Note:** Replace `<YOUR WEBHOOK URL>` with the webhook URL you saved when you created the **Incoming Webhook** connector.
 
-1. When the POST succeeds, you will see a simple **"1"** outputted by the `Invoke-RestMethod` cmdlet.
+1. When the POST succeeds, you will see a simple **"1"** output by the `Invoke-RestMethod` cmdlet.
 
-1. Check the conversations tab in the Microsoft Teams application. You will see the new card message posted to the conversation.
+1. Check the conversations tab in the channel with the connector. You will see the new card message posted to the conversation.
 
     ![Screenshot of card message in Microsoft Teams.](Images/Exercise3-04.png)
 
