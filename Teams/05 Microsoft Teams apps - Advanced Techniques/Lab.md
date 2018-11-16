@@ -125,7 +125,7 @@ Packaging a bot for Microsoft Teams requires that a manifest file and related re
 
 1. In **Visual Studio** right-click on the project, choose **Add > New Folder**. Name the folder **Manifest**.
 
-1. Add the displayed files from the **Lab Files** folder of this repository.
+1. Add the displayed files from the **[Lab Files](./Lab%20Files)** folder of this module.
 
     ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise1-08.png)
 
@@ -659,7 +659,7 @@ This section of the lab extends the bot from exercise 1 with Microsoft Teams fun
 
 1. In **Solution Explorer**, add a new class to the project. Name the class `BotChannelsData`.
 
-1. Replace the class declaration with the following snippet. This code is in the **Lab Files/BotChannelData.cs** file.
+1. Replace the class declaration with the following snippet. This code is in the **[Lab Files/BotChannelData.cs](./Lab%20Files/BotChannelData.cs)** file.
 
     ```cs
     public class BotChannel
@@ -834,7 +834,7 @@ The messaging extension is configured for use in a channel due to the scopes ent
 
     ![Screenshot of Microsoft Teams with the messaging extension for this lab open.](Images/Exercise2-02.png)
 
-1. Type in the search box. After several characters are entered, the messaging extension is called and the results displayed. (Search for `sky` to see multiple results.)
+1. Type in the search box. After several characters are entered, the messaging extension is called and the results displayed. (Search for `tea` to see multiple results.)
 
     ![Screenshot of Microsoft Teams highlighting a search within a messaging extension](Images/Exercise2-03.png)
 
@@ -868,7 +868,7 @@ This section of the lab creates an incoming webhook connector and sends a card t
 
 ### Create a simple connector card message to the webhook
 
-1. Copy the **sample-connector-message.json** file from the **Lab Files** folder to your development machine.
+1. Copy the **sample-connector-message.json** file from the **[Lab Files](./Lab%20Files)** folder to your development machine.
 
 1. Open a **PowerShell** window, go to the directory that contains the **sample-connector-message.json**, and enter the following commands:
 
