@@ -9,7 +9,7 @@ In this lab, you will walk through extending a Microsoft Teams app with the capa
 
 ## Application Registration worksheet
 
-This lab requires the registration of multiple applications in Azure Active Directory (Azure AD), the Bot Framework and the Azure Portal. The **LabFiles** folder of this module contains a file named **AppWorksheet.txt** which can be used to record the various ids and secrets generated in the lab.
+This lab requires the registration of multiple applications in Azure Active Directory (Azure AD), the Bot Framework and the Azure Portal. The **[LabFiles](./LabFiles)** folder of this module contains a file **[AppWorksheet.txt](./LabFiles/AppWorksheet.txt)** which can be used to record the various ids and secrets generated in the lab.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ The Azure Bot service requires an Azure subscription. A free trial subscription 
 
 ### Install developer tools
 
-The developer workstation requires the following tools for this lab.
+The developer workstation requires the following tools for this lab:
 
 #### Download ngrok
 
@@ -43,7 +43,7 @@ You can use any code editor or IDE that supports these technologies, however the
 
 ### Starter solution
 
-The exercises in this lab will extend the Microsoft Teams app built in the module [02 - Tabs and Connectors](../02%20Tabs%20and%20Connectors). A working copy of that application is in the **LabFiles\Starter** folder.
+The exercises in this lab will extend the Microsoft Teams app built in the module [02 - Tabs and Connectors](../02%20Tabs%20and%20Connectors). A working copy of that application is in the **[LabFiles\Starter](./LabFiles/Starter)** folder.
 
 ## Update Starter solution
 
@@ -51,7 +51,7 @@ The exercises in this lab will extend the Microsoft Teams app built in the modul
 
 1. In **Visual Studio 2017**, select **File > Open > Project/Solution**.
 
-1. Select the **officedev-talent-management.sln** file from the **LabFiles\Starter** folder.
+1. Select the **officedev-talent-management.sln** file from the **[LabFiles\Starter](./LabFiles/Starter)** folder.
 
 ### Find the project URL
 
@@ -85,7 +85,7 @@ The exercises in this lab will extend the Microsoft Teams app built in the modul
 
 1. Complete the **Bot profile** section, entering a display name, unique bot handle and description. (It is recommended to include **bot** in the name to help distinguish this entry later in the lab.)
 
-    > **NOTE:** Record the **Bot handle** on the AppWorksheet as the "BotID".
+    > **NOTE:** Record the **Bot handle** on the AppWorksheet as the **BotID**.
 
     ![Screenshot of bot profile information page.](./Images/Starter-03.png)
 
@@ -94,11 +94,11 @@ The exercises in this lab will extend the Microsoft Teams app built in the modul
     - Select the **Create Microsoft App ID and password button**. This opens a new browser window. If prompted to login, use the same account as the Bot Framework Portal.
     - In the new browser window, the application is registered in Azure Active Directory. Select **Generate an app password to continue**.
     - An app password is generated.
-      > **NOTE:** Record the password on the AppWorksheet as the "MicrosoftAppPassword".
+      > **NOTE:** Record the password on the AppWorksheet as the **MicrosoftAppPassword**.
     - Select **OK** to close the dialog box.
     - Select the **Finish and go back to Bot Framework** button to close the new browser window
     - The app ID from Azure Active Directory will be set in the Configuration section. (The page instructions are **Paste your app ID below to continue textbox**, but the value is already filled in.)
-      > **NOTE:** Record the app ID on the AppWorksheet as the "MicrosoftAppID".
+      > **NOTE:** Record the app ID on the AppWorksheet as the **MicrosoftAppID**.
 
     ![Screenshot of configuration page with messaging endpoint and app ID displayed.](./Images/Starter-04.png)
 
@@ -187,11 +187,11 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. In the **Directory Properties** blade, copy the **Directory ID**.
 
-    > **NOTE:** Record the **Directory ID** on the AppWorksheet as the "AzureTenantID".
+    > **NOTE:** Record the **Directory ID** on the AppWorksheet as the **AzureTenantID**.
 
 1. Close the **Directory Properties** blade, returning to the **Overview** blade.
 
-1. Select **App registrations**.
+1. Select **App registrations** in the left-hand menu.
 
 1. Select **New application registration**.
 
@@ -209,25 +209,25 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. On the application blade, copy the **Application Id**.
 
-    > **NOTE:** Record the **Application Id** on the AppWorksheet as the "AzureAppID".
+    > **NOTE:** Record the **Application Id** on the AppWorksheet as the **AzureAppID**.
 
 1. Select **Manifest**.
 
     ![Screenshot if the Azure AD Portal showing the application blade](Images/Exercise1-01.png)
 
-1. Location the **oauth2AllowImplicitFlow** property. Set the property to `true`. (Note that the property is a boolean, not a string.)
+1. Location the `oauth2AllowImplicitFlow` property. Set the property to `true`. (Note that the property is a boolean, not a string.)
 
 1. Select **Save** and then close the **Edit manifest blade**.
 
 1. In the application blade, select **Settings**.
 
-1. In the **Settings** blade, select **Required permissions**.
+1. In the **Settings** blade, then **Required permissions**.
 
-1. In the **Required permissions** blade, select **Select and API**.
+1. In the **Required permissions** blade, select **Add**, select **Select and API**.
 
 1. In the **Select an API blade** blade, select **Microsoft Graph**. Select the **Select** button at the bottom of the blade.
 
-1. In the resulting **Enable access** blade, select the following Delegated permissions:
+1. In the resulting **Enable access** blade, select the following **Delegated** permissions:
     - **Read all users' full profiles**
     - **Read all groups**
     - **Sign users in**
@@ -238,6 +238,8 @@ When the bot was registered, an application registration was created in the AAD 
 1. In the **Required permissions** blade, select **Grant permissions**. Select **Yes**.
 
 ### Replace the tab in the Teams app
+
+> **NOTE**: If Visual Studio's debugger is still running from setting up the starter application prior to this exercise, stop it.
 
 1. In **Visual Studio**, open the `manifest.json` file in the **Manifest** folder.
 
@@ -253,21 +255,21 @@ When the bot was registered, an application registration was created in the AAD 
 
 ### Add the tab pages to the solution
 
-1. Add the following pages from the **LabFiles** folder to the project, in the **Tabs** folder:
+1. Add the following pages from the **[LabFiles](./LabFiles)** folder to the project, in the **Tabs** folder:
 
-- hiringTeam.html
-- hiringTeamConfig.html
-- auth.html
+    - hiringTeam.html
+    - hiringTeamConfig.html
+    - auth.html
 
-1. Open file **auth.html** in the **Tabs** folder. The **auth.html** contains javascript code that will use the MSAL library to acquire an access token for the Microsoft Graph API.
+1. Open file **auth.html** in the **Tabs** folder. The **auth.html** contains JavaScript code that will use the MSAL library to acquire an access token for the Microsoft Graph API.
 
-- Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
-- Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
+    - Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
+    - Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
 
-1. Open file **hiringTeam.html** in the **Tabs** folder. The **hiringTeam.html** page contains javascript code that will use the Microsoft Teams API to open the authentication window, calling auth.html. The resulting access token is used to call the Microsoft Graph API.
+1. Open file **hiringTeam.html** in the **Tabs** folder. The **hiringTeam.html** page contains JavaScript code that will use the Microsoft Teams API to open the authentication window, calling auth.html. The resulting access token is used to call the Microsoft Graph API.
 
-- Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
-- Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
+    - Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
+    - Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
 
 1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
 
@@ -343,7 +345,7 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Copy the **Application Id**.
 
-    > NOTE: This value should match the entry in the AppWorksheet named "AzureAppID".
+    > NOTE: This value should match the entry in the AppWorksheet named **AzureAppID**.
 
 1. Select **Settings**. In the **General** section, select **Reply URLs**.
 
@@ -355,7 +357,7 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. Select **Save**. Record the key value.
 
-    > **NOTE:** Record the key value on the AppWorksheet as the "AzureAppSecret".
+    > **NOTE:** Record the key value on the AppWorksheet as the **AzureAppSecret**.
 
 ### Create a Bot Service Channel registration
 
@@ -417,7 +419,7 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. In the **Application Secrets** section, select **Generate New Password**. A new password is created and displayed in a popup dialog. Record the new password.
 
-    > NOTE: Record the password on the AppWorksheet as the "BotChannelRegistrationPassword".
+    > NOTE: Record the password on the AppWorksheet as the **BotChannelRegistrationPassword**.
 
 1. You may close the browser tab containing the Application Registration Portal. It is no longer needed.
 
