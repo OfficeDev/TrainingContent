@@ -34,11 +34,15 @@ In this exercise, you will copy an example card from the Message Card Playground
 
 1. Open a browser and go to [Microsoft Outlook](https://outlook.office.com). Log in with your Office 365 credentials.
 1. Create a new group, or select an existing group.
-1. At the top-right of the screen, select the gear next to the member account. Choose **Connectors**.
+1. At the top-right of the screen, select the gear in the content area (not the suite bar).
+
+    ![Screenshot of Outlook.com Group inbox, with arrow indicating the Group settings gear](Images/Exercise1-07.png)
+
+1. Select **Connectors**.
 
     ![Screenshot of group settings menu](Images/Exercise1-01.png)
 
-1. In the list of connectors, scroll down and select **Incoming Webhook**. Select **Add**.
+1. In the list of connectors, scroll down and select **Incoming Webhook**.
 
     ![Screenshot of list of Connectors with incoming webhook highlighted](Images/Exercise1-02.png)
 
@@ -54,17 +58,17 @@ In this exercise, you will copy an example card from the Message Card Playground
 ### Explore MessageCard playground
 
 1. In another browser tab or window, navigate to [MessageCard Playground](https://messagecardplayground.azurewebsites.net).
-1. The playground site provides for uploading a custom card definition or reviewing several samples. Use the **select a sample** dropdown to select a sample that closely matches your requirements.
+1. The playground site provides for uploading a custom card definition or reviewing several samples. Use the **select a sample** dropdown to select a sample. This lab requires that the sample uses the **Legacy MessageCard samples** at the bottom of the dropdown.
 
     ![Screenshot of message card sample](Images/Exercise1-04.png)
 
-    > Note: The image in this lab uses the **MessageCard layout emulation**, but that is not required.
+    > Note: Choosing an **Adaptive Card Sample** may result in an error in the next section of the lab.
 
 ### Send card via PowerShell
 
 It is not necessary to use the playground website to send test messages. Any facility for sending HTTP POST requests can also send cards to the group.
 
-1. Select the JSON of a card from teh MessageCard Playground and copy it to Notepad.
+1. Select the JSON of a card from the MessageCard Playground and copy it to Notepad.
 1. Save the card source as **connector-card.json**.
 1. Open **Windows PowerShell** and change to the directory containing the **connector-card.json** file.
 1. Execute the following commands:
@@ -94,6 +98,14 @@ This exercise will add connector functionality to an existing website. First, a 
     ![Screenshot of ASP.NET web application template with MVC selected](Images/Exercise2-02.png)
 
     >Our example will use a subset of the complete solution at [Microsoft Teams Sample Connector in .NET/C#](https://github.com/OfficeDev/microsoft-teams-sample-connector-csharp). This lab will implement enough of that example so that you can create and register the Connector and see it post a welcome message card.
+
+1. Choose the **csproj** file and select **F4** to display the Properties pane.
+
+1. Make note of the **URL** property. It is needed for the tunnel application later.
+
+    >Note: If this were a real solution you would want to enable SSL Encryption (by changing the value to true) because the connector requires it.  During testing ngrok is handling the HTTPS->HTTP redirection.
+
+    ![Screenshot of project URL](Images/Exercise2-04.png)
 
 1. Right-click on the **Models** folder and select **Add > Class**.  Name the class **Subscription**.
 
@@ -165,7 +177,7 @@ This exercise will add connector functionality to an existing website. First, a 
     }
     ````
 
-1. Right-click on the **Controllers** folder and select **Add > Controller**. Select **MVC 5 Controller - Empty**. Name the controller **ConnectorController**.
+1. Right-click on the **Controllers** folder and select **Add > Controller**. Select **MVC 5 Controller - Empty**. Select **Add**. Name the controller **ConnectorController**. Select **Add**.
 
 1. Paste the following code into the file, adjusting the namespaces as necessary for your project name.
 
@@ -230,7 +242,7 @@ This exercise will add connector functionality to an existing website. First, a 
     }
     ````
 
-1. Place your cursor inside the **Setup** method, right-click and select **Add > View**. Clear the check box for **Use a layout page**.
+1. Place your cursor inside the **Setup** method, right-click and select **Add View...**. Clear the check box for **Use a layout page**. Select **Add**.
 
 1. Paste the following code into the file.
 
@@ -245,11 +257,11 @@ This exercise will add connector functionality to an existing website. First, a 
         Select the button to call the "register" endpoint in the sample app, which will register the Connector for the selected channel.
     </p>
     <a href="https://outlook.office.com/connectors/Connect?state=myAppsState&app_id=[ApplicationID]&callback_url=[NGROK_HTTPS]/connector/register">
-        <img src="https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png" alt="Connect to Office 365"></img>
+        <img src="https://o365connectors.blob.core.windows.net/images/ConnectToO365Button.png" alt="Connect to Office 365"/>
     </a>
     ````
 
-1. Place your cursor inside the **Register** method, right-click and select **Add > View**. Clear the checkbox for **Use a layout page**.
+1. Place your cursor inside the **Register** method, right-click and select **Add View...**. Clear the checkbox for **Use a layout page**. Select **Add**.
 
 1. Paste the following code into the file.
 
@@ -261,7 +273,7 @@ This exercise will add connector functionality to an existing website. First, a 
     <H2>Registration successful!</H2>
     ````
 
-1. Place your cursor inside the **Error** method, right-click and select **Add > View**. Clear the checkbox for **Use a layout page**.
+1. Place your cursor inside the **Error** method, right-click and select **Add View...**. Clear the checkbox for **Use a layout page**. Select **Add**.
 
 1. Paste the following code into the file.
 
@@ -290,17 +302,7 @@ This exercise will add connector functionality to an existing website. First, a 
 
     ![Screenshot of setup page](Images/Exercise2-03.png)
 
-1. Stop debugging.
-
 ### Run the ngrok secure tunnel application
-
-1. Choose the **csproj** file and select **F4** to display the Properties pane.
-
-1. Make note of the **URL** property. It is needed for the tunnel application later.
-
-    >Note: If this were a real solution you would want to enable SSL Encryption (by changing the value to true) because the connector requires it.  During testing ngrok is handling the HTTPS->HTTP redirection.
-
-    ![Screenshot of project URL](Images/Exercise2-04.png)
 
 1. Open a new **Command Prompt** window.
 
@@ -316,10 +318,11 @@ This exercise will add connector functionality to an existing website. First, a 
 
 ### Register the connector
 
-Following the steps found on [docs.microsoft.com](https://docs.microsoft.com/en-us/outlook/actionable-messages/connectors-dev-dashboard#build-your-own-connector), register a connector for Office 365. Make sure you are using an account that has access to Microsoft Outlook to test later.
+1. Go to the [Connector Developer Portal](https://aka.ms/connectorsdashboard) and sign in with your Office 365 credentials. 
 
-1. Fill in all the basic details such as name and description for the new connector.
+1. Provide a name, logo, short description and detailed description for your connector.
 
+1. For the **Company website**, use the HTTPS forwarding address from the ngrok tunnel.
 1. For the **Landing page for your users for Inbox** and **Landing page for your users for Groups or Teams** field, use the forwarding HTTPS address from ngrok prepended to the route to the setup endpoint. In the example, this is `https://8555a1a2.ngrok.io/connector/setup`.
 
 1. For the **Redirect URLs** field, use the forwarding HTTPS address from ngrok prepended to the route to the register endpoint. In the example, this is `https://8555a1a2.ngrok.io/connector/register`.
