@@ -8,8 +8,8 @@ In the lab, you will walk through extending a Microsoft Teams app with Authentic
 
 ## Demos
 
-1. [Add authentication to a tab](./Demos/readme01.md)
-1. [Add authentication to a bot](./Demos/readme02.md)
+1. [Add authentication to a tab](./Demos/01-add-authentication-tab/README.md)
+1. [Add authentication to a bot](./Demos/02-add-authentication-bot/README.md)
 
 ## Watch the Module
 
@@ -25,10 +25,11 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |        Date        |       Comments        |
-| ------- | ------------------ | --------------------- |
-| 1.1     | October 23, 2018   | Added screencast link |
-| 1.0     | September 28, 2018 | Initial release       |
+| Version |        Date        |       Comments         |
+| ------- | ------------------ | ---------------------- |
+| 1.2     | November 14, 2018  | 2019Q2 content refresh |
+| 1.1     | October 23, 2018   | Added screencast link  |
+| 1.0     | September 28, 2018 | Initial release        |
 
 ## Disclaimer
 

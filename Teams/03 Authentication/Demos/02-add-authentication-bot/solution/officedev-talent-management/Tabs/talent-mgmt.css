@@ -1,0 +1,116 @@
+body {
+	margin: 0;
+	padding: 8px 15px;
+	background-color: rgb(240, 242, 244);
+	color: #16233A;
+	font-family: "Segoe UI Semilight","Segoe WPC","Segoe UI", Helvetica, Arial, "Arial Unicode MS", Sans-Serif;
+	font-size: 80%;
+	width: 100%;
+}
+
+h1 {
+	font-family: "Segoe UI Light";
+}
+
+h3 {
+	font-family: "Segoe UI Light";
+}
+
+h5 {
+	font-family: "Segoe UI";
+}
+
+.row {
+	padding: 8px 0px;
+}
+
+.row input {
+	border: none;
+	border-bottom: 1px solid #4E9DC7;
+	background-color: transparent;
+	margin: 0 5px;
+	padding: 3px 5px;
+}
+
+.row input:hover {
+	background-color: rgba(0,0,0,0.05);
+}
+
+.row input:active {
+	background-color: rgba(0,0,0,0.1);
+}
+
+.row .label {
+	margin-bottom: 5px;
+}
+
+select {
+	background-color: #F0F2F4;
+	color: #16233A;
+	font-family: 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+	line-height: 1.2rem;
+	font-weight: 400;
+	font-size: 0.875rem;
+	padding: 0.25rem;
+	border: none;
+	display: block;
+}
+
+select:hover {
+	background-color: #F0F2F4;
+}
+
+
+.jumbotron {
+	background-color: #020081;
+	color: #FFFFFF;
+	padding: 1rem 1rem;
+	margin-bottom: 0rem;
+}
+
+.applicant-info {
+	color: #FFFFFF;
+	text-align: center;
+}
+
+.applicant-info h1 {
+	margin-bottom: 0;
+}
+
+#header_section {
+	background-color: #020081;
+}
+
+.panel {
+	border-radius: 3px;
+	background-color: #FFFFFF;
+}
+
+div .divider {
+	border-left: 1px solid white;
+}
+
+.circle-crop {
+	width: 100px;
+	height: 100px;
+	position: relative;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+img.profile {
+	width: 32px;
+	height: 32px;
+	margin-right: 10px;
+	border-radius: 50%;
+}
+
+.candidate {
+	margin-bottom: 3px;
+	vertical-align: middle;
+}
+
+span.label {
+	color: #4E586A;
+	margin-left: 5px;
+}
