@@ -1,0 +1,64 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "id": "[microsoft-app-id]",
+  "version": "0.0.1",
+  "packageName": "io.ngrok.[from-ngrok]",
+  "developer": {
+    "name": "Office Developer",
+    "websiteUrl": "https://[from-ngrok].ngrok.io",
+    "privacyUrl": "https://[from-ngrok].ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://[from-ngrok].ngrok.io/tou.html"
+  },
+  "name": {
+    "short": "OfficeDev 2019Q2 M5",
+    "full": "Office Dev Training Content - module 5 bot"
+  },
+  "description": {
+    "short": "Module 5 bot",
+    "full": "Training content module 5"
+  },
+  "icons": {
+    "outline": "bot-icon-32x32.png",
+    "color": "bot-icon-192x192.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [],
+  "staticTabs": [],
+  "bots": [
+    {
+      "botId": "[microsoft-app-id]",
+      "needsChannelSelector": true,
+      "isNotificationOnly": false,
+      "scopes": [
+        "team",
+        "personal"
+      ],
+      "commandLists": [
+        {
+          "scopes": [
+            "team",
+            "personal"
+          ],
+          "commands": [
+            {
+              "title": "Hero card",
+              "description": "Display a sample Hero card"
+            },
+            {
+              "title": "Thumbnail card",
+              "description": "Display a sample Thumbnail"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}

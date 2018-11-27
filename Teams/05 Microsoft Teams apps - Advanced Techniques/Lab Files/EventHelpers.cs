@@ -9,7 +9,7 @@ public class EventHelpers
                                                       ChannelAccount botAccount, ChannelAccount userAccount,
                                                       string tenantId)
   {
-    string welcomeMessage = $"The team {channelData.Team.Name} has OOFBot - helping your team manage out-of-office requests.";
+    string welcomeMessage = $"The team {channelData.Team.Name} has CardBot - helping your team understand Cards.";
 
     // create or get existing chat conversation with user
     var response = client.Conversations.CreateOrGetDirectConversation(botAccount, userAccount, tenantId);

@@ -8,9 +8,9 @@ In this lab, you will use advanced techniques to build a more-sophisticated bot,
 
 ## Demos
 
-- [Advanced Teams Bot capabilities](./Demos/01%20-%20teams-bot2)
-- [Messaging Extensions](./Demos/02%20-%20teams-bot2)
-- [Microsoft Teams Apps with multiple capabilities](./Demos/03%20-%20teams-bot2)
+- [Advanced Teams Bot capabilities](./Demos/01-advanced-bot/Readme.md)
+- [Create a Messaging Extension](./Demos/02-messaging-extension/Readme.md)
+- [Incoming webhook](./Demos/03-incoming-webhook/Readme.md)
 
 ## Watch the Module
 
@@ -28,6 +28,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |       Date        |                   Comments                   |
 | ------- | ----------------- | -------------------------------------------- |
+| 1.5     | November 15, 2018 | 2019Q2 content refresh                       |
 | 1.4     | August 2018       | 2019Q1 content refresh                       |
 | 1.3     | June 22, 2018     | 2018Q4 content refresh & style guide updates |
 | 1.2     | February 25, 2018 | Code Review and minor corrections            |
