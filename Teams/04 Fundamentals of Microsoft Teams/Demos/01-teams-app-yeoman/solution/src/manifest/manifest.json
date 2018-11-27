@@ -1,0 +1,46 @@
+{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.2",
+  "id": "d0bfd1a4-aab0-72f6-0bb8-1400d18f3cb5",
+  "version": "0.0.1",
+  "packageName": "io.ngrok.[from-ngrok]",
+  "developer": {
+    "name": "Office Developer",
+    "websiteUrl": "https://[from-ngrok].ngrok.io",
+    "privacyUrl": "https://[from-ngrok].ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://[from-ngrok].ngrok.io/tou.html"
+  },
+  "name": {
+    "short": "teams app1",
+    "full": "teams app1"
+  },
+  "description": {
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://[from-ngrok].ngrok.io/teamsApp1TabConfig.html",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
+  "staticTabs": [],
+  "bots": [],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "[from-ngrok].ngrok.io"
+  ]
+}
