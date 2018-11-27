@@ -8,9 +8,9 @@ In the lab, you will walk through building a bot that demonstrates several capab
 
 ## Demos
 
-- [Microsoft Teams context and events for bots](./Demos/readme01.md)
-- [Messaging Extensions](./Demos/readme02.md)
-- [Using cards in Microsoft Teams](./Demos/readme03.md)
+- [Microsoft Teams context and events for bots](./Demos/01-send-receive-files)
+- [Messaging Extensions](./Demos/02-messaging-extension)
+- [Using cards in Microsoft Teams](./Demos/03-adaptive-card)
 
 ## Watch the Module
 
@@ -26,10 +26,11 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |        Date        |       Comments        |
-| ------- | ------------------ | --------------------- |
-| 1.1     | October 23, 2018   | Added screencast link |
-| 1.0     | September 20, 2018 | Initial release       |
+| Version |        Date        |       Comments         |
+| ------- | ------------------ | ---------------------- |
+| 1.2     | November 9, 2018   | 2019Q2 content refresh |
+| 1.1     | October 23, 2018   | Added screencast link  |
+| 1.0     | September 20, 2018 | Initial release        |
 
 ## Disclaimer
 

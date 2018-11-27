@@ -48,8 +48,8 @@ public class CommandHandlers
     O365ConnectorCard card = CardHelper.CreateCardForInterviewRequest(request);
     reply.Attachments.Add(card.ToAttachment());
 
-    ConnectorClient client = new ConnectorClient(new Uri(context.Activity.ServiceUrl));
-    ResourceResponse resp = await client.Conversations.ReplyToActivityAsync((Activity)reply);
+    ConnectorClient connector = new ConnectorClient(new Uri(context.Activity.ServiceUrl));
+    ResourceResponse resp = await connector.Conversations.ReplyToActivityAsync((Activity)reply);
   }
 
   #endregion
