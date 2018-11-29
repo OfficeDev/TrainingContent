@@ -354,7 +354,7 @@ Connectors for Microsoft Teams must be registered on the [Connectors Developer D
 
     > NOTE: This field is not used by Microsoft Teams, but you must enter something.
 
-  - **Valid domains**: https://f044969c.ngrok.io
+  - **Valid domains**: f044969c.ngrok.io
 
     > NOTE: This field is used for actionable messages.
 
