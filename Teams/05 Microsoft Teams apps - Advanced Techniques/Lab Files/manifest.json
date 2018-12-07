@@ -11,18 +11,18 @@
     "termsOfUseUrl": "https://[from-ngrok].ngrok.io/tou.html"
   },
   "name": {
-    "short": "TODO: add short name here",
-    "full": "TODO: add full name here"
+    "short": "OfficeDev 2019Q2 M5",
+    "full": "Office Dev Training Content - module 5 bot"
   },
   "description": {
-    "short": "TODO: add short description here",
-    "full": "TODO: add full description here"
+    "short": "Module 5 bot",
+    "full": "Training content module 5"
   },
   "icons": {
-    "outline": "bot-icon-20x20.png",
-    "color": "bot-icon-96x96.png"
+    "outline": "bot-icon-32x32.png",
+    "color": "bot-icon-192x192.png"
   },
-  "accentColor": "#FFFFFF",
+  "accentColor": "#D85028",
   "configurableTabs": [],
   "staticTabs": [],
   "bots": [
