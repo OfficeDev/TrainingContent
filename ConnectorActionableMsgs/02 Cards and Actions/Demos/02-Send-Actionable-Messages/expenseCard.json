@@ -6,10 +6,8 @@
     "sections":
     [
       {
-        "heroImage":
-        {
-          "image": "http://messagecardplayground.azurewebsites.net/assets/FlowLogo.png"
-        }
+        "activityImage": "https://messagecardplayground.azurewebsites.net/favicon.ico",
+        "activityTitle": "**Expense Approval**"
       },
       {
         "startGroup": true,
@@ -53,7 +51,7 @@
               {
                 "@type": "HttpPOST",
                 "name": "Submit",
-                "target": "https://YOURWEBAPPNAME.azurewebsites.net/api/expense?id=9876&action=approve",
+                "target": "https://tbd.ngrok.io/api/expense?id=9876&action=approve",
                 "body": "={{comment.value}}",
                 "headers":
                 [
@@ -81,7 +79,7 @@
               {
                 "@type": "HttpPOST",
                 "name": "Submit",
-                "target": "https://YOURWEBAPPNAME.azurewebsites.net/api/expense?id=9876&action=approve",
+                "target": "https://tbd.ngrok.io/api/expense?id=9876&action=reject",
                 "body": "={{comment.value}}",
                 "headers":
                 [
@@ -93,10 +91,6 @@
             ]
           }
         ]
-      },
-      {
-        "startGroup": true,
-        "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
       }
     ]
   }
