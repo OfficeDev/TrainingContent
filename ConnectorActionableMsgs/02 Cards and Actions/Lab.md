@@ -10,98 +10,61 @@ In this lab, you will walk through building an Actionable Message card and addin
 
 ## Prerequisites
 
-This lab uses Visual Studio 2017. It also requires an Microsoft Office 365 subscription with an active mailbox and a **Microsoft Azure** subscription.
+This lab will require an Office 365 tenant and a user account that has a mailbox. The lab will require Visual Studio 2017.
 
-## Setup
+### Install developer tools
 
-This lab will use an Microsoft Azure Web App to deploy an application. The URL of the web app is required. Visit the [Microsoft Azure Portal](<https://portal.azure.com>) and create a new web app using the free pricing tier. Copy the URL (for example, <https://mywebapp.azurewebsites.net>) for later use.
+The developer workstation requires the following tools for this lab.
+
+#### Download ngrok
+
+The connector registration process requires an endpoint accessible from the internet via HTTPS. To enable the exercises to work correctly, a tunneling application is required.
+
+This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS endpoints to a web server running locally on the developer workstation. ngrok is a single-file download that is run from a console.
 
 ## Exercise 1: Actionable Messages card design and MessageCard Playground
 
-This lab will walk you through designing an Actionable Message card using the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) app.
+This exercise will walk you through the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) site.
+
+The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. Each of these samples provides an interesting component of the syntax used to design a card. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
 
 ### Select a MessageCard to edit
 
-1. Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) app.
+1. Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) site. At the top right, select **Log in**.
 
-    ![Screenshot of MessageCard Playground app.](Images/playground.png)
-
-    The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. Each of these samples provides an interesting component of the syntax used to design a card. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
+1. If requested, grant consent to the Playground_React application.
 
 1. In the drop-down menu, choose **Microsoft Flow Approval**.
+
+    ![Screenshot of MessageCard Playground site.](Images/Exercise1-01.png)
 
 ### Modify a sample
 
 1. Edit the `activityTitle` element to surround it with three asterisks instead of two, note how the text changes:
 
-    ![Screenshot of Microsoft Flow approval with title highlighted.](Images/Exercise1_03.png)
+    ![Screenshot of Microsoft Flow approval with title highlighted.](Images/Exercise1-02.png)
 
     >Note: You can use basic markdown formatting for text elements within the card.
 
-1. Open your browser and go to the [Training Content Issue 493](https://github.com/OfficeDev/TrainingContent/issues/493).
+1. Select the **Send via Email** button to send the card to the logged-in user. 
 
-    ![Screenshot of GitHub Training Content Issue 493.](Images/Exercise1_04.png)
+    > NOTE: If you see a message indicating that the mail could not be sent, check pop-up blocker in your browser. The first attempt to send an email includes a prompt for incremental consent. 
 
-1. Replace the JSON in the MessageCard Playground app with the following code:
+    ![Screenshot of test message card in email.](Images/Exercise1-03.png)
 
-    ````json
-    {
-      "@type": "MessageCard",
-      "@context": "http://schema.org/extensions",
-      "summary": "Issue 176715375",
-      "themeColor": "0078D7",
-      "title": "Issue opened: \"Is the Stock Service Down?\"",
-      "sections": [
-        {
-          "activityTitle": "MatthewMcD",
-          "activitySubtitle": "5/20/2018, 12:36pm",
-          "activityImage": "https://avatars1.githubusercontent.com/u/7558738?s=460&v=4",
-          "facts": [
-            {
-              "name": "Repository:",
-              "value": "OfficeDev\\TrainingContent"
-            },
-            {
-              "name": "Issue #:",
-              "value": "493"
-            }
-          ],
-          "text": "Attempting the Office Add-In modules. Attempting to connect to https://estx.azurewebsites.net/api/quote/msft and getting 500 Server Error. Who controls that endpoint?"
-        }
-      ],
-      "potentialAction": [
-        {
-          "@type": "OpenUri",
-          "name": "View in GitHub",
-          "targets": [
-            { "os": "default", "uri": "https://github.com/OfficeDev/TrainingContent/issues/493" }
-          ]
-        }
-      ]
-    }
-    ````
+1. Note that the buttons on the sample cards will not work.
 
-    ![Screenshot of JSON and GitHub - Issue opened card side by side.](Images/Exercise1_05.png)
+1. Explore the other samples in the MessageCard Playground app. These are good references to use as a basis for your own card design. Only Legacy MessageCard samples will work using the **Send via Email** function.
 
-    The message card now reflects a different GitHub issue. This demonstrates how your application can change the information in a card and send it to a user or group.
+    ![Screenshot of test MessageCard Playground site highlighting the legacy samples.](Images/Exercise1-04.png)
 
-1. Select the **View in GitHub** button to see the issue.
+## Exercise 2: Sending Actionable Messages
 
-    ![Screenshot of action message in MessageCard Playground app.](Images/Exercise1_06.png)
-
-    Actions in the MessageCard Playground app are disabled, only prompting the information that you provided in the card. However, you can send the card to your Office 365 email account to view the card and interact with its actions.
-
-1. Select the **Send via Email** button to send the card to yourself in email. If you are not logged in to the MessageCard Playground it will prompt you to log in and then ask for your consent.  When consent is given the MessageCard Playground page will reload and you will need to load the sample again.
-
-    ![Screenshot of test message card in email.](Images/Exercise1_07.png)
-
-1. Select the **View in GitHub** button and see that your browser opens and the original GitHub issue page is displayed.
-
-1. Explore the other samples in the MessageCard Playground app. These are good references to use as a basis for your own card design.
+In this exercise, you will create a custom message card and email it using PowerShell.
 
 ### Create a card
 
-1. Replace the JSON data in the MessageCard Playground app with this JSON data, making sure that the URL for your Azure Web App uses the HTTPS protocol. This is the card you will use for the rest of the lab. It is a fictitious expense approval system.
+1. Replace the JSON data in the MessageCard Playground app with this JSON data. This is the card you will use for the rest of the lab. It is a fictitious expense approval system. (This code is available in the **LabFiles/expenseCard.json** file.)
 
     ````json
     {
@@ -111,9 +74,8 @@ This lab will walk you through designing an Actionable Message card using the [M
       "themeColor": "0075FF",
       "sections": [
         {
-          "heroImage": {
-            "image": "http://messagecardplayground.azurewebsites.net/assets/FlowLogo.png"
-          }
+            "activityImage": "https://messagecardplayground.azurewebsites.net/favicon.ico",
+            "activityTitle": "**Expense Approval**"
         },
         {
           "startGroup": true,
@@ -153,7 +115,7 @@ This lab will walk you through designing an Actionable Message card using the [M
                 {
                   "@type": "HttpPOST",
                   "name": "Submit",
-                  "target": "https://YOURWEBAPPNAME.azurewebsites.net/api/expense?id=9876&action=approve",
+                  "target": "https://tbd.ngrok.io/api/expense?id=9876&action=approve",
                   "body": "={{comment.value}}",
                   "headers": [
                     {
@@ -178,7 +140,7 @@ This lab will walk you through designing an Actionable Message card using the [M
                 {
                   "@type": "HttpPOST",
                   "name": "Submit",
-                  "target": "https://YOURWEBAPPNAME.azurewebsites.net/api/expense?id=9876&action=approve",
+                  "target": "https://tbd.ngrok.io/api/expense?id=9876&action=reject",
                   "body": "={{comment.value}}",
                   "headers": [
                     {
@@ -189,376 +151,395 @@ This lab will walk you through designing an Actionable Message card using the [M
               ]
             }
           ]
-        },
-        {
-          "startGroup": true,
-          "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
         }
       ]
     }
     ````
 
-    >Note: Replace both instances of the `YOURWEBAPPNAME.azurewebsites.net` placeholders with the Azure Web App URL that you created earlier in this lab.
+1. Save the card JSON to a file named **expenseCard.json**. It is used in the next section of the exercise.
 
-1. Select **Send via Email** to send the card to yourself.
+### Send email with MessageCard via Microsoft Office 365 SMTP Server
 
-1. Check your email and open the message. Select the **approve** button. You will see text below the button that says "The remote endpoint returned an error (HTTP Forbidden). Please try again later." This happened because you have not yet registered the action or implemented the web site, you will do that in this lab.
+Sending a MessageCard via email requires a message body in HTML. The MessageCard JSON is included in the `<head>` element of the HTML document, wrapped in a `<script>` tag with a specific type attribute. In this exercise, PowerShell is used to create and send a MessageCard via email.
 
-1. Save the JSON representing the expense report to your file system. You will use this later in the lab.
+1. Launch the **Windows PowerShell ISE** application.
 
-## Exercise 2: Sending Actionable Messages
+1. Change the current directory to the folder containing the **expenseCard.json** file created previously.
 
-In this section, you will use PowerShell to send an email containing a message card.
-
-### Write PowerShell to send email via Microsoft Office 365 SMTP Server
-
-PowerShell provides a utility method `Send-MailMessage` that is used to send emails. You can use this method with the Office 365 SMTP Server to send an email using PowerShell.
-
-1. Open the **PowerShell ISE** and expand the script pane. Copy the following PowerShell script to the script pane:
+1. Expand the script pane. Enter the following PowerShell script to the script pane. (This code is available in the **LabFiles/SendCardviaEmail.ps1** file.)
 
     ````PowerShell
-    Param(
-      [Parameter(Mandatory = $true,
-        HelpMessage="The Office 365 email address the email is being sent from")]
-      [ValidateNotNullOrEmpty()]
-      [string]$from,
-      [Parameter(Mandatory = $true,
-        HelpMessage="The email address the email is being sent to")]
-      [ValidateNotNullOrEmpty()]
-      [string]$to
-      )
+    $cardJson = Get-Content .\expenseCard.json
+    $cardPayload = "<script type='application/ld+json'>" + $cardJson + "</script>"
 
-    $emailHeader = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'><script type='application/ld+json'>"
-    $jsonBody = Get-Content .\CardSample.json
-    $emailFooter = "</script></head><body>Visit the <a href='https://docs.microsoft.com/en-us/outlook/actionable-messages'>Outlook Dev Portal</a> to learn more about Actionable Messages.</body></html>"
-
-    $emailBody = $emailHeader + $jsonBody + $emailFooter
+    $htmlMessage = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
+    $htmlMessage += $cardPayload
+    $htmlMessage += "</head><body>"
+    $htmlMessage += "Visit the <a href='https://docs.microsoft.com/en-us/outlook/actionable-messages'>Outlook Dev Portal</a> to learn more about Actionable Messages."
+    $htmlMessage += "</body></html>"
 
     $msolcred = Get-Credential
-    Send-MailMessage –From $from –To $to –Subject "MessageCard Demo" –Body $emailBody -BodyAsHtml -SmtpServer smtp.office365.com -Credential $msolcred -UseSsl -Port 587
+    Send-MailMessage –From $msolcred.UserName –To $msolcred.UserName –Subject "MessageCard Demo" –Body $htmlMessage -BodyAsHtml -SmtpServer smtp.office365.com -Credential $msolcred -UseSsl -Port 587
     ````
 
-1. In the interactive pane, change the directory to the location where you saved the JSON file representing the fictitious expense report.
+1. Save the script in the directory with the **expenseCard.json** file.
 
-    ![Screenshot of Powershell script.](Images/powershell.png)
+1. Run the script. When prompted, enter the login credentials for your Microsoft Office 365 mailbox. The script will send the message to this mailbox.
 
-1. Run the script. When prompted, enter your own email address for both emails. Also enter your login credentials for your Microsoft Office 365 mailbox.
+    ![Screenshot of PowerShell ISE executing the script](Images/Exercise2-01.png)
 
-1. When the script completes, check your inbox for the email just sent.
+1. After reviewing the card, delete it from your inbox. This will prevent confusion during later steps in the lab.
 
 ## Exercise 3: Adding actions to cards
 
-The first section of this lab demonstrated how to design a card, the second section demonstrated how to send Actionable Messages.
-
-### Register a new provider
-
-1. Open your browser and go to the [Actionable Email Developer Dashboard](https://outlook.office.com/connectors/oam/publish). Select **New Provider**.
-
-1. Provide a name and image for your provider. When prompted for an email, enter the email used for the sender. Typically you would use a static email address such as `actions@contoso.com`, but for the purposes of this lab enter your own email address. For the target URL, enter the URL for your Azure Web App as an HTTPS URL (for instance, <https://myapp.azurewebsites.net>). The scope of submission determines how you will use the provider. Choose **My Mailbox** as the scope.
-
-    >Note: A scope of "My Mailbox" will only allow actions in cards from your inbox. A scope of "Organization" will allow you to send Actionable Messages to others in your organization, and a scope of "Global" allows you to send to users inside and outside your organization. If you choose "Organization" or "Global" then your application must first be reviewed and approved before proceeding.
+In this exercise, you will create and register an application to process Actions on MessageCards.
 
 ### Create a new Web API application
 
-1. In Visual Studio 2017, create a new web application project (File > New > Project > ASP.NET Web Application (.NET Framework). Name the project **ExpenseApproval**. When prompted, choose **Web API**, and make sure that **No Authentication** is selected.
+1. Launch **Visual Studio 2017**.
 
-    ![Screenshot of ASP.NET Web Application menu screen.](Images/webapplication.png)
+1. In Visual Studio 2017, select **File > New > Project**.
 
-### Add NuGet package
+1. Create a new **ASP.NET Web Application (.NET Framework)** project. Name the project **ExpenseApproval**. Select **OK**.
+
+    ![Screenshot of the New Project dialog in Visual Studio 2017](Images/Exercise3-01.png)
+
+1. When prompted, select **Web API**, and make sure that **No Authentication** is selected. Select **OK**.
+
+    ![Screenshot of the ASP.NET template selection dialog in Visual Studio 2017.](Images/Exercise3-02.png)
+
+Before registering the Actionable Message Provider, note the URL configured for the solution in Visual Studio.
+
+1. In **Solution Explorer**, double-click on **Properties**.
+
+1. In the **Properties** designer, select the **Web** tab.
+
+1. Note the **Project URL**.
+
+    ![Screenshot of project properties highlighting URL](Images/Exercise3-03.png)
+
+### Run the ngrok secure tunnel application
+
+1. Open a new **Command Prompt** window.
+
+1. Download [ngrok](https://ngrok.com/download) and unzip the **ngrok secure tunnel application**. Change to the directory that contains the **ngrok.exe** application.
+
+1. Run the command `ngrok http [port] -host-header=localhost` Replace `port` with the port portion of the URL noted above.
+
+1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
+
+1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
+
+    ![Screenshot of command prompt with local host highlighted.](Images/Exercise3-04.png)
+
+
+### Register a new Actionable Email provider
+
+1. Open your browser and go to the [Actionable Email Developer Dashboard](https://outlook.office.com/connectors/oam/publish). Select **New Provider**.
+
+1. Provide a **Friendly Name**.
+
+1. For the **Sender email address from which actionable emails will originate**, enter your email address.
+
+    > NOTE: For production applications, a static email address, such as `actions@contoso.com`, is recommended.
+    
+1. For the target URL, enter the HTTPS forwarding address from ngrok. 
+
+1. For the **Scope of submission**, select **My Mailbox (auto-approved)**.
+
+    > NOTE: The following are the restrictions on Actions for the possible scopes:
+    > - **My Mailbox** enables actionable emails from your service sent to your own mailbox.
+    > - **Organization** enables actionable message from your service to any Office 365 email user within your organization. This scope is typically used for enabling actionable messages from a service that is specific to your organization, like a line- of-business application internal to your organization.
+    > - **Global** enables actionable message from your service for any email user in Office 365.
+    >
+    > Selecting "Organization" or "Global" will require a review and approval of your service.
+
+1. Accept the terms of service and select **Save**.
+
+### Complete the Expense Approval service
+
+#### ActionableMessage utilities via NuGet
 
 When the Web API is called, the application needs to validate the OAuth bearer token that is sent from Microsoft. The `Microsoft.O365.ActionableMessages.Utilities` NuGet package provides logic necessary to validate the bearer token.
 
-1. In Visual Studio, open the **Package Manager Console** (Tools > NuGet Package Manager > Package Manager Console) and enter the following:
+1. In Visual Studio, select **Tools > NuGet Package Manager > Package Manager Console**.
+
+1. In **Package Manager Console**, enter the following:
 
     ````PowerShell
     Install-Package Microsoft.O365.ActionableMessages.Utilities
     ````
 
-1. In Visual Studio, add a folder named **Models** and add a class named **ValidationModel**. Replace the code with the following:
+#### Add a card template as a project resource
 
-    ````csharp
-    using System.Net.Http;
-    using Microsoft.O365.ActionableMessages.Utilities;
+The Expense Approval application will refresh the email message with a card representing the status of the approval. This refresh card contains tokens that are replaced at runtime. The refresh card does not have actions to prevent duplicate processing. The card is created using a template that is a resource embedded in the project.
 
-    namespace ExpenseApproval.Models
-    {
-        public class ValidationModel
-        {
-            public bool IsError { get; set; }
-            public ActionableMessageTokenValidationResult ValidationResult { get; set; }
-            public HttpResponseMessage Response { get; set; }
+1. In **Solution Explorer**, right-click on the project and select **Add > New Item...**.
 
-            public string Message { get; set; }
-        }
-    }
-    ````
+1. Select the **JSON File** template. Name the file **refreshCard**. Select **Add**.
 
-1. In Visual Studio, add a folder named **Helpers** and add a class named **ActionableMessageHelper**. Replace the code with the following:
+    ![Screenshot of the Add New Item dialog in Visual Studio highlighting the JSON File template](Images/Exercise3-05.png)
 
-    ````csharp
+1. Replace the contents of the **refreshCard.json** file with the code from the file **LabFiles/refreshCardTemplate.json**.
+
+1. Select the **refreshCard.json** file in **Solution Explorer** and press **F4**.
+
+1. In the **Properties** pane, set the **Build Action** of the file to **Embedded Resource**.
+
+    ![Screenshot of the refreshCard.json properties highlighted the Build Action](Images/Exercise3-06.png)
+
+#### Add helper functions
+
+1. In **Solution Explorer**, right-click on the project. Select **Add > New Folder**. Name the folder `Helpers`.
+
+1. Right-click on the **Helpers** folder. Select **Add > Class**. Name the class `ActionableMessageHelper`.
+
+1. Add the following to the top of the **ActionableMessageHelper.cs** file.
+
+    ```csharp
     using ExpenseApproval.Models;
     using Microsoft.O365.ActionableMessages.Utilities;
     using System;
     using System.Configuration;
+    using System.IO;
     using System.Net;
     using System.Net.Http;
+    using System.Reflection;
     using System.Threading.Tasks;
     using System.Web.Http;
+    ```
 
-    namespace ExpenseApproval.Helpers
-    {
-        public class ActionableMessageHelper
-        {
-            public static async Task<ValidationModel> ValidateTokenAsync(HttpRequestMessage request)
-            {
-                var sender = ConfigurationManager.AppSettings["sender"].ToLower();
-                var emailDomain = ConfigurationManager.AppSettings["emailDomain"].ToLower();
-                var registeredActionURL = ConfigurationManager.AppSettings["registeredActionURL"].ToLower();
-
-                var message = string.Empty;
-                // Validate that we have a bearer token.
-                if (request.Headers.Authorization == null ||
-                    !string.Equals(request.Headers.Authorization.Scheme, "bearer", StringComparison.OrdinalIgnoreCase) ||
-                    string.IsNullOrEmpty(request.Headers.Authorization.Parameter))
-                {
-                    message = "Missing authentication token.";
-                    return new ValidationModel {
-                        IsError = true,
-                        Message = message,
-                        Response = CreateCardResponse(request, HttpStatusCode.Unauthorized, message)
-                    };
-                }
-
-                //Validate the token
-                var validator = new ActionableMessageTokenValidator();
-                var result = await validator.ValidateTokenAsync(request.Headers.Authorization.Parameter, registeredActionURL);
-                if (!result.ValidationSucceeded)
-                {
-                    message = "Invalid token.";
-                    return new ValidationModel
-                    {
-                        IsError = true,
-                        Message = message,
-                        Response = CreateCardResponse(request, HttpStatusCode.Unauthorized, message),
-                        ValidationResult = result
-                    };
-                }
-
-                //The sender is registered in the portal and should be a static email address.
-                if (result.Sender.ToLower().CompareTo(sender) != 0)
-                {
-                    message = "Invalid sender.";
-                    return new ValidationModel
-                    {
-                        IsError = true,
-                        Message = message,
-                        Response = CreateCardResponse(request, HttpStatusCode.Forbidden, message),
-                        ValidationResult = result
-                    };
-                }
-
-                //TODO: Add additional logic to validate the performer. Here we just compare against
-                //the domain.
-                if (!result.ActionPerformer.ToLower().EndsWith(emailDomain)) {
-                    message = "The performer is not allowed.";
-                    return new ValidationModel
-                    {
-                        IsError = true,
-                        Message = message,
-                        Response = CreateCardResponse(request, HttpStatusCode.Forbidden, message),
-                        ValidationResult = result
-                    };
-                }
-
-                //Return a validation model without creating a response, caller must create their own
-                //response.
-                return new ValidationModel
-                {
-                    IsError = false,
-                    ValidationResult = result
-                };
-            }
-
-            internal static HttpResponseMessage CreateCardResponse(HttpRequestMessage request, HttpStatusCode code, string cardStatus)
-            {
-                if (code == HttpStatusCode.OK)
-                {
-                    HttpResponseMessage response = request.CreateResponse(code);
-                    response.Headers.Add("CARD-ACTION-STATUS", cardStatus);
-                    return response;
-                }
-                else
-                {
-                    var errorResponse = request.CreateErrorResponse(code, new HttpError());
-                    errorResponse.Headers.Add("CARD-ACTION-STATUS", cardStatus);
-                    return errorResponse;
-                }
-            }
-
-            public static string GetCardBody(string value, string result, string performer)
-            {
-                string template = ExpenseApproval.Properties.Resources.refreshCard;
-
-                return template
-                    .Replace("{{approvalResult}}", result)
-                    .Replace("{{performer}}", performer)
-                    .Replace("{{processDate}}", System.DateTime.Now.ToLongTimeString());
-            }
-        }
-    }
-    ````
-
-    >Note: The first few lines in the `ValidateTokenAsync` method use configuration settings. Open the `web.config` file in your project's root directory and add the following to the `appSettings` section and fill in the values:
-
-    ````xml
-    <add key="sender" value="" />                        <!-- Ex: admin@contoso.onmicrosoft.com -->
-    <add key="emailDomain" value="" />                   <!-- Ex: @contoso.onmicrosoft.com -->
-    <add key="registeredActionURL" value="" />           <!-- Ex: https://myapp.azurewebsites.net -->
-    ````
-
-1. The **GetCardBody** method references a project resource file to obtain a template representing the card to send as a response. Expand the **Properties** node in Visual Studio and select the **Resources** tab. Add a new string resource named `refreshCard` and paste the following JSON:
-
-    ````json
-    {
-      "@type": "MessageCard",
-      "@context": "http://schema.org/extensions",
-      "summary": "This is the summary property",
-      "themeColor": "0075FF",
-      "sections":
-      [
-        {
-          "heroImage":
-          {
-            "image": "http://messagecardplayground.azurewebsites.net/assets/FlowLogo.png"
-          }
-        },
-        {
-          "startGroup": true,
-          "title": "{{approvalResult}}",
-          "activityImage": "http://connectorsdemo.azurewebsites.net/images/MSC12_Oscar_002.jpg",
-          "activityTitle": "Requested by **Miguel Garcia**",
-          "activitySubtitle": "m.garcia@contoso.com",
-          "facts":
-          [
-            {
-              "name": "Date submitted:",
-              "value": "06/27/2017, 2:44 PM"
-            },
-            {
-              "name": "Date processed:",
-              "value": "{{processDate}}"
-            },
-            {
-              "name": "Processed by:",
-              "value": "{{performer}}"
-            },
-            {
-              "name": "Details:",
-              "value": "Please approve this expense report for **$123.45**."
-            },
-            {
-              "name": "Link:",
-              "value": "[Link to the expense report](http://connectorsdemo.azurewebsites.net)"
-            }
-          ]
-        },
-        {
-          "startGroup": true,
-          "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
-        }
-      ]
-    }
-    ````
-
-The JSON contains placeholders that are replaced with actual values by the code.
-
-### Implement the controller
-
-1. Add a new controller class named **ExpenseController**. Replace the class contents with the following.
+1. Replace the generated `ActionableMessageHelper` class with the following code. The code is available in the **LabFiles/ActionableMessageHelper.cs** file.
 
     ````csharp
+    public class ActionableMessageHelper
+    {
+      public static async Task<ValidationModel> ValidateTokenAsync(HttpRequestMessage request)
+      {
+        var sender = ConfigurationManager.AppSettings["sender"].ToLower();
+        var emailDomain = sender.Substring(sender.IndexOf("@") + 1);
+        
+        ConfigurationManager.AppSettings["emailDomain"].ToLower();
+        var registeredActionURL = ConfigurationManager.AppSettings["registeredActionURL"].ToLower();
+
+        var message = string.Empty;
+        // Validate that we have a bearer token.
+        if (request.Headers.Authorization == null ||
+          !string.Equals(request.Headers.Authorization.Scheme, "bearer", StringComparison.OrdinalIgnoreCase) ||
+          string.IsNullOrEmpty(request.Headers.Authorization.Parameter))
+        {
+          message = "Missing authentication token.";
+          return new ValidationModel 
+          {
+            IsError = true,
+            Message = message,
+            Response = CreateCardResponse(request, HttpStatusCode.Unauthorized, message)
+          };
+        }
+
+        //Validate the token
+        var validator = new ActionableMessageTokenValidator();
+        var result = await validator.ValidateTokenAsync(request.Headers.Authorization.Parameter, registeredActionURL);
+        if (!result.ValidationSucceeded)
+        {
+          message = "Invalid token.";
+          return new ValidationModel
+          {
+            IsError = true,
+            Message = message,
+            Response = CreateCardResponse(request, HttpStatusCode.Unauthorized, message),
+            ValidationResult = result
+          };
+        }
+
+        //The sender is registered in the portal and should be a static email address.
+        if (result.Sender.ToLower().CompareTo(sender) != 0)
+        {
+          message = "Invalid sender.";
+          return new ValidationModel
+          {
+            IsError = true,
+            Message = message,
+            Response = CreateCardResponse(request, HttpStatusCode.Forbidden, message),
+            ValidationResult = result
+          };
+        }
+
+        //TODO: Add additional logic to validate the performer. 
+        //      Here we just compare against the domain.
+        if (!result.ActionPerformer.ToLower().EndsWith(emailDomain)) {
+          message = "The performer is not allowed.";
+          return new ValidationModel
+          {
+            IsError = true,
+            Message = message,
+            Response = CreateCardResponse(request, HttpStatusCode.Forbidden, message),
+            ValidationResult = result
+          };
+        }
+
+        //Return a validation model without creating a response, caller must create their own response.
+        return new ValidationModel
+        {
+          IsError = false,
+          ValidationResult = result
+        };
+      }
+
+      internal static HttpResponseMessage CreateCardResponse(HttpRequestMessage request, HttpStatusCode code, string cardStatus)
+      {
+        if (code == HttpStatusCode.OK)
+        {
+          HttpResponseMessage response = request.CreateResponse(code);
+          response.Headers.Add("CARD-ACTION-STATUS", cardStatus);
+          return response;
+        }
+        else
+        {
+          var errorResponse = request.CreateErrorResponse(code, new HttpError());
+          errorResponse.Headers.Add("CARD-ACTION-STATUS", cardStatus);
+          return errorResponse;
+        }
+      }
+
+      public static string GetCardBody(string value, string result, string performer)
+      {
+        Assembly assembly;
+        StreamReader textStreamReader;
+
+        assembly = Assembly.GetExecutingAssembly();
+        textStreamReader = new StreamReader(assembly.GetManifestResourceStream("ExpenseApproval.refreshCard.json"));
+
+        string template = textStreamReader.ReadToEnd();
+
+        return template
+            .Replace("{{approvalResult}}", result)
+            .Replace("{{performer}}", performer)
+            .Replace("{{processDate}}", System.DateTime.Now.ToLongTimeString());
+      }
+    }
+    ````
+
+#### Configure validation values
+
+The helper functions validate that the request is coming from a known mailbox. The valid values are configured in the **web.config** file. 
+1. Open the **web.config** file.
+
+1. Add the following to the **appSettings** node. The values of these settings must match the entries on the Actionable Email Developer Dashboard
+    - Replace the token [sender-email] with the **Sender email address from which actionable emails will originate** value.
+    - Replace the token [registered-action-url] with the **Target URLs** value.
+
+    ````xml
+    <add key="sender" value="[sender-email]" />
+    <add key="registeredActionURL" value="[registered-action-url]" />
+    ````
+
+#### Implement the controller and view model
+
+1. In **Solution Explorer**, right-click on the **Models** folder. Select **Add > Class**. Name the class `ValidationModel`. 
+
+1. Add the following statements to the top of the **ValidationModel.cs** file.
+
+    ```csharp
+    using Microsoft.O365.ActionableMessages.Utilities;
+    using System.Net.Http;
+    ```
+
+1. Replace the generated `ValidationModel` class with the following code.
+
+    ````csharp
+    public class ValidationModel
+    {
+        public bool IsError { get; set; }
+        public ActionableMessageTokenValidationResult ValidationResult { get; set; }
+        public HttpResponseMessage Response { get; set; }
+
+        public string Message { get; set; }
+    }
+    ````
+
+1. In **Solution Explorer**, right-click on the **Controllers** folder. Select **Add > Controller...**. Select the **MVC 5 Controller - Empty** template. Name the controller `ExpenseController`. 
+
+1. Add the following to the top of the **ExpenseController.cs** file.
+
+    ```csharp
     using ExpenseApproval.Helpers;
     using System.Diagnostics;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
+    ```
 
-    namespace ExpenseApproval.Controllers
+1. Replace the **ExpenseController** class contents with the following. The code is available in the **LabFiles/ExpenseController.cs** file.
+
+    ````csharp
+    public class ExpenseController : ApiController
     {
-        public class ExpenseController : ApiController
+      // POST api/values
+      public async Task<HttpResponseMessage> Post([FromUri]string id, [FromUri]string action, [FromBody]string value)
+      {
+        //Validate the token before continuing.
+        var ret = await ActionableMessageHelper.ValidateTokenAsync(Request);
+        if(ret.IsError)
         {
-            // POST api/values
-            public async Task<HttpResponseMessage> Post([FromUri]string id, [FromUri]string action, [FromBody]string value)
-            {
-                //Validate the token before continuing.
-                var ret = await ActionableMessageHelper.ValidateTokenAsync(Request);
-                if(ret.IsError)
-                {
-                    Trace.TraceError(ret.Message);
-                    return ret.Response;
-                }
-
-                // TODO: Add business logic code here to process the expense report
-                HttpResponseMessage response;
-                var approvalResult = default(string);
-
-                if(action == "approve")
-                {
-                    approvalResult = "Approved";
-                    response = ActionableMessageHelper.CreateCardResponse(Request, HttpStatusCode.OK, "The expense was approved.");
-                    Trace.TraceInformation("Expense report approved: " + value);
-                }
-                else
-                {
-                    approvalResult = "Declined";
-                    response = ActionableMessageHelper.CreateCardResponse(Request, HttpStatusCode.OK, "The expense was declined.");
-                    Trace.TraceInformation("Expense report declined: " + value);
-                }
-
-                //Refresh the card
-                response.Headers.Add("CARD-UPDATE-IN-BODY", "true");
-                string refreshCard = ActionableMessageHelper.GetCardBody(value, approvalResult, ret.ValidationResult.ActionPerformer);
-                response.Content = new StringContent(refreshCard);
-
-                return response;
-            }
+          Trace.TraceError(ret.Message);
+          return ret.Response;
         }
+
+        // TODO: Add business logic code here to process the expense report
+        HttpResponseMessage response;
+        var approvalResult = default(string);
+
+        if(action == "approve")
+        {
+          approvalResult = "Approved";
+          response = ActionableMessageHelper.CreateCardResponse(Request, HttpStatusCode.OK, "The expense was approved.");
+          Trace.TraceInformation("Expense report approved: " + value);
+        }
+        else
+        {
+          approvalResult = "Declined";
+          response = ActionableMessageHelper.CreateCardResponse(Request, HttpStatusCode.OK, "The expense was declined.");
+          Trace.TraceInformation("Expense report declined: " + value);
+        }
+
+        //Refresh the card
+        response.Headers.Add("CARD-UPDATE-IN-BODY", "true");
+        string refreshCard = ActionableMessageHelper.GetCardBody(value, approvalResult, ret.ValidationResult.ActionPerformer);
+        response.Content = new StringContent(refreshCard);
+
+        return response;
+      }
     }
     ````
 
-### Publish the Azure Web Application
+1. Press **F5** to build the solution and launch the debugger.
 
-1. The Web API that you just created will be called from Microsoft, so it needs to be available publicly and not running locally on `localhost`. Right-click the web application project and choose **Publish**. Choose **Select Existing** and select **OK**.
+1. Set a breakpoint in the **ExpenseController** class to see when messages arrive and debug interactively.
 
-    ![Screenshot of publishing options.](Images/publish.png)
+#### Update and send Expense Card
 
-1. Choose your existing Web App and select **OK**.
+The cards sent in exercise 2 had a placeholder URL for the actions. Update the card and re-send to your mailbox.
 
-1. In the **Publish** window, select the **Settings** link. Choose the **Settings** tab and change the configuration to **Debug**.
+1. Open the **expenseCard.json** created in Exercise 2. The card json is available in the **LabFiles/expenseCard.json** file.
 
-    ![Screenshot of settings in publish window.](Images/webdeploy.png)
+1. Locate the **target** properties containing the placeholder URL **tbd.ngrok.io**. Replace the placeholder with the forwarding address from the ngrok tunnel. This should also match the value registerd on the Actionable Email dashboard and the value in web.config.
 
-1. Select **Save** and then select **Publish** to publish your web application code.
+1. Save the **expenseCard.json** file.
 
-### Debug the Azure Web App
+1. Using PowerShell, execute the script from Exercise 2. This script is available in the **LabFiles/SendCardviaEmail.ps1** file.
 
-1. In Visual Studio 2017, open the **Cloud Explorer** pane and expand the **App Services** node to show your Azure Web App. Right-click your web app and choose **Attach Debugger**.
+    ![Screenshot of PowerShell ISE executing the script](Images/Exercise2-01.png)
 
-    ![Screenshot of app services in Visual Studio.](Images/debugger.png)
+#### Test the card
 
-    >Note: If you only see local resources, select the **person** icon, make sure the account you used to create the web app service is listed, and then check the **All subscriptions** item to show them in the explorer.
+1. Open the email containing the expense card. Select the **Approve** button. Enter sample text in the **Reason** box. Select **Submit**.
 
-1. Set a breakpoint in the Web API controller to see when messages arrive and debug interactively.
-
-### Test the card
-
-1. In the previous section, you sent a card to yourself using both PowerShell and a webhook. Those email messages should still be in your inbox (if not, repeat the previous section exercise). Open the email sent via the steps in the previous exercise and select the **Approve** button. Enter sample text in the **Reason** box and select **Submit**.
-
-    ![Screenshot of test card email.](Images/actioncard.png)
+    ![Screenshot of test card email.](Images/Exercise3-07.png)
 
 1. The debugger in your code is reached, and you can step through the code to see the bearer token is validated, the sender and email domains are validated, the refresh card body is retrieved and the response is sent with the appropriate headers.
 
 1. In your email client, the card is now updated to reflect the data sent in the refresh card.
 
-    ![Screenshot of updated card in email.](Images/refreshcard.png)
+    ![Screenshot of updated card in email.](Images/Exercise3-08.png)

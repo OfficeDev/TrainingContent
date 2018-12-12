@@ -3,13 +3,10 @@
   "@context": "http://schema.org/extensions",
   "summary": "This is the summary property",
   "themeColor": "0075FF",
-  "sections":
-  [
+  "sections": [
     {
-      "heroImage":
-      {
-        "image": "http://messagecardplayground.azurewebsites.net/assets/FlowLogo.png"
-      }
+      "activityImage": "https://messagecardplayground.azurewebsites.net/favicon.ico",
+      "activityTitle": "**Expense Approval**"
     },
     {
       "startGroup": true,
@@ -17,8 +14,7 @@
       "activityImage": "http://connectorsdemo.azurewebsites.net/images/MSC12_Oscar_002.jpg",
       "activityTitle": "Requested by **Miguel Garcia**",
       "activitySubtitle": "m.garcia@contoso.com",
-      "facts":
-      [
+      "facts": [
         {
           "name": "Date submitted:",
           "value": "06/27/2017, 2:44 PM"
@@ -34,13 +30,11 @@
       ]
     },
     {
-      "potentialAction":
-      [
+      "potentialAction": [
         {
           "@type": "ActionCard",
           "name": "Approve",
-          "inputs":
-          [
+          "inputs": [
             {
               "@type": "TextInput",
               "id": "comment",
@@ -48,15 +42,13 @@
               "title": "Reason (optional)"
             }
           ],
-          "actions":
-          [
+          "actions": [
             {
               "@type": "HttpPOST",
               "name": "Submit",
-              "target": "https://YOURWEBAPPNAME.azurewebsites.net/api/expense?id=9876&action=approve",
+              "target": "https://tbd.ngrok.io/api/expense?id=9876&action=approve",
               "body": "={{comment.value}}",
-              "headers":
-              [
+              "headers": [
                 {
                   "Content-Type": "application/x-www-form-urlencoded"
                 }
@@ -67,8 +59,7 @@
         {
           "@type": "ActionCard",
           "name": "Reject",
-          "inputs":
-          [
+          "inputs": [
             {
               "@type": "TextInput",
               "id": "comment",
@@ -76,15 +67,13 @@
               "title": "Reason (optional)"
             }
           ],
-          "actions":
-          [
+          "actions": [
             {
               "@type": "HttpPOST",
               "name": "Submit",
-              "target": "https://YOURWEBAPPNAME.azurewebsites.net/api/expense?id=9876&action=approve",
+              "target": "https://tbd.ngrok.io/api/expense?id=9876&action=reject",
               "body": "={{comment.value}}",
-              "headers":
-              [
+              "headers": [
                 {
                   "Content-Type": "application/x-www-form-urlencoded"
                 }
@@ -93,10 +82,6 @@
           ]
         }
       ]
-    },
-    {
-      "startGroup": true,
-      "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
     }
   ]
 }
