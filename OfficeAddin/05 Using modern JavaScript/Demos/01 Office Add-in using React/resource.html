@@ -12,7 +12,7 @@
     <script type="text/javascript">  var appInsights=window.appInsights||function(config){    function i(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s="AuthenticatedUserContext",h="start",c="stop",l="Track",a=l+"Event",v=l+"Page",y=u.createElement(o),r,f;y.src=config.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js";u.getElementsByTagName(o)[0].parentNode.appendChild(y);try{t.cookie=u.cookie}catch(p){}for(t.queue=[],t.version="1.0",r=["Event","Exception","Metric","PageView","Trace","Dependency"];r.length;)i("track"+r.pop());return i("set"+s),i("clear"+s),i(h+a),i(c+a),i(h+v),i(c+v),i("flush"),config.disableExceptionTracking||(r="onerror",i("_"+r),f=e[r],e[r]=function(config,i,u,e,o){var s=f&&f(config,i,u,e,o);return s!==!0&&t["_"+r](config,i,u,e,o),s}),t    }({        instrumentationKey:"d2bb410e-0538-4893-bfb6-d43967d26559"    });           window.appInsights=appInsights;    appInsights.trackPageView("resource.html", "");</script>
 </head>
 
-<body class="excel">
+<body class="Excel">
     <main class="steps">
         <section id="slider">
             <article class="slide">
@@ -68,7 +68,7 @@ npm start</pre>
 # you'll see a link in the upper-right corner of the dialog box to Upload My add-in or Manage My Add-ins.</span>
 3. Manage My Add-ins will open a menu where you can then choose <b>Upload My add-in</b>.
 
-4. Choose <b>Browse</b> and select the excel-portfolio-manifest.xml file from the root of the project folder, and then choose <b>Upload</b>.
+4. Choose <b>Browse</b> and select the manifest.xml file from the root of the project folder, and then choose <b>Upload</b>.
 
 5. Your add-in will load in <a target="_blank" href="https://office.live.com/start/Excel.aspx?auth=2&nf=1" onclick="appInsights.trackEvent('linkClick_Excel-sideload-step5');return true;">Excel</a>.</pre>
 
@@ -88,7 +88,7 @@ npm start</pre>
 
 <p>- Use the included <a target="_blank" href="https://github.com/officedev/office-addin-validator" onclick="appInsights.trackEvent('linkClick_office-addin-validator');return true;">Office Add-in Validator</a> to ensure your manifest.xml file is correct and complete. It will also give you information on against what platforms to test your add-in before submitting to the store.</p>
 <pre><span class="comment"># To validate your manifest, use the following command in your project directory:</span>
-$ npm run validate excel-portfolio-manifest.xml</pre>
+$ npm run validate manifest.xml</pre>
 <p>- Ensure your add-in works on all browsers and platforms that <a target="_blank" href="https://dev.office.com/add-in-availability">Office supports</a>.</p>
 
                     <p> For more information and resources to help you develop your add-in project, follow through the next steps

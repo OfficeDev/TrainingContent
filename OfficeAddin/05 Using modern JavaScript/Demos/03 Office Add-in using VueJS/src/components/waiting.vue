@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="overlay"></div>
-    <img class="spinner" src="assets/spinner.gif"/>
+    <img class="spinner" src="/assets/spinner.gif"/>
 </div>
 </template>
 
