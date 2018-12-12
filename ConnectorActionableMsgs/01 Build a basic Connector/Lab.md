@@ -125,7 +125,7 @@ This exercise will add connector functionality to an existing website. A starter
 
 ### Register the connector
 
-1. Go to the [Connector Developer Portal](https://aka.ms/connectorsdashboard) and sign in with your Office 365 credentials.
+1. Go to the [Connectors Developer Dashboard](https://aka.ms/connectorsdashboard) and sign in with your Office 365 credentials.
 
 1. Provide a name, logo, short description and detailed description for your connector.
 

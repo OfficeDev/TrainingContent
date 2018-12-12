@@ -38,7 +38,7 @@ To run this demo, perform the following steps:
 
 ### Register the connector
 
-1. Go to the [Connector Developer Portal](https://aka.ms/connectorsdashboard) and sign in with your Office 365 credentials.
+1. Go to the [Connectors Developer Dashboard](https://aka.ms/connectorsdashboard) and sign in with your Office 365 credentials.
 
 1. Provide a name, logo, short description and detailed description for your connector.
 
