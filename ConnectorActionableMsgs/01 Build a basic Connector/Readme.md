@@ -22,9 +22,9 @@ This module has been recorded and is available in the Office Development YouTube
 
 |        Roles         |                            Author(s)                             |
 | -------------------- | ---------------------------------------------------------------- |
+| Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) @pschaeflein                     |
 | QA                   | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell          |
 | QA                   | Julie Turner (Microsoft MVP, Sympraxis Consulting) @juliemturner |
-| Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) @pschaeflein                     |
 | Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                             |
 
 ## Version history
