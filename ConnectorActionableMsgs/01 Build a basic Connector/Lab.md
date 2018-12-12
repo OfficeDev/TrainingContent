@@ -245,7 +245,7 @@ This exercise will add connector functionality to an existing website. A starter
 
     ![Screenshot of Outlook.com with the settings gear and Manage connectors buttons highlighted](Images/Exercise2-05.png)
 
-1. Find the connector in the **Connectors** pane. Select you connector.
+1. Find the connector in the **Connectors** pane. Select your connector.
 
     ![Screenshot of outlook.com showing the Connectors pane](Images/Exercise2-06.png)
 
@@ -261,13 +261,13 @@ This completes Exercise 2.
 
 <a name="exercise3"></a>
 
-## Exercise 3: Sideload the Connector to Microsoft Teams
+## Exercise 3: Upload the Connector to Microsoft Teams
 
 To complete this part of the lab, the prerequisites for developing Apps for Microsoft Teams must be completed. The setup steps are detailed on the [Getting Started page](https://msdn.microsoft.com/en-us/microsoft-teams/setup). Pay special attention to the sections **Prepare your Office 365 tenant** and **Use Teams App Studio**.
 
-### Sideload app into Microsoft Teams
+### Upload app into Microsoft Teams
 
-Side loading a Microsoft Teams Connector requires a zip file containing a manifest that describes the connector along with related resources.
+Uploading a Microsoft Teams Connector requires a zip file containing a manifest that describes the connector along with related resources.
 
 1. From the connector setup page, select the **Download Manifest** button which will download the manifest.json file to your machine.
 
@@ -275,16 +275,14 @@ Side loading a Microsoft Teams Connector requires a zip file containing a manife
 
     ````json
     "icons": {
-      "outline": "connector-icon-20x20.png",
-      "color": "connector-icon-96x96.png"
+      "outline": "connector-icon-outline.png",
+      "color": "connector-icon-color.png"
     },
     ````
 
-1. Add the manifest.json plus the `Lab Files/Teams/connector-icon-20x20.png` and `Lab Files/Teams/connector-icon-96x96.png` to a zip file. In this demo, the zip file is named **TeamsConnector.zip**.
+1. Add the manifest.json plus the `Lab Files/Teams/connector-icon-outline.png` and `Lab Files/Teams/connector-icon-color.png` to a zip file. In this demo, the zip file is named **ToDoConnector.zip**.
 
 1. In the Microsoft Teams application, select the **Create a team** link. Then select the **Create team** button.
-
-    ![Screenshot of Microsoft Teams](Images/Exercise3-01.png)
 
 1. Enter a team name and description. In this example, the team is named **Connector Team**. Select **Next**.
 
@@ -292,23 +290,17 @@ Side loading a Microsoft Teams Connector requires a zip file containing a manife
 
 1. The new team is shown. In the left-side panel, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
-    ![Screenshot of Microsoft Teams menu with Manage team highlighted](Images/Exercise3-02.png)
-
-1. On the Manage Team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application. Navigate to the folder where the **TeamsConnector.zip** file is and select it.
+1. On the Manage Team display, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application. Navigate to the folder where the **ToDoConnector.zip** file is and select it.
 
     ![Screenshot of Microsoft Teams Apps screen with Upload a custom app highlighted](Images/Exercise3-03.png)
 
-1. The app is displayed.
-
-    ![Screenshot of apps in Microsoft Teams](Images/Exercise3-04.png)
-
-The Connector is now sideloaded into the Microsoft Teams application.
+1. The app is uploaded.
 
 ### Add connector to a channel
 
-1. Make sure your application is running.
+1. Make sure your web application is running.
 
-1. Select the ellipses next to the channel name, then select **Connectors**.
+1. Select the ellipses next to the General channel. Select **Connectors**.
 
     ![Screenshot of channel menu with connectors highlighted](Images/Exercise3-05.png)
 
@@ -316,14 +308,15 @@ The Connector is now sideloaded into the Microsoft Teams application.
 
     ![Screenshot of connectors list in Microsoft Teams](Images/Exercise3-06.png)
 
-1. A dialog window is shown with the general and notification information described on the Connector Developer portal. Select the **Visit site to install** button.
+1. A dialog window is shown with the configuration page specified in the manifest. Enter a name for the connector instance and select **Save**.
 
-    ![Screenshot of information dialog in Microsoft Teams](Images/Exercise3-07.png)
+1. The Connectors dialog will switch to the **Configured** page. The ToDo Connector is displayed. Selecting the **1 Configured** text will show the details of the connector instance.
 
-1. Choose the **Connect to Office 365** button. Office 365 will process the registration flow. You will see the **Registration Successful** notice.  Close this window and select **Done**.
+    ![Screenshot of configured connectos in Microsoft Teams](Images/Exercise3-07.png)
 
-1. The conversation window of the channel will now show the Welcome Message card that was sent via the API.
 
-    ![Screenshot of conversation window in Microsoft Teams with message card](Images/Exercise3-08.png)
+1. A system message is sent to the channel with a notification of the new connection. In addition, the Welcome Message from the website is sent to the channel.
+
+    ![Screenshot of system notification and welcom message in channel](Images/Exercise3-08.png)
 
 This completes Exercise 3.
