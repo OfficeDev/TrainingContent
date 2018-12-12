@@ -6,7 +6,7 @@
 'use strict';
 
 (function () {
-    Office.initialize = function (reason) {
+    Office.onReady().then(function() {
         $(document).ready(function () {
 
             // ensure client supports 1.7 APIs
@@ -21,7 +21,7 @@
             $('#create-chart').click(createChart);
             $('#freeze-header').click(freezeHeader);
         });
-    };
+    });
 
     function createTable() {
         Excel.run(function (context) {

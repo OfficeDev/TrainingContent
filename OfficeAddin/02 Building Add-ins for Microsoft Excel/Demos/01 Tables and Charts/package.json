@@ -21,7 +21,7 @@
     "babel-loader": "^6.2.5"
   },
   "devDependencies": {
-    "@types/office-js": "^0.0.37",
-    "browser-sync": "^2.24.7"
+    "browser-sync": "2.18.13",
+    "@types/office-js": "^0.0.37"
   }
 }
