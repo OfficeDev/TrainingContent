@@ -17,6 +17,7 @@ To run this demo, perform the following steps from the lab:
     ![Screenshot of list of Connectors with incoming webhook highlighted](../../Images/Exercise1-02.png)
 
 1. Enter a name for the connector and select **Create**.
+
 1. The page will re-display, now including a URL for the connector. Use the icon next to the URL to copy it to the clipboard.
 
     ![Screenshot of incoming webhook with URL](../../Images/Exercise1-03.png)
@@ -28,13 +29,14 @@ To run this demo, perform the following steps from the lab:
 ## Explore MessageCard playground
 
 1. In another browser tab or window, navigate to [MessageCard Playground](https://messagecardplayground.azurewebsites.net).
+
 1. The playground site provides for uploading a custom card definition or reviewing several samples. Use the **select a sample** dropdown to select a sample that closely matches your requirements.
 
     ![Screenshot of message card sample](../../Images/Exercise1-04.png)
 
     > Note: The image in this lab uses the **MessageCard layout emulation**, but that is not required.
 
-    >Note: If you get an error that the post request failed, "Error: Summary or Text is required". Please add the following property to the JSON sample right under the "version" property and before the "body" property.
+    > Note: If you get an error that the post request failed, "Error: Summary or Text is required". Please add the following property to the JSON sample right under the "version" property and before the "body" property.
     ```html
     "summary", "Your Subject Goes Here"
     ```
