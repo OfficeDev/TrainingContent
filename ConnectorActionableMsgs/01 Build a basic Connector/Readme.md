@@ -12,7 +12,7 @@ In this lab, you will walk through designing, building, registering, and deployi
 
 * [Create a card payload and submit it via an incoming webhook](./Demos/01-card-webhook)
 * [Add Connector functionality to existing web site](./Demos/02-webconnector)
-* [Sideload the Connector to Microsoft Teams](./Demos/03-teams)
+* [Upload the Connector to Microsoft Teams](./Demos/03-teams)
 
 ## Watch the Module
 
@@ -31,6 +31,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |        Date        |                   Comments                   |
 | ------- | ------------------ | -------------------------------------------- |
+| 1.4     | December 12, 2018  | 2019Q2 content refresh                       |
 | 1.3     | September 20, 2018 | 2019Q1 content refresh                       |
 | 1.2     | June 6, 2018       | 2018Q4 content refresh & style guide updates |
 | 1.1     | February 21, 2018  | 2018Q3 content review                        |
