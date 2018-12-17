@@ -67,18 +67,6 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
     ![Screenshot of support ticket card preview.](Images/SupportTicketCardPreview.png)
 
-### Send the card
-
-1. Select **Send via Email** to send the card to yourself. You will be prompted to log in. If this is the first time using the Message Card Playground, you will be prompted for consent to send messages as you.
-
-1. After log in and consent, a confirmation message will display.
-
-    ![Screenshot of send confirmation.](Images/SendConfirmation.png)
-
-1. Open **Microsoft Outlook**. Select the message titled **Card Playground Test Card**. The message will contain the card, footer text with links about the Card Playground and card documentation, and will show the JSON payload of the card.
-
-    ![Screenshot of Adaptive Card received in Microsoft Outlook.](Images/AdaptiveCardInOutlook.png)
-
 ## Exercise 2: Adaptive Cards with actions and inputs
 
 This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
@@ -266,18 +254,35 @@ In this exercise, a web service will handle the calls from Microsoft Outlook to 
 
 1. Close the **Package Manager Console**.
 
-### Add a WebAPI controller to the project for the support ticket processing
+### Add code to the project for the support ticket processing
 
-1. In Solution Explorer, right-click on the **Controllers** folder and choose **Add > Controller**.
+1. In **Solution Explorer**, right-click on the **Models** folder and choose **Add > Class**. Name the class **Comment**.
 
-    ![Screenshot of Add Ticket Controller menu.](Images/AddControllerTicket.png)
+1. Add the following properties to the `Comment` class:
+
+    ```csharp
+    public string ActionPerformer { get; set; }
+    public DateTime CommentDate { get; set; }
+    public string CommentText { get; set; }
+    ```
+
+1. In **Solution Explorer**, right-click on the **Models** folder and choose **Add > Class**. Name the class **CardResponse**.
+
+1. Add the following properties to the `CardResponse` class:
+
+    ```csharp
+    public string Comment { get; set; }
+    public string CachedComments { get; set; }
+    ```
+
+1. In **Solution Explorer**, right-click on the **Controllers** folder and choose **Add > Controller**.
 
 1. Choose the **Web API 2 Controller - Empty** template. Name the controller **TicketController**.
 
 1. Add the following statements to the top of the **TicketController.cs** file.
 
     ```csharp
-    using Microsoft.O365.ActionableMessages.Authentication;
+    using Microsoft.O365.ActionableMessages.Utilities;
     using System.Diagnostics;
     using System.Threading.Tasks;
     ```
@@ -384,7 +389,7 @@ The card can be updated from the service in response to an action. This exercise
 
 1. Select **Tools > NuGet Package Manager > Package Manager Console**.
 
-1. In the **Package Manager Console**, enter the command `Install-Package AdaptiveCards -IncludePrerelease`.
+1. In the **Package Manager Console**, enter the command `Install-Package AdaptiveCards`.
 
 1. Close the **Package Manager Console**.
 
@@ -396,7 +401,16 @@ The Action.Http element is not part of the Adaptive Cards SDK. This action is an
 
 1. Name the class **AdaptiveHttpAction**.
 
-1. In the **AdaptiveHttpAction.cs** class, replace the class definition with the following. The code is available in the **LabFiles/RefreshAdaptiveCard/AdaptiveHttpAction.cs** file.
+1. Add the following to the top of the **AdaptiveHttpAction.cs** file:
+
+    ```csharp
+    using AdaptiveCards;
+    using Newtonsoft.Json;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+    ```
+
+1. In the **AdaptiveHttpAction.cs** file, replace the class definition with the following. The code is available in the **LabFiles/RefreshAdaptiveCard/AdaptiveHttpAction.cs** file.
 
     ```csharp
     public class AdaptiveHttpAction : AdaptiveAction
@@ -424,29 +438,6 @@ The Action.Http element is not part of the Adaptive Cards SDK. This action is an
     }
     ```
 
-### Create the data model
-
-1. Right-click on the **Models** folder and choose **Add > Class**.
-
-1. Name the class **Comment**.
-
-1. In the **Comment.cs** class, replace the class definition with the following:
-
-    ```csharp
-    public class Comment
-    {
-      public string ActionPerformer { get; set; }
-      public DateTime CommentDate { get; set; }
-      public string CommentText { get; set; }
-    }
-
-    public class CardResponse
-    {
-      public string Comment { get; set; }
-      public string CachedComments { get; set; }
-    }
-    ```
-
 ### Add base card definition
 
 The refresh card follows a format similar to the rest of the lab. The base definition of the refresh card will be added to the project as an embedded resource.
@@ -466,7 +457,10 @@ The refresh card follows a format similar to the rest of the lab. The base defin
 1. Add the following `using` statements to the top of the **TicketController.cs** file:
 
     ```csharp
+    using AdaptiveCards;
     using Newtonsoft.Json.Linq;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.IO;
     using System.Reflection;
     ```
@@ -508,7 +502,7 @@ The refresh card follows a format similar to the rest of the lab. The base defin
     #endregion
     ```
 
-1. The business logic code references two helper methods. Add these methods to the **TicketController** class. The code is available in the **LabFiles/RefreshAdapterCard/CardHelperFunctions.cs** file.
+1. The business logic code references two helper methods. Add these methods to the **TicketController** class. (The code is available in the **LabFiles/RefreshAdapterCard/CardHelperFunctions.cs** file.) Replace the token **[WebApplicationNamespace]** with the default namespace for the web application project.
 
     ```csharp
     private AdaptiveCard CreateRefreshCard(List<Models.Comment> comments)
@@ -517,7 +511,7 @@ The refresh card follows a format similar to the rest of the lab. The base defin
       StreamReader _textStreamReader;
 
       _assembly = Assembly.GetExecutingAssembly();
-      _textStreamReader = new StreamReader(_assembly.GetManifestResourceStream("WebApplication1.refreshCard.json"));
+      _textStreamReader = new StreamReader(_assembly.GetManifestResourceStream("[WebApplicationNamespace].refreshCard.json"));
 
       AdaptiveCard refreshCard = AdaptiveCard.FromJson(_textStreamReader.ReadToEnd()).Card;
 
