@@ -1,8 +1,0 @@
-{
-  "@microsoft/generator-sharepoint": {
-    "libraryName": "helloworld-webpart-react",
-    "framework": "react",
-    "version": "1.0.0",
-    "libraryId": "b79032b7-1c23-44d2-b4f0-05021e7e3472"
-  }
-}

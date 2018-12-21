@@ -1,8 +1,0 @@
-{
-  "@microsoft/generator-sharepoint": {
-    "libraryName": "helloworld-webpart-jquery",
-    "framework": "none",
-    "version": "1.0.0",
-    "libraryId": "99ae8fe0-b181-49cf-bbee-b6340e83b03d"
-  }
-}
