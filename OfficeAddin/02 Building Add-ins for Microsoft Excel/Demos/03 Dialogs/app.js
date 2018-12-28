@@ -6,7 +6,7 @@
 'use strict';
 
 (function () {
-    Office.initialize = function (reason) {
+    Office.onReady().then(function() {
         $(document).ready(function () {
 
             // ensure client supports 1.7 APIs
@@ -17,7 +17,7 @@
             // wire up button click events
             $('#open-dialog').click(openDialog);
         });
-    };
+    });
 
     let dialog = null;
     function openDialog() {

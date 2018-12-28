@@ -6,7 +6,7 @@
 'use strict';
 
 (function () {
-    Office.initialize = function (reason) {
+    Office.onReady().then(function() {
         $(document).ready(function () {
 
             // ensure client supports 1.7 APIs
@@ -22,7 +22,7 @@
             $('#freeze-header').click(freezeHeader);
             $('#open-dialog').click(openDialog);
         });
-    };
+    });
 
     function createTable() {
         Excel.run(function (context) {

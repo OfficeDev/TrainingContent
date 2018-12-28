@@ -6,10 +6,9 @@
 'use strict';
 
 (function () {
-  // The initialize function must be run each time a new page is loaded
-  Office.initialize = function (reason) {
-    
-  };
+    Office.onReady().then(function() {
+        //If you need to initialize something you can do so here. 
+    });
 })();
 
 
