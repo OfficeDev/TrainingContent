@@ -1,30 +1,23 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-    devtool: 'source-map',
     entry: {
+        polyfill: 'babel-polyfill',
         app: './src/index.ts',
         'function-file': './function-file/function-file.ts'
     },
+    
     resolve: {
-        extensions: ['.ts', '.tsx', '.html', '.js', '.vue'],
-        alias: {
-          vue$: 'vue/dist/vue.js'
-        }
+
+        extensions: ['.ts', '.tsx', '.html', '.js']
+
     },
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: /\.ts$/,
                 exclude: /node_modules/,
-                use: [{
-                  loader: 'ts-loader',
-                  options: {
-                    appendTsSuffixTo: [/\.vue$/],
-                    transpileOnly: true
-                  }
-                }]
+                use: 'babel-loader'
             },
             {
                 test: /\.html$/,
@@ -34,24 +27,18 @@ module.exports = {
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 use: 'file-loader'
-            },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: { esModule: true }
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './index.html',
-            chunks: ['app']
+            chunks: ['polyfill', 'app']
         }),
         new HtmlWebpackPlugin({
             template: './function-file/function-file.html',
             filename: 'function-file/function-file.html',
             chunks: ['function-file']
-        }),
-        new VueLoaderPlugin()
+        })
     ]
 };
