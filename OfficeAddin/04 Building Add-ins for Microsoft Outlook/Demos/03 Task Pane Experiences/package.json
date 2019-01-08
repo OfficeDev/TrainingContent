@@ -1,0 +1,33 @@
+{
+  "name": "git-the-gist",
+  "description": "",
+  "author": "",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --https --key ./certs/server.key --cert ./certs/server.crt --cacert ./certs/ca.crt --port 3000",
+    "sideload": "office-toolbox sideload -m manifest.xml -a Outlook",
+    "build": "webpack --mode production",
+    "validate": "office-toolbox validate -m manifest.xml"
+  },
+  "dependencies": {
+    "@microsoft/office-js-helpers": "^1.0.1",
+    "babel-polyfill": "^6.26.0",
+    "jquery": "^3.1.1",
+    "office-ui-fabric-js": "^1.3.0",
+    "showdown": "^1.9.0",
+    "urijs": "^1.19.1"
+  },
+  "devDependencies": {
+    "office-toolbox": "^0.1.0",
+    "@types/office-js": "^0.0.37",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "file-loader": "^1.1.11",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.0.7",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
