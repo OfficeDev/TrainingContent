@@ -14,6 +14,10 @@ This lab will walk through the development of a message compose add-in for Micro
 - [Add-in Commands and Dialogs](./Demos/02%20Add-in%20Commands%20and%20Dialogs)
 - [Task Pane Experiences](./Demos/03%20Task%20Pane%20Experiences)
 
+## Watch the Module
+
+This module has been recorded and is available in the Office Development YouTube channel: [Building Add-ins for Microsoft Outlook](https://www.youtube.com/watch?v=ZWw-fJ7eldU)
+
 ## Contributors
 
 |        Roles         |                        Author(s)                        |
@@ -22,9 +26,10 @@ This lab will walk through the development of a message compose add-in for Micro
 
 ## Version history
 
-| Version |     Date      |     Comments      |
-| ------- | ------------- | ----------------- |
-| 1.0     | Dec 19, 2018  | Initial release   |
+| Version |       Date        |     Comments     |
+| ------- | ----------------- | ---------------- |
+| 1.1     | January 9, 2019   | Added screencast |
+| 1.0     | December 19, 2018 | Initial release  |
 
 ## Disclaimer
 
