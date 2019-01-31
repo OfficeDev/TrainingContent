@@ -176,7 +176,5 @@ FakesAssemblies/
 **.DS_Store
 
 # Excluding unwanted files
-Teams/03 Bots/Completed Projects/Bot Application/.vs/
+.vs/
 .vscode/
-
-ConnectorActionableMsgs/01 Build a basic Connector/Lab Files/\.vs/

@@ -4,7 +4,7 @@
       StreamReader _textStreamReader;
 
       _assembly = Assembly.GetExecutingAssembly();
-      _textStreamReader = new StreamReader(_assembly.GetManifestResourceStream("WebApplication1.refreshCard.json"));
+      _textStreamReader = new StreamReader(_assembly.GetManifestResourceStream("[WebApplicationNamespace].refreshCard.json"));
 
       AdaptiveCard refreshCard = AdaptiveCard.FromJson(_textStreamReader.ReadToEnd()).Card;
 

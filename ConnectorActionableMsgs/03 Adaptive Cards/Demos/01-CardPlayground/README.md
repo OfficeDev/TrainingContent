@@ -1,10 +1,10 @@
 # Creating and sending cards
 
-In this demo, you will walk through building an Adaptive Card and sending it to your inbox using PowerShell.
+In this demo, you will walk through building an Adaptive Card and sending it to your inbox using a console application.
 
 ## Prerequisites
 
-This demo uses PowerShell. It also requires an Office 365 subscription with an active mailbox. A sample JSON file, `supportTicketCard.json` is used as the basis for this lab.
+This demo requires an Office 365 subscription with an active mailbox. A sample JSON file, `supportTicketCard.json` is used as the basis for this lab.
 
 ## Preview the Adaptive Card
 
@@ -14,30 +14,53 @@ This demo uses PowerShell. It also requires an Office 365 subscription with an a
 1. Select the **Try it yourself** button. This will open a new tab with the Visualizer page pre-loaded with the Input Form sample card.
 1. Point out the value of the **Select Host App** dropdown. The default is **Bot Framework web chat**.
 
-    ![Input Form sample previewed with Bot Framework WebChat](../../InputFormBotPreview.png)
+    ![Input Form sample previewed with Bot Framework WebChat](../../Images/InputFormBotPreview.png)
 
 1. Choose **Outlook Actionable Messages (Preview)** from the dropdown. Notice that a warning message is display above the card preview. Also notice that the Submit button is not displayed.
 
-    ![Input Form sample previewed with Outlook Actionable Messages](../../InputForOutlookPreview.png)
+    ![Input Form sample previewed with Outlook Actionable Messages](../../Images/InputFormOutlookPreview.png)
 
 1. Point out that Action.Submit is not supported by Outlook. Outlook implemented an action (Action.Http) this is not supported in other hosts. Action.Http is discussed later in the module.
 
-## Send an Adaptive card using Card Playground
+## Send the card via console application 
 
-Open the browser to the [Card Playground](https://messagecardplayground.azurewebsites.net) site. The site shows a sample card. Replace the sample with the `supportTicketCard.json` in the demo folder.
+### Register the application
 
-1. Select the **Load a Sample...** button.
-1. In the **Open file** dialog, navigate to the `Demos/01-CardPlayground` folder. Select the file `supportTicketCard.json`
+1. Go to the [Application Registration Portal](https://apps.dev.microsoft.com) and sign in with either a Microsoft account or an Office 365 account.
 
-    ![Card Playground Open dialog](PlaygroundOpen.png)
+1. Select the **Add an app** button. Enter a name for the application and select **Create**.
 
-1. Review the card source and preview.
-1. Select the **Send via Email** button.
-1. You will be prompted to log in. If this is the first time using the Message Card Playground, you will be prompted for consent to send messages as you.
-1. After log in and consent, a confirmation message will display.
+1. Select the **Add Platform** button and choose **Native Application**.
 
-    ![Send Confirmation](../../Images/SendConfirmation.png)
+1. Select **Save**.
 
-1. Open Outlook. Select the message titled "Card Playground Test Card." The message will contain the card, footer text with links about the playground and card documentation, and will show the JSON payload of the card.
+1. Copy the value of **Application ID** for reference later.
 
-    ![Adaptive Card in Outlook](../../Images/AdaptiveCardInOutlook.png)
+### Update application
+
+1. Launch **Visual Studio 2017**.
+
+1. Open the solution **Demos/01-CardPlayground/SendAdaptiveCard/SendAdaptiveCard.sln**.
+
+### Add the application ID to the project
+
+1. Open the [App.config](App.config) file.
+
+1. Find the following line:
+
+    ```xml
+    <add key="applicationId" value="[your-app-id-here]" />
+    ```
+
+1. Paste the application ID you copied from the portal into the `value`, replacing the token `[your-app-id-here]` and save the file.
+
+### Review message format
+
+1. In **Visual Studio**, open file **MessageBody.html**.
+
+1. Notice that the `<head>` element contains a `<script>` tag. The type for the tag is `application/adaptivecard+json`. This value instructs Microsoft Outlook that the code following should be interpreted as an Adaptive Card.
+
+1. Compile and run the SendAdaptiveCard application.
+
+
+1. Open Outlook. Select the message titled "Adaptive card sent from code."
