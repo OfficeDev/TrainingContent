@@ -24,12 +24,14 @@ This module has been recorded and is available in the Office Development YouTube
 | -------------------- | ---------------------------------------------------------------- |
 | Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell          |
 | QA                   | Julie Turner (Microsoft MVP, Sympraxis Consulting) @juliemturner |
+| QA                   | Paul Schaeflein (Microsoft MVP) @paulschaeflein                  |
 | Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                             |
 
 ## Version history
 
 | Version |        Date        |                   Comments                   |
 | ------- | ------------------ | -------------------------------------------- |
+| 1.4     | December 12, 2018  | 2019Q2 content refresh                       |
 | 1.3     | September 12, 2018 | 2019Q1 content refresh                       |
 | 1.2     | June 6, 2018       | 2018Q4 content refresh & style guide updates |
 | 1.1     | March 3, 2018      | Code Review and minor corrections            |
