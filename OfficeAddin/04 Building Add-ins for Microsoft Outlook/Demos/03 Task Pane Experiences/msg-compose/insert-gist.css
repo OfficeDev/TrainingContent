@@ -146,3 +146,8 @@ html, body {
           cursor: not-allowed; }
           .ms-landing-page__footer--right--disabled:active, .ms-landing-page__footer--right--disabled:hover {
             background: transparent; }
+
+/* 
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */

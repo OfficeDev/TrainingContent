@@ -46,9 +46,9 @@ function getUserGists(user, callback) {
         .attr('type', 'hidden')
         .val(gist.id)
         .appendTo(listItem);
-    });
   
-    $('.ms-ListItem').on('click', clickFunc);
+        listItem.on('click', clickFunc);
+    });  
   }
   
   function buildFileList(files) {
@@ -113,3 +113,6 @@ function getUserGists(user, callback) {
     }
     callback(null, 'No suitable file found in the gist');
   }
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
