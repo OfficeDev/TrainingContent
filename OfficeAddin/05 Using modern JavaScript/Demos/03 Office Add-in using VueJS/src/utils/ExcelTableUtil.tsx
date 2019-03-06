@@ -94,14 +94,18 @@ export class ExcelTableUtil {
                 else {
                     await Excel.run(async (context) => {
                         // Get column range of values by column name.
-                        var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                        const colRange = tableRef.columns
+                            .getItem(column)
+                            .getDataBodyRange()
+                            .load('values');
+                        
                         // Sync to populate proxy objects with data from Excel
                         return context.sync().then(async () => {
-                        let data:string[] = [];
-                        for (var i = 0; i < colRange.values.length; i++) {
-                            data.push(colRange.values[i].toString());
-                        }
-                        resolve(data);
+                            let data:string[] = [];
+                            for (var i = 0; i < colRange.values.length; i++) {
+                                data.push(colRange.values[i].toString());
+                            }
+                            resolve(data);
                         });
                     }).catch((err) => {
                         reject(err);
@@ -152,3 +156,6 @@ export class ExcelTableUtil {
         });
     }
 }
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.

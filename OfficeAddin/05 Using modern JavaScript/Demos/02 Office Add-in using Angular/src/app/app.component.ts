@@ -2,20 +2,20 @@ import { Component, NgZone } from '@angular/core';
 import * as OfficeHelpers from '@microsoft/office-js-helpers';
 import { ExcelTableUtil } from './utils/excelTableUtil';
 
+const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
 const template = require('./app.component.html');
-
-const ALPHAVANTAGE_APIKEY = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
 
 @Component({
     selector: 'app-home',
     template
 })
-export default class AppComponent {
+
+export default class AppComponent {  
     symbols = [];
     error = null;
     waiting = false;
     zone = new NgZone({});
-
+    
     tableUtil = new ExcelTableUtil('Portfolio', 'A1:H1', [
         'Symbol',
         'Last Price',
@@ -34,7 +34,7 @@ export default class AppComponent {
     // Adds symbol
     addSymbol = async (symbol) => {
         this.waiting = true;
-
+  
         // Get quote and add to Excel table
         this.getQuote(symbol).then((res) => {
             const data = [
@@ -64,13 +64,12 @@ export default class AppComponent {
     // Delete symbol
     deleteSymbol = async (index) => {
         // Delete from Excel table by index number
-        const symbol = this.symbols[index];
+        const symbol:string = this.symbols[index];
         this.waiting = true;
-        this.tableUtil.getColumnData('Symbol').then(async (columnData) => {
+        this.tableUtil.getColumnData('Symbol').then(async (columnData:string[]) => {
             // Ensure the symbol was found in the Excel table
             if (columnData.indexOf(symbol) !== -1) {
-                this.tableUtil.deleteRow(columnData.indexOf(symbol))
-                .then(async () => {
+                this.tableUtil.deleteRow(columnData.indexOf(symbol)).then(async () => {
                     this.symbols.splice(index, 1);
                     this.waiting = false;
                 }, err => {
@@ -92,22 +91,20 @@ export default class AppComponent {
         // Refresh stock quote and update Excel table
         const symbol = this.symbols[index];
         this.waiting = true;
-        this.tableUtil.getColumnData('Symbol').then(async (columnData) => {
+        this.tableUtil.getColumnData('Symbol').then(async (columnData:string[]) => {
             // Ensure the symbol was found in the Excel table
             const rowIndex = columnData.indexOf(symbol);
             if (rowIndex !== -1) {
                 this.getQuote(symbol).then((res) => {
                     // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                    this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price'])
-                    .then(async () => {
+                    this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price']).then(async () => {
                         this.waiting = false;
                     }, (err) => {
                         this.error = err;
                         this.waiting = false;
                     });
                 });
-            } 
-            else {
+            } else {
                 this.error = `${symbol} not found in Excel`;
                 this.symbols.splice(index, 1);
                 this.waiting = false;
@@ -121,8 +118,7 @@ export default class AppComponent {
     // Reads symbols from an existing Excel workbook and pre-populates them in the add-in
     syncTable = async () => {
         this.waiting = true;
-        this.tableUtil.getColumnData('Symbol')
-        .then(async (columnData) => {
+        this.tableUtil.getColumnData('Symbol').then(async (columnData:string[]) => {
             this.symbols = columnData;
             this.waiting = false;
         }, (err) => {
@@ -131,14 +127,11 @@ export default class AppComponent {
         });
     }
 
-
     // Gets a quote by calling into the stock service
     getQuote = async (symbol) => {
         return new Promise((resolve, reject) => {
-            const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(
-                symbol
-            )}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
-
+            const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+  
             fetch(queryEndpoint).then((res) => {
                 if (!res.ok) {
                     reject('Error getting quote');
@@ -151,3 +144,6 @@ export default class AppComponent {
         });
     }
 }
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.

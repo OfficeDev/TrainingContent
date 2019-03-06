@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType, TextField, TextFieldBase } from 'office-ui-fabric-react';
 import { Header } from './header';
 import { Waiting } from './waiting';
 import { StockItem } from './StockItem';
-import { ExcelTableUtil } from '../utils/ExcelTableUtil';
+import { ExcelTableUtil } from '../utils/excelTableUtil';
 
 const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
 
@@ -18,6 +18,7 @@ export interface AppState {
 }
 
 export default class App extends React.Component<AppProps, AppState> {
+  newSymbol:any = React.createRef();
   tableUtil: ExcelTableUtil = new ExcelTableUtil('Portfolio', 'A1:H1', [
     'Symbol',
     'Last Price',
@@ -28,7 +29,6 @@ export default class App extends React.Component<AppProps, AppState> {
     'Total Gain %',
     'Value'
   ]);
-
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -44,21 +44,21 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   // Adds symbol
-  addSymbol = async event => {
+  addSymbol = async (event) => {
     if (event.key === 'Enter') {
-      let element = this.refs.newSymbol as TextField;
-      let symbol = element.value.toUpperCase();
-
+      const element = this.newSymbol.current as TextFieldBase;
+      const symbol = element.value.toUpperCase();
+  
       // Get quote and add to Excel table
       this.setState({ waiting: true });
       this.getQuote(symbol).then(
         (res: any) => {
-          let data = [
+          const data = [
             res['1. symbol'], //Symbol
             res['2. price'], //Last Price
-            res['4. timestamp'], // Timestamp of quote
-            0,
-            0,
+            res['4. timestamp'], // Timestamp of quote,
+            0, // quantity (manually entered)
+            0, // price paid (manually entered)
             '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
             '=H:H / (E:E * D:D) * 100', //Total Gain %
             '=B:B * D:D' //Value
@@ -132,7 +132,7 @@ export default class App extends React.Component<AppProps, AppState> {
           this.getQuote(symbol).then((res: any) => {
             // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
             this.tableUtil
-              .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price'])
+              .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current)
               .then(
                 async () => {
                   this.setState({ waiting: false });
@@ -174,10 +174,8 @@ export default class App extends React.Component<AppProps, AppState> {
   // Gets a quote by calling into the stock service
   getQuote = async (symbol: string) => {
     return new Promise((resolve, reject) => {
-      const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(
-        symbol
-      )}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
-
+      const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+  
       fetch(queryEndpoint)
         .then((res: any) => {
           if (!res.ok) {
@@ -220,11 +218,7 @@ export default class App extends React.Component<AppProps, AppState> {
             <span className="ms-font-l">Stock Symbols</span>
           </div>
           <div className="pct100">
-            <TextField
-              ref="newSymbol"
-              onKeyPress={this.addSymbol.bind(this)}
-              placeholder="Enter a stock symbol (ex: MSFT)"
-            />
+            <TextField componentRef={this.newSymbol} onKeyPress={this.addSymbol.bind(this)} placeholder="Enter a stock symbol (ex: MSFT)" />
           </div>
           {stocks}
         </div>
@@ -232,3 +226,6 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 }
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.

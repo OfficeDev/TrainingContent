@@ -16,3 +16,6 @@ export class Waiting extends React.Component<any, any> {
     );
   }
 }
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.

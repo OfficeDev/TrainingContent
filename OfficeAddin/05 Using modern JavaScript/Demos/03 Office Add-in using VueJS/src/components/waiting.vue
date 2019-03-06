@@ -14,3 +14,6 @@ export default class waiting extends Vue {
   name: 'waiting'
 }
 </script>
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.

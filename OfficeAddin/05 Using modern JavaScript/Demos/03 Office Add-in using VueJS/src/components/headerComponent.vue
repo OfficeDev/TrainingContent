@@ -35,3 +35,6 @@ export default class headerComponent extends Vue {
   error: String;
 }
 </script>
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.

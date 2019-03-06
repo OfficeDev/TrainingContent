@@ -28,3 +28,6 @@ export class StockItem extends React.Component<StockItemProps, any> {
     );
   }
 }
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
