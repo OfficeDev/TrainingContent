@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
 public class MessagingExtensionHelper
 {
   public static async Task<ComposeExtensionResponse> CreateResponse(Activity activity)

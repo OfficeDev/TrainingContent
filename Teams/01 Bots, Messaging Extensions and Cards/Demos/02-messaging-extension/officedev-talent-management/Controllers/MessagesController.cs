@@ -1,4 +1,8 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams;
 using Microsoft.Bot.Connector.Teams.Models;
@@ -100,7 +104,7 @@ namespace officedev_talent_management
 					var botAccount = message.Recipient;
 					var channelData = message.GetChannelData<TeamsChannelData>();
 
-					// if the bot is in the collection of added members, 
+					// if the bot is in the collection of added members,
 					// then send a welcometo all team members
 					if (message.MembersAdded.Any(m => m.Id.Equals(botAccount.Id)))
 					{

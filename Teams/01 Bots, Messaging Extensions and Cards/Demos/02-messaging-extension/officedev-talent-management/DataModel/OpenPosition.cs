@@ -1,6 +1,10 @@
-﻿namespace OfficeDev.Talent.Management
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+namespace OfficeDev.Talent.Management
 {
-	public class OpenPosition
+  public class OpenPosition
     {
         public string Title { get; set; }
         public int Applicants { get; set; }
