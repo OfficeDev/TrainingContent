@@ -313,7 +313,7 @@ The project template creates a messages controller that receives messages from t
     using System.Threading.Tasks;
     ```
 
-1. Replace the generated `EventHelpers` class with the following code. The code is in the `Lab Files/EventHelper.cs` file.
+1. Replace the generated `EventHelpers` class with the following code. The code is in the `Lab Files/EventHelpers.cs` file.
 
     ```cs
     public class EventHelpers
