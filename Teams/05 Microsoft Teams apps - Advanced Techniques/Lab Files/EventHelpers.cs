@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
 public class EventHelpers
 {
   public static bool MemberAddedIsBot(Activity memberAddedActivity)
