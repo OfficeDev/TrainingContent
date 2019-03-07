@@ -131,7 +131,7 @@ When the solution was generated, you used a placeholder URL. Now that the tunnel
 
 1. Open the **manifest.json** file in the **manifest** folder.
 
-1. Replace all instances of `tbd.ngrok.io` with the HTTPS forwarding address from the ngrok window. In this example, the forwarding address is **0f3b4f62.ngrok.io**. There are five URLs that need to be changed.
+1. Replace all instances of `tbd.ngrok.io` with the HTTPS forwarding address from the ngrok window. In this example, the forwarding address is **0f3b4f62.ngrok.io**. There are several URLs that need to be changed.
 
 1. Save the **manifest.json** file.
 
@@ -382,7 +382,7 @@ Packaging a bot for Microsoft Teams is identical to packaging a tab. A manifest 
 
 ### Upload app into Microsoft Teams
 
-Although not strictly necessary, in this lab you will add the bot to a new team.
+In this part of the lab, you will add the bot to the team created previously.
 
 1. In the Microsoft Teams application, select the ellipses next to the team name. Choose **Manage team** from the menu.
 
@@ -436,9 +436,7 @@ To enable an application to call the Microsoft Graph API, an application registr
 
 1. Select **Add an app**.
 
-1. Complete the **Register your application** section by entering an application name and contact email. Clear the checkbox for **Guided Setup**. Select **Create**.
-
-    ![Screenshot of app registration page.](Images/Exercise3-01.png)
+1. Enter an application name in the New Application Registration dialog. Select **Create Application**. Select **Not now**.
 
 1. On the registration page, in the **Platforms** section, select **Add Platform**.
 
@@ -695,6 +693,8 @@ The tab in this exercise can be configured to read information from Microsoft Gr
     export * from './adminconsent';
     ```
 
+1. Open the file **manifest\manifest.json**. Verify that the `configurationUrl` property of the `configurableTabs` object has a url that matches the hostname from ngrok.
+
 1. Following the steps from [Exercise 1]("#exercise1"), redeploy the app. To summarize:
     - Execute `gulp manifest` from the command prompt to rebuild the manifest.
     - Execute `gulp build` & `gulp serve` to rebuild & start the local web server.
@@ -760,7 +760,7 @@ With the tab configured, the content page can now render information as selected
         },
         failureCallback: function (err) {
           this.setState({
-            graphData: "Failed to authenticate and get token.<br/>" + err;
+            graphData: "Failed to authenticate and get token.<br/>" + err
           });
         }
       });
