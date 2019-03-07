@@ -354,9 +354,11 @@ Connectors for Microsoft Teams must be registered on the [Connectors Developer D
 
     > NOTE: This field is not used by Microsoft Teams, but you must enter something.
 
-  - **Valid domains**: https://f044969c.ngrok.io
+  - **Valid domains**: *{enter the ngrok URL}*
 
     > NOTE: This field is used for actionable messages.
+
+  - **Do you want to enable actions on your Connector Cards?**: No
 
 1. Accept the terms and conditions and select **Save**. The page will refresh with additional information.
 
@@ -368,7 +370,7 @@ Now, update the Visual Studio solution.
 
 1. In Visual Studio right-click on the project, choose **Add > New Folder**. Name the folder **Connector**.
 
-1. Add the two (2) files from the **[LabFiles\Connector](./LabFiles/Connector)** folder of this repository.
+1. Add the **connectorconfig.html** file from the **[LabFiles\Connector](./LabFiles/Connector)** folder of this repository.
 
     ![Screenshot of Solution Explorer with manifest folder displayed.](Images/Exercise2-01.png)
 
@@ -416,7 +418,7 @@ Now, update the Visual Studio solution.
 
 1. Open the **manifest.json** file in the **Manifest** folder.
 
-1. Locate the `configurableTabs` node of the **manifest.json** file. Add the following node as a sibling (at the same level) as the `configurableTabs` node. 
+1. Locate the `configurableTabs` node of the **manifest.json** file. Add the following node as a sibling (at the same level) as the `configurableTabs` node.
 
     ```json
     "connectors": [
