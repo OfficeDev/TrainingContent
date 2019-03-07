@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
 public class MessageHelpers
 {
   public static string CreateHelpMessage(string firstLine)

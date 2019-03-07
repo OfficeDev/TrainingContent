@@ -1,6 +1,6 @@
 # Sending and receiving files
 
-In this demo, you will demonstrate a bot that receives a file from a user and sends a file to a user in the  Microsoft Teams desktop application. 
+In this demo, you will demonstrate a bot that receives a file from a user and sends a file to a user in the  Microsoft Teams desktop application.
 
 ## Prerequisites
 
