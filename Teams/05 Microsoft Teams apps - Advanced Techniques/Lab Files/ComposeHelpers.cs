@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
 public class ComposeHelpers
 {
   public static async Task<HttpResponseMessage> HandleInvoke(Activity activity)
