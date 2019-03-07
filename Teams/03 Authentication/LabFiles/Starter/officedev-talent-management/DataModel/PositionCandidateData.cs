@@ -1,4 +1,8 @@
-﻿using Bogus;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using Bogus;
 using System;
 using System.Collections.Generic;
 
