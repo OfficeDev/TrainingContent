@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
 import * as React from 'react';
 import {
     PrimaryButton,
@@ -52,7 +56,7 @@ export class teamsApp1Tab extends TeamsBaseComponent<IteamsApp1TabProps, IteamsA
         },
         failureCallback: function (err) {
           this.setState({
-            graphData: "Failed to authenticate and get token.<br/>" + err;
+            graphData: "Failed to authenticate and get token.<br/>" + err
           });
         }
       });
