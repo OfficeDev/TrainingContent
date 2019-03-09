@@ -1,44 +1,32 @@
 ﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved.
      Licensed under the MIT License. -->
 <html>
+
 <head>
   <title>Hiring Team</title>
-  <script src="https://unpkg.com/@microsoft/teams-js@1.3.5/dist/MicrosoftTeams.min.js" integrity="sha384-t1ID2NmMGB5huCWZdo2EV4RXQ9H/+VDaxxWeUfWuuVuYIc62+Xj7M5re4yqbpbDt"
+  <script src="https://unpkg.com/@microsoft/teams-js@1.3.5/dist/MicrosoftTeams.min.js"
+    integrity="sha384-t1ID2NmMGB5huCWZdo2EV4RXQ9H/+VDaxxWeUfWuuVuYIc62+Xj7M5re4yqbpbDt"
     crossorigin="anonymous"></script>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+    integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
   <link rel="stylesheet" href="talent-mgmt.css" />
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
-  <script src="https://secure.aadcdn.microsoftonline-p.com/lib/0.2.3/js/msal.js"></script>
+  <!-- Check before upgrading your ADAL version, as this sample depends on an internal function to authenticate silently -->
+  <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js"
+    integrity="sha384-lIk8T3uMxKqXQVVfFbiw0K/Nq+kt1P3NtGt/pNexiDby2rKU6xnDY8p16gIwKqgI"
+    crossorigin="anonymous"></script>
 
   <script type="text/javascript">
-    let upn = undefined;
-    let groupId = undefined;
-    let resource = "https://graph.microsoft.com";
-    let userAgentApp = undefined;
-
-    let applicationConfig = {
-      clientID: "[AzureAppID]",
-      tenantID: "[AzureTenantID]",
-      graphScopes: ["Group.Read.All", "User.Read.All"]
+    let config = {
+      redirectUri: window.location.origin + "/Tabs/silent-end"
     };
 
-    var logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose });
-
-    function loggerCallback(logLevel, message, piiLoggingEnabled) {
-      console.log(message);
-    }
-
-    function getGraphData() {
-      let user = userAgentApp.getUser();
-      let token = userAgentApp.getCachedToken(applicationConfig.graphScopes, user);
-      getData(token);
-    }
-
     function getData(token) {
-      let graphEndpoint = 'https://graph.microsoft.com/v1.0/groups/' + this.groupId + '/members?$select=displayName,jobTitle';
+      let queryParams = getQueryParameters();
+      let groupId = queryParams["groupId"];
+
+      let graphEndpoint = 'https://graph.microsoft.com/v1.0/groups/' + groupId + '/members?$select=displayName,jobTitle';
 
       var req = new XMLHttpRequest();
       req.open("GET", graphEndpoint, false);
@@ -46,73 +34,60 @@
       req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
       req.send();
       var result = JSON.parse(req.responseText);
-      var members = result.value;
 
-      for (i = 0; i < members.length; i++) {
-        var div = document.createElement("div");
-        div.innerHTML = '<div class="row justify-content-between align-items-center panel candidate">' +
-          '<div class="col-3">' + members[i].displayName + '</div>' +
-          '<div class="col-2">' + members[i].jobTitle + '</div>' +
-          '</div>';
-        document.getElementById("hiring_team").append(div.firstChild);
+      var resultsDiv = document.createElement("div");
+      if (result.value) {
+        var members = result.value;
+
+        for (i = 0; i < members.length; i++) {
+          resultsDiv.innerHTML = '<div class="row justify-content-between align-items-center panel candidate">' +
+            '<div class="col-3">' + members[i].displayName + '</div>' +
+            '<div class="col-2">' + members[i].jobTitle + '</div>' +
+            '</div>';
+          document.getElementById("hiring_team").append(resultsDiv.firstChild);
+        }
+      } else {
+        if (result.error) {
+          resultsDiv.innerHTML = '<div style="color:red"><strong>' + result.error.message + '</strong></div>';
+          document.getElementById("hiring_team").append(resultsDiv.firstChild);
+          $("#btnLogin").css({ display: "" });
+        }
       }
     }
-
 
     // Login to Azure AD
     function login() {
       $("#btnLogin").css({ display: "none" });
 
       microsoftTeams.authentication.authenticate({
-        url: window.location.origin + "/Tabs/auth.html",
+        url: window.location.origin + "/Tabs/auth-start.html",
         width: 600,
         height: 535,
-        successCallback: function (token) {
-          if (token) {
-            getData(token);
-          } else {
-            $("#btnLogin").css({ display: "" });
-          }
+        successCallback: function (result) {
+          console.log("Login succeeded: " + result);
+          getData(result.accessToken);
         },
         failureCallback: function (reason) {
           console.log("Login failed: " + reason);
-          if (reason === "CancelledByUser" || reason === "FailedToOpenWindow") {
-            console.log("Login was blocked by popup blocker or canceled by user.");
-          }
           $("#btnLogin").css({ display: "" });
         }
       });
     }
 
+    // Parse query parameters into key-value pairs
+    function getQueryParameters() {
+      let queryParams = {};
+      location.search.substr(1).split("&").forEach(function (item) {
+        let s = item.split("="),
+          k = s[0],
+          v = s[1] && decodeURIComponent(s[1]);
+        queryParams[k] = v;
+      });
+      return queryParams;
+    }
+
     $(document).ready(function () {
       microsoftTeams.initialize();
-      microsoftTeams.getContext(function (context) {
-        this.upn = context.upn;
-        this.groupId = context.groupId;
-
-        microsoftTeams.authentication.authenticate({
-          url: window.location.origin + "/Tabs/auth.html",
-          width: 600,
-          height: 535,
-          successCallback: function (token) {
-            if (token) {
-              getData(token);
-            } else {
-              // At this point we have to get the user involved, so show the login button
-              $("#btnLogin").css({ display: "" });
-            }
-          },
-          failureCallback: function (reason) {
-            console.log("Login failed: " + reason);
-            if (reason === "CancelledByUser" || reason === "FailedToOpenWindow") {
-              console.log("Login was blocked by popup blocker or canceled by user.");
-            }
-            // At this point we have to get the user involved, so show the login button
-            $("#btnLogin").css({ display: "" });
-          }
-        });
-
-      });
     });
   </script>
 </head>
@@ -146,7 +121,7 @@
 
   <div>
     <!-- Login button -->
-    <button id="btnLogin" onclick="login()" style="display: none">Login to Azure AD</button>
+    <button id="btnLogin" onclick="login()">Login to Azure AD</button>
   </div>
 
   <div id="active_applicants">
