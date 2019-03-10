@@ -1,4 +1,8 @@
-﻿using System.Net.Http;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
