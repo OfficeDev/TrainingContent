@@ -183,59 +183,49 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. Select **Azure Active Directory** in the left-most blade.
 
-1. In the **Overview** blade, select **Properties** (near the bottom).
+1. Select **App registrations (Preview)** in the left-hand menu.
 
-1. In the **Directory Properties** blade, copy the **Directory ID**.
+1. Select **New registration**.
 
-    > **NOTE:** Record the **Directory ID** on the AppWorksheet as the **AzureTenantID**.
+1. Enter a name for the application. A suggested name is `Talent Management application` which distinguishes this application from the bot. Select **Register**.
 
-1. Close the **Directory Properties** blade, returning to the **Overview** blade.
+1. In the **Overview** blade, copy the **Application (client) ID**.
 
-1. Select **App registrations** in the left-hand menu.
+    > **NOTE:** Record the **Application (client) ID** on the AppWorksheet as the **AzureAppID**.
 
-1. Select **New application registration**.
+1. In the **Overview** blade, , copy the **Directory (tenant) ID**.
 
-1. Enter a name for the application. A suggested name is `Talent Management application` which distinguishes this application from the bot.
+    > **NOTE:** Record the **Directory (tenant) ID** on the AppWorksheet as the **AzureTenantID**.
 
-1. Select `Web app / API` for the **Application type**
+1. Select **Authentication** in the left-hand menu.
 
-1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
+1. In the **Redirect URIs section, enter the following address for the **Redirect URI**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.) Leave the **Type** as **Web**.
 
     ```
     https://[from-ngrok].ngrok.io/Tabs/auth.html
     ```
 
-1. Select **Create**.
+1. In the **Implicit grant** section, select **Access tokens** and **ID tokens**.
 
-1. On the application blade, copy the **Application Id**.
+1. Select **Save** from the toolbar at the top of the Authentication blade.
 
-    > **NOTE:** Record the **Application Id** on the AppWorksheet as the **AzureAppID**.
+1. Select **API permissions** in the left-had menu.
 
-1. Select **Manifest**.
+1. In the **API permissions** blade, select **Add a permission**. Select **Microsoft Graph**. Select **Delegated permissions**.
 
-    ![Screenshot if the Azure AD Portal showing the application blade](Images/Exercise1-01.png)
+1. The following permissions are required for the lab. Select any that are not included by default:
 
-1. Location the `oauth2AllowImplicitFlow` property. Set the property to `true`. (Note that the property is a boolean, not a string.)
+- openid (Sign users in)
+- profile (View users' basic profile)
+- Group > Group.Read.All (Read all groups)
+- User > User.Read (Sign in and read user profile)
+- User > User.Read.All (Read all users' full profiles)
 
-1. Select **Save** and then close the **Edit manifest blade**.
+Select **Add permissions**.
 
-1. In the application blade, select **Settings**.
+Select **Grand admin consent for [Directory]**. Select **Yes** in the confirmation banner.
 
-1. In the **Settings** blade, then **Required permissions**.
-
-1. In the **Required permissions** blade, select **Add**, select **Select and API**.
-
-1. In the **Select an API blade** blade, select **Microsoft Graph**. Select the **Select** button at the bottom of the blade.
-
-1. In the resulting **Enable access** blade, select the following **Delegated** permissions:
-    - **Read all users' full profiles**
-    - **Read all groups**
-    - **Sign users in**
-    - **View users' basic profile**
-
-1. Select the **Select** button at the bottom of the blade. Select **Done**.
-
-1. In the **Required permissions** blade, select **Grant permissions**. Select **Yes**.
+    ![Screenshot of Azure Active Directory portal with the requested permissions displayed.](Images/Exercise1-01.png)
 
 ### Replace the tab in the Teams app
 
@@ -259,17 +249,12 @@ When the bot was registered, an application registration was created in the AAD 
 
     - hiringTeam.html
     - hiringTeamConfig.html
-    - auth.html
+    - auth-start.html
+    - auth-end.html
 
-1. Open file **auth.html** in the **Tabs** folder. The **auth.html** contains JavaScript code that will use the MSAL library to acquire an access token for the Microsoft Graph API.
-
-    - Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
-    - Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
-
-1. Open file **hiringTeam.html** in the **Tabs** folder. The **hiringTeam.html** page contains JavaScript code that will use the Microsoft Teams API to open the authentication window, calling auth.html. The resulting access token is used to call the Microsoft Graph API.
+1. Open file **auth-start.html** in the **Tabs** folder. The **auth-start.html** contains JavaScript code that will redirect the user to the AAD Login page, passing configuration data.
 
     - Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
-    - Replace the token `[AzureTenantID]` with the value recorded on the AppWorksheet as **AzureTenantID**.
 
 1. Press **F5** to compile, create the package and start the debugger. Since the manifest file has changed, the app must be re-uploaded to Microsoft Teams.
 
@@ -311,17 +296,15 @@ Configurable tabs are displayed in a channel.
 
 1. The tab is displayed in the channel tab strip.
 
-1. When the tab is first viewed by a user, the Talent Management application does not have a token to use for calls to the Microsoft Graph. Microsoft Teams will display a popup window which may request login credentials. If a valid token is cached for the user, the popup window will close without user intervention.
+    ![Screenshot of the talent management tab](Images/Exercise1-06.png)
+
+1. Select the **Login to Azure AD** button. When the tab is first viewed by a user, the Talent Management application does not have a token to use for calls to the Microsoft Graph. Microsoft Teams will display a popup window which may request login credentials. If a valid token is cached for the user, the popup window will close without user intervention.
 
     ![Screenshot of Microsoft Teams showing the login popup window.](Images/Exercise1-08.png)
 
 1. The tab will display the members of the Azure Active Directory group that supports the Team. Changes to the Team members will be reflected the next time the tab is displayed.
 
     ![Screenshot of Microsoft Teams showing the configurable tab added in the lab](Images/Exercise1-05.png)
-
-1. If the popup window is closed or the login is not successful, the tab will display a login button. Select the **Login to Azure AD** button to re-initiate the login/token acquisition flow.
-
-    ![Screenshot of Microsoft Teams showing the application tab with the Login to Azure AD button](Images/Exercise1-06.png)
 
 <a name="exercise2"></a>
 
@@ -339,25 +322,25 @@ The bot framework can facilitate the token acquisition for a bot. This requires 
 
 1. In the Azure Portal, select **Azure Active Directory**.
 
-1. Select **App Registrations**. Select **View All registrations**.
+1. Select **App registrations (Preview)** in the left-hand menu.
 
 1. Select the application created in Exercise 1. The suggested name was **Talent Management application**.
 
-1. Copy the **Application Id**.
+1. Copy the **Application (client) ID**.
 
     > NOTE: This value should match the entry in the AppWorksheet named **AzureAppID**.
 
-1. Select **Settings**. In the **General** section, select **Reply URLs**.
+1. Select **Authentication** in the left-hand menu.
 
-1. Add the following as a reply url: `https://token.botframework.com/.auth/web/redirect`. (The existing reply url for the tab can remain.) Select **Save**.
+1. Add an additional redirect URI. Leave the **Type** as **Web**. Add the following as a reply url: `https://token.botframework.com/.auth/web/redirect`. (The existing reply url for the tab can remain.) Select **Save**.
 
-1. In the **API Access** section, select **Keys**.
+1. Select **Certificates and secrets** in the left-hand menu.
 
-1. On the **Keys** blade, under **Passwords**, create a key with the description `BotLogin`. Set its Duration to **Never expires**.
+1. Select **New client secret**. Enter a description and select an expiration. Select **Add**.
 
-1. Select **Save**. Record the key value.
+1. Record the client secret value.
 
-    > **NOTE:** Record the key value on the AppWorksheet as the **AzureAppSecret**.
+    > **NOTE:** Record the client secret value on the AppWorksheet as the **AzureAppSecret**.
 
 ### Create a Bot Service Channel registration
 

@@ -1,9 +1,12 @@
-﻿using AdaptiveCards;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using AdaptiveCards;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams.Models;
 using Newtonsoft.Json.Linq;
 using OfficeDev.Talent.Management;
-///
 using System;
 using System.Collections.Generic;
 using System.Linq;
