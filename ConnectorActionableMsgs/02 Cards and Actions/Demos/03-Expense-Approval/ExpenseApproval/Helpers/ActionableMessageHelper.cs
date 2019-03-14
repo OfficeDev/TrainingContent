@@ -1,4 +1,8 @@
-﻿
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+
 using ExpenseApproval.Models;
 using Microsoft.O365.ActionableMessages.Utilities;
 using System;
@@ -63,7 +67,7 @@ namespace ExpenseApproval.Helpers
         };
       }
 
-      //TODO: Add additional logic to validate the performer. 
+      //TODO: Add additional logic to validate the performer.
       //      Here we just compare against the domain.
       if (!result.ActionPerformer.ToLower().EndsWith(emailDomain))
       {

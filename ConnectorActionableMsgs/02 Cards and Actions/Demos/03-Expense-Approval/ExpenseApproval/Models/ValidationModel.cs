@@ -1,4 +1,8 @@
-﻿using Microsoft.O365.ActionableMessages.Utilities;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using Microsoft.O365.ActionableMessages.Utilities;
 using System.Net.Http;
 using System;
 using System.Collections.Generic;
