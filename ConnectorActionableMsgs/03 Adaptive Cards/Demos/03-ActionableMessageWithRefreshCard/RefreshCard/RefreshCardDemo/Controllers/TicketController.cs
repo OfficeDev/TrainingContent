@@ -1,4 +1,8 @@
-﻿using AdaptiveCards;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using AdaptiveCards;
 using Microsoft.O365.ActionableMessages.Authentication;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

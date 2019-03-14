@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
     private AdaptiveCard CreateRefreshCard(List<Models.Comment> comments)
     {
       Assembly _assembly;
