@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Reflection;
 using Microsoft.O365.ActionableMessages.Utilities;
