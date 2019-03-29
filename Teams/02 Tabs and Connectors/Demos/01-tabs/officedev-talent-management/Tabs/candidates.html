@@ -1,3 +1,5 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved.
+    Licensed under the MIT License. -->
 <!DOCTYPE html>
 <html>
 
@@ -8,14 +10,14 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
   <link rel="stylesheet" href="talent-mgmt.css" />
 
-	<script>
-		$(document).ready(function () {
-			microsoftTeams.initialize();
-			microsoftTeams.getContext(function (context) {
-				$('#hiring-manager-upn').text(context.upn);
-			});
-		});
-	</script>
+  <script>
+    $(document).ready(function () {
+      microsoftTeams.initialize();
+      microsoftTeams.getContext(function (context) {
+        $('#hiring-manager-upn').text(context.upn);
+      });
+    });
+  </script>
 </head>
 
 <body>

@@ -1,3 +1,5 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved.
+    Licensed under the MIT License. -->
 <html>
 
 <head>
@@ -6,41 +8,41 @@
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../Tabs/msteams-16.css" />
   <link rel="stylesheet" type="text/css" href="../Tabs/talent-mgmt.css" />
-	<script type="text/javascript">
-		var host = `https://${window.location.hostname}`;
+  <script type="text/javascript">
+    var host = `https://${window.location.hostname}`;
 
-		$(document).ready(function () {
-			// Initialize the Microsoft Teams Library
-			microsoftTeams.initialize();
+    $(document).ready(function () {
+      // Initialize the Microsoft Teams Library
+      microsoftTeams.initialize();
 
-			microsoftTeams.settings.getSettings(function (settings) {
-				webhookUrl = settings.webhookUrl;
-				$('#webhookUrl').text(webhookUrl);
-			});
+      microsoftTeams.settings.getSettings(function (settings) {
+        webhookUrl = settings.webhookUrl;
+        $('#webhookUrl').text(webhookUrl);
+      });
 
-			// Set the 'Save' Button state
-			microsoftTeams.settings.setValidityState(true);
+      // Set the 'Save' Button state
+      microsoftTeams.settings.setValidityState(true);
 
-			// Save handler when user clicked on Save button
-			microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
-				microsoftTeams.getContext(function (context) {
+      // Save handler when user clicked on Save button
+      microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+        microsoftTeams.getContext(function (context) {
 
-					url = `${host}/Connector/connectorConfig.html`;
+          url = `${host}/Connector/connectorConfig.html`;
 
-					entity = `connector-officedev-${context.teamId}-${context.channelId}`;
+          entity = `connector-officedev-${context.teamId}-${context.channelId}`;
 
-					microsoftTeams.settings.setSettings({
-						entityId: entity,
-						contentUrl: url,
-						configName: 'OfficeDev Talent Management'
-					});
+          microsoftTeams.settings.setSettings({
+            entityId: entity,
+            contentUrl: url,
+            configName: 'OfficeDev Talent Management'
+          });
 
-					saveEvent.notifySuccess();
+          saveEvent.notifySuccess();
 
-				});
-			});
-		});
-	</script>
+        });
+      });
+    });
+  </script>
 </head>
 
 <body class="theme-light" style="width:94%">

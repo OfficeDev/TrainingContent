@@ -1,6 +1,10 @@
-﻿namespace OfficeDev.Talent.Management
+﻿/*
+* Copyright (c) Microsoft Corporation. All rights reserved.
+* Licensed under the MIT license.
+*/
+namespace OfficeDev.Talent.Management
 {
-	public class Candidate
+  public class Candidate
     {
         public string Name { get; set; }
         public int Hires { get; set; }
