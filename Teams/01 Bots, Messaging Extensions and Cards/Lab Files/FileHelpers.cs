@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
 public class FileHelpers
 {
   internal static async Task ProcessAttachment(Attachment attachment, IDialogContext context)
