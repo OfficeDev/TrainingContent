@@ -227,6 +227,3 @@ import { base64Image } from "./base64Image";
         });
     }
 })();
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
