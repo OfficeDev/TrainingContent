@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 import * as React from 'react';
 
 export interface HeaderProps {
@@ -17,6 +20,3 @@ export class Header extends React.Component<HeaderProps, any> {
         );
     }
 }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 export class ExcelTableUtil {
     tableName: string;
     location: string;
@@ -163,6 +166,3 @@ updateCell = async (address: string, value: any) => {
     });
   }
 }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

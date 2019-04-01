@@ -1962,7 +1962,10 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
               else {
                 await Excel.run(async (context) => {
                   // Get column range of values by column name.
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  tableRef = sheet.tables.getItem(this.tableName);
                   var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                  
                   // Sync to populate proxy objects with data from Excel
                   return context.sync().then(async () => {
                     let data:string[] = [];

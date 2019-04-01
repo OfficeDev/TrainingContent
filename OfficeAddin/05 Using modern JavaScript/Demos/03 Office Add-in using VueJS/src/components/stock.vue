@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 <template>
   <div class="pct100 itemRow">
     <div class="left ms-font-l">{{symbol}}</div>
@@ -32,6 +35,3 @@ export default class stock extends Vue {
   index: Number;
 }
 </script>
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 import * as React from 'react';
 import { MessageBar, MessageBarType, TextField, TextFieldBase } from 'office-ui-fabric-react';
 import { Header } from './header';
@@ -226,6 +229,3 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

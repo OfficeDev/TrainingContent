@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 /// <reference path="../../../node_modules/@types/office-js/index.d.ts" />
 
 export class ExcelTableUtil {
@@ -154,6 +157,3 @@ export class ExcelTableUtil {
         });
     }
 }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

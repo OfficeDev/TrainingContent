@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require("webpack");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -59,6 +62,3 @@ module.exports = {
         new VueLoaderPlugin()
     ]
 };
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 import { Component, NgZone } from '@angular/core';
 import * as OfficeHelpers from '@microsoft/office-js-helpers';
 import { ExcelTableUtil } from './utils/excelTableUtil';
@@ -144,6 +147,3 @@ export default class AppComponent {
         });
     }
 }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

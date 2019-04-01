@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 export class ExcelTableUtil {
     tableName: string;
     location: string;
@@ -94,10 +97,9 @@ export class ExcelTableUtil {
                 else {
                     await Excel.run(async (context) => {
                         // Get column range of values by column name.
-                        const colRange = tableRef.columns
-                            .getItem(column)
-                            .getDataBodyRange()
-                            .load('values');
+                        const sheet = context.workbook.worksheets.getActiveWorksheet();
+                        tableRef = sheet.tables.getItem(this.tableName);
+                        var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
                         
                         // Sync to populate proxy objects with data from Excel
                         return context.sync().then(async () => {
@@ -156,6 +158,3 @@ export class ExcelTableUtil {
         });
     }
 }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
