@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 (function(){
     'use strict';
   
@@ -96,6 +99,3 @@
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
   })();
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

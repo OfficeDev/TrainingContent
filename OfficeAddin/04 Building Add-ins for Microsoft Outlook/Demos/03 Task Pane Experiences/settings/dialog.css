@@ -1,4 +1,9 @@
-section {
+/* 
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+ 
+ section {
     margin: 10px 20px;
   }
   
@@ -23,8 +28,3 @@ section {
   ul {
     margin-top: 10px;
   }
-
-/* 
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT license.
- */

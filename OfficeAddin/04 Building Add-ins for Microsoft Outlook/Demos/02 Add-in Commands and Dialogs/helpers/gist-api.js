@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 function getUserGists(user, callback) {
     var requestUrl = 'https://api.github.com/users/' + user + '/gists';
   
@@ -113,6 +116,3 @@ function getUserGists(user, callback) {
     }
     callback(null, 'No suitable file found in the gist');
   }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 function getConfig() {
     var config = {};
   
@@ -13,6 +16,3 @@ function getConfig() {
   
     Office.context.roamingSettings.saveAsync(callback);
   }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.

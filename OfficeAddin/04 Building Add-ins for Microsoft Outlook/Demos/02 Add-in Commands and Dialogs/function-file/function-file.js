@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 var config;
 var btnEvent;
 
@@ -78,6 +81,3 @@ function dialogClosed(message) {
   btnEvent.completed();
   btnEvent = null;
 }
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
