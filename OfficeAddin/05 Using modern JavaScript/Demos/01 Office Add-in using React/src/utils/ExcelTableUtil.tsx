@@ -1,15 +1,18 @@
-export class ExcelTableUtil {
-  tableName: string;
-  location: string;
-  headers: string[];
-  constructor(tableName: string, location: string, headers: string[]) {
-    this.tableName = tableName;
-    this.location = location;
-    this.headers = headers;
-  }
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
 
-  // Create the StocksTable and defines the header row
-  createTable = async () => {
+export class ExcelTableUtil {
+    tableName: string;
+    location: string;
+    headers: string[];
+    constructor(tableName: string, location: string, headers: string[]) {
+      this.tableName = tableName;
+      this.location = location;
+      this.headers = headers;
+    }
+
+    // Create the StocksTable and defines the header row
+createTable = async () => {
     return new Promise(async (resolve, reject) => {
       await Excel.run(async context => {
         // Create a proxy object for the active worksheet and create the table
@@ -25,7 +28,7 @@ export class ExcelTableUtil {
       });
     });
   }
-
+  
   // Ensures the Excel table is created and tries to get a table reference
   ensureTable = async (forceCreate: boolean) => {
     return new Promise(async (resolve, reject) => {
@@ -55,7 +58,7 @@ export class ExcelTableUtil {
   }
 
   // Appends a row to the table
-  addRow = async data => {
+addRow = async (data) => {
     return new Promise(async (resolve, reject) => {
       this.ensureTable(true).then(
         async (tableRef: Excel.Table) => {
@@ -85,7 +88,7 @@ export class ExcelTableUtil {
   }
 
   // Gets data for a specific named column
-  getColumnData = async (column: string) => {
+getColumnData = async (column: string) => {
     return new Promise(async (resolve, reject) => {
       this.ensureTable(false).then(
         async (tableRef: Excel.Table) => {
@@ -117,7 +120,7 @@ export class ExcelTableUtil {
       );
     });
   }
-
+  
   // Deletes a column based by row index
   deleteRow = async (index: number) => {
     return new Promise(async (resolve, reject) => {
@@ -141,7 +144,7 @@ export class ExcelTableUtil {
   }
 
   // Updates a specific cell in the table
-  updateCell = async (address: string, value: any) => {
+updateCell = async (address: string, value: any) => {
     return new Promise(async (resolve, reject) => {
       this.ensureTable(true).then(
         async () => {
@@ -162,5 +165,4 @@ export class ExcelTableUtil {
       );
     });
   }
-
 }
