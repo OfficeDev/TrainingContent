@@ -9,7 +9,7 @@
   <!-- Begin Basic Settings: Add-in metadata, used for all versions of Office unless override provided. -->
 
   <!-- IMPORTANT! Id must be unique for your add-in, if you reuse this manifest ensure that you change this id to a new GUID. -->
-  <Id>5a99d57d-6894-4ec1-aae0-8b37f829b4d1</Id>
+  <Id>614312e5-a415-4aef-9a1d-2a516dbe4114</Id>
 
   <!--Version. Updates from the store only get triggered if there is a version change. -->
   <Version>1.0.0.0</Version>
@@ -69,8 +69,6 @@
         <DesktopFormFactor>
           <!-- Location of the Functions that UI-less buttons can trigger (ExecuteFunction Actions). -->
           <FunctionFile resid="functionFile" />
-
-          <!-- Go to http://aka.ms/ExtensionPointsCommands to learn how to add more Extension Points: MessageRead, AppointmentOrganizer, AppointmentAttendee -->
           <!-- Message Compose -->
           <ExtensionPoint xsi:type="MessageComposeCommandSurface">
             <OfficeTab id="TabDefault">
@@ -109,6 +107,7 @@
               </Group>
             </OfficeTab>
           </ExtensionPoint>
+          <!-- Go to http://aka.ms/ExtensionPointsCommands to learn how to add more Extension Points: MessageRead, AppointmentOrganizer, AppointmentAttendee -->
         </DesktopFormFactor>
       </Host>
     </Hosts>
@@ -142,6 +141,3 @@
     </Resources>
   </VersionOverrides>
 </OfficeApp>
-
-<!-- Copyright (c) Microsoft Corporation. All rights reserved.
-     Licensed under the MIT License. -->
