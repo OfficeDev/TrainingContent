@@ -46,9 +46,9 @@ The MessageCard Playground provides a sandboxed environment with which to design
 
     >Note: You can use basic markdown formatting for text elements within the card.
 
-1. Select the **Send via Email** button to send the card to the logged-in user. 
+1. Select the **Send via Email** button to send the card to the logged-in user.
 
-    > NOTE: If you see a message indicating that the mail could not be sent, check pop-up blocker in your browser. The first attempt to send an email includes a prompt for incremental consent. 
+    > NOTE: If you see a message indicating that the mail could not be sent, check pop-up blocker in your browser. The first attempt to send an email includes a prompt for incremental consent.
 
     ![Screenshot of test message card in email.](Images/Exercise1-03.png)
 
@@ -242,8 +242,8 @@ Before registering the Actionable Message Provider, note the URL configured for 
 1. For the **Sender email address from which actionable emails will originate**, enter your email address.
 
     > NOTE: For production applications, a static email address, such as `actions@contoso.com`, is recommended.
-    
-1. For the target URL, enter the HTTPS forwarding address from ngrok. 
+
+1. For the target URL, enter the HTTPS forwarding address from ngrok.
 
 1. For the **Scope of submission**, select **My Mailbox (auto-approved)**.
 
@@ -317,9 +317,8 @@ The Expense Approval application will refresh the email message with a card repr
       public static async Task<ValidationModel> ValidateTokenAsync(HttpRequestMessage request)
       {
         var sender = ConfigurationManager.AppSettings["sender"].ToLower();
-        var emailDomain = sender.Substring(sender.IndexOf("@") + 1);
-        
-        ConfigurationManager.AppSettings["emailDomain"].ToLower();
+        var emailDomain = sender.Substring(sender.IndexOf("@") + 1).ToLower();
+
         var registeredActionURL = ConfigurationManager.AppSettings["registeredActionURL"].ToLower();
 
         var message = string.Empty;
@@ -329,7 +328,7 @@ The Expense Approval application will refresh the email message with a card repr
           string.IsNullOrEmpty(request.Headers.Authorization.Parameter))
         {
           message = "Missing authentication token.";
-          return new ValidationModel 
+          return new ValidationModel
           {
             IsError = true,
             Message = message,
@@ -365,7 +364,7 @@ The Expense Approval application will refresh the email message with a card repr
           };
         }
 
-        //TODO: Add additional logic to validate the performer. 
+        //TODO: Add additional logic to validate the performer.
         //      Here we just compare against the domain.
         if (!result.ActionPerformer.ToLower().EndsWith(emailDomain)) {
           message = "The performer is not allowed.";
@@ -422,7 +421,7 @@ The Expense Approval application will refresh the email message with a card repr
 
 #### Configure validation values
 
-The helper functions validate that the request is coming from a known mailbox. The valid values are configured in the **web.config** file. 
+The helper functions validate that the request is coming from a known mailbox. The valid values are configured in the **web.config** file.
 1. Open the **web.config** file.
 
 1. Add the following to the **appSettings** node. The values of these settings must match the entries on the Actionable Email Developer Dashboard
@@ -436,7 +435,7 @@ The helper functions validate that the request is coming from a known mailbox. T
 
 #### Implement the controller and view model
 
-1. In **Solution Explorer**, right-click on the **Models** folder. Select **Add > Class**. Name the class `ValidationModel`. 
+1. In **Solution Explorer**, right-click on the **Models** folder. Select **Add > Class**. Name the class `ValidationModel`.
 
 1. Add the following statements to the top of the **ValidationModel.cs** file.
 
@@ -458,7 +457,7 @@ The helper functions validate that the request is coming from a known mailbox. T
     }
     ````
 
-1. In **Solution Explorer**, right-click on the **Controllers** folder. Select **Add > Controller...**. Select the **MVC 5 Controller - Empty** template. Name the controller `ExpenseController`. 
+1. In **Solution Explorer**, right-click on the **Controllers** folder. Select **Add > Controller...**. Select the **MVC 5 Controller - Empty** template. Name the controller `ExpenseController`.
 
 1. Add the following to the top of the **ExpenseController.cs** file.
 

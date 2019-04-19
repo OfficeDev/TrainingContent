@@ -1,4 +1,8 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams;
 using Microsoft.Bot.Connector.Teams.Models;
@@ -53,7 +57,7 @@ namespace officedev_talent_management.Dialogs
 				if (!String.IsNullOrEmpty(text))
 				{
 					// Check for suppported commands
-					// This simple text parsing assumes the command is the first two tokens, 
+					// This simple text parsing assumes the command is the first two tokens,
 					// and parameters are the remainder.
 					var split = text.Split(' ');
 					// The user is asking for one of the supported commands.

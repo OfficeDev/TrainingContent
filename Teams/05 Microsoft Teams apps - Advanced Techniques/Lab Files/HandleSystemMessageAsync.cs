@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
 private async Task<Activity> HandleSystemMessageAsync(Activity message)
 {
   TeamEventBase eventData = message.GetConversationUpdateData();

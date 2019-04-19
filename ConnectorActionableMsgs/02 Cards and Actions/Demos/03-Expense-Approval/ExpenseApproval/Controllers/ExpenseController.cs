@@ -1,4 +1,8 @@
-﻿using ExpenseApproval.Helpers;
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+using ExpenseApproval.Helpers;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;

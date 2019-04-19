@@ -1,4 +1,9 @@
-    /**
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+
+ /**
     * Implementation of the teams tab1 AdminConsent page
     */
     export class AdminConsent {

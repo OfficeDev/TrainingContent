@@ -22,7 +22,7 @@ Make the following updates to the demo solution.
 
 1. In Visual Studio 2017, select **File > Open > Project/Solution**.
 
-1. Select the **officedev-talent-management.sln** file from the **Demos\02-messaging-extension** folder.
+1. Select the **officedev-talent-management.sln** file from the **Demos\03-adaptive-card** folder.
 
 ### Find the project URL
 

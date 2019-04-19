@@ -5,9 +5,10 @@ In this lab, you will walk through building an Adaptive Card, sending it to an i
 ## In this lab
 
 1. [Adaptive Card design and Card Playground](#exercise-1-adaptive-card-design-and-card-playground)
-1. [Adaptive Cards with actions and inputs](#exercise-2-adaptive-cards-with-actions-and-inputs)
-1. [Card refresh](#exercise-3-card-refresh)
-1. [Update card from service](#exercise-4-update-card-from-service)
+1. [Send Adaptive card via email](#exercise-2-send-adaptive-card-via-email)
+1. [Adaptive Cards with actions and inputs](#exercise-3-adaptive-cards-with-actions-and-inputs)
+1. [Card refresh](#exercise-4-card-refresh)
+1. [Update card from service](#exercise-5-update-card-from-service)
 
 ## Prerequisites
 
@@ -67,9 +68,9 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
     ![Screenshot of support ticket card preview.](Images/SupportTicketCardPreview.png)
 
-## Exercise 2: Adaptive Cards with actions and inputs
+## Exercise 2: Send Adaptive card via email
 
-This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
+This exercise will send the card via email using a console application.
 
 ### Run the ngrok secure tunnel application
 
@@ -85,11 +86,175 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
 
     ![Screenshot of ngrok command prompt with forwarding address highlighted.](Images/ngrokTunnel.png)
 
-### Update card and send via email
+### Send card via email
 
 1. Launch Visual Studio 2017.
 
 1. Open the solution **LabFiles/SendAdaptiveCard/SendAdaptiveCard.sln**.
+
+### Review message format
+
+1. In **Visual Studio**, open file **MessageBody.html**.
+
+1. Notice that the `<head>` element contains a `<script>` tag. The type for the tag is `application/adaptivecard+json`. This value instructs Microsoft Outlook that the code following should be interpreted as an Adaptive Card.
+
+### Register the application
+
+1. Go to the [Application Registration Portal](https://apps.dev.microsoft.com) and sign in with either a Microsoft account or an Office 365 account.
+
+1. Select the **Add an app** button. Enter a name for the application and select **Create**.
+
+1. Select the **Add Platform** button and choose **Native Application**.
+
+1. Select **Save**.
+
+1. Copy the value of **Application ID** for reference later.
+
+### Add the application ID to the project
+
+1. Open the [App.config](App.config) file.
+
+1. Find the following line:
+
+    ```xml
+    <add key="applicationId" value="[your-app-id-here]" />
+    ```
+
+1. Paste the application ID you copied from the portal into the `value`, replacing the token `[your-app-id-here]` and save the file.
+
+### Send card via email
+
+1. Compile and run the **SendAdaptiveCard** solution. The solution is a console application. The application will present an Microsoft Azure Active Directory login prompt. Log in with your credentials. It is not necessary to have any specific permissions. The application will send a mail to the inbox associated to the account used to log in.
+
+    ![Screenshot of send-adaptivecard-message program.](Images/send-adaptivecard-message-program.png)
+
+1. The first time the application is run, you will be asked to consent the application.
+
+1. The program will send the message and prompt to press any key to exit.
+
+### Send a signed-card payload
+
+Under certain conditions, the adaptive card must be sent as a signed card. These requirements are discussed as part of the [Security requirements for Actionable Messages](https://docs.microsoft.com/en-us/outlook/actionable-messages/security-requirements). To send an adaptive card as a signed-payload, complete the following steps:
+
+1. Open the file **Program.cs**.
+
+1. Add the following statements to the top of the **Program.cs** file.
+
+    ```csharp
+    using Microsoft.IdentityModel.Tokens;
+    using System.IdentityModel.Tokens.Jwt;
+    using Newtonsoft.Json;
+    using System.Security.Claims;
+    using System.Security.Cryptography;
+    ```
+
+1. Add the following method to the `Program` class:
+
+    ```csharp
+    /// <summary>
+    /// Get the private key to sign the card
+    /// </summary>
+    /// <returns>RSA private key</returns>
+    static SecurityKey GetSecurityKeyFromRSAPrivateKeyXml()
+    {
+      // This is the Outlook Actionable Message developer key, which is only valid in self-sending senario.
+      // Production services should generate their own key pairs and register the public key with Actionable Message team.
+      string rsaPrivateKeyXml = "<RSAKeyValue><Modulus>8WX2j9xybAUSllBoD1FA6prUpRdabvT/RQgU898tv75Sn0LSZz5fpm/5YJDdNqOVjxq611WPnfPgOaX6h/klmHhk57ZJBl7rNwlX2FgOYOhlA1Nzf22iwb8qCipTn/4ncllCTk hvVBm43SNToXLp1f9tXrZCgQORnw6BDDmKlLxfSFTtGi7afgj9x+dEHfVfg9J/7DlsARceR4Oyfs1nlG6fUqtp0ZcAOk5YxhfuSecAr+GnIP7Vv5zCquqT7zQ8hfyZ1K+8Lqz8xEvi2mnGKH1JT1dPpSbk8DQU5RYjG8ttaHorSGprxH1cunt5OIcvlEODYII2CF8+2OSE/iEhBQ==</Modulus><Exponent>AQAB</Ex ponent><P>+IYb0oc550Z+oZ062lQ2VX93lzXZhTE2Spg/kWI5JJM469XN7WiJpPzSGyR+mJxyuDMq/8b1rjkij5GkQ9isDY5GQIehKAfUrn2hsruondV8f31l54myoee6/dEJfkwowJFe15MdDSJzudfAfce8q 2Jf+sFkOXsu7mTdxbkNlyM=</P><Q>+Kj67aCnTWYv7z/HyKYoez6Ul2j8upcpyBMmhGj6hg8BIrW h7xnU19zUZWDg7BbarheN4zcNo5c2jS1IK9BqeB7HVkrfOcW5optgBrZ8+GKBOWX6pAbt5c8Tqeb +LCDOeqzkJ2XmNt8UrWnloL/ZO7LCFQP+DcZG/VyeyXvKfbc=</Q><DP>SuP23GE9lLEMld0QkBxSZz9LJXjnvJhQ2Pe6KDBmMdxficnbDVC0MdCx69X6hDiY5WMd8Qfenwq+nG7yBjPz3P3js6xrZum9MHvRT0/3huB/bNe37qby+pEfKz9j0fhXS3hDEUlWts+L+hPHAOBAvZCehazja+LwCIzCu8OBEes=</DP><DQ>XhK/7AqtgNC6Lc95a+XAxu+kE6w6gPUTb4gfOFTnArTGfzUsMGMbbRc0m64NKgRzcw2iNmXrmQpqLvsEpN7SiONMEs98qESvuF8D80Yy/V12+hokus2MTzcKf2rOmi9HLo4eOvGIKRY4omq /3xL1wmoclwrNoLR0wwG5aQyWTP0=</DQ><InverseQ>A06rQ8aGgMnt3kysCGETrffhmlc6fVKA a7f8NX8Chi79uK0RjGU1xPkTAZ47X1ytlPJNeUhgPf5M65kAyV1o3Dxh3ZCi6Qysa+cA8HYFKEPMTk ImOpg2ps7Amn5Si+UNW+DL6xse86mh/53gCDggVeGYOBkdOe4BPs+m0GjEvOg=</InverseQ><D>g7Xsd8YCMGn8IEOy41ikIN1l1MYPM6c9eL7WH9HPtmTz062z+10O91L1L/kametbeP9Onpsyhy4/U3T6YyJPnwdhlwPgiDdWA2t3oLU68ykZpFzuEcMSIMBbAbzib9NOVpfZE7l19N8r/Ix/3wFCEN8TH7A2TQpTdAOH6dGjiU7HL8K652HybW33K5qfSTmmoMZ6Kc1InZFSJlYJ3/ysGUMRE4OssGLXW+94kKeOBPu+QB+kFKpC7FNuvnql9BPWZjrS22hW2dLQO991BEzgE0qm1CGKDuDZEK4EiabxtgJVdK8x4AkaqsbZAJr4pr6fna3009jygVlhWs4AT1kp6Q==</D></RSAKeyValue>";
+
+      var rsa = new RSACryptoServiceProvider();
+      rsa.FromXmlString(rsaPrivateKeyXml);
+
+      return new RsaSecurityKey(rsa);
+    }
+    ```
+
+1. Add the following method to the `Program` class. Replace the token [user-email] with the email that will send and receive the message during testing.
+
+    ```csharp
+    static string LoadSignedAdaptiveCardMessageBody()
+    {
+      SecurityKey securityKey = GetSecurityKeyFromRSAPrivateKeyXml();
+      SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.RsaSha256Signature);
+
+      JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+      handler.SetDefaultTimesOnTokenCreation = false;
+
+      // Load the card JSON
+      string cardJson = System.IO.File.ReadAllText(@"..\..\Card.json");
+
+      // Put today's date in the message
+      cardJson = cardJson.Replace("$CreatedDate$", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssK"));
+      string minifiedCard = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(cardJson));
+
+      // The Actionable Message provider ID generated during provider registration
+      string originator = "65c680ef-36a6-4a1b-b84c-a7b5c6198792";
+
+      // Recipients of the email
+      string[] recipients = { "[user-email]" };
+
+      // Sender of the email
+      string sender = "[user-email]";
+
+      ClaimsIdentity subject = new ClaimsIdentity(
+      new Claim[]
+      {
+        new Claim("sender", sender),
+        new Claim("originator", originator),
+        new Claim("recipientsSerialized", JsonConvert.SerializeObject(recipients)),
+        new Claim("adaptiveCardSerialized", minifiedCard)
+      });
+
+      JwtSecurityToken token = handler.CreateJwtSecurityToken(subject: subject, issuedAt: DateTime.UtcNow, signingCredentials: signingCredentials);
+
+      string emailBody = System.IO.File.ReadAllText(@"..\..\signed_adaptive_template.html");
+
+      emailBody = emailBody.Replace("{{signedCardPayload}}", token.RawData);
+
+      return emailBody;
+    }
+    ```
+
+1. Right-click on the project and select **Add > New Item...**. Select **HTML Page**. Name the page `signed_adaptive_template.html`.
+
+1. Replace the contents of the `signed_adaptive_template.html` file with the following:
+
+    ```html
+    <html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+      <div>Visit the <a href="https://adaptivecards.io/">Adaptive Cards portal</a> to learn more about Adaptive Cards.</div>
+      <section itemscope itemtype="http://schema.org/SignedAdaptiveCard">
+        <meta itemprop="@context" content="http://schema.org/extensions" />
+        <meta itemprop="@type" content="SignedAdaptiveCard" />
+        <div itemprop="signedAdaptiveCard" style="mso-hide:all;display:none;max-height:0px;overflow:hidden;">{{signedCardPayload}}</div>
+      </section>
+    </body>
+    </html>
+    ```
+
+1. In the `SendMessage` method of the the `Program` class, location the statement that creates the email message. Replaces the call to the `LoadAdaptiveCardMessageBody` method with a call to the `LoadSignedAdaptiveCardMessageBody` method. The updated statement will look as follows:
+
+    ```csharp
+        // Create the message
+        Message adaptiveCardMessage = new Message()
+        {
+          Subject = "Adaptive card sent from code",
+          ToRecipients = new List<Recipient>() { toRecip },
+          Body = new ItemBody()
+          {
+            ContentType = BodyType.Html,
+            Content = LoadSignedAdaptiveCardMessageBody()
+          }
+        };
+    ```
+
+1. Compile and run the **SendAdaptiveCard** solution. The program will again prompt for an account and send the message.
+
+## Exercise 3: Adaptive Cards with actions and inputs
+
+This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
 
 1. Open the file **Card.json**.
 
@@ -154,46 +319,6 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
 
     >Note: The `body` element of the `Action.Http` element contains a token indicated with double braces: `'{{comment.value}}'`. Inside the braces is the name of the input control. When the action is performed, the value of the input control is inserted in this token.
 
-### Review message format
-
-1. In **Visual Studio**, open file **MessageBody.html**.
-
-1. Notice that the `<head>` element contains a `<script>` tag. The type for the tag is `application/adaptivecard+json`. This value instructs Microsoft Outlook that the code following should be interpreted as an Adaptive Card.
-
-### Register the application
-
-1. Go to the [Application Registration Portal](https://apps.dev.microsoft.com) and sign in with either a Microsoft account or an Office 365 account.
-
-1. Select the **Add an app** button. Enter a name for the application and select **Create**.
-
-1. Select the **Add Platform** button and choose **Native Application**.
-
-1. Select **Save**.
-
-1. Copy the value of **Application ID** for reference later.
-
-### Add the application ID to the project
-
-1. Open the [App.config](App.config) file.
-
-1. Find the following line:
-
-    ```xml
-    <add key="applicationId" value="[your-app-id-here]" />
-    ```
-
-1. Paste the application ID you copied from the portal into the `value`, replacing the token `[your-app-id-here]` and save the file.
-
-### Send card via email
-
-1. Compile and run the **SendAdaptiveCard** solution. The solution is a console application. The application will present an Microsoft Azure Active Directory login prompt. Log in with your credentials. It is not necessary to have any specific permissions. The application will send a mail to the inbox associated to the account used to log in.
-
-    ![Screenshot of send-adaptivecard-message program.](Images/send-adaptivecard-message-program.png)
-
-1. The first time the application is run, you will be asked to consent the application.
-
-1. The program will send the message and prompt to press any key to exit.
-
 ### View and interact with Adaptive Cards
 
 1. Open [Microsoft Outlook for Web](https://outlook.office.com). Log in with the same credentials used to send the message.
@@ -218,7 +343,8 @@ The ngrok tunnel application received the submission from Microsoft Outlook. You
 
     ![Screenshot of ngrok inspector.](Images/ngrokInspector.png)
 
-## Exercise 3: Card refresh
+
+## Exercise 4: Card refresh
 
 In this exercise, a web service will handle the calls from Microsoft Outlook to support the Adaptive Card.
 

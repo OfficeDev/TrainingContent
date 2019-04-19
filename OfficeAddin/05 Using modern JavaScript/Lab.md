@@ -16,12 +16,6 @@ To complete this lab, you need the following:
 * A consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in.
 * Code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
 * [Node.js](https://nodejs.org/) LTS: Node is required to setup, build, and run the project.
-* [Angular CLI](https://cli.angular.io/) v6: The Angular CLI is used to provision the Angular web application in the [Build an Office Add-in using Angular](#exercise-2-build-an-office-add-in-using-angular) exercise.
-
-    ```shell
-    npm install -g @angular/cli
-    ```
-
 * [Office Yeoman Generator](https://www.npmjs.com/package/generator-office): The Office Yeoman Generator is used to create the Office Add-in projects and XML manifests.
 
     ```shell
@@ -211,7 +205,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     ```typescript
     import * as React from 'react';
-    import { TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+    import { MessageBar, MessageBarType, TextField, TextFieldBase } from 'office-ui-fabric-react';
     import { Header } from './header';
     import { Waiting } from './waiting';
     import { StockItem } from './StockItem';
@@ -227,6 +221,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
 
     export default class App extends React.Component<AppProps, AppState> {
+      newSymbol:any = React.createRef();
       constructor(props, context) {
         super(props, context);
         this.state = {
@@ -299,7 +294,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 <span className="ms-font-l">Stock Symbols</span>
               </div>
               <div className="pct100">
-                <TextField ref="newSymbol" onKeyPress={this.addSymbol.bind(this)} placeholder="Enter a stock symbol (ex: MSFT)" />
+                <TextField componentRef={this.newSymbol} onKeyPress={this.addSymbol.bind(this)} placeholder="Enter a stock symbol (ex: MSFT)" />
               </div>
               {stocks}
             </div>
@@ -475,7 +470,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         // Adds symbol
         addSymbol = async (event) => {
           if (event.key === 'Enter') {
-            const element = this.refs.newSymbol as TextField;
+            const element = this.newSymbol.current as TextFieldBase;
             const symbol = element.value.toUpperCase();
 
             // Get quote and add to Excel table
@@ -741,7 +736,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
 ### Develop the Office Add-in
 
-1. Open **src/styles.css** and replace the entire file with the contents shown below.
+1. Open **app.css** and replace the entire file with the contents shown below.
 
     ```css
     /* You can add global styles to this file, and also import other style files */
@@ -816,7 +811,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     }
     ```
 
-1. Copy the **spinner.gif** image from the **LabFiles** folder into **src/assets** of your project directory.
+1. Copy the **spinner.gif** image from the **LabFiles** folder into **assets** of your project directory.
 
     ![Spinner](./Images/spinner.gif)
 
@@ -1035,7 +1030,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         addRow = async (data) => {
           return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(
-              async (tableRef) => {
+              async (tableRef:any) => {
                 await Excel.run(async context => {
                   const sheet = context.workbook.worksheets.getActiveWorksheet();
                   // Add the new row
@@ -1137,7 +1132,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         getColumnData = async (column) => {
           return new Promise(async (resolve, reject) => {
             this.ensureTable(false).then(
-              async (tableRef) => {
+              async (tableRef:any) => {
                 if (tableRef == null) {
                   resolve([]);
                 } else {
@@ -1171,7 +1166,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         deleteRow = async (index) => {
           return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(
-              async (tableRef) => {
+              async (tableRef:any) => {
                 await Excel.run(async context => {
                   const range = tableRef.rows.getItemAt(index).getRange();
                   range.delete(Excel.DeleteShiftDirection.up);
@@ -1197,10 +1192,10 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     // Delete symbol
     deleteSymbol = async (index) => {
       // Delete from Excel table by index number
-      const symbol = this.symbols[index];
+      const symbol:string = this.symbols[index];
       this.waiting = true;
       this.tableUtil.getColumnData('Symbol').then(
-        async (columnData) => {
+        async (columnData:string[]) => {
           // Ensure the symbol was found in the Excel table
           if (columnData.indexOf(symbol) !== -1) {
             this.tableUtil.deleteRow(columnData.indexOf(symbol))
@@ -1266,7 +1261,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
           const symbol = this.symbols[index];
           this.waiting = true;
           this.tableUtil.getColumnData('Symbol')
-            .then(async (columnData) => {
+            .then(async (columnData:string[]) => {
               // Ensure the symbol was found in the Excel table
               const rowIndex = columnData.indexOf(symbol);
               if (rowIndex !== -1) {
@@ -1301,7 +1296,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         syncTable = async () => {
           this.waiting = true;
           this.tableUtil.getColumnData('Symbol')
-            .then(async (columnData) => {
+            .then(async (columnData:string[]) => {
               this.symbols = columnData;
               this.waiting = false;
             }, (err) => {
@@ -1541,7 +1536,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     }
     ```
 
-1. Copy the **spinner.gif** image from the **LabFiles** folder into **src/assets** folder.
+1. Copy the **spinner.gif** image from the **LabFiles** folder into **assets** folder.
 
 1. Create a new folder **components** in the existing **src** folder to hold the Vue components:
 1. Create a **src/components/Waiting.vue** file and add the following code to it:
@@ -1967,7 +1962,10 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
               else {
                 await Excel.run(async (context) => {
                   // Get column range of values by column name.
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  tableRef = sheet.tables.getItem(this.tableName);
                   var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                  
                   // Sync to populate proxy objects with data from Excel
                   return context.sync().then(async () => {
                     let data:string[] = [];

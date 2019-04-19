@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 /// <reference path="../../../node_modules/@types/office-js/index.d.ts" />
 
 export class ExcelTableUtil {
@@ -27,7 +30,7 @@ export class ExcelTableUtil {
             });
         });
     }
-  
+    
     // Ensures the Excel table is created and tries to get a table reference
     ensureTable = async (forceCreate) => {
         return new Promise(async (resolve, reject) => {
@@ -43,8 +46,7 @@ export class ExcelTableUtil {
                     // Create a new table because an existing table was not found.
                     this.createTable().then(async tableRef => {
                         resolve(tableRef);
-                    },
-                    createError => {
+                    }, createError => {
                         reject(createError);
                     });
                 } else {
@@ -53,13 +55,12 @@ export class ExcelTableUtil {
             });
         });
     }
-  
+
     // Appends a row to the table
     addRow = async (data) => {
         return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(
-            async (tableRef) => {
-                await Excel.run(async (context) => {
+            this.ensureTable(true).then(async (tableRef:any) => {
+                await Excel.run(async context => {
                     const sheet = context.workbook.worksheets.getActiveWorksheet();
                     // Add the new row
                     tableRef = sheet.tables.getItem(this.tableName);
@@ -79,25 +80,23 @@ export class ExcelTableUtil {
             },
             err => {
                 reject(err);
-            }
-            );
+            });
         });
     }
-  
+
     // Gets data for a specific named column
     getColumnData = async (column) => {
         return new Promise(async (resolve, reject) => {
-            this.ensureTable(false).then(async (tableRef) => {
+            this.ensureTable(false).then(async (tableRef:any) => {
                 if (tableRef == null) {
                     resolve([]);
-                } 
-                else {
+                } else {
                     await Excel.run(async context => {
                         // Get column range by column name
                         const colRange = tableRef.columns
-                        .getItem(column)
-                        .getDataBodyRange()
-                        .load('values');
+                            .getItem(column)
+                            .getDataBodyRange()
+                            .load('values');
                         // Sync to populate proxy objects with data from Excel
                         return context.sync().then(async () => {
                             let data = [];
@@ -113,54 +112,48 @@ export class ExcelTableUtil {
             },
             err => {
                 reject(err);
-            }
-            );
+            });
         });
     }
   
     // Deletes a column based by row index
     deleteRow = async (index) => {
         return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(
-                async (tableRef) => {
-                    await Excel.run(async context => {
-                        const range = tableRef.rows.getItemAt(index).getRange();
-                        range.delete(Excel.DeleteShiftDirection.up);
-                        return context.sync().then(async () => {
-                            resolve();
-                        });
-                    }).catch(err => {
-                        reject(err);
+            this.ensureTable(true).then(async (tableRef:any) => {
+                await Excel.run(async context => {
+                    const range = tableRef.rows.getItemAt(index).getRange();
+                    range.delete(Excel.DeleteShiftDirection.up);
+                    return context.sync().then(async () => {
+                        resolve();
                     });
-                },
-                err => {
+                }).catch(err => {
                     reject(err);
-                }
-            );
+                });
+            },
+            err => {
+                reject(err);
+            });
         });
     }
-  
+
     // Updates a specific cell in the table
     updateCell = async (address, value) => {
         return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(
-                async () => {
-                    await Excel.run(async context => {
-                        const sheet = context.workbook.worksheets.getActiveWorksheet();
-                        const range = sheet.getRange(address);
-                        range.values = [[value]];
-                        return context.sync().then(async () => {
-                            resolve();
-                        });
-                    }).catch(err => {
-                        reject(err);
+            this.ensureTable(true).then(async () => {
+                await Excel.run(async context => {
+                    const sheet = context.workbook.worksheets.getActiveWorksheet();
+                    const range = sheet.getRange(address);
+                    range.values = [[value]];
+                    return context.sync().then(async () => {
+                        resolve();
                     });
-                },
-                err => {
+                }).catch(err => {
                     reject(err);
-                }
-            );
+                });
+            },
+            err => {
+                reject(err);
+            });
         });
-    }  
+    }
 }
-  

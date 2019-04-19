@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT license.
+ */
+
     import * as Msal from 'msal';
     /**
     * Implementation of the teams app1 Auth page

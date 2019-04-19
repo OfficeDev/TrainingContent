@@ -1,4 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require("webpack");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
@@ -10,7 +14,7 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.html', '.js', '.vue'],
         alias: {
-          vue$: 'vue/dist/vue.js'
+            vue$: 'vue/dist/vue.js'
         }
     },
     module: {
@@ -27,6 +31,11 @@ module.exports = {
                 }]
             },
             {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: { esModule: true }
+            },
+            {
                 test: /\.html$/,
                 exclude: /node_modules/,
                 use: 'html-loader'
@@ -34,11 +43,6 @@ module.exports = {
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 use: 'file-loader'
-            },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: { esModule: true }
             }
         ]
     },
@@ -51,6 +55,9 @@ module.exports = {
             template: './function-file/function-file.html',
             filename: 'function-file/function-file.html',
             chunks: ['function-file']
+        }),
+        new webpack.ProvidePlugin({
+            Promise: ["es6-promise", "Promise"]
         }),
         new VueLoaderPlugin()
     ]
