@@ -136,7 +136,7 @@
       <bt:LongStrings>
         <bt:String id="paneReadSuperTipDescription" DefaultValue="Opens a pane displaying all available properties. This is an example of a button that opens a task pane."/>
         <bt:String id="insertGistDesc" DefaultValue="Displays a list of your gists and allows you to insert their contents into the current message"/>
-<bt:String id="insertDefaultGistDesc" DefaultValue="Inserts the content of the gist you mark as default into the current message"/>
+        <bt:String id="insertDefaultGistDesc" DefaultValue="Inserts the content of the gist you mark as default into the current message"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
