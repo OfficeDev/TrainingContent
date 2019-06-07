@@ -4,13 +4,13 @@ This lab will walk through the development of an Office Add-in for Microsoft Exc
 
 ## Table of Contents
 
-1. [Create your Add-in project](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial?tutorial-step=1)
-1. [Create a table](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial?tutorial-step=2)
-1. [Filter and sort a table](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial?tutorial-step=3)
-1. [Create a chart](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial?tutorial-step=4)
-1. [Freeze a table header](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial?tutorial-step=5)
-1. [Protect a worksheet](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial?tutorial-step=6)
-1. [Open a dialog](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial?tutorial-step=6)
+1. [Create your Add-in project](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial#create-your-add-in-project)
+1. [Create a table](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial#create-a-table)
+1. [Filter and sort a table](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial#filter-and-sort-a-table)
+1. [Create a chart](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial#create-a-chart)
+1. [Freeze a table header](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial#freeze-a-table-header)
+1. [Protect a worksheet](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial#protect-a-worksheet)
+1. [Open a dialog](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/excel-tutorial#open-a-dialog)
 
 ## Prerequisites
 
