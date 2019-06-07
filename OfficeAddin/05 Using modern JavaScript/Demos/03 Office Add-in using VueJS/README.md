@@ -31,7 +31,7 @@ To complete this ldemoab, you need the following:
     ```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
-    * Choose a project type **Office Add-in project using Jquery framework**
+    * Choose a project type **Office Add-in Task Pane Project**
     * Choose a script type **Typescript**
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**
@@ -127,7 +127,7 @@ To complete this ldemoab, you need the following:
         }
         ```
 
-    1. Locate and open the **index.html** file in the project root directory.
+    1. Locate and open the **src/taskpane/taskpane.html** file.
         1. Replace the `<body>` element with the following:
 
           ```html
@@ -137,33 +137,27 @@ To complete this ldemoab, you need the following:
           </body>
           ```
 
-    1. Locate and open the **src/index.ts** file.
+    1. Locate and open the **src/taskpane/taskpane.ts** file.
         1. Add the following `import` statement after the existing `import`:
 
             ```ts
             import Vue  from 'vue';
             ```
 
-        1. Remove the existing `$(document).ready();` event code that leverages JQuery:
+        1. Remove the existing `run()` function and update `Office.onReady` as follows:
 
             ```ts
-            $(document).ready(() => {
-              $('#run').click(run);
+            Office.onReady(info => {
+              if (info.host === Office.HostType.Excel) {
+                var app = new Vue({
+                  el: "#app",
+                  data: {
+                    welcome: "Hello Office!!!"
+                  }
+                });
+                console.log(app);
+              }
             });
-            ```
-
-        1. Replace the contents of the `Office.initialize()` function with the following, replacing the JQuery code with code that updates the UI.
-
-            ```ts
-            Office.initialize = (reason) => {
-              var app = new Vue({
-                el: "#app",
-                data: {
-                  welcome: "Hello Office!!!"
-                }
-              });
-              console.log(app);
-            };
             ```
 
     >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
@@ -172,7 +166,7 @@ To complete this ldemoab, you need the following:
 
 ### Develop the Office Add-in
 
-1. Open **app.css** and replace the entire file with following:
+1. Open **src/taskpane/taskpane.css** and replace the entire file with following:
 
     ```css
     .header {
@@ -247,8 +241,8 @@ To complete this ldemoab, you need the following:
 
 1. Copy the **spinner.gif** image from the **LabFiles** folder into **src/assets** folder.
 
-1. Create a new folder **components** in the existing **src** folder to hold the Vue components:
-1. Create a **src/components/Waiting.vue** file and add the following code to it:
+1. Create a new folder **components** in the existing **src/taskpane** folder to hold the Vue components:
+1. Create a **src/taskpane/components/Waiting.vue** file and add the following code to it:
 
     ```html
     <template>
@@ -269,7 +263,7 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Creating a new file **src/components/HeaderComponent.vue** and ad the following code:
+1. Creating a new file **src/taskpane/components/HeaderComponent.vue** and ad the following code:
 
     ```html
     <template>
@@ -311,7 +305,7 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Creating a new file **src/components/Stock.vue** and ad the following code:
+1. Creating a new file **src/taskpane/components/Stock.vue** and ad the following code:
 
     ```html
     <template>
@@ -350,7 +344,7 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Creating a new file **src/components/Root.vue** and ad the following code:
+1. Creating a new file **src/taskpane/components/Root.vue** and ad the following code:
 
     ```html
     <template>
@@ -433,7 +427,7 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Locate and open **src/index.ts** and update it to load the components that you just created in the project.
+1. Locate and open **src/taskpane/taskpane.ts** and update it to load the components that you just created in the project.
     1. Add the following `import` statement after the existing `import` statements:
 
         ```ts
@@ -449,8 +443,7 @@ To complete this ldemoab, you need the following:
         Office.initialize = (reason) => {
           var app = new Vue({
             el: "#app",
-            render: h => h(root, {}),
-            comments: { root }
+            render: h => h(root, {})
           });
           console.log(app);
         };
@@ -460,7 +453,7 @@ To complete this ldemoab, you need the following:
 
     ![Add-in with visual markup complete](../../Images/AddinVisual.png)
 
-1. The **src/components/Root.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **src/taskpane/components/Root.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
     ```typescript
     getQuote(symbol:string) {
@@ -586,11 +579,11 @@ To complete this ldemoab, you need the following:
         ```
 
 1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/Root.vue** file.
+    1. Locate and open the **src/taskpane/components/Root.vue** file.
     1. Add the following `import` statement after the existing `import` statements for the the new **ExcelTableUtil** class.
 
         ```typescript
-        import { ExcelTableUtil } from '../utils/ExcelTableUtil';
+        import { ExcelTableUtil } from '../../utils/ExcelTableUtil';
         ```
 
     1. Add the following constant after the `import` statements and update the **{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}** to use your API key.
@@ -658,7 +651,7 @@ To complete this ldemoab, you need the following:
         >Note: This is a good time to test the **add symbol** function of your add-in.
 
 1. Update the **ExcelTableUtil** utility to add support for accessing and deleting rows:
-    1. Locate and open the **src/utils/ExcelTableUtil.TS** file.
+    1. Locate and open the **src/utils/ExcelTableUtil.ts** file.
     1. Add the following methods to the `ExcelTableUtil` class:
 
         ```typescript
@@ -671,7 +664,10 @@ To complete this ldemoab, you need the following:
               else {
                 await Excel.run(async (context) => {
                   // Get column range of values by column name.
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  tableRef = sheet.tables.getItem(this.tableName);
                   var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+
                   // Sync to populate proxy objects with data from Excel
                   return context.sync().then(async () => {
                     let data:string[] = [];
@@ -711,7 +707,7 @@ To complete this ldemoab, you need the following:
         ```
 
 1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/Root.vue** file.
+    1. Locate and open the **src/taskpane/components/Root.vue** file.
 
     ```typescript
     deleteSymbol(index:number) {
@@ -769,7 +765,7 @@ To complete this ldemoab, you need the following:
         ```
 
 1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/Root.vue** file.
+    1. Locate and open the **src/taskpane/components/Root.vue** file.
     1. Locate and update the `refreshSymbol()` method to specify a symbol to refresh in the Excel table.
 
         ```typescript
