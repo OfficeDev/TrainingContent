@@ -4,12 +4,12 @@ This lab will walk through the development of an Office Add-in for Microsoft Wor
 
 ## In this lab
 
-1. [Create your add-in project](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial?tutorial-step=1)
-1. [Insert a range of text](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial?tutorial-step=2)
-1. [Format and style text](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial?tutorial-step=3)
-1. [Replace text and insert text in various locations](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial?tutorial-step=4)
-1. [Insert images, HTML, and tables](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial?tutorial-step=5)
-1. [Create content controls and replace content in them](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial?tutorial-step=6)
+1. [Create your add-in project](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial#create-your-add-in-project)
+1. [Insert a range of text](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial#insert-a-range-of-text)
+1. [Format and style text](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial#format-text)
+1. [Replace text and insert text in various locations](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial#replace-text-and-insert-text)
+1. [Insert images, HTML, and tables](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial#insert-images-html-and-tables)
+1. [Create content controls and replace content in them](https://docs.microsoft.com/en-us/office/dev/add-ins/tutorials/word-tutorial#create-and-update-content-controls)
 
 ## Prerequisites
 
