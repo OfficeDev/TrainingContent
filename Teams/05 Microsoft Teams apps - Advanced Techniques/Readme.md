@@ -18,11 +18,11 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                        Author(s)                        |
-| -------------------- | ------------------------------------------------------- |
-| Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
-| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
+|        Roles         |                                       Author(s)                                       |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
+| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) [@paulschaeflein](//github.com/paulschaeflein)        |
+| Sponsor / Support    | Mike Ammerlaan (Microsoft) [@mammerla](//github.com/mammerla)                         |
 
 ## Version history
 
