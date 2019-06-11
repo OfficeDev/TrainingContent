@@ -1,14 +1,14 @@
 {
-  "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.2",
-  "id": "95d0e46f-d419-2aff-13e0-73c344750f1c",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.4/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.4",
+  "id": "290f872a-14c6-9368-f175-c5d8ea29bfcb",
   "version": "0.0.1",
-  "packageName": "io.ngrok.[from-ngrok]",
+  "packageName": "teamsapp1",
   "developer": {
-    "name": "Andrew Connell",
-    "websiteUrl": "https://[from-ngrok].ngrok.io",
-    "privacyUrl": "https://[from-ngrok].ngrok.io/privacy.html",
-    "termsOfUseUrl": "https://[from-ngrok].ngrok.io/tou.html"
+    "name": "Office Developer",
+    "websiteUrl": "https://{{HOSTNAME}}",
+    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
   },
   "name": {
     "short": "teams app1",
@@ -25,10 +25,11 @@
   "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://[from-ngrok].ngrok.io/teamsApp1TabConfig.html",
+      "configurationUrl": "https://{{HOSTNAME}}/teamsApp1Tab/config.html",
       "canUpdateConfiguration": true,
       "scopes": [
-        "team"
+        "team",
+        "groupchat"
       ]
     }
   ],
@@ -41,6 +42,6 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "[from-ngrok].ngrok.io"
+    "{{HOSTNAME}}"
   ]
 }
