@@ -57,10 +57,7 @@
   "connectors": [],
 "composeExtensions": [
   {
-      "botId": "[microsoft-app-id]",
-      "scopes": [
-      "team"
-    ],
+    "botId": "[microsoft-app-id]",
     "canUpdateConfiguration": true,
     "commands": [
       {
