@@ -6,7 +6,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams.Models;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System;
