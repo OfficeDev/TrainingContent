@@ -1,13 +1,11 @@
-ngrok forwarding address id: [Created when running ngrok utility - prerequisites (8 characters)]
+ngrok forwarding address id: [Created when running ngrok utility - starter solution (8 characters)]
 
-BotId:                [Created in Bot Framework portal - starter solution]
-MicrosoftAppPassword: [Created in Bot Framework portal - starter solution]
-MicrosoftAppID:       [Created in Bot Framework portal - starter solution]
+BotChannelRegistrationId:       [Created in Azure Bot Service - starter solution]
+BotChannelRegistrationPassword: [Created in Azure Bot Service - starter solution]
 
 AzureAppID:     [Created in Azure Portal - exercise 1]
 AzureTenantID:  [Created in Azure Portal - exercise 1]
-AzureAppSecret: [Created in Azure Portal - exercise 1]
+AzureAppSecret: [Created in Azure Portal - exercise 2]
 
-OAuthConnectionName:            [Created in Azure Bot Service - exercise 2]
-BotChannelRegistrationId:       [Created in Azure Bot Service - exercise 2]
-BotChannelRegistrationPassword: [Created in Azure Bot Service/ARP - exercise 2]
+OAuthConnectionName:  [Created in Azure Bot Service - exercise 2]
+OAuth scopes:         https://graph.microsoft.com/.default

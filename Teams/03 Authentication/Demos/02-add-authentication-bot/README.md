@@ -70,73 +70,51 @@ Make the following updates to the demo solution.
 
 1. Select **Azure Active Directory** in the left-most blade.
 
-1. In the **Overview** blade, select **Properties** (near the bottom).
+1. Select **App registrations** in the left-hand menu.
 
-1. In the **Directory Properties** blade, copy the **Directory ID**.
+1. Select **New registration**.
 
-    > **NOTE:** Record the **Directory ID** on the AppWorksheet as the "AzureTenantID".
+1. Enter a name for the application. A suggested name is `Talent Management application` which distinguishes this application from the bot. Select **Register**.
 
-1. Close the **Directory Properties** blade, returning to the **Overview** blade.
+1. In the **Overview** blade, copy the **Application (client) ID**.
 
-1. Select **App registrations**.
+    > **NOTE:** Record the **Application (client) ID** on the AppWorksheet as the **AzureAppID**.
 
-1. Select **New application registration**.
+1. In the **Overview** blade, , copy the **Directory (tenant) ID**.
 
-1. Enter a name for the application. A suggested name is `Talent Management application` which distinguishes this application from the bot.
+    > **NOTE:** Record the **Directory (tenant) ID** on the AppWorksheet as the **AzureTenantID**.
 
-1. Select `Web app / API` for the **Application type**.
+1. Select **Authentication** in the left-hand menu.
 
-1. Enter the following address for the **Sign-in URL**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)
+1. In the **Redirect URIs section, enter the following address for the **Redirect URI**: `https://token.botframework.com/.auth/web/redirect`. Leave the **Type** as **Web**.
 
-    ```
-    https://[from-ngrok].ngrok.io/Tabs/auth.html
-    ```
+1. Select **Save** from the toolbar at the top of the Authentication blade.
 
-1. Select **Create**.
+1. Select **Certificates & secrets** in the left-hand menu.
 
-1. On the **Application blade**, copy the **Application Id**.
+1. Select **New client secret**. Enter a description and select an expiration. Select **Add**.
 
-    > **NOTE:** Record the **Application Id** on the AppWorksheet as the "AzureAppID".
+1. Record the client secret value.
 
-1. Select **Manifest**.
+    > **NOTE:** Record the client secret value on the AppWorksheet as the **AzureAppSecret**.
 
-    ![Screenshot if the Azure AD Portal showing the application blade](../../Images/Exercise1-01.png)
+1. Select **API permissions** in the left-had menu.
 
-1. Location the **oauth2AllowImplicitFlow** property. Set the property to `true`. (Note that the property is a boolean, not a string.)
+1. In the **API permissions** blade, select **Add a permission**. Select **Microsoft Graph**. Select **Delegated permissions**.
 
-1. Select **Save** and then close the **Edit manifest blade**.
+1. The following permissions are required for the lab. Select any that are not included by default:
 
-1. Select **Settings**. In the **General** section, select **Reply URLs**.
+- openid (Sign users in)
+- profile (View users' basic profile)
+- Group > Group.Read.All (Read all groups)
+- User > User.Read (Sign in and read user profile)
+- User > User.Read.All (Read all users' full profiles)
 
-1. Add the following as a reply url: `https://token.botframework.com/.auth/web/redirect`. (The existing reply url for the tab can remain.) Select **Save**.
+Select **Add permissions**.
 
-1. On the **Application blade**, select **Settings**.
+Select **Grant admin consent for [Directory]**. Select **Yes** in the confirmation banner.
 
-1. On the **Settings** blade, in the **API Access** section, select **Keys**.
-
-1. On the **Keys** blade, under **Passwords**, create a key with the description `BotLogin`. Set its Duration to **Never expires**.
-
-1. Select **Save**. Record the key value.
-
-    > **NOTE:** Record the key value on the AppWorksheet as the "AzureAppSecret".
-
-1. On the **Settings** blade, select **Required permissions**.
-
-1. On the **Required permissions** blade, select **Add**.
-
-1. On the **Add API access** blade, select **Select an API**.
-
-1. On the **Select an API blade** blade, select **Microsoft Graph**. Select the **Select** button at the bottom of the blade.
-
-1. On the resulting **Enable access** blade, select the following Delegated permissions:
-    - **Read all users' full profiles**
-    - **Read all groups**
-    - **Sign users in**
-    - **View users' basic profile**
-
-1. Select the **Select** button at the bottom of the blade. Select **Done**.
-
-1. On the **Required permissions** blade, select **Grant permissions**. Select **Yes**.
+  ![Screenshot of Azure Active Directory portal with the requested permissions displayed.](../../Images/Exercise1-01.png)
 
 ## Create a Bot Service Channel registration
 
@@ -150,7 +128,7 @@ Make the following updates to the demo solution.
 
 1. Select the **Create** button.
 
-1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name to distinguish this registration from the bot registered on the Bot Framework portal and from the application registered to access the Microsoft Graph API. A suggested name is `OfficeTalentBotAzureService`.
+1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name.
 
 1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the value record on the AppWorksheet as **ngrok forwarding address id**.
 
@@ -162,11 +140,17 @@ Make the following updates to the demo solution.
 
 1. Select **Create**.
 
-1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration. (The suggested name was **OfficeTalenBotAzureServie**.)
+1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration.
+
+    ![Screenshot of bot channel registration.](../../Images/Starter-03.png)
 
 1. In the **Bot Management** section, select **Channels**.
 
+    ![Screenshot of channel menu with Microsoft Teams icon highlighted.](../../Images/Starter-04.png)
+
 1. Click on the Microsoft Teams logo to create a connection to Teams. Select **Save**. Agree to the Terms of Service.
+
+    ![Screenshot of MSTeams bot confirmation page.](../../Images/Starter-05.png)
 
 1. In the **Bot Management** section, select *Settings**.
 
@@ -174,14 +158,11 @@ Make the following updates to the demo solution.
 
     - For Name, enter `TalentManagementApplication`.
       > NOTE: Record this name on the AppWorksheet as "OAuthConnectionName".
-    - For Service Provider, select `Azure Active Directory`. Once you select this, the Azure AD-specific fields will be displayed.
+    - For Service Provider, select `Azure Active Directory V2`. Once you select this, the Azure AD-specific fields will be displayed.
     - For **Client id**, enter the value recorded on the AppWorksheet as **AzureAppID**.
     - For **Client secret**, enter the value recorded on the AppWorksheet as **AzureAppSecret**
-    - For **Grant Type**, enter `authorization_code`.
-    - For **Login URL**, enter `https://login.microsoftonline.com`.
     - For **Tenant ID**, enter the value recorded on the AppWorksheet as **AzureTenantID**.
-    - For **Resource URL**, enter `https://graph.microsoft.com/`.
-    - Leave Scopes blank.
+    - For **Scopes**, enter `https://graph.microsoft.com/.default`
 
 1. Select Save.
 
@@ -208,8 +189,6 @@ The Visual Studio solution will use the Bot Channel Registration, replacing the 
 The bot project must be configured with information from the registration.
 
 1. In **Visual Studio**, open the **Web.config** file. Locate the `<appSettings>` section.
-
-1. For a bot using the Azure Bot Service channels registration, the **BotId** is not used.
 
 1. Replace the token **[MicrosoftAppId]** with the value from the AppWorksheet named **BotChannelRegistrationId**.
 
@@ -265,4 +244,3 @@ Although not strictly necessary, in this lab the bot will be added to a new team
 1. Once sign-in ins complete, the bot will access profile information for the current user and write a message.
 
     ![Screenshot of bot with profile information message](../../Images/Exercise2-02.png)
-
