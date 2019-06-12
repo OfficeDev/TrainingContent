@@ -16,6 +16,10 @@ For the Office 365 Tenant, the setup steps are detailed on the [Prepare your Off
 
 This demo requires delegated permissions that are consented by a tenant administrator. If you are not an administrator in your tenant, you can request a developer tenant through the [Office 365 developer program](https://developer.microsoft.com/en-us/office/dev-program)
 
+### Azure Subscription
+
+The Azure Bot service requires an Azure subscription. A free trial subscription is sufficient.
+
 ### Download ngrok
 
 As Microsoft Teams is an entirely cloud-based product, it requires all services it accesses to be available from the cloud using HTTPS endpoints. To enable the exercises to work within Microsoft Teams, a tunneling application is required.
@@ -66,7 +70,7 @@ Make the following updates to the demo solution.
 
 1. Select **Azure Active Directory** in the left-most blade.
 
-1. Select **App registrations (Preview)** in the left-hand menu.
+1. Select **App registrations** in the left-hand menu.
 
 1. Select **New registration**.
 
@@ -85,7 +89,7 @@ Make the following updates to the demo solution.
 1. In the **Redirect URIs section, enter the following address for the **Redirect URI**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.)  Leave the **Type** as **Web**
 
     ```
-    https://[from-ngrok].ngrok.io/Tabs/auth.html
+    https://[from-ngrok].ngrok.io/Tabs/auth-end.html
     ```
 
 1. In the **Implicit grant** section, select **Access tokens** and **ID tokens**.
@@ -106,7 +110,7 @@ Make the following updates to the demo solution.
 
 Select **Add permissions**.
 
-Select **Grand admin consent for [Directory]**. Select **Yes** in the confirmation banner.
+Select **Grant admin consent for [Directory]**. Select **Yes** in the confirmation banner.
 
     ![Screenshot of Azure Active Directory portal with the requested permissions displayed.](Images/Exercise1-01.png)
 
@@ -115,6 +119,7 @@ Select **Grand admin consent for [Directory]**. Select **Yes** in the confirmati
 The Visual Studio project must be updated with information from the registration.
 
 1. In **Visual Studio**, open file **auth-start.html** in the **Tabs** folder.
+
     - Replace the token `[AzureAppID]` with the value recorded on the AppWorksheet as **AzureAppID**.
 
 1. In the **Manifest** folder , open the **manifest.json** file. The **manifest.json** file requires several updates:
