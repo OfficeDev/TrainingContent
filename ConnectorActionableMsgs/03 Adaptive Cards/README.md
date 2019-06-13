@@ -20,16 +20,17 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-| Roles                | Author(s)                                               |
-| -------------------- | ------------------------------------------------------- |
-| Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) @paulschaelfein         |
-| QA                   | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
+|        Roles         |                                       Author(s)                                       |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)        |
+| QA                   | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
+| Sponsor / Support    | Mike Ammerlaan (Microsoft) [@mammerla](//github.com/mammerla)                         |
 
 ## Version history
 
-| Version | Date               | Comments                                               |
+| Version |        Date        |                        Comments                        |
 | ------- | ------------------ | ------------------------------------------------------ |
+| 1.6     | June 13, 2019      | 2019Q4 content refresh                                 |
 | 1.5     | March 14, 2019     | 2019Q3 content refresh & add exercise for signed cards |
 | 1.4     | December 17, 2018  | 2019Q2 content refresh                                 |
 | 1.3     | September 12, 2018 | 2019Q1 content refresh                                 |
