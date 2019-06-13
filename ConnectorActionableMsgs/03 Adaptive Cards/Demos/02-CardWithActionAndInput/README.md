@@ -15,7 +15,7 @@ This demo will show the support ticket card from exercise 1 with Input and Actio
 ## Update card and send via email
 
 1. Open Outlook.
-1. Open the message from Demo 1 with subject **Adaptive card sent from code**.
+1. Open the message from Demo 1
 1. Enter a sample message and select **OK*. Outlook will display an error.
 1. Navigate to the ngrok inspector page at `http://localhost:4040`.
 1. Select on the first request in the left column. In the right column, select on the link titled **Raw**.

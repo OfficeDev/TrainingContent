@@ -116,11 +116,11 @@ Using Microsoft Graph to send emails requires an application registration. (The 
 
 1. Select **Save** from the toolbar at the top of the Authentication blade.
 
-### Compile the SendCardEmail program
+### Compile the SendEmailCard program
 
 1. Launch **Visual Studio 2017**.
 
-1. Open the `SendEmailCard.sln` solution from the **LabFiles\SendCardEmail** folder.
+1. Open the `SendEmailCard.sln` solution from the **LabFiles\SendEmailCard** folder.
 
 1. Open the **App.config** file in Solution Explorer.
 
