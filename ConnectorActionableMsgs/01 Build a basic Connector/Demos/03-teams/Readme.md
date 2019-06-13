@@ -18,7 +18,11 @@ To run this demo, perform the following steps:
 
 1. From the Connectors Developer Dashboard, select the **Download Manifest**.
 
-1. Open the manifest.json file in an editor and replace the `icons` section with the following json and save the file.
+1. Open the manifest.json file in an editor.
+
+1. Change the **manifestVersion** attribute to `"1.5"`.
+
+1. Replace the `icons` section with the following json and save the file.
 
     ````json
     "icons": {
@@ -26,6 +30,8 @@ To run this demo, perform the following steps:
       "color": "connector-icon-color.png"
     },
     ````
+
+1. Remove the **needsIdentity** attribute. Be sure to remove the comma from the previous attribute to ensure the file has a valid JSON format.
 
 1. Copy the image files `Lab Files/Teams/connector-icon-20x20.png` and `Lab Files/Teams/connector-icon-96x96.png` to the directory with the downloaded manifest.
 

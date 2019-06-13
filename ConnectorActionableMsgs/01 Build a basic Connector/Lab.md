@@ -127,6 +127,8 @@ This exercise will add connector functionality to an existing website. A starter
 
 1. Go to the [Connectors Developer Dashboard](https://aka.ms/connectorsdashboard) and sign in with your Office 365 credentials.
 
+1. Select **New Connector**.
+
 1. Provide a name, logo, short description and detailed description for your connector.
 
 1. For the **Company website** field, use the HTTPS forwarding address from the ngrok tunnel.
@@ -165,7 +167,7 @@ This exercise will add connector functionality to an existing website. A starter
 
 1. Right-click on the **Models** folder and select **Add > Class**.  Name the class **ConnectorSettings**.
 
-1. Paste the following code inside the `Subscription` public class.
+1. Paste the following code inside the `ConnectorSettings` public class.
 
     ````csharp
     public string AppType { get; set; }
@@ -262,7 +264,11 @@ Uploading a Microsoft Teams Connector requires a zip file containing a manifest 
 
 1. From the connector setup page, select the **Download Manifest** button which will download the manifest.json file to your machine.
 
-1. Open the manifest.json file in an editor and replace the `icons` section with the following json and save the file.
+1. Open the manifest.json file in an editor.
+
+1. Change the **manifestVersion** attribute to `"1.5"`.
+
+1. Replace the `icons` section with the following json and save the file.
 
     ````json
     "icons": {
@@ -271,7 +277,7 @@ Uploading a Microsoft Teams Connector requires a zip file containing a manifest 
     },
     ````
 
-1. Remove the protocol from the entry in the 'validDomains` section. The entry should be similar to `[from-ngrok].ngrok.io.
+1. Remove the **needsIdentity** attribute. Be sure to remove the comma from the previous attribute to ensure the file has a valid JSON format.
 
 1. Copy the image files `Lab Files/Teams/connector-icon-outline.png` and `Lab Files/Teams/connector-icon-color.png` to the directory with the downloaded manifest.
 
