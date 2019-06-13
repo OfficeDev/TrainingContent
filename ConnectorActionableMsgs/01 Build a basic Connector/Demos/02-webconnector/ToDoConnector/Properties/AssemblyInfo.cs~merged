@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CardRefresh")]
+[assembly: AssemblyTitle("ToDoConnector")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CardRefresh")]
+[assembly: AssemblyProduct("ToDoConnector")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("528bca0d-98bc-45ec-9631-1caa43b5db4c")]
+[assembly: Guid("9e1b1a1a-3515-4e89-b02b-5fe8c5458f64")]
 
 // Version information for an assembly consists of the following four values:
 //
