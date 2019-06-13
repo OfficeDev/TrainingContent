@@ -45,8 +45,8 @@ This demo uses Visual Studio 2017. It also requires an Office 365 subscription w
 1. For the **Sender email address from which actionable emails will originate**, enter your email address.
 
     > NOTE: For production applications, a static email address, such as `actions@contoso.com`, is recommended.
-    
-1. For the target URL, enter the HTTPS forwarding address from ngrok. 
+
+1. For the target URL, enter the HTTPS forwarding address from ngrok.
 
 1. For the **Scope of submission**, select **My Mailbox (auto-approved)**.
 
@@ -61,7 +61,7 @@ This demo uses Visual Studio 2017. It also requires an Office 365 subscription w
 
 ## Configure validation values
 
-The helper functions validate that the request is coming from a known mailbox. The valid values are configured in the **web.config** file. 
+The helper functions validate that the request is coming from a known mailbox. The valid values are configured in the **web.config** file.
 1. Open the **web.config** file.
 
 1. Add the following to the **appSettings** node. The values of these settings must match the entries on the Actionable Email Developer Dashboard
@@ -85,9 +85,11 @@ The helper functions validate that the request is coming from a known mailbox. T
 
 1. Save the **expenseCard.json** file.
 
-1. Using PowerShell, execute the **SendCardviaEmail.ps1** script from the **Demos\03-Expense-Approval** folder.
+1. Send the card using the console application from Exercise 2. The command to execute:
 
-    ![Screenshot of PowerShell ISE executing the script](../../Images/Exercise2-01.png)
+    ```shell
+    SendEmailCard.exe actionable expenseCard.json
+    ```
 
 ## Test the card
 

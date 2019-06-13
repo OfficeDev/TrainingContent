@@ -26,14 +26,14 @@ This demo requires an Office 365 subscription with an active mailbox and a **Mic
 
     >Note: You can use basic markdown formatting for text elements within the card.
 
-1. Select the **Send via Email** button to send the card to the logged-in user. 
+1. Select the **Send via Email** button to send the card to the logged-in user.
 
-    > NOTE: If you see a message indicating that the mail could not be sent, check pop-up blocker in your browser. The first attempt to send an email includes a prompt for incremental consent. 
+    > NOTE: If you see a message indicating that the mail could not be sent, check pop-up blocker in your browser. The first attempt to send an email includes a prompt for incremental consent.
 
-    ![Screenshot of test message card in email.](Images/Exercise1-03.png)
+    ![Screenshot of test message card in email.](../../Images/Exercise1-03.png)
 
 1. Note that the buttons on the sample cards will not work.
 
 1. Explore the other samples in the MessageCard Playground app. These are good references to use as a basis for your own card design. Only Legacy MessageCard samples will work using the **Send via Email** function.
 
-    ![Screenshot of test MessageCard Playground site highlighting the legacy samples.](Images/Exercise1-04.png)
+    ![Screenshot of test MessageCard Playground site highlighting the legacy samples.](../../Images/Exercise1-04.png)
