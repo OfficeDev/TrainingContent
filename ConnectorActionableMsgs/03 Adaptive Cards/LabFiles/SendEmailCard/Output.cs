@@ -4,7 +4,7 @@
  */
 using System;
 
-namespace OfficeDev.TrainingContent.SendAdaptiveCard
+namespace OfficeDev.TrainingContent.SendEmailCard
 {
     class Output
     {
