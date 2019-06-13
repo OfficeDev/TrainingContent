@@ -87,19 +87,10 @@ namespace WebApplication1.Controllers
       List<Models.Comment> comments = new List<Models.Comment>();
 
       string newComment = cardResponse.Comment;
-
-      if (cardResponse.CachedComments != null)
-      {
-        JArray cachedComments = (JArray)cardResponse.CachedComments;
-        comments.AddRange(cachedComments.ToObject<List<Models.Comment>>());
-      }
+      comments.AddRange(cardResponse.CachedComments);
 
       // add this comment
       comments.Add(new Models.Comment() { ActionPerformer = result.ActionPerformer, CommentDate = DateTime.Now, CommentText = newComment });
-
-      // prepare the response
-      HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-      response.Headers.Add("CARD-ACTION-STATUS", "Comment recorded...");
 
       // create the card
       AdaptiveCards.AdaptiveCard refreshCard = CreateRefreshCard(comments);
