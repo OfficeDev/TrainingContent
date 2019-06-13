@@ -12,6 +12,8 @@ For the Office 365 Tenant, the setup steps are detailed on the [Getting Started 
 
 The Azure Bot service requires an Azure subscription. A free trial subscription is sufficient.
 
+If you do not wish to use an Azure Subscription, you can use the legacy portal to register a bot here: [Legacy Microsoft Bot Framework portal](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work, school account or a Microsoft account.
+
 ### Install developer tools
 
 The developer workstation requires the following tools for this lab.
@@ -89,7 +91,7 @@ This exercise introduces the Yeoman generator and its capabilities for scaffoldi
 1. Select **Use the current folder** for the file location and select **Enter**. The next set of prompts asks for specific information about your Microsoft Teams app:
     - Accept the default **teams app1** as the name of your Microsoft Teams app project and press **Enter**.
     - Enter your name and press **Enter**.
-    - Accept the default selection of **v1.4** for the manifest version you would like to use and press **Enter**.
+    - Accept the default selection for the manifest version you would like to use and press **Enter**.
     - Accept the default selection of **Tab** for what you want to add to your project and press **Enter**.
     - Enter **https://tbd.ngrok.io** as the URL where you will host this tab and press **Enter**. You will change this URL later in the exercise.
     - Enter *n* and press **Enter** when prompted to include a Test framework and initial tests.

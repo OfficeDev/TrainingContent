@@ -6,7 +6,7 @@ TODO: Add your documentation here
 
 ## Getting started with Microsoft Teams Apps development
 
-Head on over to [official documentation](https://msdn.microsoft.com/en-us/microsoft-teams/tabs) to learn how to build Microsoft Teams Tabs.
+Head on over to [official documentation](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/tabs/tabs-overview) to learn how to build Microsoft Teams Tabs.
 
 ## Building the app
 
