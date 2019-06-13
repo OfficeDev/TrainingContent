@@ -20,12 +20,12 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                            Author(s)                             |
-| -------------------- | ---------------------------------------------------------------- |
-| Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) @pschaeflein                     |
-| QA                   | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell          |
-| QA                   | Julie Turner (Microsoft MVP, Sympraxis Consulting) @juliemturner |
-| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                             |
+|        Roles         |                                           Author(s)                                           |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| Lab Manuals / Slides | Paul Schaeflein (Microsoft MVP) [@pschaeflein](//github.com/pschaeflein)                      |
+| QA                   | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell)         |
+| QA                   | Julie Turner (Microsoft MVP, Sympraxis Consulting) [@juliemturner](//github.com/juliemturner) |
+| Sponsor / Support    | Mike Ammerlaan (Microsoft) [@mammerla](//github.com/mammerla)                                 |
 
 ## Version history
 
