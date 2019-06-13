@@ -12,6 +12,8 @@ For the Office 365 Tenant, the setup steps are detailed on the [Prepare your Off
 
 The Azure Bot service requires an Azure subscription. A free trial subscription is sufficient.
 
+If you do not wish to use an Azure Subscription, you can use the legacy portal to register a bot here: [Legacy Microsoft Bot Framework portal](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work, school account or a Microsoft account.
+
 ### Download ngrok
 
 As Microsoft Teams is an entirely cloud-based product, it requires all services it accesses to be available from the cloud using HTTPS endpoints. To enable the exercises to work within Microsoft Teams, a tunneling application is required.
