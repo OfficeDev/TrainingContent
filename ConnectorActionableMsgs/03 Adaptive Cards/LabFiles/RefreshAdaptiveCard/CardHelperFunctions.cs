@@ -54,7 +54,7 @@
         return new AdaptiveShowCardAction()
         {
           Title = "Comment",
-          Card = new AdaptiveCard()
+          Card = new AdaptiveCard("1.0")
           {
             Body = new List<AdaptiveElement>()
             {
