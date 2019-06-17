@@ -8,6 +8,12 @@ Developing apps for Microsoft Teams requires preparation for both the Office 365
 
 For the Office 365 Tenant, the setup steps are detailed on the [Prepare your Office 365 Tenant page](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-tenant).
 
+### Azure Subscription
+
+The Azure Bot service requires an Azure subscription. A free trial subscription is sufficient.
+
+If you do not wish to use an Azure Subscription, you can use the legacy portal to register a bot here: [Legacy Microsoft Bot Framework portal](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work, school account or a Microsoft account.
+
 ### Download ngrok
 
 As Microsoft Teams is an entirely cloud-based product, it requires all services it accesses to be available from the cloud using HTTPS endpoints. To enable the exercises to work within Microsoft Teams, a tunneling application is required.
@@ -50,45 +56,63 @@ Make the following updates to the demo solution.
 
 ### Register the bot
 
-1. Go to the [Microsoft Bot Framework](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work or school account or a Microsoft account.
+1. Open the [Azure Portal](https://portal.azure.com).
 
-> **NOTE:** You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot button** in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.
+1. Select **Create a resource**.
 
-1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
+1. In the **Search the marketplace** box, enter `bot`.
 
-    ![Screenshot of bot profile information page.](../../Images/Exercise1-04.png)
+1. Choose **Bot Channels Registration**
 
-1. Complete the configuration section.
-    - For the Messaging endpoint, use the forwarding HTTPS address from ngrok prepended to the route to the `MessagesController` in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/API/Messages`.
-    - Select the **Create Microsoft App ID and password button**. This opens a new browser window.
-    - In the new browser window, the application is registered in Azure Active Directory. Select **Generate an app password to continue**.
-    - An app password is generated. Copy the password and save it. You will use it in a subsequent step.
-    - Select **OK** to close the dialog box.
-    - Select the **Finish and go back to Bot Framework** button to close the new browser window and populate the app ID in the **Paste your app ID below to continue textbox**.
+1. Select the **Create** button.
 
-        ![Screenshot of configuration page with messaging endpoint and app ID displayed.](../../Images/Exercise1-05.png)
+1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name.
 
-1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
+1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the forwarding address displayed in the ngrok window.
 
-> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
+    ```
+    https://[from-ngrok].ngrok.io/api/Messages
+    ```
 
-1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
+1. Allow the service to auto-create an application.
 
-    ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](../../Images/Exercise1-06.png)
+1. Select **Create**.
 
-1. Once the connection is complete, ensure the connection is enabled and select **Done**. The bot registration is complete.
+1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration.
 
-    ![Screenshot of Microsoft Bot Framework with configuration message displayed.](../../Images/Exercise1-07.png)
+    ![Screenshot of bot channel registration.](../../Images/Exercise1-04.png)
 
-    >**Note:** Selecting **Settings** in the top navigation will re-display the profile and configuration sections. This can be used to update the messaging endpoint in the event ngrok is stopped, or the bot is moved to staging & production.
+1. In the **Bot Management** section, select **Channels**.
+
+    ![Screenshot of channel menu with Microsoft Teams icon highlighted.](../../Images/Exercise1-05.png)
+
+1. Click on the Microsoft Teams logo to create a connection to Teams. Select **Save**. Agree to the Terms of Service.
+
+    ![Screenshot of MSTeams bot confirmation page.](../../Images/Exercise1-06.png)
+
+#### Record the Bot Channel Registration Bot Id and secret
+
+1. In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
+
+1. The **Microsoft App Id** is displayed. Record this value.
+
+1. Next to the **Microsoft App Id**, select the **Manage** link. This will open the Application Registration Portal in a new tab. If prompted, select the button titled **View the app in the Azure Portal".
+
+1. In the application blade, select **Certificates & Secrets**.
+
+1. Select **New client secret**.
+
+1. Enter a description and select an expiration interval. Select **Add**.
+
+1. A new secret is created and displayed. Record the new secret.
+
+    ![Screenshot of application registration.](../../Images/Exercise1-07.png)
 
 ### Configure the web project
 
 The bot project must be configured with information from the registration.
 
 1. In **Visual Studio**, open the **Web.config** file. Locate the `<appSettings>` section.
-
-1. Enter the `BotId`. The `BotId` is the **Bot handle** from the **Configuration** section of the registration.
 
 1. Enter the `MicrosoftAppId` from the **Configuration** section of the registration.
 

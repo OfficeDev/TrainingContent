@@ -36,9 +36,6 @@
 	"composeExtensions": [
 		{
 			"botId": "[bot-id]",
-			"scopes": [
-				"team"
-			],
 			"commands": [
 				{
 					"id": "searchPositions",
