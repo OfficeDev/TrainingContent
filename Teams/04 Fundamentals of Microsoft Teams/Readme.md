@@ -18,17 +18,17 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                        Author(s)                        |
-| -------------------- | ------------------------------------------------------- |
-| Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell |
-| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) @paulschaeflein         |
-| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                    |
-|                      | Nishanth Nadarajah (Microsoft)                          |
+|        Roles         |                                       Author(s)                                       |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| Review / Formatting  | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
+| Lab Manuals / Videos | Paul Schaeflein (Microsoft MVP) [@paulschaeflein](//github.com/paulschaeflein)        |
+| Sponsor / Support    | Mike Ammerlaan (Microsoft) [@mammerla](//github.com/mammerla)                         |
 
 ## Version history
 
 | Version |       Date        |                   Comments                   |
 | ------- | ----------------- | -------------------------------------------- |
+| 1.6     | June 11, 2019     | 2019Q4 content refresh                       |
 | 1.5     | March 6, 2019     | 2019Q3 content refresh                       |
 | 1.4     | November 11, 2018 | 2019Q2 content refresh                       |
 | 1.3     | August 15, 2018   | 2019Q1 content refresh                       |

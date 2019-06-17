@@ -8,6 +8,12 @@ Developing apps for Microsoft Teams requires preparation for both the Office 365
 
 For the Office 365 Tenant, the setup steps are detailed on the [Getting Started page](https://msdn.microsoft.com/en-us/microsoft-teams/setup). Note that while the getting started page indicates that the Public Developer Preview is optional, this lab includes steps that are not possible unless the preview is enabled.
 
+### Azure Subscription
+
+The Azure Bot service requires an Azure subscription. A free trial subscription is sufficient.
+
+If you do not wish to use an Azure Subscription, you can use the legacy portal to register a bot here: [Legacy Microsoft Bot Framework portal](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work, school account or a Microsoft account.
+
 ### Install developer tools
 
 The developer workstation requires the following tools for this lab.
@@ -80,67 +86,55 @@ This exercise introduces the Yeoman generator and its capabilities for scaffoldi
 
 1. Type `yo teams` and press **Enter**.
 
-    ![Screenshot of Yeoman Teams generator.](../../Images/Exercise1-01.png)
-
 1. When prompted, accept the default **teams-app-1** as your solution name and press **Enter**.
 
 1. Select **Use the current folder** for the file location and select **Enter**. The next set of prompts asks for specific information about your Microsoft Teams app:
     - Accept the default **teams app1** as the name of your Microsoft Teams app project and press **Enter**.
     - Enter your name and press **Enter**.
+    - Accept the default selection for the manifest version you would like to use and press **Enter**.
     - Accept the default selection of **Tab** for what you want to add to your project and press **Enter**.
     - Enter **https://tbd.ngrok.io** as the URL where you will host this tab and press **Enter**. You will change this URL later in the exercise.
+    - Enter *n* and press **Enter** when prompted to include a Test framework and initial tests.
+    - Enter **n** and press **Enter** when prompted to use Azure Application Insights to telemetry.
     - Accept the default **teams app1 Tab** as the default tab name and press **Enter**.
+    - Enter **n** and press **Enter** when prompted for the tab to be available in SharePoint Online.
 
-      ![Screenshot of Yeoman Teams generator.](../../Images/Exercise1-02.png)
+      ![Screenshot of Yeoman Teams generator.](../../Images/Exercise1-01.png)
 
     At this point, Yeoman will install the required dependencies and scaffold the solution files along with the basic tab. This might take a few minutes. When the scaffold is complete, you should see the following message indicating success.
 
-    ![Screenshot of Yeoman generator success message.](../../Images/Exercise1-03.png)
+    ![Screenshot of Yeoman generator success message.](../../Images/Exercise1-02.png)
 
-### Run the ngrok secure tunnel application
-
-1. Open a new **Command Prompt** window.
-
-1. Change to the directory that contains the **ngrok.exe** application.
-
-1. Run the command `ngrok http 3007`.
-
-1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
-
-1. Minimize the ngrok command prompt window. It is no longer referenced in this exercise, but it must remain running.
-
-    ![Screenshot of ngrok highlighting local host.](../../Images/Exercise1-04.png)
-
-### Update the Microsoft Teams app manifest and create package
-
-When the solution was generated, you used a placeholder URL. Now that the tunnel is running, you need to use the actual URL that is routed to your computer.
-
-1. Return to the first **Command Prompt** window in which the generator was run.
+### Review the generated solution
 
 1. Launch **VS Code** by running the command `code .`
 
     ![Screenshot of Visual Studio highlighting teams app code.](../../Images/Exercise1-05.png)
 
-1. Open the **manifest.json** file in the **manifest** folder.
+1. The source code for the application is in the **src\app** folder.
 
-1. Replace all instances of `tbd.ngrok.io` with the HTTPS forwarding address from the ngrok window. In this example, the forwarding address is **0f3b4f62.ngrok.io**. There are five URLs that need to be changed.
+1. The **src\manifest** folder contains the assets required to create the Teams app package.
 
-1. Save the **manifest.json** file.
+### Update the Microsoft Teams app manifest and create package
 
-1. In the **Command Prompt** window, run the command `gulp manifest`. This command will create the package as a zip file in the **package** folder.
+The generated application is ready to run. The generator created a gulp task to facilitate development. This task runs the following steps:
 
-    ![Screenshot of command prompt with teams manifest zip file generation.](../../Images/Exercise1-06.png)
+  1. Start the ngrok tunnel, capturing the temporary address
+  1. Update the `manifest.json` file
+  1. Package the manifest assets into a package (zip file)
+  1. Transpile Typescript into Javascript
+  1. Inject script and style tags into the generated html files
+  1. Start a local web server to host the components
 
-1. Build the webpack and start the express web server by running the following commands:
+ Start this task by running the following command:
 
-    ```shell
-    gulp build
-    gulp serve
-    ```
+```shell
+gulp ngrok-serve
+```
 
-    ![Screenshot of command prompt running Gulp.](../../Images/Exercise1-07.png)
+  ![Screenshot of command prompt running Gulp.](../../Images/Exercise1-07.png)
 
-    > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
+  > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
 ### Upload app into Microsoft Teams
 
@@ -187,4 +181,3 @@ The app is now uploaded into the Microsoft Teams application and the tab is avai
 1. The value entered will then be displayed in the tab window.
 
     ![Screenshot of newly created tab in Microsoft Teams.](../../Images/Exercise1-15.png)
-
