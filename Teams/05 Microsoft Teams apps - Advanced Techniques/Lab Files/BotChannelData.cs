@@ -13,13 +13,14 @@ public class BotChannels
   public static List<BotChannel> GetBotChannels()
   {
     var data = new List<BotChannel>();
-    data.Add(new BotChannel { Title = "Bing", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/bing.png" });
     data.Add(new BotChannel { Title = "Cortana", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/cortana.png" });
     data.Add(new BotChannel { Title = "Direct Line", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/directline.png" });
+    data.Add(new BotChannel { Title = "Direct Line Speech", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/directlinespeech.png"})
     data.Add(new BotChannel { Title = "Email", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/email.png" });
-    data.Add(new BotChannel { Title = "Facebook Messenger", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/facebook.png" });
+    data.Add(new BotChannel { Title = "Facebook", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/facebook.png" });
     data.Add(new BotChannel { Title = "GroupMe", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/groupme.png" });
     data.Add(new BotChannel { Title = "Kik", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/kik.png" });
+    data.Add(new BotChannel { Title = "LINE", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/line.png" });
     data.Add(new BotChannel { Title = "Microsoft Teams", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/msteams.png" });
     data.Add(new BotChannel { Title = "Skype", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skype.png" });
     data.Add(new BotChannel { Title = "Skype for Business", LogoUrl = "https://dev.botframework.com/client/images/channels/icons/skypeforbusiness.png" });
