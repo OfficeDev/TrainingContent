@@ -2,6 +2,14 @@
 * Copyright (c) Microsoft Corporation. All rights reserved.
 * Licensed under the MIT license.
 */
+body {
+    margin: 0px;
+}
+
+input {
+    width: 100%;
+    font-size: 14px;
+}
 
 .header {
     padding: 10px;

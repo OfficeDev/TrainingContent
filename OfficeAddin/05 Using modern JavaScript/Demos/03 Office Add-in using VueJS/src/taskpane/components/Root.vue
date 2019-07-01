@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
+    import * as Vue from 'vue';
     import Component from 'vue-class-component';
     import waiting from "./Waiting.vue";
     import headerComponent from "./HeaderComponent.vue";

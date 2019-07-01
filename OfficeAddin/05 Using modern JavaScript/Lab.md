@@ -1320,7 +1320,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 ### Provision the Office Add-in
 
 1. Open a terminal/command prompt, and change directories to the location where you want to create the project.
-1. Run the **Office Yeoman generator** using the command `yo office**`.
+1. Run the **Office Yeoman generator** using the command `yo office`.
 
     ```shell
     yo office
@@ -1328,7 +1328,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
     * Choose a project type ***Office Add-in Task Pane Project**
-    * Choose a script type **Typescript**
+    * Choose a script type **TypeScript**
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**
 
@@ -1337,21 +1337,21 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 1. When the Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
     >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
+    >
+    > If you elect to run & sideload the project as a test, make sure you terminate the process before proceeding with the lab. The local development server must be restarted after modifying the **package.json** file to add Vue.js to the project.
 
-1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery project template as the starting point so you need to convert the project to leverage Vue.js.
+1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the no web framework project template as the starting point so you need to convert the project to leverage Vue.js.
     1. Open a command prompt and change directory to the root folder of the project.
-        1. Execute the following commands to install the necessary Vue dependency packages & remove jQuery:
+        1. Execute the following commands to install the necessary Vue dependency packages:
 
             ```shell
             npm install vue vue-class-component --save
-            npm uninstall jquery --save
             ```
 
-        1. Execute the following command to install the necessary dev dependency packages and remove jQuery:
+        1. Execute the following command to install the necessary dev dependency packages:
 
             ```shell
             npm install vue-loader vue-template-compiler --save-dev
-            npm uninstall @types/jquery --save-dev
             ```
 
     1. Locate and open the **webpack.config.js** file in the project root directory. It needs to be updated to support Vue JS.
@@ -1414,7 +1414,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             ]
             ```
 
-    1. Update the project so that **.vue** files will be treated like TypeScript. Create a **sfc.d.ts** file in the **src** folder, and add the following code.
+    1. Update the project so that **.vue** files will be treated like TypeScript. Create a **vue-shim.d.ts** file in the **src** folder, and add the following code.
 
         ```typescript
         declare module "*.vue" {
@@ -1427,9 +1427,8 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         1. Replace the `<body>` element with the following:
 
           ```html
-          <body class="ms-font-m ms-welcome">
+          <body class="ms-font-m ms-welcome ms-Fabric">
             <div id="app">{{welcome}}</div>
-            <script type="text/javascript" src="node_modules/office-ui-fabric-js/dist/js/fabric.js"></script>
           </body>
           ```
 
@@ -1437,7 +1436,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         1. Add the following `import` statement after the existing `import`:
 
             ```ts
-            import Vue  from 'vue';
+            import * as Vue from "vue";
             ```
 
         1. Remove the existing `run()` function and update `Office.onReady` as follows:
@@ -1465,6 +1464,15 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 1. Open **src/taskpane/taskpane.css** and replace the entire file with following:
 
     ```css
+    body {
+      margin: 0px;
+    }
+    
+    input {
+      width: 100%;
+      font-size: 14px;
+    }
+
     .header {
         padding: 10px;
     }
@@ -1537,7 +1545,8 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
 
 1. Copy the **spinner.gif** image from the **LabFiles** folder into **assets** folder.
 
-1. Create a new folder **components** in the existing **src/taskpane** folder to hold the Vue components:
+1. Create a new folder **components** in the existing **src/taskpane** folder to hold the Vue components.
+
 1. Create a **src/taskpane/components/Waiting.vue** file and add the following code to it:
 
     ```html
@@ -1549,7 +1558,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     </template>
 
     <script lang="ts">
-    import Vue from 'vue';
+    import * as Vue from "vue";
     import Component from 'vue-class-component';
 
     @Component({})
@@ -1584,7 +1593,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     </template>
 
     <script lang="ts">
-    import Vue from 'vue';
+    import * as Vue from "vue";
     import Component from 'vue-class-component';
 
     @Component({
@@ -1615,7 +1624,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     </template>
 
     <script lang="ts">
-    import Vue from 'vue';
+    import * as Vue from "vue";
     import Component from 'vue-class-component';
 
     @Component({
@@ -1671,7 +1680,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     </template>
 
     <script lang="ts">
-      import Vue from 'vue';
+      import * as Vue from "vue";
       import Component from 'vue-class-component';
       import waiting from "./Waiting.vue";
       import headerComponent from "./HeaderComponent.vue";
@@ -1730,19 +1739,21 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
         import root from './components/Root.vue';
         ```
 
-    1. Update the `Office.initialize` function to load the Vue root component as follows:
+    1. Update the `Office.onReady` function to load the Vue root component as follows:
 
         ```typescript
-        import Vue  from 'vue';
+        import * as Vue from 'vue';
         import root from './components/Root.vue';
 
-        Office.initialize = (reason) => {
-          var app = new Vue({
-            el: "#app",
-            render: h => h(root, {})
-          });
-          console.log(app);
-        };
+        Office.onReady(info => {
+          if (info.host === Office.HostType.Excel) {
+            var app = new Vue({
+              el: "#app",
+              render: h => h(root, {})
+            });
+            console.log(app);
+          }
+        });
         ```
 
 1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
@@ -1771,7 +1782,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     }
     ```
 
-1. Create new **utils** folder in the **src** folder, then create a file named **ExcelTableUtil.tsx**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
+1. Create new **utils** folder in the **src** folder, then create a file named **ExcelTableUtil.ts**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
 
     ```typescript
     export class ExcelTableUtil {
@@ -2131,11 +2142,9 @@ This section will outline how to sideload and test an Office Add-in using OneDri
       * using Webpack to create a single bundle of all script and CSS resources
       * copy all relevant files to the **dist** folder
 
-    When the build completes, you should see a note that "*webpack: Compiled successfully*".
-
     For the React and Angular labs, the TypeScript compiler will also stay in a "watch mode" to refresh the add-in when code changes are made.
 
-    If you need to exit "watch mode", press <kbd>CTRL</kbd>+<kbd>C</kbd> in the command prompt / terminal.
+    If you need to exit "watch mode", run **npm run stop** in the command prompt / terminal.
 
 1. Use one of these methods to sideload and test the Office Add-in.
 

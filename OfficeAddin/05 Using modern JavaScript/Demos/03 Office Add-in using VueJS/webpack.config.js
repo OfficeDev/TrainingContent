@@ -1,8 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 const devCerts = require("office-addin-dev-certs");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -19,7 +16,7 @@ module.exports = async (env, options) => {
       commands: "./src/commands/commands.ts"
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".html", ".js", ".vue"],
+      extensions: ['.ts', '.tsx', '.html', '.js', '.vue'],
       alias: {
         vue$: 'vue/dist/vue.js'
       }
@@ -81,9 +78,9 @@ module.exports = async (env, options) => {
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*"
-      },
-      https: await devCerts.getHttpsServerOptions(),
-      port: 3000
+      },      
+      https: (options.https !== undefined) ? options.https : await devCerts.getHttpsServerOptions(),
+      port: process.env.npm_package_config_dev_server_port || 3000
     }
   };
 

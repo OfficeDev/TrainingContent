@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-import Vue  from 'vue';
+import * as Vue from 'vue';
 import root from './components/Root.vue';
 
 Office.onReady(info => {
