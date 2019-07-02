@@ -40,7 +40,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**
 
-    ![Office Yeoman Generator](./Images/YeomanVuejs.png)
+    ![Office Yeoman Generator](../../Images/YeomanVuejs.png)
 
 1. When the Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
@@ -165,7 +165,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
-      ![Screenshot showing the Vue based Office Add-in running in Excel](./Images/vue-addin-01.png)
+      ![Screenshot showing the Vue based Office Add-in running in Excel](../../Images/vue-addin-01.png)
 
 ### Develop the Office Add-in
 
@@ -466,7 +466,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
 
-    ![Add-in with visual markup complete](./Images/AddinVisual.png)
+    ![Add-in with visual markup complete](../../Images/AddinVisual.png)
 
 1. The **src/taskpane/components/Root.vue** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
