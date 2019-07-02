@@ -28,6 +28,8 @@ To complete this lab, you need the following:
 
 ![Animation of the Excel Portfolio Add-in](./Images/ExcelPortfolio.gif)
 
+> Note: If you are developing on Windows you may encounter the following error when building the project: `TypeError: process.getuid is not a function`. This stems from a change in a package that webpack depends on. You can resolve this by upgrading the version of **webpack-cli** with the command: `npm install webpack-cli@3.3.5`.
+
 ## Exercise 1: Build an Office Add-in using React
 
 In this exercise, you will develop an Office Add-in using React and TypeScript. You will provision a new project using the Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Microsoft Office Online.
