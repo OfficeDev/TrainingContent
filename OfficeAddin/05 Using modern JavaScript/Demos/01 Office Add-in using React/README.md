@@ -35,7 +35,8 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     ```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
-    * Choose a project type? **Office Add-in project using React framework**
+    * Choose a project type? **Office Add-in Task Pane project using React framework**
+    * Choose a script type? **Typescript**
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**
 
@@ -47,68 +48,72 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 ### Develop the Office Add-in
 
-1. Open **src/styles.less** and add the following styles to the end of the file.
+1. Open **src/taskpane/taskpane.css** and add the following styles to the end of the file.
 
     ```css
-    .container {
-        .overlay {
-            position: absolute;
-            top: 0px;
-            bottom: 0px;
-            left: 0px;
-            right: 0px;
-            z-index: 1000;
-            display: block;
-            .spinner {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                margin-top: -20px;
-                margin-left: -20px;
-                z-index: 1100;
-            }
-        }
-        .header {
-            padding-left: 10px;
-        }
-        .ms-MessageBar-content {
-            padding: 2px !important;
-        }
-        .pct100 {
-            width: 100%;
-            float: left;
-        }
-        .padding10 {
-            padding: 10px;
-        }
-        .right {
-            float: right;
-        }
-        .left {
-            float: left;
-        }
-        .icon {
-            padding-left: 8px;
-            cursor: pointer;
-        }
-        .itemRow {
-            padding-top: 4px;
-            padding-bottom: 4px;
-        }
-        .itemRow:hover {
-            background-color: #eeeeee;
-        }
-        .tbl-head {
-            margin-bottom: 5px;
-        }
+    .overlay {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        z-index: 1000;
+        display: block;
     }
+    .overlay .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -20px;
+        margin-left: -20px;
+        z-index: 1100;
+    }
+    .header {
+        padding-left: 10px;
+    }
+    .ms-MessageBar-content {
+        padding: 2px !important;
+    }
+    .pct100 {
+        width: 100%;
+        float: left;
+    }
+    .padding10 {
+        padding: 10px;
+    }
+    .right {
+        float: right;
+    }
+    .left {
+        float: left;
+    }
+    .icon {
+        padding-left: 8px;
+        cursor: pointer;
+    }
+    .itemRow {
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+    .itemRow:hover {
+        background-color: #eeeeee;
+    }
+    .tbl-head {
+        margin-bottom: 5px;
+    }
+    ```
+
+1. Open the **src/taskpane/index.tsx** file and update the **title** const to "Excel Portfolio"
+
+    ```typescript
+    const title = 'Excel Portfolio';
     ```
 
 1. The project template that the Office Yeoman generator created include a number of React components that need to be updated or deleted.
 
-    Delete the **src/components/HeroList.tsx** file.
+    Delete the **src/taskpane/components/HeroList.tsx** file.
 
-1. Open the **src/components/Header.tsx** file and replace the contents with the following code:
+1. Open the **src/taskpane/components/Header.tsx** file and replace the contents with the following code:
 
     ```typescript
     import * as React from 'react';
@@ -125,14 +130,14 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         render() {
             return (
                 <div className="ms-bgColor-greenDark header">
-                    <span className="ms-font-su ms-fontColor-white">{this.props.title}</span>
+                    <span className="ms-font-xxl ms-fontColor-white">{this.props.title}</span>
                 </div>
             );
         }
     }
     ```
 
-1. Create a new React component named **Waiting.tsx** in the **src/components** folder and add the following code.
+1. Create a new React component named **Waiting.tsx** in the **src/taskpane/components** folder and add the following code.
 
     This component uses the Office UI Fabric React Components for **Overlay** and **Spinner**.
 
@@ -157,7 +162,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ```
 
-1. Create a new React component named **StockItem.tsx** in the **src/components** folder and add the following code.
+1. Create a new React component named **StockItem.tsx** in the **src/taskpane/components** folder and add the following code.
 
     This component will display a stock with commands for refresh and delete. The component has properties for stock symbol, its index in the list, and the handlers for refresh and delete.
 
@@ -194,11 +199,11 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
     ```
 
-1. Open **src/components/App.tsx** and replace it's contents with the following code.
+1. Open **src/taskpane/components/App.tsx** and replace it's contents with the following code.
 
     ```typescript
     import * as React from 'react';
-    import { TextField, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+    import { MessageBar, MessageBarType, TextField, TextFieldBase } from 'office-ui-fabric-react';
     import { Header } from './header';
     import { Waiting } from './waiting';
     import { StockItem } from './StockItem';
@@ -214,6 +219,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     }
 
     export default class App extends React.Component<AppProps, AppState> {
+      newSymbol:any = React.createRef();
       constructor(props, context) {
         super(props, context);
         this.state = {
@@ -222,7 +228,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
           error: ''
         };
       }
-      
+
       componentDidMount() {
         // Sync stocks already in Excel table
         this.syncTable().then(() => {});
@@ -268,7 +274,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
           />
         ));
         return (
-          <div className="container">
+          <div className="container ms-Fabric">
             {this.state.waiting && <Waiting />}
             <Header title={this.props.title} />
             {this.state.error != '' && (
@@ -286,7 +292,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 <span className="ms-font-l">Stock Symbols</span>
               </div>
               <div className="pct100">
-                <TextField ref="newSymbol" onKeyPress={this.addSymbol.bind(this)} placeholder="Enter a stock symbol (ex: MSFT)" />
+                <TextField componentRef={this.newSymbol} onKeyPress={this.addSymbol.bind(this)} placeholder="Enter a stock symbol (ex: MSFT)" />
               </div>
               {stocks}
             </div>
@@ -428,11 +434,11 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         ```
 
 1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/App.tsx** file.
+    1. Locate and open the **src/taskpane/components/App.tsx** file.
     1. Add the following `import` statement after the existing `import` statements for the the new **ExcelTableUtil** class.
 
         ```typescript
-        import { ExcelTableUtil } from '../utils/excelTableUtil';
+        import { ExcelTableUtil } from '../../utils/excelTableUtil';
         ```
 
     1. Add the following constant after the `import` statements and update the **{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}** to use your API key.
@@ -462,14 +468,14 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         // Adds symbol
         addSymbol = async (event) => {
           if (event.key === 'Enter') {
-            let element = this.refs.newSymbol as TextField;
-            let symbol = element.value.toUpperCase();
+            const element = this.newSymbol.current as TextFieldBase;
+            const symbol = element.value.toUpperCase();
 
             // Get quote and add to Excel table
             this.setState({ waiting: true });
             this.getQuote(symbol).then(
               (res: any) => {
-                let data = [
+                const data = [
                   res['1. symbol'], //Symbol
                   res['2. price'], //Last Price
                   res['4. timestamp'], // Timestamp of quote,
@@ -519,10 +525,10 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 } else {
                   await Excel.run(async context => {
                     // Get column range by column name
-                    const colRange = tableRef.columns
-                      .getItem(column)
-                      .getDataBodyRange()
-                      .load('values');
+                    const sheet = context.workbook.worksheets.getActiveWorksheet();
+                    tableRef = sheet.tables.getItem(this.tableName);
+                    var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                
                     // Sync to populate proxy objects with data from Excel
                     return context.sync().then(async () => {
                       let data: string[] = [];
@@ -567,7 +573,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         ```
 
 1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/App.tsx** file.
+    1. Locate and open the **src/taskpane/components/App.tsx** file.
     1. Locate and update the `deleteSymbol()` method in the `App` class to delete specifying symbol from the Excel table
 
         ```typescript
@@ -637,7 +643,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         ```
 
 1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/App.tsx** file.
+    1. Locate and open the **src/taskpane/components/App.tsx** file.
     1. Locate and update the `refreshSymbol()` method in the `App` class to specify a symbol to refresh in the Excel table.
 
         ```typescript
@@ -655,7 +661,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 this.getQuote(symbol).then((res: any) => {
                   // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
                   this.tableUtil
-                    .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.current)
+                    .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.["2. price"])
                     .then(
                       async () => {
                         this.setState({ waiting: false });

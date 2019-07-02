@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 export class ExcelTableUtil {
-    tableName: string;
-    location: string;
-    headers: string[];
-    constructor(tableName: string, location: string, headers: string[]) {
-      this.tableName = tableName;
-      this.location = location;
-      this.headers = headers;
-    }
+  tableName: string;
+  location: string;
+  headers: string[];
+  constructor(tableName: string, location: string, headers: string[]) {
+    this.tableName = tableName;
+    this.location = location;
+    this.headers = headers;
+  }
 
-    // Create the StocksTable and defines the header row
-createTable = async () => {
+  // Create the StocksTable and defines the header row
+  createTable = async () => {
     return new Promise(async (resolve, reject) => {
       await Excel.run(async context => {
         // Create a proxy object for the active worksheet and create the table
@@ -58,7 +58,7 @@ createTable = async () => {
   }
 
   // Appends a row to the table
-addRow = async (data) => {
+  addRow = async (data) => {
     return new Promise(async (resolve, reject) => {
       this.ensureTable(true).then(
         async (tableRef: Excel.Table) => {
@@ -88,7 +88,7 @@ addRow = async (data) => {
   }
 
   // Gets data for a specific named column
-getColumnData = async (column: string) => {
+  getColumnData = async (column: string) => {
     return new Promise(async (resolve, reject) => {
       this.ensureTable(false).then(
         async (tableRef: Excel.Table) => {
@@ -97,10 +97,10 @@ getColumnData = async (column: string) => {
           } else {
             await Excel.run(async context => {
               // Get column range by column name
-              const colRange = tableRef.columns
-                .getItem(column)
-                .getDataBodyRange()
-                .load('values');
+              const sheet = context.workbook.worksheets.getActiveWorksheet();
+              tableRef = sheet.tables.getItem(this.tableName);
+              var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                        
               // Sync to populate proxy objects with data from Excel
               return context.sync().then(async () => {
                 let data: string[] = [];
@@ -144,7 +144,7 @@ getColumnData = async (column: string) => {
   }
 
   // Updates a specific cell in the table
-updateCell = async (address: string, value: any) => {
+  updateCell = async (address: string, value: any) => {
     return new Promise(async (resolve, reject) => {
       this.ensureTable(true).then(
         async () => {

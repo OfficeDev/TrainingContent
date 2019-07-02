@@ -1,21 +1,22 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "target": "es5",
-        "module": "es6",
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "noImplicitAny": false,
-        "outDir": "dist",
-        "lib": [
-            "dom",
-            "es2015"
-        ]
-    },
-    "exclude": [
-        "node_modules"
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "noEmitOnError": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "target": "es5",
+    "lib": [
+      "es2015",
+      "dom"
     ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib",
+    "lib-amd"
+  ]
 }

@@ -1,44 +1,72 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const devCerts = require("office-addin-dev-certs");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const fs = require("fs");
+const webpack = require("webpack");
 
-module.exports = {
+module.exports = async (env, options) => {
+  const dev = options.mode === "development";
+  const config = {
+    devtool: "source-map",
     entry: {
-        polyfill: 'babel-polyfill',
-        app: './src/index.ts',
-        'function-file': './function-file/function-file.ts'
+      polyfill: "@babel/polyfill",
+      taskpane: "./src/taskpane/taskpane.ts",
+      commands: "./src/commands/commands.ts"
     },
-    
     resolve: {
-
-        extensions: ['.ts', '.tsx', '.html', '.js']
-
+      extensions: [".ts", ".tsx", ".html", ".js"]
     },
     module: {
-        rules: [
-            {
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                use: 'ts-loader'
-            },
-            {
-                test: /\.html$/,
-                exclude: /node_modules/,
-                use: 'html-loader'
-            },
-            {
-                test: /\.(png|jpg|jpeg|gif)$/,
-                use: 'file-loader'
-            }
-        ]
+      rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: "babel-loader"
+        },
+        {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          use: "ts-loader"
+        },
+        {
+          test: /\.html$/,
+          exclude: /node_modules/,
+          use: "html-loader"
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif)$/,
+          use: "file-loader"
+        }
+      ]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: './index.html',
-            chunks: ['polyfill', 'app']
-        }),
-        new HtmlWebpackPlugin({
-            template: './function-file/function-file.html',
-            filename: 'function-file/function-file.html',
-            chunks: ['function-file']
-        })
-    ]
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        filename: "taskpane.html",
+        template: "./src/taskpane/taskpane.html",
+        chunks: ["polyfill", "taskpane"]
+      }),
+      new CopyWebpackPlugin([
+        {
+          to: "taskpane.css",
+          from: "./src/taskpane/taskpane.css"
+        }
+      ]),
+      new HtmlWebpackPlugin({
+        filename: "commands.html",
+        template: "./src/commands/commands.html",
+        chunks: ["polyfill", "commands"]
+      })
+    ],
+    devServer: {
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      },
+      https: await devCerts.getHttpsServerOptions(),
+      port: 3000
+    }
+  };
+
+  return config;
 };

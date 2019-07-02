@@ -36,7 +36,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     ```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
-    * Choose a project type **Office Add-in project using Angular framework**
+    * Choose a project type **Office Add-in Task Pane project using Angular framework**
     * Choose a script type **Typescript**
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**
@@ -47,7 +47,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 ### Develop the Office Add-in
 
-1. Open **src/styles.css** and replace the entire file with the contents shown below.
+1. Open **src/taskpane/taskpane.css** and replace the entire file with the contents shown below.
 
     ```css
     /* You can add global styles to this file, and also import other style files */
@@ -126,7 +126,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
     ![Spinner](../../Images/spinner.gif)
 
-1. Angular allows you to break your solution up into components. The Angular CLI already created an app component. Open **src/app/app.component.html** to update it's markup as seen below.
+1. Angular allows you to break your solution up into components. The Angular CLI already created an app component. Open **src/taskpane/app/app.component.html** to update it's markup as seen below.
 
     ```html
     <!--The content below is only a placeholder and can be replaced.-->
@@ -174,7 +174,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     </div>
     ```
 
-1. Next, open **src/app/app.component.ts** and update it as follows.
+1. Next, open **src/taskpane/app/app.component.ts** and update it as follows.
 
     ```typescript
     import { Component, NgZone } from '@angular/core';
@@ -229,7 +229,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     ![Add-in with visual markup complete](../../Images/AddinVisual.png)
 
 1. The **app.component.ts** file has a number of placeholder functions that you will complete to get the add-in functioning.
-    1. Locate & open the **src/app/app.component.ts** file.
+    1. Locate & open the **src/taskpane/app/app.component.ts** file.
     1. Add the following constant after the `import` statements and update the **{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}** to use your API key.
 
         ```typescript
@@ -261,10 +261,10 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         }
         ```
 
-1. Create new **utils** folder under **src/app** and then create a file named **excelTableUtil.ts** in it (**src/app/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions for working with Excel tables with office.js. Notice the `ExcelTableUtil` constructor accepts details about the Excel table, including the name, location, and header details.
+1. Create new **utils** folder under **src** and then create a file named **excelTableUtil.ts** in it (**src/utils/excelTableUtil.ts**). This TypeScript class will contain helper functions for working with Excel tables with office.js. Notice the `ExcelTableUtil` constructor accepts details about the Excel table, including the name, location, and header details.
 
     ```typescript
-    /// <reference path="../../../node_modules/@types/office-js/index.d.ts" />
+    /// <reference path="../../node_modules/@types/office-js/index.d.ts" />
 
     export class ExcelTableUtil {
       tableName;
@@ -281,7 +281,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     ```
 
 1. Implement the ExcelTableUtil utility class:
-    1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
+    1. Locate and open the file **src/utils/excelTableUtil.tsx**.
     1. Add the following methods `ExcelTableUtil` class. These methods access the table in Excel, or creates the table if it doesn't exist.
 
         ```typescript
@@ -341,7 +341,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         addRow = async (data) => {
           return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(
-              async (tableRef) => {
+              async (tableRef: Excel.Table) => {
                 await Excel.run(async context => {
                   const sheet = context.workbook.worksheets.getActiveWorksheet();
                   // Add the new row
@@ -369,11 +369,11 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         ```
 
 1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/app/app.component.ts** file.
+    1. Locate and open the **src/taskpane/app/app.component.ts** file.
     1. Add the following `import` statement after the existing `import` statements for the the new **ExcelTableUtil** class.
 
         ```typescript
-        import { ExcelTableUtil } from './utils/excelTableUtil';
+        import { ExcelTableUtil } from './../../utils/excelTableUtil';
         ```
 
     1. Add the following private members to the `AppComponent` class:
@@ -435,7 +435,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         ```
 
 1. Update the **ExcelTableUtil** utility to add support for accessing and deleting rows:
-    1. Locate and open the **src/components/ExcelTableUtil.tsx** file.
+    1. Locate and open the **src/utils/excelTableUtil.tsx** file.
     1. Add the following methods to the `ExcelTableUtil` class:
 
         ```typescript
@@ -443,16 +443,16 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         getColumnData = async (column) => {
           return new Promise(async (resolve, reject) => {
             this.ensureTable(false).then(
-              async (tableRef) => {
+              async (tableRef: Excel.Table) => {
                 if (tableRef == null) {
                   resolve([]);
                 } else {
                   await Excel.run(async context => {
                     // Get column range by column name
-                    const colRange = tableRef.columns
-                      .getItem(column)
-                      .getDataBodyRange()
-                      .load('values');
+                    const sheet = context.workbook.worksheets.getActiveWorksheet();
+                    tableRef = sheet.tables.getItem(this.tableName);
+                    var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                                  
                     // Sync to populate proxy objects with data from Excel
                     return context.sync().then(async () => {
                       let data = [];
@@ -477,7 +477,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         deleteRow = async (index) => {
           return new Promise(async (resolve, reject) => {
             this.ensureTable(true).then(
-              async (tableRef) => {
+              async (tableRef: Excel.Table) => {
                 await Excel.run(async context => {
                   const range = tableRef.rows.getItemAt(index).getRange();
                   range.delete(Excel.DeleteShiftDirection.up);
@@ -497,7 +497,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         ```
 
 1. Update the **AppComponent** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/app/app.component.ts** file.
+    1. Locate and open the **src/taskpane/app/app.component.ts** file.
 
     ```typescript
     // Delete symbol
@@ -506,7 +506,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
       const symbol = this.symbols[index];
       this.waiting = true;
       this.tableUtil.getColumnData('Symbol').then(
-        async (columnData) => {
+        async (columnData:string[]) => {
           // Ensure the symbol was found in the Excel table
           if (columnData.indexOf(symbol) !== -1) {
             this.tableUtil.deleteRow(columnData.indexOf(symbol))
@@ -532,7 +532,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     >Note: This is a good time to test the **delete symbol** function of your add-in.
 
 1. Update the **ExcelTableUtil** utility to add support for refreshing rows in the table:
-    1. Locate and open the **src/components/ExcelTableUtil.tsx** file.
+    1. Locate and open the **src/utils/excelTableUtil.tsx** file.
     1. Add the following methods to the `ExcelTableUtil` class:
 
         ```typescript
@@ -562,7 +562,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 1. Update the **AppComponent** component to leverage the methods you added to the `ExcelTableUtil` class.
     1. Update the **App** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/app/app.component.ts** file.
+    1. Locate and open the **src/taskpane/app/app.component.ts** file.
     1. Locate and update the `refreshSymbol()` method to specify a symbol to refresh in the Excel table.
 
         ```typescript
@@ -572,7 +572,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
           const symbol = this.symbols[index];
           this.waiting = true;
           this.tableUtil.getColumnData('Symbol')
-            .then(async (columnData) => {
+            .then(async (columnData:string[]) => {
               // Ensure the symbol was found in the Excel table
               const rowIndex = columnData.indexOf(symbol);
               if (rowIndex !== -1) {
@@ -607,7 +607,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
         syncTable = async () => {
           this.waiting = true;
           this.tableUtil.getColumnData('Symbol')
-            .then(async (columnData) => {
+            .then(async (columnData:string[]) => {
               this.symbols = columnData;
               this.waiting = false;
             }, (err) => {

@@ -1,6 +1,6 @@
-# Build an Office Add-in using VueJS
+# Build an Office Add-in using Vue.js
 
-This sample shows how to build and Office Add-in using Vue.js with TypeScript. In addition to Office.js, the sample uses the Office Fabric UI for styling and formatting the user experience.
+In this exercise, you will develop an Office Add-in using Vue.js and TypeScript. You will provision a new project using the Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Office Online.
 
 The finished solution is provided in this folder to simplify demonstrations. If you want to run the finished project, clone the repository, run **npm install**, then **npm run start** and follow one of these methods to sideload and test the Office Add-in.
 
@@ -10,29 +10,33 @@ The finished solution is provided in this folder to simplify demonstrations. If 
 
 ## Prerequisites
 
-To complete this ldemoab, you need the following:
-
-* Consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in  (via Office Online).
-* A lightweight code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
-* [Node.js](https://nodejs.org/). Node is required to setup, build, and run the project. Node 6.9.0 or higher, together with NPM 3 or higher are recommended.
-* [The Office Yeoman Generator](https://www.npmjs.com/package/generator-office). The Office Yeoman Generator is used to create the Office Add-in xml manifest file.
+* A consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in.
+* Code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
+* [Node.js](https://nodejs.org/) LTS: Node is required to setup, build, and run the project.
+* [Office Yeoman Generator](https://www.npmjs.com/package/generator-office): The Office Yeoman Generator is used to create the Office Add-in projects and XML manifests.
 
     ```shell
     npm install -g yo generator-office
     ```
 
+* A free API key from [Alpha Vantage](https://www.alphavantage.co): Registration is free and you will use the API key when creating stock quote requests.
+
+In this exercise, you will develop an Office Add-in using React and TypeScript. You will provision a new project using the Office Yeoman generator, develop the add-in using Office.js, and test the add-in in Microsoft Office Online.
+
+## Running the project
+
 ### Provision the Office Add-in
 
 1. Open a terminal/command prompt, and change directories to the location where you want to create the project.
-1. Run the **Office Yeoman generator** using the command `yo office**`.
+1. Run the **Office Yeoman generator** using the command `yo office`.
 
     ```shell
     yo office
     ```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
-    * Choose a project type **Office Add-in project using Jquery framework**
-    * Choose a script type **Typescript**
+    * Choose a project type ***Office Add-in Task Pane Project**
+    * Choose a script type **TypeScript**
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**
 
@@ -40,22 +44,22 @@ To complete this ldemoab, you need the following:
 
 1. When the Yeoman generator completes, change directories to the project folder and open the folder in your favorite code editor (you can use the command `code .` for [Visual Studio Code](https://code.visualstudio.com/)).
 
-    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
+    >Note: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
+    >
+    > If you elect to run & sideload the project as a test, make sure you terminate the process before proceeding with the lab. The local development server must be restarted after modifying the **package.json** file to add Vue.js to the project.
 
-1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the JQuery project template as the starting point so you need to convert the project to leverage Vue.js.
+1. The Office Yeoman generator does not have a Vue.js template. In a previous step, you selected the no web framework project template as the starting point so you need to convert the project to leverage Vue.js.
     1. Open a command prompt and change directory to the root folder of the project.
-        1. Execute the following commands to install the necessary Vue dependency packages & remove jQuery:
+        1. Execute the following commands to install the necessary Vue dependency packages:
 
             ```shell
             npm install vue vue-class-component --save
-            npm uninstall jquery --save
             ```
 
-        1. Execute the following command to install the necessary dev dependency packages and remove jQuery:
+        1. Execute the following command to install the necessary dev dependency packages:
 
             ```shell
             npm install vue-loader vue-template-compiler --save-dev
-            npm uninstall @types/jquery --save-dev
             ```
 
     1. Locate and open the **webpack.config.js** file in the project root directory. It needs to be updated to support Vue JS.
@@ -118,7 +122,7 @@ To complete this ldemoab, you need the following:
             ]
             ```
 
-    1. Update the project so that **.vue** files will be treated like TypeScript. Create a **sfc.d.ts** file in the **src** folder, and add the following code.
+    1. Update the project so that **.vue** files will be treated like TypeScript. Create a **vue-shim.d.ts** file in the **src** folder, and add the following code.
 
         ```typescript
         declare module "*.vue" {
@@ -127,54 +131,56 @@ To complete this ldemoab, you need the following:
         }
         ```
 
-    1. Locate and open the **index.html** file in the project root directory.
+    1. Locate and open the **src/taskpane/taskpane.html** file.
         1. Replace the `<body>` element with the following:
 
           ```html
-          <body class="ms-font-m ms-welcome">
+          <body class="ms-font-m ms-welcome ms-Fabric">
             <div id="app">{{welcome}}</div>
-            <script type="text/javascript" src="node_modules/office-ui-fabric-js/dist/js/fabric.js"></script>
           </body>
           ```
 
-    1. Locate and open the **src/index.ts** file.
+    1. Locate and open the **src/taskpane/taskpane.ts** file.
         1. Add the following `import` statement after the existing `import`:
 
             ```ts
-            import Vue  from 'vue';
+            import * as Vue from "vue";
             ```
 
-        1. Remove the existing `$(document).ready();` event code that leverages JQuery:
+        1. Remove the existing `run()` function and update `Office.onReady` as follows:
 
             ```ts
-            $(document).ready(() => {
-              $('#run').click(run);
+            Office.onReady(info => {
+              if (info.host === Office.HostType.Excel) {
+                var app = new Vue({
+                  el: "#app",
+                  data: {
+                    welcome: "Hello Office!!!"
+                  }
+                });
+                console.log(app);
+              }
             });
             ```
 
-        1. Replace the contents of the `Office.initialize()` function with the following, replacing the JQuery code with code that updates the UI.
-
-            ```ts
-            Office.initialize = (reason) => {
-              var app = new Vue({
-                el: "#app",
-                data: {
-                  welcome: "Hello Office!!!"
-                }
-              });
-              console.log(app);
-            };
-            ```
-
-    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
+    >**OPTIONAL**: You should be able to run and sideload the add-in at this point. To do that, follow the steps outlined in [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in). In the next section, you will add additional functionality to the add-in.
 
       ![Screenshot showing the Vue based Office Add-in running in Excel](../../Images/vue-addin-01.png)
 
 ### Develop the Office Add-in
 
-1. Open **app.css** and replace the entire file with following:
+1. Open **src/taskpane/taskpane.css** and replace the entire file with following:
 
     ```css
+    body {
+      margin: 0px;
+    }
+    
+    input {
+      width: 100%;
+      font-size: 14px;
+    }
+
     .header {
         padding: 10px;
     }
@@ -245,10 +251,11 @@ To complete this ldemoab, you need the following:
     }
     ```
 
-1. Copy the **spinner.gif** image from the **LabFiles** folder into **src/assets** folder.
+1. Copy the **spinner.gif** image from the **LabFiles** folder into **assets** folder.
 
-1. Create a new folder **components** in the existing **src** folder to hold the Vue components:
-1. Create a **src/components/Waiting.vue** file and add the following code to it:
+1. Create a new folder **components** in the existing **src/taskpane** folder to hold the Vue components.
+
+1. Create a **src/taskpane/components/Waiting.vue** file and add the following code to it:
 
     ```html
     <template>
@@ -259,7 +266,7 @@ To complete this ldemoab, you need the following:
     </template>
 
     <script lang="ts">
-    import Vue from 'vue';
+    import * as Vue from "vue";
     import Component from 'vue-class-component';
 
     @Component({})
@@ -269,7 +276,7 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Creating a new file **src/components/HeaderComponent.vue** and ad the following code:
+1. Creating a new file **src/taskpane/components/HeaderComponent.vue** and ad the following code:
 
     ```html
     <template>
@@ -294,7 +301,7 @@ To complete this ldemoab, you need the following:
     </template>
 
     <script lang="ts">
-    import Vue from 'vue';
+    import * as Vue from "vue";
     import Component from 'vue-class-component';
 
     @Component({
@@ -311,7 +318,7 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Creating a new file **src/components/Stock.vue** and ad the following code:
+1. Creating a new file **src/taskpane/components/Stock.vue** and ad the following code:
 
     ```html
     <template>
@@ -325,7 +332,7 @@ To complete this ldemoab, you need the following:
     </template>
 
     <script lang="ts">
-    import Vue from 'vue';
+    import * as Vue from "vue";
     import Component from 'vue-class-component';
 
     @Component({
@@ -350,7 +357,7 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Creating a new file **src/components/Root.vue** and ad the following code:
+1. Creating a new file **src/taskpane/components/Root.vue** and ad the following code:
 
     ```html
     <template>
@@ -381,7 +388,7 @@ To complete this ldemoab, you need the following:
     </template>
 
     <script lang="ts">
-      import Vue from 'vue';
+      import * as Vue from "vue";
       import Component from 'vue-class-component';
       import waiting from "./Waiting.vue";
       import headerComponent from "./HeaderComponent.vue";
@@ -433,34 +440,35 @@ To complete this ldemoab, you need the following:
     </script>
     ```
 
-1. Locate and open **src/index.ts** and update it to load the components that you just created in the project.
+1. Locate and open **src/taskpane/taskpane.ts** and update it to load the components that you just created in the project.
     1. Add the following `import` statement after the existing `import` statements:
 
         ```ts
         import root from './components/Root.vue';
         ```
 
-    1. Update the `Office.initialize` function to load the Vue root component as follows:
+    1. Update the `Office.onReady` function to load the Vue root component as follows:
 
         ```typescript
-        import Vue  from 'vue';
+        import * as Vue from 'vue';
         import root from './components/Root.vue';
 
-        Office.initialize = (reason) => {
-          var app = new Vue({
-            el: "#app",
-            render: h => h(root, {}),
-            comments: { root }
-          });
-          console.log(app);
-        };
+        Office.onReady(info => {
+          if (info.host === Office.HostType.Excel) {
+            var app = new Vue({
+              el: "#app",
+              render: h => h(root, {})
+            });
+            console.log(app);
+          }
+        });
         ```
 
-1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in).
+1. Although the app's functionality isn't complete, the visual markup is complete. To review your changes, save all files and then return to Office Online. Your add-in should look similar to the following screenshot. If you previously closed your browser or if your Office Online session expired (the add-in doesn't load), follow the steps in [Sideload the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
 
     ![Add-in with visual markup complete](../../Images/AddinVisual.png)
 
-1. The **src/components/Root.tsx** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
+1. The **src/taskpane/components/Root.vue** file has a number of placeholder functions that you will complete to get the add-in functioning. Start by locating the **getQuote** function. This function calls a REST API to get real-time stock statistics on a specific stock symbol. Update it as seen below.
 
     ```typescript
     getQuote(symbol:string) {
@@ -482,7 +490,7 @@ To complete this ldemoab, you need the following:
     }
     ```
 
-1. Create new **utils** folder in the **src** folder, then create a file named **ExcelTableUtil.tsx**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
+1. Create new **utils** folder in the **src** folder, then create a file named **ExcelTableUtil.ts**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
 
     ```typescript
     export class ExcelTableUtil {
@@ -498,7 +506,7 @@ To complete this ldemoab, you need the following:
     ```
 
 1. Implement the ExcelTableUtil utility class:
-    1. Locate and open the file **src/utils/ExcelTableUtil.tsx**.
+    1. Locate and open the file **src/utils/ExcelTableUtil.ts**.
     1. Add the following methods `ExcelTableUtil` class. These methods access the table in Excel, or creates the table if it doesn't exist.
 
         ```typescript
@@ -586,11 +594,11 @@ To complete this ldemoab, you need the following:
         ```
 
 1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/Root.vue** file.
+    1. Locate and open the **src/taskpane/components/Root.vue** file.
     1. Add the following `import` statement after the existing `import` statements for the the new **ExcelTableUtil** class.
 
         ```typescript
-        import { ExcelTableUtil } from '../utils/ExcelTableUtil';
+        import { ExcelTableUtil } from '../../utils/ExcelTableUtil';
         ```
 
     1. Add the following constant after the `import` statements and update the **{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}** to use your API key.
@@ -658,7 +666,7 @@ To complete this ldemoab, you need the following:
         >Note: This is a good time to test the **add symbol** function of your add-in.
 
 1. Update the **ExcelTableUtil** utility to add support for accessing and deleting rows:
-    1. Locate and open the **src/utils/ExcelTableUtil.TS** file.
+    1. Locate and open the **src/utils/ExcelTableUtil.ts** file.
     1. Add the following methods to the `ExcelTableUtil` class:
 
         ```typescript
@@ -671,7 +679,10 @@ To complete this ldemoab, you need the following:
               else {
                 await Excel.run(async (context) => {
                   // Get column range of values by column name.
+                  const sheet = context.workbook.worksheets.getActiveWorksheet();
+                  tableRef = sheet.tables.getItem(this.tableName);
                   var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+                  
                   // Sync to populate proxy objects with data from Excel
                   return context.sync().then(async () => {
                     let data:string[] = [];
@@ -711,7 +722,7 @@ To complete this ldemoab, you need the following:
         ```
 
 1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/Root.vue** file.
+    1. Locate and open the **src/taskpane/components/Root.vue** file.
 
     ```typescript
     deleteSymbol(index:number) {
@@ -769,7 +780,7 @@ To complete this ldemoab, you need the following:
         ```
 
 1. Update the **Root** component to leverage the methods you added to the `ExcelTableUtil` class.
-    1. Locate and open the **src/components/Root.vue** file.
+    1. Locate and open the **src/taskpane/components/Root.vue** file.
     1. Locate and update the `refreshSymbol()` method to specify a symbol to refresh in the Excel table.
 
         ```typescript
@@ -820,4 +831,4 @@ To complete this ldemoab, you need the following:
         }
         ```
 
-The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](../../Lab.md#exercise-4-sideload-and-test-the-office-add-in).
+The Excel Portfolio add-in written with Vue.js and TypeScript is now complete. Follow the steps to [Sideload and Test the Office Add-in](#exercise-4-sideload-and-test-the-office-add-in).
