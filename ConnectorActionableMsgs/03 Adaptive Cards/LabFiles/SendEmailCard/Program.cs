@@ -17,7 +17,7 @@ namespace OfficeDev.TrainingContent.SendCardEmail
   class Program
   {
     static IPublicClientApplication authClient = null;
-    static readonly string[] scopes =
+    static string[] scopes =
     {
       "User.Read", // Scope needed to read /Me from Graph (to get email address)
       "Mail.Send"  // Scope needed to send mail as the user
@@ -62,22 +62,16 @@ namespace OfficeDev.TrainingContent.SendCardEmail
 
     static async Task SendMessage(string[] args)
     {
-			var clientId = ConfigurationManager.AppSettings.Get("applicationId");
-			var tenantId = ConfigurationManager.AppSettings.Get("tenantId");
-
-			// Setup MSAL client
-
-			authClient = PublicClientApplicationBuilder.Create(clientId)
-				.WithAuthority(AzureCloudInstance.AzurePublic, tenantId)
-				.WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
-				.Build();
+      // Setup MSAL client
+      authClient = PublicClientApplicationBuilder
+                    .Create(ConfigurationManager.AppSettings.Get("applicationId"))
+                    .WithDefaultRedirectUri()
+                    .Build();
 
       try
       {
         // Get the access token
-        var result = await authClient
-														.AcquireTokenInteractive(scopes)
-														.ExecuteAsync();
+        var result = await authClient.AcquireTokenInteractive(scopes).ExecuteAsync();
 
         // Initialize Graph client with delegate auth provider
         // that just returns the token we already retrieved

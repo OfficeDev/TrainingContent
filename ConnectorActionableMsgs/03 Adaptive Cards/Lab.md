@@ -104,15 +104,31 @@ Using Microsoft Graph to send emails requires an application registration. (The 
 
 1. Enter a name for the application. A suggested name is `Expense Card mailer`. Select **Register**.
 
-1. In the **Overview** blade, copy the **Application (client) ID**.
+### Register application in the Azure Active Directory
 
-1. In the **Overview** blade, , copy the **Directory (tenant) ID**.
+1. Open the [Azure Active Directory admin center](https://aad.portal.azure.com).
+
+1. Log in with the work or school account that is an administrator in the tenant.
+
+1. Select **Azure Active Directory** in the left-most blade.
+
+1. Select **App registrations** in the left-hand menu.
+
+1. Select **New registration**.
+
+1. Enter a name for the application. 
+
+1. In the **Supported Account Types** section, select **Accounts in any organizational directory (Any Azure AD directory - Multitenant)**.
+
+1. Select **Register**.
+
+1. In the **Overview** blade, copy the **Application (client) ID**  for reference later.
 
 1. Select **Authentication** in the left-hand menu.
 
-1. In the **Redirect URIs** > **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
+1. In the **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the box next to the value **https://login.microsoftonline.com/common/oauth2/nativeclient**.
 
-    ![Screenshot of application registration showing the Redirect URIs](Images/Exercise2-01.png)
+1. In the **Default client type** section, select **Yes** for **Treat applicatin as public client**.
 
 1. Select **Save** from the toolbar at the top of the Authentication blade.
 
@@ -268,11 +284,7 @@ Under certain conditions, the adaptive card must be sent as a signed card. These
     </html>
     ```
 
-1. Select the **signed_adaptive_template.html** file in **Solution Explorer** and select **F4**.
-
-1. In the **Properties pane**, set the **Build Action** of the file to **Content**. Set the **Copy to Output Directory** property to **Copy Always**.
-
-1. In the `LoadCardMessageBody` method of the the `Program` class. Replace the method with the following:
+1. In the `SendMessage` method of the the `Program` class, location the statement that creates the email message. Replace the call to the `LoadAdaptiveCardMessageBody` method with a call to the `LoadSignedAdaptiveCardMessageBody` method. The updated statement will look as follows:
 
     ```csharp
     static string LoadCardMessageBody(string cardType, string filepath)
@@ -301,7 +313,9 @@ Under certain conditions, the adaptive card must be sent as a signed card. These
 
 This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
 
-1. Open the file **supportTicketCard.json**.
+1. In Outlook, delete messages from earlier exercises.
+
+1. In Visual Studio, open the file **Card.json**.
 
 1. You will extend the card with another element in the body as a header for comments. Add a comma to the end of line 101 and press return.
 
@@ -364,10 +378,7 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
 
     >Note: The `body` element of the `Action.Http` element contains a token indicated with double braces: `'{{comment.value}}'`. Inside the braces is the name of the input control. When the action is performed, the value of the input control is inserted in this token.
 
-1. Send the updated card using the console application:
-    ```shell
-    SendEmailCard.exe adaptive supportTicketCard.json
-    ```
+1. Compile and run the **SendAdaptiveCard** solution. The program will again prompt for an account and send the message.
 
 ### View and interact with Adaptive Cards
 
