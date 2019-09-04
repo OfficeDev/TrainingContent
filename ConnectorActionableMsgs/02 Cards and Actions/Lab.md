@@ -40,7 +40,7 @@ The MessageCard Playground provides a sandboxed environment with which to design
 
 ### Modify a sample
 
-1. Edit the `activityTitle` element to surround it with three asterisks instead of two, note how the text changes:
+1. Edit the `title` element to surround it with three asterisks instead of two, note how the text changes:
 
     ![Screenshot of Microsoft Flow approval with title highlighted.](Images/Exercise1-02.png)
 
