@@ -40,7 +40,7 @@ The MessageCard Playground provides a sandboxed environment with which to design
 
 ### Modify a sample
 
-1. Edit the `activityTitle` element to surround it with three asterisks instead of two, note how the text changes:
+1. Edit the `title` element to surround it with three asterisks instead of two, note how the text changes:
 
     ![Screenshot of Microsoft Flow approval with title highlighted.](Images/Exercise1-02.png)
 
@@ -60,9 +60,62 @@ The MessageCard Playground provides a sandboxed environment with which to design
 
 ## Exercise 2: Sending Actionable Messages
 
-In this exercise, you will create a custom message card and email it using PowerShell.
+In this exercise, you will create a custom message card and email it using the Microsoft Graph.
 
-### Create a card
+### Register application in the Azure Active Directory
+
+Using Microsoft Graph to send emails requires an application registration.
+
+1. Open the [Azure Active Directory admin center](https://aad.portal.azure.com).
+
+1. Log in with the work or school account that is an administrator in the tenant.
+
+1. Select **Azure Active Directory** in the left-most blade.
+
+1. Select **App registrations** in the left-hand menu.
+
+1. Select **New registration**.
+
+1. Enter a name for the application. A suggested name is `Expense Card mailer`. Select **Register**.
+
+1. In the **Overview** blade, copy the **Application (client) ID**.
+
+1. In the **Overview** blade, , copy the **Directory (tenant) ID**.
+
+1. Select **Authentication** in the left-hand menu.
+
+1. In the **Redirect URIs** > **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
+
+    ![Screenshot of application registration showing the Redirect URIs](Images/Exercise2-01.png)
+
+1. Select **Save** from the toolbar at the top of the Authentication blade.
+
+### Compile the SendCardEmail program
+
+1. Launch **Visual Studio 2017**.
+
+1. Open the `SendEmailCard.sln` solution from the **LabFiles\SendCardEmail** folder.
+
+1. Open the **App.config** file in Solution Explorer.
+
+1. Find the following line:
+
+    ```xml
+    <add key="applicationId" value="[your-app-id-here]" />
+    <add key="tenantId" value="[your-tenant-id-here]" />
+    ```
+
+1. Paste the application ID you copied from the portal into the `value`, replacing the token `[your-app-id-here]`.
+
+1. Past the tenant ID you copied from the portal into the `value`, replacing the token `[your-tenant-id-here]`.
+
+1. Save the file.
+
+1. Press **Ctrl+Shift+B** in Visual Studio to build the app.
+
+1. An executable program named **SendEmailCard.exe** is compiled into the `bin` folder. This executable is used in the lab.
+
+### Preview a custom card
 
 1. Replace the JSON data in the MessageCard Playground app with this JSON data. This is the card you will use for the rest of the lab. It is a fictitious expense approval system. (This code is available in the **LabFiles/expenseCard.json** file.)
 
@@ -156,37 +209,27 @@ In this exercise, you will create a custom message card and email it using Power
     }
     ````
 
-1. Save the card JSON to a file named **expenseCard.json**. It is used in the next section of the exercise.
+1. Save the card JSON to a file named **expenseCard.json**. For convenience, save the file in the folder containing the **SendCardEmail.exe** file build previously. It is used in the next section of the exercise.
 
-### Send email with MessageCard via Microsoft Office 365 SMTP Server
+### Send email with MessageCard via console application
 
-Sending a MessageCard via email requires a message body in HTML. The MessageCard JSON is included in the `<head>` element of the HTML document, wrapped in a `<script>` tag with a specific type attribute. In this exercise, PowerShell is used to create and send a MessageCard via email.
+Sending a MessageCard via email requires a message body in HTML. The MessageCard JSON is included in the `<head>` element of the HTML document, wrapped in a `<script>` tag with a specific type attribute. The `SendEmailCard.sln` solution compiled earlier has code showing the message format that you can review.
 
-1. Launch the **Windows PowerShell ISE** application.
+1. Open a command prompt.
 
-1. Change the current directory to the folder containing the **expenseCard.json** file created previously.
+1. Change to the folder containing the **SendEmailCard.exe** file.
 
-1. Expand the script pane. Enter the following PowerShell script to the script pane. (This code is available in the **LabFiles/SendCardviaEmail.ps1** file.)
+1. Run the command, specifying two arguments:
 
-    ````PowerShell
-    $cardJson = Get-Content .\expenseCard.json
-    $cardPayload = "<script type='application/ld+json'>" + $cardJson + "</script>"
+    ```shell
+    SendEmailCard.exe actionable expenseCard.json
+    ```
 
-    $htmlMessage = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
-    $htmlMessage += $cardPayload
-    $htmlMessage += "</head><body>"
-    $htmlMessage += "Visit the <a href='https://docs.microsoft.com/en-us/outlook/actionable-messages'>Outlook Dev Portal</a> to learn more about Actionable Messages."
-    $htmlMessage += "</body></html>"
+1. A pop-up authentication window should appear. Login with the Work or School  account specified in the Actionable Email Developer Dashboard. Review the list of requested permissions and click **Accept** or **Cancel**. (**Note:** choosing **Cancel** will result in the app returning an error and not sending a message.)
 
-    $msolcred = Get-Credential
-    Send-MailMessage –From $msolcred.UserName –To $msolcred.UserName –Subject "MessageCard Demo" –Body $htmlMessage -BodyAsHtml -SmtpServer smtp.office365.com -Credential $msolcred -UseSsl -Port 587
-    ````
+1. The command prompt window should output `Message sent` to indicate success.
 
-1. Save the script in the directory with the **expenseCard.json** file.
-
-1. Run the script. When prompted, enter the login credentials for your Microsoft Office 365 mailbox. The script will send the message to this mailbox.
-
-    ![Screenshot of PowerShell ISE executing the script](Images/Exercise2-01.png)
+1. Check your inbox using Outlook on the web for the message.
 
 1. After reviewing the card, delete it from your inbox. This will prevent confusion during later steps in the lab.
 
@@ -231,7 +274,6 @@ Before registering the Actionable Message Provider, note the URL configured for 
 1. Minimize the ngrok command prompt window. It is no longer referenced in this lab, but it must remain running.
 
     ![Screenshot of command prompt with local host highlighted.](Images/Exercise3-04.png)
-
 
 ### Register a new Actionable Email provider
 
@@ -422,6 +464,7 @@ The Expense Approval application will refresh the email message with a card repr
 #### Configure validation values
 
 The helper functions validate that the request is coming from a known mailbox. The valid values are configured in the **web.config** file.
+
 1. Open the **web.config** file.
 
 1. Add the following to the **appSettings** node. The values of these settings must match the entries on the Actionable Email Developer Dashboard
@@ -523,13 +566,15 @@ The cards sent in exercise 2 had a placeholder URL for the actions. Update the c
 
 1. Open the **expenseCard.json** created in Exercise 2. The card json is available in the **LabFiles/expenseCard.json** file.
 
-1. Locate the **target** properties containing the placeholder URL **tbd.ngrok.io**. Replace the placeholder with the forwarding address from the ngrok tunnel. This should also match the value registerd on the Actionable Email dashboard and the value in web.config.
+1. Locate the **target** properties containing the placeholder URL **tbd.ngrok.io**. Replace the placeholder with the forwarding address from the ngrok tunnel. This should also match the value registered on the Actionable Email dashboard and the value in web.config.
 
 1. Save the **expenseCard.json** file.
 
-1. Using PowerShell, execute the script from Exercise 2. This script is available in the **LabFiles/SendCardviaEmail.ps1** file.
+1. Send the card using the console application from Exercise 2. The command to execute:
 
-    ![Screenshot of PowerShell ISE executing the script](Images/Exercise2-01.png)
+    ```shell
+    SendEmailCard.exe actionable expenseCard.json
+    ```
 
 #### Test the card
 

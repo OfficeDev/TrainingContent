@@ -20,17 +20,19 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                            Author(s)                             |
-| -------------------- | ---------------------------------------------------------------- |
-| Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) @andrewconnell          |
-| QA                   | Julie Turner (Microsoft MVP, Sympraxis Consulting) @juliemturner |
-| QA                   | Paul Schaeflein (Microsoft MVP) @paulschaeflein                  |
-| Sponsor / Support    | Mike Ammerlaan (Microsoft) @mammerla                             |
+|        Roles         |                                           Author(s)                                           |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell)         |
+| QA                   | Julie Turner (Microsoft MVP, Sympraxis Consulting) [@juliemturner](//github.com/juliemturner) |
+| QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaeflein](//github.com/paulschaeflein)                |
+| Sponsor / Support    | Mike Ammerlaan (Microsoft) [@mammerla](//github.com/mammerla)                                 |
 
 ## Version history
 
 | Version |        Date        |                   Comments                   |
 | ------- | ------------------ | -------------------------------------------- |
+| 1.7     | September 4, 2019  | 2020QA content refresh                       |
+| 1.6     | June 13, 2019      | 2019Q4 content refresh                       |
 | 1.5     | March 9, 2019      | 2019Q3 content refresh                       |
 | 1.4     | December 12, 2018  | 2019Q2 content refresh                       |
 | 1.3     | September 12, 2018 | 2019Q1 content refresh                       |

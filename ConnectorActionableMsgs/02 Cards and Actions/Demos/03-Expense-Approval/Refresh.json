@@ -40,10 +40,6 @@
           "value": "[Link to the expense report](http://connectorsdemo.azurewebsites.net)"
         }
       ]
-    },    
-    {
-      "startGroup": true,
-      "activitySubtitle": "Grant approvals directly from your mobile device with the Microsoft Flow app. [Learn more](http://learnmode)\n\nThis message was created by an automated workflow in Microsoft Flow. Do not reply."
     }
   ]
 }
