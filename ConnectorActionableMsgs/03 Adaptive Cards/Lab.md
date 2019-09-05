@@ -157,9 +157,9 @@ Using Microsoft Graph to send emails requires an application registration. (The 
 
 1. An executable program named **SendEmailCard.exe** is compiled into the `bin` folder. This executable is used in the lab.
 
-### Send email with MessageCard via console application
+### Send email with Adaptive Card via console application
 
-Sending a MessageCard via email requires a message body in HTML. The MessageCard JSON is included in the `<head>` element of the HTML document, wrapped in a `<script>` tag with a specific type attribute. The `SendEmailCard.sln` solution compiled earlier has code showing the message format that you can review.
+Sending an Adaptive Card via email requires a message body in HTML. The Adaptive Card JSON is included in the `<head>` element of the HTML document, wrapped in a `<script>` tag with a specific type attribute. The `SendEmailCard.sln` solution compiled earlier has code showing the message format that you can review.
 
 1. Copy the **supportTicketCard.json** file from exercise 1 to the folder containing the **SendEmailCard.exe** program.
 
