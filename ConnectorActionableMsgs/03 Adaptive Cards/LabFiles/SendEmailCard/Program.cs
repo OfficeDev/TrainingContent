@@ -1,7 +1,7 @@
 ﻿/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT license.
- */
+* Copyright (c) Microsoft Corporation. All rights reserved.
+* Licensed under the MIT license.
+*/
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,38 +25,38 @@ namespace OfficeDev.TrainingContent.SendCardEmail
 
     static void Main(string[] args)
     {
-			var valid = true;
-			string validationMessage = string.Empty;
+      var valid = true;
+      string validationMessage = string.Empty;
 
-			if (args.Length != 2)
-			{
-				valid = false;
-				validationMessage = "Missing argument";
-			}
+      if (args.Length != 2)
+      {
+        valid = false;
+        validationMessage = "Missing argument";
+      }
 
-			if (valid && args[0] != "actionable" && args[0] != "adaptive")
-			{
-				valid = false;
-				validationMessage = "arg[0] not valid";
-			}
+      if (valid && args[0] != "actionable" && args[0] != "adaptive")
+      {
+        valid = false;
+        validationMessage = "arg[0] not valid";
+      }
 
-			if (valid && !System.IO.File.Exists(args[1]))
-			{
-				valid = false;
-				validationMessage = "card_json_file not found";
-			}
+      if (valid && !System.IO.File.Exists(args[1]))
+      {
+        valid = false;
+        validationMessage = "card_json_file not found";
+      }
 
-			if (valid)
-			{
-				SendMessage(args).Wait();
-			}
-			else
-			{
-				Output.WriteLine(Output.Error, $"Invalid args: {validationMessage}");
-				Output.WriteLine(Output.Info, "Usage: SendActionableEmail.exe actionable|adaptive path_to_card_json");
-			}
+      if (valid)
+      {
+        SendMessage(args).Wait();
+      }
+      else
+      {
+        Output.WriteLine(Output.Error, $"Invalid args: {validationMessage}");
+        Output.WriteLine(Output.Info, "Usage: SendActionableEmail.exe actionable|adaptive path_to_card_json");
+      }
 
-			Console.WriteLine("Hit any key to exit...");
+      Console.WriteLine("Hit any key to exit...");
       Console.ReadKey();
     }
 
@@ -121,18 +121,18 @@ namespace OfficeDev.TrainingContent.SendCardEmail
 
     static string LoadCardMessageBody(string cardType, string filepath)
     {
-			string messageBody = string.Empty;
+      string messageBody = string.Empty;
 
-			if (cardType == "adaptive")
-			{
-				messageBody = System.IO.File.ReadAllText(@"AdaptiveMessageBody.html");
-			}
-			else
-			{
-				messageBody = System.IO.File.ReadAllText(@"ActionableMessageBody.html");
-			}
+      if (cardType == "adaptive")
+      {
+        messageBody = System.IO.File.ReadAllText(@"AdaptiveMessageBody.html");
+      }
+      else
+      {
+        messageBody = System.IO.File.ReadAllText(@"ActionableMessageBody.html");
+      }
 
-			string cardJson = System.IO.File.ReadAllText(filepath);
+      string cardJson = System.IO.File.ReadAllText(filepath);
 
       // Insert the JSON into the HTML
       return string.Format(messageBody, cardJson);
