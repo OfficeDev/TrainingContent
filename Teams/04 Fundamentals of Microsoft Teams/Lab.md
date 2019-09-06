@@ -97,14 +97,19 @@ This exercise introduces the Yeoman generator and its capabilities for scaffoldi
 1. When prompted, accept the default **teams-app-1** as your solution name and press **Enter**.
 
 1. Select **Use the current folder** for the file location and select **Enter**. The next set of prompts asks for specific information about your Microsoft Teams app:
-    - Accept the default **teams app1** as the name of your Microsoft Teams app project and press **Enter**.
+    - Accept the default **teams app1** as the solution name and press **Enter**.
+    - Select **Use the current folder** for **Where do you want to place the files?**.
+    - Enter **teams app1** as the **Title of your Microsoft Teams App project**.
     - Enter your name and press **Enter**.
-    - Accept the default selection for the manifest version you would like to use and press **Enter**.
+    - Select **v1.5** as the manifest version you would like to use and press **Enter**.
+    - Enter a Microsoft Partner Id if appropriate
     - Accept the default selection of **Tab** for what you want to add to your project and press **Enter**.
     - Enter **https://tbd.ngrok.io** as the URL where you will host this tab and press **Enter**. You will change this URL later in the exercise.
     - Enter *n* and press **Enter** when prompted to include a Test framework and initial tests.
     - Enter **n** and press **Enter** when prompted to use Azure Application Insights to telemetry.
     - Accept the default **teams app1 Tab** as the default tab name and press **Enter**.
+    - Select **Configurable** for the tab type and press **Enter**.
+    - Select **In a Team** for the scope of the Tab and press **Enter**.
     - Enter **n** and press **Enter** when prompted for the tab to be available in SharePoint Online.
 
       ![Screenshot of Yeoman Teams generator.](Images/Exercise1-01.png)
@@ -117,7 +122,7 @@ This exercise introduces the Yeoman generator and its capabilities for scaffoldi
 
 1. Launch **VS Code** by running the command `code .`
 
-    ![Screenshot of Visual Studio highlighting teams app code.](Images/Exercise1-05.png)
+    ![Screenshot of Visual Studio highlighting teams app code.](Images/Exercise1-03.png)
 
 1. The source code for the application is in the **src\app** folder.
 
@@ -140,7 +145,7 @@ The generated application is ready to run. The generator created a gulp task to 
 gulp ngrok-serve
 ```
 
-  ![Screenshot of command prompt running Gulp.](Images/Exercise1-07.png)
+  ![Screenshot of command prompt running Gulp.](Images/Exercise1-04.png)
 
   > Note: The gulp serve process must be running in order to see the tab in the Microsoft Teams application. When the process is no longer needed, press **CTRL+C** to cancel the server.
 
@@ -148,27 +153,25 @@ gulp ngrok-serve
 
 1. In the Microsoft Teams application, select the **Create and join team** link. Then select the **Create team** button.
 
-    ![Screenshot of Microsoft Teams application highlighting create and join team.](Images/Exercise1-08.png)
+    ![Screenshot of Microsoft Teams application highlighting create and join team.](Images/Exercise1-05.png)
 
-1. Enter a team name and description. In this example, the team is named **Training Content**. Select **Next**.
-
-1. Optionally, invite others from your organization to the team. This step can be skipped in this lab.
+1. Enter a team name and description. In this example, the team is named **Training Content**. Optionally invite others from your organization to the team. This step can be skipped in this lab.
 
 1. The new team is shown. In the side panel on the left, select the ellipses next to the team name. Choose **Manage team** from the context menu.
 
-    ![Screenshot of Microsoft Teams application with manage team menu.](Images/Exercise1-09.png)
+    ![Screenshot of Microsoft Teams application with manage team menu.](Images/Exercise1-06.png)
 
-1. On the Manage team menu, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application. If you don't have this link, check the sideload settings in the [Getting Started article](https://msdn.microsoft.com/en-us/microsoft-teams/setup).
+1. On the Manage team menu, select **Apps** in the tab strip. Then select the **Upload a custom app** link at the bottom right corner of the application. If you don't have this link, check the sideload settings in the [Getting Started article](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started).
 
-    ![Screenshot of Microsoft Teams application apps menu.](Images/Exercise1-10.png)
+    ![Screenshot of Microsoft Teams application apps menu.](Images/Exercise1-07.png)
 
 1. Select the **teams-app-1.zip** file from the **package** folder. Select **Open**.
 
-    ![Screenshot of file selector in Microsoft Teams.](Images/Exercise1-11.png)
+    ![Screenshot of file selector in Microsoft Teams.](Images/Exercise1-08.png)
 
 1. The app is displayed. Notice information about the app from the manifest (Description and Icon) is displayed.
 
-    ![Screenshot of Microsoft Teams app.](Images/Exercise1-12.png)
+    ![Screenshot of Microsoft Teams app.](Images/Exercise1-09.png)
 
 The app is now uploaded into the Microsoft Teams application and the tab is available in the **Tab Gallery**.
 
@@ -180,15 +183,15 @@ The app is now uploaded into the Microsoft Teams application and the tab is avai
 
 1. In the tab gallery, uploaded tabs are displayed in the **Tabs for your team** section. Tabs in this section are arranged alphabetically. Select the tab created in this lab.
 
-    ![Screenshot of tab gallery with teams app1 highlighted.](Images/Exercise1-13.png)
+    ![Screenshot of tab gallery with teams app1 highlighted.](Images/Exercise1-10.png)
 
 1. The generator creates a configurable tab. When the tab is added to the team, the configuration page is displayed. Enter any value in the **Setting** box and select **Save**.
 
-    ![Screenshot of tab configuration message box.](Images/Exercise1-14.png)
+    ![Screenshot of tab configuration message box.](Images/Exercise1-11.png)
 
 1. The value entered will then be displayed in the tab window.
 
-    ![Screenshot of newly created tab in Microsoft Teams.](Images/Exercise1-15.png)
+    ![Screenshot of newly created tab in Microsoft Teams.](Images/Exercise1-12.png)
 
 <a name="exercise2"></a>
 
