@@ -230,7 +230,7 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
 1. Download [ngrok](https://ngrok.com/download) and unzip the **ngrok secure tunnel application**. Change to the directory that contains the **ngrok.exe** application.
 
-1. Run the command `ngrok http [port] -host-header=localhost:[port]` Replace `port` with the port portion of the URL noted above.
+1. Run the command `ngrok http [port] -host-header=localhost`. Replace `port` with the port portion of the URL noted above.
 
 1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
@@ -264,13 +264,11 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
 1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration.
 
-    ![Screenshot of bot channel registration.](Images/Exercise2-04.png)
-
 1. In the **Bot Management** section, select **Channels**.
 
-    ![Screenshot of channel menu with Microsoft Teams icon highlighted.](Images/Exercise2-05.png)
-
 1. Click on the Microsoft Teams logo to create a connection to Teams. Select **Save**. Agree to the Terms of Service.
+
+    ![Screenshot of channel menu with Microsoft Teams icon highlighted.](Images/Exercise2-05.png)
 
     ![Screenshot of MSTeams bot confirmation page.](Images/Exercise2-06.png)
 
@@ -278,9 +276,11 @@ This section of the lab introduces the Bot Framework template and its capabiliti
 
 1. In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
 
+    ![Screenshot of bot channel registration.](Images/Exercise2-04.png)
+
 1. The **Microsoft App Id** is displayed. Record this value.
 
-1. Next to the **Microsoft App Id**, select the **Manage** link. This will open the Application Registration Portal in a new tab. If prompted, select the button titled **View the app in the Azure Portal".
+1. Next to the **Microsoft App Id**, select the **Manage** link. This will navigate to the Application Registration blade.
 
 1. In the application blade, select **Certificates & Secrets**.
 
@@ -298,9 +298,11 @@ The bot project must be configured with information from the registration.
 
 1. In Visual Studio, open the **Web.config** file. Locate the `<appSettings>` section.
 
+1. The BotId value is no longer required. This `<appSetting>` node can be deleted.
+
 1. Enter the `MicrosoftAppId`. The `MicrosoftAppId` is the app ID from the **Configuration** section of the registration.
 
-1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the auto-generated app secret displayed in the dialogue box during registration. If you do not have the app secret, the bot must be deleted and re-registered. An app secret cannot be reset nor displayed.
+1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the client secret added in the Azure Portal Application Registration.
 
 ### Test the bot using the portal
 
