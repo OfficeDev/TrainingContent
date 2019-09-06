@@ -444,12 +444,6 @@ To enable an application to call the Microsoft Graph API, an application registr
 
 1. Select **Azure Active Directory** in the left-most blade.
 
-1. In the **Overview** blade, select **Properties** (near the bottom).
-
-1. In the **Directory Properties** blade, copy the **Directory ID**.
-
-1. Close the **Directory Properties** blade, returning to the **Overview** blade.
-
 1. Select **App registrations** in the left-hand menu.
 
 1. Select **New registration**.
@@ -466,7 +460,7 @@ To enable an application to call the Microsoft Graph API, an application registr
 
 1. Select **Register**.
 
-1. On the application blade, copy the **Application Id**.
+1. On the Overview blade, copy the **Application (client) ID** and the **Directory (tenant) ID**.
 
 1. In the **Manage** section, select **Authentication**.
 
@@ -512,8 +506,12 @@ The tab in this exercise can be configured to read information from Microsoft Gr
 
 > **Note:** These steps assume that the application created in Exercise 1 is named **teams-app-1**. Paths listed in this section are relative to the **src/app/** folder in the generated application.
 
+1. In Visual Studio Code, open the folder containing the **teams-tab1** solution from Exercise 1.
+
 1. Open the file **scripts/teamsApp1Tab/teamsApp1TabConfig.tsx**.
+
 1. At the top of the file is an `import` statement with several components from `msteams-ui-components-react`. Add `Dropdown` to the list of components.
+
 1. Locate the `ITeamsApp1TabConfigState` class. Rename the `value` property to `selectedConfiguration`.
 
     ```typescript
@@ -771,13 +769,21 @@ With the tab configured, the content page can now render information as selected
     private token?: string;
     ```
 
-1. In the `TeamsApp1Tab` class is a method named `componentWillMount`. In this method, there is a call to `microsoftTeams.getContext`. Update the `getContext` callback to update the class-level variables.
+1. In the `TeamsApp1Tab` class is a method named `componentWillMount`. In this method, the code tests the execution environment and updates state accordingly. Replace this test with the following:
 
     ```typescript
-    microsoftTeams.getContext((context: microsoftTeams.Context) => {
+    if (this.inTeams()) {
+      microsoftTeams.initialize();
+      microsoftTeams.registerOnThemeChangeHandler(this.updateTheme);
+      microsoftTeams.getContext((context) => {
         this.configuration = context.entityId;
         this.groupId = context.groupId;
-    });
+      });
+    } else {
+      this.setState({
+        graphData: "This is not hosted in Microsoft Teams"
+      });
+    }
     ```
 
 1. Add the following function to the `teamsApp1Tab` object. This function runs in response to the button selection.
@@ -878,7 +884,7 @@ With the tab configured, the content page can now render information as selected
      */
     export class Auth {
       private token: string = "";
-      private user: Msal.User;
+      private user: Msal.Account;
 
       /**
       * Constructor for Tab that initializes the Microsoft Teams script
@@ -901,16 +907,16 @@ With the tab configured, the content page can now render information as selected
         userAgentApplication.handleRedirectCallback(() => { const notUsed = ""; });
 
         if (userAgentApplication.isCallback(window.location.hash)) {
-          const user = userAgentApplication.getUser();
+          const user = userAgentApplication.getAccount();
           if (user) {
             this.getToken(userAgentApplication, graphAPIScopes);
           }
         } else {
-          this.user = userAgentApplication.getUser();
+          this.user = userAgentApplication.getAccount();
           if (!this.user) {
             // If user is not signed in, then prompt user to sign in via loginRedirect.
             // This will redirect user to the Azure Active Directory v2 Endpoint
-            userAgentApplication.loginRedirect(graphAPIScopes);
+            userAgentApplication.loginRedirect({scopes: graphAPIScopes});
           } else {
             this.getToken(userAgentApplication, graphAPIScopes);
           }
