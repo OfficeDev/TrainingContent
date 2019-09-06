@@ -11,6 +11,7 @@ var fs = require('fs');
 var argv = require('yargs').argv;
 
 var debug = argv.debug !== undefined;
+const lint = argv["linting"];
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
@@ -51,11 +52,7 @@ var config = [{
                 loader: "ts-loader"
             }]
         },
-        plugins: [
-            new TSLintPlugin({
-                files: ['./src/app/*.ts']
-            })
-        ]
+        plugins: []
     },
     {
         entry: {
@@ -96,9 +93,6 @@ var config = [{
         plugins: [
             new Dotenv({
                 systemvars: true
-            }),
-            new TSLintPlugin({
-                files: ['./src/app/scripts/**/*.ts', './src/app/scripts/**/*.tsx']
             })
         ],
         performance: {
@@ -110,5 +104,15 @@ var config = [{
         }
     }
 ];
+
+if (lint !== false) {
+    config[0].plugins.push(new TSLintPlugin({
+        files: ['./src/app/*.ts']
+    }));
+    config[1].plugins.push(new TSLintPlugin({
+        files: ['./src/app/scripts/**/*.ts', './src/app/scripts/**/*.tsx']
+    }));
+}
+
 
 module.exports = config;
