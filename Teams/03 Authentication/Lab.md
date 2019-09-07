@@ -121,9 +121,9 @@ The exercises in this lab will extend the Microsoft Teams app built in the modul
 
 1. The **Microsoft App Id** is displayed.
 
-    > **NOTE:** NOTE: Record the app ID on the AppWorksheet as the **BotChannelRegistrationId**.
+    > **NOTE:** Record the app ID on the AppWorksheet as the **BotChannelRegistrationId**.
 
-1. Next to the **Microsoft App Id**, select the **Manage** link. This will open the Application Registration Portal in a new tab. If prompted, select the button titled **View the app in the Azure Portal".
+1. Next to the **Microsoft App Id**, select the **Manage** link. This will navigate to the Application Registration blade.
 
 1. In the application blade, select **Certificates & Secrets**.
 
@@ -133,7 +133,7 @@ The exercises in this lab will extend the Microsoft Teams app built in the modul
 
 1. A new secret is created and displayed.
 
-    > **NOTE:** NOTE: Record the password on the AppWorksheet as the **BotChannelRegistrationPassword**.
+    > **NOTE:** Record the password on the AppWorksheet as the **BotChannelRegistrationPassword**.
 
     ![Screenshot of application registration.](Images/Starter-06.png)
 
@@ -143,17 +143,17 @@ The bot project must be configured with information from the registration.
 
 1. In **Visual Studio**, open the **Web.config** file. Locate the `<appSettings>` section.
 
-1. Replace the token `[MicrosoftAppId]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
+1. Replace the token `[MicrosoftAppId]` with the value recorded on the AppWorksheet as **BotChannelRegistrationId**.
 
-1. Replace the token `[MicrosoftAppPassword]` with the value recorded on the AppWorksheet as **MicrosoftAppPassword**.
+1. Replace the token `[MicrosoftAppPassword]` with the value recorded on the AppWorksheet as **BotChannelRegistrationPassword**.
 
 1. Save and close the **web.config** file.
 
 1. In the **Manifest** folder , open the **manifest.json** file. The **manifest.json** file requires several updates:
-    - The `id` property must contain the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
+    - The `id` property must contain the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **BotChannelRegistrationId**.
     - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
     - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
-    - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **MicrosoftAppID**.
+    - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[MicrosoftAppID]` with the value recorded on the AppWorksheet as **BotChannelRegistrationId**.
     - The `configurableTabs` property also contains a URL. This value will be updated later in the lab, so no update is required at this time.
     - The `validDomains` property requires a string array of all domains that will be accessed by the Teams app. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**.
     - Save and close the **manifest.json** file.
@@ -228,7 +228,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. Select **Save** from the toolbar at the top of the Authentication blade.
 
-1. Select **API permissions** in the left-had menu.
+1. Select **API permissions** in the left-hand menu.
 
 1. In the **API permissions** blade, select **Add a permission**. Select **Microsoft Graph**. Select **Delegated permissions**.
 
