@@ -103,8 +103,6 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration.
 
-    ![Screenshot of bot channel registration.](Images/Exercise1-04.png)
-
 1. In the **Bot Management** section, select **Channels**.
 
     ![Screenshot of channel menu with Microsoft Teams icon highlighted.](Images/Exercise1-05.png)
@@ -117,9 +115,11 @@ Before registering the bot, note the URL configured for the solution in Visual S
 
 1. In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
 
+    ![Screenshot of bot channel registration.](Images/Exercise1-04.png)
+
 1. The **Microsoft App Id** is displayed. Record this value.
 
-1. Next to the **Microsoft App Id**, select the **Manage** link. This will open the Application Registration Portal in a new tab. If prompted, select the button titled **View the app in the Azure Portal".
+1. Next to the **Microsoft App Id**, select the **Manage** link. This will navigate to the Application Registration blade.
 
 1. In the application blade, select **Certificates & Secrets**.
 
@@ -137,11 +137,11 @@ The bot project must be configured with information from the registration.
 
 1. In **Visual Studio**, open the **Web.config** file. Locate the `<appSettings>` section.
 
-1. Enter the `MicrosoftAppId` from the **Configuration** section of the registration.
+1. The BotId value is no longer required. This `<appSetting>` node can be deleted.
 
-1. Enter the `MicrosoftAppPassword`, the auto-generated app password displayed in the dialog box during registration.
+1. Enter the `MicrosoftAppId`. The `MicrosoftAppId` is the app ID from the **Configuration** section of the registration.
 
-    > **Note:** If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
+1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the client secret added in the Azure Portal Application Registration.
 
 ### Configure Visual Studio to package bot
 
@@ -620,9 +620,9 @@ The Bot Framework allows for responding with cards instead of simply text. Micro
 
 1. Open the **manifest.json** file in the **Manifest** folder.
 
-1. Locate the `/bots/commandLists/commands` node.
+1. Locate the `/bots/commandLists` node. This node has childer for each scope enabled for the bot.
 
-1. Replace the `commands` node with the following:
+1. For each scope under `/bots/commandLists`, replace the `commands` node with the following:
 
     ```json
     "commands": [
