@@ -7,11 +7,8 @@
 </head>
 
 <body>
-  <script src="https://statics.teams.microsoft.com/sdk/v1.2/js/MicrosoftTeams.min.js"
-    integrity="sha384-OncOcMprEYFkUvhe15zi8VdCZIOcuNGnf4ilq2yTfDEjTwPF19V7pZrzxOq/iqt0"
-    crossorigin="anonymous"></script>
-  <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js"
-    integrity="sha384-lIk8T3uMxKqXQVVfFbiw0K/Nq+kt1P3NtGt/pNexiDby2rKU6xnDY8p16gIwKqgI"
+  <script src="https://unpkg.com/@microsoft/teams-js@1.4.2/dist/MicrosoftTeams.min.js"
+    integrity="sha384-DcoNUuQTjpW5Sw3msonn/2ojgtNvtC5fCGd5U9RUpL3g1hla1LzHz8I9YIYSXe6q"
     crossorigin="anonymous"></script>
 
   <script type="text/javascript">
@@ -21,7 +18,9 @@
       let state = _guid(); // _guid() is a helper function in the sample
       localStorage.setItem("trainingContent.state", state);
       localStorage.removeItem("trainingContent.error");
-      // Go to the Azure AD authorization endpoint
+
+      // See https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols-implicit
+      // for documentation on these query parameters
       let queryParams = {
         client_id: "[AzureAppID]",
         response_type: "id_token token",
@@ -35,6 +34,8 @@
         login_hint: context.loginHint
       };
 
+      // Go to the AzureAD authorization endpoint (tenant-specific endpoint, not "common")		
+      // For guest users, we want an access token for the tenant we are currently in, not the home tenant of the guest.       
       let authorizeEndpoint = "https://login.microsoftonline.com/" + context.tid + "/oauth2/authorize?" + toQueryString(queryParams);
       window.location.assign(authorizeEndpoint);
     });
@@ -46,6 +47,16 @@
         encodedQueryParams.push(key + "=" + encodeURIComponent(queryParams[key]));
       }
       return encodedQueryParams.join("&");
+    }
+
+    // Converts decimal to hex equivalent
+    // (From ADAL.js: https://github.com/AzureAD/azure-activedirectory-library-for-js/blob/dev/lib/adal.js)
+    function _decimalToHex(number) {
+      var hex = number.toString(16);
+      while (hex.length < 2) {
+        hex = '0' + hex;
+      }
+      return hex;
     }
 
     // Generates RFC4122 version 4 guid (128 bits)
