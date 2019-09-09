@@ -1,4 +1,4 @@
-# teams app1
+# teams app1 - Microsoft Teams App
 
 Generate a Microsoft Teams application.
 
@@ -6,7 +6,16 @@ TODO: Add your documentation here
 
 ## Getting started with Microsoft Teams Apps development
 
-Head on over to [official documentation](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/tabs/tabs-overview) to learn how to build Microsoft Teams Tabs.
+Head on over to [Microsoft Teams official documentation](https://developer.microsoft.com/en-us/microsoft-teams) to learn how to build Microsoft Teams Tabs or the [Microsoft Teams Yeoman generator Wiki](https://github.com/OfficeDev/generator-teams/wiki) for details on how this solution is set up.
+
+## Project setup
+
+All required source code are located in the `./src` folder - split into two parts
+
+* `app` for the application
+* `manifest` for the Microsoft Teams app manifest
+
+For further details se the [Yo Teams wiki for the project structure](https://github.com/OfficeDev/generator-teams/wiki/Project-Structure)
 
 ## Building the app
 
@@ -24,9 +33,6 @@ To create the Microsoft Teams Apps manifest, run the `manifest` Gulp task. This 
 ``` bash
 gulp manifest
 ```
-## Working with the devPreview manifest version
-
-You can change the manifest version from the standard `1.3` to `devPreview` by editing the `manifest.json` file and the `manifestVersion` property. The schema validation currently supports `1.3` and `devPreview`, for other options you need to manually edit the `gulpfile.js` file and add the version and schema in the `SCHEMAS` constant. When validating the manifest you will get an error if any other versions are used and you will also get a warning if you have not manually updated the schema reference in the `manifest.json` file (which is recommended for in-editor schema validation).
 
 ## Configuration
 
@@ -64,13 +70,16 @@ To step through code in Visual Studio Code you need to add the following snippet
 
 ### Using ngrok for local development and hosting
 
-In order to make development locally a great experience it is recommended to use [ngrok](https://ngrok.io), which allows you to publish the localhost on a public DNS, so that you can consume the bot and the other resources in Microsoft Teams. Start ngrok locally and either specify a reserved hostname or use a dynamic generated one. Modify the `HOSTNAME` property of the `.env` file with the public hostname you have in ngrok, rebuild the manifest and upload it to Microsoft Teams and start `gulp serve`.
+In order to make development locally a great experience it is recommended to use [ngrok](https://ngrok.io), which allows you to publish the localhost on a public DNS, so that you can consume the bot and the other resources in Microsoft Teams. 
 
-## Output
+To use ngrok, it is recommended to use the `gulp ngrok-serve` command, which will read your ngrok settings from the `.env` file and automatically create a correct manifest file and finally start a local development server using the ngrok settings.
 
-* dist/* - the files required to host the solution
-* package/* - the Teams extensibility package (zip file) to be uploaded to Microsoft Teams ([how-to](https://msdn.microsoft.com/en-us/microsoft-teams/createpackage#uploading-your-tab-package-to-microsoft-teams))
-* temp - used for temporary processing of files during build time
+### Additional build options
+
+You can use the following flags for the `serve`, `ngrok-serve` and build commands:
+
+* `--no-linting` - skips the linting of Typescript during build to improve build times
+* `--debug` - builds in debug mode
 
 ## Deploying to Azure using Git
 
@@ -98,10 +107,12 @@ This will automatically deploy your files to Azure, download the npm pacakges, b
 
 ## Logging
 
-To enable logging for the solution you need to add `msteams` to the `DEBUG` environment variable. See the [debug package](https://www.npmjs.com/package/debug) for more information.
+To enable logging for the solution you need to add `msteams` to the `DEBUG` environment variable. See the [debug package](https://www.npmjs.com/package/debug) for more information. By default this setting is turned on in the `.env` file.
 
 Example for Windows command line:
 
-> SET DEBUG=msteams
+``` bash
+SET DEBUG=msteams
+```
 
 If you are using Microsoft Azure to host your Microsoft Teams app, then you can add `DEBUG` as an Application Setting with the value of `msteams`.

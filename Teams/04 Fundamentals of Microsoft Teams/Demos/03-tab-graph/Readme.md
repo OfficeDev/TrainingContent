@@ -8,12 +8,6 @@ In this demo, you will demonstrate calling the Microsoft Graph from TypeScript c
 
 1. Select **Azure Active Directory** in the left-most blade.
 
-1. In the **Overview** blade, select **Properties** (near the bottom).
-
-1. In the **Directory Properties** blade, copy the **Directory ID**.
-
-1. Close the **Directory Properties** blade, returning to the **Overview** blade.
-
 1. Select **App registrations** in the left-hand menu.
 
 1. Select **New registration**.
@@ -30,7 +24,7 @@ In this demo, you will demonstrate calling the Microsoft Graph from TypeScript c
 
 1. Select **Register**.
 
-1. On the application blade, copy the **Application Id**.
+1. On the Overview blade, copy the **Application (client) ID** and the **Directory (tenant) ID**.
 
 1. In the **Manage** section, select **Authentication**.
 
