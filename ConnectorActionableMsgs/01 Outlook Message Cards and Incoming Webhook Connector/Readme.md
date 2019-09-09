@@ -27,16 +27,16 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |        Date        |                   Comments                   |
-| ------- | ------------------ | -------------------------------------------- |
-| 1.7     | September 6, 2019  | 2020Q1 content refresh                       |
-| 1.6     | June 12, 2019      | 2019Q4 content refresh                       |
-| 1.5     | March 9, 2019      | 2019Q3 content refresh                       |
-| 1.4     | December 12, 2018  | 2019Q2 content refresh                       |
-| 1.3     | September 20, 2018 | 2019Q1 content refresh                       |
-| 1.2     | June 6, 2018       | 2018Q4 content refresh & style guide updates |
-| 1.1     | February 21, 2018  | 2018Q3 content review                        |
-| 1.0     | November 10, 2017  | Initial release                              |
+| Version |        Date        |                                 Comments                                 |
+| ------- | ------------------ | ------------------------------------------------------------------------ |
+| 1.7     | September 9, 2019  | 2020Q1 content refresh, remove outdated sections & demos, renamed module |
+| 1.6     | June 12, 2019      | 2019Q4 content refresh                                                   |
+| 1.5     | March 9, 2019      | 2019Q3 content refresh                                                   |
+| 1.4     | December 12, 2018  | 2019Q2 content refresh                                                   |
+| 1.3     | September 20, 2018 | 2019Q1 content refresh                                                   |
+| 1.2     | June 6, 2018       | 2018Q4 content refresh & style guide updates                             |
+| 1.1     | February 21, 2018  | 2018Q3 content review                                                    |
+| 1.0     | November 10, 2017  | Initial release                                                          |
 
 ## Disclaimer
 
