@@ -1,18 +1,16 @@
-# Build a basic connector that works with Microsoft Graph and Microsoft Teams
+# Outlook Message Cards and Incoming Webhook Connector
 
-This module covers building a Connector that works with Graph & Teams
+This module covers Outlook Message Cards and the Incoming Webhook Connector
 
-## Lab - Build a basic connector that works with Graph and Teams
+## Lab - Outlook Message Cards and Incoming Webhook Connector
 
-In this lab, you will walk through designing, building, registering, and deploying a Connector for Microsoft Graph and Microsoft Teams app with gulp commands, and an introduction of the Microsoft Teams app capabilities.
+In this lab, you will learn the steps to create and send connector cards to Office 365 Groups.
 
 * [Lab manual](./Lab.md)
 
 ## Demos
 
 * [Create a card payload and submit it via an incoming webhook](./Demos/01-card-webhook)
-* [Add Connector functionality to existing web site](./Demos/02-webconnector)
-* [Upload the Connector to Microsoft Teams](./Demos/03-teams)
 
 ## Watch the Module
 
@@ -31,6 +29,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |        Date        |                   Comments                   |
 | ------- | ------------------ | -------------------------------------------- |
+| 1.7     | September 6, 2019  | 2020Q1 content refresh                       |
 | 1.6     | June 12, 2019      | 2019Q4 content refresh                       |
 | 1.5     | March 9, 2019      | 2019Q3 content refresh                       |
 | 1.4     | December 12, 2018  | 2019Q2 content refresh                       |
