@@ -2,9 +2,9 @@ const devCerts = require("office-addin-dev-certs");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const fs = require("fs");
 const webpack = require("webpack");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = async (env, options) => {
   const dev = options.mode === "development";

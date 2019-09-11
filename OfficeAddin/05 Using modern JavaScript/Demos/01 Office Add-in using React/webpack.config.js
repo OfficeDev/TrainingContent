@@ -1,5 +1,5 @@
 const devCerts = require("office-addin-dev-certs");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -83,9 +83,9 @@ module.exports = async (env, options)  => {
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*"
-      },
-      https: await devCerts.getHttpsServerOptions(),
-      port: 3000
+      },      
+      https: (options.https !== undefined) ? options.https : await devCerts.getHttpsServerOptions(),
+      port: process.env.npm_package_config_dev_server_port || 3000
     }
   };
 

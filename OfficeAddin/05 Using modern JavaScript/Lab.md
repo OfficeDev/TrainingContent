@@ -120,7 +120,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
 1. The project template that the Office Yeoman generator created include a number of React components that need to be updated or deleted.
 
-    Delete the **src/taskpane/components/HeroList.tsx** file.
+    Delete the **src/taskpane/components/HeroList.tsx** and **src/taskpane/components/Progress.tsx** files.
 
 1. Open the **src/taskpane/components/Header.tsx** file and replace the contents with the following code:
 
@@ -497,9 +497,9 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 this.tableUtil.addRow(data).then(
                   () => {
                     let symbols = this.state.listItems;
-                    symbols.unshift(element.state.value.toUpperCase());
+                    symbols.unshift(symbol);
                     this.setState({ listItems: symbols });
-                    element.setState({ value: '' });
+                    element.setState({ uncontrolledValue: '' });
                     this.setState({ waiting: false });
                   },
                   err => {
@@ -670,7 +670,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 this.getQuote(symbol).then((res: any) => {
                   // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
                   this.tableUtil
-                    .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res.["2. price"])
+                    .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res["2. price"])
                     .then(
                       async () => {
                         this.setState({ waiting: false });
@@ -816,8 +816,19 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
     .tbl-head {
         margin-bottom: 5px;
     }
+
+    input {
+        font-size: 16px;
+        width: 100%;
+    }
     ```
 
+1. Open the **src/taskpane/taskpane.html** file and add the **ms-Fabric** style class to the other style classes of the body element.
+
+    ```html
+    <body class="ms-font-m ms-welcome ms-Fabric">
+    ```
+    
 1. Copy the **spinner.gif** image from the **LabFiles** folder into **assets** of your project directory.
 
     ![Spinner](./Images/spinner.gif)
