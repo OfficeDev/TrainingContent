@@ -76,7 +76,7 @@ In order to run the bot inside Microsoft Teams:
 1. Open a new **Command Prompt** window.
 1. Change to the directory that contains the **ngrok.exe** application.
 
-1. Run the command `ht= http [port] -host-header=localhost:[port]`. Replace `[port]` with the port portion of the URL noted above.
+1. Run the command `ngrok http [port] -host-header=localhost`. Replace `[port]` with the port portion of the URL noted above.
 
     The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
@@ -144,11 +144,11 @@ The bot project must be configured with information from the registration.
 
 1. In **Visual Studio**, open the **Web.config** file and locate the `<appSettings>` section.
 
-1. Enter the `MicrosoftAppId` from the **Configuration** section of the app registration.
+1. The BotId value is no longer required. This `<appSetting>` element can be deleted.
 
-1. Enter the `MicrosoftAppPassword`, the auto-generated app password displayed in the dialog box during app registration.
+1. Enter the `MicrosoftAppId`. The `MicrosoftAppId` is the app ID from the **Configuration** section of the registration.
 
-    > **Note:** If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
+1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the client secret added in the Azure Portal Application Registration.
 
 ### Configure Visual Studio to package bot
 
