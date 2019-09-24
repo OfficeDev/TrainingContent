@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.4/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.4",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
   "id": "290f872a-14c6-9368-f175-c5d8ea29bfcb",
   "version": "0.0.1",
   "packageName": "teamsapp1",

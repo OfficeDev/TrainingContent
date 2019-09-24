@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.3",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
   "id": "[microsoft-app-id]",
   "version": "0.0.1",
   "packageName": "io.ngrok.[from-ngrok]",
@@ -28,16 +28,14 @@
   "bots": [
     {
       "botId": "[microsoft-app-id]",
-      "needsChannelSelector": true,
-      "isNotificationOnly": false,
       "scopes": [
+        "personal",
         "team",
-        "personal"
+        "groupchat"
       ],
       "commandLists": [
         {
           "scopes": [
-            "team",
             "personal"
           ],
           "commands": [
@@ -50,8 +48,40 @@
               "description": "Display a sample Thumbnail"
             }
           ]
+        },
+        {
+          "scopes": [
+            "team"
+          ],
+          "commands": [
+            {
+              "title": "Hero card",
+              "description": "Display a sample Hero card"
+            },
+            {
+              "title": "Thumbnail card",
+              "description": "Display a sample Thumbnail"
+            }
+          ]
+        },
+        {
+          "scopes": [
+            "groupchat"
+          ],
+          "commands": [
+            {
+              "title": "Hero card",
+              "description": "Display a sample Hero card"
+            },
+            {
+              "title": "Thumbnail card",
+              "description": "Display a sample Thumbnail"
+            }
+          ]
         }
-      ]
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
     }
   ],
   "connectors": [],
