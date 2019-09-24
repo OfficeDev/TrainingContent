@@ -30,37 +30,59 @@ This lab uses [ngrok](https://ngrok.com) for tunneling publicly-available HTTPS 
 
 ## Register the bot
 
-1. Go to the [Microsoft Bot Framework](https://dev.botframework.com/bots/new) and sign in. The bot registration portal accepts a work or school account or a Microsoft account.
+> This demo can use the same bot registration as Demo 1.
 
-    > NOTE: You must use this link to create a new bot: https://dev.botframework.com/bots/new. If you select the **Create a bot** button in the Bot Framework portal instead, you will create your bot in Microsoft Azure instead.
+1. Open the [Azure Portal](https://portal.azure.com).
 
-1. Complete the **bot profile section**, entering a display name, unique bot handle and description.
+1. Select **Create a resource**.
 
-    ![Screenshot of bot profile information page.](../../Images/Exercise1-04.png)
+1. In the **Search the marketplace** box, enter `bot`.
 
-1. Complete the configuration section.
-    - For the Messaging endpoint, use the forwarding HTTPS address from ngrok prepended to the route to the `MessagesController` in the Visual Studio project. In the example, this is `https://a2632edd.ngrok.io/API/Messages`.
-    - Select the **Create Microsoft App ID and password button**. This opens a new browser window.
-    - In the new browser window, the application is registered in Azure Active Directory. Select **Generate an app password to continue**.
-    - An app password is generated. Copy the password and save it. You will use it in a subsequent step.
-    - Select **OK** to close the dialog box.
-    - Select the **Finish and go back to Bot Framework** button to close the new browser window and populate the app ID in the **Paste your app ID below to continue textbox**.
+1. Choose **Bot Channels Registration**
 
-        ![Screenshot of configuration page with messaging endpoint and app ID displayed.](../../Images/Exercise1-05.png)
+1. Select the **Create** button.
 
-1. Move to the bottom of the page. Agree to the privacy statement, terms of use and code of conduct and select the **Register** button. Once the bot is created, select **OK** to dismiss the dialog box. The **Connect to channels** page is displayed for the newly-created bot.
+1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name.
 
-> **Note:** The Bot migration message (shown in red) can be ignored for Microsoft5 Teams bots. Additional information can be found in the Microsoft Teams developer documentation, on the [Create a bot page](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-create#bots-and-microsoft-azure).
+1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the forwarding address displayed in the ngrok window.
 
-1. The bot must be connected to Microsoft Teams. Select the **Microsoft Teams** logo.
+    ```
+    https://[from-ngrok].ngrok.io/api/Messages
+    ```
 
-    ![Screenshot of Microsoft Bot Framework with Microsoft Teams logo highlighted.](../../Images/Exercise1-06.png)
+1. Allow the service to auto-create an application.
 
-1. Select the **Save button. Agree to the Terms of Service. The bot registration is complete.
+1. Select **Create**.
 
-    ![Screenshot of Microsoft Bot Framework with configuration message displayed.](../../Images/Exercise1-07.png)
+1. When the deployment completes, navigate to the resource in the Azure portal. In the left-most navigation, select **All resources**. In the **All resources** blade, select the Bot Channels Registration.
 
-    >**Note:** Selecting **Settings** in the top navigation will re-display the profile and configuration sections. This can be used to update the messaging endpoint in the event ngrok is stopped, or the bot is moved to staging & production.
+1. In the **Bot Management** section, select **Channels**.
+
+    ![Screenshot of channel menu with Microsoft Teams icon highlighted.](../../Images/Exercise1-05.png)
+
+1. Click on the Microsoft Teams logo to create a connection to Teams. Select **Save**. Agree to the Terms of Service.
+
+    ![Screenshot of MSTeams bot confirmation page.](../../Images/Exercise1-06.png)
+
+#### Record the Bot Channel Registration Bot Id and secret
+
+1. In the **Bot Channels Registration** blade, select **Settings** under **Bot Management**
+
+    ![Screenshot of bot channel registration.](../../Images/Exercise1-04.png)
+
+1. The **Microsoft App Id** is displayed. Record this value.
+
+1. Next to the **Microsoft App Id**, select the **Manage** link. This will navigate to the Application Registration blade.
+
+1. In the application blade, select **Certificates & Secrets**.
+
+1. Select **New client secret**.
+
+1. Enter a description and select an expiration interval. Select **Add**.
+
+1. A new secret is created and displayed. Record the new secret.
+
+    ![Screenshot of application registration.](../../Images/Exercise1-07.png)
 
 ## Update Demo solution
 
@@ -70,33 +92,22 @@ Make the following updates to the demo solution.
 
 1. In **Visual Studio 2017**, select **File > Open > Project/Solution**.
 
-1. Select the **teams-m5-bot.sln** file from the **Demos\01-messaging-extension\solution** folder.
+1. Select the **teams-m5-bot.sln** file from the **Demos\02-messaging-extension\solution** folder.
 
 1. Open the **Web.config** file. Locate the `<appSettings>` section.
 
-1. Replace the token **[BotId]** with the value of the **Bot handle** from the **Configuration** section of the registration.
+1. Enter the `MicrosoftAppId`. The `MicrosoftAppId` is the app ID from the **Configuration** section of the registration.
 
-1. Replace the token **[MicrosoftAppId]** with the application Id from the **Configuration** section of the registration.
-
-1. Replace the token *[MicrosoftAppPassword]** with the auto-generated app password displayed in the dialog box during registration.
-
-    > **Note:** If you do not have the app password, the bot must be deleted and re-registered. An app password cannot be reset nor displayed.
+1. Enter the `MicrosoftAppPassword`. The `MicrosoftAppPassword` is the client secret added in the Azure Portal Application Registration.
 
 1. Save and close the **web.config** file.
 
-1. Open the **manifest.json** file in the **Manifest** folder.
-
-1. The `id` property must contain the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
-
-1. The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
-
-1. The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
-
-1. The `botId` property in the `bots` collection property requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
-
-1. The `botId` property in the `composeExtensions` collection property requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
-
-1. Save and close the **manifest.json** file.
+1. Open the **manifest.json** file just added to the project. The `manifest.json` file requires several updates:
+    - The `id` property must contain the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
+    - The `packageName` property must contain a unique identifier. The industry standard is to use the bot's URL in reverse format. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
+    - The `developer` property has three URLs that should match the hostname of the Messaging endpoint. Replace the token `[from-ngrok]` with the unique identifier from the forwarding address.
+    - The `botId` property in the `bots` collection property also requires the app ID from registration. Replace the token `[microsoft-app-id]` with the app ID.
+    - Save and close the **manifest.json** file.
 
 1. Press F5 to compile the project, build the app package and start the web server. The default browser will open. This browser window is not necessary for the demo.
 
