@@ -5,7 +5,7 @@ This GitHub repo houses all of the training content for Office 365 Development t
 
 You are welcome to use this content as you wish to train your internal developers or present at User Groups or Conferences. 
 
-For more information on Office 365 Development visit https://developer.microsoft.com/en-us/office.
+For more information on Office 365 Development visit https://developer.microsoft.com/office.
 
 - [Connectors & Actionable Messages](./ConnectorActionableMsgs)
 - [Excel](./Excel)
@@ -20,6 +20,6 @@ For more information on Office 365 Development visit https://developer.microsoft
 
 > **Notice** that some of the materials might be slightly out of date due to the speed of innovation in Office 365. **We do welcome fixes and feedback from the community**, which is a great way to get recognized in the monthly summaries and in our other public messaging. 
 
-> *tip. Ever wanted to be a MVP for Office 365 development topics? - Contribute.* 😉
+> *Tip: Ever wanted to be a MVP for Office 365 development topics? - Contribute.* 😉
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
