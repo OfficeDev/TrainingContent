@@ -1,0 +1,51 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
+  <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    microsoftTeams.initialize();
+
+    // ADAL.js configuration
+    let config = {
+      clientId: "{{REPLACE_AZUREAD_APP_ID}}",
+      cacheLocation: "localStorage",
+      navigateToLoginRequestUrl: false,
+      endpoints: {
+        "https://graph.microsoft.com": "https://graph.microsoft.com"
+      }
+    };
+
+    let authContext = new AuthenticationContext(config);
+
+    // ensure page loaded via AzureAD callback
+    if (authContext.isCallback(window.location.hash)) {
+      authContext.handleWindowCallback(window.location.hash);
+
+      // Only call notifySuccess or notifyFailure if this page is in the authentication popup
+      if (window.opener) {
+        // if able to retrieve current user... 
+        if (authContext.getCachedUser()) {
+          // get access token for Microsoft Graph
+          authContext.acquireToken("https://graph.microsoft.com", function (error, token) {
+            if (token) {
+              microsoftTeams.authentication.notifySuccess(token);
+            } else if (error) {
+              microsoftTeams.microsoftTeams.notifyFailure(error);
+            } else {
+              microsoftTeams.authentication.notifyFailure("UnexpectedFailure");
+            }
+          });
+        } else {
+          microsoftTeams.authentication.notifyFailure(authContext.getLoginError());
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
