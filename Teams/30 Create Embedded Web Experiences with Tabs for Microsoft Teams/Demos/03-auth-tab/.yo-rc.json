@@ -1,0 +1,11 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Contoso",
+      "unitTestsEnabled": false,
+      "useAzureAppInsights": false
+    },
+    "libraryName": "learnMsTeamsAuthTabs",
+    "generator-version": "2.11.1"
+  }
+}

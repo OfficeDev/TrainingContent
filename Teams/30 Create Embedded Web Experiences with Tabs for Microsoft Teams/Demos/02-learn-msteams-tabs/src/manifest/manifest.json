@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "id": "205214d0-e04b-11e9-9332-5b5c97b60069",
+  "version": "0.0.1",
+  "packageName": "learnmsteamstabs",
+  "developer": {
+    "name": "Contoso",
+    "websiteUrl": "https://{{HOSTNAME}}",
+    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+  },
+  "name": {
+    "short": "Learn MSTeams Tabs",
+    "full": "Learn Microsoft Teams Tabs"
+  },
+  "description": {
+    "short": "My first custom Teams app.",
+    "full": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et condimentum quam, eu blandit ex. Curabitur velit ex, placerat in interdum id, aliquam et magna. Curabitur odio diam, iaculis eget finibus ut, eleifend nec massa. Morbi mollis urna mi, in pretium ante egestas vel. Mauris commodo rutrum varius. Etiam viverra augue eget est maximus, vitae posuere dui finibus. Proin ex dolor, ullamcorper sed pulvinar sed, porttitor a est."
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://{{HOSTNAME}}/configMathTab/config.html",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ],
+      "sharePointPreviewImage": "https://{{HOSTNAME}}/assets/configMathTab-preview.png",
+      "supportedSharePointHosts": [
+        "sharePointFullPage",
+        "sharePointWebPart"
+      ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "default-data",
+      "name": "LearnPersonalTab",
+      "contentUrl": "https://{{HOSTNAME}}/learnPersonalTab/?theme={theme}",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "bots": [],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "{{HOSTNAME}}"
+  ]
+}
