@@ -69,7 +69,7 @@ export default class App extends React.Component<AppProps, AppState> {
           this.tableUtil.addRow(data).then(
             () => {
               let symbols = this.state.listItems;
-              symbols.unshift(symbol);
+              symbols.unshift(element.value.toUpperCase());
               this.setState({ listItems: symbols });
               element.setState({ uncontrolledValue: '' });
               this.setState({ waiting: false });

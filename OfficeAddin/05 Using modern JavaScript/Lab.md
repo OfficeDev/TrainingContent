@@ -497,7 +497,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 this.tableUtil.addRow(data).then(
                   () => {
                     let symbols = this.state.listItems;
-                    symbols.unshift(symbol);
+                    symbols.unshift(element.value.toUpperCase());
                     this.setState({ listItems: symbols });
                     element.setState({ uncontrolledValue: '' });
                     this.setState({ waiting: false });
@@ -1162,7 +1162,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
 
                     // Sync to populate proxy objects with data from Excel
                     return context.sync().then(async () => {
-                      let data = [];
+                      let data: string[] = [];
                       for (let i = 0; i < colRange.values.length; i++) {
                         data.push(colRange.values[i].toString());
                       }
@@ -1792,7 +1792,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             resolve(quote);
           });
       });
-    }
+    },
     ```
 
 1. Create new **utils** folder in the **src** folder, then create a file named **ExcelTableUtil.ts**. This TypeScript class will contain helper functions for working with Microsoft Excel tables with office.js. Notice the **ExcelTableUtil** constructor accepts details about the Excel table, including the name, location, and header details.
