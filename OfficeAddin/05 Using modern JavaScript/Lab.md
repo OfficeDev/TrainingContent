@@ -1954,7 +1954,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
                 '=B:B * D:D' //Value
               ];
               this.tableUtil.addRow(data).then(() => {
-                this.symbols.unshift(symbol);
+                this.symbols.unshift(element.value.toUpperCase());
                 this.waiting = false;
                 this.newSymbol = "";
               }, (err) => {
