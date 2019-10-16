@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT license.
  */
  
-.header {
+ .header {
     padding: 10px;
 }
 
@@ -71,4 +71,9 @@ Licensed under the MIT license.
 
 .tbl-head {
     margin-bottom: 5px;
+}
+
+input {
+    font-size: 16px;
+    width: 100%;
 }

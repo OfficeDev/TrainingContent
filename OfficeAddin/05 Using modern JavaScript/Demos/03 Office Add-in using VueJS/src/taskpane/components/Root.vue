@@ -95,7 +95,7 @@
                             '=B:B * D:D' //Value
                         ];
                         this.tableUtil.addRow(data).then(() => {
-                            this.symbols.unshift(symbol);
+                            this.symbols.unshift(symbol.toUpperCase());
                             this.waiting = false;
                             this.newSymbol = "";
                         }, (err) => {
