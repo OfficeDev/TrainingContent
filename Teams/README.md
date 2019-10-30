@@ -16,7 +16,7 @@ We are currently working on a new set of modules for developing with Microsoft t
 
 The existing modules (listed above) will remain until all new content has been published. At that time, the existing modules will be archived.
 
-- 10 - Introduction to developing Microsoft Teams apps
+- [10 - Introduction to building apps for Microsoft Teams](10%20Introduction%20to%20building%20apps%20for%20Microsoft%20Teams)
 - 20 - Task oriented interactions w/ messaging extensions
 - [30 - Embedded web experiences with tabs](./30%20Create%20Embedded%20Web%20Experiences%20with%20Tabs%20for%20Microsoft%20Teams)
 - 40 - Conversation bots
