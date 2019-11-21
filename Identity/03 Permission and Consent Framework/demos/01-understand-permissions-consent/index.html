@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Microsoft Identity: Permissions and Consent</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.5/bluebird.min.js"></script>
+  <script src="https://alcdn.msftauth.net/lib/1.1.3/js/msal.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <p id="WelcomeMessage">Microsoft Authentication Library For Javascript (MSAL.js) Exercise</p>
+      <button id="SignIn" onclick="signIn()">Sign In</button>
+    </div>
+    <h2>Latest messages</h2>
+    <div id="messages"></div>
+  </div>
+  <script>
+    var msalConfig = {
+      auth: {
+        clientId: '{{APPLICATION_ID}}',
+        authority: 'https://login.microsoftonline.com/{{DIRECTORY_ID}}',
+        redirectURI: 'http://localhost:3007'
+      },
+      cache: {
+        cacheLocation: "localStorage",
+        storeAuthStateInCookie: true
+      }
+    };
+
+    var graphConfig = {
+      graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
+      requestObj: {
+        scopes: ["user.read", "mail.read"]
+      }
+    };
+
+    var msalApplication = new Msal.UserAgentApplication(msalConfig);
+
+    // init the auth handling on the page
+    initPage();
+
+
+
+    msalApplication.handleRedirectCallback(authRedirectCallBack);
+    // TODO: add CODE before this line
+
+
+    // Update the welcome message &
+    // init the signin button
+    function updateWelcomeMessageAndSigninControl() {
+      // update welcome message
+      var divWelcome = document.getElementById('WelcomeMessage');
+      divWelcome.innerHTML = `Welcome <strong>${msalApplication.getAccount().name}</strong> &lt;${msalApplication.getAccount().userName}&gt; to Microsoft Graph API`;
+
+      // update signin/out button
+      var loginbutton = document.getElementById('SignIn');
+      loginbutton.innerHTML = 'Sign Out';
+      loginbutton.setAttribute('onclick', 'signOut();');
+    }
+
+    // If not IE, use the popup method to acquire an access token / login to Azure AD
+    // After obtaining access token, request last 10 email messages via Microsoft Graph
+    //    for current signed-in user.
+    function acquireTokenPopupAndGetUserEmails() {
+      // try to get token silently without logging in (ie: from token cache)
+      msalApplication.acquireTokenSilent(graphConfig.requestObj)
+        .then(function (tokenResponse) {
+          // request email messages from Microsoft Graph
+          getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'/messages?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
+        }).catch(function (error) {
+          console.log(error);
+          if (requiresInteraction(error.errorCode)) {
+            // unable to get token silently, so log the user in interactively (ie: display popup)
+            msalApplication.acquireTokenPopup(graphConfig.requestObj).then(function (tokenResponse) {
+              // request email messages from Microsoft Graph
+              getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'/messages?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
+            }).catch(function (error) {
+              console.log(error);
+            });
+          }
+        });
+    }
+
+    // If IE, use the redirect method to acquire an access token / login to Azure AD
+    // After obtaining access token, request last 10 email messages via Microsoft Graph
+    //    for current signed-in user.
+    function acquireTokenRedirectAndGetUserEmails() {
+      // try to get token silently without logging in (ie: from token cache)
+      msalApplication.acquireTokenSilent(graphConfig.requestObj).then(function (tokenResponse) {
+        getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'/messages?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
+      }).catch(function (error) {
+        console.log(error);
+        // unable to get token silently, so log the user in interactively (ie: display popup)
+        if (requiresInteraction(error.errorCode)) {
+          msalApplication.acquireTokenRedirect(graphConfig.requestObj);
+        }
+      });
+    }
+
+    // Check the error code for the error returned to determine if interactive login required
+    function requiresInteraction(errorCode) {
+      if (!errorCode || !errorCode.length) {
+        return false;
+      }
+      return errorCode === "consent_required" ||
+              errorCode === "interaction_required" ||
+              errorCode === "login_required";
+    }
+
+    // Process the redirect from Azure AD
+    function authRedirectCallBack(error, response) {
+      if (error) {
+        console.log(error);
+      } else {
+        if (response.tokenType === "access_token") {
+          getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'//messages?$top=10&$select=subject', response.accessToken, graphAPICallback);
+        } else {
+          console.log("token type is:" + response.tokenType);
+        }
+      }
+    }
+
+    // Submit request to Microsoft Graph to specified endpoint with specified access token
+    function getMessagesFromMSGraph(endpoint, accessToken, callback) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200)
+          callback(JSON.parse(this.responseText));
+      }
+      xmlHttp.open("GET", endpoint, true);
+      xmlHttp.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+      xmlHttp.send();
+    }
+
+    // Process response from Microsoft Graph
+    function graphAPICallback(data) {
+      var htmlBody = '';
+      data.value.forEach(message => {
+        htmlBody += `<li>${message.subject}</li>`;
+      });
+      document.getElementById("messages").innerHTML = `<ul>${htmlBody}</ul>`;
+    }
+
+    function signIn() {
+      msalApplication.loginPopup(graphConfig.requestObj)
+        .then(function (loginResponse) {
+          updateWelcomeMessageAndSigninControl();
+          acquireTokenPopupAndGetUserEmails();
+        }).catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function signOut() {
+      msalApplication.logout();
+    }
+    // TODO: add FUNCTIONS before this line
+
+
+    function initPage() {
+      // Browser check variables
+      var ua = window.navigator.userAgent;
+      var msie = ua.indexOf('MSIE ');
+      var msie11 = ua.indexOf('Trident/');
+      var msedge = ua.indexOf('Edge/');
+      var isIE = msie > 0 || msie11 > 0;
+      var isEdge = msedge > 0;
+
+      // if you support IE, recommendation: sign in using Redirect APIs vs. popup
+      // Browser check variables
+      // can change this to default an experience outside browser use
+      var loginType = isIE ? "REDIRECT" : "POPUP";
+
+      // runs on page load, change config to try different login types to see what is best for your application
+      switch (isIE) {
+        case true:
+          document.getElementById("SignIn").onclick = function () {
+            msalApplication.loginRedirect(graphConfig.requestObj);
+          };
+
+          // avoid duplicate code execution on page load in case of iframe and popup window
+          if (msalApplication.getAccount() && !msalApplication.isCallback(window.location.hash)) {
+            updateWelcomeMessageAndSigninControl();
+            acquireTokenRedirectAndGetUserEmails();
+          }
+          break;
+        case false:
+          // avoid duplicate code execution on page load in case of iframe and popup window
+          if (msalApplication.getAccount()) {
+            updateWelcomeMessageAndSigninControl();
+            acquireTokenPopupAndGetUserEmails();
+          }
+          break;
+        default:
+          console.error('Please set a valid login type');
+          break;
+      }
+    }
+  </script>
+</body>
+</html>

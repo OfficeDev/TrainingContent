@@ -5,6 +5,7 @@
 This GitHub repo houses all of the content for the "Introduction to Microsoft Identity Platform Teams" training.
 
 - [01 - Getting Started with Microsoft Identity](01%20Getting%20Started%20Microsoft%20Identity)
+- [03 - Permission and Consent Framework](03%20Permission%20and%20Consent%20Framework)
 
 ----------
 
