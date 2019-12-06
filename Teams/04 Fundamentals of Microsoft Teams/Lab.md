@@ -627,7 +627,7 @@ The tab in this exercise can be configured to read information from Microsoft Gr
     </head>
 
     <body>
-      <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+      <script src="https://statics.teams.cdn.office.net/sdk/v1.5.2/js/MicrosoftTeams.min.js"></script>
       <!-- inject:js -->
       <!-- endinject -->
 
