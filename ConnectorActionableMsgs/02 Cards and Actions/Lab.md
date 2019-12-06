@@ -32,7 +32,7 @@ The MessageCard Playground provides a sandboxed environment with which to design
 
 1. Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) site. At the top right, select **Log in**.
 
-1. If requested, grant consent to the Playground_React application.
+1. If requested, grant consent to the Designer for Actionable Messages application.
 
 1. In the drop-down menu, choose **Microsoft Flow Approval**.
 
@@ -98,7 +98,7 @@ Using Microsoft Graph to send emails requires an application registration.
 
 1. Open the **App.config** file in Solution Explorer.
 
-1. Find the following line:
+1. Find the following lines:
 
     ```xml
     <add key="applicationId" value="[your-app-id-here]" />
