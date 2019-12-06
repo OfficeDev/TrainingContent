@@ -74,23 +74,7 @@ The card contains the severity level of the support ticket. Adaptive Cards allow
 
 This exercise will send the card via email using a console application.
 
-### Run the ngrok secure tunnel application
-
-1. Open a new **command prompt**.
-
-1. Change to the directory that contains the **ngrok.exe** application.
-
-1. Run the command `ngrok http 8011 -host-header=localhost:8011`.
-
-1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
-
-1. Minimize the ngrok command prompt window. It is no longer referenced in this exercise, but it must remain running.
-
-    ![Screenshot of ngrok command prompt with forwarding address highlighted.](Images/ngrokTunnel.png)
-
 ### Register application in the Azure Active Directory
-
-Using Microsoft Graph to send emails requires an application registration. (The application registered in Module 2 can be used for this module as well.)
 
 1. Open the [Azure Active Directory admin center](https://aad.portal.azure.com).
 
@@ -104,31 +88,15 @@ Using Microsoft Graph to send emails requires an application registration. (The 
 
 1. Enter a name for the application. A suggested name is `Expense Card mailer`. Select **Register**.
 
-### Register application in the Azure Active Directory
+1. In the **Overview** blade, copy the **Application (client) ID**.
 
-1. Open the [Azure Active Directory admin center](https://aad.portal.azure.com).
-
-1. Log in with the work or school account that is an administrator in the tenant.
-
-1. Select **Azure Active Directory** in the left-most blade.
-
-1. Select **App registrations** in the left-hand menu.
-
-1. Select **New registration**.
-
-1. Enter a name for the application. 
-
-1. In the **Supported Account Types** section, select **Accounts in any organizational directory (Any Azure AD directory - Multitenant)**.
-
-1. Select **Register**.
-
-1. In the **Overview** blade, copy the **Application (client) ID**  for reference later.
+1. In the **Overview** blade, copy the **Directory (tenant) ID**.
 
 1. Select **Authentication** in the left-hand menu.
 
-1. In the **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the box next to the value **https://login.microsoftonline.com/common/oauth2/nativeclient**.
+1. In the Redirect URIs > **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
 
-1. In the **Default client type** section, select **Yes** for **Treat applicatin as public client**.
+    ![Screenshot of application registration showing the Redirect URIs](Images/Exercise2-01.png)
 
 1. Select **Save** from the toolbar at the top of the Authentication blade.
 
@@ -182,14 +150,6 @@ Sending an Adaptive Card via email requires a message body in HTML. The Adaptive
 ### Send a signed-card payload
 
 Under certain conditions, the adaptive card must be sent as a signed card. These requirements are discussed as part of the [Security requirements for Actionable Messages](https://docs.microsoft.com/en-us/outlook/actionable-messages/security-requirements). To send an adaptive card as a signed-payload, complete the following steps:
-
-1. Select **Tools > NuGet Package Manager > Package Manager Console**.
-
-1. In the **Package Manager Console**, enter the command `Install-Package Microsoft.IdentityModel.Tokens`.
-
-1. In the **Package Manager Console**, enter the command `Install-Package System.IdentityModel.Tokens.Jwt`.
-
-1. Close the **Package Manager Console**.
 
 1. Open the file **Program.cs**.
 
@@ -284,7 +244,11 @@ Under certain conditions, the adaptive card must be sent as a signed card. These
     </html>
     ```
 
-1. In the `SendMessage` method of the the `Program` class, location the statement that creates the email message. Replace the call to the `LoadAdaptiveCardMessageBody` method with a call to the `LoadSignedAdaptiveCardMessageBody` method. The updated statement will look as follows:
+1. Select the `signed_adaptive_template.html` file in **Solution Explorer** and press **F4**.
+
+1. In the **Properties** pane, set the **Copy to Output Directory** property of the file to **Copy Always**.
+
+1. In the `LoadCardMessageBody` method of the the `Program` class, locate the statement that reads the message body from the AdaptiveMessageBody.html file. Replace this statement with a call to the `LoadSignedAdaptiveCardMessageBody` method. The updated method will look as follows:
 
     ```csharp
     static string LoadCardMessageBody(string cardType, string filepath)
@@ -294,8 +258,7 @@ Under certain conditions, the adaptive card must be sent as a signed card. These
 
       if (cardType == "adaptive")
       {
-        //messageBody = System.IO.File.ReadAllText(@"AdaptiveMessageBody.html");
-        return LoadSignedAdaptiveCardMessageBody(cardJson);
+        messageBody = LoadSignedAdaptiveCardMessageBody(cardJson);
       }
       else
       {
@@ -309,13 +272,31 @@ Under certain conditions, the adaptive card must be sent as a signed card. These
 
 1. Compile and run the **SendEmailCard** solution. The program will again prompt for an account and send the message.
 
+    ```shell
+    SendEmailCard.exe adaptive supportTicketCard.json
+    ```
+
 ## Exercise 3: Adaptive Cards with actions and inputs
 
-This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook.
+This exercise will enhance the support ticket card from Exercise 1 with input and action elements allowing comments on the support ticket directly from Microsoft Outlook. 
 
 1. In Outlook, delete messages from earlier exercises.
 
-1. In Visual Studio, open the file **Card.json**.
+### Run the ngrok secure tunnel application
+
+1. Open a new **command prompt**.
+
+1. Change to the directory that contains the **ngrok.exe** application.
+
+1. Run the command `ngrok http 8011 -host-header=localhost:8011`.
+
+1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
+
+1. Minimize the ngrok command prompt window. It is no longer referenced in this exercise, but it must remain running.
+
+    ![Screenshot of ngrok command prompt with forwarding address highlighted.](Images/ngrokTunnel.png)
+
+1. Open the **supportTicketCard.json** file from Exercise 1.
 
 1. You will extend the card with another element in the body as a header for comments. Add a comma to the end of line 101 and press return.
 
@@ -378,7 +359,7 @@ This exercise will enhance the support ticket card from Exercise 1 with input an
 
     >Note: The `body` element of the `Action.Http` element contains a token indicated with double braces: `'{{comment.value}}'`. Inside the braces is the name of the input control. When the action is performed, the value of the input control is inserted in this token.
 
-1. Compile and run the **SendAdaptiveCard** solution. The program will again prompt for an account and send the message.
+1. Use the **SendEmailCard** application from Exercise 2 to send the updated **supportTicketCard.json** file. The program will again prompt for an account and send the message.
 
 ### View and interact with Adaptive Cards
 
@@ -533,7 +514,7 @@ In this exercise, a web service will handle the calls from Microsoft Outlook to 
         //
         // You should also return the CARD-ACTION-STATUS header in the response.
         // The value of the header will be displayed to the user.
-        if (!result.Sender.ToLower().EndsWith(SenderEmailDomain))
+        if (!result.Sender.ToLowerInvariant().EndsWith(SenderEmailDomain.ToLowerInvariant()))
         {
           HttpResponseMessage errorResponse = request.CreateErrorResponse(HttpStatusCode.Forbidden, new HttpError());
           errorResponse.Headers.Add("CARD-ACTION-STATUS", "Invalid sender or the action performer is not allowed.");
@@ -626,8 +607,6 @@ The Action.Http element is not part of the Adaptive Cards SDK. This action is an
 
 ### Add base card definition
 
-The refresh card follows a format similar to the rest of the lab. The base definition of the refresh card will be added to the project as an embedded resource.
-
 1. Right-click on the project and choose **Add > JSON File**.
 
 1. Name the file **refreshCard.json**.
@@ -664,10 +643,15 @@ The refresh card follows a format similar to the rest of the lab. The base defin
     #region Business logic code here to process the support ticket.
     List<Models.Comment> comments = new List<Models.Comment>();
 
-    comments.AddRange(cardResponse.CachedComments);
+      string newComment = cardResponse.Comment;
+
+      if (cardResponse.CachedComments != null)
+      {
+        JArray cachedComments = (JArray)cardResponse.CachedComments;
+        comments.AddRange(cachedComments.ToObject<List<Models.Comment>>());
+      }
 
     // add this comment
-    string newComment = cardResponse.Comment;
     comments.Add(new Models.Comment() { ActionPerformer = result.ActionPerformer, CommentDate = DateTime.Now, CommentText = newComment });
 
     // create the card
