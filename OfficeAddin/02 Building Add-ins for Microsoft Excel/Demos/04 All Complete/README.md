@@ -1,37 +1,32 @@
-# Office Add-ins: Building Office Add-ins for Excel
+# Office-Addin-TaskPane-JS
 
-This demo is an aggregate of the other three demos in the module. It demonstrates working with worksheets, tables, charts, add-in commands, and the Dialog API from and Excel Add-in.
+This repository contains the source code used by the [Yo Office generator](https://github.com/OfficeDev/generator-office) when you create a new Office Add-in that appears in the task pane. You can also use this repository as a sample to base your own project from if you choose not to use the generator. 
 
-## Running the project
+## JavaScript
 
-The finished solution is provided in this folder to simplify demonstrations. If you want to run a finished project, clone the repository, run **npm install** (from the solution folder directory), then **npm run start** and follow one of these methods to sideload and test the Office Add-in.
+This template is written using JavaScript. For the [TypeScript](http://www.typescriptlang.org/) version of this template, go to [Office-Addin-TaskPane](https://github.com/OfficeDev/Office-Addin-TaskPane).
 
-* Windows: [Sideload Office Add-ins on Windows](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/create-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins)
-* Word Online: [Sideload Office Add-ins in Office Online](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing#sideload-an-office-add-in-on-office-online)
-* iPad and Mac: [Sideload Office Add-ins on iPad and Mac](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-ipad-and-mac)
+## Debugging
 
-## Demo steps
+This template supports debugging using any of the following techniques:
 
-1. On the **Home** menu, select **Show Taskpane**.
+- [Use a browser's developer tools](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-in-office-online)
+- [Attach a debugger from the task pane](https://docs.microsoft.com/office/dev/add-ins/testing/attach-debugger-from-task-pane)
+- [Use F12 developer tools on Windows 10](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-using-f12-developer-tools-on-windows-10)
 
-1. In the taskpane, select **Create Table**.
+## Questions and comments
 
-1. Select the **Filter Table** and **Sort Table** buttons, in either order.
+We'd love to get your feedback about this sample. You can send your feedback to us in the *Issues* section of this repository.
 
-1. Select the **Create Chart** button. A chart is created and only the data from the rows that have been filtered are included. The labels on the data points across the bottom are in the sort order of the chart; that is, merchant names in reverse alphabetical order.
+Questions about Microsoft Office 365 development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/office-js+API).  If your question is about the Office JavaScript APIs, make sure it's tagged with  [office-js].
 
-1. Select the **Freeze Header** button.
+## Additional resources
 
-1. On the **Home** ribbon, select **Toggle Worksheet Protection**. Note that most of the controls on the ribbon are disabled (and visually grayed-out) as seen in screenshot below.
+* [Office add-in documentation](https://docs.microsoft.com/office/dev/add-ins/overview/office-add-ins)
+* More Office Add-in samples at [OfficeDev on Github](https://github.com/officedev)
 
-1. Select a cell as you would if you wanted to change its content. You get an error telling you that the worksheet is protected.
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-1. Select **Toggle Worksheet Protection** again, and the controls are re-enabled, and you can change cell values again.
+## Copyright
 
-1. Reload the task pane by closing it, and then on the **Home** menu, select **Show Taskpane** to reopen the add-in.
-
-1. Select the **Open Dialog** button in the task pane.
-
-1. While the dialog is open, drag it and resize it. Note that you can interact with the worksheet and press other buttons on the taskpane. But you cannot launch a second dialog from the same task pane page.
-
-1. In the dialog, enter a name and select **OK**. The name appears on the task pane and the dialog closes.
+Copyright (c) 2019 Microsoft Corporation. All rights reserved.
