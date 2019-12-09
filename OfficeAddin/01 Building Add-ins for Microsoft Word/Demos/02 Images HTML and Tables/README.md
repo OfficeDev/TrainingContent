@@ -1,19 +1,32 @@
-# Office Add-ins: Building Office Add-ins for Word
+# Office-Addin-TaskPane-JS
 
-In this demo, you will demonstrate how a Word Add-in can interact with rich content such as images, HTML and tables.
+This repository contains the source code used by the [Yo Office generator](https://github.com/OfficeDev/generator-office) when you create a new Office Add-in that appears in the task pane. You can also use this repository as a sample to base your own project from if you choose not to use the generator. 
 
-## Running the project
+## JavaScript
 
-The finished solution is provided in this folder to simplify demonstrations. If you want to run a finished project, clone the repository, run **npm install** (from the solution folder directory), then **npm run start** and follow one of these methods to sideload and test the Office Add-in.
+This template is written using JavaScript. For the [TypeScript](http://www.typescriptlang.org/) version of this template, go to [Office-Addin-TaskPane](https://github.com/OfficeDev/Office-Addin-TaskPane).
 
-* Windows: [Sideload Office Add-ins on Windows](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/create-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins)
-* Word Online: [Sideload Office Add-ins in Office Online](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing#sideload-an-office-add-in-on-office-online)
-* iPad and Mac: [Sideload Office Add-ins on iPad and Mac](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-ipad-and-mac)
+## Debugging
 
-## Demo steps
+This template supports debugging using any of the following techniques:
 
-1. Select the **Insert Image** button and note that an image is inserted at the end of the document.
+- [Use a browser's developer tools](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-in-office-online)
+- [Attach a debugger from the task pane](https://docs.microsoft.com/office/dev/add-ins/testing/attach-debugger-from-task-pane)
+- [Use F12 developer tools on Windows 10](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-using-f12-developer-tools-on-windows-10)
 
-1. Select the **Insert HTML** button and note that two paragraphs are inserted at the end of the document, and that the first one has Verdana font.
+## Questions and comments
 
-1. Select the **Insert Table** button and note that a table is inserted after the second paragraph.
+We'd love to get your feedback about this sample. You can send your feedback to us in the *Issues* section of this repository.
+
+Questions about Microsoft Office 365 development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/office-js+API).  If your question is about the Office JavaScript APIs, make sure it's tagged with  [office-js].
+
+## Additional resources
+
+* [Office add-in documentation](https://docs.microsoft.com/office/dev/add-ins/overview/office-add-ins)
+* More Office Add-in samples at [OfficeDev on Github](https://github.com/officedev)
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Copyright
+
+Copyright (c) 2019 Microsoft Corporation. All rights reserved.
