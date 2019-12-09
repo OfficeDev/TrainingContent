@@ -1,16 +1,18 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+/* 
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
 export class ExcelTableUtil {
-    tableName;
-    location;
-    headers;
+    tableName: string;
+    location: string;
+    headers: string[];
     constructor(tableName: string, location: string, headers: string[]) {
       this.tableName = tableName;
       this.location = location;
       this.headers = headers;
     }
-  
+
     // Create the StocksTable and defines the header row
     createTable = async () => {
         return new Promise(async (resolve, reject) => {
@@ -28,9 +30,9 @@ export class ExcelTableUtil {
             });
         });
     }
-    
+  
     // Ensures the Excel table is created and tries to get a table reference
-    ensureTable = async (forceCreate) => {
+    ensureTable = async (forceCreate: boolean) => {
         return new Promise(async (resolve, reject) => {
             await Excel.run(async context => {
                 // Create a proxy object for the active worksheet and try getting table reference
@@ -41,14 +43,15 @@ export class ExcelTableUtil {
                 });
             }).catch(() => {
                 if (forceCreate) {
-                // Create a new table because an existing table was not found.
-                this.createTable().then(
-                    async tableRef => {
-                        resolve(tableRef);
-                    },
-                    createError => {
-                        reject(createError);
-                    });
+                    // Create a new table because an existing table was not found.
+                    this.createTable().then(
+                        async tableRef => {
+                            resolve(tableRef);
+                        },
+                        createError => {
+                            reject(createError);
+                        }
+                    );
                 } else {
                     resolve(null);
                 }
@@ -78,7 +81,8 @@ export class ExcelTableUtil {
                     }).catch(err => {
                         reject(err);
                     });
-                }, err => {
+                },
+                err => {
                     reject(err);
                 }
             );
@@ -86,80 +90,72 @@ export class ExcelTableUtil {
     }
 
     // Gets data for a specific named column
-    getColumnData = async (column) => {
+    getColumnData = async (column:string) => {
         return new Promise(async (resolve, reject) => {
-            this.ensureTable(false).then(
-                async (tableRef: Excel.Table) => {
-                    if (tableRef == null) {
-                        resolve([]);
-                    } else {
-                        await Excel.run(async context => {
-                            // Get column range by column name
-                            const sheet = context.workbook.worksheets.getActiveWorksheet();
-                            tableRef = sheet.tables.getItem(this.tableName);
-                            var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
-                                  
-                            // Sync to populate proxy objects with data from Excel
-                            return context.sync().then(async () => {
-                                let data: string[] = [];
-                                for (let i = 0; i < colRange.values.length; i++) {
-                                    data.push(colRange.values[i].toString());
-                                }
-                                resolve(data);
-                            });
-                        }).catch(err => {
-                            reject(err);
+            this.ensureTable(false).then(async (tableRef:Excel.Table) => {
+                if (tableRef == null)
+                    resolve([]);
+                else {
+                    await Excel.run(async (context) => {
+                        // Get column range of values by column name.
+                        const sheet = context.workbook.worksheets.getActiveWorksheet();
+                        tableRef = sheet.tables.getItem(this.tableName);
+                        var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
+            
+                        // Sync to populate proxy objects with data from Excel
+                        return context.sync().then(async () => {
+                            let data:string[] = [];
+                            for (var i = 0; i < colRange.values.length; i++) {
+                                data.push(colRange.values[i].toString());
+                            }
+                            resolve(data);
                         });
-                    }
-                },
-                err => {
-                    reject(err);
+                    }).catch((err) => {
+                        reject(err);
+                    });
                 }
-            );
+            }, (err) => {
+                reject(err);
+            });
         });
     }
   
-    // Deletes a column based by row index
-    deleteRow = async (index) => {
+    // Deletes a column using the row index.
+    deleteRow = async (index:number) => {
         return new Promise(async (resolve, reject) => {
-        this.ensureTable(true).then(
-            async (tableRef: Excel.Table) => {
-                await Excel.run(async context => {
-                    const range = tableRef.rows.getItemAt(index).getRange();
+            this.ensureTable(true).then(async (tableRef:Excel.Table) => {
+                await Excel.run(async (context) => {
+                    var range = tableRef.rows.getItemAt(index).getRange();
                     range.delete(Excel.DeleteShiftDirection.up);
                     return context.sync().then(async () => {
                         resolve();
                     });
-                }).catch(err => {
+                }).catch((err) => {
                     reject(err);
                 });
-            },
-            err => {
+            }, (err) => {
                 reject(err);
             });
         });
     }
 
     // Updates a specific cell in the table
-    updateCell = async (address, value) => {
+    updateCell = async (address:string, value:any) => {
         return new Promise(async (resolve, reject) => {
-            this.ensureTable(true).then(
-                async () => {
-                    await Excel.run(async context => {
-                        const sheet = context.workbook.worksheets.getActiveWorksheet();
-                        const range = sheet.getRange(address);
-                        range.values = [[value]];
-                        return context.sync().then(async () => {
-                            resolve();
-                        });
-                    }).catch(err => {
-                        reject(err);
+            this.ensureTable(true).then(async () => {
+                await Excel.run(async (context) => {
+                    var sheet = context.workbook.worksheets.getActiveWorksheet();
+                    var range = sheet.getRange(address);
+                    range.values = [[value]];
+                    return context.sync().then(async () => {
+                        resolve();
                     });
-                },
-                err => {
+                }).catch((err) => {
                     reject(err);
-                }
-            );
+                });
+            }, (err) => {
+                reject(err);
+            });
         });
     }
 }

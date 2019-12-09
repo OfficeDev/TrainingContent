@@ -1,5 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+/* 
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
 <template>
 <div>
@@ -9,11 +11,11 @@
 </template>
 
 <script lang="ts">
-import * as Vue from 'vue';
+import * as Vue from "vue";
 import Component from 'vue-class-component';
 
 @Component({})
 export default class waiting extends Vue {
-  name: 'waiting'
+    name: 'waiting'
 }
 </script>

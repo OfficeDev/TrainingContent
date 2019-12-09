@@ -1,5 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
 import * as React from 'react';
 import { MessageBar, MessageBarType, TextField, TextFieldBase } from 'office-ui-fabric-react';
@@ -51,7 +53,7 @@ export default class App extends React.Component<AppProps, AppState> {
     if (event.key === 'Enter') {
       const element = this.newSymbol.current as TextFieldBase;
       const symbol = element.value.toUpperCase();
-  
+
       // Get quote and add to Excel table
       this.setState({ waiting: true });
       this.getQuote(symbol).then(

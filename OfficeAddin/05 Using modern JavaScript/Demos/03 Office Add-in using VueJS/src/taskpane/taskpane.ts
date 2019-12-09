@@ -1,7 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
-import * as Vue from 'vue';
+/* global console, document, Excel, Office */
+import * as Vue from "vue";
 import root from './components/Root.vue';
 
 Office.onReady(info => {
