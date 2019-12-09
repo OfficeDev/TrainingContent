@@ -4,9 +4,9 @@ This folder contains the demos for the Microsoft Teams module on **Create Embedd
 
 ## Demos
 
-1. [Create a custom Microsoft Teams personal tab](./Demos/01-learn-msteams-tabs)
-1. [Create a custom Microsoft Teams channel tab](./Demos/02-learn-msteams-tabs)
-1. [Add authentication to custom Microsoft Teams channel tabs](./Demos/03-auth-tab)
+1. [Create a custom Microsoft Teams personal tab](./01-learn-msteams-tabs)
+1. [Create a custom Microsoft Teams channel tab](./02-learn-msteams-tabs)
+1. [Add authentication to custom Microsoft Teams channel tabs](./03-auth-tab)
 
 ## Running demonstrations
 
