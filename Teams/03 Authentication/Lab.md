@@ -218,7 +218,7 @@ When the bot was registered, an application registration was created in the AAD 
 
 1. Select **Authentication** in the left-hand menu.
 
-1. In the **Redirect URIs section, enter the following address for the **Redirect URI**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.) Leave the **Type** as **Web**.
+1. In the **Redirect URIs** section, enter the following address for the **Redirect URI**. Replace the token `[from-ngrok]` with the value recorded on the AppWorksheet as **ngrok forwarding address id**. (The Sign-in URL is case-sensitive.) Leave the **Type** as **Web**.
 
     ```
     https://[from-ngrok].ngrok.io/Tabs/auth-end.html
