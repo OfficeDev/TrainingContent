@@ -30,6 +30,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |        Date        |                        Comments                        |
 | ------- | ------------------ | ------------------------------------------------------ |
+| 1.8     | December 10, 2019  | 2020Q2 content refresh                                 |
 | 1.7     | September 4, 2019  | 2020Q1 content refresh                                 |
 | 1.6     | June 13, 2019      | 2019Q4 content refresh                                 |
 | 1.5     | March 14, 2019     | 2019Q3 content refresh & add exercise for signed cards |

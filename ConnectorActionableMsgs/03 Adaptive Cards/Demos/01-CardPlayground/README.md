@@ -48,7 +48,7 @@ Using Microsoft Graph to send emails requires an application registration. (The 
 
 1. In the **Redirect URIs** > **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
 
-    ![Screenshot of application registration showing the Redirect URIs](Images/Exercise2-01.png)
+    ![Screenshot of application registration showing the Redirect URIs](../../Images/Exercise2-01.png)
 
 1. Select **Save** from the toolbar at the top of the Authentication blade.
 
