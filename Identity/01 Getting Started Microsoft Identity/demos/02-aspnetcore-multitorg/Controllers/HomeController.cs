@@ -9,13 +9,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using _02_aspnetcore_multitorg.Models;
+using Microsoft.Extensions.Logging;
+using msidentity_aspnet_02.Models;
 
-namespace _02_aspnetcore_multitorg.Controllers
+namespace msidentity_aspnet_02.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
             return View();
