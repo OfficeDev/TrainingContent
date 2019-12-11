@@ -1,8 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
 const devCerts = require("office-addin-dev-certs");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
@@ -77,9 +79,9 @@ module.exports = async (env, options) => {
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*"
-      },
-      https: await devCerts.getHttpsServerOptions(),
-      port: 3000
+      },      
+      https: (options.https !== undefined) ? options.https : await devCerts.getHttpsServerOptions(),
+      port: process.env.npm_package_config_dev_server_port || 3000
     }
   };
 
