@@ -269,8 +269,21 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
 
       // Gets a quote by calling into the stock service
       getQuote = async (symbol: string) => {
-        //TODO
-        console.log(symbol);
+        return new Promise((resolve, reject) => {
+          const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+
+          fetch(queryEndpoint)
+            .then((res: any) => {
+              if (!res.ok) {
+                reject('Error getting quote');
+              }
+              return res.json();
+            })
+            .then((jsonResponse: any) => {
+              const quote: any = jsonResponse['Stock Quotes'][0];
+              resolve(quote);
+            });
+        });
       }
 
       render() {
@@ -1340,7 +1353,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     ```
 
 1. The Office Yeoman generator will ask a number of question. Use the following responses:
-    * Choose a project type ***Office Add-in Task Pane Project**
+    * Choose a project type **Office Add-in Task Pane Project**
     * Choose a script type **TypeScript**
     * What do you want to name your add-in? **Excel Portfolio**
     * Which Office client application would you like to support? **Excel**

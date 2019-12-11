@@ -1,9 +1,10 @@
 /* 
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the MIT license.
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
  */
- 
- .header {
+
+ /* You can add global styles to this file, and also import other style files */
+.header {
     padding: 10px;
 }
 

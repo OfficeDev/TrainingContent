@@ -1,37 +1,39 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+/* 
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
 <template>
-  <div class="pct100 itemRow">
-    <div class="left ms-font-l">{{symbol}}</div>
-    <div class="right">
-      <div class="left icon"><i class="ms-Icon ms-Icon--Refresh" aria-hidden="true" v-on:click="refreshSymbol(index)"></i></div>
-      <div class="left icon"><i class="ms-Icon ms-Icon--Delete" aria-hidden="true" v-on:click="deleteSymbol(index)"></i></div>
+    <div class="pct100 itemRow">
+        <div class="left ms-font-l">{{symbol}}</div>
+        <div class="right">
+            <div class="left icon"><i class="ms-Icon ms-Icon--Refresh" aria-hidden="true" v-on:click="refreshSymbol(index)"></i></div>
+            <div class="left icon"><i class="ms-Icon ms-Icon--Delete" aria-hidden="true" v-on:click="deleteSymbol(index)"></i></div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
-import * as Vue from 'vue';
+import * as Vue from "vue";
 import Component from 'vue-class-component';
 
 @Component({
-  props: {
-    symbol: String,
-    index: Number
-  },
-  methods: {
-    refreshSymbol(index:Number) {
-      this.$emit("refreshSymbol", index);
+    props: {
+        symbol: String,
+        index: Number
     },
-    deleteSymbol(index:Number) {
-      this.$emit("deleteSymbol", index);
+    methods: {
+        refreshSymbol(index:Number) {
+            this.$emit("refreshSymbol", index);
+        },
+        deleteSymbol(index:Number) {
+            this.$emit("deleteSymbol", index);
+        }
     }
-  }
 })
 export default class stock extends Vue {
-  name: 'stock';
-  symbol: string;
-  index: Number;
+    name: 'stock';
+    symbol: string;
+    index: Number;
 }
 </script>

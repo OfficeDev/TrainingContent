@@ -1,12 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
 import { Component, NgZone } from '@angular/core';
 import * as OfficeHelpers from '@microsoft/office-js-helpers';
 import { ExcelTableUtil } from './../../utils/excelTableUtil';
 
 const ALPHAVANTAGE_APIKEY = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
-
 const template = require('./app.component.html');
 
 @Component({
@@ -29,7 +30,8 @@ export default class AppComponent {
     'Total Gain',
     'Total Gain %',
     'Value'
-  ]);    
+  ]);
+
   constructor() {
     this.syncTable().then(() => {});
   }
@@ -71,7 +73,7 @@ export default class AppComponent {
   // Delete symbol
   deleteSymbol = async (index) => {
     // Delete from Excel table by index number
-    const symbol = this.symbols[index];
+    const symbol:string = this.symbols[index];
     this.waiting = true;
     this.tableUtil.getColumnData('Symbol').then(
       async (columnData:string[]) => {
@@ -146,7 +148,7 @@ export default class AppComponent {
       const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(
         symbol
       )}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
-  
+
       fetch(queryEndpoint)
         .then((res) => {
           if (!res.ok) {

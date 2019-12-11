@@ -1,5 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
+
 /// <reference path="../../node_modules/@types/office-js/index.d.ts" />
 
 export class ExcelTableUtil {
@@ -29,7 +32,7 @@ export class ExcelTableUtil {
             });
         });
     }
-    
+  
     // Ensures the Excel table is created and tries to get a table reference
     ensureTable = async (forceCreate) => {
         return new Promise(async (resolve, reject) => {
@@ -42,14 +45,15 @@ export class ExcelTableUtil {
                 });
             }).catch(() => {
                 if (forceCreate) {
-                // Create a new table because an existing table was not found.
-                this.createTable().then(
-                    async tableRef => {
-                        resolve(tableRef);
-                    },
-                    createError => {
-                        reject(createError);
-                    });
+                    // Create a new table because an existing table was not found.
+                    this.createTable().then(
+                        async tableRef => {
+                            resolve(tableRef);
+                        },
+                        createError => {
+                            reject(createError);
+                        }
+                    );
                 } else {
                     resolve(null);
                 }
@@ -79,7 +83,8 @@ export class ExcelTableUtil {
                     }).catch(err => {
                         reject(err);
                     });
-                }, err => {
+                },
+                err => {
                     reject(err);
                 }
             );
@@ -99,7 +104,7 @@ export class ExcelTableUtil {
                             const sheet = context.workbook.worksheets.getActiveWorksheet();
                             tableRef = sheet.tables.getItem(this.tableName);
                             var colRange = tableRef.columns.getItem(column).getDataBodyRange().load("values");
-                                  
+  
                             // Sync to populate proxy objects with data from Excel
                             return context.sync().then(async () => {
                                 let data: string[] = [];
@@ -123,21 +128,22 @@ export class ExcelTableUtil {
     // Deletes a column based by row index
     deleteRow = async (index) => {
         return new Promise(async (resolve, reject) => {
-        this.ensureTable(true).then(
-            async (tableRef: Excel.Table) => {
-                await Excel.run(async context => {
-                    const range = tableRef.rows.getItemAt(index).getRange();
-                    range.delete(Excel.DeleteShiftDirection.up);
-                    return context.sync().then(async () => {
-                        resolve();
+            this.ensureTable(true).then(
+                async (tableRef: Excel.Table) => {
+                    await Excel.run(async context => {
+                        const range = tableRef.rows.getItemAt(index).getRange();
+                        range.delete(Excel.DeleteShiftDirection.up);
+                        return context.sync().then(async () => {
+                            resolve();
+                        });
+                    }).catch(err => {
+                        reject(err);
                     });
-                }).catch(err => {
+                },
+                err => {
                     reject(err);
-                });
-            },
-            err => {
-                reject(err);
-            });
+                }
+            );
         });
     }
 
