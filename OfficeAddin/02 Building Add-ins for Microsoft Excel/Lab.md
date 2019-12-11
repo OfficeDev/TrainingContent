@@ -18,7 +18,11 @@ To complete this lab, you need to have the following installed.
 
 * Excel 2016, version 1711 (Build 8730.1000 Click-to-Run) or later. You might need to be an Office Insider to get this version. For more information, see [Be an Office Insider](https://products.office.com/en-us/office-insider?tab=tab-1).
 * [Node and npm](https://nodejs.org/en/)
-* [Git Bash](https://git-scm.com/downloads) (or another Git client)
+* The latest version of Yeoman and the Yeoman generator for Office Add-ins. To install these tools globally, run the following command from the command prompt:
+
+    ```
+    npm install -g yo generator-office
+    ```
 
 ## Completed Exercises
 

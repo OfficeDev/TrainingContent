@@ -4,7 +4,7 @@
  */
 using System;
 
-namespace _02_aspnetcore.Models
+namespace msidentity_aspnet.Models
 {
     public class ErrorViewModel
     {

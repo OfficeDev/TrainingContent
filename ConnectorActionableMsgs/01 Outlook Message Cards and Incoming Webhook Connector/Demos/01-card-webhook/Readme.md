@@ -12,21 +12,21 @@ To run this demo, perform the following steps from the lab:
 
 1. In the Group information card above the message list, select the elipsis (**...**) then select **Settings**.
 
-    ![Screenshot of Outlook.com Group inbox, showing the group card settings menu](Images/Exercise1-01.png)
+    ![Screenshot of Outlook.com Group inbox, showing the group card settings menu](../../Images/Exercise1-01.png)
 
 1. In the Group Settings pane, select **Connectors**.
 
-    ![Screenshot of group settings menu](Images/Exercise1-02.png)
+    ![Screenshot of group settings menu](../../Images/Exercise1-02.png)
 
-1. In the list of connectors, scroll down and select **Incoming Webhook**.
+1. In the list of connectors, scroll down and select **Add** next to **Incoming Webhook**.
 
-    ![Screenshot of list of Connectors with incoming webhook highlighted](Images/Exercise1-03.png)
+    ![Screenshot of list of Connectors with incoming webhook highlighted](../../Images/Exercise1-03.png)
 
 1. Enter a name for the connector and select **Create**.
 
 1. The page will re-display, now including a URL for the connector. Use the icon next to the URL to copy it to the clipboard.
 
-    ![Screenshot of incoming webhook with URL](Images/Exercise1-04.png)
+    ![Screenshot of incoming webhook with URL](../../Images/Exercise1-04.png)
 
     > Note: The URL will be used several times in this exercise, as will the clipboard. We recommend pasting the URL into Notepad or other application.
 

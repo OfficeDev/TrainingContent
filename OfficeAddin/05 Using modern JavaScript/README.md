@@ -29,6 +29,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |       Date        |                   Comments                   |
 | ------- | ----------------- | -------------------------------------------- |
+| 1.8     | Dec 9, 2019       | 2020Q2 content refresh                       |
 | 1.7     | Sept 7, 2019      | 2020Q1 content refresh                       |
 | 1.6     | June 7, 2019      | 2019Q4 content refresh                       |
 | 1.5     | Mar 1, 2019       | 2019Q3 content refresh                       |

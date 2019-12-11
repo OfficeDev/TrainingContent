@@ -30,7 +30,7 @@ In this exercise, you will copy an example card from the Message Card Playground
 
     ![Screenshot of group settings menu](Images/Exercise1-02.png)
 
-1. In the list of connectors, scroll down and select **Incoming Webhook**.
+1. In the list of connectors, scroll down and select **Add** next to **Incoming Webhook**.
 
     ![Screenshot of list of Connectors with incoming webhook highlighted](Images/Exercise1-03.png)
 

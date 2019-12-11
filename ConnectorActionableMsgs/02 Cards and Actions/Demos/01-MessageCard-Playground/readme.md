@@ -10,8 +10,6 @@ This demo requires an Office 365 subscription with an active mailbox and a **Mic
 
 1. Visit the [MessageCard Playground](https://messagecardplayground.azurewebsites.net/) app.
 
-    ![Screenshot of MessageCard Playground app.](../../Images/playground.png)
-
     The MessageCard Playground provides a sandboxed environment with which to design and test your cards. You can choose from a list of existing samples or load your own sample. Each of these samples provides an interesting component of the syntax used to design a card. You can make modifications within the page that are shown visually, enabling you to quickly modify a card's design.
 
 1. In the drop-down menu, choose **Microsoft Flow Approval**.
