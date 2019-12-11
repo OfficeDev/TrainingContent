@@ -96,7 +96,7 @@ In order to run the bot inside Microsoft Teams:
 
 1. Select the **Create** button.
 
-1. Complete the **Bot Channels Registration** blade. For the **Bot name**, enter a descriptive name.
+1. Complete the **Bot Channels Registration** blade. For the **Bot handle**, enter a descriptive value. The display name for the bot can be updated after it is created.
 
 1. Enter the following address for the **Messaging endpoint**. Replace the token `[from-ngrok]` with the forwarding address displayed in the ngrok window.
 
