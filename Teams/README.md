@@ -20,7 +20,7 @@ The existing modules (listed above) will remain until all new content has been p
 - 20 - Task oriented interactions w/ messaging extensions
 - [30 - Embedded web experiences with tabs](./30%20Create%20Embedded%20Web%20Experiences%20with%20Tabs%20for%20Microsoft%20Teams)
 - 40 - Conversation bots
-- 50 - Task modules
+- [50 - Task modules](./50%20Task%20Modules)
 - 60 - Webhooks & connectors
 
 ----------

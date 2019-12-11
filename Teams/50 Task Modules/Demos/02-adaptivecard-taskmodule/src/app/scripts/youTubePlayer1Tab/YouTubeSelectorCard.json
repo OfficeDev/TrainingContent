@@ -1,0 +1,39 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "YouTube Video Selector",
+          "weight": "bolder",
+          "size": "extraLarge"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Enter the ID of a YouTube video to show in the task module player.",
+          "wrap": true
+        },
+        {
+          "type": "Input.Text",
+          "id": "youTubeVideoId",
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Update"
+    }
+  ]
+}
