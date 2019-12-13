@@ -1,53 +1,32 @@
-# Office Add-ins: Building Office Add-ins for Word - 100 Level
+# Office-Addin-TaskPane-JS
 
-This demo is an aggregate of the other three demos of the module. It demonstrates working with text, paragraphs, formatting, images, HTML, tables, and content controls from and Add-in in Microsoft Word.
+This repository contains the source code used by the [Yo Office generator](https://github.com/OfficeDev/generator-office) when you create a new Office Add-in that appears in the task pane. You can also use this repository as a sample to base your own project from if you choose not to use the generator. 
 
-## Running the project
+## JavaScript
 
-The finished solution is provided in this folder to simplify demonstrations. If you want to run a finished project, clone the repository, run **npm install** (from the solution folder directory), then **npm run start** and follow one of these methods to sideload and test the Office Add-in.
+This template is written using JavaScript. For the [TypeScript](http://www.typescriptlang.org/) version of this template, go to [Office-Addin-TaskPane](https://github.com/OfficeDev/Office-Addin-TaskPane).
 
-* Windows: [Sideload Office Add-ins on Windows](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/create-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins)
-* Word Online: [Sideload Office Add-ins in Office Online](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing#sideload-an-office-add-in-on-office-online)
-* iPad and Mac: [Sideload Office Add-ins on iPad and Mac](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-ipad-and-mac)
+## Debugging
 
-## Demo steps
+This template supports debugging using any of the following techniques:
 
-1. On the **Home** menu of Word, select **Show Taskpane**.
+- [Use a browser's developer tools](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-in-office-online)
+- [Attach a debugger from the task pane](https://docs.microsoft.com/office/dev/add-ins/testing/attach-debugger-from-task-pane)
+- [Use F12 developer tools on Windows 10](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-using-f12-developer-tools-on-windows-10)
 
-1. In the taskpane, select **Insert Paragraph**.
+## Questions and comments
 
-1. Make a change in the paragraph.
+We'd love to get your feedback about this sample. You can send your feedback to us in the *Issues* section of this repository.
 
-1. Select **Insert Paragraph** again. Note that the new paragraph is above the previous one because the insertParagraph method is inserting at the "start" of the document's body.
+Questions about Microsoft Office 365 development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/office-js+API).  If your question is about the Office JavaScript APIs, make sure it's tagged with  [office-js].
 
-1. Be sure there are at least three paragraphs in the document. You can select **Insert Paragraph** three times. *Check carefully that there's no blank paragraph at the end of the document. If there is, delete it.*
+## Additional resources
 
-1. In Word, create a custom style named "MyCustomStyle". It can have any formatting that you want.
+* [Office add-in documentation](https://docs.microsoft.com/office/dev/add-ins/overview/office-add-ins)
+* More Office Add-in samples at [OfficeDev on Github](https://github.com/officedev)
 
-1. Select the **Apply Style** button. The first paragraph will be styled with the built-in style Intense Reference.
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-1. Select the **Apply Custom Style** button. The last paragraph will be styled with your custom style. (If nothing seems to happen, the last paragraph might be blank. If so, add some text to it.)
+## Copyright
 
-1. Select the **Change Font** button. The font of the second paragraph changes to 18 pt., bold, Courier New.
-
-1. Select some text. Selecting the phrase "Click-to-Run" will make the most sense. *Be careful not to include the preceding or following space in the selection.*
-
-1. Select the **Insert Abbreviation** button. Note that " (C2R)" is added. Note also that at the bottom of the document a new paragraph is added with the entire expanded text because the new string was added to the existing range.
-
-1. Select some text. Selecting the phrase "Office 365" will make the most sense. *Be careful not to include the preceding or following space in the selection.*
-
-1. Select the **Add Version** Info button. Note that "Office 2019, " is inserted between "Office 2016" and "Office 365". Note also that at the bottom of the document a new paragraph is added but it contains only the originally selected text because the new string became a new range rather than being added to the original range.
-
-1. Select some text. Selecting the word "several" will make the most sense. *Be careful not to include the preceding or following space in the selection.*
-
-1. Select the **Change Quantity Term** button. Note that "many" replaces the selected text.
-
-1. Select the **Insert Image** button and note that an image is inserted at the end of the document.
-
-1. Select the **Insert HTML** button and note that two paragraphs are inserted at the end of the document, and that the first one has Verdana font.
-
-1. Select the **Insert Table** button and note that a table is inserted after the second paragraph.
-
-1. Select the phrase "Office 365" in one of the paragraphs, and then select the **Create Content Control** button. Note that the phrase is wrapped in tags labelled "Service Name".
-
-1. Select the **Rename Service** button and note that the text of the content control changes to "Fabrikam Online Productivity Suite".
+Copyright (c) 2019 Microsoft Corporation. All rights reserved.
