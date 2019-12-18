@@ -44,7 +44,7 @@ namespace graphdaemon
       var authority = $"https://login.microsoftonline.com/{config["tenantId"]}/v2.0";
 
       List<string> scopes = new List<string>();
-      scopes.Add("https://graph.microsoft.com/.default");
+      scopes.Add(clientId + "/.default");
 
       var cca = ConfidentialClientApplicationBuilder.Create(clientId)
                                               .WithAuthority(authority)
