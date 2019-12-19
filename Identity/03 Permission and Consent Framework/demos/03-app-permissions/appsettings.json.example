@@ -1,0 +1,6 @@
+{
+  "tenantId": "YOUR_TENANT_ID_HERE",
+  "applicationId": "YOUR_APP_ID_HERE",
+  "applicationSecret": "YOUR_APP_SECRET_HERE",
+  "targetUserId": "TARGET_USER_ID_HERE"
+}
