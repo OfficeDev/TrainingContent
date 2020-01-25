@@ -32,15 +32,22 @@ If you do not have the minimum versions of these prerequisites installed on your
     npm install
     ```
 
-- Rename the file **.env.example** to **.env**. You do not need to edit any values in this file unless you have an existing ngrok license with a reserved subdomain name & auth key. These are only available to paid paid ngrok accounts, but it is not necessary to run the demo.
+- Create a new Bot Channel Registration in an Azure subscription & obtain the Azure AD App ID and secret (*see the lab exercise referenced above for details on how to do this*)
+- Rename the file **.env.example** to **.env**.
+
+  Update the `MICROSOFT_APP_ID` and `MICROSOFT_APP_PASSWORD` properties with the bot's Azure AD app ID and secret.
+
+  You do not need to edit any values in this file unless you have an existing ngrok license with a reserved subdomain name & auth key. These are only available to paid paid ngrok accounts, but it is not necessary to run the demo.
+- Update the **./src/manifest/manifest.json** file's placeholders to reference the Azure AD app's ID.
 - Download the required dependencies for this project by executing the following command in the console:
 
     ```shell
     gulp ngrok-serve
     ```
 
+- Update the Bot Channel Registration to point to the to the dynamic NGrok URL.
 - In a browser, navigate to **https://teams.microsoft.com** and sign in with the credentials of a Work and School account.
 - Using the app bar navigation menu, select the **Mode added apps** button. Then select **Browse all apps** followed by **Upload for me or my teams**.
 - In the file dialog that appears, select the Microsoft Teams package in your project. This app package is a ZIP file that can be found in the project's **./package** folder.
-- Select the **Add** button to install the app. This will add a new personal tab to your **More added apps** dialog.
+- Select the **Add** button to install the app.
 - Select the app to navigate to the new tab.

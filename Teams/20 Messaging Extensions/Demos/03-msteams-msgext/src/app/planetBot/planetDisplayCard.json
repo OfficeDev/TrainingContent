@@ -1,0 +1,87 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "id": "cardHeader",
+      "type": "Container",
+      "items": [
+        {
+          "id": "planetName",
+          "type": "TextBlock",
+          "weight": "bolder",
+          "size": "medium"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "cardBody",
+      "items": [
+        {
+          "id": "planetSummary",
+          "type": "TextBlock",
+          "wrap": true
+        },
+        {
+          "id": "planetDetails",
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "100",
+              "items": [
+                {
+                  "id": "planetImage",
+                  "size": "stretch",
+                  "type": "Image"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "250",
+              "items": [
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "id": "orderFromSun",
+                      "title": "Order from the sun:"
+                    },
+                    {
+                      "id": "planetNumSatellites",
+                      "title": "Known satellites:"
+                    },
+                    {
+                      "id": "solarOrbitYears",
+                      "title": "Solar orbit (*Earth years*):"
+                    },
+                    {
+                      "id": "solarOrbitAvgDistanceKm",
+                      "title": "Average distance from the sun (*km*):"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "imageAttribution",
+          "type": "TextBlock",
+          "size": "medium",
+          "isSubtle": true,
+          "wrap": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Learn more on Wikipedia"
+    }
+  ]
+}
