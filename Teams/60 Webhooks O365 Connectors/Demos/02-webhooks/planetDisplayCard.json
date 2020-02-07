@@ -1,0 +1,41 @@
+{
+  "@type": "MessageCard",
+  "@context": "http://schema.org/extensions",
+  "summary": "Dwarf planet Pluto details",
+  "sections": [{
+    "activityTitle": "Dwarf planet Pluto details",
+    "activityImage": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Pluto_in_True_Color_-_High-Res.jpg",
+    "facts": [
+      {
+        "name": "Description",
+        "value": "Pluto is an icy dwarf planet in the Kuiper belt, a ring of bodies beyond the orbit of Neptune. It was the first Kuiper belt object to be discovered and is the largest known dwarf planet. Pluto was discovered by Clyde Tombaugh in 1930 as the ninth planet from the Sun. After 1992, its status as a planet was questioned following the discovery of several objects of similar size in the Kuiper belt. In 2005, Eris, a dwarf planet in the scattered disc which is 27% more massive than Pluto, was discovered. This led the International Astronomical Union (IAU) to define the term \"planet\" formally in 2006, during their 26th General Assembly. That definition excluded Pluto and reclassified it as a dwarf planet."
+      },
+      {
+        "name": "Order from the sun",
+        "value": "9"
+      },
+      {
+        "name": "Known satellites",
+        "value": "5"
+      },
+      {
+        "name": "Solar orbit (*Earth years*)",
+        "value": "247.9"
+      },
+      {
+        "name": "Average distance from the sun (*km*)",
+        "value": "590637500000"
+      },
+      {
+        "name": "Image attribution",
+        "value": "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute/Alex Parker [Public domain]"
+      }
+    ]
+  }],
+  "potentialAction": [{
+    "@context": "http://schema.org",
+    "@type": "ViewAction",
+    "name": "Learn more on Wikipedia",
+    "target": ["https://en.wikipedia.org/wiki/Pluto"]
+  }]
+}
