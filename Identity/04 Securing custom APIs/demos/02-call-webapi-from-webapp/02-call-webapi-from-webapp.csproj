@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-ProductCatalogWeb-5854D763-7BD3-4441-B0AB-038D22B20359</UserSecretsId>
+    <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.0" />
+    <PackageReference Include="microsoft.extensions.configuration" Version="3.1.1" />
+    <PackageReference Include="microsoft.identity.client" Version="4.8.1" />
+  </ItemGroup>
+
+</Project>
