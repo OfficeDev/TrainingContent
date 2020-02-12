@@ -1,1 +1,0 @@
-The content you accessed had been moved to the following location [Deep Dive into Office 365 with the Microsoft Graph API for Calendar, Mail, and Contacts](../O3653-2%20Deep%20Dive%20into%20Office%20365%20with%20the%20Microsoft%20Graph%20API%20for%20Calendar%2C%20Mail%2C%20and%20Contacts).

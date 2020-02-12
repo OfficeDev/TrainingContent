@@ -1,1 +1,0 @@
-The content you accessed had been moved to the following location [Deep Dive into Azure AD in Office 365 with the Microsoft Graph API](../O3653-1%20Deep%20Dive%20into%20Azure%20AD%20in%20Office%20365%20with%20the%20Microsoft%20Graph%20API).

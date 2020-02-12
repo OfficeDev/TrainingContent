@@ -1,1 +1,0 @@
-The content you accessed had been moved to the following location [Getting started in Office 365 with the Microsoft Graph API](../O3651-5%20Getting%20started%20in%20Office%20365%20with%20the%20Microsoft%20Graph%20API).

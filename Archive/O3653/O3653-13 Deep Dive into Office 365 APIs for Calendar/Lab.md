@@ -1,1 +1,0 @@
-The content you accessed had been moved to the following location [O3653-13 Deep Dive into Office 365 with the Microsoft Graph API for Calendar](../O3653-13 Deep Dive into Office 365 with the Microsoft Graph API for Calendar"O3653-13 Deep Dive into Office 365 with the Microsoft Graph API for Calendar")
