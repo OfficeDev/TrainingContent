@@ -1,14 +1,18 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "id": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
   "version": "0.0.1",
+  "id": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
   "packageName": "conversationalbot",
   "developer": {
     "name": "Contoso",
     "websiteUrl": "https://{{HOSTNAME}}",
     "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
   },
   "name": {
     "short": "Conversational Bot",
@@ -18,22 +22,19 @@
     "short": "TODO: add short description here",
     "full": "TODO: add full description here"
   },
-  "icons": {
-    "outline": "icon-outline.png",
-    "color": "icon-color.png"
-  },
   "accentColor": "#D85028",
-  "configurableTabs": [],
-  "staticTabs": [],
   "bots": [
     {
       "botId": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
-      "scopes": ["personal"],
-      "supportsFiles": false,
-      "isNotificationOnly": false,
+      "scopes": [
+        "personal",
+        "team"
+      ],
       "commandLists": [
         {
-          "scopes": ["personal"],
+          "scopes": [
+            "personal"
+          ],
           "commands": [
             {
               "title": "MentionMe",
@@ -41,11 +42,11 @@
             }
           ]
         }
-      ]
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
     }
   ],
-  "connectors": [],
-  "composeExtensions": [],
   "permissions": [
     "identity",
     "messageTeamMembers"

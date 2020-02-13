@@ -19,42 +19,72 @@ export class ConvoBot extends TeamsActivityHandler {
     super();
 
     this.onMessage(async (context: TurnContext, next: () => Promise<void>) => {
-      const botMessageText: string = context.activity.text.trim().toLowerCase();
-
-      if (botMessageText === "mentionme") {
-        await this.handleMessageMentionMeOneOnOne(context);
-      } else if (botMessageText.endsWith("</at> mentionme")) {
-        await this.handleMessageMentionMeChannelConversation(context);
-      } else if (botMessageText === "updatecardaction") {
-        await this.updateCardActivity(context);
-      } else if (botMessageText === "deletecardaction") {
-        await this.deleteCardActivity(context);
-      } else if (botMessageText === "newconversation") {
-        const channelId = teamsGetChannelId(context.activity);
-        const message = MessageFactory.text("This will be the first message in a new thread");
-        const newConversation = await this.createConversationInChannel(context, channelId, message);
+      // if a value property exists = adaptive card submit action
+      if (context.activity.value) {
+        switch (context.activity.value.cardAction) {
+          case "update":
+            await this.updateCardActivity(context);
+            break;
+          case "delete":
+            await this.deleteCardActivity(context);
+            break;
+          case "newconversation":
+            const channelId = teamsGetChannelId(context.activity);
+            const message = MessageFactory.text("This will be the first message in a new thread");
+            const newConversation = await this.createConversationInChannel(context, channelId, message);
+            break;
+        }
       } else {
-        const value = { count: 0 };
-        const card = CardFactory.heroCard(
-          "Adaptive card response",
-          "Demonstrates how to respond with a card, update the card & ultimately delete the response.",
-          [],
-          [
-            {
-              type: ActionTypes.MessageBack,
-              title: "Update card",
-              value: value,
-              text: "UpdateCardAction"
-            },
-            {
-              type: ActionTypes.MessageBack,
-              title: "Create new thread in this channel",
-              value: value,
-              text: "newconversation"
-            }
-          ]
-        );
-        await context.sendActivity({ attachments: [card] });
+        const botMessageText: string = context.activity.text.trim().toLowerCase();
+
+        if (botMessageText === "mentionme") {
+          await this.handleMessageMentionMeOneOnOne(context);
+        } else if (botMessageText.endsWith("</at> mentionme")) {
+          await this.handleMessageMentionMeChannelConversation(context);
+        } else {
+          const value = { cardAction: "update", count: 0 };
+          const card = CardFactory.adaptiveCard({
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "type": "AdaptiveCard",
+            "version": "1.0",
+            "body": [
+              {
+                "type": "Container",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "Adaptive card response",
+                    "weight": "bolder",
+                    "size": "large"
+                  }
+                ]
+              },
+              {
+                "type": "Container",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "Demonstrates how to respond with a card, update the card & ultimately delete the response.",
+                    "wrap": true
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "type": "Action.Submit",
+                "title": "Update card",
+                "data": value
+              },
+              {
+                "type": "Action.Submit",
+                "title": "Create new thread in this channel",
+                "data": { cardAction: "newconversation" }
+              }
+            ]
+          });
+          await context.sendActivity({ attachments: [card] });
+        }
       }
       await next();
     });
@@ -97,27 +127,50 @@ export class ConvoBot extends TeamsActivityHandler {
   }
 
   private async updateCardActivity(context): Promise<void> {
-    const data = context.activity.value;
-    data.count += 1;
-
-    const card = CardFactory.heroCard(
-      "Adaptive card response",
-      `Updated count: ${data.count}`,
-      [],
-      [
+    const value = {
+      cardAction: "update",
+      count: context.activity.value.count + 1
+    };
+    const card = CardFactory.adaptiveCard({
+      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+      "type": "AdaptiveCard",
+      "version": "1.0",
+      "body": [
         {
-          type: ActionTypes.MessageBack,
-          title: 'Update Card',
-          value: data,
-          text: 'UpdateCardAction'
+          "type": "Container",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Adaptive card response",
+              "weight": "bolder",
+              "size": "large"
+            }
+          ]
         },
         {
-          type: ActionTypes.MessageBack,
-          title: 'Delete card',
-          value: null,
-          text: 'DeleteCardAction'
+          "type": "Container",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": `Updated count: ${ value.count }`,
+              "wrap": true
+            }
+          ]
         }
-      ]);
+      ],
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Update card",
+          "data": value
+        },
+        {
+          "type": "Action.Submit",
+          "title": "Delete card",
+          "data": { cardAction: "delete"}
+        }
+      ]
+    });
 
     await context.updateActivity({ attachments: [card], id: context.activity.replyToId, type: 'message' });
   }
