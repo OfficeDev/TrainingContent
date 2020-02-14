@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "id": "5f6df040-493b-11ea-897f-1b87e48d60c9",
+  "version": "0.0.1",
+  "packageName": "myfirstteamsconnector",
+  "developer": {
+    "name": "Contoso",
+    "websiteUrl": "https://{{HOSTNAME}}",
+    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+  },
+  "name": {
+    "short": "My First Teams Connector",
+    "full": "My First Teams Connector"
+  },
+  "description": {
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#D85028",
+  "connectors": [
+    {
+      "connectorId": "{{CONNECTOR_ID}}",
+      "configurationUrl": "https://{{HOSTNAME}}/myFirstTeamsConnector/config.html",
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "{{HOSTNAME}}"
+  ]
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "1",
+    "name": "Mercury",
+    "summary": "Mercury is the smallest and innermost planet in the Solar System. Its orbit around the Sun takes 87.97 days, the shortest of all the planets in the Solar System. It is named after the Roman deity Mercury, the messenger of the gods.",
+    "solarOrbitYears": 0.24,
+    "solarOrbitAvgDistanceKm": 57909050,
+    "numSatellites": 0,
+    "wikiLink": "https://en.wikipedia.org/wiki/Mercury_(planet)",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Mercury_in_color_-_Prockter07-edit1.jpg",
+    "imageAlt": "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington [Public domain]"
+  },
+  {
+    "id": "2",
+    "name": "Venus",
+    "summary": "Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty. As the second-brightest natural object in the night sky after the Moon, Venus can cast shadows and, rarely, is visible to the naked eye in broad daylight. Venus lies within Earth's orbit, and so never appears to venture far from the Sun, setting in the west just after dusk and rising in the east a bit before dawn.",
+    "solarOrbitYears": 0.62,
+    "solarOrbitAvgDistanceKm": 108208000,
+    "numSatellites": 0,
+    "wikiLink": "https://en.wikipedia.org/wiki/Venus",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg",
+    "imageAlt": "&quot;Image processing by R. Nunes&quot;, link to http://www.astrosurf.com/nunes [Public domain]"
+  },
+  {
+    "id": "3",
+    "name": "Earth",
+    "summary": "Earth is the third planet from the Sun and the only astronomical object known to harbor life. According to radiometric dating and other sources of evidence, Earth formed over 4.5 billion years ago. Earth's gravity interacts with other objects in space, especially the Sun and the Moon, which is Earth's only natural satellite. Earth orbits around the Sun in 365.256 days, a period known as an Earth sidereal year. During this time, Earth rotates about its axis about 366.256 times.",
+    "solarOrbitYears": 1.00,
+    "solarOrbitAvgDistanceKm": 149597500,
+    "numSatellites": 1,
+    "wikiLink": "https://en.wikipedia.org/wiki/Earth",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg",
+    "imageAlt": "Apollo 17 [Public domain]"
+  },
+  {
+    "id": "4",
+    "name": "Mars",
+    "summary": "Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System after Mercury. In English, Mars carries a name of the Roman god of war and is often referred to as the 'Red Planet'. The latter refers to the effect of the iron oxide prevalent on Mars' surface, which gives it a reddish appearance distinctive among the astronomical bodies visible to the naked eye.",
+    "solarOrbitYears": 1.88,
+    "solarOrbitAvgDistanceKm": 134935000,
+    "numSatellites": 2,
+    "wikiLink": "https://en.wikipedia.org/wiki/Mars",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg",
+    "imageAlt": "ESA - European Space Agency &amp; Max-Planck Institute for Solar System Research for OSIRIS Team ESA/MPS/UPD/LAM/IAA/RSSD/INTA/UPM/DASP/IDA [CC BY-SA 3.0-IGO (https://creativecommons.org/licenses/by-sa/3.0-igo)]"
+  },
+  {
+    "id": "5",
+    "name": "Jupiter",
+    "summary": "Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined. Jupiter is one of the brightest objects visible to the naked eye in the night sky, and has been known to ancient civilizations since before recorded history. It is named after the Roman god Jupiter. When viewed from Earth, Jupiter can be bright enough for its reflected light to cast shadows, and is on average the third-brightest natural object in the night sky after the Moon and Venus.",
+    "solarOrbitYears": 11.86,
+    "solarOrbitAvgDistanceKm": 445336000,
+    "numSatellites": 78,
+    "wikiLink": "https://en.wikipedia.org/wiki/Jupiter",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/5/50/Jupiter%2C_image_taken_by_NASA%27s_Hubble_Space_Telescope%2C_June_2019_-_Edited.jpg",
+    "imageAlt": "NASA, ESA, and A. Simon (NASA Goddard), edited by PlanetUser [Public domain]"
+  },
+  {
+    "id": "6",
+    "name": "Saturn",
+    "summary": "Saturn is the sixth planet from the Sun and the second-largest in the Solar System, after Jupiter. It is a gas giant with an average radius about nine times that of Earth. It has only one-eighth the average density of Earth; however, with its larger volume, Saturn is over 95 times more massive. Saturn is named after the Roman god of wealth and agriculture; its astronomical symbol (♄) represents the god's sickle.",
+    "solarOrbitYears": 29.46,
+    "solarOrbitAvgDistanceKm": 1433525000,
+    "numSatellites": 82,
+    "wikiLink": "https://en.wikipedia.org/wiki/Saturn",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg",
+    "imageAlt": "NASA / JPL / Space Science Institute [Public domain]"
+  },
+  {
+    "id": "7",
+    "name": "Uranus",
+    "summary": "Uranus is the seventh planet from the Sun. It has the third-largest planetary radius and fourth-largest planetary mass in the Solar System. Uranus is similar in composition to Neptune, and both have bulk chemical compositions which differ from that of the larger gas giants Jupiter and Saturn. For this reason, scientists often classify Uranus and Neptune as \"ice giants\" to distinguish them from the gas giants.",
+    "solarOrbitYears": 84.02,
+    "solarOrbitAvgDistanceKm": 2883000000,
+    "numSatellites": 27,
+    "wikiLink": "https://en.wikipedia.org/wiki/Uranus",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg",
+    "imageAlt": "NASA/JPL-Caltech [Public domain]"
+  },
+  {
+    "id": "8",
+    "name": "Neptune",
+    "summary": "Neptune is the eighth and farthest known planet from the Sun in the Solar System. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet. Neptune is 17 times the mass of Earth, slightly more massive than its near-twin Uranus. Neptune is denser and physically smaller than Uranus because its greater mass causes more gravitational compression of its atmosphere.",
+    "solarOrbitYears": 164.80,
+    "solarOrbitAvgDistanceKm": 4500000000,
+    "numSatellites": 14,
+    "wikiLink": "https://en.wikipedia.org/wiki/Neptune",
+    "imageLink": "https://upload.wikimedia.org/wikipedia/commons/6/63/Neptune_-_Voyager_2_%2829347980845%29_flatten_crop.jpg",
+    "imageAlt": "Justin Cowart [CC BY (https://creativecommons.org/licenses/by/2.0)]"
+  }
+]

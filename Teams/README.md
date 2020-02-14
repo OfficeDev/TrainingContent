@@ -21,7 +21,7 @@ The existing modules (listed above) will remain until all new content has been p
 - [30 - Embedded web experiences with tabs](./30%20Create%20Embedded%20Web%20Experiences%20with%20Tabs%20for%20Microsoft%20Teams)
 - [40 - Create interactive conversational bots for Microsoft Teams](/40%20Conversational%20Bots)
 - [50 - Collect Input in Microsoft Teams with Task Modules](./50%20Task%20Modules)
-- 60 - Webhooks & connectors
+- [60 - Connect web services to Microsoft Teams with webhooks and Office 365 Connectors](./60%20Webhooks%20O365%20Connectors)
 
 ----------
 
