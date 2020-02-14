@@ -1,0 +1,33 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "size": "medium",
+          "isSubtle": true,
+          "text": "Select a planet to insert into the message:"
+        }
+      ]
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "planetSelector",
+      "choices": []
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Insert selected planet",
+      "data":
+      {
+        "submitLocation": "messagingExtensionFetchTask"
+      }
+    }
+  ]
+}

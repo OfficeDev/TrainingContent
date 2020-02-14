@@ -8,7 +8,7 @@ Learn how to collect user input with task modules in your Microsoft Teams app.
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-1. [Exercise - Create a custom Microsoft Teams personal tab](https://docs.microsoft.com/learn/modules/msteams-task-modules/TBD)
+1. [Exercise - Create a custom Microsoft Teams personal tab](https://docs.microsoft.com/learn/modules/msteams-task-modules/3-exercise-use-task-modules-tabs)
 
     In this exercise, you’ll learn the basics of task modules in Microsoft Teams and how to collect input from users in a custom Teams tab. After creating a new Microsoft Teams personal tab, you'll add two task modules to it.
 
