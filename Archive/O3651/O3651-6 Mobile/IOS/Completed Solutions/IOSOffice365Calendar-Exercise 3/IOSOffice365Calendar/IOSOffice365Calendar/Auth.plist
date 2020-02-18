@@ -1,6 +1,0 @@
-{
-	clientId = "";
-	resourceId = "https://graph.microsoft.com/";
-	redirectUriString = "http://IOSOffice365Calendar";
-	authority = "https://login.microsoftonline.com/common";
-}

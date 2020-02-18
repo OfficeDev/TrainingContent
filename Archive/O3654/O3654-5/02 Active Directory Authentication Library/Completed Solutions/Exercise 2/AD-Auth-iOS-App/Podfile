@@ -1,3 +1,0 @@
-target 'AD-Auth-iOS-App' do
- pod 'ADALiOS'
-end

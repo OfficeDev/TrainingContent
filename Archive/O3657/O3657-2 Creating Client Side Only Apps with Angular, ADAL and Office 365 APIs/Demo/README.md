@@ -1,1 +1,0 @@
-For the demonstration, run the [Completed Project](../Completed Project). Make sure to do the setup work prior to running the application as it requires updating the Azure AD application details, Office 365 endpoints, downloading various 3rd party packages and compiling the TypeScript to JavaScript.
