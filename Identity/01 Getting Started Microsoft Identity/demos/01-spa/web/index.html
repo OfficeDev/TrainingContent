@@ -1,9 +1,13 @@
-<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license in root of repo. -->
+<!-- 
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT license. 
+-->
+
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>Getting Started with Microsoft Identity</title>
+  <title>Getting Started with Microsoft identity</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.5/bluebird.min.js"></script>
   <script src="https://alcdn.msftauth.net/lib/1.1.3/js/msal.min.js"></script>
 </head>
@@ -23,7 +27,7 @@
       auth: {
         clientId: '{{APPLICATION_ID}}',
         authority: 'https://login.microsoftonline.com/{{DIRECTORY_ID}}',
-        redirectURI: 'https://localhost:3007'
+        redirectURI: 'http://localhost:3007'
       },
       cache: {
         cacheLocation: "localStorage",
@@ -40,38 +44,13 @@
 
     var msalApplication = new Msal.UserAgentApplication(msalConfig);
 
+    // init the auth handling on the page
+    initPage();
+
+
     msalApplication.handleRedirectCallback(authRedirectCallBack);
     // TODO: add CODE before this line
 
-
-    function signIn() {
-      msalApplication.loginPopup(graphConfig.requestObj)
-        .then(function (loginResponse) {
-          updateUserInterface();
-          acquireTokenPopupAndGetUser();
-        }).catch(function (error) {
-          console.log(error);
-        });
-    }
-
-    function signOut() {
-      msalApplication.logout();
-    }
-
-    function getUserFromMSGraph(endpoint, accessToken, callback) {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200)
-          callback(JSON.parse(this.responseText));
-      }
-      xmlHttp.open("GET", endpoint, true); // true for asynchronous
-      xmlHttp.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-      xmlHttp.send();
-    }
-
-    function graphAPICallback(data) {
-      document.getElementById("json").innerHTML = JSON.stringify(data, null, 2);
-    }
 
     function updateUserInterface() {
       var divWelcome = document.getElementById('WelcomeMessage');
@@ -109,6 +88,15 @@
       });
     }
 
+    function requiresInteraction(errorCode) {
+      if (!errorCode || !errorCode.length) {
+        return false;
+      }
+      return errorCode === "consent_required" ||
+        errorCode === "interaction_required" ||
+        errorCode === "login_required";
+    }
+
     function authRedirectCallBack(error, response) {
       if (error) {
         console.log(error);
@@ -121,16 +109,36 @@
       }
     }
 
-    function requiresInteraction(errorCode) {
-      if (!errorCode || !errorCode.length) {
-        return false;
+    function getUserFromMSGraph(endpoint, accessToken, callback) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200)
+          callback(JSON.parse(this.responseText));
       }
-      return errorCode === "consent_required" ||
-        errorCode === "interaction_required" ||
-        errorCode === "login_required";
+      xmlHttp.open("GET", endpoint, true);
+      xmlHttp.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+      xmlHttp.send();
     }
 
+    function graphAPICallback(data) {
+      document.getElementById("json").innerHTML = JSON.stringify(data, null, 2);
+    }
+
+    function signIn() {
+      msalApplication.loginPopup(graphConfig.requestObj)
+        .then(function (loginResponse) {
+          updateUserInterface();
+          acquireTokenPopupAndGetUser();
+        }).catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function signOut() {
+      msalApplication.logout();
+    }
     // TODO: add FUNCTIONS before this line
+
 
     function initPage() {
       // Browser check variables
@@ -141,7 +149,7 @@
       var isIE = msie > 0 || msie11 > 0;
       var isEdge = msedge > 0;
 
-      // if you support IE, recommendation: sign-in using Redirect APIs vs. popup
+      // if you support IE, recommendation: sign in using Redirect APIs vs. popup
       // Browser check variables
       // can change this to default an experience outside browser use
       var loginType = isIE ? "REDIRECT" : "POPUP";

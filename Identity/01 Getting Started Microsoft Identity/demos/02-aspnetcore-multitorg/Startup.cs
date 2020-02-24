@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT license.
- */
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
-namespace msidentity_aspnet_02
+namespace msidentity_aspnet_02_02
 {
     public class Startup
     {

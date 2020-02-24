@@ -1,8 +1,4 @@
-﻿/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT license.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using msidentity_aspnet_02.Models;
+using msidentity_aspnet_02_02.Models;
 
-namespace msidentity_aspnet_02.Controllers
+namespace msidentity_aspnet_02_02.Controllers
 {
     [Authorize]
     public class HomeController : Controller
