@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,6 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.Identity.Client;
@@ -36,8 +38,6 @@ namespace _02_webapp
       services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
           .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
-
-      // <added>
       List<string> scopes = new List<string>();
       scopes.Add("offline_access");
       scopes.Add("user.read");
@@ -46,20 +46,21 @@ namespace _02_webapp
       Configuration.Bind("AzureAd", appSettings);
 
       var application = ConfidentialClientApplicationBuilder.Create(appSettings.ClientId)
-                            .WithAuthority(appSettings.Instance + appSettings.TenantId +"/v2.0")
+                            .WithAuthority(appSettings.Instance + appSettings.TenantId + "/v2.0/")
                             .WithRedirectUri("https://localhost:5001" + appSettings.CallbackPath)
                             .WithClientSecret(appSettings.ClientSecret)
                             .Build();
 
       // TODO: add MS Graph Code here
-      var graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (request) => {
+      var graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (request) =>
+      {
         var graphUserAccount = new Helpers.GraphUserAccount(request.Properties["User"] as System.Security.Claims.ClaimsPrincipal);
         var accessToken = await application.AcquireTokenSilent(scopes, graphUserAccount).ExecuteAsync();
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", accessToken.AccessToken);
       }));
       services.AddSingleton<GraphServiceClient>(graphServiceClient);
 
-      services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, async options =>
+      services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
       {
         // configure authority to use v2 endpoint
         options.Authority = options.Authority + "/v2.0/";
@@ -92,9 +93,6 @@ namespace _02_webapp
           await handler(context).ConfigureAwait(false);
         };
       });
-      // </added>
-
-
 
       services.AddControllersWithViews(options =>
       {

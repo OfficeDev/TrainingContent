@@ -1,8 +1,10 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using Microsoft.Identity.Client;
 
 namespace Helpers
 {
-
   public class GraphUserAccount : Microsoft.Identity.Client.IAccount
   {
     public string Email;
