@@ -15,7 +15,7 @@ To complete this lab, you need the following:
 
 * A consumer [OneDrive](https://www.onedrive.com) account. OneDrive is used to test the Office Add-in.
 * Code editor such as [Visual Studio Code](https://code.visualstudio.com/) for developing the solution.
-* [Node.js](https://nodejs.org/) LTS: Node is required to setup, build, and run the project.
+* [Node.js](https://nodejs.org/) (the latest [LTS](https://nodejs.org/about/releases) version)
 * [Office Yeoman Generator](https://www.npmjs.com/package/generator-office): The Office Yeoman Generator is used to create the Office Add-in projects and XML manifests.
 
     ```shell
@@ -270,7 +270,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
       // Gets a quote by calling into the stock service
       getQuote = async (symbol: string) => {
         return new Promise((resolve, reject) => {
-          const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+          const queryEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${escape(symbol)}&apikey=${ALPHAVANTAGE_APIKEY}`;
 
           fetch(queryEndpoint)
             .then((res: any) => {
@@ -280,7 +280,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
               return res.json();
             })
             .then((jsonResponse: any) => {
-              const quote: any = jsonResponse['Stock Quotes'][0];
+              const quote: any = jsonResponse['Global Quote'];
               resolve(quote);
             });
         });
@@ -335,7 +335,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
     ```typescript
     getQuote = async (symbol: string) => {
       return new Promise((resolve, reject) => {
-        const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+        const queryEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${escape(symbol)}&apikey=${ALPHAVANTAGE_APIKEY}`;
 
         fetch(queryEndpoint)
           .then((res: any) => {
@@ -345,7 +345,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
             return res.json();
           })
           .then((jsonResponse: any) => {
-            const quote: any = jsonResponse['Stock Quotes'][0];
+            const quote: any = jsonResponse['Global Quote'];
             resolve(quote);
           });
       });
@@ -497,15 +497,16 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
             this.setState({ waiting: true });
             this.getQuote(symbol).then(
               (res: any) => {
+                let cnt = this.state.listItems.length;
                 const data = [
-                  res['1. symbol'], //Symbol
-                  res['2. price'], //Last Price
-                  res['4. timestamp'], // Timestamp of quote,
+                  res['01. symbol'], //Symbol
+                  res['05. price'], //Last Price
+                  res['07. latest trading day'], // Timestamp of quote,
                   0, // quantity (manually entered)
                   0, // price paid (manually entered)
-                  '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
-                  '=H:H / (E:E * D:D) * 100', //Total Gain %
-                  '=B:B * D:D' //Value
+                  `=(B${cnt+2} * D${cnt+2}) - (E${cnt+2} * D${cnt+2})`, //Total Gain $
+                  `=H${cnt+2} / (E${cnt+2} * D${cnt+2}) * 100 - 100`, //Total Gain %
+                  `=B${cnt+2} * D${cnt+2}` //Value
                 ];
                 this.tableUtil.addRow(data).then(
                   () => {
@@ -683,7 +684,7 @@ In this exercise, you will develop an Office Add-in using React and TypeScript. 
                 this.getQuote(symbol).then((res: any) => {
                   // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
                   this.tableUtil
-                    .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res["2. price"])
+                    .updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res["05. price"])
                     .then(
                       async () => {
                         this.setState({ waiting: false });
@@ -962,9 +963,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
         // Gets a quote by calling into the stock service
         getQuote = async (symbol) => {
           return new Promise((resolve, reject) => {
-            const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(
-              symbol
-            )}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+            const queryEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${escape(symbol)}&apikey=${ALPHAVANTAGE_APIKEY}`;
 
             fetch(queryEndpoint)
               .then((res) => {
@@ -974,7 +973,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
                 return res.json();
               })
               .then((jsonResponse) => {
-                const quote = jsonResponse['Stock Quotes'][0];
+                const quote = jsonResponse['Global Quote'];
                 resolve(quote);
               });
           });
@@ -1126,15 +1125,16 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
           // Get quote and add to Excel table
           this.getQuote(symbol).then(
             (res) => {
+              let cnt = this.symbols.length;
               const data = [
-                res['1. symbol'], //Symbol
-                res['2. price'], //Last Price
-                res['4. timestamp'], // Timestamp of quote,
+                res['01. symbol'], //Symbol
+                res['05. price'], //Last Price
+                res['07. latest trading day'], // Timestamp of quote,
                 0, // quantity (manually entered)
                 0, // price paid (manually entered)
-                '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
-                '=H:H / (E:E * D:D) * 100', //Total Gain %
-                '=B:B * D:D' //Value
+                `=(B${cnt+2} * D${cnt+2}) - (E${cnt+2} * D${cnt+2})`, //Total Gain $
+                `=H${cnt+2} / (E${cnt+2} * D${cnt+2}) * 100 - 100`, //Total Gain %
+                `=B${cnt+2} * D${cnt+2}` //Value
               ];
               this.tableUtil.addRow(data).then(
                 () => {
@@ -1298,7 +1298,7 @@ In this exercise, you will develop an Office Add-in using Angular and TypeScript
               if (rowIndex !== -1) {
                 this.getQuote(symbol).then((res) => {
                   // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price'])
+                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res["05. price"])
                   .then(async () => {
                     this.waiting = false;
                   }, (err) => {
@@ -1791,7 +1791,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
     ```typescript
     getQuote(symbol:string) {
       return new Promise((resolve, reject) => {
-        const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+        const queryEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${escape(symbol)}&apikey=${ALPHAVANTAGE_APIKEY}`;
 
         fetch(queryEndpoint)
           .then((res: any) => {
@@ -1801,7 +1801,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             return res.json();
           })
           .then((jsonResponse: any) => {
-            const quote: any = jsonResponse['Stock Quotes'][0];
+            const quote: any = jsonResponse['Global Quote'];
             resolve(quote);
           });
       });
@@ -1956,15 +1956,16 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
           if ((<KeyboardEvent>event).key == "Enter") {
             this.waiting = true;
             this.getQuote(symbol).then((res:any) => {
-              let data = [
-                res['1. symbol'], //Symbol
-                res['2. price'], //Last Price
-                res['4. timestamp'], // Timestamp of quote
-                0,
-                0,
-                '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
-                '=H:H / (E:E * D:D) * 100', //Total Gain %
-                '=B:B * D:D' //Value
+              let cnt = this.symbols.length;
+              const data = [
+                res['01. symbol'], //Symbol
+                res['05. price'], //Last Price
+                res['07. latest trading day'], // Timestamp of quote,
+                0, // quantity (manually entered)
+                0, // price paid (manually entered)
+                `=(B${cnt+2} * D${cnt+2}) - (E${cnt+2} * D${cnt+2})`, //Total Gain $
+                `=H${cnt+2} / (E${cnt+2} * D${cnt+2}) * 100 - 100`, //Total Gain %
+                `=B${cnt+2} * D${cnt+2}` //Value
               ];
               this.tableUtil.addRow(data).then(() => {
                 this.symbols.unshift(symbol.toUpperCase());
@@ -2112,7 +2113,7 @@ In this exercise, you will develop an Office Add-in using Vue.js and TypeScript.
             if (rowIndex != -1) {
               this.getQuote(symbol).then((res:any) => {
                   // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price']).then(async () => {
+                  this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res["05. price"]).then(async () => {
                   this.waiting = false;
                 }, (err) => {
                   this.error = err;

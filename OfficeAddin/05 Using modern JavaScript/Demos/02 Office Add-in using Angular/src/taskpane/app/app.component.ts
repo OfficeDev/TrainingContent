@@ -43,15 +43,16 @@ export default class AppComponent {
     // Get quote and add to Excel table
     this.getQuote(symbol).then(
       (res) => {
+        let cnt = this.symbols.length;
         const data = [
-          res['1. symbol'], //Symbol
-          res['2. price'], //Last Price
-          res['4. timestamp'], // Timestamp of quote,
+          res['01. symbol'], //Symbol
+          res['05. price'], //Last Price
+          res['07. latest trading day'], // Timestamp of quote,
           0, // quantity (manually entered)
           0, // price paid (manually entered)
-          '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
-          '=H:H / (E:E * D:D) * 100', //Total Gain %
-          '=B:B * D:D' //Value
+          `=(B${cnt+2} * D${cnt+2}) - (E${cnt+2} * D${cnt+2})`, //Total Gain $
+          `=H${cnt+2} / (E${cnt+2} * D${cnt+2}) * 100 - 100`, //Total Gain %
+          `=B${cnt+2} * D${cnt+2}` //Value
         ];
         this.tableUtil.addRow(data).then(
           () => {
@@ -110,7 +111,7 @@ export default class AppComponent {
         if (rowIndex !== -1) {
           this.getQuote(symbol).then((res) => {
             // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-            this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price'])
+            this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res["05. price"])
             .then(async () => {
               this.waiting = false;
             }, (err) => {
@@ -145,9 +146,7 @@ export default class AppComponent {
   // Gets a quote by calling into the stock service
   getQuote = async (symbol) => {
     return new Promise((resolve, reject) => {
-      const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(
-        symbol
-      )}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+      const queryEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${escape(symbol)}&apikey=${ALPHAVANTAGE_APIKEY}`;
 
       fetch(queryEndpoint)
         .then((res) => {
@@ -157,7 +156,7 @@ export default class AppComponent {
           return res.json();
         })
         .then((jsonResponse) => {
-          const quote = jsonResponse['Stock Quotes'][0];
+          const quote = jsonResponse['Global Quote'];
           resolve(quote);
         });
     });
