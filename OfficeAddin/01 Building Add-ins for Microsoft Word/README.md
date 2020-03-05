@@ -4,7 +4,7 @@ This module walks through development of Office Add-ins for Microsoft Word.
 
 ## Lab
 
-This lab will walk through the development of an Office Add-in for Microsoft Word using a number of office.js capabilities such as working with text throughout a document, formating/style, and complex document components such as images, HTML, tables, and content controls.
+This lab will walk through the development of an Office Add-in for Microsoft Word using a number of office.js capabilities such as working with text throughout a document, formatting/style, and complex document components such as images, HTML, tables, and content controls.
 
 - [Lab Manual](./Lab.md)
 
@@ -26,8 +26,9 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |     Date      |     Comments           |
+| Version |     Date      |        Comments        |
 | ------- | ------------- | ---------------------- |
+| 1.8     | March 5, 2020 | 2020Q3 content refresh |
 | 1.7     | Dec 9, 2019   | 2020Q2 content refresh |
 | 1.6     | Sept 7, 2019  | 2020Q1 content refresh |
 | 1.5     | June 7, 2019  | 2019Q4 content refresh |
