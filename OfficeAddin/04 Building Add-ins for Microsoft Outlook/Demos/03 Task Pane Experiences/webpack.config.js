@@ -1,8 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
- * See LICENSE in the project root for license information.
- */
-
 const devCerts = require("office-addin-dev-certs");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -17,8 +12,7 @@ module.exports = async (env, options) => {
     entry: {
       polyfill: "@babel/polyfill",
       taskpane: "./src/taskpane/taskpane.js",
-      commands: "./src/commands/commands.js",
-      dialog: "./src/settings/dialog.js"
+      commands: "./src/commands/commands.js"
     },
     resolve: {
       extensions: [".ts", ".tsx", ".html", ".js"]
@@ -63,18 +57,7 @@ module.exports = async (env, options) => {
         filename: "commands.html",
         template: "./src/commands/commands.html",
         chunks: ["polyfill", "commands"]
-      }),
-      new HtmlWebpackPlugin({
-        filename: "dialog.html",
-        template: "./src/settings/dialog.html",
-        chunks: ["polyfill", "dialog"]
-      }),
-      new CopyWebpackPlugin([
-        {
-          to: "dialog.css",
-          from: "./src/settings/dialog.css"
-        }
-      ])
+      })
     ],
     devServer: {
       headers: {
