@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using Microsoft.Identity.Client;
 using Microsoft.Graph;
@@ -36,29 +39,6 @@ namespace graphdaemon
       Console.WriteLine(requestUserEmail.GetHttpRequestMessage().RequestUri);
     }
 
-    private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config)
-    {
-      var tenantId = config["tenantId"];
-      var clientId = config["applicationId"];
-      var clientSecret = config["applicationSecret"];
-      var authority = $"https://login.microsoftonline.com/{config["tenantId"]}/v2.0";
-
-      List<string> scopes = new List<string>();
-      scopes.Add("https://graph.microsoft.com/.default");
-
-      var cca = ConfidentialClientApplicationBuilder.Create(clientId)
-                                              .WithAuthority(authority)
-                                              .WithClientSecret(clientSecret)
-                                              .Build();
-      return MsalAuthenticationProvider.GetInstance(cca, scopes.ToArray());
-    }
-
-    private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config)
-    {
-      var authenticationProvider = CreateAuthorizationProvider(config);
-      return new GraphServiceClient(authenticationProvider);
-    }
-
     private static IConfigurationRoot LoadAppSettings()
     {
       try
@@ -82,6 +62,29 @@ namespace graphdaemon
       {
         return null;
       }
+    }
+
+    private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config)
+    {
+      var tenantId = config["tenantId"];
+      var clientId = config["applicationId"];
+      var clientSecret = config["applicationSecret"];
+      var authority = $"https://login.microsoftonline.com/{config["tenantId"]}/v2.0";
+
+      List<string> scopes = new List<string>();
+      scopes.Add("https://graph.microsoft.com/.default");
+
+      var cca = ConfidentialClientApplicationBuilder.Create(clientId)
+                                              .WithAuthority(authority)
+                                              .WithClientSecret(clientSecret)
+                                              .Build();
+      return MsalAuthenticationProvider.GetInstance(cca, scopes.ToArray());
+    }
+
+    private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config)
+    {
+      var authenticationProvider = CreateAuthorizationProvider(config);
+      return new GraphServiceClient(authenticationProvider);
     }
   }
 }

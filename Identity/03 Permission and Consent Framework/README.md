@@ -1,6 +1,6 @@
 # Microsoft Identity Training Module - Permission and Consent Framework
 
-The Microsoft identity platform implements the OAuth 2.0 authorization protocol. This protocol is a method that a third-party app can access web-hosted resources on behalf of a user. The web-hosted resources can define a set of permissions that can be used to implement functionality in smaller chucks. Developers can leverage one of two types of permissions supported by the Microsoft identity platform depending on the app scenario. In this module, you’ll learn the different types of permissions and consent framework models for obtaining permissions from users to use them in apps.
+The Microsoft identity platform implements the OAuth 2.0 authorization protocol. This protocol is a method that a third-party app can access web-hosted resources on behalf of a user. The web-hosted resources can define a set of permissions that can be used to implement functionality in smaller chucks. Developers can leverage one of two types of permissions supported by the Microsoft identity platform depending on the app scenario. In this module, you'll learn the different types of permissions and consent framework models for obtaining permissions from users to use them in apps.
 
 > This module is also published as a Microsoft Learn module: [Permission and Consent Framework](https://docs.microsoft.com/learn/modules/identity-permissions-consent)
 
@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Understanding Permissions and the Consent Framework in the Microsoft identity Platform](https://docs.microsoft.com/learn/modules/identity-permissions-consent/3-exercise-understand-permissions-consent)
 
-    > In this exercise, you’ll learn about the different types of permissions supported by the Microsoft identity platform and the consent experience that users and admins must go through to grant permission requests to apps.
+    > In this exercise, you'll learn about the different types of permissions supported by the Microsoft identity platform and the consent experience that users and admins must go through to grant permission requests to apps.
 
 1. [Exercise - Delegated Permissions and Consent](https://docs.microsoft.com/learn/modules/identity-permissions-consent/5-exercise-delegated-permissions-consent)
 
-    > In this exercise, you’ll learn how to request delegated permissions and enable users to grant them to applications with either static or dynamic consent.
+    > In this exercise, you'll learn how to request delegated permissions and enable users to grant them to applications with either static or dynamic consent.
 
 1. [Exercise - Application Permissions and Consent](https://docs.microsoft.com/learn/modules/identity-permissions-consent/7-exercise-application-permissions-consent)
 
-    > In this exercise, you’ll learn about application permissions, how to define them and how to grant them using a different type of consent flow in your apps.
+    > In this exercise, you'll learn about application permissions, how to define them and how to grant them using a different type of consent flow in your apps.
 
 ## Demos
 
@@ -39,9 +39,10 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |       Date        |       Comments       |
-| ------- | ----------------- | -------------------- |
-| 1.0     | December 16, 2019 | New module published |
+| Version |       Date        |         Comments         |
+| ------- | ----------------- | ------------------------ |
+| 1.1     | March 10, 2020    | FY2020Q3 content refresh |
+| 1.0     | December 16, 2019 | New module published     |
 
 ## Disclaimer
 
