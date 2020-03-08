@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import * as React from "react";
-import {
-  Flex, Provider, themes, ThemePrepared,
-  Alert, Header,
-  Button, Icon, Input, Label, List, Text
-} from "@stardust-ui/react";
+import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Alert, List, Icon, Label, Input } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -33,7 +29,7 @@ export interface ILearnPersonalTabProps extends ITeamsBaseComponentProps {
 export class LearnPersonalTab extends TeamsBaseComponent<ILearnPersonalTabProps, ILearnPersonalTabState> {
 
   public componentWillMount() {
-    this.updateStardustTheme(this.getQueryVariable("theme"));
+    this.updateComponentTheme(this.getQueryVariable("theme"));
     this.setState(Object.assign({}, this.state, {
       todoItems: ["Submit time sheet", "Submit expense report"],
       newTodoValue: ""
@@ -41,11 +37,12 @@ export class LearnPersonalTab extends TeamsBaseComponent<ILearnPersonalTabProps,
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
-      microsoftTeams.registerOnThemeChangeHandler(this.updateStardustTheme);
+      microsoftTeams.registerOnThemeChangeHandler(this.updateTheme);
       microsoftTeams.getContext((context) => {
         this.setState({
           entityId: context.entityId
         });
+        this.updateTheme(context.theme);
       });
     } else {
       this.setState({
@@ -114,26 +111,26 @@ export class LearnPersonalTab extends TeamsBaseComponent<ILearnPersonalTabProps,
     }));
   }
 
-  private updateStardustTheme = (teamsTheme: string = "default"): void => {
-    let stardustTheme: ThemePrepared;
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let theme: ThemePrepared;
+
     switch (teamsTheme) {
       case "default":
-        stardustTheme = themes.teams;
+        theme = themes.teams;
         break;
       case "dark":
-        stardustTheme = themes.teamsDark;
+        theme = themes.teamsDark;
         break;
       case "contrast":
-        stardustTheme = themes.teamsHighContrast;
+        theme = themes.teamsHighContrast;
         break;
       default:
-        stardustTheme = themes.teams;
+        theme = themes.teams;
         break;
     }
-
     // update the state
     this.setState(Object.assign({}, this.state, {
-      teamsTheme: stardustTheme
+      teamsTheme: theme
     }));
   }
 }

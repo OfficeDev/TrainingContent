@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import * as React from "react";
-import {
-  Flex, Provider, themes, ThemePrepared,
-  Header,
-  Button, Input, Text
-} from "@stardust-ui/react";
+import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -34,15 +30,16 @@ export interface IConfigMathTabProps extends ITeamsBaseComponentProps {
 export class ConfigMathTab extends TeamsBaseComponent<IConfigMathTabProps, IConfigMathTabState> {
 
   public componentWillMount() {
-    this.updateStardustTheme(this.getQueryVariable("theme"));
+    this.updateComponentTheme(this.getQueryVariable("theme"));
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
-      microsoftTeams.registerOnThemeChangeHandler(this.updateStardustTheme);
+      microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
       microsoftTeams.getContext((context) => {
         this.setState(Object.assign({}, this.state, {
           mathOperator: context.entityId.replace("MathPage", "")
         }));
+        this.updateTheme(context.theme);
       });
     } else {
       this.setState(Object.assign({}, this.state, {
@@ -66,47 +63,24 @@ export class ConfigMathTab extends TeamsBaseComponent<IConfigMathTabProps, IConf
               <Flex gap="gap.smaller">
                 <Flex.Item>
                   <Input autoFocus
-                         value={this.state.operandA}
-                         onChange={this.handleOnChangedOperandA}></Input>
+                    value={this.state.operandA}
+                    onChange={this.handleOnChangedOperandA}></Input>
                 </Flex.Item>
                 <Text content={this.state.mathOperator}></Text>
                 <Flex.Item>
                   <Input value={this.state.operandB}
-                         onChange={this.handleOnChangedOperandB}></Input>
+                    onChange={this.handleOnChangedOperandB}></Input>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
             <Button content="Calculate" primary
-                    onClick={this.handleOperandChange}></Button>
+              onClick={this.handleOperandChange}></Button>
             <Text content={this.state.result}></Text>
           </Flex>
           <Text content="(C) Copyright Contoso" size="smallest"></Text>
         </Flex>
       </Provider>
     );
-  }
-
-  private updateStardustTheme = (teamsTheme: string = "default"): void => {
-    let stardustTheme: ThemePrepared;
-
-    switch (teamsTheme) {
-      case "default":
-        stardustTheme = themes.teams;
-        break;
-      case "dark":
-        stardustTheme = themes.teamsDark;
-        break;
-      case "contrast":
-        stardustTheme = themes.teamsHighContrast;
-        break;
-      default:
-        stardustTheme = themes.teams;
-        break;
-    }
-    // update the state
-    this.setState(Object.assign({}, this.state, {
-      teamsTheme: stardustTheme
-    }));
   }
 
   private handleOnChangedOperandA = (event): void => {
@@ -142,6 +116,29 @@ export class ConfigMathTab extends TeamsBaseComponent<IConfigMathTabProps, IConf
 
     this.setState(Object.assign({}, this.state, {
       result: stringResult
+    }));
+  }
+
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let componentTheme: ThemePrepared;
+
+    switch (teamsTheme) {
+      case "default":
+        componentTheme = themes.teams;
+        break;
+      case "dark":
+        componentTheme = themes.teamsDark;
+        break;
+      case "contrast":
+        componentTheme = themes.teamsHighContrast;
+        break;
+      default:
+        componentTheme = themes.teams;
+        break;
+    }
+    // update the state
+    this.setState(Object.assign({}, this.state, {
+      teamsTheme: componentTheme
     }));
   }
 }
