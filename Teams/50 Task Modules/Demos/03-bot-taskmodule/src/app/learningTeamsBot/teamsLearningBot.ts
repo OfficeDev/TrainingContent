@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 import {
   ActionTypes,
   CardFactory, MessageFactory,
@@ -25,22 +28,22 @@ export class TeamsLearningBot extends TeamsActivityHandler {
             {
               type: "invoke",
               title: "Watch 'Overview of Microsoft Teams'",
-              value: { type: "task/fetch", taskModule: "player", videoId: "X8krAMdGvCQ" }
+              value: { type: "task/fetch", taskModule: "player", videoId: "jugBQqE_2sM" }
             },
             {
               type: "invoke",
               title: "Watch 'Go-to guide for team owners'",
-              value: { type: "task/fetch", taskModule: "player", videoId: "7XcDSuw6NR4" }
+              value: { type: "task/fetch", taskModule: "player", videoId: "kalV4dG-oFo" }
             },
             {
               type: "invoke",
-              title: "Watch a invalid action...",
+              title: "Watch an invalid action...",
               value: { type: "task/fetch", taskModule: "something", videoId: "helloworld" }
             },
             {
               type: "invoke",
               title: "Watch Specific Video",
-              value: { type: "task/fetch", taskModule: "selector", videoId: "QHPBw7F4OL4" }
+              value: { type: "task/fetch", taskModule: "selector", videoId: "VlEH4vtaxp4" }
             }
           ]);
           await context.sendActivity({ attachments: [card] });
@@ -50,60 +53,48 @@ export class TeamsLearningBot extends TeamsActivityHandler {
     });
   }
 
-  private async mentionActivity(context: TurnContext) {
-    const mention = {
-      mentioned: context.activity.from,
-      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
-      type: 'mention'
-    };
-
-    const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
-    replyActivity.entities = [mention];
-    await context.sendActivity(replyActivity);
-  }
-
   protected handleTeamsTaskModuleFetch(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
     let response: TaskModuleResponse;
 
     switch (request.data.taskModule) {
       case "player":
-        response = <TaskModuleResponse>{
+        response = ({
           task: {
             type: "continue",
-            value: <TaskModuleTaskInfo>{
+            value: {
               title: "YouTube Player",
               url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.videoId}`,
               width: 1000,
               height: 700
-            }
+            } as TaskModuleTaskInfo
           }
-        };
+        } as TaskModuleResponse);
         break;
       case "selector":
-        response = <TaskModuleResponse>{
+        response = ({
           task: {
             type: "continue",
-            value: <TaskModuleTaskInfo>{
+            value: {
               title: "YouTube Video Selector",
               card: this.getSelectorAdaptiveCard(request.data.videoId),
               width: 350,
               height: 250
-            }
+            } as TaskModuleTaskInfo
           }
-        };
+        } as TaskModuleResponse);
         break;
-      default:
-        response = <TaskModuleResponse>{
+          default:
+        response = ({
           task: {
             type: "continue",
-            value: <TaskModuleTaskInfo>{
+            value: {
               title: "YouTube Player",
               url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=X8krAMdGvCQ&default=1`,
               width: 1000,
               height: 700
-            }
+            } as TaskModuleTaskInfo
           }
-        };
+        } as TaskModuleResponse);
         break;
     };
 
@@ -111,17 +102,17 @@ export class TeamsLearningBot extends TeamsActivityHandler {
   }
 
   protected handleTeamsTaskModuleSubmit(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
-    const response: TaskModuleResponse = <TaskModuleResponse>{
+    const response: TaskModuleResponse = {
       task: {
         type: "continue",
-        value: <TaskModuleTaskInfo>{
+        value: {
           title: "YouTube Player",
           url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.youTubeVideoId}`,
           width: 1000,
           height: 700
-        }
+        } as TaskModuleTaskInfo
       }
-    };
+    } as TaskModuleResponse;
     return Promise.resolve(response);
   }
 
@@ -165,4 +156,17 @@ export class TeamsLearningBot extends TeamsActivityHandler {
       ]
     });
   }
+
+  private async mentionActivity(context: TurnContext) {
+    const mention = {
+      mentioned: context.activity.from,
+      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
+      type: "mention"
+    };
+
+    const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
+    replyActivity.entities = [mention];
+    await context.sendActivity(replyActivity);
+  }
+
 }
