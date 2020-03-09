@@ -3,7 +3,7 @@
  * See LICENSE in the project root for license information.
  */
 
-/* global document, Office, Word */
+ /* global document, Office, Word */
 Office.onReady(info => {
   if (info.host === Office.HostType.Word) {
     // Determine if the user's version of Office supports all the Office.js APIs that are used in the tutorial.
