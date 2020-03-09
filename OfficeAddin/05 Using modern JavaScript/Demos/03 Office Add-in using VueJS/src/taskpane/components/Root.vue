@@ -67,7 +67,7 @@ const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
     methods: {
         getQuote(symbol:string) {
             return new Promise((resolve, reject) => {
-                const queryEndpoint = `https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=${escape(symbol)}&interval=1min&apikey=${ALPHAVANTAGE_APIKEY}`;
+                const queryEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${escape(symbol)}&apikey=${ALPHAVANTAGE_APIKEY}`;
 
                 fetch(queryEndpoint)
                     .then((res: any) => {
@@ -77,7 +77,7 @@ const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
                         return res.json();
                     })
                     .then((jsonResponse: any) => {
-                        const quote: any = jsonResponse['Stock Quotes'][0];
+                        const quote: any = jsonResponse['Global Quote'];
                         resolve(quote);
                     });
             });
@@ -88,15 +88,16 @@ const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
             if ((<KeyboardEvent>event).key == "Enter") {
                 this.waiting = true;
                 this.getQuote(symbol).then((res:any) => {
-                    let data = [
-                        res['1. symbol'], //Symbol
-                        res['2. price'], //Last Price
-                        res['4. timestamp'], // Timestamp of quote
-                        0,
-                        0,
-                        '=(B:B * D:D) - (E:E * D:D)', //Total Gain $
-                        '=H:H / (E:E * D:D) * 100', //Total Gain %
-                        '=B:B * D:D' //Value
+                    let cnt = this.symbols.length;
+                    const data = [
+                        res['01. symbol'], //Symbol
+                        res['05. price'], //Last Price
+                        res['07. latest trading day'], // Timestamp of quote,
+                        0, // quantity (manually entered)
+                        0, // price paid (manually entered)
+                        `=(B${cnt+2} * D${cnt+2}) - (E${cnt+2} * D${cnt+2})`, //Total Gain $
+                        `=H${cnt+2} / (E${cnt+2} * D${cnt+2}) * 100 - 100`, //Total Gain %
+                        `=B${cnt+2} * D${cnt+2}` //Value
                     ];
                     this.tableUtil.addRow(data).then(() => {
                         this.symbols.unshift(symbol.toUpperCase());
@@ -147,7 +148,7 @@ const ALPHAVANTAGE_APIKEY: string = '{{REPLACE_WITH_ALPHAVANTAGE_APIKEY}}';
                 if (rowIndex != -1) {
                     this.getQuote(symbol).then((res:any) => {
                         // "last trade" is in column B with a row index offset of 2 (row 0 + the header row)
-                        this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res['2. price']).then(async () => {
+                        this.tableUtil.updateCell(`B${rowIndex + 2}:B${rowIndex + 2}`, res["05. price"]).then(async () => {
                             this.waiting = false;
                         }, (err) => {
                             this.error = err;
