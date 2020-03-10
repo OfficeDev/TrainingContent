@@ -28,7 +28,7 @@ This demo uses Visual Studio 2017. It also requires an Office 365 subscription w
 
 1. Download [ngrok](https://ngrok.com/download) and unzip the **ngrok secure tunnel application**. Change to the directory that contains the **ngrok.exe** application.
 
-1. Run the command `ngrok http [port] -host-header=localhost` Replace `port` with the port portion of the URL noted above.
+1. Run the command `ngrok http [visual-studio-project-url] -host-header=localhost`.  Replace `[visual-studio-project-url]` with the URL noted above.
 
 1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
