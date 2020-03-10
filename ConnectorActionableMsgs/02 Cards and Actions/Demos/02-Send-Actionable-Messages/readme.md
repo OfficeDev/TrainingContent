@@ -36,11 +36,13 @@ Using Microsoft Graph to send emails requires an application registration.
 
 1. Select **Authentication** in the left-hand menu.
 
-1. In the **Redirect URIs** > **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
+1. Select **Add a platform**. Select **Mobile and desktop applications**.
+
+1. In the **Redirect URIs** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
 
     ![Screenshot of application registration showing the Redirect URIs](../../Images/Exercise2-01.png)
 
-1. Select **Save** from the toolbar at the top of the Authentication blade.
+1. Select **Configure**.
 
 ### Compile the SendCardEmail program
 
