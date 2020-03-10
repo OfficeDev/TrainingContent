@@ -84,15 +84,17 @@ Using Microsoft Graph to send emails requires an application registration.
 
 1. Select **Authentication** in the left-hand menu.
 
-1. In the **Redirect URIs** > **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
+1. Select **Add a platform**. Select **Mobile and desktop applications**.
+
+1. In the **Redirect URIs** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
 
     ![Screenshot of application registration showing the Redirect URIs](Images/Exercise2-01.png)
 
-1. Select **Save** from the toolbar at the top of the Authentication blade.
+1. Select **Configure**.
 
 ### Compile the SendCardEmail program
 
-1. Launch **Visual Studio 2017**.
+1. Launch **Visual Studio**.
 
 1. Open the `SendEmailCard.sln` solution from the **LabFiles\SendCardEmail** folder.
 
@@ -267,7 +269,7 @@ Before registering the Actionable Message Provider, note the URL configured for 
 
 1. Download [ngrok](https://ngrok.com/download) and unzip the **ngrok secure tunnel application**. Change to the directory that contains the **ngrok.exe** application.
 
-1. Run the command `ngrok http [port] -host-header=localhost` Replace `port` with the port portion of the URL noted above.
+1. Run the command `ngrok http [visual-studio-project-url] -host-header=localhost`.  Replace `[visual-studio-project-url]` with the URL noted above.
 
 1. The ngrok application will fill the entire prompt window. Make note of the forwarding address using HTTPS. This address is required in the next step.
 
