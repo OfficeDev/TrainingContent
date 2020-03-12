@@ -2,17 +2,7 @@
 // Licensed under the MIT license.
 
 import * as React from "react";
-import {
-  PrimaryButton,
-  Panel,
-  PanelBody,
-  PanelHeader,
-  PanelFooter,
-  Input,
-  Surface,
-  getContext,
-  TeamsThemeContext
-} from "msteams-ui-components-react";
+import { Provider, Flex, Header, Input } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -42,6 +32,7 @@ export class LearnAuthTabConfig extends TeamsBaseComponent<ILearnAuthTabConfigPr
         this.setState({
           value: context.entityId
         });
+        this.updateTheme(context.theme);
         this.setValidityState(true);
       });
 
@@ -61,46 +52,29 @@ export class LearnAuthTabConfig extends TeamsBaseComponent<ILearnAuthTabConfigPr
   }
 
   public render() {
-    const context = getContext({
-      baseFontSize: this.state.fontSize,
-      style: this.state.theme
-    });
-    const { rem, font } = context;
-    const { sizes, weights } = font;
-    const styles = {
-      header: { ...sizes.title, ...weights.semibold },
-      section: { ...sizes.base, marginTop: rem(1.4), marginBottom: rem(1.4) },
-      footer: { ...sizes.xsmall }
-    };
     return (
-      <TeamsThemeContext.Provider value={context}>
-        <Surface>
-          <Panel>
-            <PanelHeader>
-              <div style={styles.header}>Configure your tab</div>
-            </PanelHeader>
-            <PanelBody>
-              <div style={styles.section}>
-                <Input
-                  autoFocus
-                  placeholder="Enter a value here"
-                  label="Enter a value"
-                  errorLabel={!this.state.value ? "This value is required" : undefined}
-                  value={this.state.value}
-                  onChange={(e) => {
+      <Provider theme={this.state.theme}>
+        <Flex fill={true}>
+          <Flex.Item>
+            <div>
+              <Header content="Configure your tab" />
+              <Input
+                placeholder="Enter a value here"
+                fluid
+                clearable
+                value={this.state.value}
+                onChange={(e, data) => {
+                  if (data) {
                     this.setState({
-                      value: e.target.value
+                      value: data.value
                     });
-                  }}
-                  required />
-              </div>
-
-            </PanelBody>
-            <PanelFooter>
-            </PanelFooter>
-          </Panel>
-        </Surface>
-        `  </TeamsThemeContext.Provider>
+                  }
+                }}
+                required />
+            </div>
+          </Flex.Item>
+        </Flex>
+      </Provider>
     );
   }
 }

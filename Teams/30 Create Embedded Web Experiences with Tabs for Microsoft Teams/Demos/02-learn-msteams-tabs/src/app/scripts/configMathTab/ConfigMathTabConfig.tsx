@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import * as React from "react";
-import {
-  Flex, Provider, themes, ThemePrepared,
-  Header,
-  Dropdown, DropdownProps, Text
-} from "@stardust-ui/react";
+import { Provider, Flex, Header, Input, ThemePrepared, themes, DropdownProps, Dropdown } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -25,7 +21,7 @@ export interface IConfigMathTabConfigProps extends ITeamsBaseComponentProps {
 export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfigProps, IConfigMathTabConfigState> {
 
   public componentWillMount() {
-    this.updateStardustTheme(this.getQueryVariable("theme"));
+    this.updateComponentTheme(this.getQueryVariable("theme"));
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
@@ -34,6 +30,7 @@ export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfig
         this.setState(Object.assign({}, this.state, {
           mathOperator: context.entityId.replace("MathPage", "")
         }));
+        this.updateTheme(context.theme);
         this.setValidityState(true);
       });
 
@@ -57,44 +54,40 @@ export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfig
       <Provider theme={this.state.teamsTheme}>
         <Flex gap="gap.smaller" style={{ height: "300px" }}>
           <Dropdown placeholder="Select the math operator"
-            items={[
-              "add",
-              "subtract",
-              "multiply",
-              "divide"
-            ]}
-            onSelectedChange={this.handleOnSelectedChange}></Dropdown>
+            items={["add", "subtract", "multiply", "divide"]}
+            onChange={this.handleOnSelectedChange}>
+          </Dropdown>
         </Flex>
       </Provider>
     );
   }
 
-  private updateStardustTheme = (teamsTheme: string = "default"): void => {
-    let stardustTheme: ThemePrepared;
+  private handleOnSelectedChange = (event, props: DropdownProps): void => {
+    this.setState(Object.assign({}, this.state, {
+      mathOperator: (props.value) ? props.value.toString() : "add"
+    }));
+  }
+
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let componentTheme: ThemePrepared;
 
     switch (teamsTheme) {
       case "default":
-        stardustTheme = themes.teams;
+        componentTheme = themes.teams;
         break;
       case "dark":
-        stardustTheme = themes.teamsDark;
+        componentTheme = themes.teamsDark;
         break;
       case "contrast":
-        stardustTheme = themes.teamsHighContrast;
+        componentTheme = themes.teamsHighContrast;
         break;
       default:
-        stardustTheme = themes.teams;
+        componentTheme = themes.teams;
         break;
     }
     // update the state
     this.setState(Object.assign({}, this.state, {
-      teamsTheme: stardustTheme
-    }));
-  }
-
-  private handleOnSelectedChange = (event, props: DropdownProps): void => {
-    this.setState(Object.assign({}, this.state, {
-      mathOperator: (props.value) ? props.value.toString() : "add"
+      teamsTheme: componentTheme
     }));
   }
 

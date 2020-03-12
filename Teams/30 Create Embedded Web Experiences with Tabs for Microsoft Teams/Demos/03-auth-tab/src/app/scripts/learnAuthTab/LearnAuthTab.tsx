@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import * as React from "react";
-import {
-  Flex, Provider, themes, ThemePrepared,
-  Header,
-  Button, Icon, List
-} from "@stardust-ui/react";
+import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, List, Icon } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import * as MicrosoftGraphClient from "@microsoft/microsoft-graph-client";
@@ -45,15 +41,19 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
   }
 
   public componentWillMount() {
-    this.updateStardustTheme(this.getQueryVariable("theme"));
+    this.updateComponentTheme(this.getQueryVariable("theme"));
+    this.setState({
+      fontSize: this.pageFontSize()
+    });
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
-      microsoftTeams.registerOnThemeChangeHandler(this.updateStardustTheme);
+      microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
       microsoftTeams.getContext((context) => {
         this.setState({
           entityId: context.entityId
         });
+        this.updateTheme(context.theme);
       });
     } else {
       this.setState({
@@ -101,27 +101,37 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
     );
   }
 
-  private updateStardustTheme = (teamsTheme: string = "default"): void => {
-    let stardustTheme: ThemePrepared;
-
-    switch (teamsTheme) {
-      case "default":
-        stardustTheme = themes.teams;
-        break;
-      case "dark":
-        stardustTheme = themes.teamsDark;
-        break;
-      case "contrast":
-        stardustTheme = themes.teamsHighContrast;
-        break;
-      default:
-        stardustTheme = themes.teams;
-        break;
+  private async getMessages(promptConsent: boolean = false): Promise<void> {
+    if (promptConsent || this.state.accessToken === "") {
+      await this.signin(promptConsent);
     }
-    // update the state
-    this.setState(Object.assign({}, this.state, {
-      teamsTheme: stardustTheme
-    }));
+
+    this.msGraphClient
+      .api("me/messages")
+      .select(["receivedDateTime", "subject"])
+      .top(15)
+      .get(async (error: any, rawMessages: any, rawResponse?: any) => {
+        if (!error) {
+          this.setState(Object.assign({}, this.state, {
+            messages: rawMessages.value
+          }));
+          Promise.resolve();
+        } else {
+          console.error("graph error", error);
+          // re-sign in but this time force consent
+          await this.getMessages(true);
+        }
+      });
+  }
+
+  private async signin(promptConsent: boolean = false): Promise<void> {
+    const token = await this.getAccessToken(promptConsent);
+
+    this.setState({
+      accessToken: token
+    });
+
+    Promise.resolve();
   }
 
   private async getAccessToken(promptConsent: boolean = false): Promise<string> {
@@ -140,41 +150,31 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
     });
   }
 
-  private async signin(promptConsent: boolean = false): Promise<void> {
-    const token = await this.getAccessToken(promptConsent);
-
-    this.setState({
-      accessToken: token
-    });
-
-    Promise.resolve();
-  }
-
-  private async getMessages(promptConsent: boolean = false): Promise<void> {
-    if (promptConsent || this.state.accessToken === "") {
-      await this.signin(promptConsent);
-    }
-
-    this.msGraphClient
-      .api("me/messages")
-      .select(["receivedDateTime", "subject"])
-      .top(15)
-      .get(async (error: any, rawMessages: any, rawResponse?: any) => {
-        if (!error) {
-          this.setState(Object.assign({}, this.state, {
-            messages: rawMessages.value
-          }));
-          Promise.resolve();
-        } else {
-          console.error("graph error", error);
-          // re-signin but this time force consent
-          await this.getMessages(true);
-        }
-      });
-  }
-
   private handleGetMyMessagesOnClick = async (event): Promise<void> => {
     await this.getMessages();
+  }
+
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let componentTheme: ThemePrepared;
+
+    switch (teamsTheme) {
+      case "default":
+        componentTheme = themes.teams;
+        break;
+      case "dark":
+        componentTheme = themes.teamsDark;
+        break;
+      case "contrast":
+        componentTheme = themes.teamsHighContrast;
+        break;
+      default:
+        componentTheme = themes.teams;
+        break;
+    }
+    // update the state
+    this.setState(Object.assign({}, this.state, {
+      teamsTheme: componentTheme
+    }));
   }
 
 }

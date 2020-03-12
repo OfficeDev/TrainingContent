@@ -32,15 +32,17 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                                       Author(s)                                       |
-| -------------------- | ------------------------------------------------------------------------------------- |
-| Lab / Slides / Demos | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
-| Sponsor / Support    | Andrew Clear (Microsoft) [@clearab](//github.com/clearab)                             |
+|        Roles         |                                                   Author(s)                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](//github.com/voitanos)) [@andrewconnell](//github.com/andrewconnell) |
+| QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)                                 |
+| Sponsor / Support    | Andrew Clear (Microsoft) [@clearab](//github.com/clearab)                                                      |
 
 ## Version history
 
 | Version |        Date        |         Comments         |
 | ------- | ------------------ | ------------------------ |
+| 1.2     | March 10, 2020     | FY2020Q3 content refresh |
 | 1.1     | December 9, 2019   | FY2020Q2 content refresh |
 | 1.0     | September 30, 2019 | New module published     |
 
