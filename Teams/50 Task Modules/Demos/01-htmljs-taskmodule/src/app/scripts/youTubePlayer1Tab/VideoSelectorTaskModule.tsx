@@ -1,8 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 import * as React from "react";
-import {
-  Flex, Provider, themes, ThemePrepared,
-  Button, Input, Text
-} from "@stardust-ui/react";
+import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -16,14 +16,14 @@ export interface IVideoSelectorTaskModuleProps extends ITeamsBaseComponentProps 
 
 export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTaskModuleProps, IVideoSelectorTaskModuleState> {
   public componentWillMount(): void {
-    this.updateStardustTheme(this.getQueryVariable("theme"));
+    this.updateComponentTheme(this.getQueryVariable("theme"));
     this.setState(Object.assign({}, this.state, {
       youTubeVideoId: this.getQueryVariable("vid")
     }));
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
-      microsoftTeams.registerOnThemeChangeHandler(this.updateStardustTheme);
+      microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
     }
   }
 
@@ -41,6 +41,29 @@ export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTa
     );
   }
 
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let theme: ThemePrepared;
+
+    switch (teamsTheme) {
+      case "default":
+        theme = themes.teams;
+        break;
+      case "dark":
+        theme = themes.teamsDark;
+        break;
+      case "contrast":
+        theme = themes.teamsHighContrast;
+        break;
+      default:
+        theme = themes.teams;
+        break;
+    }
+    // update the state
+    this.setState(Object.assign({}, this.state, {
+      teamsTheme: theme
+    }));
+  }
+
   private handleOnChanged = (event): void => {
     this.setState(Object.assign({}, this.state, {
       youTubeVideoId: event.target.value
@@ -49,28 +72,5 @@ export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTa
 
   private handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     microsoftTeams.tasks.submitTask(this.state.youTubeVideoId, undefined);
-  }
-
-  private updateStardustTheme = (teamsTheme: string = "default"): void => {
-    let stardustTheme: ThemePrepared;
-
-    switch (teamsTheme) {
-      case "default":
-        stardustTheme = themes.teams;
-        break;
-      case "dark":
-        stardustTheme = themes.teamsDark;
-        break;
-      case "contrast":
-        stardustTheme = themes.teamsHighContrast;
-        break;
-      default:
-        stardustTheme = themes.teams;
-        break;
-    }
-    // update the state
-    this.setState(Object.assign({}, this.state, {
-      teamsTheme: stardustTheme
-    }));
   }
 }

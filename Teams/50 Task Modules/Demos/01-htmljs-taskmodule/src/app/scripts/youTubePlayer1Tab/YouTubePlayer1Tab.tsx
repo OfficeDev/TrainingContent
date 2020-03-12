@@ -1,8 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 import * as React from "react";
-import {
-  Flex, Provider, themes, ThemePrepared,
-  Header, Button, Input, Text
-} from "@stardust-ui/react";
+import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -29,17 +29,18 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
 
   public componentWillMount() {
     this.setState(Object.assign({}, this.state, {
-      youTubeVideoId: "X8krAMdGvCQ"
+      youTubeVideoId: "jugBQqE_2sM"
     }));
-    this.updateStardustTheme(this.getQueryVariable("theme"));
+    this.updateComponentTheme(this.getQueryVariable("theme"));
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
-      microsoftTeams.registerOnThemeChangeHandler(this.updateStardustTheme);
+      microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
       microsoftTeams.getContext((context) => {
         this.setState({
           entityId: context.entityId
         });
+        this.updateTheme(context.theme);
       });
     } else {
       this.setState({
@@ -64,6 +65,29 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
         </Flex>
       </Provider>
     );
+  }
+
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let theme: ThemePrepared;
+
+    switch (teamsTheme) {
+      case "default":
+        theme = themes.teams;
+        break;
+      case "dark":
+        theme = themes.teamsDark;
+        break;
+      case "contrast":
+        theme = themes.teamsHighContrast;
+        break;
+      default:
+        theme = themes.teams;
+        break;
+    }
+    // update the state
+    this.setState(Object.assign({}, this.state, {
+      teamsTheme: theme
+    }));
   }
 
   private onShowVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -99,28 +123,5 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     } else {
       return window.location.protocol + "//" + window.location.host;
     }
-  }
-
-  private updateStardustTheme = (teamsTheme: string = "default"): void => {
-    let stardustTheme: ThemePrepared;
-
-    switch (teamsTheme) {
-      case "default":
-        stardustTheme = themes.teams;
-        break;
-      case "dark":
-        stardustTheme = themes.teamsDark;
-        break;
-      case "contrast":
-        stardustTheme = themes.teamsHighContrast;
-        break;
-      default:
-        stardustTheme = themes.teams;
-        break;
-    }
-    // update the state
-    this.setState(Object.assign({}, this.state, {
-      teamsTheme: stardustTheme
-    }));
   }
 }
