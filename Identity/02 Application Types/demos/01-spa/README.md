@@ -13,4 +13,4 @@ This completed project is the result of the lab exercise **Single Page Applicati
   - applicationId
   - directoryId
 - Update the properties in the **[index.html](./index.html)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.

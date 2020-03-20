@@ -17,4 +17,4 @@ This completed project is the result of the lab exercise **Daemon and non-intera
   - applicationSecret
   - targetUserId
 - Update the properties in the **[appsettings.json](./appsettings.json)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.
