@@ -1,10 +1,6 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT license.
- */
 using System;
 
-namespace msidentity_aspnet.Models
+namespace msidentity_aspnet_02_01.Models
 {
     public class ErrorViewModel
     {
