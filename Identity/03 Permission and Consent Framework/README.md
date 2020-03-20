@@ -1,6 +1,6 @@
 # Microsoft Identity Training Module - Permission and Consent Framework
 
-The Microsoft identity platform implements the OAuth 2.0 authorization protocol. This protocol is a method that a third-party app can access web-hosted resources on behalf of a user. The web-hosted resources can define a set of permissions that can be used to implement functionality in smaller chucks. Developers can leverage one of two types of permissions supported by the Microsoft identity platform depending on the app scenario. In this module, you'll learn the different types of permissions and consent framework models for obtaining permissions from users to use them in apps.
+The Microsoft identity platform implements the OAuth 2.0 authorization protocol. This protocol is a method that a third-party app can access web-hosted resources on behalf of a user. The web-hosted resources can define a set of permissions that you can use to implement functionality in smaller chunks. Developers can leverage one of two types of permissions supported by the Microsoft identity platform depending on the app scenario. In this module, you'll learn the different types of permissions and consent framework models for obtaining permissions from users to use them in apps.
 
 > This module is also published as a Microsoft Learn module: [Permission and Consent Framework](https://docs.microsoft.com/learn/modules/identity-permissions-consent)
 
