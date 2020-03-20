@@ -6,7 +6,7 @@ Learn the basics of Microsoft identity including the different types of tokens, 
 
 ## Lab - Getting Started with Microsoft Identity
 
-The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
+The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise and demo in the presentation.
 
 1. [Exercise - Different types of tokens used in Microsoft Identity](https://docs.microsoft.com/learn/modules/getting-started-identity/3-exercise-different-token-types)
 
