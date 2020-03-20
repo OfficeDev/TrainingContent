@@ -1,5 +1,11 @@
+<!-- 
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT license. 
+-->
+
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Microsoft Identity: Permissions and Consent</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.5/bluebird.min.js"></script>
@@ -11,9 +17,12 @@
     <div>
       <p id="WelcomeMessage">Microsoft Authentication Library For Javascript (MSAL.js) Exercise</p>
       <button id="SignIn" onclick="signIn()">Sign In</button>
+      <h2>Latest messages</h2>
+      <div id="messages"></div>
     </div>
-    <h2>Latest messages</h2>
-    <div id="messages"></div>
+    <div>
+      <pre id="json"></pre>
+    </div>
   </div>
   <script>
     var msalConfig = {
@@ -31,7 +40,7 @@
     var graphConfig = {
       graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
       requestObj: {
-        scopes: ["user.read", "calendars.read"]
+        scopes: ["user.read", "mail.read"]
       }
     };
 
@@ -41,13 +50,10 @@
     initPage();
 
 
-
     msalApplication.handleRedirectCallback(authRedirectCallBack);
     // TODO: add CODE before this line
 
 
-    // Update the welcome message &
-    // init the signin button
     function updateWelcomeMessageAndSigninControl() {
       // update welcome message
       var divWelcome = document.getElementById('WelcomeMessage');
@@ -59,22 +65,19 @@
       loginbutton.setAttribute('onclick', 'signOut();');
     }
 
-    // If not IE, use the popup method to acquire an access token / login to Azure AD
-    // After obtaining access token, request last 10 email messages via Microsoft Graph
-    //    for current signed-in user.
     function acquireTokenPopupAndGetUserEmails() {
       // try to get token silently without logging in (ie: from token cache)
       msalApplication.acquireTokenSilent(graphConfig.requestObj)
         .then(function (tokenResponse) {
           // request email messages from Microsoft Graph
-          getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'/events?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
+          getMessagesFromMSGraph(graphConfig.graphMeEndpoint + '/messages?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
         }).catch(function (error) {
           console.log(error);
           if (requiresInteraction(error.errorCode)) {
             // unable to get token silently, so log the user in interactively (ie: display popup)
             msalApplication.acquireTokenPopup(graphConfig.requestObj).then(function (tokenResponse) {
               // request email messages from Microsoft Graph
-              getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'/events?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
+              getMessagesFromMSGraph(graphConfig.graphMeEndpoint + '/messages?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
             }).catch(function (error) {
               console.log(error);
             });
@@ -82,13 +85,10 @@
         });
     }
 
-    // If IE, use the redirect method to acquire an access token / login to Azure AD
-    // After obtaining access token, request last 10 email messages via Microsoft Graph
-    //    for current signed-in user.
     function acquireTokenRedirectAndGetUserEmails() {
       // try to get token silently without logging in (ie: from token cache)
       msalApplication.acquireTokenSilent(graphConfig.requestObj).then(function (tokenResponse) {
-        getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'/events?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
+        getMessagesFromMSGraph(graphConfig.graphMeEndpoint + '/messages?$top=10&$select=subject', tokenResponse.accessToken, graphAPICallback);
       }).catch(function (error) {
         console.log(error);
         // unable to get token silently, so log the user in interactively (ie: display popup)
@@ -104,24 +104,22 @@
         return false;
       }
       return errorCode === "consent_required" ||
-              errorCode === "interaction_required" ||
-              errorCode === "login_required";
+        errorCode === "interaction_required" ||
+        errorCode === "login_required";
     }
 
-    // Process the redirect from Azure AD
     function authRedirectCallBack(error, response) {
       if (error) {
         console.log(error);
       } else {
         if (response.tokenType === "access_token") {
-          getMessagesFromMSGraph(graphConfig.graphMeEndpoint +'//events?$top=10&$select=subject', response.accessToken, graphAPICallback);
+          getUserFromMSGraph(graphConfig.graphMeEndpoint, response.accessToken, graphAPICallback);
         } else {
           console.log("token type is:" + response.tokenType);
         }
       }
     }
 
-    // Submit request to Microsoft Graph to specified endpoint with specified access token
     function getMessagesFromMSGraph(endpoint, accessToken, callback) {
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function () {
@@ -133,7 +131,6 @@
       xmlHttp.send();
     }
 
-    // Process response from Microsoft Graph
     function graphAPICallback(data) {
       var htmlBody = '';
       data.value.forEach(message => {
@@ -181,15 +178,15 @@
 
           // avoid duplicate code execution on page load in case of iframe and popup window
           if (msalApplication.getAccount() && !msalApplication.isCallback(window.location.hash)) {
-            updateWelcomeMessageAndSigninControl();
-            acquireTokenRedirectAndGetUserEmails();
+            updateUserInterface();
+            acquireTokenRedirectAndGetUser();
           }
           break;
         case false:
           // avoid duplicate code execution on page load in case of iframe and popup window
           if (msalApplication.getAccount()) {
-            updateWelcomeMessageAndSigninControl();
-            acquireTokenPopupAndGetUserEmails();
+            updateUserInterface();
+            acquireTokenPopupAndGetUser();
           }
           break;
         default:
@@ -199,4 +196,5 @@
     }
   </script>
 </body>
+
 </html>
