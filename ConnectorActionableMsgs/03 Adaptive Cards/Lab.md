@@ -94,11 +94,13 @@ This exercise will send the card via email using a console application.
 
 1. Select **Authentication** in the left-hand menu.
 
-1. In the Redirect URIs > **Suggested Redirect URIs for public clients (mobile, desktop)** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
+1. Select **Add a platform**. Select **Mobile and desktop applications**.
+
+1. In the **Redirect URIs** section, select the native client URI. (`https://login.microsoftonline.com/common/oauth2/nativeclient`)
 
     ![Screenshot of application registration showing the Redirect URIs](Images/Exercise2-01.png)
 
-1. Select **Save** from the toolbar at the top of the Authentication blade.
+1. Select **Configure**.
 
 ### Compile the SendEmailCard program
 
@@ -141,7 +143,7 @@ Sending an Adaptive Card via email requires a message body in HTML. The Adaptive
     SendEmailCard.exe adaptive supportTicketCard.json
     ```
 
-1. A pop-up authentication window should appear. Login with the Work or School  account specified in the Actionable Email Developer Dashboard. Review the list of requested permissions and click **Accept** or **Cancel**. (**Note:** choosing **Cancel** will result in the app returning an error and not sending a message.)
+1. A pop-up authentication window should appear. Login with the Work or School account specified in the Actionable Email Developer Dashboard. Review the list of requested permissions and click **Accept** or **Cancel**. (**Note:** choosing **Cancel** will result in the app returning an error and not sending a message.)
 
 1. The command prompt window should output `Message sent` to indicate success.
 
