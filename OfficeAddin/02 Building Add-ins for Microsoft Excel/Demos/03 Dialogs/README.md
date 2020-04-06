@@ -1,32 +1,24 @@
-# Office-Addin-TaskPane-JS
+# Demo: Work with dialogs in Excel
 
-This repository contains the source code used by the [Yo Office generator](https://github.com/OfficeDev/generator-office) when you create a new Office Add-in that appears in the task pane. You can also use this repository as a sample to base your own project from if you choose not to use the generator. 
+This completed project is the result of the lab exercise **Work with dialogs in Excel** that is referenced in the [README](../../) in this repo.
 
-## JavaScript
+## Prerequisites
 
-This template is written using JavaScript. For the [TypeScript](http://www.typescriptlang.org/) version of this template, go to [Office-Addin-TaskPane](https://github.com/OfficeDev/Office-Addin-TaskPane).
+Developing Office add-ins for Microsoft Excel requires Excel 2016, version 1711 (Build 8730.1000 Click-to-Run) or later. You might need to be an Office Insider to get this version. For more information, see [Be an Office Insider](https://products.office.com/office-insider?tab=tab-1).
 
-## Debugging
+You'll use Node.js to create the custom Excel add-in in this module. The exercises in this module assume you have the following tools installed on your developer workstation.
 
-This template supports debugging using any of the following techniques:
+> [!IMPORTANT]
+> In most cases, installing the latest version of the following tools is the best option. The versions listed here were used when this module was published and last tested.
 
-- [Use a browser's developer tools](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-in-office-online)
-- [Attach a debugger from the task pane](https://docs.microsoft.com/office/dev/add-ins/testing/attach-debugger-from-task-pane)
-- [Use F12 developer tools on Windows 10](https://docs.microsoft.com/office/dev/add-ins/testing/debug-add-ins-using-f12-developer-tools-on-windows-10)
+- [Node.js](https://nodejs.org/) - (*the latest [LTS](https://nodejs.org/about/releases) version (or higher)*)
+- NPM (installed with Node.js) - v6.\* (or higher)
+- [Yeoman](https://yeoman.io/) - v3.\* (or higher)
+- [Yeoman Generator for Microsoft Office](https://github.com/OfficeDev/generator-office) - v1.6.1\* (or higher)
+- [Visual Studio Code](https://code.visualstudio.com)
 
-## Questions and comments
+You must have the minimum versions of these prerequisites installed on your workstation.
 
-We'd love to get your feedback about this sample. You can send your feedback to us in the *Issues* section of this repository.
+## Run this Completed Project
 
-Questions about Microsoft Office 365 development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/office-js+API).  If your question is about the Office JavaScript APIs, make sure it's tagged with  [office-js].
-
-## Additional resources
-
-* [Office add-in documentation](https://docs.microsoft.com/office/dev/add-ins/overview/office-add-ins)
-* More Office Add-in samples at [OfficeDev on Github](https://github.com/officedev)
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Copyright
-
-Copyright (c) 2019 Microsoft Corporation. All rights reserved.
+- Build & run the application by following the instructions in the lab exercise associated with this demo.
