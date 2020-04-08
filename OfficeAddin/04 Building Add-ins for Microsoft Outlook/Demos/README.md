@@ -1,6 +1,6 @@
-# Office Add-ins: Building Add-ins for Microsoft Outlook
+# Office Add-ins: Build Office Add-ins for Outlook
 
-This folder contains demos for the Building Add-ins for Microsoft Outlook module.
+This folder contains demos for the Build Office Add-ins for Outlook module.
 
 ## Demos
 
@@ -10,4 +10,8 @@ This folder contains demos for the Building Add-ins for Microsoft Outlook module
 
 ## Running demonstrations
 
-Each demonstration includes a finished solution in its respective folder. If you want to run any of the finished solutions, clone the repository, run **npm install** (from the directory of the finished solution), then **npm run start** and follow the instructions to [Sideload Office add-ins for testing](https://docs.microsoft.com/en-us/outlook/add-ins/sideload-outlook-add-ins-for-testing).
+Each demonstration includes a finished solution in its respective folder. If you want to run a finished project, clone the repository, run **npm install** (from the solution folder directory), then **npm run start** and follow one of these methods to sideload and test the Office Add-in.
+
+- Windows: [Sideload Office Add-ins on Windows](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/create-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins)
+- Word Online: [Sideload Office Add-ins in Office Online](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing#sideload-an-office-add-in-on-office-online)
+- iPad and Mac: [Sideload Office Add-ins on iPad and Mac](https://docs.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-ipad-and-mac)
