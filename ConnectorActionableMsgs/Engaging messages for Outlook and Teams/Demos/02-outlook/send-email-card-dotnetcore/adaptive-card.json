@@ -1,0 +1,63 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Thanks for joining us for today's webinar!",
+      "weight": "Bolder",
+      "size": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "We hope you enjoyed today's webinar and learned something from the presentation! Feedback from people like you help us to improve these webinars, so would you let us know how we did?",
+      "wrap": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "rating",
+      "placeholder": "Placeholder text",
+      "choices": [
+        {
+          "title": "(3) Fantastic!",
+          "value": "3"
+        },
+        {
+          "title": "(2) OK",
+          "value": "2"
+        },
+        {
+          "title": "(1) Disappointed",
+          "value": "1"
+        }
+      ],
+      "style": "expanded",
+      "separator": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "comment",
+      "placeholder": "Feel free to share your comments",
+      "isMultiline": true
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Http",
+          "method": "POST",
+          "title": "Submit Feedback",
+          "url": "https://REPLACE-WITH-YOUR-SUBDOMAIN.ngrok.io/api/card",
+          "headers": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{ \"rating\": {{rating.value}}, \"comment\": \"{{comment.value}}\" }"
+        }
+      ]
+    }
+  ]
+}

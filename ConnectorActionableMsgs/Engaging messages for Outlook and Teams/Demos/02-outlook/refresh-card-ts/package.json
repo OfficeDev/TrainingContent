@@ -1,0 +1,28 @@
+{
+  "name": "refresh-outlook-adaptivecard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "start-server": "npm run build && DEBUG=msoutlook-adaptivecards node server.js",
+    "start-ngrok": "ngrok http 3007"
+  },
+  "dependencies": {
+    "adaptivecards-templating": "^0.1.1-alpha.1",
+    "axios": "^0.19.2",
+    "base64url": "^3.0.1",
+    "body-parser": "^1.19.0",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "rsa-pem-from-mod-exp": "^0.8.4",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/morgan": "^1.9.0"
+  }
+}
