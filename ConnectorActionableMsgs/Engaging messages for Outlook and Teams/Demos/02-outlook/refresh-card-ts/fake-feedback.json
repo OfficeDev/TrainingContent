@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Alex Wilber",
+    "rating": 3,
+    "comment": "This was exactly what I was looking for, thanks!"
+  },
+  {
+    "name": "Adele Vance",
+    "rating": 1,
+    "comment": "Seems like a promising solution, but I left with more questions than answers."
+  },
+  {
+    "name": "Linda Holloway",
+    "rating": 2,
+    "comment": "I wasn't able to submit any questions, but the content looked great."
+  },
+  {
+    "name": "John Doe",
+    "rating": 1,
+    "comment": "I had a hard time understanding the speaker and the demo went too fast."
+  }
+]

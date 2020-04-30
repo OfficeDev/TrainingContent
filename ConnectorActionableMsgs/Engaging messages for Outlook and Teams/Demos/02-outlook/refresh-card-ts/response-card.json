@@ -1,0 +1,30 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Thanks! v3",
+      "weight": "Bolder",
+      "size": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Thank you for providing your feedback. Overall the webinar has an **average rating of {average_rating}** with a total of **{total_responses} people responding**.\n\nSome of the recently comments we've received include the following:",
+      "wrap": true
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "$data": "{feedback}",
+          "title": "{name}",
+          "value": "({rating}) {comment}"
+        }
+      ],
+      "separator": true,
+      "spacing": "Large"
+    }
+  ]
+}
