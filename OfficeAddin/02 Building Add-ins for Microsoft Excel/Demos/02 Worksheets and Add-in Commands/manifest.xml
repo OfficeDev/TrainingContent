@@ -56,7 +56,7 @@
                 </Control>
                 <Control xsi:type="Button" id="ToggleProtection">
                   <Label resid="ProtectionButtonLabel" />
-                  <Supertip>            
+                  <Supertip>
                     <Title resid="ProtectionButtonLabel" />
                     <Description resid="ProtectionButtonToolTip" />
                   </Supertip>

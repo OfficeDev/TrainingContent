@@ -16,15 +16,17 @@ Office.onReady(info => {
     document.getElementById("create-table").onclick = createTable;
     document.getElementById("filter-table").onclick = filterTable;
     document.getElementById("sort-table").onclick = sortTable;
-    document.getElementById("create-chart").onclick = createChart;
-    document.getElementById("freeze-header").onclick = freezeHeader;
+    document.getElementById("create-chart").onclick = createChart;    
+
     document.getElementById("sideload-msg").style.display = "none";
-    document.getElementById("app-body").style.display = "flex";    
+    document.getElementById("app-body").style.display = "flex";
+
   }
 });
 
 function createTable() {
   Excel.run(function (context) {
+
     var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
     var expensesTable = currentWorksheet.tables.add("A1:D1", true /*hasHeaders*/);
     expensesTable.name = "ExpensesTable";
@@ -42,22 +44,23 @@ function createTable() {
       ["1/15/2017", "Best For You Organics Company", "Groceries", "97.88"]
     ]);
 
-    expensesTable.columns.getItemAt(3).getRange().numberFormat = [['€#,##0.00']];
+    expensesTable.columns.getItemAt(3).getRange().numberFormat = [['&euro;#,##0.00']];
     expensesTable.getRange().format.autofitColumns();
     expensesTable.getRange().format.autofitRows();
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 function filterTable() {
   Excel.run(function (context) {
+
     var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
     var expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
     var categoryFilter = expensesTable.columns.getItem('Category').filter;
@@ -65,21 +68,22 @@ function filterTable() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 function sortTable() {
   Excel.run(function (context) {
+
     var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
     var expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
     var sortFields = [
       {
-        key: 1, // Merchant column
+        key: 1,            // Merchant column
         ascending: false,
       }
     ];
@@ -88,21 +92,22 @@ function sortTable() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
-function createChart() {
-  Excel.run(function (context) {
-    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+    function createChart() {
+      Excel.run(function (context) {
+
+        var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
     var expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
     var dataRange = expensesTable.getDataBodyRange();
 
-    var chart = currentWorksheet.charts.add('ColumnClustered', dataRange, 'auto');
+        var chart = currentWorksheet.charts.add('ColumnClustered', dataRange, 'auto');
 
     chart.setPosition("A15", "F30");
     chart.title.text = "Expenses";
@@ -110,29 +115,14 @@ function createChart() {
     chart.legend.format.fill.setSolidColor("white");
     chart.dataLabels.format.font.size = 15;
     chart.dataLabels.format.font.color = "black";
-    chart.series.getItemAt(0).name = 'Value in €';
+    chart.series.getItemAt(0).name = 'Value in &euro;';
 
-    return context.sync();
-  })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+        return context.sync();
+      })
+      .catch(function (error) {
+        console.log("Error: " + error);
+        if (error instanceof OfficeExtension.Error) {
+          console.log("Debug info: " + JSON.stringify(error.debugInfo));
+        }
+      });
     }
-  });
-}
-
-function freezeHeader() {
-  Excel.run(function (context) {
-    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-    currentWorksheet.freezePanes.freezeRows(1);
-
-    return context.sync();
-  })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
-}
