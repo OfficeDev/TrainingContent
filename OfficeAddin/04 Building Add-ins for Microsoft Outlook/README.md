@@ -40,16 +40,17 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |       Date        |        Comments        |
-| ------- | ----------------- | ---------------------- |
-| 1.7     | April 7, 2020 | FY2020Q3 content refresh & port module to MS Learn |
-| 1.6     | March 5, 2020     | 2020Q3 content refresh |
-| 1.5     | Dec 6, 2019       | 2020Q2 content refresh |
-| 1.4     | Sept 7, 2019      | 2020Q1 content refresh |
-| 1.3     | June 7, 2019      | 2019Q4 content refresh |
-| 1.2     | Mar 1, 2019       | 2019Q3 content refresh |
-| 1.1     | January 9, 2019   | Added screencast       |
-| 1.0     | December 19, 2018 | Initial release        |
+| Version |       Date        |                      Comments                      |
+| ------- | ----------------- | -------------------------------------------------- |
+| 1.8     | May 1, 2020       | 2020Q4 content refresh                             |
+| 1.7     | April 7, 2020     | FY2020Q3 content refresh & port module to MS Learn |
+| 1.6     | March 5, 2020     | 2020Q3 content refresh                             |
+| 1.5     | Dec 6, 2019       | 2020Q2 content refresh                             |
+| 1.4     | Sept 7, 2019      | 2020Q1 content refresh                             |
+| 1.3     | June 7, 2019      | 2019Q4 content refresh                             |
+| 1.2     | Mar 1, 2019       | 2019Q3 content refresh                             |
+| 1.1     | January 9, 2019   | Added screencast                                   |
+| 1.0     | December 19, 2018 | Initial release                                    |
 
 ## Disclaimer
 
