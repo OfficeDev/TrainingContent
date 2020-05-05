@@ -2,27 +2,19 @@
 
 In this lab, you will learn the steps to create and send connector cards to Office 365 Groups.
 
-## In this lab
-
-1. [Create a card payload and submit it via an incoming webhook](#exercise1)
-
 ## Prerequisites
 
 This lab will require an Office 365 tenant and a user account that has a mailbox.
 
-<a name="exercise1"></a>
-
-## Exercise 1: Create a card payload and submit it via an incoming webhook
+## Create a card payload and submit it via an incoming webhook
 
 In this exercise, you will copy an example card from the Message Card Playground website and send it to an Office 365 group in your tenant.
 
 ### Create a group and configure the webhook
 
 1. Open a browser and go to [Microsoft Outlook](https://outlook.office.com). Log in with your Office 365 credentials.
-
 1. Create a new group, or select an existing group.
-
-1. In the Group information card above the message list, select the elipsis (**...**) then select **Settings**.
+1. In the Group information card above the message list, select the ellipsis (**...**) then select **Settings**.
 
     ![Screenshot of Outlook.com Group inbox, showing the group card settings menu](Images/Exercise1-01.png)
 
@@ -35,19 +27,17 @@ In this exercise, you will copy an example card from the Message Card Playground
     ![Screenshot of list of Connectors with incoming webhook highlighted](Images/Exercise1-03.png)
 
 1. Enter a name for the connector and select **Create**.
-
 1. The page will re-display, now including a URL for the connector. Use the icon next to the URL to copy it to the clipboard.
 
     ![Screenshot of incoming webhook with URL](Images/Exercise1-04.png)
 
     > Note: The URL will be used several times in this exercise, as will the clipboard. We recommend pasting the URL into Notepad or other application.
 
-1. Select **Done**. Then close the Connector and Group settings menus.
+1. Select **Done**. Then close the **Connector and Group** settings menus.
 
 ### Explore MessageCard playground
 
 1. In another browser tab or window, navigate to [MessageCard Playground](https://messagecardplayground.azurewebsites.net).
-
 1. The playground site provides for uploading a custom card definition or reviewing several samples. Use the **select a sample** dropdown to select a sample. This lab requires that the sample uses the **Legacy MessageCard samples** at the bottom of the dropdown.
 
     ![Screenshot of message card sample](Images/Exercise1-05.png)
@@ -72,4 +62,3 @@ It is not necessary to use the playground website to send test messages. Any fac
     ![Screenshot of PowerShell command](Images/Exercise1-06.png)
 
     > The `Invoke-RestMethod` cmdlet will return **1** to indicate success.
-
