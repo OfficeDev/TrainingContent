@@ -12,7 +12,8 @@ module.exports = async (env, options) => {
     entry: {
       polyfill: "@babel/polyfill",
       taskpane: "./src/taskpane/taskpane.js",
-      commands: "./src/commands/commands.js"
+      commands: "./src/commands/commands.js",
+      dialog: "./src/settings/dialog.js"
     },
     resolve: {
       extensions: [".ts", ".tsx", ".html", ".js"]
@@ -23,7 +24,7 @@ module.exports = async (env, options) => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader", 
+            loader: "babel-loader",
             options: {
               presets: ["@babel/preset-env"]
             }
@@ -57,12 +58,23 @@ module.exports = async (env, options) => {
         filename: "commands.html",
         template: "./src/commands/commands.html",
         chunks: ["polyfill", "commands"]
-      })
+      }),
+      new HtmlWebpackPlugin({
+        filename: "dialog.html",
+        template: "./src/settings/dialog.html",
+        chunks: ["polyfill", "dialog"]
+      }),
+      new CopyWebpackPlugin([
+        {
+          to: "dialog.css",
+          from: "./src/settings/dialog.css"
+        }
+      ])
     ],
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*"
-      },      
+      },
       https: (options.https !== undefined) ? options.https : await devCerts.getHttpsServerOptions(),
       port: process.env.npm_package_config_dev_server_port || 3000
     }
