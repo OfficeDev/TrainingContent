@@ -6,7 +6,11 @@ This module covers Outlook Message Cards and the Incoming Webhook Connector
 
 In this lab, you will learn the steps to create and send connector cards to Office 365 Groups.
 
-- [Lab manual](./Lab.md)
+* [Lab manual](./Lab.md)
+
+## Demos
+
+* [Create a card payload and submit it via an incoming webhook](./Demos/01-card-webhook)
 
 ## Watch the Module
 
@@ -25,7 +29,6 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |        Date        |                                 Comments                                 |
 | ------- | ------------------ | ------------------------------------------------------------------------ |
-| 1.10    | May 6, 2020        | 2020Q3 content refresh                                                   |
 | 1.9     | March 9, 2020      | 2020Q3 content refresh                                                   |
 | 1.8     | December 10, 2019  | 2020Q2 content refresh                                                   |
 | 1.7     | September 9, 2019  | 2020Q1 content refresh, remove outdated sections & demos, renamed module |
