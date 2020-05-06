@@ -99,8 +99,8 @@
         <bt:String id="ActionButton.Label" DefaultValue="Perform an action"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane displaying all available properties."/>
-        <bt:String id="ActionButton.Tooltip" DefaultValue="Performs an action when clicked."/>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Displays a list of your gists and allows you to insert their contents into the current message."/>
+        <bt:String id="ActionButton.Tooltip" DefaultValue="Inserts the content of the gist you mark as default into the current message."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
