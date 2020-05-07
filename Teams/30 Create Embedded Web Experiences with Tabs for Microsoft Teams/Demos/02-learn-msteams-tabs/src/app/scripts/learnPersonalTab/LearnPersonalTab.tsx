@@ -1,11 +1,20 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Alert, List, Icon, Label, Input } from "@fluentui/react";
+import {
+  Provider,
+  Flex,
+  Text,
+  Button,
+  Header,
+  ThemePrepared,
+  themes,
+  Alert,
+  List,
+  Icon,
+  Label,
+  Input
+} from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-
 /**
  * State for the learnPersonalTabTab React component
  */
@@ -37,7 +46,7 @@ export class LearnPersonalTab extends TeamsBaseComponent<ILearnPersonalTabProps,
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
-      microsoftTeams.registerOnThemeChangeHandler(this.updateTheme);
+      microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
       microsoftTeams.getContext((context) => {
         this.setState({
           entityId: context.entityId
@@ -95,22 +104,6 @@ export class LearnPersonalTab extends TeamsBaseComponent<ILearnPersonalTabProps,
     );
   }
 
-  private handleOnChanged = (event): void => {
-    this.setState(Object.assign({}, this.state, {
-      newTodoValue: event.target.value
-    }));
-  }
-
-  private handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const newTodoItems = this.state.todoItems;
-    newTodoItems.push(this.state.newTodoValue);
-
-    this.setState(Object.assign({}, this.state, {
-      todoItems: newTodoItems,
-      newTodoValue: ""
-    }));
-  }
-
   private updateComponentTheme = (teamsTheme: string = "default"): void => {
     let theme: ThemePrepared;
 
@@ -131,6 +124,20 @@ export class LearnPersonalTab extends TeamsBaseComponent<ILearnPersonalTabProps,
     // update the state
     this.setState(Object.assign({}, this.state, {
       teamsTheme: theme
+    }));
+  }
+
+  private handleOnChanged = (event): void => {
+    this.setState(Object.assign({}, this.state, { newTodoValue: event.target.value }));
+  }
+
+  private handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const newTodoItems = this.state.todoItems;
+    newTodoItems.push(this.state.newTodoValue);
+
+    this.setState(Object.assign({}, this.state, {
+      todoItems: newTodoItems,
+      newTodoValue: ""
     }));
   }
 }

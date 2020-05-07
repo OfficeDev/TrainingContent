@@ -1,8 +1,14 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 import * as React from "react";
-import { Provider, Flex, Header, Input, ThemePrepared, themes, DropdownProps, Dropdown } from "@fluentui/react";
+import {
+  Provider,
+  Flex,
+  Header,
+  Input,
+  ThemePrepared,
+  themes,
+  DropdownProps,
+  Dropdown
+} from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -49,24 +55,22 @@ export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfig
     }
   }
 
-  public render() {
-    return (
-      <Provider theme={this.state.teamsTheme}>
-        <Flex gap="gap.smaller" style={{ height: "300px" }}>
-          <Dropdown placeholder="Select the math operator"
-            items={["add", "subtract", "multiply", "divide"]}
-            onChange={this.handleOnSelectedChange}>
-          </Dropdown>
-        </Flex>
-      </Provider>
-    );
-  }
-
-  private handleOnSelectedChange = (event, props: DropdownProps): void => {
-    this.setState(Object.assign({}, this.state, {
-      mathOperator: (props.value) ? props.value.toString() : "add"
-    }));
-  }
+public render() {
+  return (
+    <Provider theme={this.state.teamsTheme}>
+      <Flex gap="gap.smaller" style={{ height: "300px" }}>
+        <Dropdown placeholder="Select the math operator"
+          items={[
+            "add",
+            "subtract",
+            "multiply",
+            "divide"
+          ]}
+          onChange={this.handleOnSelectedChange}></Dropdown>
+      </Flex>
+    </Provider>
+  );
+}
 
   private updateComponentTheme = (teamsTheme: string = "default"): void => {
     let componentTheme: ThemePrepared;
@@ -90,5 +94,11 @@ export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfig
       teamsTheme: componentTheme
     }));
   }
+
+private handleOnSelectedChange = (event, props: DropdownProps): void => {
+  this.setState(Object.assign({}, this.state, {
+    mathOperator: (props.value) ? props.value.toString() : "add"
+  }));
+}
 
 }

@@ -1,11 +1,16 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
+import {
+  Provider,
+  Flex,
+  Text,
+  Button,
+  Header,
+  ThemePrepared,
+  themes,
+  Input
+} from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-
 /**
  * State for the configMathTabTab React component
  */
@@ -31,6 +36,7 @@ export class ConfigMathTab extends TeamsBaseComponent<IConfigMathTabProps, IConf
 
   public componentWillMount() {
     this.updateComponentTheme(this.getQueryVariable("theme"));
+
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
@@ -83,6 +89,29 @@ export class ConfigMathTab extends TeamsBaseComponent<IConfigMathTabProps, IConf
     );
   }
 
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let componentTheme: ThemePrepared;
+
+    switch (teamsTheme) {
+      case "default":
+        componentTheme = themes.teams;
+        break;
+      case "dark":
+        componentTheme = themes.teamsDark;
+        break;
+      case "contrast":
+        componentTheme = themes.teamsHighContrast;
+        break;
+      default:
+        componentTheme = themes.teams;
+        break;
+    }
+    // update the state
+    this.setState(Object.assign({}, this.state, {
+      teamsTheme: componentTheme
+    }));
+  }
+
   private handleOnChangedOperandA = (event): void => {
     this.setState(Object.assign({}, this.state, { operandA: event.target.value }));
   }
@@ -119,26 +148,4 @@ export class ConfigMathTab extends TeamsBaseComponent<IConfigMathTabProps, IConf
     }));
   }
 
-  private updateComponentTheme = (teamsTheme: string = "default"): void => {
-    let componentTheme: ThemePrepared;
-
-    switch (teamsTheme) {
-      case "default":
-        componentTheme = themes.teams;
-        break;
-      case "dark":
-        componentTheme = themes.teamsDark;
-        break;
-      case "contrast":
-        componentTheme = themes.teamsHighContrast;
-        break;
-      default:
-        componentTheme = themes.teams;
-        break;
-    }
-    // update the state
-    this.setState(Object.assign({}, this.state, {
-      teamsTheme: componentTheme
-    }));
-  }
 }

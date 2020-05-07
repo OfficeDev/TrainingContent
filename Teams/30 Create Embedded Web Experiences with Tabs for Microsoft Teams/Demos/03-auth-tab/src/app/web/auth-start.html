@@ -1,19 +1,15 @@
-<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
-
 <!DOCTYPE html>
 <html>
-
 <body>
   <script src="https://statics.teams.cdn.office.net/sdk/v1.5.2/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
   <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js" crossorigin="anonymous"></script>
-
   <script type="text/javascript">
     microsoftTeams.initialize();
     microsoftTeams.getContext(function (msTeamsContext) {
 
       // ADAL.js configuration
       let config = {
-        clientId: "{{REPLACE_AZUREAD_APP_ID}}",
+        clientId: "fa792ad0-1f96-4807-b652-929e8efbaf95",
         redirectUri: window.location.origin + "/auth-end.html",
         cacheLocation: "localStorage",
         endpoints: {
@@ -21,8 +17,8 @@
         }
       };
 
-      // add extra query parameters AzureAD login request
-      //  include scope for OpenID connect & login-hint using current MSTeams logged in user
+      // add extra query parameters Azure AD login request
+      //  include scope for OpenID connect and log-in hint by using the current Microsoft Teams logged-in user
       config.extraQueryParameters = "scope=open+profile";
       if (msTeamsContext.upn) {
         config.extraQueryParameters += "&login-hint=" + encodeURIComponent(msTeamsContext.userProfileName);
@@ -32,7 +28,7 @@
         config.extraQueryParameters += "&prompt=" + getUrlParameter('prompt');
       }
 
-      // override URL to AzureAD auth endpoint to include extra query params
+      // override URL to Azure AD auth endpoint to include extra query parameters
       config.displayCall = function (urlNavigate) {
         if (urlNavigate) {
           if (config.extraQueryParameters) {
@@ -56,5 +52,4 @@
     };
   </script>
 </body>
-
 </html>

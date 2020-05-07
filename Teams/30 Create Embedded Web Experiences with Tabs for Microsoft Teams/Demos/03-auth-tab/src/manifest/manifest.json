@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "id": "0da65e10-e0da-11e9-b3aa-d1016c2b85b3",
+  "id": "a8515ba0-90a1-11ea-8dbe-45c5608199cd",
   "version": "0.0.1",
   "packageName": "learnmsteamsauthtabs",
   "developer": {
@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "Learn MS Teams Auth Tabs",
-    "full": "Learn MS Teams Auth Tabs"
+    "short": "Learn MSTeams Auth Tabs",
+    "full": "Learn MSTeams Auth Tabs"
   },
   "description": {
     "short": "TODO: add short description here",
