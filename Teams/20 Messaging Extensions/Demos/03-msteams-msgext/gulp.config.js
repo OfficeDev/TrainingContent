@@ -47,7 +47,7 @@ const config = {
         }    
     ],
     // This is the name of the packaged manifest file
-    manifestFileName: "MessagingExt.zip"
+    manifestFileName: "MessageingExt.zip"
 };
 
 module.exports = config;

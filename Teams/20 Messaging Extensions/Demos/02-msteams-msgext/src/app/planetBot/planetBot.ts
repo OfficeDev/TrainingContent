@@ -5,14 +5,13 @@ import {
   CardFactory, MessagingExtensionAction, MessagingExtensionActionResponse, MessagingExtensionAttachment,
   MessagingExtensionQuery, MessagingExtensionResponse
 } from "botbuilder";
+import { find, sortBy } from "lodash";
 
 import * as Util from "util";
 const TextEncoder = Util.TextEncoder;
 
 import * as debug from "debug";
 const log = debug("msteams");
-
-import { find, sortBy } from "lodash";
 
 export class PlanetBot extends TeamsActivityHandler {
   constructor() {
@@ -74,6 +73,27 @@ export class PlanetBot extends TeamsActivityHandler {
     }
   }
 
+  private getPlanetDetailCard(selectedPlanet: any): MessagingExtensionAttachment {
+    // load display card
+    const adaptiveCardSource: any = require("./planetDisplayCard.json");
+
+    // update planet fields in display card
+    adaptiveCardSource.actions[0].url = selectedPlanet.wikiLink;
+    find(adaptiveCardSource.body, { "id": "cardHeader" }).items[0].text = selectedPlanet.name;
+    const cardBody: any = find(adaptiveCardSource.body, { "id": "cardBody" });
+    find(cardBody.items, { "id": "planetSummary" }).text = selectedPlanet.summary;
+    find(cardBody.items, { "id": "imageAttribution" }).text = "*Image attribution: " + selectedPlanet.imageAlt + "*";
+    const cardDetails: any = find(cardBody.items, { "id": "planetDetails" });
+    cardDetails.columns[0].items[0].url = selectedPlanet.imageLink;
+    find(cardDetails.columns[1].items[0].facts, { "id": "orderFromSun" }).value = selectedPlanet.id;
+    find(cardDetails.columns[1].items[0].facts, { "id": "planetNumSatellites" }).value = selectedPlanet.numSatellites;
+    find(cardDetails.columns[1].items[0].facts, { "id": "solarOrbitYears" }).value = selectedPlanet.solarOrbitYears;
+    find(cardDetails.columns[1].items[0].facts, { "id": "solarOrbitAvgDistanceKm" }).value = Number(selectedPlanet.solarOrbitAvgDistanceKm).toLocaleString();
+
+    // return the adaptive card
+    return CardFactory.adaptiveCard(adaptiveCardSource);
+  }
+
   protected handleTeamsMessagingExtensionQuery(context: TurnContext, query: MessagingExtensionQuery): Promise<MessagingExtensionResponse> {
     // get the search query
     let searchQuery = "";
@@ -115,29 +135,6 @@ export class PlanetBot extends TeamsActivityHandler {
     };
 
     return Promise.resolve(response);
-  }
-
-  private getPlanetDetailCard(selectedPlanet: any): MessagingExtensionAttachment {
-    log("getPlanetDetailCard");
-
-    // load display card
-    const adaptiveCardSource: any = require("./planetDisplayCard.json");
-
-    // update planet fields in display card
-    adaptiveCardSource.actions[0].url = selectedPlanet.wikiLink;
-    find(adaptiveCardSource.body, { "id": "cardHeader" }).items[0].text = selectedPlanet.name;
-    const cardBody: any = find(adaptiveCardSource.body, { "id": "cardBody" });
-    find(cardBody.items, { "id": "planetSummary" }).text = selectedPlanet.summary;
-    find(cardBody.items, { "id": "imageAttribution" }).text = "*Image attribution: " + selectedPlanet.imageAlt + "*";
-    const cardDetails: any = find(cardBody.items, { "id": "planetDetails" });
-    cardDetails.columns[0].items[0].url = selectedPlanet.imageLink;
-    find(cardDetails.columns[1].items[0].facts, { "id": "orderFromSun" }).value = selectedPlanet.id;
-    find(cardDetails.columns[1].items[0].facts, { "id": "planetNumSatellites" }).value = selectedPlanet.numSatellites;
-    find(cardDetails.columns[1].items[0].facts, { "id": "solarOrbitYears" }).value = selectedPlanet.solarOrbitYears;
-    find(cardDetails.columns[1].items[0].facts, { "id": "solarOrbitAvgDistanceKm" }).value = Number(selectedPlanet.solarOrbitAvgDistanceKm).toLocaleString();
-
-    // return the adaptive card
-    return CardFactory.adaptiveCard(adaptiveCardSource);
   }
 
   private getPlanetResultCard(selectedPlanet: any): MessagingExtensionAttachment {

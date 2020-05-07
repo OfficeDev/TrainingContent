@@ -4,14 +4,13 @@ import {
   MessageFactory,
   CardFactory, MessagingExtensionAction, MessagingExtensionActionResponse, MessagingExtensionAttachment
 } from "botbuilder";
+import { find, sortBy } from "lodash";
 
 import * as Util from "util";
 const TextEncoder = Util.TextEncoder;
 
 import * as debug from "debug";
 const log = debug("msteams");
-
-import { find, sortBy } from "lodash";
 
 export class PlanetBot extends TeamsActivityHandler {
   constructor() {
@@ -74,8 +73,6 @@ export class PlanetBot extends TeamsActivityHandler {
   }
 
   private getPlanetDetailCard(selectedPlanet: any): MessagingExtensionAttachment {
-    log("getPlanetDetailCard");
-
     // load display card
     const adaptiveCardSource: any = require("./planetDisplayCard.json");
 
