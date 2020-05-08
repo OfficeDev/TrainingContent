@@ -1,17 +1,7 @@
 import * as React from "react";
-import {
-  Panel,
-  PanelBody,
-  PanelHeader,
-  PanelFooter,
-  Dropdown,
-  IDropdownItemProps,
-  Surface,
-  TeamsThemeContext
-} from "msteams-ui-components-react";
+import { Provider, Flex, Header, Dropdown } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-import { getContext } from "msteams-ui-styles-core";
 
 export interface IMyFirstTeamsConnectorConfigState extends ITeamsBaseComponentState {
   color: IColor | undefined;
@@ -48,9 +38,6 @@ export class MyFirstTeamsConnectorConfig extends TeamsBaseComponent<IMyFirstTeam
 
   public componentWillMount() {
     this.updateTheme(this.getQueryVariable("theme"));
-    this.setState({
-      fontSize: this.pageFontSize()
-    });
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
@@ -59,6 +46,7 @@ export class MyFirstTeamsConnectorConfig extends TeamsBaseComponent<IMyFirstTeam
         this.setState({
           color: availableColors.filter(c => c.code === context.entityId)[0],
         });
+        this.updateTheme(context.theme);
         this.setValidityState(this.state.color !== undefined);
       });
 
@@ -109,20 +97,9 @@ export class MyFirstTeamsConnectorConfig extends TeamsBaseComponent<IMyFirstTeam
   }
 
   public render() {
-    const context = getContext({
-      baseFontSize: this.state.fontSize,
-      style: this.state.theme
-    });
-    const { rem, font } = context;
-    const { sizes, weights } = font;
-    const styles = {
-      header: { ...sizes.title, ...weights.semibold },
-      section: { ...sizes.base, marginTop: rem(1.4), marginBottom: rem(1.4), height: "200px" },
-      input: {},
-    };
-    const colors: IDropdownItemProps[] = availableColors.map(color => {
+    const colors = availableColors.map(color => {
       return {
-        text: color.title,
+        header: color.title,
         onClick: () => {
           this.setState({ color });
           this.setValidityState(color !== undefined);
@@ -130,30 +107,20 @@ export class MyFirstTeamsConnectorConfig extends TeamsBaseComponent<IMyFirstTeam
       };
     });
     return (
-      <TeamsThemeContext.Provider value={context}>
-        <Surface>
-          <Panel>
-            <PanelHeader>
-              <div style={styles.header}>Configure your Connector</div>
-            </PanelHeader>
-            <PanelBody>
-
-              <div style={styles.section}>
-                <Dropdown
-                  label="Card color"
-                  items={colors}
-                  mainButtonText={this.state.color ? this.state.color.title : "Choose a color"}
-                  style={styles.input}
-                >
-                </Dropdown>
-              </div>
-
-            </PanelBody>
-            <PanelFooter>
-            </PanelFooter>
-          </Panel>
-        </Surface>
-      </TeamsThemeContext.Provider >
+      <Provider theme={this.state.theme}>
+        <Flex fill={true}>
+          <Flex.Item>
+            <div>
+              <Header content="Configure your Connector" />
+              <Dropdown
+                items={colors}
+                placeholder="Select card color"
+                checkable
+              />
+            </div>
+          </Flex.Item>
+        </Flex>
+      </Provider>
     );
   }
 }

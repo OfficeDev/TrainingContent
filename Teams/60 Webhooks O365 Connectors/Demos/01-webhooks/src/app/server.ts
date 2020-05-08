@@ -4,6 +4,7 @@ import * as path from "path";
 import * as morgan from "morgan";
 import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
+import * as compression from "compression";
 
 
 
@@ -38,6 +39,9 @@ express.set("views", path.join(__dirname, "/"));
 
 // Add simple logging
 express.use(morgan("tiny"));
+
+// Add compression - uncomment to remove compression
+express.use(compression());
 
 // Add /scripts and /assets as static folders
 express.use("/scripts", Express.static(path.join(__dirname, "web/scripts")));
