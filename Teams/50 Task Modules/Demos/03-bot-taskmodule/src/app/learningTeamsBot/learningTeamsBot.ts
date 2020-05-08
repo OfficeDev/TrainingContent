@@ -1,24 +1,25 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
+import { BotDeclaration, } from "express-msteams-host";
 import {
   ActionTypes,
-  CardFactory, MessageFactory,
+  CardFactory, MemoryStorage, MessageFactory,
   TeamsActivityHandler, TaskModuleTaskInfo,
   TurnContext, TaskModuleRequest, TaskModuleResponse
 } from "botbuilder";
 import * as Util from "util";
+
 const TextEncoder = Util.TextEncoder;
 
-export class TeamsLearningBot extends TeamsActivityHandler {
+@BotDeclaration(
+  "/api/messages",
+  new MemoryStorage(),
+  process.env.MICROSOFT_APP_ID,
+  process.env.MICROSOFT_APP_PASSWORD)
+export class LearningTeamsBot extends TeamsActivityHandler {
   constructor() {
     super();
 
-
     // create handlers
     this.onMessage(async (context, next) => {
-      console.log("bot message context", context.activity);
-
       switch (context.activity.text.trim().toLowerCase()) {
         case "mentionme":
           await this.mentionActivity(context);
@@ -27,18 +28,18 @@ export class TeamsLearningBot extends TeamsActivityHandler {
           const card = CardFactory.heroCard("Learn Microsoft Teams", undefined, [
             {
               type: "invoke",
-              title: "Watch 'Overview of Microsoft Teams'",
-              value: { type: "task/fetch", taskModule: "player", videoId: "jugBQqE_2sM" }
+              title: "Watch 'Task-oriented interactions in Microsoft Teams with messaging extensions'",
+              value: { type: "task/fetch", taskModule: "player", videoId: "aHoRK8cr6Og" }
             },
             {
               type: "invoke",
-              title: "Watch 'Go-to guide for team owners'",
-              value: { type: "task/fetch", taskModule: "player", videoId: "kalV4dG-oFo" }
+              title: "Watch 'Microsoft Teams embedded web experiences'",
+              value: { type: "task/fetch", taskModule: "player", videoId: "AQcdZYkFPCY" }
             },
             {
               type: "invoke",
-              title: "Watch an invalid action...",
-              value: { type: "task/fetch", taskModule: "something", videoId: "helloworld" }
+              title: "Watch a invalid action...",
+              value: { type: "task/fetch", taskModule: "something", videoId: "hello-world" }
             },
             {
               type: "invoke",
@@ -51,6 +52,18 @@ export class TeamsLearningBot extends TeamsActivityHandler {
       }
       await next();
     });
+  }
+
+  private async mentionActivity(context: TurnContext) {
+    const mention = {
+      mentioned: context.activity.from,
+      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
+      type: 'mention'
+    };
+
+    const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
+    replyActivity.entities = [mention];
+    await context.sendActivity(replyActivity);
   }
 
   protected handleTeamsTaskModuleFetch(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
@@ -83,7 +96,7 @@ export class TeamsLearningBot extends TeamsActivityHandler {
           }
         } as TaskModuleResponse);
         break;
-          default:
+      default:
         response = ({
           task: {
             type: "continue",
@@ -98,6 +111,7 @@ export class TeamsLearningBot extends TeamsActivityHandler {
         break;
     };
 
+    console.log("handleTeamsTaskModuleFetch() response", response);
     return Promise.resolve(response);
   }
 
@@ -155,18 +169,6 @@ export class TeamsLearningBot extends TeamsActivityHandler {
         }
       ]
     });
-  }
-
-  private async mentionActivity(context: TurnContext) {
-    const mention = {
-      mentioned: context.activity.from,
-      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
-      type: "mention"
-    };
-
-    const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
-    replyActivity.entities = [mention];
-    await context.sendActivity(replyActivity);
   }
 
 }

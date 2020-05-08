@@ -1,11 +1,16 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
+import {
+  Provider,
+  Flex,
+  Text,
+  Button,
+  Header,
+  ThemePrepared,
+  themes,
+  Input
+} from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-
 /**
  * State for the youTubePlayer1TabTab React component
  */
@@ -28,10 +33,10 @@ export interface IYouTubePlayer1TabProps extends ITeamsBaseComponentProps {
 export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProps, IYouTubePlayer1TabState> {
 
   public componentWillMount() {
+    this.updateComponentTheme(this.getQueryVariable("theme"));
     this.setState(Object.assign({}, this.state, {
       youTubeVideoId: "jugBQqE_2sM"
     }));
-    this.updateComponentTheme(this.getQueryVariable("theme"));
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
@@ -98,29 +103,6 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
   }
 
-  private updateComponentTheme = (teamsTheme: string = "default"): void => {
-    let theme: ThemePrepared;
-
-    switch (teamsTheme) {
-      case "default":
-        theme = themes.teams;
-        break;
-      case "dark":
-        theme = themes.teamsDark;
-        break;
-      case "contrast":
-        theme = themes.teamsHighContrast;
-        break;
-      default:
-        theme = themes.teams;
-        break;
-    }
-    // update the state
-    this.setState(Object.assign({}, this.state, {
-      teamsTheme: theme
-    }));
-  }
-
   private onShowVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const taskModuleInfo = {
       title: "YouTube Player",
@@ -154,5 +136,28 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     } else {
       return window.location.protocol + "//" + window.location.host;
     }
+  }
+
+  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+    let theme: ThemePrepared;
+
+    switch (teamsTheme) {
+      case "default":
+        theme = themes.teams;
+        break;
+      case "dark":
+        theme = themes.teamsDark;
+        break;
+      case "contrast":
+        theme = themes.teamsHighContrast;
+        break;
+      default:
+        theme = themes.teams;
+        break;
+    }
+    // update the state
+    this.setState(Object.assign({}, this.state, {
+      teamsTheme: theme
+    }));
   }
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "id": "3386faf0-109f-11ea-9799-77a28170bd5d",
+  "id": "3427ff80-914c-11ea-9816-8b9532b1c013",
   "version": "0.0.1",
   "packageName": "youtubeplayer",
   "developer": {

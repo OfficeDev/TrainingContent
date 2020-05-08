@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 import * as React from "react";
 import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
@@ -31,14 +28,22 @@ export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTa
     return (
       <Provider theme={this.state.teamsTheme}>
         <Flex column gap="gap.smaller">
-          <Text size="medium">
-            Enter the ID of a YouTube video to show in the task module player.
-          </Text>
+          <Text size="medium">Enter the ID of a YouTube video to show in the task module player.</Text>
           <Input value={this.state.youTubeVideoId} onChange={this.handleOnChanged}></Input>
           <Button content="Update" primary onClick={this.handleOnClick}></Button>
         </Flex>
       </Provider>
     );
+  }
+
+  private handleOnChanged = (event): void => {
+    this.setState(Object.assign({}, this.state, {
+      youTubeVideoId: event.target.value
+    }));
+  }
+
+  private handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    microsoftTeams.tasks.submitTask(this.state.youTubeVideoId, undefined);
   }
 
   private updateComponentTheme = (teamsTheme: string = "default"): void => {
@@ -62,15 +67,5 @@ export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTa
     this.setState(Object.assign({}, this.state, {
       teamsTheme: theme
     }));
-  }
-
-  private handleOnChanged = (event): void => {
-    this.setState(Object.assign({}, this.state, {
-      youTubeVideoId: event.target.value
-    }));
-  }
-
-  private handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    microsoftTeams.tasks.submitTask(this.state.youTubeVideoId, undefined);
   }
 }
