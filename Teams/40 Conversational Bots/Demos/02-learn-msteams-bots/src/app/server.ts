@@ -4,9 +4,8 @@ import * as path from "path";
 import * as morgan from "morgan";
 import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
+import * as compression from "compression";
 
-import { BotFrameworkAdapter } from "botbuilder";
-import { ConvoBot } from "./convoBot/convoBot";
 
 
 // Initialize debug logging module
@@ -41,6 +40,9 @@ express.set("views", path.join(__dirname, "/"));
 // Add simple logging
 express.use(morgan("tiny"));
 
+// Add compression - uncomment to remove compression
+express.use(compression());
+
 // Add /scripts and /assets as static folders
 express.use("/scripts", Express.static(path.join(__dirname, "web/scripts")));
 express.use("/assets", Express.static(path.join(__dirname, "web/assets")));
@@ -67,25 +69,4 @@ express.set("port", port);
 // Start the webserver
 http.createServer(express).listen(port, () => {
     log(`Server running on ${port}`);
-});
-
-// register and load the bot
-const botAdapter = new BotFrameworkAdapter({
-  appId: process.env.MICROSOFT_APP_ID,
-  appPassword: process.env.MICROSOFT_APP_PASSWORD
-});
-
-// configure what happens when there is an unhandled error by the bot
-botAdapter.onTurnError = async (context, error) => {
-  console.error(`\n [bot.onTurnError] unhandled error: ${error}`);
-  await context.sendTraceActivity("OnTurnError Trace", `${error}`, "https://www.botframework.com/schemas/error", "TurnError");
-  await context.sendActivity("bot error");
-};
-
-// run the bot when messages are received on the specified path
-const bot = new ConvoBot();
-express.post("/api/messages", (request, response) => {
-  botAdapter.processActivity(request, response, async (context) => {
-    await bot.run(context);
-  });
 });

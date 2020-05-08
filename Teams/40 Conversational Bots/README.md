@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Creating conversational bots for Microsoft Teams](https://docs.microsoft.com/learn/modules/msteams-conversation-bots/3-exercise-conversation-bots)
 
-    In this exercise, you’ll learn how to create and add a new bot to a Microsoft Teams app and interact with it from the Microsoft Teams client.
+   In this exercise, you’ll learn how to create and add a new bot to a Microsoft Teams app and interact with it from the Microsoft Teams client.
 
 1. [Exercise - Bots in Microsoft Teams channels and group chats](https://docs.microsoft.com/learn/modules/msteams-conversation-bots/5-exercise-using-adaptive-cards-deep-links)
 
-    Conversation bots can do many things within the Microsoft Teams client. They can proactively send a message to a channel or group chat, listen for and act on Microsoft Teams specific events and even update their own messages.
+   Conversation bots can do many things within the Microsoft Teams client. They can proactively send a message to a channel or group chat, listen for and act on Microsoft Teams specific events and even update their own messages.
 
 1. [Exercise - Proactive messages from bots](https://docs.microsoft.com/learn/modules/msteams-conversation-bots/7-exercise-using-task-modules-bots)
 
-    In this exercise, you’ll update the existing Teams app to send a proactive message from your bot.
+   In this exercise, you’ll update the existing Teams app to send a proactive message from your bot.
 
 ## Demos
 
@@ -28,20 +28,21 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: *coming soon*
+This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
 
 ## Contributors
 
-|        Roles         |                                       Author(s)                                       |
+| Roles                | Author(s)                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
 | Sponsor / Support    | Andrew Clear (Microsoft) [@clearab](//github.com/clearab)                             |
 
 ## Version history
 
-| Version |       Date        |       Comments       |
-| ------- | ----------------- | -------------------- |
-| 1.0     | February 12, 2020 | New module published |
+| Version | Date              | Comments                 |
+| ------- | ----------------- | ------------------------ |
+| 1.1     | May 8, 2020       | FY2020Q4 content refresh |
+| 1.0     | February 12, 2020 | New module published     |
 
 ## Disclaimer
 
