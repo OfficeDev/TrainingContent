@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
-namespace msidentity_aspnet_02_02
+namespace _02_aspnetcore_multitorg
 {
     public class Startup
     {
