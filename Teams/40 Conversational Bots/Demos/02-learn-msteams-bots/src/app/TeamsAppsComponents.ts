@@ -1,4 +1,4 @@
 // Components will be added here
-
 export const nonce = {}; // Do not remove!
-export * from "./convoBot/convoBot";
+// Automatically added for the conversationalBot bot
+export * from "./conversationalBot/ConversationalBot";
