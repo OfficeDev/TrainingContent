@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Create action command messaging extensions](https://docs.microsoft.com/learn/modules/msteams-messaging-extensions/3-exercise-action-commands)
 
-    In this exercise, you'll create an action command messaging extension for a custom Microsoft Teams app. Action commands allow you present your users with a modal popup to collect or display information, then process their interaction and send information back to Teams.
+   In this exercise, you'll create an action command messaging extension for a custom Microsoft Teams app. Action commands allow you present your users with a modal popup to collect or display information, then process their interaction and send information back to Teams.
 
 1. [Exercise - Create search command messaging extensions](https://docs.microsoft.com/learn/modules/msteams-messaging-extensions/5-exercise-search-commands)
 
-    In this exercise, you’ll learn how to execute a messaging extension search command from an existing message.
+   In this exercise, you’ll learn how to execute a messaging extension search command from an existing message.
 
 1. [Exercise - Implement link unfurling messaging extensions](https://docs.microsoft.com/learn/modules/msteams-messaging-extensions/7-exercise-unfurl-links)
 
-    In this exercise, you’ll learn how to add link unfurling to your Microsoft Teams app and how to implement this type of messaging extension.
+   In this exercise, you’ll learn how to add link unfurling to your Microsoft Teams app and how to implement this type of messaging extension.
 
 ## Demos
 
@@ -28,20 +28,21 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: *coming soon*
+This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
 
 ## Contributors
 
-|        Roles         |                                       Author(s)                                       |
+| Roles                | Author(s)                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
 | Sponsor / Support    | Andrew Clear (Microsoft) [@clearab](//github.com/clearab)                             |
 
 ## Version history
 
-| Version |       Date        |       Comments       |
-| ------- | ----------------- | -------------------- |
-| 1.0     | February 12, 2020 | New module published |
+| Version | Date              | Comments                 |
+| ------- | ----------------- | ------------------------ |
+| 1.1     | May 7, 2020       | FY2020Q4 content refresh |
+| 1.0     | February 12, 2020 | New module published     |
 
 ## Disclaimer
 
