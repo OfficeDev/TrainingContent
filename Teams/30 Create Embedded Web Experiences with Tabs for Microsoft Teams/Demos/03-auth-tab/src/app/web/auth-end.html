@@ -1,8 +1,5 @@
-<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
-
 <!DOCTYPE html>
 <html>
-
 <body>
   <script src="https://statics.teams.cdn.office.net/sdk/v1.5.2/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
   <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js" crossorigin="anonymous"></script>
@@ -12,7 +9,7 @@
 
     // ADAL.js configuration
     let config = {
-      clientId: "{{REPLACE_AZUREAD_APP_ID}}",
+      clientId: "fa792ad0-1f96-4807-b652-929e8efbaf95",
       cacheLocation: "localStorage",
       navigateToLoginRequestUrl: false,
       endpoints: {
@@ -22,13 +19,13 @@
 
     let authContext = new AuthenticationContext(config);
 
-    // ensure page loaded via AzureAD callback
+    // ensure page loaded via Azure AD callback
     if (authContext.isCallback(window.location.hash)) {
       authContext.handleWindowCallback(window.location.hash);
 
-      // Only call notifySuccess or notifyFailure if this page is in the authentication popup
+      // Only call notifySuccess or notifyFailure if this page is in the authentication pop-up
       if (window.opener) {
-        // if able to retrieve current user... 
+        // if able to retrieve current user...
         if (authContext.getCachedUser()) {
           // get access token for Microsoft Graph
           authContext.acquireToken("https://graph.microsoft.com", function (error, token) {
@@ -47,5 +44,4 @@
     }
   </script>
 </body>
-
 </html>

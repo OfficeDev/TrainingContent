@@ -1,10 +1,18 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, List, Icon } from "@fluentui/react";
+import {
+  Provider,
+  Flex,
+  Text,
+  Button,
+  Header,
+  ThemePrepared,
+  themes,
+  List,
+  Icon
+} from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
+
 import * as MicrosoftGraphClient from "@microsoft/microsoft-graph-client";
 import * as MicrosoftGraph from "microsoft-graph";
 
@@ -12,8 +20,8 @@ import * as MicrosoftGraph from "microsoft-graph";
  * State for the learnAuthTabTab React component
  */
 export interface ILearnAuthTabState extends ITeamsBaseComponentState {
-  teamsTheme: ThemePrepared;
   entityId?: string;
+  teamsTheme: ThemePrepared;
   accessToken: string;
   messages: MicrosoftGraph.Message[];
 }
@@ -42,9 +50,7 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
 
   public componentWillMount() {
     this.updateComponentTheme(this.getQueryVariable("theme"));
-    this.setState({
-      fontSize: this.pageFontSize()
-    });
+
 
     if (this.inTeams()) {
       microsoftTeams.initialize();

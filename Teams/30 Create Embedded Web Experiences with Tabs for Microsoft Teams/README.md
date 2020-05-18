@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Create a custom Microsoft Teams personal tab](https://docs.microsoft.com/learn/modules/embedded-web-experiences/3-exercise-create-custom-teams-personal-tab)
 
-    In this exercise, you will create a new Microsoft Teams personal tab using the Microsoft Teams Yeoman Generator, Visual Studio Code and App Studio.
+   In this exercise, you will create a new Microsoft Teams personal tab using the Microsoft Teams Yeoman Generator, Visual Studio Code and App Studio.
 
 1. [Exercise - Create a custom Microsoft Teams channel tab](https://docs.microsoft.com/learn/modules/embedded-web-experiences/5-exercise-create-custom-teams-channel-tab)
 
-    In this exercise, you will learn how to create a channel tab with a configuration page in a Microsoft Teams app
+   In this exercise, you will learn how to create a channel tab with a configuration page in a Microsoft Teams app
 
 1. [Exercise - Add authentication to custom Microsoft Teams channel tabs](https://docs.microsoft.com/learn/modules/embedded-web-experiences/7-exercise-implement-tab-authentication)
 
-    In this exercise, you'll create a custom channel tab that displays information about the current user, retrieved from Microsoft Graph.
+   In this exercise, you'll create a custom channel tab that displays information about the current user, retrieved from Microsoft Graph.
 
 ## Demos
 
@@ -32,7 +32,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                                                   Author(s)                                                    |
+| Roles                | Author(s)                                                                                                      |
 | -------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](//github.com/voitanos)) [@andrewconnell](//github.com/andrewconnell) |
 | QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)                                 |
@@ -40,8 +40,9 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |        Date        |         Comments         |
+| Version | Date               | Comments                 |
 | ------- | ------------------ | ------------------------ |
+| 1.3     | May 7, 2020        | FY2020Q4 content refresh |
 | 1.2     | March 10, 2020     | FY2020Q3 content refresh |
 | 1.1     | December 9, 2019   | FY2020Q2 content refresh |
 | 1.0     | September 30, 2019 | New module published     |

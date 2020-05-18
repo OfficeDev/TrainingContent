@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "id": "205214d0-e04b-11e9-9332-5b5c97b60069",
+  "id": "7619bfe0-9094-11ea-b9ed-e3f17e6555c6",
   "version": "0.0.1",
   "packageName": "learnmsteamstabs",
   "developer": {
@@ -12,11 +12,11 @@
   },
   "name": {
     "short": "Learn MSTeams Tabs",
-    "full": "Learn Microsoft Teams Tabs"
+    "full": "Learn MSTeams Tabs"
   },
   "description": {
-    "short": "My first custom Teams app.",
-    "full": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et condimentum quam, eu blandit ex. Curabitur velit ex, placerat in interdum id, aliquam et magna. Curabitur odio diam, iaculis eget finibus ut, eleifend nec massa. Morbi mollis urna mi, in pretium ante egestas vel. Mauris commodo rutrum varius. Etiam viverra augue eget est maximus, vitae posuere dui finibus. Proin ex dolor, ullamcorper sed pulvinar sed, porttitor a est."
+    "short": "My first custom Teams app",
+    "full": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non feugiat nisl, ut scelerisque ipsum. Praesent egestas nunc non mi ultricies egestas. Aliquam lacus odio, gravida vel egestas et, consectetur a felis. Fusce aliquet dapibus feugiat. Nam pharetra elit a maximus varius. Integer imperdiet vulputate interdum. Praesent auctor laoreet ligula, et tempor nunc blandit vel. In at pellentesque enim. Curabitur a lorem vitae velit rhoncus pharetra eu eget tortor. Nam a nisi suscipit, euismod tellus eget, vulputate nibh. Aenean consequat suscipit ligula sed sodales."
   },
   "icons": {
     "outline": "icon-outline.png",
@@ -40,7 +40,7 @@
   "staticTabs": [
     {
       "entityId": "default-data",
-      "name": "LearnPersonalTab",
+      "name": "My First Tab",
       "contentUrl": "https://{{HOSTNAME}}/learnPersonalTab/?theme={theme}",
       "scopes": [
         "personal"
