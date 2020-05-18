@@ -10,17 +10,17 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Create a custom Microsoft Teams personal tab](https://docs.microsoft.com/learn/modules/msteams-task-modules/3-exercise-use-task-modules-tabs)
 
-    In this exercise, you'll learn the basics of task modules in Microsoft Teams and how to collect input from users in a custom Teams tab. After creating a new Microsoft Teams personal tab, you'll add two task modules to it.
+   In this exercise, you'll learn the basics of task modules in Microsoft Teams and how to collect input from users in a custom Teams tab. After creating a new Microsoft Teams personal tab, you'll add two task modules to it.
 
-    One is a standard HTML page that accepts the ID of a video on YouTube. When the task module is invoked, it will display the video using the YouTube embedded player. This task module will get the video ID from the query string, but it will not need to return any information back to the tab.
+   One is a standard HTML page that accepts the ID of a video on YouTube. When the task module is invoked, it will display the video using the YouTube embedded player. This task module will get the video ID from the query string, but it will not need to return any information back to the tab.
 
 1. [Exercise - Using Adaptive Cards and Deep Links Task Modules](https://docs.microsoft.com/learn/modules/msteams-task-modules/5-exercise-using-adaptive-cards-deep-links)
 
-    In this exercise, you'll learn how to use adaptive cards in a custom task module in a custom Microsoft Teams app. You'll also learn how to invoke task modules from anywhere within Microsoft Teams using deep links.
+   In this exercise, you'll learn how to use adaptive cards in a custom task module in a custom Microsoft Teams app. You'll also learn how to invoke task modules from anywhere within Microsoft Teams using deep links.
 
 1. [Exercise - Using task modules in bots](https://docs.microsoft.com/learn/modules/msteams-task-modules/7-exercise-using-task-modules-bots)
 
-    In this exercise, you'll learn how to use task modules with bots in Microsoft Teams.
+   In this exercise, you'll learn how to use task modules with bots in Microsoft Teams.
 
 ## Demos
 
@@ -34,7 +34,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                                                   Author(s)                                                    |
+| Roles                | Author(s)                                                                                                      |
 | -------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](//github.com/voitanos)) [@andrewconnell](//github.com/andrewconnell) |
 | QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)                                 |
@@ -42,8 +42,9 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |       Date        |         Comments         |
+| Version | Date              | Comments                 |
 | ------- | ----------------- | ------------------------ |
+| 1.2     | May 8, 2020       | FY2020Q4 content refresh |
 | 1.1     | March 10, 2020    | FY2020Q3 content refresh |
 | 1.0     | December 16, 2019 | New module published     |
 

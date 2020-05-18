@@ -1,11 +1,16 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
+import {
+  Provider,
+  Flex,
+  Text,
+  Button,
+  Header,
+  ThemePrepared,
+  themes,
+  Input
+} from "@fluentui/react";
 import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-
 /**
  * State for the youTubePlayer1TabTab React component
  */
@@ -28,10 +33,10 @@ export interface IYouTubePlayer1TabProps extends ITeamsBaseComponentProps {
 export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProps, IYouTubePlayer1TabState> {
 
   public componentWillMount() {
-    this.setState(Object.assign({}, this.state, {
-      youTubeVideoId: "jugBQqE_2sM"
-    }));
     this.updateComponentTheme(this.getQueryVariable("theme"));
+    this.setState(Object.assign({}, this.state, {
+      youTubeVideoId: "VlEH4vtaxp4"
+    }));
 
     if (this.inTeams()) {
       microsoftTeams.initialize();
@@ -68,33 +73,6 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     );
   }
 
-  private onShowVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const taskModuleInfo = {
-      title: "YouTube Player",
-      url: this.appRoot() + `/youTubePlayer1Tab/player.html?vid=${this.state.youTubeVideoId}`,
-      width: 1000,
-      height: 700
-    };
-    microsoftTeams.tasks.startTask(taskModuleInfo);
-  }
-
-  private onChangeVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const taskModuleInfo = {
-      title: "YouTube Video Selector",
-      url: this.appRoot() + `/youTubePlayer1Tab/selector.html?theme={theme}&vid=${this.state.youTubeVideoId}`,
-      width: 350,
-      height: 150
-    };
-
-    const submitHandler = (err: string, result: string): void => {
-      this.setState(Object.assign({}, this.state, {
-        youTubeVideoId: result
-      }));
-    };
-
-    microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
-  }
-
   private onChangeVideoAdaptiveCard = (event: React.MouseEvent<HTMLButtonElement>): void => {
     // load adaptive card
     const adaptiveCard: any = require("./YouTubeSelectorCard.json");
@@ -119,6 +97,33 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     const submitHandler = (err: string, result: any): void => {
       this.setState(Object.assign({}, this.state, {
         youTubeVideoId: result.youTubeVideoId
+      }));
+    };
+
+    microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
+  }
+
+  private onShowVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const taskModuleInfo = {
+      title: "YouTube Player",
+      url: this.appRoot() + `/youTubePlayer1Tab/player.html?vid=${this.state.youTubeVideoId}`,
+      width: 1000,
+      height: 700
+    };
+    microsoftTeams.tasks.startTask(taskModuleInfo);
+  }
+
+  private onChangeVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const taskModuleInfo = {
+      title: "YouTube Video Selector",
+      url: this.appRoot() + `/youTubePlayer1Tab/selector.html?theme={theme}&vid=${this.state.youTubeVideoId}`,
+      width: 350,
+      height: 150
+    };
+
+    const submitHandler = (err: string, result: string): void => {
+      this.setState(Object.assign({}, this.state, {
+        youTubeVideoId: result
       }));
     };
 

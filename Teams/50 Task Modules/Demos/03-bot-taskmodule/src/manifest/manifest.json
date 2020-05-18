@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "id": "2ed19d6f-a59d-40e6-b51d-e64139bd6768",
+  "id": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
   "version": "0.0.1",
   "packageName": "youtubeplayer",
   "developer": {
@@ -36,7 +36,7 @@
   ],
   "bots": [
     {
-      "botId": "2ed19d6f-a59d-40e6-b51d-e64139bd6768",
+      "botId": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
       "scopes": [
         "personal"
       ],

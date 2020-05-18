@@ -4,9 +4,8 @@ import * as path from "path";
 import * as morgan from "morgan";
 import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
+import * as compression from "compression";
 
-import { BotFrameworkAdapter } from "botbuilder";
-import { TeamsLearningBot } from "./learningTeamsBot/teamsLearningBot";
 
 
 // Initialize debug logging module
@@ -29,9 +28,9 @@ const port = process.env.port || process.env.PORT || 3007;
 
 // Inject the raw request body onto the request object
 express.use(Express.json({
-  verify: (req, res, buf: Buffer, encoding: string): void => {
-    (req as any).rawBody = buf.toString();
-  }
+    verify: (req, res, buf: Buffer, encoding: string): void => {
+        (req as any).rawBody = buf.toString();
+    }
 }));
 express.use(Express.urlencoded({ extended: true }));
 
@@ -40,6 +39,9 @@ express.set("views", path.join(__dirname, "/"));
 
 // Add simple logging
 express.use(morgan("tiny"));
+
+// Add compression - uncomment to remove compression
+express.use(compression());
 
 // Add /scripts and /assets as static folders
 express.use("/scripts", Express.static(path.join(__dirname, "web/scripts")));
@@ -52,39 +54,19 @@ express.use(MsTeamsApiRouter(allComponents));
 // routing for pages for tabs and connector configuration
 // For more information see: https://www.npmjs.com/package/express-msteams-host
 express.use(MsTeamsPageRouter({
-  root: path.join(__dirname, "web/"),
-  components: allComponents
+    root: path.join(__dirname, "web/"),
+    components: allComponents
 }));
 
 // Set default web page
 express.use("/", Express.static(path.join(__dirname, "web/"), {
-  index: "index.html"
+    index: "index.html"
 }));
 
 // Set the port
 express.set("port", port);
 
 // Start the webserver
-const server = http.createServer(express);
-server.listen(port, () => {
-  log(`Server running on ${port}`);
-});
-
-// register and load the bot
-const botAdapter = new BotFrameworkAdapter({
-  appId: process.env.MICROSOFT_APP_ID,
-  appPassword: process.env.MICROSOFT_APP_PASSWORD
-});
-
-botAdapter.onTurnError = async (context, error) => {
-  console.error(`\n [bot.onTurnError] unhandled error: ${error}`);
-  await context.sendTraceActivity("OnTurnError Trace", `${error}`, "https://www.botframework.com/schemas/error", "TurnError");
-  await context.sendActivity("bot error");
-};
-
-const bot = new TeamsLearningBot();
-express.post("/api/messages", (request, response) => {
-  botAdapter.processActivity(request, response, async (context) => {
-    await bot.run(context);
-  });
+http.createServer(express).listen(port, () => {
+    log(`Server running on ${port}`);
 });
