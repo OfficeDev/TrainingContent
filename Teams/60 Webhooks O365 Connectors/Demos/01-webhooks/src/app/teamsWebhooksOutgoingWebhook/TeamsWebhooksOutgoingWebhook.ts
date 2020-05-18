@@ -2,7 +2,6 @@ import * as builder from "botbuilder";
 import * as express from "express";
 import * as crypto from "crypto";
 import { OutgoingWebhookDeclaration, IOutgoingWebhook } from "express-msteams-host";
-
 import { find, sortBy } from "lodash";
 
 /**
@@ -59,36 +58,6 @@ export class TeamsWebhooksOutgoingWebhook implements IOutgoingWebhook {
     res.send(JSON.stringify(message));
   }
 
-  private static scrubMessage(incomingText: string): string {
-    let cleanMessage = incomingText
-      .slice(incomingText.lastIndexOf(">") + 1, incomingText.length)
-      .replace("&nbsp;", "");
-    return cleanMessage;
-  }
-
-  private static processAuthenticatedRequest(incomingText: string): Partial<builder.Activity> {
-    const message: Partial<builder.Activity> = {
-      type: builder.ActivityTypes.Message
-    };
-
-    // load planets
-    const planets: any = require("./planets.json");
-    // get the selected planet
-    const selectedPlanet: any = planets.filter((planet) => (planet.name as string).trim().toLowerCase() === incomingText.trim().toLowerCase());
-
-
-    if (!selectedPlanet || !selectedPlanet.length) {
-      message.text = `Echo ${incomingText}`;
-    } else {
-      const adaptiveCard = TeamsWebhooksOutgoingWebhook.getPlanetDetailCard(selectedPlanet[0]);
-      message.type = "result";
-      message.attachmentLayout = "list";
-      message.attachments = [adaptiveCard];
-    }
-
-    return message;
-  }
-
   private static getPlanetDetailCard(selectedPlanet: any): builder.Attachment {
 
     // load display card
@@ -111,4 +80,32 @@ export class TeamsWebhooksOutgoingWebhook implements IOutgoingWebhook {
     return builder.CardFactory.adaptiveCard(adaptiveCardSource);
   }
 
+  private static processAuthenticatedRequest(incomingText: string): Partial<builder.Activity> {
+    const message: Partial<builder.Activity> = {
+      type: builder.ActivityTypes.Message
+    };
+
+    // load planets
+    const planets: any = require("./planets.json");
+    // get the selected planet
+    const selectedPlanet: any = planets.filter((planet) => (planet.name as string).trim().toLowerCase() === incomingText.trim().toLowerCase());
+
+    if (!selectedPlanet || !selectedPlanet.length) {
+      message.text = `Echo ${incomingText}`;
+    } else {
+      const adaptiveCard = TeamsWebhooksOutgoingWebhook.getPlanetDetailCard(selectedPlanet[0]);
+      message.type = "result";
+      message.attachmentLayout = "list";
+      message.attachments = [adaptiveCard];
+    }
+
+    return message;
+  }
+
+  private static scrubMessage(incomingText: string): string {
+    let cleanMessage = incomingText
+      .slice(incomingText.lastIndexOf(">") + 1, incomingText.length)
+      .replace("&nbsp;", "");
+    return cleanMessage;
+  }
 }
