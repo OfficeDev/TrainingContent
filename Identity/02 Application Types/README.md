@@ -10,21 +10,21 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Single Page Applications](https://docs.microsoft.com/learn/modules/identity-application-types/3-exercise-single-page-applications)
 
-    > In this exercise, you'll learn how to create, configure, and use Azure AD applications that use data returned from Microsoft Graph in single-page applications by leveraging the OAuth 2.0 implicit grant flow.
+    > In this exercise, you’ll learn how to create and configure a single-page application that will use an Azure AD application to issue an authenticated request to Microsoft Graph using the OAuth 2.0 implicit grant flow.
 
 1. [Exercise - Web apps that sign in users & call APIs](https://docs.microsoft.com/learn/modules/identity-application-types/5-exercise-web-apps-call-apis)
 
-    > In this exercise, you'll learn how to create server-side web apps that allow a user to sign in and grant the app permissions to act on the user's behalf. Once the user has authenticated and granted the app consent to act on their behalf, the web application will use data returned from Microsoft Graph by using the OAuth 2.0 auth code grant flow.
+    > In this exercise, you'll learn how to a create server-side web app that allow a user to sign in and grant the app permissions to act on the user's behalf. Once the user has authenticated and granted the app consent to act on their behalf, the web application will use data returned from Microsoft Graph by using the OAuth 2.0 auth code grant flow.
 
 1. [Exercise - Daemon and non-interactive apps](https://docs.microsoft.com/learn/modules/identity-application-types/7-exercise-daemon-non-interactive-apps)
 
-    > In this exercise, you'll learn how to create apps that obtain tokens without user interaction to either act on behalf of a user or to perform tasks as the app's identity.
+    > In this exercise, you’ll learn how to create apps that obtain tokens without user interaction to perform tasks as the app’s identity.
 
 ## Demos
 
-1. [Single Page Applications](./Demos/01-spa)
-1. [Web apps that sign in users & call APIs](./Demos/02-webapp)
-1. [Daemon and non-interactive apps](./Demos/03-daemon-service-app)
+1. [Single Page Applications](./demos/01-spa)
+1. [Web apps that sign in users & call APIs](./demos/02-webapp)
+1. [Daemon and non-interactive apps](./demos/03-daemon-service-app)
 
 ## Watch the module
 
@@ -35,12 +35,14 @@ This module has been recorded and is available in the Office Development YouTube
 |        Roles         |                                                    Author(s)                                                     |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](https://www.voitanos.io)) [@andrewconnell](//github.com/andrewconnell) |
+| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor) |
 | Sponsor / Support    | Kyle Marsh (Microsoft) [@kylemar](//github.com/kylemar)                                                          |
 
 ## Version history
 
 | Version |       Date        |         Comments         |
 | ------- | ----------------- | ------------------------ |
+| 1.2     | May 26, 2020      | FY2020Q4 content refresh |
 | 1.1     | March 10, 2020    | FY2020Q3 content refresh |
 | 1.0     | December 16, 2019 | New module published     |
 

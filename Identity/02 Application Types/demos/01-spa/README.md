@@ -6,6 +6,7 @@ This completed project is the result of the lab exercise **Single Page Applicati
 
 - Office 365 Tenancy
 - [Visual Studio Code](https://code.visualstudio.com/)
+- [Node.js](https://nodejs.org/)
 
 ## Run this Completed Project
 
