@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System;
 using System.Linq;
 using System.Net;
@@ -17,10 +20,9 @@ namespace ProductCatalog
     /// method throws an HTTP Unauthorized error with a message noting which scopes are expected in the token.
     /// </summary>
     /// <param name="acceptedScopes">Scopes accepted by this API</param>
-    /// <exception cref="HttpRequestException"/> with a <see cref="HttpResponse.StatusCode"/> set to 
+    /// <exception cref="HttpRequestException"/> with a <see cref="HttpResponse.StatusCode"/> set to
     /// <see cref="HttpStatusCode.Unauthorized"/>
-    public static void VerifyUserHasAnyAcceptedScope(this HttpContext context,
-                                                     params string[] acceptedScopes)
+    public static void VerifyUserHasAnyAcceptedScope(this HttpContext context, params string[] acceptedScopes)
     {
       if (acceptedScopes == null)
       {
@@ -30,7 +32,7 @@ namespace ProductCatalog
       if (scopeClaim == null || !scopeClaim.Value.Split(' ').Intersect(acceptedScopes).Any())
       {
         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-        string message = $"The 'scope' claim does not contain scopes '{string.Join(",", acceptedScopes)}' or was not found";
+        string message = $"The 'scope' claim doesn't contain scopes '{string.Join(",", acceptedScopes)}' or was not found";
         throw new HttpRequestException(message);
       }
     }

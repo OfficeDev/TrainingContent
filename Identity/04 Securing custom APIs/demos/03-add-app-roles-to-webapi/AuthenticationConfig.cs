@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Globalization;
 using System.IO;
 
-namespace iddaemon
+namespace ProductCatalogDaemon
 {
   public class AuthenticationConfig
   {
@@ -17,9 +20,7 @@ namespace iddaemon
         return String.Format(CultureInfo.InvariantCulture, Instance, Tenant);
       }
     }
-
     public string ClientSecret { get; set; }
-    public string CertificateName { get; set; }
     public string ApiBaseAddress { get; set; }
     public string ApiScope { get; set; }
     public static AuthenticationConfig ReadFromJsonFile(string path)
@@ -34,7 +35,4 @@ namespace iddaemon
       return Configuration.Get<AuthenticationConfig>();
     }
   }
-
-
-
 }

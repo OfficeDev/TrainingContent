@@ -1,11 +1,12 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,8 +15,10 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.Identity.Client;
+using System.Security.Claims;
 
 namespace ProductCatalogWeb
 {
@@ -49,14 +52,14 @@ namespace ProductCatalogWeb
         // configure authority to use v2 endpoint
         options.Authority = options.Authority + "/v2.0/";
 
-        // asking Azure AD for id_token (to establish identity) and authorization code (to get access/refresh tokens for calling services)
+        // asking Azure AD for id_token (to establish identity) and
+        // authorization code (to get access/refresh tokens for calling services)
         options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
 
         // add the permission scopes you want the application to use
         options.Scope.Add("offline_access");
         Constants.ProductCatalogAPI.SCOPES.ForEach(s => options.Scope.Add(s));
 
-        // validate the token issuer
         options.TokenValidationParameters.NameClaimType = "preferred_username";
 
         // wire up event to do second part of code authorization flow (exchanging authorization code for token)
@@ -77,7 +80,6 @@ namespace ProductCatalogWeb
           await handler(context).ConfigureAwait(false);
         };
       });
-
 
       services.AddControllersWithViews(options =>
       {

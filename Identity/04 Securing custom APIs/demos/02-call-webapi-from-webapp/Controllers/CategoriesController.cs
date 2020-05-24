@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,6 +19,8 @@ namespace ProductCatalogWeb.Controllers
   public class CategoriesController : Controller
   {
     private IConfidentialClientApplication application;
+    string[] scopes = Constants.ProductCatalogAPI.SCOPES.ToArray();
+    string url = "https://localhost:5050/api/Categories";
 
     public CategoriesController(IConfidentialClientApplication application)
     {
@@ -30,7 +35,7 @@ namespace ProductCatalogWeb.Controllers
       var accountIdentifier = $"{userObjectId}.{tenantId}";
       IAccount account = await application.GetAccountAsync(accountIdentifier);
 
-      var authResult = await application.AcquireTokenSilent(Constants.ProductCatalogAPI.SCOPES.ToArray(), account).ExecuteAsync();
+      var authResult = await application.AcquireTokenSilent(scopes, account).ExecuteAsync();
       return authResult.AccessToken;
     }
 
@@ -38,7 +43,7 @@ namespace ProductCatalogWeb.Controllers
     {
       HttpClient client = new HttpClient();
       client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenForUser());
-      string json = await client.GetStringAsync(Constants.ProductCatalogAPI.CategoryUrl);
+      string json = await client.GetStringAsync(url);
 
       var serializerOptions = new JsonSerializerOptions
       {
@@ -65,7 +70,7 @@ namespace ProductCatalogWeb.Controllers
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenForUser());
 
         var content = new StringContent(JsonSerializer.Serialize(newCat, typeof(Category)), Encoding.UTF8, "application/json");
-        await client.PostAsync(Constants.ProductCatalogAPI.CategoryUrl, content);
+        await client.PostAsync(url, content);
 
         return RedirectToAction("Index");
       }
