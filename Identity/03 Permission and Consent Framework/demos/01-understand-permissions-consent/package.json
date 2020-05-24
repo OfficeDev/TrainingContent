@@ -1,5 +1,5 @@
 {
-  "name": "demo01",
+  "name": "01-understand-permissions-consent",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.10.0"
   }
 }
