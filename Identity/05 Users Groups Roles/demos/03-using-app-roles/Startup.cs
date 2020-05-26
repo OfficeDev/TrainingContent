@@ -1,11 +1,12 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +15,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace UserGroupRole
 {
@@ -37,14 +40,10 @@ namespace UserGroupRole
       {
         options.Authority = options.Authority + "/v2.0/";
         options.TokenValidationParameters.RoleClaimType = "roles";
-        options.Events.OnTokenValidated = context => {
-          var paul = context.SecurityToken.RawData; 
-          return Task.FromResult(0);
-        };
       });
 
       services.AddSingleton(SampleData.Initialize());
-
+      
       services.AddControllersWithViews(options =>
       {
         var policy = new AuthorizationPolicyBuilder()

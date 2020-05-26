@@ -1,6 +1,9 @@
-using System.Linq;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using UserGroupRole.Models;
 
 namespace UserGroupRole.Controllers
@@ -27,7 +30,6 @@ namespace UserGroupRole.Controllers
       {
         Categories = data.Categories
       };
-
       return View(viewModel);
     }
 
@@ -42,12 +44,12 @@ namespace UserGroupRole.Controllers
         {
           Id = data.Products.Max(p => p.Id) + 1,
           Name = model.ProductName,
-          Category = new Category { Id = model.CategoryId }
+          Category = data.Categories.FirstOrDefault(c => c.Id == model.CategoryId)
         });
-
         return RedirectToAction("Index");
       }
       return View(model);
     }
+
   }
 }
