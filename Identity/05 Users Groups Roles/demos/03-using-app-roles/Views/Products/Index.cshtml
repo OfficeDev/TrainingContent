@@ -1,17 +1,20 @@
+<!-- 
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT license. 
+-->
+
 @model IEnumerable<UserGroupRole.Models.Product>
 
 @{
   ViewData["Title"] = "Products";
 }
 
-<h1>Categories</h1>
+<h1>Products</h1>
 
-@if (User.IsInRole("ProductAdministrators"))
-{
-  <p>
-    <a asp-action="Create">Create New</a>
-  </p>
-}
+<p>
+  <a asp-action="Create">Create New</a>
+</p>
+
 <table class="table">
   <thead>
     <tr>

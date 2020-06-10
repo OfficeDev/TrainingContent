@@ -11,7 +11,6 @@ This completed project is the result of the lab exercise **Create and secure a w
 ## Run this Completed Project
 
 - Create an Azure AD application by following the instructions in the lab exercise associated with this demo. In this step, you are instructed to collect these data elements:
-  - domain
   - tenantId
   - applicationId (ClientId)
 - Update the properties in the **[appsettings.json](./appsettings.json)** with the values you collected in the last step.

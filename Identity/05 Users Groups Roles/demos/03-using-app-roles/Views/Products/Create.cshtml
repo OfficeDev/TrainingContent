@@ -1,3 +1,8 @@
+<!-- 
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT license. 
+-->
+
 @model UserGroupRole.Models.ProductViewModel
 
 @{
@@ -17,7 +22,7 @@
       </div>
       <div class="form-group">
         <label asp-for="CategoryId" class="control-label"></label>
-        <select asp-for="CategoryId" 
+        <select asp-for="CategoryId"
                 asp-items=@(new SelectList(Model.Categories,"Id","Name")) class="form-control"></select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
       </div>

@@ -2,14 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-UserGroupRole-E8720ECA-8DAD-4A48-8409-FD44084891D1</UserSecretsId>
+    <UserSecretsId>aspnet-UserGroupRole-E39017C5-D17C-4CB6-A9EC-AD962A080433</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="bogus" Version="29.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.1" />
   </ItemGroup>
 
 </Project>
