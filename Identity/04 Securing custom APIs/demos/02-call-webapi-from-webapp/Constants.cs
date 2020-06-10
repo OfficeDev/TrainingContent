@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System.Collections.Generic;
 
 namespace Constants
@@ -9,10 +12,10 @@ namespace Constants
 
     public static List<string> SCOPES = new List<string>()
     {
-      "api://97a1ab8b-9ede-41fc-8370-7199a4c16224/Product.Read",
-      "api://97a1ab8b-9ede-41fc-8370-7199a4c16224/Product.Write",
-      "api://97a1ab8b-9ede-41fc-8370-7199a4c16224/Category.Read",
-      "api://97a1ab8b-9ede-41fc-8370-7199a4c16224/Category.Write"
+      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Product.Read",
+      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Product.Write",
+      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Category.Read",
+      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Category.Write",
     };
   }
 

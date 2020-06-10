@@ -12,19 +12,19 @@ The lab for this module is available in multiple units within the associated Mic
 
     > In this exercise, you’ll learn how to create a .NET Core web API application and secure it with Microsoft identity.
 
-1. [Exercise - Call secured APIs from web applications](https://docs.microsoft.com/learn/modules/identity-secure-custom-api/5-exercise-call-secured-apis-webapps)
+1. [Exercise - Call secured APIs from web applications](https://docs.microsoft.com/en-us/learn/modules/identity-secure-custom-api/5-exercise-call-secured-apis-web-apps)
 
-    > In this unit, you’ll learn how to create server-side web apps that enable users to sign in and grant the app permissions to act on the user’s behalf. Once the user has authenticated and granted the app consent to act on their behalf, the web application will use data returned from a secure web API by using the OAuth 2.0 auth code grant flow.
+    > In this exercise, you’ll learn how to create server-side web apps that enable users to sign in and grant the app permissions to act on the user’s behalf. Once the user has authenticated and granted the app consent to act on their behalf, the web application will use data returned from a secure web API by using the OAuth 2.0 auth code grant flow.
 
-1. [Exercise - Leverage app roles to secure custom APIs](https://docs.microsoft.com/learn/modules/identity-secure-custom-api/7-exercise-leverage-app-roles)
+1. [Exercise - Leverage app roles to secure custom APIs](https://docs.microsoft.com/en-us/learn/modules/identity-secure-custom-api/7-exercise-call-secured-apis-daemon-apps)
 
     > In this exercise, you'll learn how to add app roles (application permission) to an Azure AD Application registration and consume a secured API from a daemon application.
 
 ## Demos
 
-1. [Understanding Permissions and the Consent Framework in the Microsoft identity Platform](./Demos/01-product-catalog-webapi-app)
-1. [Call secured APIs from web applications](./Demos/02-call-webapi-from-webapp)
-1. [Leverage app roles to secure custom APIs](./Demos/03-add-app-roles-to-webapi)
+1. [Understanding Permissions and the Consent Framework in the Microsoft identity Platform](./demos/01-product-catalog-webapi-app)
+1. [Call secured APIs from web applications](./demos/02-call-webapi-from-webapp)
+1. [Leverage app roles to secure custom APIs](./demos/03-add-app-roles-to-webapi)
 
 ## Watch the module
 
@@ -35,13 +35,15 @@ This module has been recorded and is available in the Office Development YouTube
 |        Roles         |                                                    Author(s)                                                     |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](https://www.voitanos.io)) [@andrewconnell](//github.com/andrewconnell) |
+| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor) |
 | Sponsor / Support    | Kyle Marsh (Microsoft) [@kylemar](//github.com/kylemar)                                                          |
 
 ## Version history
 
-| Version |      Date      |       Comments       |
-| ------- | -------------- | -------------------- |
-| 1.0     | March 15, 2019 | New module published |
+| Version |      Date      |         Comments         |
+| ------- | -------------- | ------------------------ |
+| 1.1     | May 26, 2019   | FY2020Q4 content refresh |
+| 1.0     | March 15, 2019 | New module published     |
 
 ## Disclaimer
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,15 +33,17 @@ namespace ProductCatalog
     {
       services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
           .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
+
       services.Configure<JwtBearerOptions>(AzureADDefaults.JwtBearerAuthenticationScheme, options =>
       {
         // The web API accepts as audiences both the Client ID (options.Audience) and api://{ClientID}.
         options.TokenValidationParameters.ValidAudiences = new[]
         {
-          options.Audience,
-          $"api://{options.Audience}"
+            options.Audience,
+            $"api://{options.Audience}"
         };
       });
+
       services.AddControllers();
       services.AddSingleton(SampleData.Initialize());
     }

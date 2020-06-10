@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +44,9 @@ namespace ProductCatalog.Controllers
       {
         return BadRequest("Product Name cannot be empty");
       }
-      if (newProduct.Category == null)
+
+      newProduct.Category.Name = data.Categories.FirstOrDefault(c => c.Id == newProduct.Category.Id)?.Name;
+      if (string.IsNullOrEmpty(newProduct.Category?.Name))
       {
         return BadRequest("Product Category cannot be empty");
       }

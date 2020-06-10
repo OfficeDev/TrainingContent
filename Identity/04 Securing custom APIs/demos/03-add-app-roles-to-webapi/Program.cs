@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using Microsoft.Identity.Client;
 using System.Linq;
 using System.Net.Http;
@@ -6,7 +9,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Net.Http.Headers;
 
-namespace iddaemon
+namespace ProductCatalogDaemon
 {
   class Program
   {
@@ -28,13 +31,13 @@ namespace iddaemon
     {
       AuthenticationConfig config = AuthenticationConfig.ReadFromJsonFile("appsettings.json");
 
-      IConfidentialClientApplication app = 
+      IConfidentialClientApplication app =
         ConfidentialClientApplicationBuilder.Create(config.ClientId)
             .WithClientSecret(config.ClientSecret)
             .WithAuthority(new Uri(config.Authority))
             .Build();
 
-      // With client credentials flows the scopes is ALWAYS of the shape "resource/.default", as the 
+      // With client credentials flows the scopes is ALWAYS of the shape "resource/.default", as the
       // application permissions need to be set statically (in the portal or by PowerShell), and then granted by
       // a tenant administrator
       string[] scopes = new string[] { config.ApiScope };
@@ -58,10 +61,7 @@ namespace iddaemon
 
       if (result != null)
       {
-        //await apiCaller.CallWebApiAndProcessResultASync($"{config.ApiBaseAddress}/api/todolist", result.AccessToken, Display);
-      
         var httpClient = new HttpClient();
-
         var defaultRequestHeaders = httpClient.DefaultRequestHeaders;
         if (defaultRequestHeaders.Accept == null || !defaultRequestHeaders.Accept.Any(m => m.MediaType == "application/json"))
         {
@@ -92,10 +92,6 @@ namespace iddaemon
       }
     }
 
-    /// <summary>
-    /// Display the result of the Web API call
-    /// </summary>
-    /// <param name="result">Object to display</param>
     private static void Display(JsonElement.ArrayEnumerator results)
     {
       Console.WriteLine("Web Api result: \n");
