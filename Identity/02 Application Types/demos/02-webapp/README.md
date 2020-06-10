@@ -5,7 +5,7 @@ This completed project is the result of the lab exercise **Web apps that sign in
 ## Prerequisites
 
 - Office 365 Tenancy
-- [.NET Core 3.0 SDK](https://dotnet.microsoft.com/download)
+- [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Run this Completed Project
