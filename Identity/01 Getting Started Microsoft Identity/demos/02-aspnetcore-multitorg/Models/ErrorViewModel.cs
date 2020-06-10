@@ -1,6 +1,6 @@
 using System;
 
-namespace msidentity_aspnet_02_02.Models
+namespace _02_aspnetcore_multitorg.Models
 {
     public class ErrorViewModel
     {

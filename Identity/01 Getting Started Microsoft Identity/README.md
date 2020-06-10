@@ -22,10 +22,10 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Demos
 
-1. [Different types of tokens used in Microsoft Identity](./Demos/01-spa)
-1. [Account types in Microsoft Identity - Single Tenant](./Demos/02-aspnetcore-singleorg)
-1. [Account types in Microsoft Identity - Multi-Tenant](./Demos/02-aspnetcore-multitorg)
-1. [Identity topology options](./Demos/03-aspnetcode-b2b)
+1. [Different types of tokens used in Microsoft Identity](./demos/01-spa)
+1. [Account types in Microsoft Identity - Single Tenant](./demos/02-aspnetcore-singleorg)
+1. [Account types in Microsoft Identity - Multi-Tenant](./demos/02-aspnetcore-multitorg)
+1. [Identity topology options](./demos/03-aspnetcode-b2b)
 
 ## Watch the module
 
@@ -36,12 +36,14 @@ This module has been recorded and is available in the Office Development YouTube
 |        Roles         |                                                    Author(s)                                                     |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](https://www.voitanos.io)) [@andrewconnell](//github.com/andrewconnell) |
+| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor) |
 | Sponsor / Support    | Kyle Marsh (Microsoft) [@kylemar](//github.com/kylemar)                                                          |
 
 ## Version history
 
 | Version |       Date       |         Comments         |
 | ------- | ---------------- | ------------------------ |
+| 1.3     | May 26, 2020     | FY2020Q4 content refresh |
 | 1.2     | March 10, 2020   | FY2020Q3 content refresh |
 | 1.1     | December 9, 2019 | FY2020Q2 content refresh |
 | 1.0     | October 25, 2019 | New module published     |

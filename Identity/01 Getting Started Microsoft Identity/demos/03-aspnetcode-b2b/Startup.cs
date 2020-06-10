@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace msidentity_aspnet_03
+namespace _03_aspnetcore_b2b
 {
     public class Startup
     {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace msidentity_aspnet_02_01
+namespace _02_aspnetcore_singleorg
 {
     public class Program
     {

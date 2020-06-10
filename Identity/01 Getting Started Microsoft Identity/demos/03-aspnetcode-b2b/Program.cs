@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace msidentity_aspnet_03
+namespace _03_aspnetcore_b2b
 {
     public class Program
     {
