@@ -26,7 +26,7 @@ However, there is still a long & rich history.
 If you are only interested in the content in the current state of the repo and none of the history, consider performing a *shallow clone*, cloning only the most recent commit. You can do this using the following statement:
 
 ```shell
-git clone -–depth 1 https://github.com/OfficeDev/TrainingContent.git
+git clone --depth 1 https://github.com/OfficeDev/TrainingContent.git
 ```
 
 ## Archived content
