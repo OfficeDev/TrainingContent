@@ -2,17 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-_02_webapp-62AB6497-ECA8-43FF-A7D4-6A4873EFAC9D</UserSecretsId>
+    <UserSecretsId>aspnet-_02_webapp-92249C50-4C3E-4DE2-9058-96EC06BCE7A5</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
     <RootNamespace>_02_webapp</RootNamespace>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Graph" Version="3.6.0" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.14.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Graph" Version="3.8.0" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="0.2.1-preview" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="0.2.1-preview" />
   </ItemGroup>
 
 </Project>

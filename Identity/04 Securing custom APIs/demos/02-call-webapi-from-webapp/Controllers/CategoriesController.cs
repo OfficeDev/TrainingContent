@@ -12,38 +12,31 @@ using ProductCatalogWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using Microsoft.Identity.Web;
 
 namespace ProductCatalogWeb.Controllers
 {
   [Authorize]
   public class CategoriesController : Controller
   {
-    private IConfidentialClientApplication application;
+    private ITokenAcquisition tokenAcquisition;
     string[] scopes = Constants.ProductCatalogAPI.SCOPES.ToArray();
     string url = "https://localhost:5050/api/Categories";
 
-    public CategoriesController(IConfidentialClientApplication application)
+    public CategoriesController(ITokenAcquisition tokenAcquisition)
     {
-      this.application = application;
+      this.tokenAcquisition = tokenAcquisition;
     }
 
-    private async Task<string> GetTokenForUser()
-    {
-      // Get the account.
-      string userObjectId = User.FindFirstValue(Constants.ClaimIds.UserObjectId);
-      string tenantId = User.FindFirstValue(Constants.ClaimIds.TenantId);
-      var accountIdentifier = $"{userObjectId}.{tenantId}";
-      IAccount account = await application.GetAccountAsync(accountIdentifier);
-
-      var authResult = await application.AcquireTokenSilent(scopes, account).ExecuteAsync();
-      return authResult.AccessToken;
-    }
-
+    [AuthorizeForScopes(Scopes = new[] { Constants.ProductCatalogAPI.CategoryReadScope })]
     public async Task<ActionResult> Index()
     {
-      HttpClient client = new HttpClient();
-      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenForUser());
-      string json = await client.GetStringAsync(url);
+      var client = new HttpClient();
+
+      var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(Constants.ProductCatalogAPI.SCOPES);
+      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+      var json = await client.GetStringAsync(url);
 
       var serializerOptions = new JsonSerializerOptions
       {
@@ -53,6 +46,7 @@ namespace ProductCatalogWeb.Controllers
       return View(categories);
     }
 
+    [AuthorizeForScopes(Scopes = new[] { Constants.ProductCatalogAPI.CategoryWriteScope })]
     public ActionResult Create()
     {
       return View();
@@ -60,14 +54,17 @@ namespace ProductCatalogWeb.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [AuthorizeForScopes(Scopes = new[] { Constants.ProductCatalogAPI.CategoryWriteScope })]
     public async Task<ActionResult> Create([Bind("Name")] Category category)
     {
       if (ModelState.IsValid)
       {
         var newCat = new Category() { Name = category.Name };
 
-        HttpClient client = new HttpClient();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenForUser());
+        var client = new HttpClient();
+
+        var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(Constants.ProductCatalogAPI.SCOPES);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
         var content = new StringContent(JsonSerializer.Serialize(newCat, typeof(Category)), Encoding.UTF8, "application/json");
         await client.PostAsync(url, content);

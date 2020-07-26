@@ -9,13 +9,14 @@ namespace Constants
   {
     public const string CategoryUrl = "https://localhost:5050/api/Categories";
     public const string ProductUrl = "https://localhost:5050/api/Products";
+    public const string ProductReadScope = "api://17758935-3189-41f4-b4cc-4f5d85b6ee2f/Product.Read";
+    public const string ProductWriteScope = "api://17758935-3189-41f4-b4cc-4f5d85b6ee2f/Product.Write";
+    public const string CategoryReadScope = "api://17758935-3189-41f4-b4cc-4f5d85b6ee2f/Category.Read";
+    public const string CategoryWriteScope = "api://17758935-3189-41f4-b4cc-4f5d85b6ee2f/Category.Write";
 
     public static List<string> SCOPES = new List<string>()
     {
-      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Product.Read",
-      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Product.Write",
-      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Category.Read",
-      "api://2d08d9ad-1947-4d1e-a68e-8bfdc557f697/Category.Write",
+      ProductReadScope, ProductWriteScope, CategoryReadScope, CategoryWriteScope
     };
   }
 

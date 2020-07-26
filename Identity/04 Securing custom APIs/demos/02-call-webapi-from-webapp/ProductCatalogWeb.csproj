@@ -2,15 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-ProductCatalogWeb-C4F37BD2-7B6C-465C-9E89-B8904E0F382C</UserSecretsId>
+    <UserSecretsId>aspnet-ProductCatalogWeb-D0E89BF0-95BB-460B-91A4-F7584CE41CF9</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.14.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="0.2.3-preview" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="0.2.3-preview" />
   </ItemGroup>
 
 </Project>
