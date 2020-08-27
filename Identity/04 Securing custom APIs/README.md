@@ -40,10 +40,11 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |      Date      |         Comments         |
-| ------- | -------------- | ------------------------ |
-| 1.1     | May 26, 2019   | FY2020Q4 content refresh |
-| 1.0     | March 15, 2019 | New module published     |
+| Version |      Date       |                     Comments                     |
+| ------- | --------------- | ------------------------------------------------ |
+| 1.2     | August 17, 2020 | Incorporate Microsoft.Identity.Web NuGet package |
+| 1.1     | May 26, 2019    | FY2020Q4 content refresh                         |
+| 1.0     | March 15, 2019  | New module published                             |
 
 ## Disclaimer
 

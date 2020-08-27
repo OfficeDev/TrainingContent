@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 
 namespace ProductCatalog
 {
@@ -31,20 +31,9 @@ namespace ProductCatalog
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
-          .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
-
-      services.Configure<JwtBearerOptions>(AzureADDefaults.JwtBearerAuthenticationScheme, options =>
-      {
-        // The web API accepts as audiences both the Client ID (options.Audience) and api://{ClientID}.
-        options.TokenValidationParameters.ValidAudiences = new[]
-        {
-            options.Audience,
-            $"api://{options.Audience}"
-        };
-      });
-
+      services.AddMicrosoftWebApiAuthentication(Configuration);
       services.AddControllers();
+
       services.AddSingleton(SampleData.Initialize());
     }
 

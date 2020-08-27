@@ -6,6 +6,7 @@ using System.Linq;
 using ProductCatalog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 
 namespace ProductCatalog.Controllers
 {
@@ -23,7 +24,10 @@ namespace ProductCatalog.Controllers
 
     public List<Category> GetAllCategories()
     {
-      HttpContext.VerifyUserHasAnyAcceptedScope(new string[] { "Category.Read" });
+      if (!HttpContext.User.IsInRole("access_as_application"))
+      {
+        HttpContext.VerifyUserHasAnyAcceptedScope(new string[] { "Category.Read" });
+      }
       return data.Categories;
     }
 

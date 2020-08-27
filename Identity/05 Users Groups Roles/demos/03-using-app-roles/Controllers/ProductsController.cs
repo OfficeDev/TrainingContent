@@ -42,14 +42,13 @@ namespace UserGroupRole.Controllers
       {
         data.Products.Add(new Product()
         {
-          Id = data.Products.Max(p => p.Id) + 1,
+          ID = data.Products.Max(p => p.ID) + 1,
           Name = model.ProductName,
-          Category = data.Categories.FirstOrDefault(c => c.Id == model.CategoryId)
+          Category = data.Categories.FirstOrDefault(c => c.ID == model.CategoryId)
         });
         return RedirectToAction("Index");
       }
       return View(model);
-    }
-
+    }    
   }
 }

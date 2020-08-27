@@ -3,7 +3,6 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserGroupRole.Models;
 
 namespace UserGroupRole.Controllers
 {

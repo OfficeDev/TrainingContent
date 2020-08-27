@@ -42,10 +42,11 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |       Date        |         Comments         |
-| ------- | ----------------- | ------------------------ |
-| 1.1     | May 31, 2020      | FY2020Q4 content refresh |
-| 1.0     | February 24, 2020 | New module published     |
+| Version |       Date        |                     Comments                     |
+| ------- | ----------------- | ------------------------------------------------ |
+| 1.2     | August 17, 2020   | Incorporate Microsoft.Identity.Web NuGet package |
+| 1.1     | May 31, 2020      | FY2020Q4 content refresh                         |
+| 1.0     | February 24, 2020 | New module published                             |
 
 ## Disclaimer
 
