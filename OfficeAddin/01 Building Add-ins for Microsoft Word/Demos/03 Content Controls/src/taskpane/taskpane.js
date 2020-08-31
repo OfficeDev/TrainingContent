@@ -6,7 +6,6 @@
 /* global document, Office, Word */
 
 import { base64Image } from "./base64Image";
-
 Office.onReady(info => {
   if (info.host === Office.HostType.Word) {
     // Determine if the user's version of Office supports all the Office.js APIs that are used in the tutorial.
@@ -38,16 +37,16 @@ function insertParagraph() {
 
     var docBody = context.document.body;
     docBody.insertParagraph("Office has several versions, including Office 2016, Office 365 Click-to-Run, and Office on the web.",
-      "Start");
+                            "Start");
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function applyStyle() {
@@ -58,12 +57,12 @@ function applyStyle() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function applyCustomStyle() {
@@ -74,12 +73,12 @@ function applyCustomStyle() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function changeFont() {
@@ -94,12 +93,12 @@ function changeFont() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function insertTextIntoRange() {
@@ -110,17 +109,17 @@ function insertTextIntoRange() {
 
     originalRange.load("text");
     return context.sync()
-      .then(function () {
+      .then(function() {
         doc.body.insertParagraph("Original range: " + originalRange.text, "End");
       })
       .then(context.sync);
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function insertTextBeforeRange() {
@@ -131,17 +130,17 @@ function insertTextBeforeRange() {
 
     originalRange.load("text");
     return context.sync()
-      .then(function () {
+      .then(function() {
         doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
       })
       .then(context.sync);
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function replaceText() {
@@ -152,12 +151,12 @@ function replaceText() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function insertImage() {
@@ -166,12 +165,12 @@ function insertImage() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function insertHTML() {
@@ -181,12 +180,12 @@ function insertHTML() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function insertTable() {
@@ -194,20 +193,20 @@ function insertTable() {
     var secondParagraph = context.document.body.paragraphs.getFirst().getNext();
 
     var tableData = [
-      ["Name", "ID", "Birth City"],
-      ["Bob", "434", "Chicago"],
-      ["Sue", "719", "Havana"],
+        ["Name", "ID", "Birth City"],
+        ["Bob", "434", "Chicago"],
+        ["Sue", "719", "Havana"],
     ];
     secondParagraph.insertTable(3, 3, "After", tableData);
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function createContentControl() {
@@ -221,24 +220,25 @@ function createContentControl() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
-    function replaceContentInControl() {
-      Word.run(function (context) {
-        var serviceNameContentControl = context.document.contentControls.getByTag("serviceName").getFirst();
-        serviceNameContentControl.insertText("Fabrikam Online Productivity Suite", "Replace");
-        return context.sync();
-      })
-      .catch(function (error) {
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-          console.log("Debug info: " + JSON.stringify(error.debugInfo));
-        }
-      });
+function replaceContentInControl() {
+  Word.run(function (context) {
+    var serviceNameContentControl = context.document.contentControls.getByTag("serviceName").getFirst();
+    serviceNameContentControl.insertText("Fabrikam Online Productivity Suite", "Replace");
+
+    return context.sync();
+  })
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
     }
+  });
+}
