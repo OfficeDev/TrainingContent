@@ -21,7 +21,6 @@ Office.onReady(info => {
 
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
-
   }
 });
 
@@ -45,7 +44,7 @@ function createTable() {
       ["1/15/2017", "Best For You Organics Company", "Groceries", "97.88"]
     ]);
 
-    expensesTable.columns.getItemAt(3).getRange().numberFormat = [['&euro;#,##0.00']];
+    expensesTable.columns.getItemAt(3).getRange().numberFormat = [['\u20AC#,##0.00']];
     expensesTable.getRange().format.autofitColumns();
     expensesTable.getRange().format.autofitRows();
 
@@ -128,18 +127,44 @@ function createChart() {
     });
 }
 
-    function freezeHeader() {
-      Excel.run(function (context) {
+function freezeHeader() {
+  Excel.run(function (context) {
 
     var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
     currentWorksheet.freezePanes.freezeRows(1);
 
-        return context.sync();
-      })
-      .catch(function (error) {
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-          console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    return context.sync();
+  })
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
+}
+
+function toggleProtection(args) {
+  Excel.run(function (context) {
+    var sheet = context.workbook.worksheets.getActiveWorksheet();
+    sheet.load('protection/protected');
+
+    return context.sync()
+      .then(
+        function () {
+          if (sheet.protection.protected) {
+            sheet.protection.unprotect();
+          } else {
+            sheet.protection.protect();
+          }
         }
-      });
-    }
+      )
+      .then(context.sync);
+  })
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
+  args.completed();
+}
