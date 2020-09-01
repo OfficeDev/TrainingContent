@@ -34,14 +34,15 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                                       Author(s)                                       |
+| Roles                | Author(s)                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------- |
 | Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
 
 ## Version history
 
-| Version |       Date        |                      Comments                      |
+| Version | Date              | Comments                                           |
 | ------- | ----------------- | -------------------------------------------------- |
+| 1.9     | September 1, 2020 | 2021Q1 content refresh                             |
 | 1.8     | May 1, 2020       | 2020Q4 content refresh                             |
 | 1.7     | April 7, 2020     | FY2020Q3 content refresh & port module to MS Learn |
 | 1.6     | March 5, 2020     | 2020Q3 content refresh                             |
@@ -54,6 +55,6 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Disclaimer
 
-**THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
+**THIS CODE IS PROVIDED _AS IS_ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
 
 <img src="https://telemetry.sharepointpnp.com/TrainingContent/OfficeAddin/04-building-add-ins-for-microsoft-outlook" />
