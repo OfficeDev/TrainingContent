@@ -24,7 +24,7 @@ module.exports = async (env, options) => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader",
+            loader: "babel-loader", 
             options: {
               presets: ["@babel/preset-env"]
             }
@@ -64,7 +64,6 @@ module.exports = async (env, options) => {
         template: "./src/dialogs/popup.html",
         chunks: ["polyfill", "popup"]
       })
-
     ],
     devServer: {
       headers: {
