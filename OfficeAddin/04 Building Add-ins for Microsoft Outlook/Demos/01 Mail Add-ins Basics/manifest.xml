@@ -100,7 +100,7 @@
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane displaying all available properties."/>
-        <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
+        <bt:String id="ActionButton.Tooltip" DefaultValue="Performs an action when clicked."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
