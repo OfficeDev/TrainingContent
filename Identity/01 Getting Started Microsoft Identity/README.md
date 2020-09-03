@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Different types of tokens used in Microsoft Identity](https://docs.microsoft.com/learn/modules/getting-started-identity/3-exercise-different-token-types)
 
-    In this exercise, you'll create an Azure AD application and single page application for a user to sign in and display their information on the page.
+   In this exercise, you'll create an Azure AD application and single page application for a user to sign in and display their information on the page.
 
 1. [Exercise - Account types in Microsoft Identity](https://docs.microsoft.com/learn/modules/getting-started-identity/5-exercise-different-account-types)
 
-    This exercise will demonstrate the different account types that are used within the Microsoft Identity platform.
+   This exercise will demonstrate the different account types that are used within the Microsoft Identity platform.
 
 1. [Exercise - Identity topology options](https://docs.microsoft.com/learn/modules/getting-started-identity/7-exercise-topology-options)
 
-    This exercise will demonstrate to the user how to configure and implement an application that supports B2B.
+   This exercise will demonstrate to the user how to configure and implement an application that supports B2B.
 
 ## Demos
 
@@ -33,20 +33,21 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                                                    Author(s)                                                     |
+| Roles                | Author(s)                                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](https://www.voitanos.io)) [@andrewconnell](//github.com/andrewconnell) |
-| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor) |
+| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor)                                 |
 | Sponsor / Support    | Kyle Marsh (Microsoft) [@kylemar](//github.com/kylemar)                                                          |
 
 ## Version history
 
-| Version |       Date       |         Comments         |
-| ------- | ---------------- | ------------------------ |
-| 1.3     | May 26, 2020     | FY2020Q4 content refresh |
-| 1.2     | March 10, 2020   | FY2020Q3 content refresh |
-| 1.1     | December 9, 2019 | FY2020Q2 content refresh |
-| 1.0     | October 25, 2019 | New module published     |
+| Version | Date              | Comments                 |
+| ------- | ----------------- | ------------------------ |
+| 1.4     | September 7, 2020 | FY2021Q1 content refresh |
+| 1.3     | May 26, 2020      | FY2020Q4 content refresh |
+| 1.2     | March 10, 2020    | FY2020Q3 content refresh |
+| 1.1     | December 9, 2019  | FY2020Q2 content refresh |
+| 1.0     | October 25, 2019  | New module published     |
 
 ## Disclaimer
 
