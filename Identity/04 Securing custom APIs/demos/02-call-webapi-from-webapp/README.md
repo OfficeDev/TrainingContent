@@ -1,6 +1,6 @@
 # Demo: Call secured APIs from web applications
 
-This completed project is the result of the lab exercise **Call secured APIs from web applications** that is referenced in the [README](../../) in this repo.
+This completed project is the result of the lab exercise **Call secured APIs from web applications** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 
@@ -16,4 +16,5 @@ This completed project is the result of the lab exercise **Call secured APIs fro
   - ClientId
   - ClientSecret
 - Update the properties in the **[appsettings.json](./appsettings.json)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Update the properties in the **[constants.cs](./constants.cs)** with the client Id of the web service application.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.
