@@ -1,6 +1,6 @@
 # Demo: Daemon and non-interactive apps
 
-This completed project is the result of the lab exercise **Daemon and non-interactive apps** that is referenced in the [README](../../) in this repo.
+This completed project is the result of the lab exercise **Daemon and non-interactive apps** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 
