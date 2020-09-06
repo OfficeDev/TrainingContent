@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
@@ -46,12 +45,12 @@ namespace UserGroupRole
 
       services.AddOptions();
 
-      services.AddMicrosoftWebAppAuthentication(Configuration);
+      services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
 
       services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
       {
         options.Authority = options.Authority + "/v2.0/";
-      });      
+      });
 
       services.AddControllersWithViews(options =>
       {
