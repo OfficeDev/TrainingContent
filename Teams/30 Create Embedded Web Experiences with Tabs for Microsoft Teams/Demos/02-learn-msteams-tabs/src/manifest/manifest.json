@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.5",
-  "id": "7619bfe0-9094-11ea-b9ed-e3f17e6555c6",
-  "version": "0.0.1",
-  "packageName": "learnmsteamstabs",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.76/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.7",
+  "id": "{{APPLICATION_ID}}",
+  "version": "{{VERSION}}",
+  "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
     "websiteUrl": "https://{{HOSTNAME}}",
@@ -15,8 +15,8 @@
     "full": "Learn MSTeams Tabs"
   },
   "description": {
-    "short": "My first custom Teams app",
-    "full": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non feugiat nisl, ut scelerisque ipsum. Praesent egestas nunc non mi ultricies egestas. Aliquam lacus odio, gravida vel egestas et, consectetur a felis. Fusce aliquet dapibus feugiat. Nam pharetra elit a maximus varius. Integer imperdiet vulputate interdum. Praesent auctor laoreet ligula, et tempor nunc blandit vel. In at pellentesque enim. Curabitur a lorem vitae velit rhoncus pharetra eu eget tortor. Nam a nisi suscipit, euismod tellus eget, vulputate nibh. Aenean consequat suscipit ligula sed sodales."
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
   },
   "icons": {
     "outline": "icon-outline.png",
@@ -25,7 +25,7 @@
   "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://{{HOSTNAME}}/configMathTab/config.html",
+      "configurationUrl": "https://{{HOSTNAME}}/configMathTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "canUpdateConfiguration": true,
       "scopes": [
         "team"
@@ -39,9 +39,9 @@
   ],
   "staticTabs": [
     {
-      "entityId": "default-data",
-      "name": "My First Tab",
-      "contentUrl": "https://{{HOSTNAME}}/learnPersonalTab/?theme={theme}",
+      "entityId": "6324e455-bff8-408e-808c-b3e5dfb0baec",
+      "name": "LearnPersonalTab",
+      "contentUrl": "https://{{HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
         "personal"
       ]
@@ -56,5 +56,6 @@
   ],
   "validDomains": [
     "{{HOSTNAME}}"
-  ]
+  ],
+  "showLoadingIndicator": false
 }

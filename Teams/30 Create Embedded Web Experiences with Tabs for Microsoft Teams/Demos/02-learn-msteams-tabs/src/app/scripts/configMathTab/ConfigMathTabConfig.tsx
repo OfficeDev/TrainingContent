@@ -8,8 +8,8 @@ import {
   themes,
   DropdownProps,
   Dropdown
-} from "@fluentui/react";
-import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
+} from "@fluentui/react-northstar";
+import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 export interface IConfigMathTabConfigState extends ITeamsBaseComponentState {
@@ -17,7 +17,7 @@ export interface IConfigMathTabConfigState extends ITeamsBaseComponentState {
   mathOperator: string;
 }
 
-export interface IConfigMathTabConfigProps extends ITeamsBaseComponentProps {
+export interface IConfigMathTabConfigProps {
 
 }
 
@@ -26,10 +26,10 @@ export interface IConfigMathTabConfigProps extends ITeamsBaseComponentProps {
  */
 export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfigProps, IConfigMathTabConfigState> {
 
-  public componentWillMount() {
+  public async componentWillMount() {
     this.updateComponentTheme(this.getQueryVariable("theme"));
 
-    if (this.inTeams()) {
+    if (await this.inTeams()) {
       microsoftTeams.initialize();
 
       microsoftTeams.getContext((context: microsoftTeams.Context) => {
@@ -37,7 +37,8 @@ export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfig
           mathOperator: context.entityId.replace("MathPage", "")
         }));
         this.updateTheme(context.theme);
-        this.setValidityState(true);
+        microsoftTeams.settings.setValidityState(true);
+        microsoftTeams.appInitialization.notifySuccess();
       });
 
       microsoftTeams.settings.registerOnSaveHandler((saveEvent: microsoftTeams.settings.SaveEvent) => {
@@ -55,23 +56,28 @@ export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfig
     }
   }
 
-public render() {
-  return (
-    <Provider theme={this.state.teamsTheme}>
-      <Flex gap="gap.smaller" style={{ height: "300px" }}>
-        <Dropdown placeholder="Select the math operator"
-          items={[
-            "add",
-            "subtract",
-            "multiply",
-            "divide"
-          ]}
-          onChange={this.handleOnSelectedChange}></Dropdown>
-      </Flex>
-    </Provider>
-  );
-}
+  public render() {
+    return (
+      <Provider theme={this.state.teamsTheme}>
+        <Flex gap="gap.smaller" style={{ height: "300px" }}>
+          <Dropdown placeholder="Select the math operator"
+            items={[
+              "add",
+              "subtract",
+              "multiply",
+              "divide"
+            ]}
+            onChange={this.handleOnSelectedChange}></Dropdown>
+        </Flex>
+      </Provider>
+    );
+  }
 
+  private handleOnSelectedChange = (event, props: DropdownProps): void => {
+    this.setState(Object.assign({}, this.state, {
+      mathOperator: (props.value) ? props.value.toString() : "add"
+    }));
+  }
   private updateComponentTheme = (teamsTheme: string = "default"): void => {
     let componentTheme: ThemePrepared;
 
@@ -94,11 +100,4 @@ public render() {
       teamsTheme: componentTheme
     }));
   }
-
-private handleOnSelectedChange = (event, props: DropdownProps): void => {
-  this.setState(Object.assign({}, this.state, {
-    mathOperator: (props.value) ? props.value.toString() : "add"
-  }));
-}
-
 }

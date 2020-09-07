@@ -1,13 +1,13 @@
 import * as React from "react";
-import { Provider, Flex, Text, Header } from "@fluentui/react";
-import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
+import { Provider, Flex, Text, Header } from "@fluentui/react-northstar";
+import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 
 export interface ILearnAuthTabRemoveState extends ITeamsBaseComponentState {
     value: string;
 }
-export interface ILearnAuthTabRemoveProps extends ITeamsBaseComponentProps {
+export interface ILearnAuthTabRemoveProps {
 
 }
 
@@ -16,11 +16,12 @@ export interface ILearnAuthTabRemoveProps extends ITeamsBaseComponentProps {
  */
 export class LearnAuthTabRemove  extends TeamsBaseComponent<ILearnAuthTabRemoveProps, ILearnAuthTabRemoveState> {
 
-    public componentWillMount() {
+    public async componentWillMount() {
         this.updateTheme(this.getQueryVariable("theme"));
 
-        if (this.inTeams()) {
+        if (await this.inTeams()) {
             microsoftTeams.initialize();
+            microsoftTeams.appInitialization.notifySuccess();
         } else {
         }
     }

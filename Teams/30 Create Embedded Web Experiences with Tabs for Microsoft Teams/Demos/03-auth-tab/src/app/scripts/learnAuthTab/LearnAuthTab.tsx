@@ -7,12 +7,11 @@ import {
   Header,
   ThemePrepared,
   themes,
-  List,
-  Icon
-} from "@fluentui/react";
-import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
+  List
+} from "@fluentui/react-northstar";
+import { EmailIcon } from "@fluentui/react-icons-northstar";
+import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-
 import * as MicrosoftGraphClient from "@microsoft/microsoft-graph-client";
 import * as MicrosoftGraph from "microsoft-graph";
 
@@ -23,13 +22,12 @@ export interface ILearnAuthTabState extends ITeamsBaseComponentState {
   entityId?: string;
   teamsTheme: ThemePrepared;
   accessToken: string;
-  messages: MicrosoftGraph.Message[];
-}
+  messages: MicrosoftGraph.Message[];}
 
 /**
  * Properties for the learnAuthTabTab React component
  */
-export interface ILearnAuthTabProps extends ITeamsBaseComponentProps {
+export interface ILearnAuthTabProps {
 
 }
 
@@ -37,6 +35,7 @@ export interface ILearnAuthTabProps extends ITeamsBaseComponentProps {
  * Implementation of the LearnAuthTab content page
  */
 export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnAuthTabState> {
+
   private msGraphClient: MicrosoftGraphClient.Client;
 
   constructor(props: ILearnAuthTabProps, state: ILearnAuthTabState) {
@@ -48,14 +47,15 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
     this.state = state;
   }
 
-  public componentWillMount() {
+  public async componentWillMount() {
     this.updateComponentTheme(this.getQueryVariable("theme"));
 
 
-    if (this.inTeams()) {
+    if (await this.inTeams()) {
       microsoftTeams.initialize();
       microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
       microsoftTeams.getContext((context) => {
+        microsoftTeams.appInitialization.notifySuccess();
         this.setState({
           entityId: context.entityId
         });
@@ -95,7 +95,7 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
           <List selectable>
             {
               this.state.messages.map(message => (
-                <List.Item media={<Icon name="email"></Icon>}
+                <List.Item media={<EmailIcon></EmailIcon>}
                   header={message.receivedDateTime}
                   content={message.subject}>
                 </List.Item>
@@ -182,5 +182,4 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
       teamsTheme: componentTheme
     }));
   }
-
 }

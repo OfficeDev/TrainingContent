@@ -44,7 +44,15 @@ const config = {
         {
             version: "1.5",
             schema: "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json"
-        }    
+				},
+				{
+					version: "1.6",
+					schema: "https://developer.microsoft.com/en-us/json-schemas/teams/v1.6/MicrosoftTeams.schema.json"
+				},
+				{
+					version: "1.7",
+					schema: "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json"
+				}    
     ],
     // This is the name of the packaged manifest file
     manifestFileName: "Learn MSTeams Tabs.zip"
