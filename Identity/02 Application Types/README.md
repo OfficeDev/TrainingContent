@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Single Page Applications](https://docs.microsoft.com/learn/modules/identity-application-types/3-exercise-single-page-applications)
 
-    > In this exercise, you’ll learn how to create and configure a single-page application that will use an Azure AD application to issue an authenticated request to Microsoft Graph using the OAuth 2.0 implicit grant flow.
+   > In this exercise, you’ll learn how to create and configure a single-page application that will use an Azure AD application to issue an authenticated request to Microsoft Graph using the OAuth 2.0 implicit grant flow.
 
 1. [Exercise - Web apps that sign in users & call APIs](https://docs.microsoft.com/learn/modules/identity-application-types/5-exercise-web-apps-call-apis)
 
-    > In this exercise, you'll learn how to a create server-side web app that allow a user to sign in and grant the app permissions to act on the user's behalf. Once the user has authenticated and granted the app consent to act on their behalf, the web application will use data returned from Microsoft Graph by using the OAuth 2.0 auth code grant flow.
+   > In this exercise, you'll learn how to a create server-side web app that allow a user to sign in and grant the app permissions to act on the user's behalf. Once the user has authenticated and granted the app consent to act on their behalf, the web application will use data returned from Microsoft Graph by using the OAuth 2.0 auth code grant flow.
 
 1. [Exercise - Daemon and non-interactive apps](https://docs.microsoft.com/learn/modules/identity-application-types/7-exercise-daemon-non-interactive-apps)
 
-    > In this exercise, you’ll learn how to create apps that obtain tokens without user interaction to perform tasks as the app’s identity.
+   > In this exercise, you’ll learn how to create apps that obtain tokens without user interaction to perform tasks as the app’s identity.
 
 ## Demos
 
@@ -32,20 +32,21 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                                                    Author(s)                                                     |
+| Roles                | Author(s)                                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](https://www.voitanos.io)) [@andrewconnell](//github.com/andrewconnell) |
-| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor) |
+| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor)                                 |
 | Sponsor / Support    | Kyle Marsh (Microsoft) [@kylemar](//github.com/kylemar)                                                          |
 
 ## Version history
 
-| Version |       Date        |         Comments         |
-| ------- | ----------------- | ------------------------ |
+| Version | Date              | Comments                                         |
+| ------- | ----------------- | ------------------------------------------------ |
+| 1.4     | September 7, 2020 | FY2021Q1 content refresh                         |
 | 1.3     | August 17, 2020   | Incorporate Microsoft.Identity.Web NuGet package |
-| 1.2     | May 26, 2020      | FY2020Q4 content refresh |
-| 1.1     | March 10, 2020    | FY2020Q3 content refresh |
-| 1.0     | December 16, 2019 | New module published     |
+| 1.2     | May 26, 2020      | FY2020Q4 content refresh                         |
+| 1.1     | March 10, 2020    | FY2020Q3 content refresh                         |
+| 1.0     | December 16, 2019 | New module published                             |
 
 ## Disclaimer
 

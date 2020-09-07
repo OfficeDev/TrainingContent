@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using _02_webapp.Models;
+using IdentityWeb.Models;
 
-namespace _02_webapp.Controllers
+namespace IdentityWeb.Controllers
 {
     [Authorize]
     public class HomeController : Controller
