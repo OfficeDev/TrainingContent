@@ -5,9 +5,9 @@ import * as morgan from "morgan";
 import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
 import * as compression from "compression";
-
 import { BotFrameworkAdapter } from "botbuilder";
 import { PlanetBot } from "./planetBot/planetBot";
+
 
 // Initialize debug logging module
 const log = debug("msteams");

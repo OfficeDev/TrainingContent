@@ -1,6 +1,6 @@
 {
-  "name": "messageingext",
-  "version": "0.0.1",
+  "name": "messagingext",
+  "version": "1.0.0",
   "description": "Generate a Microsoft Teams application.",
   "scripts": {
     "start": "node dist/server.js",
@@ -8,7 +8,7 @@
     "debug": "gulp serve --debug"
   },
   "dependencies": {
-    "@microsoft/teams-js": "1.6.0",
+    "@microsoft/teams-js": "^1.7.0",
     "axios": "^0.19.2",
     "botbuilder": "4.7.1",
     "botbuilder-dialogs": "4.7.1",
@@ -16,16 +16,16 @@
     "debug": "4.1.1",
     "dotenv": "8.2.0",
     "express": "4.16.4",
-    "express-msteams-host": "1.6.0",
+    "express-msteams-host": "1.6.2",
     "express-session": "1.15.6",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "morgan": "1.9.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.2",
     "@types/express": "4.16.0",
     "@types/express-session": "1.15.10",
-    "@types/lodash": "^4.14.150",
+    "@types/lodash": "^4.14.161",
     "@types/morgan": "1.7.35",
     "autoprefixer": "^9.5.1",
     "browser-sync": "^2.26.5",
@@ -46,7 +46,7 @@
     "nodemon": "1.19.0",
     "plugin-error": "1.0.1",
     "plumber": "^0.4.8",
-    "ts-loader": "5.3.3",
+    "ts-loader": "7.0.1",
     "tslint": "^5.11.0",
     "tslint-loader": "^3.6.0",
     "tslint-webpack-plugin": "^1.2.2",
