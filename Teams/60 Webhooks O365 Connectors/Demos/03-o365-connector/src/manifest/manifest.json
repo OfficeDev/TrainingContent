@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.5",
-  "id": "f5db9d80-9160-11ea-a8bd-d7217e95ba8a",
-  "version": "0.0.1",
-  "packageName": "myfirstteamsconnector",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.7",
+  "id": "{{APPLICATION_ID}}",
+  "version": "1.0.2",
+  "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
     "websiteUrl": "https://{{HOSTNAME}}",
@@ -26,7 +26,7 @@
   "connectors": [
     {
       "connectorId": "{{CONNECTOR_ID}}",
-      "configurationUrl": "https://{{HOSTNAME}}/myFirstTeamsConnector/config.html",
+      "configurationUrl": "https://{{HOSTNAME}}/myFirstTeamsConnector/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "scopes": [
         "team"
       ]
@@ -38,5 +38,6 @@
   ],
   "validDomains": [
     "{{HOSTNAME}}"
-  ]
+  ],
+  "showLoadingIndicator": false
 }
