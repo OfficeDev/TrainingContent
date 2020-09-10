@@ -8,8 +8,8 @@ import {
   ThemePrepared,
   themes,
   Input
-} from "@fluentui/react";
-import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
+} from "@fluentui/react-northstar";
+import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 /**
  * State for the youTubePlayer1TabTab React component
@@ -23,7 +23,7 @@ export interface IYouTubePlayer1TabState extends ITeamsBaseComponentState {
 /**
  * Properties for the youTubePlayer1TabTab React component
  */
-export interface IYouTubePlayer1TabProps extends ITeamsBaseComponentProps {
+export interface IYouTubePlayer1TabProps {
 
 }
 
@@ -32,16 +32,18 @@ export interface IYouTubePlayer1TabProps extends ITeamsBaseComponentProps {
  */
 export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProps, IYouTubePlayer1TabState> {
 
-  public componentWillMount() {
+
+  public async componentWillMount() {
     this.updateComponentTheme(this.getQueryVariable("theme"));
     this.setState(Object.assign({}, this.state, {
       youTubeVideoId: "VlEH4vtaxp4"
     }));
 
-    if (this.inTeams()) {
+    if (await this.inTeams()) {
       microsoftTeams.initialize();
       microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
       microsoftTeams.getContext((context) => {
+        microsoftTeams.appInitialization.notifySuccess();
         this.setState({
           entityId: context.entityId
         });
@@ -72,6 +74,14 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     );
   }
 
+  private appRoot(): string {
+    if (typeof window === "undefined") {
+      return "https://{{HOSTNAME}}";
+    } else {
+      return window.location.protocol + "//" + window.location.host;
+    }
+  }
+
   private onShowVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const taskModuleInfo = {
       title: "YouTube Player",
@@ -81,7 +91,6 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     };
     microsoftTeams.tasks.startTask(taskModuleInfo);
   }
-
   private onChangeVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const taskModuleInfo = {
       title: "YouTube Video Selector",
@@ -97,14 +106,6 @@ export class YouTubePlayer1Tab extends TeamsBaseComponent<IYouTubePlayer1TabProp
     };
 
     microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
-  }
-
-  private appRoot(): string {
-    if (typeof window === "undefined") {
-      return "https://{{HOSTNAME}}";
-    } else {
-      return window.location.protocol + "//" + window.location.host;
-    }
   }
 
   private updateComponentTheme = (teamsTheme: string = "default"): void => {

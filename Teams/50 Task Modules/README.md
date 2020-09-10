@@ -42,11 +42,12 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version | Date              | Comments                 |
-| ------- | ----------------- | ------------------------ |
-| 1.2     | May 8, 2020       | FY2020Q4 content refresh |
-| 1.1     | March 10, 2020    | FY2020Q3 content refresh |
-| 1.0     | December 16, 2019 | New module published     |
+| Version | Date               | Comments                 |
+| ------- | ------------------ | ------------------------ |
+| 1.3     | September 10, 2020 | FY2021Q1 content refresh |
+| 1.2     | May 8, 2020        | FY2020Q4 content refresh |
+| 1.1     | March 10, 2020     | FY2020Q3 content refresh |
+| 1.0     | December 16, 2019  | New module published     |
 
 ## Disclaimer
 

@@ -44,7 +44,7 @@ export class LearningTeamsBot extends TeamsActivityHandler {
             {
               type: "invoke",
               title: "Watch Specific Video",
-              value: { type: "task/fetch", taskModule: "selector", videoId: "VlEH4vtaxp4" }
+              value: { type: "task/fetch", taskModule: "selector", videoId: "QHPBw7F4OL4" }
             }
           ]);
           await context.sendActivity({ attachments: [card] });
@@ -53,19 +53,21 @@ export class LearningTeamsBot extends TeamsActivityHandler {
       await next();
     });
   }
-
-  private async mentionActivity(context: TurnContext) {
-    const mention = {
-      mentioned: context.activity.from,
-      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
-      type: 'mention'
-    };
-
-    const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
-    replyActivity.entities = [mention];
-    await context.sendActivity(replyActivity);
+  protected handleTeamsTaskModuleSubmit(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
+    const response: TaskModuleResponse = {
+      task: {
+        type: "continue",
+        value: {
+          title: "YouTube Player",
+          url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.youTubeVideoId}`,
+          width: 1000,
+          height: 700
+        } as TaskModuleTaskInfo
+      }
+    } as TaskModuleResponse;
+    return Promise.resolve(response);
   }
-
+  
   protected handleTeamsTaskModuleFetch(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
     let response: TaskModuleResponse;
 
@@ -109,24 +111,9 @@ export class LearningTeamsBot extends TeamsActivityHandler {
           }
         } as TaskModuleResponse);
         break;
-    };
+    }
 
     console.log("handleTeamsTaskModuleFetch() response", response);
-    return Promise.resolve(response);
-  }
-
-  protected handleTeamsTaskModuleSubmit(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
-    const response: TaskModuleResponse = {
-      task: {
-        type: "continue",
-        value: {
-          title: "YouTube Player",
-          url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.youTubeVideoId}`,
-          width: 1000,
-          height: 700
-        } as TaskModuleTaskInfo
-      }
-    } as TaskModuleResponse;
     return Promise.resolve(response);
   }
 
@@ -171,4 +158,15 @@ export class LearningTeamsBot extends TeamsActivityHandler {
     });
   }
 
+  private async mentionActivity(context: TurnContext) {
+    const mention = {
+      mentioned: context.activity.from,
+      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
+      type: "mention"
+    };
+
+    const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
+    replyActivity.entities = [mention];
+    await context.sendActivity(replyActivity);
+  }
 }
