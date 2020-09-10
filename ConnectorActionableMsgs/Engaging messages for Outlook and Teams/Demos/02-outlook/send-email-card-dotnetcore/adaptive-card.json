@@ -48,7 +48,7 @@
           "type": "Action.Http",
           "method": "POST",
           "title": "Submit Feedback",
-          "url": "https://REPLACE-WITH-YOUR-SUBDOMAIN.ngrok.io/api/card",
+          "url": "https://0c2d814531cf.ngrok.io/api/card",
           "headers": [
             {
               "name": "content-type",

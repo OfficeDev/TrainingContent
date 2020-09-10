@@ -134,5 +134,4 @@ express.post('/api/card', (request: Express.Request, response: Express.Response,
       response.end();
     }
   );
-
 });

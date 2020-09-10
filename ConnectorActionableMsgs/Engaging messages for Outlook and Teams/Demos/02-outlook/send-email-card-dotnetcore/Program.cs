@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security;
-using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.Graph;
 using Microsoft.Extensions.Configuration;
 using Helpers;
+using System;
+using System.Threading.Tasks;
 
 namespace sendemailcard
 {
@@ -13,6 +13,8 @@ namespace sendemailcard
   {
     static void Main(string[] args)
     {
+      Console.WriteLine("Hello World!");
+
       var config = LoadAppSettings();
       if (config == null)
       {
@@ -27,40 +29,7 @@ namespace sendemailcard
 
       SendEmail(client, userName).Wait();
       Console.WriteLine("\nEmail sent.");
-    }
-
-    private static async Task SendEmail(GraphServiceClient client, string email){
-      // create email
-      Message emailMessage = new Message()
-      {
-        Subject = "Webinar followup feedback request",
-        ToRecipients = new List<Recipient>() {
-          new Recipient() {
-            EmailAddress = new EmailAddress() { Address = email}
-          }
-        },
-        Body = new ItemBody()
-        {
-          ContentType = BodyType.Html,
-          Content = LoadCardMessageBody()
-        }
-      };
-
-      // send email
-      await client.Me.SendMail(emailMessage, true).Request().PostAsync();
-    }
-
-    private static string LoadCardMessageBody()
-    {
-      // load message body
-      string messageBody = System.IO.File.ReadAllText(@"email-body.html");
-
-      // update
-      string cardJson = System.IO.File.ReadAllText(@"adaptive-card.json");
-
-      // merge card JSON into email message body
-
-      return string.Format(messageBody, cardJson);
+      
     }
 
     private static IConfigurationRoot LoadAppSettings()
@@ -86,6 +55,47 @@ namespace sendemailcard
       }
     }
 
+    private static async Task SendEmail(GraphServiceClient client, string email)
+    {
+      // create email
+      Message emailMessage = new Message()
+      {
+        Subject = "Webinar followup feedback request",
+        ToRecipients = new List<Recipient>() {
+      new Recipient() {
+        EmailAddress = new EmailAddress() { Address = email}
+      }
+    },
+        Body = new ItemBody()
+        {
+          ContentType = BodyType.Html,
+          Content = LoadCardMessageBody()
+        }
+      };
+
+      // send email
+      await client.Me.SendMail(emailMessage, true).Request().PostAsync();
+    }
+
+    private static string LoadCardMessageBody()
+    {
+      // load message body
+      string messageBody = System.IO.File.ReadAllText(@"email-body.html");
+
+      // load adaptive card
+      string cardJson = System.IO.File.ReadAllText(@"adaptive-card.json");
+
+      // merge card JSON into email message body
+      return string.Format(messageBody, cardJson);
+    }
+
+    private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config, string userName, SecureString userPassword)
+    {
+      var authenticationProvider = CreateAuthorizationProvider(config, userName, userPassword);
+      var graphClient = new GraphServiceClient(authenticationProvider);
+      return graphClient;
+    }
+
     private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config, string userName, SecureString userPassword)
     {
       var clientId = config["applicationId"];
@@ -97,16 +107,16 @@ namespace sendemailcard
 
       var cca = PublicClientApplicationBuilder.Create(clientId)
                                               .WithAuthority(authority)
-                                              .WithRedirectUri("https://login.microsoftonline.com/common/oauth2/nativeclient")
                                               .Build();
       return MsalAuthenticationProvider.GetInstance(cca, scopes.ToArray(), userName, userPassword);
     }
 
-    private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config, string userName, SecureString userPassword)
+    private static string ReadUsername()
     {
-      var authenticationProvider = CreateAuthorizationProvider(config, userName, userPassword);
-      var graphClient = new GraphServiceClient(authenticationProvider);
-      return graphClient;
+      string username;
+      Console.WriteLine("Enter your username");
+      username = Console.ReadLine();
+      return username;
     }
 
     private static SecureString ReadPassword()
@@ -126,14 +136,5 @@ namespace sendemailcard
       Console.WriteLine();
       return password;
     }
-
-    private static string ReadUsername()
-    {
-      string username;
-      Console.WriteLine("Enter your username");
-      username = Console.ReadLine();
-      return username;
-    }
-
   }
 }
