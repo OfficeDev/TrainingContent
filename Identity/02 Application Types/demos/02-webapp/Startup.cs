@@ -20,7 +20,7 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
 using Microsoft.Identity.Web.UI;
 
-namespace _02_webapp
+namespace IdentityWeb
 {
   public class Startup
   {
@@ -45,8 +45,8 @@ namespace _02_webapp
 
       services.AddOptions();
 
-      services.AddMicrosoftWebAppAuthentication(Configuration)
-              .AddMicrosoftWebAppCallsWebApi(Configuration, new string[] { "User.Read" })
+      services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
+              .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
               .AddInMemoryTokenCaches();
 
       services.AddControllersWithViews(options =>
