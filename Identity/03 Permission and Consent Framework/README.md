@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Understanding Permissions and the Consent Framework in the Microsoft identity Platform](https://docs.microsoft.com/learn/modules/identity-permissions-consent/3-exercise-understand-permissions-consent)
 
-    > In this exercise, you'll learn about the different types of permissions supported by the Microsoft identity platform and the consent experience that users and admins must go through to grant permission requests to apps.
+   > In this exercise, you'll learn about the different types of permissions supported by the Microsoft identity platform and the consent experience that users and admins must go through to grant permission requests to apps.
 
 1. [Exercise - Delegated Permissions and Consent](https://docs.microsoft.com/learn/modules/identity-permissions-consent/5-exercise-delegated-permissions-consent)
 
-    > In this exercise, you'll learn how to request delegated permissions and enable users to grant them to applications with either static or dynamic consent.
+   > In this exercise, you'll learn how to request delegated permissions and enable users to grant them to applications with either static or dynamic consent.
 
 1. [Exercise - Application Permissions and Consent](https://docs.microsoft.com/learn/modules/identity-permissions-consent/7-exercise-application-permissions-consent)
 
-    > In this exercise, you'll learn about application permissions, how to define them and how to grant them using a different type of consent flow in your apps.
+   > In this exercise, you'll learn about application permissions, how to define them and how to grant them using a different type of consent flow in your apps.
 
 ## Demos
 
@@ -32,16 +32,17 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-|        Roles         |                                                    Author(s)                                                     |
+| Roles                | Author(s)                                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](https://www.voitanos.io)) [@andrewconnell](//github.com/andrewconnell) |
-| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor) |
+| QA                   | Rob Windsor (Microsoft MVP, PAIT Group) [@rob-windsor](//github.com/rob-windsor)                                 |
 | Sponsor / Support    | Kyle Marsh (Microsoft) [@kylemar](//github.com/kylemar)                                                          |
 
 ## Version history
 
-| Version |       Date        |         Comments         |
+| Version | Date              | Comments                 |
 | ------- | ----------------- | ------------------------ |
+| 1.3     | September 7, 2020 | FY2021Q1 content refresh |
 | 1.2     | May 26, 2020      | FY2020Q4 content refresh |
 | 1.1     | March 10, 2020    | FY2020Q3 content refresh |
 | 1.0     | December 16, 2019 | New module published     |
