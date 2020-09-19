@@ -24,10 +24,7 @@ namespace ProductCatalog.Controllers
 
     public List<Category> GetAllCategories()
     {
-      if (!HttpContext.User.IsInRole("access_as_application"))
-      {
-        HttpContext.VerifyUserHasAnyAcceptedScope(new string[] { "Category.Read" });
-      }
+      HttpContext.VerifyUserHasAnyAcceptedScope(new string[] { "Category.Read" });
       return data.Categories;
     }
 

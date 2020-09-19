@@ -45,8 +45,8 @@ namespace ProductCatalogWeb
 
       services.AddOptions();
 
-      services.AddMicrosoftWebAppAuthentication(Configuration)
-        .AddMicrosoftWebAppCallsWebApi(Configuration, Constants.ProductCatalogAPI.SCOPES)
+      services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
+        .EnableTokenAcquisitionToCallDownstreamApi(Constants.ProductCatalogAPI.SCOPES)
         .AddInMemoryTokenCaches();
 
       services.AddControllersWithViews(options =>
