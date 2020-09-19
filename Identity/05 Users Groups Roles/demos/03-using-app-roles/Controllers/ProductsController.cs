@@ -49,6 +49,6 @@ namespace UserGroupRole.Controllers
         return RedirectToAction("Index");
       }
       return View(model);
-    }    
+    }
   }
 }
