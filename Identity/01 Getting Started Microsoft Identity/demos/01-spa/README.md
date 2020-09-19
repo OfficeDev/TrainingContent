@@ -5,7 +5,7 @@ This completed project is the result of the lab exercise **Different types of to
 ## Prerequisites
 
 - Office 365 Tenancy
-- [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download)
+- [Node.js](https://nodejs.org/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Run this Completed Project

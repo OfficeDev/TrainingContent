@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-_02_aspnetcore_singleorg-94F9B8A0-36D2-43C9-992D-ED12A20399A4</UserSecretsId>
+    <UserSecretsId>aspnet-_03_aspnetcode_b2b-C75BBE4A-DF96-4FE0-AB78-0DC7BA43E0FE</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
-    <RootNamespace>_02_aspnetcore_singleorg</RootNamespace>
+    <RootNamespace>_03_aspnetcode_b2b</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

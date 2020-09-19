@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace _03_aspnetcore_b2b
+namespace _03_aspnetcode_b2b
 {
     public class Program
     {
