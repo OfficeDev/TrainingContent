@@ -10,15 +10,15 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Create and test Adaptive Cards with the online designer](https://docs.microsoft.com/learn/modules/adaptive-cards-create-engaging-messages/3-exercise-online-designer)
 
-    In this exercise, you’ll learn how to create and test Adaptive Cards with the online designer.
+   In this exercise, you’ll learn how to create and test Adaptive Cards with the online designer.
 
 1. [Exercise - Create Actionable Messages for Outlook with Adaptive Cards](https://docs.microsoft.com/learn/modules/adaptive-cards-create-engaging-messages/5-exercise-outlook-actionable-messages)
 
-    In this exercise, you'll use Adaptive Cards to implement an engaging user experience with Outlook Actionable Messages.
+   In this exercise, you'll use Adaptive Cards to implement an engaging user experience with Outlook Actionable Messages.
 
 1. [Exercise - Create custom Microsoft Teams task modules with Adaptive Cards](https://docs.microsoft.com/learn/modules/adaptive-cards-create-engaging-messages/7-exercise-microsoft-teams)
 
-    In this exercise, you'll use Adaptive Cards to implement custom task modules in Microsoft Teams.
+   In this exercise, you'll use Adaptive Cards to implement custom task modules in Microsoft Teams.
 
 ## Demos
 
@@ -27,20 +27,21 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: *coming soon*
+This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
 
 ## Contributors
 
-|        Roles         |                                       Author(s)                                       |
+| Roles                | Author(s)                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
-| Sponsor / Support    | Matt Hidinger (Microsoft) [@matthidinger](//github.com/matthidinger)                             |
+| Sponsor / Support    | Matt Hidinger (Microsoft) [@matthidinger](//github.com/matthidinger)                  |
 
 ## Version history
 
-| Version |      Date      |       Comments       |
-| ------- | -------------- | -------------------- |
-| 1.0     | April 17, 2020 | New module published |
+| Version | Date               | Comments                 |
+| ------- | ------------------ | ------------------------ |
+| 1.1     | September 10, 2020 | FY2021Q1 content refresh |
+| 1.0     | April 17, 2020     | New module published     |
 
 ## Disclaimer
 

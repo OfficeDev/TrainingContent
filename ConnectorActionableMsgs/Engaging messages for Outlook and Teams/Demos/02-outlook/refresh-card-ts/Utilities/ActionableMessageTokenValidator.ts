@@ -76,4 +76,4 @@ class ActionableMessageTokenValidator {
 }
 
 export { ActionableMessageTokenValidator };
-export { ActionableMessageTokenValidatorResult };
+export { ActionableMessageTokenValidatorResult }

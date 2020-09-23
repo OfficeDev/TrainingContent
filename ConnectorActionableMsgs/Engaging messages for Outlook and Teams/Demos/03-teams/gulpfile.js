@@ -5,6 +5,8 @@
 // Load general config
 const config = require('./gulp.config');
 
+const package = require("./package.json");
+
 // NodeJS
 const fs = require('fs'),
     path = require('path');
@@ -40,11 +42,18 @@ const
     autoprefixer = require('autoprefixer'),
     log = require('fancy-log'),
     ZSchema = require('z-schema'),
-    request = require('request');
+    axios = require('axios');
 
 const webpack = require('webpack');
 
-require('dotenv').config();
+const env = argv["env"];
+if (env === undefined) {
+    require('dotenv').config();
+} else {
+    log(`Using custom .env`);
+    require('dotenv').config({ path: path.resolve(process.cwd(), env) });
+}
+process.env.VERSION = package.version;
 
 /**
  * Setting up environments
@@ -292,26 +301,25 @@ task('schema-validation', (callback) => {
             "$ref": requiredUrl
         };
 
-        request(requiredUrl, {
-            gzip: true
-        }, (err, res, body) => {
-            if (!err) {
-                validator.setRemoteReference(requiredUrl, JSON.parse(body));
+        axios.get(requiredUrl, {
+            decompress: true,
+            responseType: 'json'
+        }).then(response => {
+            validator.setRemoteReference(requiredUrl, response.data);
 
-                var valid = validator.validate(manifestJson, schema);
-                var errors = validator.getLastErrors();
-                if (!valid) {
-                    callback(new PluginError("validate-manifest", errors.map((e) => {
-                        return e.message;
-                    }).join('\n')));
-                } else {
-                    callback();
-                }
+            var valid = validator.validate(manifestJson, schema);
+            var errors = validator.getLastErrors();
+            if (!valid) {
+                callback(new PluginError("validate-manifest", errors.map((e) => {
+                    return e.message;
+                }).join('\n')));
             } else {
-                log.warn("WARNING: unable to download and validate schema: " + err.code);
                 callback();
             }
-        })
+        }).catch(err => {
+            log.warn("WARNING: unable to download and validate schema: " + err);
+            callback();
+        });
 
     } else {
         console.log('Manifest doesn\'t exist');

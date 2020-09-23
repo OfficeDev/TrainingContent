@@ -8,10 +8,9 @@ import {
   ThemePrepared,
   themes,
   Input
-} from "@fluentui/react";
-import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
+} from "@fluentui/react-northstar";
+import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-
 /**
  * State for the youTubePlayerTabTab React component
  */
@@ -24,7 +23,7 @@ export interface IYouTubePlayerTabState extends ITeamsBaseComponentState {
 /**
  * Properties for the youTubePlayerTabTab React component
  */
-export interface IYouTubePlayerTabProps extends ITeamsBaseComponentProps {
+export interface IYouTubePlayerTabProps {
 
 }
 
@@ -33,20 +32,17 @@ export interface IYouTubePlayerTabProps extends ITeamsBaseComponentProps {
  */
 export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps, IYouTubePlayerTabState> {
 
-  public componentWillMount() {
+  public async componentWillMount() {
     this.updateComponentTheme(this.getQueryVariable("theme"));
     this.setState(Object.assign({}, this.state, {
       youTubeVideoId: "jugBQqE_2sM"
     }));
 
-    this.setState({
-      fontSize: this.pageFontSize()
-    });
-
-    if (this.inTeams()) {
+    if (await this.inTeams()) {
       microsoftTeams.initialize();
       microsoftTeams.registerOnThemeChangeHandler(this.updateComponentTheme);
       microsoftTeams.getContext((context) => {
+        microsoftTeams.appInitialization.notifySuccess();
         this.setState({
           entityId: context.entityId
         });
@@ -75,14 +71,6 @@ export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps,
         </Flex>
       </Provider>
     );
-  }
-
-  private appRoot(): string {
-    if (typeof window === "undefined") {
-      return "https://{{HOSTNAME}}";
-    } else {
-      return window.location.protocol + "//" + window.location.host;
-    }
   }
 
   private onShowVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -125,6 +113,14 @@ export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps,
     microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
   }
 
+  private appRoot(): string {
+    if (typeof window === "undefined") {
+      return "https://{{HOSTNAME}}";
+    } else {
+      return window.location.protocol + "//" + window.location.host;
+    }
+  }
+
   private updateComponentTheme = (teamsTheme: string = "default"): void => {
     let theme: ThemePrepared;
 
@@ -147,4 +143,5 @@ export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps,
       teamsTheme: theme
     }));
   }
+
 }

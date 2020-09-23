@@ -46,7 +46,7 @@ In this exercise, you will copy an example card from the Message Card Playground
 
 ### Explore MessageCard playground
 
-1. In another browser tab or window, navigate to [MessageCard Playground](https://messagecardplayground.azurewebsites.net).
+1. In another browser tab or window, navigate to [Actionable Messages Designer](https://amdesigner.azurewebsites.net).
 
 1. The playground site provides for uploading a custom card definition or reviewing several samples. Use the **select a sample** dropdown to select a sample. This lab requires that the sample uses the **Legacy MessageCard samples** at the bottom of the dropdown.
 
