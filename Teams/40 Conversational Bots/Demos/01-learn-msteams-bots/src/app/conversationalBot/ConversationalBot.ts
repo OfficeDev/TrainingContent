@@ -1,19 +1,9 @@
 import { BotDeclaration, MessageExtensionDeclaration, PreventIframe } from "express-msteams-host";
 import * as debug from "debug";
 import { DialogSet, DialogState } from "botbuilder-dialogs";
-import {
-  StatePropertyAccessor,
-  CardFactory,
-  TurnContext,
-  MemoryStorage,
-  ConversationState,
-  ActivityTypes,
-  TeamsActivityHandler,
-  MessageFactory,
-} from 'botbuilder';
+import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory } from "botbuilder";
 import HelpDialog from "./dialogs/HelpDialog";
 import WelcomeCard from "./dialogs/WelcomeDialog";
-
 import * as Util from "util";
 const TextEncoder = Util.TextEncoder;
 
@@ -107,5 +97,4 @@ export class ConversationalBot extends TeamsActivityHandler {
     replyActivity.entities = [mention];
     await context.sendActivity(replyActivity);
   }
-
 }

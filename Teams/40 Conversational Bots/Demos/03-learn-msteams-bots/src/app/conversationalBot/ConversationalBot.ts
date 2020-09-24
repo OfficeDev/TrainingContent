@@ -9,19 +9,9 @@ import {
   Activity,
   BotFrameworkAdapter,
   ConversationReference,
-  ConversationResourceResponse,
-  StatePropertyAccessor,
-  CardFactory,
-  TurnContext,
-  MemoryStorage,
-  ConversationState,
-  ActivityTypes,
-  TeamsActivityHandler,
-  MessageFactory,
-} from 'botbuilder';
+  ConversationResourceResponse,StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory } from "botbuilder";
 import HelpDialog from "./dialogs/HelpDialog";
 import WelcomeCard from "./dialogs/WelcomeDialog";
-
 import * as Util from "util";
 const TextEncoder = Util.TextEncoder;
 
@@ -135,9 +125,8 @@ export class ConversationalBot extends TeamsActivityHandler {
               await context.sendActivity({ attachments: [card] });
               return;
             }
-            break;
           }
-
+          break;
         default:
           break;
       }
@@ -164,19 +153,7 @@ export class ConversationalBot extends TeamsActivityHandler {
           }
         });
       }
-    });;
-  }
-
-  private async handleMessageMentionMeOneOnOne(context: TurnContext): Promise<void> {
-    const mention = {
-      mentioned: context.activity.from,
-      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
-      type: "mention"
-    };
-
-    const replyActivity = MessageFactory.text(`Hi ${mention.text} from a 1:1 chat.`);
-    replyActivity.entities = [mention];
-    await context.sendActivity(replyActivity);
+    });
   }
 
   private async handleMessageMentionMeChannelConversation(context: TurnContext): Promise<void> {
@@ -190,6 +167,18 @@ export class ConversationalBot extends TeamsActivityHandler {
     replyActivity.entities = [mention];
     const followupActivity = MessageFactory.text(`*We are in a channel conversation*`);
     await context.sendActivities([replyActivity, followupActivity]);
+  }
+
+  private async handleMessageMentionMeOneOnOne(context: TurnContext): Promise<void> {
+    const mention = {
+      mentioned: context.activity.from,
+      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
+      type: "mention"
+    };
+
+    const replyActivity = MessageFactory.text(`Hi ${mention.text} from a 1:1 chat.`);
+    replyActivity.entities = [mention];
+    await context.sendActivity(replyActivity);
   }
 
   private async updateCardActivity(context): Promise<void> {

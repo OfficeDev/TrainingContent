@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.5",
-  "id": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
-  "version": "0.0.1",
-  "packageName": "conversationalbot",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.7",
+  "id": "e8aea9e0-f150-11ea-a894-a98448641ce9",
+  "version": "{{VERSION}}",
+  "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
     "websiteUrl": "https://{{HOSTNAME}}",
@@ -42,10 +42,6 @@
           ],
           "commands": [
             {
-              "title": "Help",
-              "description": "Shows help information"
-            },
-            {
               "title": "MentionMe",
               "description": "Sends message with @mention of the sender"
             }
@@ -62,5 +58,6 @@
   ],
   "validDomains": [
     "{{HOSTNAME}}"
-  ]
+  ],
+  "showLoadingIndicator": false
 }
