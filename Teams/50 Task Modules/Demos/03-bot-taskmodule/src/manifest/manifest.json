@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.5",
-  "id": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
-  "version": "0.0.1",
-  "packageName": "youtubeplayer",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.7",
+  "id": "17228f73-06f7-4e63-bcaa-5f2580dbd055",
+  "version": "{{VERSION}}",
+  "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
     "websiteUrl": "https://{{HOSTNAME}}",
@@ -26,9 +26,9 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "default-data",
+      "entityId": "627c4da0-7a4d-41d6-89fe-15d6869f456c",
       "name": "YouTube Player 1",
-      "contentUrl": "https://{{HOSTNAME}}/youTubePlayer1Tab/",
+      "contentUrl": "https://{{HOSTNAME}}/youTubePlayer1Tab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
         "personal"
       ]
@@ -36,7 +36,7 @@
   ],
   "bots": [
     {
-      "botId": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
+      "botId": "17228f73-06f7-4e63-bcaa-5f2580dbd055",
       "scopes": [
         "personal"
       ],
@@ -65,5 +65,6 @@
   ],
   "validDomains": [
     "{{HOSTNAME}}"
-  ]
+  ],
+  "showLoadingIndicator": false
 }

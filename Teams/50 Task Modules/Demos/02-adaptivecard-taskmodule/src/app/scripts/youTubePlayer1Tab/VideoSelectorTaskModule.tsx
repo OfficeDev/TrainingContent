@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react";
-import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
+import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react-northstar";
+import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 export interface IVideoSelectorTaskModuleState extends ITeamsBaseComponentState {
@@ -8,7 +8,7 @@ export interface IVideoSelectorTaskModuleState extends ITeamsBaseComponentState 
   youTubeVideoId?: string;
 }
 
-export interface IVideoSelectorTaskModuleProps extends ITeamsBaseComponentProps {
+export interface IVideoSelectorTaskModuleProps {
 }
 
 export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTaskModuleProps, IVideoSelectorTaskModuleState> {
@@ -28,7 +28,9 @@ export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTa
     return (
       <Provider theme={this.state.teamsTheme}>
         <Flex column gap="gap.smaller">
-          <Text size="medium">Enter the ID of a YouTube video to show in the task module player.</Text>
+          <Text size="medium">
+            Enter the ID of a YouTube video to show in the task module player.
+          </Text>
           <Input value={this.state.youTubeVideoId} onChange={this.handleOnChanged}></Input>
           <Button content="Update" primary onClick={this.handleOnClick}></Button>
         </Flex>

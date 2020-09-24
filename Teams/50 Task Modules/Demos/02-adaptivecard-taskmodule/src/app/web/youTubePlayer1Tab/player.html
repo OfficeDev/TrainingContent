@@ -21,24 +21,24 @@
 
 <body>
   <div id="embed-container"></div>
-  <script>
-    function getUrlParameter(name) {
-      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-      var results = regex.exec(location.search);
-      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    };
+<script>
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  };
 
-    var element = document.createElement("iframe");
-    element.src = "https://www.youtube.com/embed/" + getUrlParameter("vid");
-    element.width = "1000";
-    element.height = "700";
-    element.frameborder = "0";
-    element.allow = "autoplay; encrypted-media";
-    element.allowfullscreen = "";
+  var element = document.createElement("iframe");
+  element.src = "https://www.youtube.com/embed/" + getUrlParameter("vid");
+  element.width = "1000";
+  element.height = "700";
+  element.frameborder = "0";
+  element.allow = "autoplay; encrypted-media";
+  element.allowfullscreen = "";
 
-    document.getElementById("embed-container").appendChild(element);
-  </script>
+  document.getElementById("embed-container").appendChild(element);
+</script>
 </body>
 
 </html>

@@ -6,6 +6,6 @@
       "useAzureAppInsights": false
     },
     "libraryName": "youTubePlayer",
-    "generator-version": "2.11.1"
+    "generator-version": "2.15.0"
   }
 }
