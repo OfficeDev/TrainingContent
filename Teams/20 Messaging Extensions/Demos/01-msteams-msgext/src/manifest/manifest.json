@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.5",
-  "id": "5eb8f350-9064-11ea-b67a-6177d0a3ad9d",
-  "version": "0.0.1",
-  "packageName": "messageingext",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.7",
+  "id": "e166664c-a506-4801-a619-b937693bc25a",
+  "version": "{{VERSION}}",
+  "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
     "websiteUrl": "https://{{HOSTNAME}}",
@@ -29,7 +29,7 @@
   "connectors": [],
   "composeExtensions": [
     {
-      "botId": "f332cee9-06ba-4bea-acec-9f4d55d1d2a9",
+      "botId": "e166664c-a506-4801-a619-b937693bc25a",
       "canUpdateConfiguration": false,
       "commands": [
         {
@@ -52,5 +52,6 @@
   ],
   "validDomains": [
     "{{HOSTNAME}}"
-  ]
+  ],
+  "showLoadingIndicator": false
 }
