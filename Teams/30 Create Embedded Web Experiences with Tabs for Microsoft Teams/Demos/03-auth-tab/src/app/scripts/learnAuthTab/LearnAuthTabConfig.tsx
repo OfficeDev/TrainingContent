@@ -1,13 +1,13 @@
 import * as React from "react";
-import { Provider, Flex, Header, Input } from "@fluentui/react";
-import TeamsBaseComponent, { ITeamsBaseComponentProps, ITeamsBaseComponentState } from "msteams-react-base-component";
+import { Provider, Flex, Header, Input } from "@fluentui/react-northstar";
+import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 export interface ILearnAuthTabConfigState extends ITeamsBaseComponentState {
     value: string;
 }
 
-export interface ILearnAuthTabConfigProps extends ITeamsBaseComponentProps {
+export interface ILearnAuthTabConfigProps {
 
 }
 
@@ -16,10 +16,10 @@ export interface ILearnAuthTabConfigProps extends ITeamsBaseComponentProps {
  */
 export class LearnAuthTabConfig  extends TeamsBaseComponent<ILearnAuthTabConfigProps, ILearnAuthTabConfigState> {
 
-    public componentWillMount() {
+    public async componentWillMount() {
         this.updateTheme(this.getQueryVariable("theme"));
 
-        if (this.inTeams()) {
+        if (await this.inTeams()) {
             microsoftTeams.initialize();
 
             microsoftTeams.getContext((context: microsoftTeams.Context) => {
@@ -27,17 +27,18 @@ export class LearnAuthTabConfig  extends TeamsBaseComponent<ILearnAuthTabConfigP
                     value: context.entityId
                 });
                 this.updateTheme(context.theme);
-                this.setValidityState(true);
+                microsoftTeams.settings.setValidityState(true);
+                microsoftTeams.appInitialization.notifySuccess();
             });
 
             microsoftTeams.settings.registerOnSaveHandler((saveEvent: microsoftTeams.settings.SaveEvent) => {
                 // Calculate host dynamically to enable local debugging
                 const host = "https://" + window.location.host;
                 microsoftTeams.settings.setSettings({
-                    contentUrl: host + "/learnAuthTab/?data=",
-                    websiteUrl: host + "/learnAuthTab/?data=",
+                    contentUrl: host + "/learnAuthTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+                    websiteUrl: host + "/learnAuthTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
                     suggestedDisplayName: "LearnAuthTab",
-                    removeUrl: host + "/learnAuthTab/remove.html",
+                    removeUrl: host + "/learnAuthTab/remove.html?theme={theme}",
                     entityId: this.state.value
                 });
                 saveEvent.notifySuccess();

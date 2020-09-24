@@ -1,46 +1,118 @@
-# Demo: Create a custom Microsoft Teams channel tab
+# Learn MSTeams Tabs - Microsoft Teams App
 
-This completed project is the result of the lab exercise **Create a custom Microsoft Teams channel tab** that is referenced in the [README](./../../README.md) in this repo.
+Generate a Microsoft Teams application.
 
-## Prerequisites
+TODO: Add your documentation here
 
-Developing Microsoft Teams apps requires an Office 365 tenant, Microsoft Teams configured for development, and the necessary tools installed on your workstation.
+## Getting started with Microsoft Teams Apps development
 
-For the Office 365 tenant, follow the instructions on [Microsoft Teams: Prepare your Office 365 tenant](https://docs.microsoft.com/microsoftteams/platform/get-started/get-started-tenant) for obtaining a developer tenant if you do not currently have an Office 365 account and to enable Microsoft Teams for your organization.
+Head on over to [Microsoft Teams official documentation](https://developer.microsoft.com/en-us/microsoft-teams) to learn how to build Microsoft Teams Tabs or the [Microsoft Teams Yeoman generator Wiki](https://github.com/PnP/generator-teams/wiki) for details on how this solution is set up.
 
-In order to build custom apps for Microsoft Teams, you must configure Microsoft Teams to enable custom apps and allow custom apps to be uploaded to your tenant. Follow the instructions on the same **Prepare your Office 365 tenant** page mentioned above.
+## Project setup
 
-In this module, you will use Node.js to create custom Microsoft Teams tabs. The exercises in this module assume you have the following tools installed on your developer workstation.
+All required source code are located in the `./src` folder - split into two parts
 
-> [!IMPORTANT]
-> In most cases, installing the latest version of the following tools is the best option. The versions listed here were used when this module was published and last tested.
+* `app` for the application
+* `manifest` for the Microsoft Teams app manifest
 
-- [Node.js](https://nodejs.org/) - v10.\* (or higher)
-- NPM (installed with Node.js) - v6.\* (or higher)
-- [Gulp](https://gulpjs.com/) - v4.\* (or higher)
-- [Yeoman](https://yeoman.io/) - v3.\* (or higher)
-- [Yeoman Generator for Microsoft Teams](https://github.com/OfficeDev/generator-teams) - v2.\* (or higher)
-- [Visual Studio Code](https://code.visualstudio.com)
+For further details se the [Yo Teams wiki for the project structure](https://github.com/PnP/generator-teams/wiki/Project-Structure)
 
-If you do not have the minimum versions of these prerequisites installed on your workstation, follow the install instructions for each of these tools before proceeding with the exercise.
+## Building the app
 
-## Run this Completed Project
+The application is built using the `build` Gulp task.
 
-- Download the required dependencies for this project by executing the following command in the console:
+``` bash
+npm i -g gulp gulp-cli
+gulp build
+```
 
-    ```shell
-    npm install
-    ```
+## Building the manifest
 
-- Rename the file **.env.example** to **.env**. You do not need to edit any values in this file unless you have an existing ngrok license with a reserved subdomain name & auth key. These are only available to paid paid ngrok accounts, but it is not necessary to run the demo.
-- Download the required dependencies for this project by executing the following command in the console:
+To create the Microsoft Teams Apps manifest, run the `manifest` Gulp task. This will generate and validate the package and finally create the package (a zip file) in the `package` folder. The manifest will be validated against the schema and dynamically populated with values from the `.env` file.
 
-    ```shell
-    gulp ngrok-serve
-    ```
+``` bash
+gulp manifest
+```
 
-- In a browser, navigate to **https://teams.microsoft.com** and sign in with the credentials of a Work and School account.
-- Using the app bar navigation menu, select the **Mode added apps** button. Then select **Browse all apps** followed by **Upload for me or my teams**.
-- In the file dialog that appears, select the Microsoft Teams package in your project. This app package is a ZIP file that can be found in the project's **./package** folder.
-- Select the **Add** button to install the app. This will add a new personal tab to your **More added apps** dialog.
-- Select the app to navigate to the new tab.
+## Configuration
+
+Configuration is stored in the `.env` file. 
+
+## Debug and test locally
+
+To debug and test the solution locally you use the `serve` Gulp task. This will first build the app and then start a local web server on port 3007, where you can test your Tabs, Bots or other extensions. Also this command will rebuild the App if you change any file in the `/src` directory.
+
+``` bash
+gulp serve
+```
+
+To debug the code you can append the argument `debug` to the `serve` command as follows. This allows you to step through your code using your preferred code editor.
+
+``` bash
+gulp serve --debug
+```
+
+To step through code in Visual Studio Code you need to add the following snippet in the `./.vscode/launch.json` file. Once done, you can easily attach to the node process after running the `gulp server --debug` command.
+
+``` json
+{
+    "type": "node",
+    "request": "attach",
+    "name": "Attach",
+    "port": 5858,
+    "sourceMaps": true,
+    "outFiles": [
+        "${workspaceRoot}/dist/**/*.js"
+    ],
+    "remoteRoot": "${workspaceRoot}/src/"
+},
+```
+
+### Using ngrok for local development and hosting
+
+In order to make development locally a great experience it is recommended to use [ngrok](https://ngrok.io), which allows you to publish the localhost on a public DNS, so that you can consume the bot and the other resources in Microsoft Teams. 
+
+To use ngrok, it is recommended to use the `gulp ngrok-serve` command, which will read your ngrok settings from the `.env` file and automatically create a correct manifest file and finally start a local development server using the ngrok settings.
+
+### Additional build options
+
+You can use the following flags for the `serve`, `ngrok-serve` and build commands:
+
+* `--no-linting` - skips the linting of Typescript during build to improve build times
+* `--debug` - builds in debug mode
+
+## Deploying to Azure using Git
+
+If you want to deploy to Azure using Git follow these steps.
+
+This will automatically deploy your files to Azure, download the npm pacakges, build the solution and start the web server using Express.
+
+1. Log into [the Azure Portal](https://portal.azure.com)
+2. Create a new *Resource Group* or use an existing one
+3. Create a new *Web App* with Windows App Service Plan and give it the name of your tab, the same you used when asked for URL in the Yeoman generator. In your case https://learnmsteamstabs.azurewebsites.net.
+4. Add the following keys in the *Configuration* -> *Application Settings*; Name = `WEBSITE_NODE_DEFAULT_VERSION`, Value = `8.10.0` and Name = `SCM_COMMAND_IDLE_TIMEOUT`,  Value = `1800`. Click Save.
+5. Go to *Deployment Center*
+6. Choose *Local Git* as source and *App Service build service* as the Build Provider 
+7. Click on *Deployment Credentials* and store the App Credentials securely
+8. In your tab folder initialize a Git repository using `git init`
+9. Build the solution using `gulp build` to make sure you don't have any errors
+10. Commit all your files using `git add -A && git commit -m "Initial commit"`
+11. Run the following command to set up the remote repository: `git remote add azure https://<username>@learnmsteamstabs.scm.azurewebsites.net:443/learnmsteamstabs.git`. You need to replace <username> with the username of the App Credentials you retrieved in _Deployment Credentials_. You can also copy the URL from *Options* in the Azure Web App.
+12. To push your code use to Azure use the following command: `git push azure master`, you will be asked for your credentials the first time, insert the Password for the App Credential. Note that you should update the Azure Web Site application setting before pushing the code as the settings are needed when building the application.
+13. Wait until the deployment is completed and navigate to https://learnmsteamstabs.azurewebsites.net/privacy.html to test that the web application is running
+14. Done
+15. Repeat step 11 for every commit you do and want to deploy
+
+> NOTE: The `.env` file is excluded from source control and will not be pushed to the web site so you need to ensure that all the settings present in the `.env` file are added as application settings to your Azure Web site (except the `PORT` variable which is used for local debugging).
+
+## Logging
+
+To enable logging for the solution you need to add `msteams` to the `DEBUG` environment variable. See the [debug package](https://www.npmjs.com/package/debug) for more information. By default this setting is turned on in the `.env` file.
+
+Example for Windows command line:
+
+``` bash
+SET DEBUG=msteams
+```
+
+If you are using Microsoft Azure to host your Microsoft Teams app, then you can add `DEBUG` as an Application Setting with the value of `msteams`.
