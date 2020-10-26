@@ -10,7 +10,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Exercise - Single Page Applications](https://docs.microsoft.com/learn/modules/identity-application-types/3-exercise-single-page-applications)
 
-   > In this exercise, you’ll learn how to create and configure a single-page application that will use an Azure AD application to issue an authenticated request to Microsoft Graph using the OAuth 2.0 implicit grant flow.
+   > In this exercise, you’ll learn how to create and configure a single-page application that will use an Azure AD application to issue an authenticated request to Microsoft Graph using the OAuth 2.0 authorization code flow.
 
 1. [Exercise - Web apps that sign in users & call APIs](https://docs.microsoft.com/learn/modules/identity-application-types/5-exercise-web-apps-call-apis)
 
@@ -40,13 +40,14 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version | Date              | Comments                                         |
-| ------- | ----------------- | ------------------------------------------------ |
-| 1.4     | September 7, 2020 | FY2021Q1 content refresh                         |
-| 1.3     | August 17, 2020   | Incorporate Microsoft.Identity.Web NuGet package |
-| 1.2     | May 26, 2020      | FY2020Q4 content refresh                         |
-| 1.1     | March 10, 2020    | FY2020Q3 content refresh                         |
-| 1.0     | December 16, 2019 | New module published                             |
+| Version | Date              | Comments                                                    |
+| ------- | ----------------- | ----------------------------------------------------------- |
+| 1.5     | October 26, 2020  | Replace SPA implicit flow with auth code flow in MSAL.js v2 |
+| 1.4     | September 7, 2020 | FY2021Q1 content refresh                                    |
+| 1.3     | August 17, 2020   | Incorporate Microsoft.Identity.Web NuGet package            |
+| 1.2     | May 26, 2020      | FY2020Q4 content refresh                                    |
+| 1.1     | March 10, 2020    | FY2020Q3 content refresh                                    |
+| 1.0     | December 16, 2019 | New module published                                        |
 
 ## Disclaimer
 
