@@ -1,6 +1,6 @@
 using System;
 
-namespace _03_aspnetcode_b2b.Models
+namespace TopologyOptions.Models
 {
     public class ErrorViewModel
     {

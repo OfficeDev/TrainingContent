@@ -9,7 +9,7 @@ Licensed under the MIT license.
 <head>
   <title>Getting Started with Microsoft identity</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.7.2/bluebird.min.js"></script>
-  <script src="https://alcdn.msauth.net/browser/2.1.0/js/msal-browser.js"></script>
+  <script src="https://alcdn.msauth.net/browser/2.6.0/js/msal-browser.js"></script>
 </head>
 
 <body>
@@ -34,7 +34,7 @@ Licensed under the MIT license.
       auth: {
         clientId: '',
         authority: '',
-        redirectURI: 'http://localhost:3007'
+        redirectURI: 'http://localhost:3007/'
       },
       cache: {
         cacheLocation: "localStorage",
@@ -147,7 +147,6 @@ Licensed under the MIT license.
 
       msalApplication.logout(logoutRequest);
     }
-
     // TODO: add FUNCTIONS before this line
   </script>
 </body>

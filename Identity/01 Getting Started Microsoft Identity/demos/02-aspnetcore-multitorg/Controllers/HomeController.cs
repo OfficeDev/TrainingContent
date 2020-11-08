@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using _02_aspnetcore_multitorg.Models;
+using AccountTypesMultiOrg.Models;
 
-namespace _02_aspnetcore_multitorg.Controllers
+namespace AccountTypesMultiOrg.Controllers
 {
     [Authorize]
     public class HomeController : Controller

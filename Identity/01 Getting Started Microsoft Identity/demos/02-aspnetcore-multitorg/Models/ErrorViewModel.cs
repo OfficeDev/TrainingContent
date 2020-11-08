@@ -1,6 +1,6 @@
 using System;
 
-namespace _02_aspnetcore_multitorg.Models
+namespace AccountTypesMultiOrg.Models
 {
     public class ErrorViewModel
     {

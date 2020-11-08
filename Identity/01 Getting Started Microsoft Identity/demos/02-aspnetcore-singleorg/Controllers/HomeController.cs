@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using _02_aspnetcore_singleorg.Models;
+using AccountTypesSingleOrg.Models;
 
-namespace _02_aspnetcore_singleorg.Controllers
+namespace AccountTypesSingleOrg.Controllers
 {
     [Authorize]
     public class HomeController : Controller

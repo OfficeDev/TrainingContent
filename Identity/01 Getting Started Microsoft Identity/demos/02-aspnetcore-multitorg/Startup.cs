@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
-namespace _02_aspnetcore_multitorg
+namespace AccountTypesMultiOrg
 {
     public class Startup
     {
