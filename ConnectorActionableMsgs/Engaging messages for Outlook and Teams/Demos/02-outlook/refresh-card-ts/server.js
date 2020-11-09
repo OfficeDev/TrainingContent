@@ -51,7 +51,7 @@ express.post('/api/card', (request, response, callback) => {
         response.status(401);
         response.end();
         return;
-    }
+    } 
     // validate the token sender & parse if valid
     const validator = new Validator.ActionableMessageTokenValidator();
     validator.validateToken(token, `https://${HOSTNAME}`, (error, result) => {
@@ -61,9 +61,9 @@ express.post('/api/card', (request, response, callback) => {
             response.status(401).send(error.message);
             response.end();
             return;
-        }
+        }  
         // while token is valid, verify it was sent from the allowed senders & an allowed domain
-        if (((_a = result.sender) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== ALLOWED_SENDER || !((_b = result.actionPerformer) === null || _b === void 0 ? void 0 : _b.toLowerCase().endsWith(ACTION_PERFORMER_DOMAIN))) {
+        if (((_a = result.sender) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== ALLOWED_SENDER.toLowerCase() || !((_b = result.actionPerformer) === null || _b === void 0 ? void 0 : _b.toLowerCase().endsWith(ACTION_PERFORMER_DOMAIN))) {            
             response.set('CARD-ACTION-STATUS', 'Invalid sender or the action performer is not allowed.');
             response.status(403);
             response.end();
