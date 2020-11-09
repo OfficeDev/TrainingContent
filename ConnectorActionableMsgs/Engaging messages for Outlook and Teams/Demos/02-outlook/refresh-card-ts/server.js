@@ -88,8 +88,7 @@ express.post('/api/card', (request, response, callback) => {
         feedbackResponse.name = result.sender;
         feedback.push(feedbackResponse);
         // create data structure for Adaptive Card
-        let cardData = new ACData.EvaluationContext();
-        cardData.$root = {
+        let cardData = {
             average_rating: feedback
                 .map((feedbackReply) => {
                 return feedbackReply.rating;
@@ -104,7 +103,9 @@ express.post('/api/card', (request, response, callback) => {
         let cardSource = require('./response-card.json');
         const cardTemplate = new ACData.Template(cardSource);
         // generate the Adaptive Card response by merging the template with the data
-        const cardExpanded = cardTemplate.expand(cardData);
+        const cardExpanded = cardTemplate.expand({
+            $root : cardData
+        });
         // respond to Outlook with the refresh card source
         response.set('CARD-ACTION-STATUS', 'The webinar feedback was received.');
         response.set('CARD-UPDATE-IN-BODY', 'true');
