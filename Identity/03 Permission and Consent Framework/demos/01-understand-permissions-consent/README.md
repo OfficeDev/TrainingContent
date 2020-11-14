@@ -4,7 +4,7 @@ This completed project is the result of the lab exercise **Understanding Permiss
 
 ## Prerequisites
 
-- Office 365 Tenancy
+- [Microsoft 365 tenant](https://developer.microsoft.com/office/dev-program?ocid=MSlearn)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Node.js](https://nodejs.org/)
 

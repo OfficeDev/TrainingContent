@@ -4,7 +4,7 @@ This completed project is the result of the lab exercise **Delegated Permissions
 
 ## Prerequisites
 
-- Office 365 Tenancy
+- [Microsoft 365 tenant](https://developer.microsoft.com/office/dev-program?ocid=MSlearn)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Node.js](https://nodejs.org/)
 
@@ -14,4 +14,4 @@ This completed project is the result of the lab exercise **Delegated Permissions
   - applicationId
   - directoryId
 - Update the properties in the **[index.html](./web/index.html)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.
