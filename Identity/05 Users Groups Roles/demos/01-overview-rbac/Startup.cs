@@ -46,11 +46,10 @@ namespace UserGroupRole
       services.AddOptions();
 
       services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
-
       services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
-      {
-        options.Authority = options.Authority + "/v2.0/";
-      });
+        {
+          options.Authority = options.Authority + "/v2.0/";
+        });
 
       services.AddControllersWithViews(options =>
       {
