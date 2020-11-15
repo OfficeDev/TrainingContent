@@ -1,6 +1,6 @@
-# Demo: Create a custom web API that is secured with Microsoft identity
+# Demo: Create and secure a web API with Microsoft identity
 
-This completed project is the result of the lab exercise **Create a custom web API that is secured with Microsoft identity** that is referenced in the [README](../../README.md) in this repo.
+This completed project is the result of the lab exercise **Create and secure a web API with Microsoft identity** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 
@@ -15,4 +15,4 @@ This completed project is the result of the lab exercise **Create a custom web A
   - TenantId
   - ClientId
 - Update the properties in the **[appsettings.json](./appsettings.json)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.

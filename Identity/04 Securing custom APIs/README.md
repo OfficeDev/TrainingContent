@@ -16,7 +16,7 @@ The lab for this module is available in multiple units within the associated Mic
 
    > In this exercise, you’ll learn how to create server-side web apps that enable users to sign in and grant the app permissions to act on the user’s behalf. Once the user has authenticated and granted the app consent to act on their behalf, the web application will use data returned from a secure web API by using the OAuth 2.0 auth code grant flow.
 
-1. [Exercise - Create a custom daemon app that calls a custom web API secured with Microsoft identity](https://docs.microsoft.com/en-us/learn/modules/identity-secure-custom-api/7-exercise-call-secured-apis-daemon-apps)
+1. [Exercise - Leverage app roles to secure custom APIs](https://docs.microsoft.com/en-us/learn/modules/identity-secure-custom-api/7-exercise-call-secured-apis-daemon-apps)
 
    > In this exercise, you'll learn how to add app roles (application permission) to an Azure AD Application registration and consume a secured API from a daemon application.
 
@@ -24,11 +24,11 @@ The lab for this module is available in multiple units within the associated Mic
 
 1. [Create a custom web API that is secured with Microsoft identity](./demos/01-product-catalog-webapi-app)
 1. [Call secured APIs from web applications](./demos/02-call-webapi-from-webapp)
-1. [Create a custom daemon app that calls a custom web API secured with Microsoft identity](./demos/03-add-app-roles-to-webapi)
+1. [Leverage app roles to secure custom APIs](./demos/03-add-app-roles-to-webapi)
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
+This module has been recorded and is available in the Office Development YouTube channel: [Microsoft identity - Secure custom APIs with Microsoft Identity](https://www.youtube.com/watch?v=gXb6t3gjnOA)
 
 ## Contributors
 
@@ -42,6 +42,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version | Date              | Comments                                         |
 | ------- | ----------------- | ------------------------------------------------ |
+| 1.4     | November 27, 2020 | FY2021Q1 content refresh                         |
 | 1.3     | September 7, 2020 | FY2021Q1 content refresh                         |
 | 1.2     | August 17, 2020   | Incorporate Microsoft.Identity.Web NuGet package |
 | 1.1     | May 26, 2019      | FY2020Q4 content refresh                         |

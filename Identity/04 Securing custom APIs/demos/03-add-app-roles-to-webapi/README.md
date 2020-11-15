@@ -1,6 +1,6 @@
-# Demo: Create a custom daemon app that calls a custom web API secured with Microsoft identity
+# Demo: Leverage app roles to secure custom APIs
 
-This completed project is the result of the lab exercise **Create a custom daemon app that calls a custom web API secured with Microsoft identity** that is referenced in the [README](../../README.md) in this repo.
+This completed project is the result of the lab exercise **Leverage app roles to secure custom APIs** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 
@@ -15,4 +15,4 @@ This completed project is the result of the lab exercise **Create a custom daemo
   - ClientId
   - ClientSecret
 - Update the properties in the **[appsettings.json](./appsettings.json)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.
