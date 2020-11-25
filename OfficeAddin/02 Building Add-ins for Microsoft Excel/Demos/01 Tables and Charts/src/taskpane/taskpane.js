@@ -3,6 +3,11 @@
  * See LICENSE in the project root for license information.
  */
 
+// images references in the manifest
+import "../../assets/icon-16.png";
+import "../../assets/icon-32.png";
+import "../../assets/icon-80.png";
+
 /* global console, document, Excel, Office */
 
 Office.onReady(info => {
@@ -118,10 +123,10 @@ function createChart() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }

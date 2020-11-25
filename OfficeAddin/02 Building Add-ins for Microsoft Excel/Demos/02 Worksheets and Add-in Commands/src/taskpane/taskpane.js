@@ -3,6 +3,11 @@
  * See LICENSE in the project root for license information.
  */
 
+// images references in the manifest
+import "../../assets/icon-16.png";
+import "../../assets/icon-32.png";
+import "../../assets/icon-80.png";
+
 /* global console, document, Excel, Office */
 
 Office.onReady(info => {
@@ -130,41 +135,15 @@ function createChart() {
 function freezeHeader() {
   Excel.run(function (context) {
 
-    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-    currentWorksheet.freezePanes.freezeRows(1);
+var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+currentWorksheet.freezePanes.freezeRows(1);
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
-}
-
-function toggleProtection(args) {
-  Excel.run(function (context) {
-    var sheet = context.workbook.worksheets.getActiveWorksheet();
-    sheet.load('protection/protected');
-
-    return context.sync()
-      .then(
-        function () {
-          if (sheet.protection.protected) {
-            sheet.protection.unprotect();
-          } else {
-            sheet.protection.protect();
-          }
-        }
-      )
-      .then(context.sync);
-  })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
-  args.completed();
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }

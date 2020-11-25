@@ -34,14 +34,15 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-| Roles                | Author(s)                                                                             |
-| -------------------- | ------------------------------------------------------------------------------------- |
-| Lab Manuals / Slides | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
+| Roles                | Author(s)                                                                                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Lab Manuals / Slides | Andrew Connell (Microsoft MVP, [Voitanos](//github.com/voitanos)) [@andrewconnell](//github.com/andrewconnell) |
 
 ## Version history
 
 | Version | Date              | Comments                                           |
 | ------- | ----------------- | -------------------------------------------------- |
+| 1.12    | November 25, 2020 | 2021Q2 content refresh                             |
 | 1.11    | September 1, 2020 | 2021Q1 content refresh                             |
 | 1.10    | May 1, 2020       | 2020Q4 content refresh                             |
 | 1.9     | April 6, 2020     | FY2020Q3 content refresh & port module to MS Learn |
