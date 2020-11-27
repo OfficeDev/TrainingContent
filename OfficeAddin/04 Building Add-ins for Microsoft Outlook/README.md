@@ -4,21 +4,21 @@ Microsoft Office clients enable developers to create add-ins that extend Microso
 
 In this module, you'll learn how to build an Outlook add-in that will render buttons in the compose message window, implement a button that invokes a function, and implement a task pane that inserts content into the body of a message.
 
-> This module is also published as a Microsoft Learn module: [Build Office Add-ins for Outlook](https://docs.microsoft.com/learn/modules/office-add-in-outlook).
+> This module is also published as a Microsoft Learn module: [Build Office Add-ins for Outlook](https://docs.microsoft.com/learn/modules/office-add-ins-outlook).
 
 ## Lab
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-- [Exercise - Mail add-in basics](https://docs.microsoft.com/learn/modules/office-add-in-outlook/3-exercise-mail-basics)
+- [Exercise - Mail add-in basics](https://docs.microsoft.com/learn/modules/office-add-ins-outlook/3-exercise-mail-basics)
 
   In this exercise, you'll learn how to create your first Outlook add-in project and load it in the Outlook client.
 
-- [Exercise - Add buttons and commands](https://docs.microsoft.com/learn/modules/office-add-in-outlook/5-exercise-commands-dialogs)
+- [Exercise - Add buttons and commands](https://docs.microsoft.com/learn/modules/office-add-ins-outlook/5-exercise-commands-dialogs)
 
   In this exercise, you'll add additional functionality to the add-in you created in a previous exercise. You'll create two new buttons that insert a specific gist or a default gist into a message. You'll also implement a first-run experience, prompting the user for their credentials to authenticate with GitHub to retrieve your gists.
 
-- [Exercise - Add task panes to Outlook add-ins](https://docs.microsoft.com/learn/modules/office-add-in-outlook/7-exercise-task-pane)
+- [Exercise - Add task panes to Outlook add-ins](https://docs.microsoft.com/learn/modules/office-add-ins-outlook/7-exercise-task-pane)
 
   Task panes are useful in Outlook add-ins when you want to present the user with multiple choices or implement a user interface. In this exercise, you'll add a task pane experience to your existing Outlook add-in.
 
