@@ -4,21 +4,21 @@ Microsoft Office clients enable developers to create add-ins that extend Microso
 
 In this module, you'll learn how to build a Word add-in that inserts (and replaces) text ranges, paragraphs, images, HTML, tables, and content controls. You'll also learn how to format text and how to insert (and replace) content in content controls.
 
-> This module is also published as a Microsoft Learn module: [Build Office Add-ins for Word](https://docs.microsoft.com/learn/modules/office-add-in-word)
+> This module is also published as a Microsoft Learn module: [Build Office Add-ins for Word](https://docs.microsoft.com/learn/modules/office-add-ins-word)
 
 ## Lab - Build Office Add-ins for Word
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-- [Exercise - Insert and format a range of text](https://docs.microsoft.com/learn/modules/office-add-in-word/3-exercise-text-formatting)
+- [Exercise - Insert and format a range of text](https://docs.microsoft.com/learn/modules/office-add-ins-word/3-exercise-text-formatting)
 
   In this exercise, you'll build a Word add-in that inserts text ranges and paragraphs and format this text.
 
-- [Exercise - Insert and replace images, HTML, and tables](https://docs.microsoft.com/learn/modules/office-add-in-word/5-exercise-images-tables)
+- [Exercise - Insert and replace images, HTML, and tables](https://docs.microsoft.com/learn/modules/office-add-ins-word/5-exercise-images-tables)
 
   In this exercise, you'll update the add-in you created in a previous exercise to add images, HTML, and tables to a Word document.
 
-- [Exercise - Create content controls and replace content](https://docs.microsoft.com/learn/modules/office-add-in-word/7-exercise-content-controls)
+- [Exercise - Create content controls and replace content](https://docs.microsoft.com/learn/modules/office-add-ins-word/7-exercise-content-controls)
 
   In this exercise, you'll learn how to create rich text content controls in the document, and then how to insert and replace content in the controls.
 
