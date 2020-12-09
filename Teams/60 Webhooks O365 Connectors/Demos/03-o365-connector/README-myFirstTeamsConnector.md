@@ -26,4 +26,4 @@ All Connectors has to be registered in the [Connectors Developer Dashboard](http
 For the Connector you will have two generated end-points, defined in `./src/server.ts`.
 
 * `/api/connector/connect` - this is the end-point that is connected to the `Connect` method of the Connector implementation and is used when registering a Connector. 
-* `/api/connector/ping` - this is a test end-point to demonstrate how to invoke the Connector using a simple HTTP GET operation. It is highly recommended that you remove this end-point and implement your own logic for incvoking the connector.
+* `/api/connector/ping` - this is a test end-point to demonstrate how to invoke the Connector using a simple HTTP GET operation. It is highly recommended that you remove this end-point and implement your own logic for invoking the connector.

@@ -10,6 +10,54 @@ import { find, sortBy } from "lodash";
 @OutgoingWebhookDeclaration("/api/webhook")
 export class TeamsWebhooksOutgoingWebhook implements IOutgoingWebhook {
 
+  /**
+   * The constructor
+   */
+  public constructor() {
+  }
+
+  /**
+   * Implement your outgoing webhook logic here
+   * @param req the Request
+   * @param res the Response
+   * @param next
+   */
+  public requestHandler(req: express.Request, res: express.Response, next: express.NextFunction) {
+    // parse the incoming message
+    const incoming = req.body as builder.Activity;
+
+    // create the response, any Teams compatible responses can be used
+    let message: Partial<builder.Activity> = {
+      type: builder.ActivityTypes.Message
+    };
+
+    const securityToken = process.env.SECURITY_TOKEN;
+    if (securityToken && securityToken.length > 0) {
+      // There is a configured security token
+      const auth = req.headers.authorization;
+      const msgBuf = Buffer.from((req as any).rawBody, "utf8");
+      const msgHash = "HMAC " + crypto.
+        createHmac("sha256", Buffer.from(securityToken as string, "base64")).
+        update(msgBuf).
+        digest("base64");
+
+      if (msgHash === auth) {
+        // Message was ok and verified
+        const scrubbedText = TeamsWebhooksOutgoingWebhook.scrubMessage(incoming.text)
+        message = TeamsWebhooksOutgoingWebhook.processAuthenticatedRequest(scrubbedText);
+      } else {
+        // Message could not be verified
+        message.text = `Error: message sender cannot be verified`;
+      }
+    } else {
+      // There is no configured security token
+      message.text = `Error: outgoing webhook is not configured with a security token`;
+    }
+
+    // send the message
+    res.send(JSON.stringify(message));
+  }
+
   private static getPlanetDetailCard(selectedPlanet: any): builder.Attachment {
 
     // load display card
@@ -59,53 +107,5 @@ export class TeamsWebhooksOutgoingWebhook implements IOutgoingWebhook {
       .slice(incomingText.lastIndexOf(">") + 1, incomingText.length)
       .replace("&nbsp;", "");
     return cleanMessage;
-  }
-
-  /**
-   * The constructor
-   */
-  public constructor() {
-  }
-
-  /**
-   * Implement your outgoing webhook logic here
-   * @param req the Request
-   * @param res the Response
-   * @param next
-   */
-  public requestHandler(req: express.Request, res: express.Response, next: express.NextFunction) {
-    // parse the incoming message
-    const incoming = req.body as builder.Activity;
-
-    // create the response, any Teams compatible responses can be used
-    let message: Partial<builder.Activity> = {
-      type: builder.ActivityTypes.Message
-    };
-
-    const securityToken = process.env.SECURITY_TOKEN;
-    if (securityToken && securityToken.length > 0) {
-      // There is a configured security token
-      const auth = req.headers.authorization;
-      const msgBuf = Buffer.from((req as any).rawBody, "utf8");
-      const msgHash = "HMAC " + crypto.
-        createHmac("sha256", Buffer.from(securityToken as string, "base64")).
-        update(msgBuf).
-        digest("base64");
-
-      if (msgHash === auth) {
-        // Message was ok and verified
-        const scrubbedText = TeamsWebhooksOutgoingWebhook.scrubMessage(incoming.text)
-        message = TeamsWebhooksOutgoingWebhook.processAuthenticatedRequest(scrubbedText);
-      } else {
-        // Message could not be verified
-        message.text = `Error: message sender cannot be verified`;
-      }
-    } else {
-      // There is no configured security token
-      message.text = `Error: outgoing webhook is not configured with a security token`;
-    }
-
-    // send the message
-    res.send(JSON.stringify(message));
   }
 }

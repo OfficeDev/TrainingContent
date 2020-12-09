@@ -6,6 +6,6 @@
       "useAzureAppInsights": false
     },
     "libraryName": "teamsWebhooks",
-    "generator-version": "2.15.0"
+    "generator-version": "2.16.0"
   }
 }
