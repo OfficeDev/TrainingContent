@@ -29,9 +29,9 @@ const port = process.env.port || process.env.PORT || 3007;
 
 // Inject the raw request body onto the request object
 express.use(Express.json({
-    verify: (req, res, buf: Buffer, encoding: string): void => {
-        (req as any).rawBody = buf.toString();
-    }
+  verify: (req, res, buf: Buffer, encoding: string): void => {
+    (req as any).rawBody = buf.toString();
+  }
 }));
 express.use(Express.urlencoded({ extended: true }));
 
@@ -55,13 +55,13 @@ express.use(MsTeamsApiRouter(allComponents));
 // routing for pages for tabs and connector configuration
 // For more information see: https://www.npmjs.com/package/express-msteams-host
 express.use(MsTeamsPageRouter({
-    root: path.join(__dirname, "web/"),
-    components: allComponents
+  root: path.join(__dirname, "web/"),
+  components: allComponents
 }));
 
 // Set default web page
 express.use("/", Express.static(path.join(__dirname, "web/"), {
-    index: "index.html"
+  index: "index.html"
 }));
 
 // Set the port
@@ -69,7 +69,7 @@ express.set("port", port);
 
 // Start the webserver
 http.createServer(express).listen(port, () => {
-    log(`Server running on ${port}`);
+  log(`Server running on ${port}`);
 });
 
 // register and load the bot
