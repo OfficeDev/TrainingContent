@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, ThemePrepared, themes, Input } from "@fluentui/react-northstar";
+import {
+  Provider, Flex, Text, Button, Header, ThemePrepared, teamsTheme, teamsDarkTheme, teamsHighContrastTheme, Input
+} from "@fluentui/react-northstar";
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 
@@ -30,7 +32,7 @@ export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTa
         <Flex column gap="gap.smaller">
           <Text size="medium">
             Enter the ID of a YouTube video to show in the task module player.
-          </Text>
+    </Text>
           <Input value={this.state.youTubeVideoId} onChange={this.handleOnChanged}></Input>
           <Button content="Update" primary onClick={this.handleOnClick}></Button>
         </Flex>
@@ -48,21 +50,21 @@ export class VideoSelectorTaskModule extends TeamsBaseComponent<IVideoSelectorTa
     microsoftTeams.tasks.submitTask(this.state.youTubeVideoId, undefined);
   }
 
-  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+  private updateComponentTheme = (currentThemeName: string = "default"): void => {
     let theme: ThemePrepared;
 
-    switch (teamsTheme) {
+    switch (currentThemeName) {
       case "default":
-        theme = themes.teams;
+        theme = teamsTheme;
         break;
       case "dark":
-        theme = themes.teamsDark;
+        theme = teamsDarkTheme;
         break;
       case "contrast":
-        theme = themes.teamsHighContrast;
+        theme = teamsHighContrastTheme;
         break;
       default:
-        theme = themes.teams;
+        theme = teamsTheme;
         break;
     }
     // update the state
