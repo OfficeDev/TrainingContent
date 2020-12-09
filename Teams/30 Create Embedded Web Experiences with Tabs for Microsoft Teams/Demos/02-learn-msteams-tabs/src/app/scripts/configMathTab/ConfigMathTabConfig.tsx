@@ -5,7 +5,9 @@ import {
   Header,
   Input,
   ThemePrepared,
-  themes,
+  teamsTheme,
+  teamsDarkTheme,
+  teamsHighContrastTheme,
   DropdownProps,
   Dropdown
 } from "@fluentui/react-northstar";
@@ -13,6 +15,7 @@ import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base
 import * as microsoftTeams from "@microsoft/teams-js";
 
 export interface IConfigMathTabConfigState extends ITeamsBaseComponentState {
+  value: string;
   teamsTheme: ThemePrepared;
   mathOperator: string;
 }
@@ -73,31 +76,32 @@ export class ConfigMathTabConfig extends TeamsBaseComponent<IConfigMathTabConfig
     );
   }
 
-  private handleOnSelectedChange = (event, props: DropdownProps): void => {
-    this.setState(Object.assign({}, this.state, {
-      mathOperator: (props.value) ? props.value.toString() : "add"
-    }));
-  }
-  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+  private updateComponentTheme = (currentThemeName: string = "default"): void => {
     let componentTheme: ThemePrepared;
 
-    switch (teamsTheme) {
+    switch (currentThemeName) {
       case "default":
-        componentTheme = themes.teams;
+        componentTheme = teamsTheme;
         break;
       case "dark":
-        componentTheme = themes.teamsDark;
+        componentTheme = teamsDarkTheme;
         break;
       case "contrast":
-        componentTheme = themes.teamsHighContrast;
+        componentTheme = teamsHighContrastTheme;
         break;
       default:
-        componentTheme = themes.teams;
+        componentTheme = teamsTheme;
         break;
     }
     // update the state
     this.setState(Object.assign({}, this.state, {
       teamsTheme: componentTheme
+    }));
+  }
+
+  private handleOnSelectedChange = (event, props: DropdownProps): void => {
+    this.setState(Object.assign({}, this.state, {
+      mathOperator: (props.value) ? props.value.toString() : "add"
     }));
   }
 }
