@@ -1,10 +1,10 @@
-# Demo: Daemon and non-interactive apps
+# Demo: Application permissions and consent
 
-This completed project is the result of the lab exercise **Daemon and non-interactive apps** that is referenced in the [README](../../README.md) in this repo.
+This completed project is the result of the lab exercise **Application permissions and consent** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 
-- Office 365 Tenancy
+- [Microsoft 365 tenant](https://developer.microsoft.com/office/dev-program?ocid=MSlearn)
 - [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
@@ -17,4 +17,4 @@ This completed project is the result of the lab exercise **Daemon and non-intera
   - targetUserId
 - Rename the file **appsettings.json.example** to **appsettings.json**
 - Update the properties in the **[appsettings.json](./appsettings.json)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.
