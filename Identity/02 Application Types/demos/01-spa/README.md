@@ -1,6 +1,6 @@
-# Demo: Single Page Applications
+# Demo: Single-page Applications
 
-This completed project is the result of the lab exercise **Single Page Applications** that is referenced in the [README](../../README.md) in this repo.
+This completed project is the result of the lab exercise **Single-page Applications** that is referenced in the [README](../../README.md) in this repo.
 
 ## Prerequisites
 

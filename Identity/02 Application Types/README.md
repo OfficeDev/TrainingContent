@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: [Microsoft identity - Application types](https://www.youtube.com/watch?v=BpAP-4DsU40)
+This module has been recorded and is available in the Office Development YouTube channel: [Microsoft identity - Application types](https://youtu.be/D857bkuZXAw)
 
 ## Contributors
 
@@ -42,6 +42,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version | Date              | Comments                                                    |
 | ------- | ----------------- | ----------------------------------------------------------- |
+| 1.6     | November 27, 2020 | FY2021Q2 content refresh                                    |
 | 1.5     | October 26, 2020  | Replace SPA implicit flow with auth code flow in MSAL.js v2 |
 | 1.4     | September 7, 2020 | FY2021Q1 content refresh                                    |
 | 1.3     | August 17, 2020   | Incorporate Microsoft.Identity.Web NuGet package            |

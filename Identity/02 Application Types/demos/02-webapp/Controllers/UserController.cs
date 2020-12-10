@@ -12,30 +12,30 @@ using Microsoft.Identity.Web;
 namespace IdentityWeb.Controllers
 {
   [Authorize]
-public class UserController : Controller
-{
-  private readonly ILogger<UserController> _logger;
-  private readonly ITokenAcquisition _tokenAcquisition;
-
-  public UserController(ILogger<UserController> logger, ITokenAcquisition tokenAcquisition)
+  public class UserController : Controller
   {
-    _logger = logger;
-    _tokenAcquisition = tokenAcquisition;
-  }
+    private readonly ILogger<UserController> _logger;
+    private readonly ITokenAcquisition _tokenAcquisition;
 
-
-  [AuthorizeForScopes(Scopes = new[] { "User.Read" })]
-  public async Task<IActionResult> Index()
-  {
-    var graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (request) =>
+    public UserController(ILogger<UserController> logger, ITokenAcquisition tokenAcquisition)
     {
-      var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { "User.Read" });
-      request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-    }));
+      _logger = logger;
+      _tokenAcquisition = tokenAcquisition;
+    }
 
-    var user = await graphServiceClient.Me.Request().GetAsync();
 
-    return View(user);
+    [AuthorizeForScopes(Scopes = new[] { "User.Read" })]
+    public async Task<IActionResult> Index()
+    {
+      var graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (request) =>
+      {
+        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { "User.Read" });
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+      }));
+
+      var user = await graphServiceClient.Me.Request().GetAsync();
+
+      return View(user);
+    }
   }
-}
 }
