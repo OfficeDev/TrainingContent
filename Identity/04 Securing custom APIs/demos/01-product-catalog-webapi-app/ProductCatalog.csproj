@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-ProductCatalog-6E3F712E-0472-4BA4-9FED-4BE8E8E243B5</UserSecretsId>
+    <UserSecretsId>aspnet-ProductCatalog-9030DCBF-C270-4FFC-9DE0-81882C972FAD</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="30.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.6" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="0.3.1-preview" />
+    <PackageReference Include="Bogus" Version="31.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.3.0" />
   </ItemGroup>
 
 </Project>
