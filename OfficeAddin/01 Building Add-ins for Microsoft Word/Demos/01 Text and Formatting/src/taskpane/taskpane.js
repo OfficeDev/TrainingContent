@@ -3,6 +3,11 @@
  * See LICENSE in the project root for license information.
  */
 
+// images references in the manifest
+import "../../assets/icon-16.png";
+import "../../assets/icon-32.png";
+import "../../assets/icon-80.png";
+
 /* global document, Office, Word */
 
 Office.onReady(info => {

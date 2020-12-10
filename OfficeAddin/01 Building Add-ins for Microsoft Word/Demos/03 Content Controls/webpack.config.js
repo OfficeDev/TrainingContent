@@ -5,8 +5,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
 const webpack = require("webpack");
 
+const urlDev="https://localhost:3000/";
+const urlProd="https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+
 module.exports = async (env, options) => {
   const dev = options.mode === "development";
+  const buildType = dev ? "dev" : "prod";
   const config = {
     devtool: "source-map",
     entry: {
@@ -36,7 +40,10 @@ module.exports = async (env, options) => {
         },
         {
           test: /\.(png|jpg|jpeg|gif)$/,
-          use: "file-loader"
+          loader: "file-loader",
+          options: {
+            name: '[path][name].[ext]',          
+          }
         }
       ]
     },
@@ -47,12 +54,24 @@ module.exports = async (env, options) => {
         template: "./src/taskpane/taskpane.html",
         chunks: ["polyfill", "taskpane"]
       }),
-      new CopyWebpackPlugin([
+      new CopyWebpackPlugin({
+        patterns: [
         {
           to: "taskpane.css",
           from: "./src/taskpane/taskpane.css"
+        },
+        {
+          to: "[name]." + buildType + ".[ext]",
+          from: "manifest*.xml",
+          transform(content) {
+            if (dev) {
+              return content;
+            } else {
+              return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+            }
+          }
         }
-      ]),
+      ]}),
       new HtmlWebpackPlugin({
         filename: "commands.html",
         template: "./src/commands/commands.html",

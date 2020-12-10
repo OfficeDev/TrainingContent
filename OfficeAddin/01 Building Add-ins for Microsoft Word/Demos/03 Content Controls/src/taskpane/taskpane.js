@@ -3,9 +3,13 @@
  * See LICENSE in the project root for license information.
  */
 
-/* global document, Office, Word */
-
+// images references in the manifest
+import "../../assets/icon-16.png";
+import "../../assets/icon-32.png";
+import "../../assets/icon-80.png";
 import { base64Image } from "./base64Image";
+
+/* global document, Office, Word */
 
 Office.onReady(info => {
   if (info.host === Office.HostType.Word) {
@@ -111,7 +115,7 @@ function insertTextIntoRange() {
     originalRange.load("text");
     return context.sync()
       .then(function () {
-        doc.body.insertParagraph("Original range: " + originalRange.text, "End");
+        doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
       })
       .then(context.sync);
   })
@@ -149,7 +153,6 @@ function replaceText() {
     var doc = context.document;
     var originalRange = doc.getSelection();
     originalRange.insertText("many", "Replace");
-
     return context.sync();
   })
     .catch(function (error) {
@@ -192,14 +195,12 @@ function insertHTML() {
 function insertTable() {
   Word.run(function (context) {
     var secondParagraph = context.document.body.paragraphs.getFirst().getNext();
-
     var tableData = [
       ["Name", "ID", "Birth City"],
       ["Bob", "434", "Chicago"],
       ["Sue", "719", "Havana"],
     ];
     secondParagraph.insertTable(3, 3, "After", tableData);
-
     return context.sync();
   })
     .catch(function (error) {
@@ -229,16 +230,17 @@ function createContentControl() {
     });
 }
 
-    function replaceContentInControl() {
-      Word.run(function (context) {
-        var serviceNameContentControl = context.document.contentControls.getByTag("serviceName").getFirst();
-        serviceNameContentControl.insertText("Fabrikam Online Productivity Suite", "Replace");
-        return context.sync();
-      })
-      .catch(function (error) {
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-          console.log("Debug info: " + JSON.stringify(error.debugInfo));
-        }
-      });
-    }
+function replaceContentInControl() {
+  Word.run(function (context) {
+    var serviceNameContentControl = context.document.contentControls.getByTag("serviceName").getFirst();
+    serviceNameContentControl.insertText("Fabrikam Online Productivity Suite", "Replace");
+
+    return context.sync();
+  })
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
+}
