@@ -4,7 +4,6 @@
     .then(function () {
 
       document.getElementById("ok-button").onclick = sendStringToParentPage;
-
     });
 
   function sendStringToParentPage() {
