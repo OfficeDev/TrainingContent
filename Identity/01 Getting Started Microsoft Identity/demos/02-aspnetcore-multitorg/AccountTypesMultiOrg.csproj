@@ -2,13 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-_03_aspnetcode_b2b-C75BBE4A-DF96-4FE0-AB78-0DC7BA43E0FE</UserSecretsId>
+    <UserSecretsId>aspnet-AccountTypesMultiOrg-CE48A12D-4905-42E3-9815-512EE0687A75</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
-    <RootNamespace>_03_aspnetcode_b2b</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.8" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace _02_aspnetcore_singleorg
+namespace AccountTypesSingleOrg
 {
     public class Startup
     {

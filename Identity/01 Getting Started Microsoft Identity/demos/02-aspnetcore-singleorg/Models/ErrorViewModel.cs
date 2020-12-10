@@ -1,6 +1,6 @@
 using System;
 
-namespace _02_aspnetcore_singleorg.Models
+namespace AccountTypesSingleOrg.Models
 {
     public class ErrorViewModel
     {

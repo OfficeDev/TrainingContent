@@ -4,7 +4,7 @@ This completed project is the result of the lab exercise **Different types of to
 
 ## Prerequisites
 
-- Office 365 Tenancy
+- [Microsoft 365 tenant](https://developer.microsoft.com/office/dev-program?ocid=MSlearn)
 - [Node.js](https://nodejs.org/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
@@ -14,4 +14,4 @@ This completed project is the result of the lab exercise **Different types of to
   - applicationId
   - directoryId
 - Update the properties in the **[web/index.html](./web/index.html)** with the values you collected in the last step.
-- Build & run the application by following the instructions in the lab exercise associated with this demo.
+- Build and run the application by following the instructions in the lab exercise associated with this demo.
