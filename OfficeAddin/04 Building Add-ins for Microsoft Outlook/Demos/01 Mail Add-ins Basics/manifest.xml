@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
-  <Id>d4859ec0-99b1-449a-919b-607b8ca51b08</Id>
+  <Id>91c66dea-5377-439e-a3e7-af32435b9c2e</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Contoso</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
@@ -10,7 +10,7 @@
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
   <SupportUrl DefaultValue="https://www.contoso.com/help"/>
   <AppDomains>
-    <AppDomain>contoso.com</AppDomain>
+    <AppDomain>https://www.contoso.com</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -100,7 +100,7 @@
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane displaying all available properties."/>
-        <bt:String id="ActionButton.Tooltip" DefaultValue="Performs an action when clicked."/>
+        <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
