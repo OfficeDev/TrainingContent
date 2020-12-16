@@ -6,7 +6,9 @@ import {
   Button,
   Header,
   ThemePrepared,
-  themes,
+  teamsTheme,
+  teamsDarkTheme,
+  teamsHighContrastTheme,
   Input
 } from "@fluentui/react-northstar";
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
@@ -73,6 +75,29 @@ export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps,
     );
   }
 
+  private updateComponentTheme = (currentThemeName: string = "default"): void => {
+    let theme: ThemePrepared;
+
+    switch (currentThemeName) {
+      case "default":
+        theme = teamsTheme;
+        break;
+      case "dark":
+        theme = teamsDarkTheme;
+        break;
+      case "contrast":
+        theme = teamsHighContrastTheme;
+        break;
+      default:
+        theme = teamsTheme;
+        break;
+    }
+    // update the state
+    this.setState(Object.assign({}, this.state, {
+      teamsTheme: theme
+    }));
+  }
+
   private onShowVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const taskModuleInfo = {
       title: "YouTube Player",
@@ -82,7 +107,6 @@ export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps,
     };
     microsoftTeams.tasks.startTask(taskModuleInfo);
   }
-
   private onChangeVideo = (event: React.MouseEvent<HTMLButtonElement>): void => {
     // load adaptive card
     const adaptiveCard: any = require("./YouTubeSelectorCard.json");
@@ -96,7 +120,6 @@ export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps,
         });
       }
     });
-
     const taskModuleInfo = {
       title: "YouTube Video Selector",
       card: adaptiveCard,
@@ -112,36 +135,12 @@ export class YouTubePlayerTab extends TeamsBaseComponent<IYouTubePlayerTabProps,
 
     microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
   }
-
   private appRoot(): string {
     if (typeof window === "undefined") {
       return "https://{{HOSTNAME}}";
     } else {
       return window.location.protocol + "//" + window.location.host;
     }
-  }
-
-  private updateComponentTheme = (teamsTheme: string = "default"): void => {
-    let theme: ThemePrepared;
-
-    switch (teamsTheme) {
-      case "default":
-        theme = themes.teams;
-        break;
-      case "dark":
-        theme = themes.teamsDark;
-        break;
-      case "contrast":
-        theme = themes.teamsHighContrast;
-        break;
-      default:
-        theme = themes.teams;
-        break;
-    }
-    // update the state
-    this.setState(Object.assign({}, this.state, {
-      teamsTheme: theme
-    }));
   }
 
 }
