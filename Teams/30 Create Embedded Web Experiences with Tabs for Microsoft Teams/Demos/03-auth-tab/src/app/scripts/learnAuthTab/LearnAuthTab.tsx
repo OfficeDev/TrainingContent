@@ -6,7 +6,9 @@ import {
   Button,
   Header,
   ThemePrepared,
-  themes,
+  teamsTheme,
+  teamsDarkTheme,
+  teamsHighContrastTheme,
   List
 } from "@fluentui/react-northstar";
 import { EmailIcon } from "@fluentui/react-icons-northstar";
@@ -14,7 +16,6 @@ import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base
 import * as microsoftTeams from "@microsoft/teams-js";
 import * as MicrosoftGraphClient from "@microsoft/microsoft-graph-client";
 import * as MicrosoftGraph from "microsoft-graph";
-
 /**
  * State for the learnAuthTabTab React component
  */
@@ -22,7 +23,8 @@ export interface ILearnAuthTabState extends ITeamsBaseComponentState {
   entityId?: string;
   teamsTheme: ThemePrepared;
   accessToken: string;
-  messages: MicrosoftGraph.Message[];}
+  messages: MicrosoftGraph.Message[];
+}
 
 /**
  * Properties for the learnAuthTabTab React component
@@ -35,7 +37,6 @@ export interface ILearnAuthTabProps {
  * Implementation of the LearnAuthTab content page
  */
 export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnAuthTabState> {
-
   private msGraphClient: MicrosoftGraphClient.Client;
 
   constructor(props: ILearnAuthTabProps, state: ILearnAuthTabState) {
@@ -86,7 +87,7 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
    */
   public render() {
     return (
-      <Provider theme={themes.teams}>
+      <Provider theme={teamsTheme}>
         <Flex column gap="gap.small">
           <Header>Recent messages in current user's mailbox</Header>
           <Button primary
@@ -94,10 +95,10 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
             onClick={this.handleGetMyMessagesOnClick}></Button>
           <List selectable>
             {
-              this.state.messages.map(message => (
+              this.state.messages.map((message, i) => (
                 <List.Item media={<EmailIcon></EmailIcon>}
                   header={message.receivedDateTime}
-                  content={message.subject}>
+                  content={message.subject} index={i}>
                 </List.Item>
               ))
             }
@@ -105,6 +106,10 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
         </Flex>
       </Provider>
     );
+  }
+
+  private handleGetMyMessagesOnClick = async (event): Promise<void> => {
+    await this.getMessages();
   }
 
   private async getMessages(promptConsent: boolean = false): Promise<void> {
@@ -156,25 +161,21 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
     });
   }
 
-  private handleGetMyMessagesOnClick = async (event): Promise<void> => {
-    await this.getMessages();
-  }
-
-  private updateComponentTheme = (teamsTheme: string = "default"): void => {
+  private updateComponentTheme = (currentThemeName: string = "default"): void => {
     let componentTheme: ThemePrepared;
 
-    switch (teamsTheme) {
+    switch (currentThemeName) {
       case "default":
-        componentTheme = themes.teams;
+        componentTheme = teamsTheme;
         break;
       case "dark":
-        componentTheme = themes.teamsDark;
+        componentTheme = teamsDarkTheme;
         break;
       case "contrast":
-        componentTheme = themes.teamsHighContrast;
+        componentTheme = teamsHighContrastTheme;
         break;
       default:
-        componentTheme = themes.teams;
+        componentTheme = teamsTheme;
         break;
     }
     // update the state
@@ -182,4 +183,5 @@ export class LearnAuthTab extends TeamsBaseComponent<ILearnAuthTabProps, ILearnA
       teamsTheme: componentTheme
     }));
   }
+
 }

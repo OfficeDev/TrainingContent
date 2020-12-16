@@ -48,10 +48,14 @@ const config = {
     {
         version: "1.6",
         schema: "https://developer.microsoft.com/en-us/json-schemas/teams/v1.6/MicrosoftTeams.schema.json"
-    },
+    }    ,
     {
         version: "1.7",
         schema: "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json"
+    },
+    {
+        version: "1.8",
+        schema: "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json"
     }
     ],
     // This is the name of the packaged manifest file
