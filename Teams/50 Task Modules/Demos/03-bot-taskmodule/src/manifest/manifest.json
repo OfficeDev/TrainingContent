@@ -1,7 +1,7 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.7",
-  "id": "17228f73-06f7-4e63-bcaa-5f2580dbd055",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.8",
+  "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "627c4da0-7a4d-41d6-89fe-15d6869f456c",
+      "entityId": "062da4c9-2f83-4921-acd1-438387a0a573",
       "name": "YouTube Player 1",
       "contentUrl": "https://{{HOSTNAME}}/youTubePlayer1Tab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
@@ -36,7 +36,7 @@
   ],
   "bots": [
     {
-      "botId": "17228f73-06f7-4e63-bcaa-5f2580dbd055",
+      "botId": "52afacbe-b5d0-471a-a089-2df132973615",
       "scopes": [
         "personal"
       ],
@@ -66,5 +66,6 @@
   "validDomains": [
     "{{HOSTNAME}}"
   ],
-  "showLoadingIndicator": false
+  "showLoadingIndicator": false,
+  "isFullScreen": false
 }

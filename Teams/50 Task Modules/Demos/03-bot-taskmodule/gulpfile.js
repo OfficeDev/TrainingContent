@@ -162,14 +162,12 @@ const _webpack = (idx, callback) => {
         if (jsonStats.errors.length > 0) {
 
             jsonStats.errors.map(e => {
-                log('[Webpack error] ' + e);
+                log('[Webpack error] ' + e.message);
             });
-
-            throw new PluginError("webpack", "Webpack errors, see log");
         }
         if (jsonStats.warnings.length > 0) {
             jsonStats.warnings.map(function (e) {
-                log('[Webpack warning] ' + e);
+                log('[Webpack warning] ' + e.message);
             });
         }
         callback();
