@@ -5,6 +5,8 @@
 var webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 var TSLintPlugin = require('tslint-webpack-plugin');
+const nodeExternals = require("webpack-node-externals");
+
 
 var path = require('path');
 var fs = require('fs');
@@ -12,15 +14,6 @@ var argv = require('yargs').argv;
 
 var debug = argv.debug !== undefined;
 const lint = argv["linting"];
-
-var nodeModules = {};
-fs.readdirSync('node_modules')
-    .filter(function (x) {
-        return ['.bin'].indexOf(x) === -1;
-    })
-    .forEach(function (mod) {
-        nodeModules[mod] = 'commonjs ' + mod;
-    });
 
 var config = [{
         entry: {
@@ -34,7 +27,7 @@ var config = [{
             filename: '[name].js',
             devtoolModuleFilenameTemplate: debug ? '[absolute-resource-path]' : '[]'
         },
-        externals: nodeModules,
+        externals: [nodeExternals()],
         devtool: 'source-map',
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
@@ -86,7 +79,10 @@ var config = [{
                 },
                 {
                     test: /\.(eot|svg|ttf|woff|woff2)$/,
-                    loader: 'file-loader?name=public/fonts/[name].[ext]'
+                    loader: 'file-loader',
+                    options: {
+                        name: 'public/fonts/[name].[ext]'
+                    }
                 }
             ]
         },
