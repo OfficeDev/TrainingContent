@@ -1,8 +1,8 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.7",
-  "id": "e166664c-a506-4801-a619-b937693bc25a",
-  "version": "1.0.1",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.8",
+  "id": "{{APPLICATION_ID}}",
+  "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
@@ -29,7 +29,7 @@
   "connectors": [],
   "composeExtensions": [
     {
-      "botId": "e166664c-a506-4801-a619-b937693bc25a",
+      "botId": "52afacbe-b5d0-471a-a089-2df132973615",
       "canUpdateConfiguration": false,
       "commands": [
         {
@@ -69,5 +69,6 @@
   "validDomains": [
     "{{HOSTNAME}}"
   ],
-  "showLoadingIndicator": false
+  "showLoadingIndicator": false,
+  "isFullScreen": false
 }

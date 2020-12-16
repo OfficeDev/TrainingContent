@@ -5,8 +5,9 @@ import {
   CardFactory, MessagingExtensionAction, MessagingExtensionActionResponse, MessagingExtensionAttachment
 } from "botbuilder";
 import { find, sortBy } from "lodash";
-import * as Util from "util";
 
+import * as Util from "util";
+const TextEncoder = Util.TextEncoder;
 
 import * as debug from "debug";
 const log = debug("msteams");
