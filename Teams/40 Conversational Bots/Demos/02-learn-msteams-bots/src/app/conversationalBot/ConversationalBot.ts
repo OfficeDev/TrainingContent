@@ -1,4 +1,4 @@
-import { BotDeclaration, MessageExtensionDeclaration, PreventIframe } from "express-msteams-host";
+import { BotDeclaration } from "express-msteams-host";
 import * as debug from "debug";
 import { DialogSet, DialogState } from "botbuilder-dialogs";
 import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory } from "botbuilder";
@@ -109,6 +109,7 @@ export class ConversationalBot extends TeamsActivityHandler {
               return;
             }
           }
+
           break;
         default:
           break;
@@ -139,6 +140,18 @@ export class ConversationalBot extends TeamsActivityHandler {
     });
   }
 
+  private async handleMessageMentionMeOneOnOne(context: TurnContext): Promise<void> {
+    const mention = {
+      mentioned: context.activity.from,
+      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
+      type: "mention"
+    };
+
+    const replyActivity = MessageFactory.text(`Hi ${mention.text} from a 1:1 chat.`);
+    replyActivity.entities = [mention];
+    await context.sendActivity(replyActivity);
+  }
+
   private async handleMessageMentionMeChannelConversation(context: TurnContext): Promise<void> {
     const mention = {
       mentioned: context.activity.from,
@@ -150,18 +163,6 @@ export class ConversationalBot extends TeamsActivityHandler {
     replyActivity.entities = [mention];
     const followupActivity = MessageFactory.text(`*We are in a channel conversation*`);
     await context.sendActivities([replyActivity, followupActivity]);
-  }
-
-  private async handleMessageMentionMeOneOnOne(context: TurnContext): Promise<void> {
-    const mention = {
-      mentioned: context.activity.from,
-      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
-      type: "mention"
-    };
-
-    const replyActivity = MessageFactory.text(`Hi ${mention.text} from a 1:1 chat.`);
-    replyActivity.entities = [mention];
-    await context.sendActivity(replyActivity);
   }
 
   private async updateCardActivity(context): Promise<void> {
@@ -216,4 +217,5 @@ export class ConversationalBot extends TeamsActivityHandler {
   private async deleteCardActivity(context): Promise<void> {
     await context.deleteActivity(context.activity.replyToId);
   }
+
 }

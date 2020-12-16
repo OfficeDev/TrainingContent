@@ -1,4 +1,4 @@
-import { BotDeclaration, MessageExtensionDeclaration, PreventIframe } from "express-msteams-host";
+import { BotDeclaration } from "express-msteams-host";
 import * as debug from "debug";
 import { DialogSet, DialogState } from "botbuilder-dialogs";
 import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory } from "botbuilder";
@@ -54,7 +54,7 @@ export class ConversationalBot extends TeamsActivityHandler {
             const dc = await this.dialogs.createContext(context);
             await dc.beginDialog("help");
           } else {
-            await context.sendActivity(`I\'m terribly sorry, but my master hasn\'t trained me to do anything yet...`);
+            await context.sendActivity(`I\'m terribly sorry, but my developer hasn\'t trained me to do anything yet...`);
           }
           break;
         default:
@@ -83,7 +83,7 @@ export class ConversationalBot extends TeamsActivityHandler {
           text: `That was an interesting reaction (<b>${added[0].type}</b>)`
         });
       }
-    });;
+    });
   }
 
   private async handleMessageMentionMeOneOnOne(context: TurnContext): Promise<void> {
@@ -97,4 +97,5 @@ export class ConversationalBot extends TeamsActivityHandler {
     replyActivity.entities = [mention];
     await context.sendActivity(replyActivity);
   }
+
 }
