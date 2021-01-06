@@ -10,7 +10,7 @@
   "dependencies": {
     "@fluentui/react-northstar": "~0.51.0",
     "@microsoft/teams-js": "^1.8.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "botbuilder": "4.10.4",
     "botbuilder-dialogs": "4.10.4",
     "compression": "1.7.4",
