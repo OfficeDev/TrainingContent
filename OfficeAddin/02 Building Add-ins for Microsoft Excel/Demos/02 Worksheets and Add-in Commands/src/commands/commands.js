@@ -28,12 +28,13 @@ function action(event) {
 
 function toggleProtection(args) {
   Excel.run(function (context) {
-    var sheet = context.workbook.worksheets.getActiveWorksheet();
-    sheet.load('protection/protected');
 
+    var sheet = context.workbook.worksheets.getActiveWorksheet();
+
+    sheet.load('protection/protected');
     return context.sync()
       .then(
-        function () {
+        function() {
           if (sheet.protection.protected) {
             sheet.protection.unprotect();
           } else {
@@ -42,13 +43,15 @@ function toggleProtection(args) {
         }
       )
       .then(context.sync);
+
+    return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
   args.completed();
 }
 
@@ -56,10 +59,10 @@ function getGlobal() {
   return typeof self !== "undefined"
     ? self
     : typeof window !== "undefined"
-      ? window
-      : typeof global !== "undefined"
-        ? global
-        : undefined;
+    ? window
+    : typeof global !== "undefined"
+    ? global
+    : undefined;
 }
 
 const g = getGlobal();
