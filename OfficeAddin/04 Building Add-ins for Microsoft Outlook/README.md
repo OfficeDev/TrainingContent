@@ -42,6 +42,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version | Date              | Comments                                           |
 | ------- | ----------------- | -------------------------------------------------- |
+| 1.11    | February 26, 2020 | 2021Q3 content refresh                             |
 | 1.10    | November 25, 2020 | 2021Q2 content refresh                             |
 | 1.9     | September 1, 2020 | 2021Q1 content refresh                             |
 | 1.8     | May 1, 2020       | 2020Q4 content refresh                             |
