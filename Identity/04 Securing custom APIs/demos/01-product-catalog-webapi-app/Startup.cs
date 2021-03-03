@@ -10,12 +10,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 
 namespace ProductCatalog
 {
@@ -31,8 +32,14 @@ namespace ProductCatalog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductCatalog", Version = "v1" });
+            });
 
             services.AddSingleton(SampleData.Initialize());
         }
@@ -43,6 +50,8 @@ namespace ProductCatalog
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductCatalog v1"));
             }
 
             app.UseHttpsRedirection();

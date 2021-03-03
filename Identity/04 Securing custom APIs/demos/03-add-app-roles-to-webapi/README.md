@@ -5,7 +5,7 @@ This completed project is the result of the lab exercise **Leverage app roles to
 ## Prerequisites
 
 - [Microsoft 365 tenant](https://developer.microsoft.com/office/dev-program?ocid=MSlearn)
-- [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download)
+- [.NET 5 SDK](https://dotnet.microsoft.com/download)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Run this Completed Project
