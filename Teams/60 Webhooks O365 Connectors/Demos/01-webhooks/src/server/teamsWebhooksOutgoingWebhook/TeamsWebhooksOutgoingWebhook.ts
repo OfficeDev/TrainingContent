@@ -11,12 +11,6 @@ import { find, sortBy } from "lodash";
 export class TeamsWebhooksOutgoingWebhook implements IOutgoingWebhook {
 
   /**
-   * The constructor
-   */
-  public constructor() {
-  }
-
-  /**
    * Implement your outgoing webhook logic here
    * @param req the Request
    * @param res the Response
@@ -36,22 +30,22 @@ export class TeamsWebhooksOutgoingWebhook implements IOutgoingWebhook {
       // There is a configured security token
       const auth = req.headers.authorization;
       const msgBuf = Buffer.from((req as any).rawBody, "utf8");
-      const msgHash = "HMAC " + crypto.
-        createHmac("sha256", Buffer.from(securityToken as string, "base64")).
-        update(msgBuf).
-        digest("base64");
+      const msgHash = "HMAC " + crypto
+        .createHmac("sha256", Buffer.from(securityToken as string, "base64"))
+        .update(msgBuf)
+        .digest("base64");
 
       if (msgHash === auth) {
         // Message was ok and verified
-        const scrubbedText = TeamsWebhooksOutgoingWebhook.scrubMessage(incoming.text)
+        const scrubbedText = TeamsWebhooksOutgoingWebhook.scrubMessage(incoming.text);
         message = TeamsWebhooksOutgoingWebhook.processAuthenticatedRequest(scrubbedText);
       } else {
         // Message could not be verified
-        message.text = `Error: message sender cannot be verified`;
+        message.text = "Error: message sender cannot be verified";
       }
     } else {
       // There is no configured security token
-      message.text = `Error: outgoing webhook is not configured with a security token`;
+      message.text = "Error: outgoing webhook is not configured with a security token";
     }
 
     // send the message
@@ -72,9 +66,9 @@ export class TeamsWebhooksOutgoingWebhook implements IOutgoingWebhook {
     const cardDetails: any = find(cardBody.items, { id: "planetDetails" });
     cardDetails.columns[0].items[0].url = selectedPlanet.imageLink;
     find(cardDetails.columns[1].items[0].facts, { id: "orderFromSun" }).value = selectedPlanet.id;
-    find(cardDetails.columns[1].items[0].facts, { id: "planetNumSatellites" }).value = selectedPlanet.numSatellites;
-    find(cardDetails.columns[1].items[0].facts, { id: "solarOrbitYears" }).value = selectedPlanet.solarOrbitYears;
-    find(cardDetails.columns[1].items[0].facts, { id: "solarOrbitAvgDistanceKm" }).value = Number(selectedPlanet.solarOrbitAvgDistanceKm).toLocaleString();
+    find(cardDetails.columns[1].items[0].facts, { id: "planetNumSatellites" }).value = `${selectedPlanet.numSatellites}`;
+    find(cardDetails.columns[1].items[0].facts, { id: "solarOrbitYears" }).value = `${selectedPlanet.solarOrbitYears}`;
+    find(cardDetails.columns[1].items[0].facts, { id: "solarOrbitAvgDistanceKm" }).value = `${Number(selectedPlanet.solarOrbitAvgDistanceKm).toLocaleString()}`;
 
     // return the adaptive card
     return builder.CardFactory.adaptiveCard(adaptiveCardSource);
