@@ -1,0 +1,48 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.8",
+    "version": "1.0.0",
+    "id": "a0c11f3b-b328-4b6e-b708-ff9f09933e93",
+    "packageName": "com.microsoft.teams.extension",
+    "developer": {
+        "name": "Teams App, Inc.",
+        "websiteUrl": "https://example.azurewebsites.net",
+        "privacyUrl": "https://example.azurewebsites.net/privacy",
+        "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "My SSO Bot",
+        "full": "Conversation Bot"
+    },
+    "description": {
+        "short": "Short description for Conversation Bot.",
+        "full": "Full description of Conversation Bot."
+    },
+    "accentColor": "#FFFFFF",
+    "bots": [
+        {
+            "botId": "023adcaa-4fef-4a4d-a94a-0cde3a0c5b31",
+            "scopes": [
+                "personal"
+            ],
+            "supportsFiles": false,
+            "isNotificationOnly": false
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "token.botframework.com",
+        "*.ngrok.io"
+    ],
+    "webApplicationInfo": {
+        "id": "023adcaa-4fef-4a4d-a94a-0cde3a0c5b31",
+        "resource": "api://botid-023adcaa-4fef-4a4d-a94a-0cde3a0c5b31"
+    }
+}
