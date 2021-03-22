@@ -2,21 +2,21 @@
 
 Learn about the different authentication flows supported by Microsoft Teams that you can use in your custom apps, specifically single sign-on (SSO) with tabs and bots.
 
-> This module is also published as a Microsoft Learn module: [Authentication and Single Sign-on](https://docs.microsoft.com/learn/modules/msteams-auth-sso)
+> This module is also published as a Microsoft Learn module: [Authentication and Single Sign-on](https://docs.microsoft.com/learn/modules/msteams-sso)
 
 ## Lab - Authentication and Single Sign-on
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-1. [Exercise - Implement single sign-on (SSO) for Microsoft Teams apps](https://docs.microsoft.com/learn/modules/msteams-auth-sso/3-exercise-single-sign-on)
+1. [Exercise - Implement single sign-on (SSO) for Microsoft Teams apps](https://docs.microsoft.com/learn/modules/msteams-sso/3-exercise-single-sign-on)
 
    In this exercise, you'll learn how to manually register and configure the Azure AD app that can be used to implement SSO in a Microsoft Teams app to better understand all the required settings.
 
-1. [Exercise - Single sign-on (SSO) with Microsoft Teams tabs](https://docs.microsoft.com/learn/modules/msteams-auth-sso/5-exercise-tabs-sso)
+1. [Exercise - Single sign-on (SSO) with Microsoft Teams tabs](https://docs.microsoft.com/learn/modules/msteams-sso/5-exercise-tabs-sso)
 
    In this exercise, you'll add a custom tab to the existing Microsoft Teams app and use single sign-on (SSO) to obtain an access token to submit requests to Microsoft Graph.
 
-1. [Exercise - Single sign-on (SSO) with Microsoft Teams bots](https://docs.microsoft.com/learn/modules/msteams-auth-sso/7-exercise-bots-sso)
+1. [Exercise - Single sign-on (SSO) with Microsoft Teams bots](https://docs.microsoft.com/learn/modules/msteams-sso/7-exercise-bots-sso)
 
    In this exercise, you'll add a custom bot to the existing Microsoft Teams app and use single sign-on (SSO) to obtain an access token to submit requests to Microsoft Graph.
 
