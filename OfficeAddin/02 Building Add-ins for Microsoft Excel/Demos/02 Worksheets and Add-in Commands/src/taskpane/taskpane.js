@@ -55,12 +55,12 @@ function createTable() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function filterTable() {
@@ -73,12 +73,12 @@ function filterTable() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function sortTable() {
@@ -97,12 +97,12 @@ function sortTable() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function createChart() {
@@ -124,19 +124,19 @@ function createChart() {
 
     return context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
 function freezeHeader() {
   Excel.run(function (context) {
 
-var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-currentWorksheet.freezePanes.freezeRows(1);
+    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+    currentWorksheet.freezePanes.freezeRows(1);
 
     return context.sync();
   })
