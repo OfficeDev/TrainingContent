@@ -4,6 +4,7 @@
 * [02 - Building Office Add-ins for Excel](./02%20Building%20Add-ins%20for%20Microsoft%20Excel)
 * [04 - Building Office Add-ins for Outlook](./04%20Building%20Add-ins%20for%20Microsoft%20Outlook)
 * [05 - Using Modern JavaScript](./05%20Using%20modern%20JavaScript)
+* [06 - Using Single Sign-On with Office Add-ins](./06%20Using%20Single%20Sign-On%20with%20Office%20Add-ins)
 
 ----------
 
