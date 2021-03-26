@@ -86,6 +86,5 @@ namespace graphdaemon
       var authenticationProvider = CreateAuthorizationProvider(config);
       return new GraphServiceClient(authenticationProvider);
     }
-
   }
 }

@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-IdentityWeb-C605932A-606C-43FB-8351-F6BE145276D5</UserSecretsId>
-    <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>aspnet-IdentityWeb-21704D97-07BD-4248-9234-07411FE5BB11</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Graph" Version="3.19.0" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.3" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.6.0" />
+    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="1.6.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.6.0" />
   </ItemGroup>
 
 </Project>
