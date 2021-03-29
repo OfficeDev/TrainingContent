@@ -5,14 +5,14 @@
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Contoso",
+    "name": "Office Dev Training Content",
     "websiteUrl": "https://{{HOSTNAME}}",
     "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "Adaptive Cards Task Modules",
-    "full": "Adaptive Cards Task Modules"
+    "short": "Adaptive Cards Task Module",
+    "full": "Adaptive Cards Task Module"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "6307532f-2b20-49b5-b78b-3d708d9c4cb3",
+      "entityId": "9f813bc0-b965-4e3f-9ee1-d7a5286b1eb6",
       "name": "YouTube Player",
       "contentUrl": "https://{{HOSTNAME}}/youTubePlayerTab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
@@ -44,6 +44,5 @@
   "validDomains": [
     "{{HOSTNAME}}"
   ],
-  "showLoadingIndicator": false,
-  "isFullScreen": false
+  "showLoadingIndicator": false
 }

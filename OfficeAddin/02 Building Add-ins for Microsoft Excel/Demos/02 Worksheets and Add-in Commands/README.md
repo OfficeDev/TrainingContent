@@ -18,11 +18,11 @@ This template supports debugging using any of the following techniques:
 
 We'd love to get your feedback about this sample. You can send your feedback to us in the *Issues* section of this repository.
 
-Questions about Microsoft Office 365 development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/office-js+API). If your question is about the Office JavaScript APIs, make sure it's tagged with [office-js].
+Questions about Microsoft Office 365 development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/office-js+API).  If your question is about the Office JavaScript APIs, make sure it's tagged with  [office-js].
 
 ## Additional resources
 
-* [Office Add-in documentation](https://docs.microsoft.com/office/dev/add-ins/overview/office-add-ins)
+* [Office add-in documentation](https://docs.microsoft.com/office/dev/add-ins/overview/office-add-ins)
 * More Office Add-in samples at [OfficeDev on Github](https://github.com/officedev)
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.

@@ -42,6 +42,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version | Date              | Comments                                                    |
 | ------- | ----------------- | ----------------------------------------------------------- |
+| 1.7     | March 6, 2021     | FY2021Q3 content refresh                                    |
 | 1.6     | November 27, 2020 | FY2021Q2 content refresh                                    |
 | 1.5     | October 26, 2020  | Replace SPA implicit flow with auth code flow in MSAL.js v2 |
 | 1.4     | September 7, 2020 | FY2021Q1 content refresh                                    |

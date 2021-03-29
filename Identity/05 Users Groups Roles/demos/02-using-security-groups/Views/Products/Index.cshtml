@@ -26,18 +26,19 @@ Licensed under the MIT license.
     </tr>
   </thead>
   <tbody>
-@foreach (var item in Model) {
-    <tr>
-      <td>
-        @Html.DisplayFor(modelItem => item.ID)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.Name)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.Category.Name)
-      </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Category.Name)
+        </td>
+      </tr>
+    }
   </tbody>
 </table>
