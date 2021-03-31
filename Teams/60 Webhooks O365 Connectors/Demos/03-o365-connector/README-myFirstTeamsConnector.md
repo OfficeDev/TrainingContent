@@ -17,13 +17,13 @@ All Connectors has to be registered in the [Connectors Developer Dashboard](http
 
 ### Connector files and pages
 
-* `./src/myFirstTeamsConnector/MyFirstTeamsConnector.ts` - implementation of the Connector that manages registering new subscriptions (`Connect()`) as well as a sample method to send a message to all subscribers (`Ping()`).
-* `./src/web/myFirstTeamsConnector/config.html` - the configuration of the Connector .
-* `./src/scripts/myFirstTeamsConnectorConfig.tsx` - React component of the configuration page page.
+* `./src/server/myFirstTeamsConnector/MyFirstTeamsConnector.ts` - implementation of the Connector that manages registering new subscriptions (`Connect()`) as well as a sample method to send a message to all subscribers (`Ping()`).
+* `./src/public/myFirstTeamsConnector/config.html` - the configuration of the Connector .
+* `./src/client/myFirstTeamsConnectorConfig.tsx` - React component of the configuration page page.
 
 ### Connector end-points
 
-For the Connector you will have two generated end-points, defined in `./src/server.ts`.
+For the Connector you will have two generated end-points, defined in `./src/server/server.ts`.
 
 * `/api/connector/connect` - this is the end-point that is connected to the `Connect` method of the Connector implementation and is used when registering a Connector. 
 * `/api/connector/ping` - this is a test end-point to demonstrate how to invoke the Connector using a simple HTTP GET operation. It is highly recommended that you remove this end-point and implement your own logic for invoking the connector.

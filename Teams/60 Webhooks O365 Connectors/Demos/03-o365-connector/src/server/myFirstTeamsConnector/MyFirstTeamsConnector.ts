@@ -2,8 +2,8 @@ import Axios from "axios";
 import { Request } from "express";
 import { ConnectorDeclaration, IConnector, PreventIframe } from "express-msteams-host";
 import { CardFactory } from "botbuilder-core";
-import JsonDB = require("node-json-db");
 import * as debug from "debug";
+import JsonDB = require("node-json-db");
 
 const log = debug("msteams");
 
@@ -52,9 +52,10 @@ export class MyFirstTeamsConnector implements IConnector {
         // clean up connectors marked to be deleted
         try {
             this.connectors.push("/connectors",
-                (this.connectors.getData("/connectors") as IMyFirstTeamsConnectorData[]).filter(((c) => {
-                    return c.existing;
-                })));
+                (this.connectors.getData("/connectors") as IMyFirstTeamsConnectorData[])
+                    .filter(c => {
+                        return c.existing;
+                    }));
         } catch (error) {
             if (error.name && error.name === "DataError") {
                 // there"s no registered connectors
@@ -90,9 +91,9 @@ export class MyFirstTeamsConnector implements IConnector {
                     potentialAction: [{
                         "@context": "http://schema.org",
                         "@type": "ViewAction",
-                        "name": "Yo Teams",
-                        "target": ["http://aka.ms/yoteams"]
-                    }],
+                        name: "Yo Teams",
+                        target: ["http://aka.ms/yoteams"]
+                    }]
                 };
 
                 log(`Sending card to ${connector.webhookUrl}`);
@@ -117,4 +118,3 @@ export class MyFirstTeamsConnector implements IConnector {
         });
     }
 }
-

@@ -6,20 +6,16 @@ import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
 import * as compression from "compression";
 
-
-
 // Initialize debug logging module
 const log = debug("msteams");
 
-log(`Initializing Microsoft Teams Express hosted App...`);
+log("Initializing Microsoft Teams Express hosted App...");
 
 // Initialize dotenv, to use .env file settings if existing
-// tslint:disable-next-line:no-var-requires
 require("dotenv").config();
 
-
-
 // The import of components has to be done AFTER the dotenv config
+// eslint-disable-next-line import/first
 import * as allComponents from "./TeamsAppsComponents";
 
 // Create the Express webserver
