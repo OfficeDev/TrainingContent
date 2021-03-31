@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
   "manifestVersion": "1.8",
-  "id": "{{APPLICATION_ID}}",
-  "version": "{{VERSION}}",
+  "id": "415a87e6-993f-4181-871b-02f4a7ea173e",
+  "version": "1.0.2",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Contoso",
+    "name": "Office Dev Training Content",
     "websiteUrl": "https://{{HOSTNAME}}",
     "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
@@ -29,7 +29,7 @@
   "connectors": [],
   "composeExtensions": [
     {
-      "botId": "52afacbe-b5d0-471a-a089-2df132973615",
+      "botId": "415a87e6-993f-4181-871b-02f4a7ea173e",
       "canUpdateConfiguration": false,
       "commands": [
         {
@@ -80,6 +80,5 @@
     "{{HOSTNAME}}",
     "*.wikipedia.org"
   ],
-  "showLoadingIndicator": false,
-  "isFullScreen": false
+  "showLoadingIndicator": false
 }
