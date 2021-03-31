@@ -5,7 +5,7 @@
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Contoso",
+    "name": "Office Dev Training Content",
     "websiteUrl": "https://{{HOSTNAME}}",
     "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "062da4c9-2f83-4921-acd1-438387a0a573",
+      "entityId": "275e20cd-e01d-4130-a512-a56ddc08aae3",
       "name": "YouTube Player 1",
       "contentUrl": "https://{{HOSTNAME}}/youTubePlayer1Tab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
@@ -44,6 +44,5 @@
   "validDomains": [
     "{{HOSTNAME}}"
   ],
-  "showLoadingIndicator": false,
-  "isFullScreen": false
+  "showLoadingIndicator": false
 }
