@@ -1,11 +1,9 @@
 {
   "generator-teams": {
     "promptValues": {
-      "developer": "Contoso",
-      "unitTestsEnabled": false,
-      "useAzureAppInsights": false
+      "developer": "Office Dev Training Content"
     },
     "libraryName": "learnMsTeamsAuthTabs",
-    "generator-version": "2.16.0"
+    "generator-version": "3.0.3"
   }
 }

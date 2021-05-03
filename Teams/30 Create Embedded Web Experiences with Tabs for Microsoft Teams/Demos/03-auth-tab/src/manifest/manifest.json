@@ -5,14 +5,14 @@
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Contoso",
+    "name": "Office Dev Training Content",
     "websiteUrl": "https://{{HOSTNAME}}",
     "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "Learn MSTeams Auth Tabs",
-    "full": "Learn MSTeams Auth Tabs"
+    "short": "Learn MSTeams AuthTabs",
+    "full": "Learn MSTeams AuthTabs"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -48,6 +48,5 @@
   "validDomains": [
     "{{HOSTNAME}}"
   ],
-  "showLoadingIndicator": false,
-  "isFullScreen": false
+  "showLoadingIndicator": false
 }

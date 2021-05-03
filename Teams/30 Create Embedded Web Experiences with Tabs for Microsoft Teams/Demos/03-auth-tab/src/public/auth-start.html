@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script src="https://statics.teams.cdn.office.net/sdk/v1.5.2/js/MicrosoftTeams.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    microsoftTeams.initialize();
+    microsoftTeams.getContext(function (msTeamsContext) {
+
+      // ADAL.js configuration
+      let config = {
+        clientId: "{{REPLACE_AZUREAD_APP_ID}}",
+        redirectUri: window.location.origin + "/auth-end.html",
+        cacheLocation: "localStorage",
+        endpoints: {
+          "https://graph.microsoft.com": "https://graph.microsoft.com"
+        }
+      };
+
+      // add extra query parameters Azure AD login request
+      //  include scope for OpenID connect and log-in hint by using the current Microsoft Teams logged-in user
+      config.extraQueryParameters = "scope=open+profile";
+      if (msTeamsContext.upn) {
+        config.extraQueryParameters += "&login-hint=" + encodeURIComponent(msTeamsContext.userProfileName);
+      }
+      // check if consent required for new permission
+      if (getUrlParameter('prompt') !== "") {
+        config.extraQueryParameters += "&prompt=" + getUrlParameter('prompt');
+      }
+
+      // override URL to Azure AD auth endpoint to include extra query parameters
+      config.displayCall = function (urlNavigate) {
+        if (urlNavigate) {
+          if (config.extraQueryParameters) {
+            urlNavigate += "&" + config.extraQueryParameters;
+          }
+          window.location.replace(urlNavigate);
+        }
+      }
+
+      // login
+      let authContext = new AuthenticationContext(config);
+      authContext.clearCache();
+      authContext.login();
+    });
+
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+  </script>
+</body>
+
+</html>

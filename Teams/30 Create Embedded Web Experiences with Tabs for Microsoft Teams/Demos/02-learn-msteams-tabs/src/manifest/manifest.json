@@ -5,7 +5,7 @@
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Contoso",
+    "name": "Office Dev Training Content",
     "websiteUrl": "https://{{HOSTNAME}}",
     "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
@@ -39,7 +39,7 @@
   ],
   "staticTabs": [
     {
-      "entityId": "39ecadaf-1d2d-40e0-ae30-c7720ce48b25",
+      "entityId": "56a317da-fc64-4e32-8051-e4700271ab72",
       "name": "LearnPersonalTab",
       "contentUrl": "https://{{HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
@@ -57,6 +57,5 @@
   "validDomains": [
     "{{HOSTNAME}}"
   ],
-  "showLoadingIndicator": false,
-  "isFullScreen": false
+  "showLoadingIndicator": false
 }
