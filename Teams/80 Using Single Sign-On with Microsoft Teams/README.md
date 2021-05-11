@@ -37,9 +37,10 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version |      Date      |       Comments       |
-| ------- | -------------- | -------------------- |
-| 1.0     | March 15, 2021 | New module published |
+| Version |      Date      |                Comments                |
+| ------- | -------------- | -------------------------------------- |
+| 1.2     | May 11, 2021   | Port demos to Yo Teams, FY21Q4 refresh |
+| 1.0     | March 15, 2021 | New module published                   |
 
 ## Disclaimer
 

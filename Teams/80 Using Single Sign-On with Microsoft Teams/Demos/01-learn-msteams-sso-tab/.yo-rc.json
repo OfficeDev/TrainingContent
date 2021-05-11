@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Contoso"
+    },
+    "libraryName": "learnMsteamsSsoTab",
+    "generator-version": "3.0.3"
+  }
+}
