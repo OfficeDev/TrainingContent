@@ -54,6 +54,7 @@ export const YouTubePlayer1Tab = () => {
     };
 
     const submitHandler = (err: string, result: string): void => {
+      console.log(`Submit handler - err: ${err}`);
       setYouTubeVideoId(result);
     };
 
@@ -82,6 +83,7 @@ export const YouTubePlayer1Tab = () => {
     };
 
     const submitHandler = (err: string, result: any): void => {
+      console.log(`Submit handler - err: ${err}`);
       setYouTubeVideoId(result.youTubeVideoId);
     };
 
