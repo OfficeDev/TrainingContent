@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
+This module has been recorded and is available in the **Microsoft 365 Developer** YouTube channel: [Create embedded web experiences with tabs for Microsoft Teams](https://youtube.com/playlist?list=PLWZJrkeLOrbY8HkTBBvyx-uyZ3cCdl1VM)
 
 ## Contributors
 
@@ -39,14 +39,15 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version | Date               | Comments                 |
-| ------- | ------------------ | ------------------------ |
-| 1.5     | May 10, 2021       | FY2021Q4 content refresh |
-| 1.4     | March 7, 2021      | FY2021Q3 content refresh |
-| 1.3     | December 9, 2020   | FY2021Q2 content refresh |
-| 1.2     | September 10, 2020 | FY2021Q1 content refresh |
-| 1.1     | May 8, 2020        | FY2020Q4 content refresh |
-| 1.0     | February 12, 2020  | New module published     |
+| Version |        Date        |            Comments            |
+| ------- | ------------------ | ------------------------------ |
+| 1.6     | June 01, 2021      | Refresh slides to new template, update screencast link |
+| 1.5     | May 10, 2021       | FY2021Q4 content refresh       |
+| 1.4     | March 7, 2021      | FY2021Q3 content refresh       |
+| 1.3     | December 9, 2020   | FY2021Q2 content refresh       |
+| 1.2     | September 10, 2020 | FY2021Q1 content refresh       |
+| 1.1     | May 8, 2020        | FY2020Q4 content refresh       |
+| 1.0     | February 12, 2020  | New module published           |
 
 ## Disclaimer
 

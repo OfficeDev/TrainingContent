@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: [Create Embedded Web Experiences with Tabs for Microsoft Teams](https://youtu.be/AQcdZYkFPCY)
+This module has been recorded and is available in the **Microsoft 365 Developer** YouTube channel: [Create interactive conversational bots for Microsoft Teams](https://youtube.com/playlist?list=PLWZJrkeLOrbbh9EgDsFylRx4XmXbWaG4B)
 
 ## Contributors
 
@@ -40,16 +40,17 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version | Date               | Comments                 |
-| ------- | ------------------ | ------------------------ |
-| 1.7     | May 10, 2021       | FY2021Q4 content refresh |
-| 1.6     | March 4, 2021      | FY2021Q3 content refresh |
-| 1.5     | December 8, 2020   | FY2021Q2 content refresh |
-| 1.4     | September 10, 2020 | FY2021Q1 content refresh |
-| 1.3     | May 7, 2020        | FY2020Q4 content refresh |
-| 1.2     | March 10, 2020     | FY2020Q3 content refresh |
-| 1.1     | December 9, 2019   | FY2020Q2 content refresh |
-| 1.0     | September 30, 2019 | New module published     |
+| Version |        Date        |                        Comments                        |
+| ------- | ------------------ | ------------------------------------------------------ |
+| 1.8     | June 01, 2021      | Refresh slides to new template, update screencast link |
+| 1.7     | May 10, 2021       | FY2021Q4 content refresh                               |
+| 1.6     | March 4, 2021      | FY2021Q3 content refresh                               |
+| 1.5     | December 8, 2020   | FY2021Q2 content refresh                               |
+| 1.4     | September 10, 2020 | FY2021Q1 content refresh                               |
+| 1.3     | May 7, 2020        | FY2020Q4 content refresh                               |
+| 1.2     | March 10, 2020     | FY2020Q3 content refresh                               |
+| 1.1     | December 9, 2019   | FY2020Q2 content refresh                               |
+| 1.0     | September 30, 2019 | New module published                                   |
 
 ## Disclaimer
 
