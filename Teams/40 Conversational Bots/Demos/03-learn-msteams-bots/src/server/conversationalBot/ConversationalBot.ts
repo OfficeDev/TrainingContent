@@ -229,7 +229,7 @@ export class ConversationalBot extends TeamsActivityHandler {
   }
 
   private async deleteCardActivity(context): Promise<void> {
-    await context.deleteActivity(context.activity.replyToId);
+    await context.d eleteActivity(context.activity.replyToId);
   }
 
   private async teamsCreateConversation(context: TurnContext, message: Partial<Activity>): Promise<void> {

@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Contoso"
+    },
+    "libraryName": "learnMsteamsSsoBot",
+    "generator-version": "3.0.3"
+  }
+}

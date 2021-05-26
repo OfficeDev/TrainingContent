@@ -4,8 +4,8 @@ This folder contains the demos for the Microsoft Teams module on **Authenticatio
 
 ## Demos
 
-1. [Single sign-on (SSO) with Microsoft Teams tabs](./02%02-%02My%02SSO%02Tab)
-1. [Single sign-on (SSO) with Microsoft Teams bots](./03%02-%02My%02SSO%02Bot)
+1. [Single sign-on (SSO) with Microsoft Teams tabs](./01-learn-msteams-sso-tab)
+1. [Single sign-on (SSO) with Microsoft Teams bots](./02-learn-msteams-sso-bot)
 
 ## Running demonstrations
 
