@@ -12,22 +12,9 @@ import * as MicrosoftGraph from "microsoft-graph";
  */
 export const LearnAuthTab = () => {
 
-  const msGraphClient: MicrosoftGraphClient.Client = MicrosoftGraphClient.Client.init({
-    authProvider: async (done) => {
-      if (!accessToken) {
-        const token = await getAccessToken();
-        setAccessToken(token);
-      }
-      done(null, accessToken);
-    }
-  });
-
   const [{ inTeams, theme, context }] = useTeams();
   const [entityId, setEntityId] = useState<string | undefined>();
-  const [accessToken, setAccessToken] = useState<string>("");
   const [messages, setMessages] = useState<MicrosoftGraph.Message[]>([]);
-
-
 
   useEffect(() => {
     if (inTeams === true) {
@@ -43,10 +30,30 @@ export const LearnAuthTab = () => {
     }
   }, [context]);
 
+  const getAccessToken = async (promptConsent: boolean = false): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+      microsoftTeams.authentication.authenticate({
+        url: window.location.origin + "/auth-start.html",
+        width: 600,
+        height: 535,
+        successCallback: (accessToken: string) => {
+          resolve(accessToken);
+        },
+        failureCallback: (reason) => {
+          reject(reason);
+        }
+      });
+    });
+  }
+
   const getMessages = async (promptConsent: boolean = false): Promise<void> => {
-    if (promptConsent || accessToken === "") {
-      await signin(promptConsent);
-    }
+    const token = await getAccessToken();
+
+    const msGraphClient: MicrosoftGraphClient.Client = MicrosoftGraphClient.Client.init({
+      authProvider: async (done) => {
+        done(null, token);
+      }
+    });
 
     msGraphClient
       .api("me/messages")
@@ -65,27 +72,6 @@ export const LearnAuthTab = () => {
       });
   }
 
-  const signin = async (promptConsent: boolean = false): Promise<void> => {
-    const token = await getAccessToken(promptConsent);
-    setAccessToken(token);
-    Promise.resolve();
-  }
-
-  const getAccessToken = async (promptConsent: boolean = false): Promise < string > => {
-    return new Promise<string>((resolve, reject) => {
-      microsoftTeams.authentication.authenticate({
-        url: window.location.origin + "/auth-start.html",
-        width: 600,
-        height: 535,
-        successCallback: (accessToken: string) => {
-          resolve(accessToken);
-        },
-        failureCallback: (reason) => {
-          reject(reason);
-        }
-      });
-    });
-  }
 
   const handleGetMyMessagesOnClick = async (event): Promise<void> => {
     await getMessages();
