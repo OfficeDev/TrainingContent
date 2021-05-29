@@ -9,7 +9,7 @@ Licensed under the MIT license.
 <head>
   <title>Getting Started with Microsoft identity</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.7.2/bluebird.min.js"></script>
-  <script src="https://alcdn.msauth.net/browser/2.11.1/js/msal-browser.js"></script>
+  <script src="https://alcdn.msauth.net/browser/2.14.2/js/msal-browser.js"></script>
 </head>
 
 <body>
@@ -18,8 +18,9 @@ Licensed under the MIT license.
       <p id="WelcomeMessage">Microsoft Authentication Library For Javascript (MSAL.js) Exercise</p>
       <button id="SignIn" onclick="signIn()">Sign In</button>
     </div>
-    <h2>Latest messages</h2>
-    <div id="messages"></div>
+    <div>
+      <pre id="json"></pre>
+    </div>
   </div>
   <script>
     var ua = window.navigator.userAgent;
@@ -31,9 +32,9 @@ Licensed under the MIT license.
 
     var msalConfig = {
       auth: {
-        clientId: '72c6dad5-32ef-4ab9-8742-570e21001097',
-        authority: 'https://login.microsoftonline.com/b930540b-a147-45bb-8f24-bfbed091aa25',
-        redirectURI: 'http://localhost:3007/'
+        clientId: '',
+        authority: '',
+        redirectURI: ''
       },
       cache: {
         cacheLocation: "localStorage",
@@ -44,7 +45,7 @@ Licensed under the MIT license.
     var graphConfig = {
       graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
       requestObj: {
-        scopes: ["user.read", "mail.read"]
+        scopes: ["user.read"]
       }
     };
 
@@ -68,13 +69,13 @@ Licensed under the MIT license.
       loginbutton.setAttribute('onclick', 'signOut();');
     }
 
-    function acquireTokenAndGetUserEmails() {
+    function acquireTokenAndGetUser() {
       var request = graphConfig.requestObj;
       request.account = msalApplication.getAccountByUsername(userName);
 
       msalApplication.acquireTokenSilent(request)
         .then(function (tokenResponse) {
-          getMessagesFromMSGraph(tokenResponse.accessToken, graphAPICallback);
+          getUserFromMSGraph(tokenResponse.accessToken, graphAPICallback);
         })
         .catch(function (error) {
           console.log("silent token acquisition fails.");
@@ -82,7 +83,7 @@ Licensed under the MIT license.
             if (loginType == "POPUP") {
               msalApplication.acquireTokenPopup(request)
                 .then(function (tokenResponse) {
-                  getMessagesFromMSGraph(tokenResponse.accessToken, graphAPICallback);
+                  getUserFromMSGraph(tokenResponse.accessToken, graphAPICallback);
                 })
                 .catch(function (error) { console.error(error); }
                 );
@@ -95,8 +96,8 @@ Licensed under the MIT license.
         });
     }
 
-    function getMessagesFromMSGraph(accessToken, callback) {
-      var endpoint = graphConfig.graphMeEndpoint + "/messages?$top=10&$select=subject";
+    function getUserFromMSGraph(accessToken, callback) {
+      var endpoint = graphConfig.graphMeEndpoint;
 
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function () {
@@ -109,11 +110,7 @@ Licensed under the MIT license.
     }
 
     function graphAPICallback(data) {
-      var htmlBody = '';
-      data.value.forEach(message => {
-        htmlBody += `<li>${message.subject}</li>`;
-      });
-      document.getElementById("messages").innerHTML = `<ul>${htmlBody}</ul>`;
+      document.getElementById("json").innerHTML = JSON.stringify(data, null, 2);
     }
 
     function handleResponse(loginResponse) {
@@ -129,7 +126,7 @@ Licensed under the MIT license.
       }
 
       updateUserInterface();
-      acquireTokenAndGetUserEmails();
+      acquireTokenAndGetUser();
     }
 
     function signIn() {
