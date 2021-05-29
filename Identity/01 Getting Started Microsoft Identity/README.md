@@ -43,7 +43,8 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version | Date              | Comments                 |
 | ------- | ----------------- | ------------------------ |
-| 1.6     | March 6, 2020     | FY2021Q3 content refresh |
+| 1.7     | June 17, 2021     | FY2021Q4 content refresh |
+| 1.6     | March 6, 2021     | FY2021Q3 content refresh |
 | 1.5     | November 27, 2020 | FY2021Q2 content refresh |
 | 1.4     | September 7, 2020 | FY2021Q1 content refresh |
 | 1.3     | May 26, 2020      | FY2020Q4 content refresh |
