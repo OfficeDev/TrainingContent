@@ -10,7 +10,7 @@ import "../../assets/icon-80.png";
 
 /* global console, document, Excel, Office */
 
-Office.onReady(info => {
+Office.onReady((info) => {
   if (info.host === Office.HostType.Excel) {
     // Determine if the user's version of Office supports all the Office.js APIs that are used in the tutorial.
     if (!Office.context.requirements.isSetSupported('ExcelApi', '1.7')) {
@@ -56,12 +56,12 @@ function createTable() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 function filterTable() {
@@ -74,12 +74,12 @@ function filterTable() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 function sortTable() {
@@ -98,12 +98,12 @@ function sortTable() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 function createChart() {
@@ -125,12 +125,12 @@ function createChart() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 function freezeHeader() {
@@ -141,20 +141,20 @@ function freezeHeader() {
 
     return context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 var dialog = null;
+
 function openDialog() {
   Office.context.ui.displayDialogAsync(
     'https://localhost:3000/popup.html',
-    {height: 45, width: 55},
-
+    { height: 45, width: 55 },
     function (result) {
       dialog = result.value;
       dialog.addEventHandler(Microsoft.Office.WebExtension.EventType.DialogMessageReceived, processMessage);
