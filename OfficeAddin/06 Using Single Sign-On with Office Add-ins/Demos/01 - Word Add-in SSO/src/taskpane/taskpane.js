@@ -6,7 +6,7 @@
 /* global document, Office, require */
 const ssoAuthHelper = require("./../helpers/ssoauthhelper");
 
-Office.onReady(info => {
+Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
     document.getElementById("getGraphDataButton").onclick = ssoAuthHelper.getGraphData;
   }

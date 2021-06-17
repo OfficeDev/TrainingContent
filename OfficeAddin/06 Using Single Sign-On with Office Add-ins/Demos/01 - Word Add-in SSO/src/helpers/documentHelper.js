@@ -3,10 +3,10 @@
  * See LICENSE in the project root for license information.
  */
 
-/* global Excel, Office, OfficeExtension, Word */
+/* global Excel, Office, Word, Promise */
 
 export function writeDataToOfficeDocument(result) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
       switch (Office.context.host) {
         case Office.HostType.Excel:
@@ -42,7 +42,7 @@ function filterUserProfileInfo(result) {
 }
 
 function writeDataToExcel(result) {
-  return Excel.run(function(context) {
+  return Excel.run(function (context) {
     const sheet = context.workbook.worksheets.getActiveWorksheet();
     let data = [];
     let userProfileInfo = filterUserProfileInfo(result);
@@ -95,7 +95,7 @@ function writeDataToPowerPoint(result) {
   for (let i = 0; i < data.length; i++) {
     userInfo += data[i] + "\n";
   }
-  Office.context.document.setSelectedDataAsync(userInfo, function(asyncResult) {
+  Office.context.document.setSelectedDataAsync(userInfo, function (asyncResult) {
     if (asyncResult.status === Office.AsyncResultStatus.Failed) {
       throw asyncResult.error.message;
     }
@@ -103,7 +103,7 @@ function writeDataToPowerPoint(result) {
 }
 
 function writeDataToWord(result) {
-  return Word.run(function(context) {
+  return Word.run(function (context) {
     let data = [];
     let userProfileInfo = filterUserProfileInfo(result);
 

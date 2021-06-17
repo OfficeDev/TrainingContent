@@ -50,7 +50,7 @@ function handleAADErrors(exchangeResponse) {
   // with "The provided value for the 'assertion' is not valid. The assertion has expired."
   // Retry the call of getAccessToken (no more than once). This time Office will return a
   // new unexpired bootstrap token.
-  if ((exchangeResponse.error_description.indexOf("AADSTS500133") !== -1) && (retryGetAccessToken <= 0))  {
+  if (exchangeResponse.error_description.indexOf("AADSTS500133") !== -1 && retryGetAccessToken <= 0) {
     retryGetAccessToken++;
     getGraphData();
   } else {
