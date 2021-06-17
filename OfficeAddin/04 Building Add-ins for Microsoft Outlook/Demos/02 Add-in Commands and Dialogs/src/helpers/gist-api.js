@@ -1,23 +1,18 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
- * See LICENSE in the project root for license information.
- */
-
 function getUserGists(user, callback) {
   var requestUrl = 'https://api.github.com/users/' + user + '/gists';
 
   $.ajax({
     url: requestUrl,
     dataType: 'json'
-  }).done(function(gists){
+  }).done(function (gists) {
     callback(gists);
-  }).fail(function(error){
+  }).fail(function (error) {
     callback(null, error);
   });
 }
 
 function buildGistList(parent, gists, clickFunc) {
-  gists.forEach(function(gist) {
+  gists.forEach(function (gist) {
 
     var listItem = $('<div/>')
       .appendTo(parent);
@@ -75,9 +70,9 @@ function getGist(gistId, callback) {
   $.ajax({
     url: requestUrl,
     dataType: 'json'
-  }).done(function(gist){
+  }).done(function (gist) {
     callback(gist);
-  }).fail(function(error){
+  }).fail(function (error) {
     callback(null, error);
   });
 }
