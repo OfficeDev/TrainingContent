@@ -32,7 +32,7 @@ function insertParagraph() {
   Word.run(function (context) {
 
     var docBody = context.document.body;
-    docBody.insertParagraph("Office has several versions, including Office 2016, Office 365 Click-to-Run, and Office on the web.",
+    docBody.insertParagraph("Office has several versions, including Office 2016, Microsoft 365 Click-to-Run, and Office on the web.",
       "Start");
 
     return context.sync();
