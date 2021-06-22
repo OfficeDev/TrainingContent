@@ -8,7 +8,7 @@
 
 const Msal = require("msal");
 
-Office.initialize = function() {
+Office.initialize = function () {
   if (Office.context.ui.messageParent) {
     userAgentApp.handleRedirectCallback(authCallback);
 
@@ -33,19 +33,19 @@ Office.initialize = function() {
 
 const msalConfig = {
   auth: {
-    clientId: "1c3c5e12-c102-4b0c-b4f9-bbcd2eb28179", //This is your client ID
+    clientId: "{application GUID here}", //This is your client ID
     authority: "https://login.microsoftonline.com/common",
-    redirectUri: "https://localhost:3000/fallbackauthdialog.html",
-    navigateToLoginRequestUrl: false
+    redirectUri: "https://localhost:{PORT}/fallbackauthdialog.html",
+    navigateToLoginRequestUrl: false,
   },
   cache: {
     cacheLocation: "localStorage", // Needed to avoid "User login is required" error.
-    storeAuthStateInCookie: true // Recommended to avoid certain IE/Edge issues.
-  }
+    storeAuthStateInCookie: true, // Recommended to avoid certain IE/Edge issues.
+  },
 };
 
 var requestObj = {
-  scopes: [`https://graph.microsoft.com/User.Read`]
+  scopes: [`https://graph.microsoft.com/User.Read`],
 };
 
 const userAgentApp = new Msal.UserAgentApplication(msalConfig);

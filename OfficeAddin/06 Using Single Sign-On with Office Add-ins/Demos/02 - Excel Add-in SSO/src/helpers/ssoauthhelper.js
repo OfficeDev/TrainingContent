@@ -29,7 +29,6 @@ export async function getGraphData() {
     } else {
       // makeGraphApiCall makes an AJAX call to the MS Graph endpoint. Errors are caught
       // in the .fail callback of that call
-
       const endpoint = "/me/messages";
       const urlParams = "?$select=receivedDateTime,subject,isRead&$orderby=receivedDateTime&$top=10";
       const response = await sso.getGraphData(exchangeResponse.access_token, endpoint, urlParams);
@@ -54,7 +53,7 @@ function handleAADErrors(exchangeResponse) {
   // with "The provided value for the 'assertion' is not valid. The assertion has expired."
   // Retry the call of getAccessToken (no more than once). This time Office will return a
   // new unexpired bootstrap token.
-  if ((exchangeResponse.error_description.indexOf("AADSTS500133") !== -1) && (retryGetAccessToken <= 0))  {
+  if (exchangeResponse.error_description.indexOf("AADSTS500133") !== -1 && retryGetAccessToken <= 0) {
     retryGetAccessToken++;
     getGraphData();
   } else {

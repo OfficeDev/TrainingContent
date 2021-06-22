@@ -3,7 +3,7 @@
  * See LICENSE in the project root for license information.
  */
 
-/* global console, location, Office, Microsoft, require */
+/* global console, location, Office, require */
 const documentHelper = require("./documentHelper");
 const sso = require("office-addin-sso");
 var loginDialog;
@@ -37,16 +37,9 @@ function showLoginPopup(url) {
   var fullUrl = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "") + url;
 
   // height and width are percentages of the size of the parent Office application, e.g., PowerPoint, Excel, Word, etc.
-  Office.context.ui.displayDialogAsync(
-    fullUrl,
-    { height: 60, width: 30 },
-    function(result) {
-      console.log("Dialog has initialized. Wiring up events");
-      loginDialog = result.value;
-      loginDialog.addEventHandler(
-        Office.EventType.DialogMessageReceived,
-        processMessage
-      );
-    }
-  );
+  Office.context.ui.displayDialogAsync(fullUrl, { height: 60, width: 30 }, function (result) {
+    console.log("Dialog has initialized. Wiring up events");
+    loginDialog = result.value;
+    loginDialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
+  });
 }

@@ -7,7 +7,7 @@
 
 const ssoAuthHelper = require("./../helpers/ssoauthhelper");
 
-Office.onReady(info => {
+Office.onReady((info) => {
   if (info.host === Office.HostType.Excel) {
     document.getElementById("getGraphDataButton").onclick = ssoAuthHelper.getGraphData;
   }

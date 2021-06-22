@@ -34,7 +34,7 @@ export async function getGraphData() {
       endDate.setDate(startDate.getDate() + 1);
 
       const endpoint = "/me/calendarview";
-      const urlParams = `?startdatetime=${ startDate.toISOString() }&enddatetime=${ endDate.toISOString() }&$select=subject,start,end`;
+      const urlParams = `?startdatetime=${startDate.toISOString()}&enddatetime=${endDate.toISOString()}&$select=subject,start,end`;
 
       const response = await sso.getGraphData(exchangeResponse.access_token, endpoint, urlParams);
 
@@ -58,7 +58,7 @@ function handleAADErrors(exchangeResponse) {
   // with "The provided value for the 'assertion' is not valid. The assertion has expired."
   // Retry the call of getAccessToken (no more than once). This time Office will return a
   // new unexpired bootstrap token.
-  if ((exchangeResponse.error_description.indexOf("AADSTS500133") !== -1) && (retryGetAccessToken <= 0))  {
+  if (exchangeResponse.error_description.indexOf("AADSTS500133") !== -1 && retryGetAccessToken <= 0) {
     retryGetAccessToken++;
     getGraphData();
   } else {
