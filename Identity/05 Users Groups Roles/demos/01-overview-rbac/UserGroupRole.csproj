@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-UserGroupRole-84CB41B9-D442-496B-B31D-FFB220DB42CF</UserSecretsId>
+    <UserSecretsId>aspnet-UserGroupRole-AA68A584-F56E-44B6-BDB3-5115C576C4F6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.3" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="1.7.0" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.5" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.11.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.11.0" />
   </ItemGroup>
 
 </Project>
