@@ -34,14 +34,14 @@ export const LearnPersonalTab = () => {
 
   const handleOnChanged = (event): void => {
     setNewTodoValue(event.target.value);
-  }
+  };
 
   const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const newTodoItems = todoItems;
     newTodoItems.push(newTodoValue);
     setTodoItems(newTodoItems);
     setNewTodoValue("");
-  }
+  };
 
   /**
    * The render() method to create the UI of the tab
@@ -54,7 +54,7 @@ export const LearnPersonalTab = () => {
         <Text content="These are your to-do items:" size="medium"></Text>
         <List selectable>
           {todoItems.map((todoItem, i) => (
-            <List.Item media={<WindowMaximizeIcon outline />}
+            <List.Item key={i} media={<WindowMaximizeIcon outline />}
               content={todoItem} index={i} >
             </List.Item>))
           }

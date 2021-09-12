@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Provider, Flex, Text, Button, Header, List } from "@fluentui/react-northstar";
+import { EmailIcon } from "@fluentui/react-icons-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-import { EmailIcon } from "@fluentui/react-icons-northstar";
 import * as MicrosoftGraphClient from "@microsoft/microsoft-graph-client";
 import * as MicrosoftGraph from "microsoft-graph";
 
@@ -44,7 +44,7 @@ export const LearnAuthTab = () => {
         }
       });
     });
-  }
+  };
 
   const getMessages = async (promptConsent: boolean = false): Promise<void> => {
     const token = await getAccessToken();
@@ -64,13 +64,10 @@ export const LearnAuthTab = () => {
           setMessages(rawMessages.value);
           Promise.resolve();
         } else {
-          //console.error("graph error", error);
-          // re-sign in but this time force consent
-          //await getMessages(true);
-          Promise.reject(error);
+          console.error("graph error", error);
         }
       });
-  }
+  };
 
 
   const handleGetMyMessagesOnClick = async (event): Promise<void> => {
@@ -83,14 +80,14 @@ export const LearnAuthTab = () => {
   return (
     <Provider theme={theme}>
       <Flex column gap="gap.small">
-        <Header>Recent messages in current user's mailbox</Header>
+        <Header>Recent messages in current user&apos;s mailbox</Header>
         <Button primary
           content="Get My Messages"
           onClick={handleGetMyMessagesOnClick}></Button>
         <List selectable>
           {
             messages.map((message, i) => (
-              <List.Item media={<EmailIcon></EmailIcon>}
+              <List.Item key={i} media={<EmailIcon></EmailIcon>}
                 header={message.receivedDateTime}
                 content={message.subject} index={i}>
               </List.Item>
