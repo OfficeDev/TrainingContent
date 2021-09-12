@@ -6,9 +6,9 @@
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Office Dev Training Content",
-    "websiteUrl": "https://{{HOSTNAME}}",
-    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
-    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+    "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
+    "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
     "short": "Planet Messaging",
@@ -67,7 +67,7 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "{{HOSTNAME}}"
+    "{{PUBLIC_HOSTNAME}}"
   ],
   "showLoadingIndicator": false
 }
