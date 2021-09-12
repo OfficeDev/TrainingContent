@@ -18,7 +18,7 @@ const TextEncoder = Util.TextEncoder;
   process.env.MICROSOFT_APP_PASSWORD)
 
 export class LearningTeamsBot extends TeamsActivityHandler {
-  public constructor() {
+  constructor() {
     super();
 
     // create handlers
@@ -69,52 +69,18 @@ export class LearningTeamsBot extends TeamsActivityHandler {
     await context.sendActivity(replyActivity);
   }
 
-  protected handleTeamsTaskModuleFetch(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
-    let response: TaskModuleResponse;
-
-    switch (request.data.taskModule) {
-      case "player":
-        response = ({
-          task: {
-            type: "continue",
-            value: {
-              title: "YouTube Player",
-              url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.videoId}`,
-              width: 1000,
-              height: 700
-            } as TaskModuleTaskInfo
-          }
-        } as TaskModuleResponse);
-        break;
-      case "selector":
-        response = ({
-          task: {
-            type: "continue",
-            value: {
-              title: "YouTube Video Selector",
-              card: this.getSelectorAdaptiveCard(request.data.videoId),
-              width: 350,
-              height: 250
-            } as TaskModuleTaskInfo
-          }
-        } as TaskModuleResponse);
-        break;
-      default:
-        response = ({
-          task: {
-            type: "continue",
-            value: {
-              title: "YouTube Player",
-              url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=X8krAMdGvCQ&default=1`,
-              width: 1000,
-              height: 700
-            } as TaskModuleTaskInfo
-          }
-        } as TaskModuleResponse);
-        break;
-    };
-
-    console.log("handleTeamsTaskModuleFetch() response", response);
+  protected handleTeamsTaskModuleSubmit(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
+    const response: TaskModuleResponse = {
+      task: {
+        type: "continue",
+        value: {
+          title: "YouTube Player",
+          url: `https://${process.env.PUBLIC_HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.youTubeVideoId}`,
+          width: 1000,
+          height: 700
+        } as TaskModuleTaskInfo
+      }
+    } as TaskModuleResponse;
     return Promise.resolve(response);
   }
 
@@ -159,18 +125,52 @@ export class LearningTeamsBot extends TeamsActivityHandler {
     });
   }
 
-  protected handleTeamsTaskModuleSubmit(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
-    const response: TaskModuleResponse = {
-      task: {
-        type: "continue",
-        value: {
-          title: "YouTube Player",
-          url: `https://${process.env.HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.youTubeVideoId}`,
-          width: 1000,
-          height: 700
-        } as TaskModuleTaskInfo
-      }
-    } as TaskModuleResponse;
+  protected handleTeamsTaskModuleFetch(context: TurnContext, request: TaskModuleRequest): Promise<TaskModuleResponse> {
+    let response: TaskModuleResponse;
+
+    switch (request.data.taskModule) {
+      case "player":
+        response = ({
+          task: {
+            type: "continue",
+            value: {
+              title: "YouTube Player",
+              url: `https://${process.env.PUBLIC_HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.videoId}`,
+              width: 1000,
+              height: 700
+            } as TaskModuleTaskInfo
+          }
+        } as TaskModuleResponse);
+        break;
+      case "selector":
+        response = ({
+          task: {
+            type: "continue",
+            value: {
+              title: "YouTube Video Selector",
+              card: this.getSelectorAdaptiveCard(request.data.videoId),
+              width: 350,
+              height: 250
+            } as TaskModuleTaskInfo
+          }
+        } as TaskModuleResponse);
+        break;
+      default:
+        response = ({
+          task: {
+            type: "continue",
+            value: {
+              title: "YouTube Player",
+              url: `https://${process.env.PUBLIC_HOSTNAME}/youTubePlayer1Tab/player.html?vid=X8krAMdGvCQ&default=1`,
+              width: 1000,
+              height: 700
+            } as TaskModuleTaskInfo
+          }
+        } as TaskModuleResponse);
+        break;
+    };
+
+    console.log("handleTeamsTaskModuleFetch() response", response);
     return Promise.resolve(response);
-  }  
+  }
 }
