@@ -9,24 +9,24 @@ import * as microsoftTeams from "@microsoft/teams-js";
  */
 export const MsGraphTeamworkTabRemove = () => {
 
-    const [{ inTeams, theme }] = useTeams();
+  const [{ inTeams, theme }] = useTeams();
 
-    useEffect(() => {
-        if (inTeams === true) {
-            microsoftTeams.appInitialization.notifySuccess();
-        }
-    }, [inTeams]);
+  useEffect(() => {
+    if (inTeams === true) {
+      microsoftTeams.appInitialization.notifySuccess();
+    }
+  }, [inTeams]);
 
-    return (
-        <Provider theme={theme}>
-            <Flex fill={true}>
-                <Flex.Item>
-                    <div>
-                        <Header content="You're about to remove your tab..." />
-                        <Text content="You can just add stuff here if you want to clean up when removing the tab. For instance, if you have stored data in an external repository, you can delete or archive it here. If you don't need this remove page you can remove it." />
-                    </div>
-                </Flex.Item>
-            </Flex>
-        </Provider>
-    );
+  return (
+    <Provider theme={theme}>
+      <Flex fill={true}>
+        <Flex.Item>
+          <div>
+            <Header content="You're about to remove your tab..." />
+            <Text content="You can just add stuff here if you want to clean up when removing the tab. For instance, if you have stored data in an external repository, you can delete or archive it here. If you don't need this remove page you can remove it." />
+          </div>
+        </Flex.Item>
+      </Flex>
+    </Provider>
+  );
 };
