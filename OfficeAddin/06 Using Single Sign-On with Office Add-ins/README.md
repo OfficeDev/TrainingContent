@@ -34,9 +34,10 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Version history
 
-| Version | Date          | Comments        |
-| ------- | ------------- | --------------- |
-| 1.0     | March 5, 2021 | Initial release |
+| Version |       Date        |        Comments        |
+| ------- | ----------------- | ---------------------- |
+| 1.1     | September 6, 2021 | 2022Q1 content refresh |
+| 1.0     | March 5, 2021     | Initial release        |
 
 ## Disclaimer
 
