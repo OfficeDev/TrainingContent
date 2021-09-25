@@ -43,19 +43,21 @@ export class ConversationalBot extends TeamsActivityHandler {
       // TODO: add your own bot logic in here
       switch (context.activity.type) {
         case ActivityTypes.Message:
-          let text = TurnContext.removeRecipientMention(context.activity);
-          text = text.toLowerCase();
-          if (text.startsWith("mentionme")) {
-            await this.handleMessageMentionMeOneOnOne(context);
-            return;
-          } else if (text.startsWith("hello")) {
-            await context.sendActivity("Oh, hello to you as well!");
-            return;
-          } else if (text.startsWith("help")) {
-            const dc = await this.dialogs.createContext(context);
-            await dc.beginDialog("help");
-          } else {
-            await context.sendActivity(`I\'m terribly sorry, but my developer hasn\'t trained me to do anything yet...`);
+          {
+            let text = TurnContext.removeRecipientMention(context.activity);
+            text = text.toLowerCase();
+            if (text.startsWith("mentionme")) {
+              await this.handleMessageMentionMeOneOnOne(context);
+              return;
+            } else if (text.startsWith("hello")) {
+              await context.sendActivity("Oh, hello to you as well!");
+              return;
+            } else if (text.startsWith("help")) {
+              const dc = await this.dialogs.createContext(context);
+              await dc.beginDialog("help");
+            } else {
+              await context.sendActivity("I'm terribly sorry, but my developer hasn't trained me to do anything yet...");
+            }
           }
           break;
         default:
