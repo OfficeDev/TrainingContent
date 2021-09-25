@@ -25,10 +25,6 @@ export const ConfigMathTab = () => {
       microsoftTeams.appInitialization.notifySuccess();
     } else {
       setEntityId("Not in Microsoft Teams");
-      setMathTabState(state => ({
-        ...state,
-        mathOperator: "add"
-      } as IConfigMathTabState));
     }
   }, [inTeams]);
 
@@ -49,7 +45,7 @@ export const ConfigMathTab = () => {
         operandA: data.value
       } as IConfigMathTabState));
     }
-  }
+  };
 
   const handleOnChangedOperandB = (data?: InputProps): void => {
     if (data && !isNaN(Number(data.value))) {
@@ -58,7 +54,7 @@ export const ConfigMathTab = () => {
         operandB: data.value
       } as IConfigMathTabState));
     }
-  }
+  };
 
   const handleOperandChange = (): void => {
     let stringResult: string = "n/a";
@@ -89,7 +85,7 @@ export const ConfigMathTab = () => {
       ...state,
       result: stringResult
     } as IConfigMathTabState));
-  }
+  };
 
   /**
    * The render() method to create the UI of the tab

@@ -50,7 +50,7 @@ export const ConfigMathTabConfig = () => {
             if (data) {
               let op = (data.value) ? data.value.toString() : "add";
               setMathOperator(op);
-              entityId.current = `${op}MathPage`
+              entityId.current = `${op}MathPage`;
             }
           }}
           value={mathOperator}></Dropdown>
