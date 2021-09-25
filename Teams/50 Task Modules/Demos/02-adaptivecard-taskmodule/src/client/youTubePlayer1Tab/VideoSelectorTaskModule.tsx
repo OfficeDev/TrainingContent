@@ -31,7 +31,7 @@ export const VideoSelectorTaskModule = () => {
 
   const handleOnClick = (): void => {
     microsoftTeams.tasks.submitTask(youTubeVideoId, undefined);
-  }
+  };
 
   return (
     <Provider theme={theme}>
