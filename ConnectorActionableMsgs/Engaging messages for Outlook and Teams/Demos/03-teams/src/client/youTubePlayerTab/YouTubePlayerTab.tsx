@@ -64,6 +64,9 @@ export const YouTubePlayerTab = () => {
     };
 
     const submitHandler = (err: string, result: any): void => {
+      if (err) {
+        console.log(err);
+      }
       setYouTubeVideoId(result.youTubeVideoId);
     };
 
