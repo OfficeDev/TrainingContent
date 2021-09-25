@@ -1,18 +1,18 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.8",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
-    "websiteUrl": "https://{{HOSTNAME}}",
-    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
-    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+    "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
+    "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "SSO Teams Tab",
-    "full": "SSO Teams Tab"
+    "short": "SSO Teams Bot",
+    "full": "SSO Teams Bot"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -24,7 +24,16 @@
   },
   "accentColor": "#D85028",
   "configurableTabs": [],
-  "staticTabs": [],
+  "staticTabs": [
+    {
+      "entityId": "511c9130-143d-11ec-99b7-45c6ee38d624",
+      "name": "SSO Bot",
+      "contentUrl": "https://{{PUBLIC_HOSTNAME}}/Bot/ssoBot.html",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
   "bots": [{
     "botId": "{{MICROSOFT_APP_ID}}",
     "needsChannelSelector": true,
@@ -46,7 +55,7 @@
   ],
   "validDomains": [
     "token.botframework.com",
-    "{{HOSTNAME}}"
+    "{{PUBLIC_HOSTNAME}}",
   ],
   "webApplicationInfo": {
     "id": "{{MICROSOFT_APP_ID}}",
