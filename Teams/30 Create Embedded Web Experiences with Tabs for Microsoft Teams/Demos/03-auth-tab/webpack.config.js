@@ -3,9 +3,9 @@
 // Licensed under the MIT license.
 
 const webpack = require("webpack");
-const Dotenv = require("dotenv-webpack");
 const nodeExternals = require("webpack-node-externals");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const path = require("path");
 const fs = require("fs");
@@ -41,10 +41,21 @@ const config = [{
         rules: [{
             test: /\.tsx?$/,
             exclude: /node_modules/,
-            use: ["ts-loader"]
+            use: {
+                loader: "ts-loader",
+                options: {
+                    transpileOnly: true
+                }
+            }
         }]
     },
-    plugins: []
+    plugins: [
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                configFile: "./src/server/tsconfig.json"
+            }
+        })
+    ]
 },
 {
     entry: {
@@ -57,7 +68,7 @@ const config = [{
         path: path.join(__dirname, "/dist/web/scripts"),
         filename: "[name].js",
         libraryTarget: "umd",
-        library: "learnMsTeamsAuthTabs",
+        library: "learnMsTeamsTabs",
         publicPath: "/scripts/"
     },
     externals: {},
@@ -71,20 +82,51 @@ const config = [{
         rules: [{
             test: /\.tsx?$/,
             exclude: /node_modules/,
-            use: ["ts-loader"]
+            use: {
+                loader: "ts-loader",
+                options: {
+                    transpileOnly: true
+                }
+            }
         }]
     },
     plugins: [
-        new Dotenv({
-            systemvars: true
+        new webpack.EnvironmentPlugin({ PUBLIC_HOSTNAME: undefined, TAB_APP_ID: null, TAB_APP_URI: null }),
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                configFile: "./src/client/tsconfig.json"
+            }
         })
-    ]
+    ],
+    devServer: {
+        hot: false,
+        host: "localhost",
+        port: 9000,
+        allowedHosts: "all",
+        client: {
+            overlay: {
+                warnings: false,
+                errors: true
+            }
+        },
+        devMiddleware: {
+            writeToDisk: true,
+            stats: {
+                all: false,
+                colors: true,
+                errors: true,
+                warnings: true,
+                timings: true,
+                entrypoints: true
+            }
+        }
+    }
 }
 ];
 
 if (lint !== false) {
-    config[0].plugins.push(new ESLintPlugin({ extensions: ["ts", "tsx"], failOnError: false }));
-    config[1].plugins.push(new ESLintPlugin({ extensions: ["ts", "tsx"], failOnError: false }));
+    config[0].plugins.push(new ESLintPlugin({ extensions: ["ts", "tsx"], failOnError: false, lintDirtyModulesOnly: debug }));
+    config[1].plugins.push(new ESLintPlugin({ extensions: ["ts", "tsx"], failOnError: false, lintDirtyModulesOnly: debug }));
 }
 
 module.exports = config;
