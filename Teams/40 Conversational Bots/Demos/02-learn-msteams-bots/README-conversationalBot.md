@@ -7,7 +7,7 @@ In order to create a bot you need to first register it in the [Azure portal](htt
 1. Choose to *Create a resource*, or alternatively go to an existing *resource group* and click *Add*
 2. Search for *Bot channels registration* and then click *Create*
 3. Give the bot a handle (ex: `conversationalBot`), choose your subscription and resource group
-4. For the messaging endpoint, use this: `https://conversationalbot.azurewebsites.net/api/messages`
+4. For the messaging endpoint, use this: `https://conversationbot.azurewebsites.net/api/messages`
 5. Choose to *Auto create Microsoft App ID and Password*
 6. Click *Create*
 7. Wait for Azure to finish its magic and when done choose to go to resource

@@ -1,0 +1,47 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Adaptive card response",
+          "weight": "bolder",
+          "size": "large"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "${message}",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Execute",
+          "title": "Update card",
+          "verb": "update",
+          "data": {
+            "count":"${count}"
+          }
+        },
+        {
+          "type": "Action.Execute",
+          "title": "Delete card",
+          "verb": "delete",
+          "$when": "${showDelete}"
+        }
+      ]
+    }
+  ]
+}

@@ -14,17 +14,17 @@ import {
     TurnContext
 } from "botbuilder";
 
-const HELP_DIALOG_ID = "helpDialog";
-const HELP_WATERFALL_DIALOG_ID = "helpWaterfallDialog";
+const MENTION_DIALOG_ID = "mentionUserDialog";
+const MENTION_WATERFALL_DIALOG_ID = "mentionUserWaterfallDialog";
 
-export class HelpDialog extends ComponentDialog {
+export class MentionUserDialog extends ComponentDialog {
     constructor() {
-        super(HELP_DIALOG_ID);
+        super(MENTION_DIALOG_ID);
         this.addDialog(new TextPrompt("TextPrompt"))
-            .addDialog(new WaterfallDialog(HELP_WATERFALL_DIALOG_ID, [
+            .addDialog(new WaterfallDialog(MENTION_WATERFALL_DIALOG_ID, [
                 this.introStep.bind(this)
             ]));
-        this.initialDialogId = HELP_WATERFALL_DIALOG_ID;
+        this.initialDialogId = MENTION_WATERFALL_DIALOG_ID;
     }
 
     public async run(context: TurnContext, accessor: StatePropertyAccessor<DialogState>) {
@@ -38,8 +38,14 @@ export class HelpDialog extends ComponentDialog {
     }
 
     private async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const message = MessageFactory.text("I am terribly sorry, but my developer hasn't trained me to do anything yet 😂. Please refer to [this link](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/what-are-bots) to see how to develop bots for Teams");
-        await stepContext.context.sendActivity(message);
+        const mention = {
+            mentioned: stepContext.context.activity.from,
+            text: `<at>${new TextEncoder().encode(stepContext.context.activity.from.name)}</at>`,
+            type: "mention"
+        };
+        const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
+        replyActivity.entities = [mention];
+        await stepContext.context.sendActivity(replyActivity);
         return await stepContext.endDialog();
     }
 }
