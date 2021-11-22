@@ -6,17 +6,24 @@ import {
 import {
   DialogContext,
   DialogTurnResult,
-  OAuthPrompt,
+  OAuthPrompt
 } from "botbuilder-dialogs";
 import jwtDecode from "jwt-decode";
 
 export class TokenExchangeInvokeResponse {
-  constructor(public id: string, public connectionName: string, public failureDetail: string) { }
+  id: string;
+  connectionName: string;
+  failureDetail: string;
+
+  constructor(id: string, connectionName: string, failureDetail: string) {
+    this.id = id;
+    this.connectionName = connectionName;
+    this.failureDetail = failureDetail;
+  }
 }
 
 export class SsoOauthPrompt extends OAuthPrompt {
   public async continueDialog(dialogContext: DialogContext): Promise<DialogTurnResult> {
-
     // if token previously successfully exchanged, it should be cached in
     //  TurnState along with the TokenExchangeInvokeRequest
     const cachedTokenResponse = dialogContext.context.turnState.get("tokenExchangeResponse");
@@ -24,7 +31,7 @@ export class SsoOauthPrompt extends OAuthPrompt {
     if (cachedTokenResponse) {
       const tokenExchangeRequest = dialogContext.context.turnState.get("tokenExchangeInvokeRequest");
       if (!tokenExchangeRequest) {
-        throw new Error('TokenResponse is present in TurnState, but TokenExchangeInvokeRequest is missing.');
+        throw new Error("TokenResponse is present in TurnState, but TokenExchangeInvokeRequest is missing.");
       }
 
       // TokenExchangeInvokeResponse

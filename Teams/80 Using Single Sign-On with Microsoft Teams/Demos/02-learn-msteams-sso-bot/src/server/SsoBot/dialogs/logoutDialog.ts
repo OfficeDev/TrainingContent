@@ -31,20 +31,18 @@ export class LogoutDialog extends ComponentDialog {
 
   public async interrupt(innerDialogContext: DialogContext): Promise<DialogTurnResult | void> {
     if (innerDialogContext.context.activity.type === ActivityTypes.Message) {
-      const text = innerDialogContext.context.activity.text.toLowerCase().replace(/\r?\n|\r/g, '');
+      const text = innerDialogContext.context.activity.text.toLowerCase().replace(/\r?\n|\r/g, "");
 
-      if (text === 'logout') {
+      if (text === "logout") {
         // sign out
         const botAdapter = innerDialogContext.context.adapter as BotFrameworkAdapter;
         await botAdapter.signOutUser(innerDialogContext.context, this.ssoConnectionName);
 
         // notify user
-        await innerDialogContext.context.sendActivity('You have been signed out.');
+        await innerDialogContext.context.sendActivity("You have been signed out.");
 
         // cancel dialog stack
         return await innerDialogContext.cancelAllDialogs();
-      } else {
-        return;
       }
     }
   }

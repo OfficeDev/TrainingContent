@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "511c9130-143d-11ec-99b7-45c6ee38d624",
+      "entityId": "65796ed0-4bdf-11ec-87b4-f9765ad302fe",
       "name": "SSO Bot",
       "contentUrl": "https://{{PUBLIC_HOSTNAME}}/Bot/ssoBot.html",
       "scopes": [
@@ -34,19 +34,37 @@
       ]
     }
   ],
-  "bots": [{
-    "botId": "{{MICROSOFT_APP_ID}}",
-    "needsChannelSelector": true,
-    "isNotificationOnly": false,
-    "scopes": ["personal"],
-    "commandLists": [{
-      "scopes": ["personal"],
-      "commands": [{
-        "title": "Help",
-        "description": "Shows help information"
-      }]
-    }]
-  }],
+  "bots": [
+    {
+      "botId": "{{MICROSOFT_APP_ID}}",
+      "needsChannelSelector": true,
+      "isNotificationOnly": false,
+      "scopes": [
+        "personal"
+      ],
+      "commandLists": [
+        {
+          "scopes": [
+            "personal"
+          ],
+          "commands": [
+            {
+              "title": "Help",
+              "description": "Shows help information"
+            },
+            {
+              "title": "Who am I?",
+              "description": "Shows information about your Teams user"
+            },
+            {
+              "title": "Mention me",
+              "description": "Let the bot @mention you"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "connectors": [],
   "composeExtensions": [],
   "permissions": [
@@ -55,7 +73,7 @@
   ],
   "validDomains": [
     "token.botframework.com",
-    "{{PUBLIC_HOSTNAME}}",
+    "{{PUBLIC_HOSTNAME}}"
   ],
   "webApplicationInfo": {
     "id": "{{MICROSOFT_APP_ID}}",

@@ -9,7 +9,6 @@ import {
 } from "botbuilder";
 
 export class SsoOAuthHelper {
-  constructor(public oAuthConnectionName: string, public storage: ConversationState) { }
 
   public async shouldProcessTokenExchange(turnContext: TurnContext): Promise<boolean> {
     if (turnContext.activity.name !== tokenExchangeOperationName) {
@@ -25,7 +24,7 @@ export class SsoOAuthHelper {
   }
 
   public async exchangeToken(turnContext: TurnContext): Promise<boolean> {
-    let tokenExchangeResponse: TokenResponse | undefined = undefined;
+    let tokenExchangeResponse: TokenResponse | null = null;
     const tokenExchangeRequest = turnContext.activity.value;
 
     try {
@@ -35,11 +34,11 @@ export class SsoOAuthHelper {
         turnContext.activity.from.id,
         tokenExchangeRequest);
     } catch (err) {
-      // Ignore Exceptions
-      // If token exchange failed for any reason, tokenExchangeResponse above stays null , and hence we send back a failure invoke response to the caller.
+      // Ignore Exceptions: if token exchange failed for any reason, tokenExchangeResponse
+      //   above stays null; send failure invoke response to the caller.
     }
 
-    if (!tokenExchangeResponse || !tokenExchangeResponse.token) {
+    if (tokenExchangeResponse === null || !tokenExchangeResponse.token) {
       // The token could not be exchanged (which could be due to a consent requirement)
       // Notify the sender that PreconditionFailed so they can respond accordingly.
       await turnContext.sendActivity({
@@ -49,7 +48,7 @@ export class SsoOAuthHelper {
           body: {
             id: tokenExchangeRequest.id,
             connectionName: tokenExchangeRequest.connectionName,
-            failureDetail: 'The bot is unable to exchange token. Proceed with regular login.'
+            failureDetail: "The bot is unable to exchange token. Proceed with regular login."
           }
         }
       });
@@ -62,5 +61,4 @@ export class SsoOAuthHelper {
     }
     return Promise.resolve(true);
   }
-
 }
