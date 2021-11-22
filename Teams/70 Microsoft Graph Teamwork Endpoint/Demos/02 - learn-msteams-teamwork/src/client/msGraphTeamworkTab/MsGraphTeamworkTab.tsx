@@ -127,8 +127,8 @@ export const MsGraphTeamworkTab = () => {
         displayName: "Word",
         "teamsApp@odata.bind": "https://graph.microsoft.com/v1.0/appCatalogs/teamsApps/com.microsoft.teamspace.tab.file.staticviewer.word",
         configuration: {
-          entityId: "CA2E9D19-3FE7-4E60-82DF-F73BD3B8D302",
-          contentUrl: "https://scdev.sharepoint.com/sites/Learn22Q1/Shared%20Documents/document.docx",
+          entityId: "{{WORD_DOCUMENT_ID}}",
+          contentUrl: "{{WORD_DOCUMENT_URL}}",
           removeUrl: null,
           websiteUrl: null
         }
@@ -152,8 +152,8 @@ export const MsGraphTeamworkTab = () => {
         displayName: "Excel",
         "teamsApp@odata.bind": "https://graph.microsoft.com/v1.0/appCatalogs/teamsApps/com.microsoft.teamspace.tab.file.staticviewer.excel",
         configuration: {
-          entityId: "2A451F2C-5BC0-4EEF-B986-671705798A54",
-          contentUrl: "https://scdev.sharepoint.com/sites/Learn22Q1/Shared%20Documents/document.docx",
+          entityId: "{{EXCEL_DOCUMENT_ID}}",
+          contentUrl: "{{EXCEL_DOCUMENT_URL}}",
           removeUrl: null,
           websiteUrl: null
         }

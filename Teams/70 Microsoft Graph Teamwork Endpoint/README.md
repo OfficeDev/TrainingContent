@@ -32,15 +32,17 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-| Roles                | Author(s)                                                                             |
-| -------------------- | ------------------------------------------------------------------------------------- |
+|        Roles         |                                                   Author(s)                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](//github.com/voitanos)) [@andrewconnell](//github.com/andrewconnell) |
+| QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)                                 |
 
 ## Version history
 
 | Version |      Date          |                Comments                |
 | ------- | ------------------ | -------------------------------------- |
-| 1.3     | September 10, 2021 | FY2022Q! content refresh               |
+| 1.4     | November 22, 2021  | FY2022Q2 content refresh               |
+| 1.3     | September 10, 2021 | FY2022Q1 content refresh               |
 | 1.2     | May 26, 2021       | Refresh slides to new template         |
 | 1.1     | May 6, 2021        | Port demos to Yo Teams, FY21Q4 refresh |
 | 1.0     | March 12, 2021     | New module published                   |

@@ -111,7 +111,7 @@ export const MsGraphTeamworkTab = () => {
   useEffect(() => {
     getJoinedTeams();
     getProfilePhoto();
-  }, [getProfilePhoto, msGraphOboToken]);
+  }, [getJoinedTeams, getProfilePhoto, msGraphOboToken]);
 
   /**
    * The render() method to create the UI of the tab
