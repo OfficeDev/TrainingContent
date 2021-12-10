@@ -38,8 +38,9 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Version history
 
-| Version | Date               | Comments                 |
+| Version |        Date        |         Comments         |
 | ------- | ------------------ | ------------------------ |
+| 1.5     | December 11, 2021  | FY2022Q2 content refresh |
 | 1.4     | September 10, 2021 | FY2022Q1 content refresh |
 | 1.3     | March 02, 2021     | FY2021Q3 content refresh |
 | 1.2     | December 09, 2020  | FY2021Q2 content refresh |
