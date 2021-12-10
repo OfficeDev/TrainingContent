@@ -1,14 +1,14 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.8",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Office Dev Training Content",
-    "websiteUrl": "https://{{HOSTNAME}}",
-    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
-    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+    "name": "Contoso",
+    "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
+    "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
     "short": "My First Teams Connector",
@@ -26,7 +26,7 @@
   "connectors": [
     {
       "connectorId": "{{CONNECTOR_ID}}",
-      "configurationUrl": "https://{{HOSTNAME}}/myFirstTeamsConnector/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "configurationUrl": "https://{{PUBLIC_HOSTNAME}}/myFirstTeamsConnector/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "scopes": [
         "team"
       ]
@@ -37,7 +37,7 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "{{HOSTNAME}}"
+    "{{PUBLIC_HOSTNAME}}"
   ],
   "showLoadingIndicator": false
 }

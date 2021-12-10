@@ -1,8 +1,8 @@
-# Teams Webhooks Outgoing Webhook - `teamsWebhooksOutgoingWebhook`
+# TeamsWebhooks Outgoing Webhook - `teamsWebhooksOutgoingWebhook`
 
 ## How to add the Outgoing Webhook to a Teams team
 
-To add the Teams Webhooks Outgoing Webhook to a Microsoft Teams team, choose *View Team* and then choose the *Bots* tab. In the lower right corner click on *Create a outgoing webhook*. Then fill in the name, the URL (`https://teamswebhooks.azurewebsites.net/api/webhook`) and a description and click ok. Once the outgoing webhook is registered you will receive a _Security token_. Save this token in a secure place for future use, and you wil not be able to retrieve it again. 
+To add the TeamsWebhooks Outgoing Webhook to a Microsoft Teams team, choose *View Team* and then choose the *Bots* tab. In the lower right corner click on *Create a outgoing webhook*. Then fill in the name, the URL (`https://teamswebhooks.azurewebsites.net/api/webhook`) and a description and click ok. Once the outgoing webhook is registered you will receive a _Security token_. Save this token in a secure place for future use, and you wil not be able to retrieve it again. 
 
 ### Security token usage
 

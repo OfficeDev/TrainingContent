@@ -5,7 +5,7 @@
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Office Dev Training Content",
+    "name": "Contoso",
     "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
     "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
