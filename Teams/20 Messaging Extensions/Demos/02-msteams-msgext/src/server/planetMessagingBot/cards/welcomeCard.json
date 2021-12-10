@@ -1,0 +1,102 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+      {
+          "type": "ColumnSet",
+          "columns": [
+              {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                      {
+                          "type": "Image",
+                          "url": "https://raw.githubusercontent.com/pnp/media/master/parker/teams/300w/parker-teams-300.png",
+                          "size": "Medium"
+                      }
+                  ],
+                  "verticalContentAlignment": "Center",
+                  "spacing": "Large"
+              },
+              {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "spacing": "Medium",
+                          "size": "Large",
+                          "weight": "Bolder",
+                          "text": "Welcome to Planet Messaging",
+                          "wrap": true,
+                          "maxLines": 0
+                      },
+                      {
+                          "type": "TextBlock",
+                          "size": "default",
+                          "text": "Hello, nice to meet you! I'm Planet Messaging created using #yoTeams and happy to assist you 😀",
+                          "wrap": true,
+                          "maxLines": 0
+                      }
+                  ]
+              }
+          ]
+      },
+      {
+          "type": "ActionSet",
+          "actions": [
+              {
+                  "type": "Action.OpenUrl",
+                  "title": "Learn more about Yo Teams",
+                  "url": "https://aka.ms/yoteams"
+              },
+              {
+                  "type": "Action.OpenUrl",
+                  "title": "Learn more about bots in Teams",
+                  "url": "https://docs.microsoft.com/en-us/microsoftteams/platform/bots/what-are-bots"
+              }
+          ],
+          "height": "stretch",
+          "horizontalAlignment": "Center"
+      },
+      {
+          "type": "ActionSet",
+          "actions": [
+              {
+                  "type": "Action.Submit",
+                  "title": "Who am I?",
+                  "data": {
+                    "msteams": {
+                      "type": "messageBack",
+                      "displayText": "who am i?",
+                      "text": "who"
+                    }
+                  }
+              },
+              {
+                "type": "Action.Submit",
+                "title": "Mention me",
+                "data": {
+                  "msteams": {
+                    "type": "messageBack",
+                    "displayText": "mention me",
+                    "text": "mention"
+                  }
+                }
+              },
+              {
+                "type": "Action.Submit",
+                "title": "Get help",
+                "data": {
+                  "msteams": {
+                    "type": "messageBack",
+                    "displayText": "get help",
+                    "text": "help"
+                  }
+                }
+              }
+          ]
+      }
+  ]
+}

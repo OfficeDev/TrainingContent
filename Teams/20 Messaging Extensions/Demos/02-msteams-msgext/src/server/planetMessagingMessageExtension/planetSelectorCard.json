@@ -1,7 +1,7 @@
 {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
-  "version": "1.0",
+  "version": "1.4",
   "body": [
     {
       "type": "Container",
@@ -17,7 +17,13 @@
     {
       "type": "Input.ChoiceSet",
       "id": "planetSelector",
-      "choices": []
+      "choices": [
+        {
+          "$data": "${$root}",
+          "title": "${title}",
+          "value": "${value}"
+        }
+      ]
     }
   ],
   "actions": [

@@ -32,15 +32,16 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Contributors
 
-| Roles                | Author(s)                                                                             |
+|        Roles         |                                       Author(s)                                       |
 | -------------------- | ------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
-| Sponsor / Support    | Andrew Clear (Microsoft) [@clearab](//github.com/clearab)                             |
+| QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)        |
 
 ## Version history
 
 | Version |        Date        |            Comments            |
 | ------- | ------------------ | ------------------------------ |
+| 1.8     | December 10, 2021  | FY2022Q2 content refresh       |
 | 1.7     | September 10, 2021 | FY2022Q1 content refresh       |
 | 1.6     | May 26, 2021       | Refresh slides to new template |
 | 1.5     | May 10, 2021       | FY2021Q4 content refresh       |
