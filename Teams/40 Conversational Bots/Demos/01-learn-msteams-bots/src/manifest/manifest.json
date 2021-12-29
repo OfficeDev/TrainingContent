@@ -5,7 +5,7 @@
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Office Developer",
+    "name": "Contoso",
     "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
     "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
@@ -47,8 +47,12 @@
               "description": "Shows help information"
             },
             {
-              "title": "MentionMe",
-              "description": "Sends message with @mention of the sender"
+              "title": "Who am I?",
+              "description": "Shows information about your Teams user"
+            },
+            {
+              "title": "Mention me",
+              "description": "Let the bot @mention you"
             }
           ]
         }

@@ -1,13 +1,12 @@
 import { BotDeclaration } from "express-msteams-host";
 import * as debug from "debug";
-import { DialogSet, DialogState } from "botbuilder-dialogs";
-import {
-  StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory
-} from "botbuilder";
-import HelpDialog from "./dialogs/HelpDialog";
-import WelcomeCard from "./dialogs/WelcomeDialog";
-import * as Util from "util";
-const TextEncoder = Util.TextEncoder;
+import { CardFactory, ConversationState, MemoryStorage, UserState, TurnContext, AdaptiveCardInvokeValue, AdaptiveCardInvokeResponse, StatusCodes } from "botbuilder";
+import { DialogBot } from "./dialogBot";
+import { MainDialog } from "./dialogs/mainDialog";
+import WelcomeCard from "./cards/welcomeCard";
+import ResponseCard from "./cards/responseCard";
+import * as ACData from "adaptivecards-templating";
+
 // Initialize debug logging module
 const log = debug("msteams");
 
@@ -22,198 +21,91 @@ const log = debug("msteams");
   // eslint-disable-next-line no-undef
   process.env.MICROSOFT_APP_PASSWORD)
 
-export class ConversationalBot extends TeamsActivityHandler {
-  private readonly conversationState: ConversationState;
-  private readonly dialogs: DialogSet;
-  private dialogState: StatePropertyAccessor<DialogState>;
+export class ConversationalBot extends DialogBot {
+  constructor(conversationState: ConversationState, userState: UserState) {
+    super(conversationState, userState, new MainDialog());
 
-  /**
-   * The constructor
-   * @param conversationState
-   */
-  public constructor(conversationState: ConversationState) {
-    super();
+    this.onMembersAdded(async (context, next) => {
+      const membersAdded = context.activity.membersAdded;
+      if (membersAdded && membersAdded.length > 0) {
+        for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+          if (membersAdded[cnt].id !== context.activity.recipient.id) {
+            await this.sendWelcomeCard(context);
+          }
+        }
+      }
+      await next();
+    });
 
-    this.conversationState = conversationState;
-    this.dialogState = conversationState.createProperty("dialogState");
-    this.dialogs = new DialogSet(this.dialogState);
-    this.dialogs.add(new HelpDialog("help"));
-    // Set up the Activity processing
-    this.onMessage(async (context: TurnContext): Promise<void> => {
-      // TODO: add your own bot logic in here
-      switch (context.activity.type) {
-        case ActivityTypes.Message:
-          if (context.activity.value) {
-            switch (context.activity.value.cardAction) {
-              case "update":
-                await this.updateCardActivity(context);
-                break;
-              case "delete":
-                await this.deleteCardActivity(context);
-                break;
+    this.onMessageReaction(async (context, next) => {
+      try {
+        if (context.activity.reactionsAdded) {
+          context.activity.reactionsAdded.forEach(async (reaction) => {
+            if (reaction.type === "like") {
+              await context.sendActivity("Thank you!");
             }
-          } else {
-            let text = TurnContext.removeRecipientMention(context.activity);
-            text = text.toLowerCase();
-            if (text.startsWith("mentionme")) {
-              if (context.activity.conversation.conversationType === "personal") {
-                await this.handleMessageMentionMeOneOnOne(context);
-              } else {
-                await this.handleMessageMentionMeChannelConversation(context);
-              }
-              return;
-            } else if (text.startsWith("hello")) {
-              await context.sendActivity("Oh, hello to you as well!");
-              return;
-            } else if (text.startsWith("help")) {
-              const dc = await this.dialogs.createContext(context);
-              await dc.beginDialog("help");
-            } else {
-              const value = { cardAction: "update", count: 0 };
-              const card = CardFactory.adaptiveCard({
-                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-                type: "AdaptiveCard",
-                version: "1.0",
-                body: [
-                  {
-                    type: "Container",
-                    items: [
-                      {
-                        type: "TextBlock",
-                        text: "Adaptive card response",
-                        weight: "bolder",
-                        size: "large"
-                      }
-                    ]
-                  },
-                  {
-                    type: "Container",
-                    items: [
-                      {
-                        type: "TextBlock",
-                        text: "Demonstrates how to respond with a card, update the card & ultimately delete the response.",
-                        wrap: true
-                      }
-                    ]
-                  }
-                ],
-                actions: [
-                  {
-                    type: "Action.Submit",
-                    title: "Update card",
-                    data: value
-                  }
-                ]
-              });
-              await context.sendActivity({ attachments: [card] });
-              return;
-            }
+          });
+        }
+        await next();
+      } catch (error) {
+        log("onMessageReaction: error\n", error);
+      }
+    });
+  }
+
+  public async sendWelcomeCard(context: TurnContext): Promise<void> {
+    const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
+    await context.sendActivity({ attachments: [welcomeCard] });
+  }
+
+  protected async onAdaptiveCardInvoke(context: TurnContext, invokeValue: AdaptiveCardInvokeValue): Promise<any> {
+    let cardResponse: AdaptiveCardInvokeResponse;
+
+    try {
+      const verb = invokeValue.action.verb;
+      switch (verb) {
+        case "update":
+          {
+            let clickCount: number = invokeValue.action.data.count as number;
+            const cardData = {
+              message: `Updated count: ${++clickCount}`,
+              count: clickCount,
+              showDelete: true
+            };
+            const template = new ACData.Template(ResponseCard);
+            const context: ACData.IEvaluationContext = {
+              $root: cardData
+            };
+            const acCard = template.expand(context);
+
+            cardResponse = {
+              statusCode: StatusCodes.OK,
+              type: "application/vnd.microsoft.card.adaptive",
+              value: acCard
+            } as unknown as AdaptiveCardInvokeResponse;
+
           }
           break;
+
+        case "delete":
+          await context.deleteActivity(context!.activity!.replyToId!);
+          return Promise.resolve({
+            statusCode: 200,
+            type: "application/vnd.microsoft.activity.message",
+            value: "Deleting activity..."
+          });
+
         default:
-          break;
+          return Promise.resolve({
+            statusCode: 200,
+            type: "application/vnd.microsoft.activity.message",
+            value: "I don't know how to process that verb"
+          });
       }
-      // Save state changes
-      return this.conversationState.saveChanges(context);
-    });
-
-    this.onConversationUpdate(async (context: TurnContext): Promise<void> => {
-      if (context.activity.membersAdded && context.activity.membersAdded.length !== 0) {
-        for (const idx in context.activity.membersAdded) {
-          if (context.activity.membersAdded[idx].id === context.activity.recipient.id) {
-            const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
-            await context.sendActivity({ attachments: [welcomeCard] });
-          }
-        }
-      }
-    });
-
-    this.onMessageReaction(async (context: TurnContext): Promise<void> => {
-      if (context.activity.reactionsAdded) {
-        context.activity.reactionsAdded.forEach(async (reaction) => {
-          if (reaction.type === "like") {
-            await context.sendActivity("Thank you!");
-          }
-        });
-      }
-    });
+      return Promise.resolve(cardResponse);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  private async handleMessageMentionMeOneOnOne(context: TurnContext): Promise<void> {
-    const mention = {
-      mentioned: context.activity.from,
-      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
-      type: "mention"
-    };
-
-    const replyActivity = MessageFactory.text(`Hi ${mention.text} from a 1:1 chat.`);
-    replyActivity.entities = [mention];
-    await context.sendActivity(replyActivity);
-  }
-
-  private async handleMessageMentionMeChannelConversation(context: TurnContext): Promise<void> {
-    const mention = {
-      mentioned: context.activity.from,
-      text: `<at>${new TextEncoder().encode(context.activity.from.name)}</at>`,
-      type: "mention"
-    };
-
-    const replyActivity = MessageFactory.text(`Hi ${mention.text}!`);
-    replyActivity.entities = [mention];
-    const followupActivity = MessageFactory.text("*We are in a channel conversation*");
-    await context.sendActivities([replyActivity, followupActivity]);
-  }
-
-  private async updateCardActivity(context): Promise<void> {
-    const value = {
-      cardAction: "update",
-      count: context.activity.value.count + 1
-    };
-    const card = CardFactory.adaptiveCard({
-      $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-      type: "AdaptiveCard",
-      version: "1.0",
-      body: [
-        {
-          type: "Container",
-          items: [
-            {
-              type: "TextBlock",
-              text: "Adaptive card response",
-              weight: "bolder",
-              size: "large"
-            }
-          ]
-        },
-        {
-          type: "Container",
-          items: [
-            {
-              type: "TextBlock",
-              text: `Updated count: ${value.count}`,
-              wrap: true
-            }
-          ]
-        }
-      ],
-      actions: [
-        {
-          type: "Action.Submit",
-          title: "Update card",
-          data: value
-        },
-        {
-          type: "Action.Submit",
-          title: "Delete card",
-          data: { cardAction: "delete" }
-        }
-      ]
-    });
-
-    await context.updateActivity({ attachments: [card], id: context.activity.replyToId, type: "message" });
-  }
-
-  private async deleteCardActivity(context): Promise<void> {
-    await context.deleteActivity(context.activity.replyToId);
-  }
 }
