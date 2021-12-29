@@ -1,5 +1,5 @@
 import { Client } from "@microsoft/microsoft-graph-client";
-import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
+import * as MicrosoftGraph from "@microsoft/microsoft-graph-types";
 
 export class MsGraphHelper {
   private msGraphClient: Client;
@@ -21,7 +21,7 @@ export class MsGraphHelper {
       .select("receivedDateTime,subject")
       .orderby("receivedDateTime desc")
       .top(1)
-      .get()
+      .get();
 
     return response.value[0] as MicrosoftGraph.Message;
   }

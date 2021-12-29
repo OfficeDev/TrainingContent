@@ -32,7 +32,7 @@ export const SsoBotTab = () => {
         <Flex.Item styles={{
           padding: ".8rem 0 .8rem .5rem"
         }}>
-          <Text size="smaller" content="(C) Copyright Office Developer" />
+          <Text size="smaller" content="(C) Copyright Contoso" />
         </Flex.Item>
       </Flex>
     </Provider>

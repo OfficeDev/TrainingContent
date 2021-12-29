@@ -14,7 +14,6 @@ export const SsoTab = () => {
   const [entityId, setEntityId] = useState<string | undefined>();
   const [name, setName] = useState<string>();
   const [error, setError] = useState<string>();
-
   const [ssoToken, setSsoToken] = useState<string>();
   const [msGraphOboToken, setMsGraphOboToken] = useState<string>();
   const [recentMail, setRecentMail] = useState<any[]>();
@@ -95,7 +94,7 @@ export const SsoTab = () => {
 
   useEffect(() => {
     getRecentEmails();
-  }, [msGraphOboToken]);
+  }, [getRecentEmails, msGraphOboToken]);
 
   /**
    * The render() method to create the UI of the tab
@@ -111,9 +110,8 @@ export const SsoTab = () => {
         <Flex.Item>
           <div>
             <div>
-              {recentMail && <div><h3>Your recent emails:</h3><List items={recentMail} /></div>}
-
               <Text content={`Hello ${name}`} />
+              {recentMail && <div><h3>Your recent emails:</h3><List items={recentMail} /></div>}
             </div>
             {error && <div><Text content={`An SSO error occurred ${error}`} /></div>}
 
@@ -125,7 +123,7 @@ export const SsoTab = () => {
         <Flex.Item styles={{
           padding: ".8rem 0 .8rem .5rem"
         }}>
-          <Text size="smaller" content="(C) Copyright Office Developer" />
+          <Text size="smaller" content="(C) Copyright Contoso" />
         </Flex.Item>
       </Flex>
     </Provider>

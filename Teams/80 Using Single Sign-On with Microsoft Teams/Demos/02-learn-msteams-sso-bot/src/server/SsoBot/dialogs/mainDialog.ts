@@ -8,22 +8,20 @@ import {
   DialogTurnResult,
   DialogTurnStatus,
   WaterfallDialog,
-  WaterfallStepContext,
+  WaterfallStepContext
 } from "botbuilder-dialogs";
-import { LogoutDialog } from './logoutDialog';
-import { SsoOauthPrompt } from './ssoOauthPrompt';
+import { LogoutDialog } from "./logoutDialog";
+import { SsoOauthPrompt } from "./ssoOauthPrompt";
 import "isomorphic-fetch";
 import { MsGraphHelper } from "../helpers/MsGraphHelper";
 
-const MAIN_DIALOG_ID = 'MainDialog';
-const MAIN_WATERFALL_DIALOG_ID = 'MainWaterfallDialog';
-const OAUTH_PROMPT_ID = 'OAuthPrompt';
+const MAIN_DIALOG_ID = "MainDialog";
+const MAIN_WATERFALL_DIALOG_ID = "MainWaterfallDialog";
+const OAUTH_PROMPT_ID = "OAuthPrompt";
 
 export class MainDialog extends LogoutDialog {
   constructor() {
     super(MAIN_DIALOG_ID, process.env.SSO_CONNECTION_NAME as string);
-
-    /* add dialogs... */
 
     // sso signin prompt
     this.addDialog(new SsoOauthPrompt(OAUTH_PROMPT_ID, {
@@ -68,11 +66,11 @@ export class MainDialog extends LogoutDialog {
     if (!tokenResponse?.token) {
       await stepContext.context.sendActivity("Login not successful, please try again.");
     } else {
-     const msGraphClient = new MsGraphHelper(tokenResponse?.token);
+      const msGraphClient = new MsGraphHelper(tokenResponse?.token);
 
       const user = await msGraphClient.getCurrentUser();
       await stepContext.context.sendActivity(`Thank you for signing in ${user.displayName as string} (${user.userPrincipalName as string})!`);
-      await stepContext.context.sendActivity(`I can retrieve your details from Microsoft Graph using my support for SSO! For example...`);
+      await stepContext.context.sendActivity("I can retrieve your details from Microsoft Graph using my support for SSO! For example...");
 
       const email = await msGraphClient.getMostRecentEmail();
       await stepContext.context.sendActivity(`Your most recent email about "${email.subject as string}" was received at ${new Date(email.receivedDateTime as string).toLocaleString()}.`);
