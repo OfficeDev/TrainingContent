@@ -1,11 +1,11 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.8",
-  "id": "415a87e6-993f-4181-871b-02f4a7ea173e",
-  "version": "1.0.1",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.10/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.10",
+  "id": "{{APPLICATION_ID}}",
+  "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Office Dev Training Content",
+    "name": "Contoso",
     "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
     "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
@@ -29,14 +29,15 @@
   "connectors": [],
   "composeExtensions": [
     {
-      "botId": "415a87e6-993f-4181-871b-02f4a7ea173e",
+      "botId": "{{MICROSOFT_APP_ID}}",
       "canUpdateConfiguration": false,
       "commands": [
         {
-          "id": "planetExpanderAction",
-          "type": "action",
-          "title": "Planet Expander",
+          "id": "planetMessagingMessageExtension",
+          "title": "Planet Messaging",
           "description": "Lookup the details of a planet.",
+          "initialRun": true,
+          "type": "action",
           "context": [
             "compose",
             "message"
@@ -44,20 +45,21 @@
           "fetchTask": true
         },
         {
-          "id": "planetExpanderSearch",
-          "type": "query",
-          "title": "Planet Lookup",
-          "description": "Search for a planet.",
+          "id": "planetLookupMessageExtension",
+          "title": "PlanetLookup",
+          "description": "Search for a planet",
           "context": [
             "compose"
           ],
+          "initialRun": false,
           "parameters": [
             {
               "name": "searchKeyword",
               "description": "Enter 'inner','outer' or the name of a specific planet",
               "title": "Planet"
             }
-          ]
+          ],
+          "type": "query"
         }
       ]
     }
