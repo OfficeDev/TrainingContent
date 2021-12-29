@@ -44,5 +44,4 @@ export const VideoSelectorTaskModule = () => {
       </Flex>
     </Provider>
   );
-
 };

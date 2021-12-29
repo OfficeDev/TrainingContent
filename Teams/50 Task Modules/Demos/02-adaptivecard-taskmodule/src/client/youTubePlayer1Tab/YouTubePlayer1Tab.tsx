@@ -109,8 +109,8 @@ export const YouTubePlayer1Tab = () => {
             </div>
             <div>
               <Button content="Change Video ID" onClick={() => onChangeVideo()}></Button>
-              <Button content="Change Video ID (AdaptiveCard)" onClick={() => onChangeVideoAdaptiveCard()}></Button>
               <Button content="Show Video" primary onClick={() => onShowVideo()}></Button>
+              <Button content="Change Video ID (AdaptiveCard)" onClick={() => onChangeVideoAdaptiveCard()}></Button>
             </div>
           </div>
         </Flex.Item>
