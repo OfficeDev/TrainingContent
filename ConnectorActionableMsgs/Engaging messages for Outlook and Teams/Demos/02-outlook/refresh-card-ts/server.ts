@@ -107,17 +107,18 @@ express.post('/api/card', (request: Express.Request, response: Express.Response,
       feedback.push(feedbackResponse);
 
       // create data structure for Adaptive Card
-      let cardData = new ACData.EvaluationContext();
-      cardData.$root = {
-        average_rating: feedback
-          .map((feedbackReply) => {
-            return feedbackReply.rating
-          })
-          .reduce((total, rating) => {
-            return total + rating;
-          }, 0) / feedback.length,
-        feedback: feedback,
-        total_responses: feedback.length
+      let cardData: ACData.IEvaluationContext = {
+        $root: {
+          average_rating: feedback
+            .map((feedbackReply) => {
+              return feedbackReply.rating
+            })
+            .reduce((total, rating) => {
+              return total + rating;
+            }, 0) / feedback.length,
+          feedback: feedback,
+          total_responses: feedback.length
+        }
       };
 
       // load the template Adaptive Card response
