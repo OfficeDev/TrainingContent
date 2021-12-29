@@ -6,7 +6,9 @@ import * as React from "react";
 export const render = (type: any, element: HTMLElement) => {
     ReactDOM.render(React.createElement(type, {}), element);
 };
-// Automatically added for the learnAuthTab tab
-export * from "./learnAuthTab/LearnAuthTab";
-export * from "./learnAuthTab/LearnAuthTabConfig";
-export * from "./learnAuthTab/LearnAuthTabRemove";
+// Automatically added for the learnPersonalTab tab
+export * from "./learnPersonalTab/LearnPersonalTab";
+// Automatically added for the configMathTab tab
+export * from "./configMathTab/ConfigMathTab";
+export * from "./configMathTab/ConfigMathTabConfig";
+export * from "./configMathTab/ConfigMathTabRemove";

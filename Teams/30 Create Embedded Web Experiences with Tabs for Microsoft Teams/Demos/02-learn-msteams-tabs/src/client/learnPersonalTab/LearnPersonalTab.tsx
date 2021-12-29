@@ -15,16 +15,16 @@ export const LearnPersonalTab = () => {
 
   const [{ inTeams, theme, context }] = useTeams();
   const [entityId, setEntityId] = useState<string | undefined>();
-  const [todoItems, setTodoItems] = useState<string[]>(["Submit time sheet","Submit expense report"]);
+  const [todoItems, setTodoItems] = useState<string[]>(["Submit time sheet", "Submit expense report"]);
   const [newTodoValue, setNewTodoValue] = useState<string>("");
 
-    useEffect(() => {
-      if (inTeams === true) {
-        microsoftTeams.appInitialization.notifySuccess();
-      } else {
-        setEntityId("Not in Microsoft Teams");
-      }
-    }, [inTeams]);
+  useEffect(() => {
+    if (inTeams === true) {
+      microsoftTeams.appInitialization.notifySuccess();
+    } else {
+      setEntityId("Not in Microsoft Teams");
+    }
+  }, [inTeams]);
 
   useEffect(() => {
     if (context) {
@@ -54,7 +54,8 @@ export const LearnPersonalTab = () => {
         <Text content="These are your to-do items:" size="medium"></Text>
         <List selectable>
           {todoItems.map((todoItem, i) => (
-            <List.Item key={i} media={<WindowMaximizeIcon outline />}
+            <List.Item key={i}
+              media={<WindowMaximizeIcon outline />}
               content={todoItem} index={i} >
             </List.Item>))
           }

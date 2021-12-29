@@ -1,14 +1,14 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.8",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Office Dev Training Content",
-    "websiteUrl": "https://{{HOSTNAME}}",
-    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
-    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+    "name": "Contoso",
+    "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
+    "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
     "short": "Learn MSTeams Tabs",
@@ -25,23 +25,18 @@
   "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://{{HOSTNAME}}/configMathTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "configurationUrl": "https://{{PUBLIC_HOSTNAME}}/configMathTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "canUpdateConfiguration": true,
       "scopes": [
         "team"
-      ],
-      "sharePointPreviewImage": "https://{{HOSTNAME}}/assets/configMathTab-preview.png",
-      "supportedSharePointHosts": [
-        "sharePointFullPage",
-        "sharePointWebPart"
       ]
     }
   ],
   "staticTabs": [
     {
-      "entityId": "56a317da-fc64-4e32-8051-e4700271ab72",
+      "entityId": "41bbb49c-21a9-43ed-acc3-e92730bd5481",
       "name": "LearnPersonalTab",
-      "contentUrl": "https://{{HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
+      "contentUrl": "https://{{PUBLIC_HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
         "personal"
       ]
@@ -55,7 +50,7 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "{{HOSTNAME}}"
+    "{{PUBLIC_HOSTNAME}}"
   ],
   "showLoadingIndicator": false
 }
