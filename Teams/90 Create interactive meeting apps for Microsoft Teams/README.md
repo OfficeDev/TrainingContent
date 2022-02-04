@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
+This module has been recorded and is available in the **Microsoft 365 Developer** YouTube channel: [Create interactive meeting apps for Microsoft Teams](https://www.youtube.com/watch?list=PLWZJrkeLOrbb6cyUwEfSlI-cSS742srtM)
 
 ## Contributors
 
