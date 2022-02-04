@@ -30,7 +30,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: [Collect Input in Microsoft Teams with Task Modules](https://www.youtube.com/watch?v=VlEH4vtaxp4)
+This module has been recorded and is available in the **Microsoft 365 Development** YouTube channel: [Collect Input in Microsoft Teams with Task Modules](https://www.youtube.com/watch?v=VlEH4vtaxp4)
 
 ## Contributors
 

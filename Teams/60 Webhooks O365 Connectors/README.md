@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
+This module has been recorded and is available in the **Microsoft 365 Developer** YouTube channel: [Connect web services to Microsoft Teams with webhooks and Office 365 Connectors](https://www.youtube.com/watch?list=PLWZJrkeLOrbYpR_lEOXV62G6B1WeZ-SE8)
 
 ## Contributors
 

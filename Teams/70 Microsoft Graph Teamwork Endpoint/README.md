@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
+This module has been recorded and is available in the **Microsoft 365 Developer** YouTube channel: [Microsoft Teams – Use the teamwork Microsoft Graph endpoint](https://www.youtube.com/watch?list=PLWZJrkeLOrbZnS7i-mjIbAP9DXlo9YNBc)
 
 ## Contributors
 

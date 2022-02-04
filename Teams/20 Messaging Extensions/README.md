@@ -28,7 +28,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
+This module has been recorded and is available in the **Microsoft 365 Development** YouTube channel: [Task-oriented interactions in Microsoft Teams with messaging extensions with action commands](https://www.youtube.com/watch?list=PLWZJrkeLOrbZesnsH8axkPMnXdle7UqTa)
 
 ## Contributors
 

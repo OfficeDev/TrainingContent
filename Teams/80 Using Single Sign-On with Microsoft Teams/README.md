@@ -27,7 +27,7 @@ The lab for this module is available in multiple units within the associated Mic
 
 ## Watch the module
 
-This module has been recorded and is available in the Office Development YouTube channel: _coming soon_
+This module has been recorded and is available in the **Microsoft 365 Developer** YouTube channel: [Understand authentication and single sign-on (SSO) in Microsoft Teams apps](https://www.youtube.com/watch?list=PLWZJrkeLOrbZ3uG8Xb8yOUeWu7UDu4Q_-)
 
 ## Contributors
 
