@@ -64,18 +64,21 @@ function writeDataToExcel(result) {
 }
 
 function writeDataToOutlook(result) {
-  let emailMessage = "";
+  let data = [];
+  let userProfileInfo = filterUserProfileInfo(result);
 
-  result.value.forEach(function (meeting) {
-    let startDateTime = new Date(meeting.start.dateTime + "Z");
-    let endDateTime = new Date(meeting.end.dateTime + "Z");
-    emailMessage += `<li><strong><em>${startDateTime.toLocaleTimeString()}-${endDateTime.toLocaleTimeString()}</em></strong><br />${meeting.subject}</li>`;
-  });
+  for (let i = 0; i < userProfileInfo.length; i++) {
+    if (userProfileInfo[i] !== null) {
+      data.push(userProfileInfo[i]);
+    }
+  }
 
-  // wrap meeting
-  emailMessage = `Here's what my upcoming calendar looks like for the rest of the day: <ul>${emailMessage}</ul>`;
+  let userInfo = "";
+  for (let i = 0; i < data.length; i++) {
+    userInfo += data[i] + "\n";
+  }
 
-  Office.context.mailbox.item.body.setSelectedDataAsync(emailMessage, { coercionType: Office.CoercionType.Html });
+  Office.context.mailbox.item.body.setSelectedDataAsync(userInfo, { coercionType: Office.CoercionType.Html });
 }
 
 function writeDataToPowerPoint(result) {

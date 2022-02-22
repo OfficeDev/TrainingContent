@@ -1,8 +1,7 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+/* eslint-disable no-undef */
+
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
-const webpack = require("webpack");
 
 const urlDev = "https://localhost:3000/";
 const urlProd = "https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
@@ -19,10 +18,17 @@ module.exports = async (env, options) => {
       fallbackauthdialog: "./src/helpers/fallbackauthdialog.js",
     },
     output: {
-      path: path.resolve(process.cwd(), "dist"),
+      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
+      clean: true,
     },
     resolve: {
       extensions: [".ts", ".tsx", ".html", ".js"],
+      fallback: {
+        buffer: require.resolve("buffer/"),
+        http: require.resolve("stream-http"),
+        https: require.resolve("https-browserify"),
+        url: require.resolve("url/"),
+      },
     },
     module: {
       rules: [
@@ -42,16 +48,15 @@ module.exports = async (env, options) => {
           use: "html-loader",
         },
         {
-          test: /\.(png|jpg|jpeg|gif)$/,
-          loader: "file-loader",
-          options: {
-            name: "[path][name].[ext]",
+          test: /\.(png|jpg|jpeg|gif|ico)$/,
+          type: "asset/resource",
+          generator: {
+            filename: "assets/[name][ext][query]",
           },
         },
       ],
     },
     plugins: [
-      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
@@ -70,12 +75,12 @@ module.exports = async (env, options) => {
       new CopyWebpackPlugin({
         patterns: [
           {
-            to: "taskpane.css",
-            from: "./src/taskpane/taskpane.css",
+            from: "assets/*",
+            to: "assets/[name][ext][query]",
           },
           {
-            to: "[name]." + buildType + ".[ext]",
             from: "manifest*.xml",
+            to: "[name]." + buildType + "[ext]",
             transform(content) {
               if (dev) {
                 return content;

@@ -21,7 +21,11 @@ module.exports = async (env, options) => {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       taskpane: "./src/taskpane/taskpane.js",
       commands: "./src/commands/commands.js",
-      dialog: "./src/settings/dialog.js"
+      fallbackauthdialog: "./src/helpers/fallbackauthdialog.js",
+    },
+    output: {
+      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
+      clean: true,
     },
     output: {
       devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
@@ -91,12 +95,6 @@ module.exports = async (env, options) => {
         template: "./src/settings/dialog.html",
         chunks: ["polyfill", "dialog"]
       }),
-      new CopyWebpackPlugin({
-        patterns: [{
-          to: "dialog.css",
-          from: "./src/settings/dialog.css"
-        }]
-      })
     ],
     devServer: {
       headers: {

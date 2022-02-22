@@ -29,14 +29,7 @@ export async function getGraphData() {
     } else {
       // makeGraphApiCall makes an AJAX call to the MS Graph endpoint. Errors are caught
       // in the .fail callback of that call
-      const startDate = new Date();
-      let endDate = new Date(startDate);
-      endDate.setDate(startDate.getDate() + 1);
-
-      const endpoint = "/me/calendarview";
-      const urlParams = `?startdatetime=${startDate.toISOString()}&enddatetime=${endDate.toISOString()}&$select=subject,start,end`;
-
-      const response = await sso.getGraphData(exchangeResponse.access_token, endpoint, urlParams);
+      const response = await sso.makeGraphApiCall(exchangeResponse.access_token);
 
       documentHelper.writeDataToOfficeDocument(response);
       sso.showMessage("Your data has been added to the document.");

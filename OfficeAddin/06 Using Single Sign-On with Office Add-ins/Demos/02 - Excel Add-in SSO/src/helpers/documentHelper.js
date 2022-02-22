@@ -44,28 +44,20 @@ function filterUserProfileInfo(result) {
 function writeDataToExcel(result) {
   return Excel.run(function (context) {
     const sheet = context.workbook.worksheets.getActiveWorksheet();
+    let data = [];
+    let userProfileInfo = filterUserProfileInfo(result);
 
-    const rangeHeading = sheet.getRange("A1:D1");
-    rangeHeading.values = [["Received Date/Time", "Subject", "Read?", "ID"]];
-
-    // convert data to a list
-    const mailResults = result.value;
-    for (let i = 0; i < mailResults.length; i++) {
-      if (mailResults[i] !== null) {
+    for (let i = 0; i < userProfileInfo.length; i++) {
+      if (userProfileInfo[i] !== null) {
         let innerArray = [];
-        innerArray.push(mailResults[i].receivedDateTime);
-        innerArray.push(mailResults[i].subject);
-        innerArray.push(mailResults[i].isRead);
-        innerArray.push(mailResults[i].id);
-
-        let data = [];
+        innerArray.push(userProfileInfo[i]);
         data.push(innerArray);
-        let rangeData = sheet.getRange(`A${i + 2}:D${i + 2}`);
-        rangeData.values = data;
       }
     }
-
-    rangeHeading.format.autofitColumns();
+    const rangeAddress = `B5:B${5 + (data.length - 1)}`;
+    const range = sheet.getRange(rangeAddress);
+    range.values = data;
+    range.format.autofitColumns();
 
     return context.sync();
   });
