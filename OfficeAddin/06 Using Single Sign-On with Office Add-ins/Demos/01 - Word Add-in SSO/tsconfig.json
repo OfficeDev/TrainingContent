@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": ".",
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "jsx": "react",
     "noEmitOnError": true,
@@ -18,6 +19,9 @@
     "dist",
     "lib",
     "lib-amd",
-    "server.js"
-  ]
+    "server.js",
+  ],
+  "ts-node": { 
+    "files": true 
+  }
 }
