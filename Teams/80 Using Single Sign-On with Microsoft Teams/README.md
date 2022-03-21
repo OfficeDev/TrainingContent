@@ -40,6 +40,7 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 | Version |        Date        |                Comments                |
 | ------- | ------------------ | -------------------------------------- |
+| 1.5     | March 3, 2022      | FY22Q3 content refresh                 |
 | 1.4     | December 8, 2021   | FY22Q2 content refresh                 |
 | 1.3     | September 10, 2021 | FY22Q1 content refresh                 |
 | 1.2     | May 26, 2021       | Refresh slides to new template         |
