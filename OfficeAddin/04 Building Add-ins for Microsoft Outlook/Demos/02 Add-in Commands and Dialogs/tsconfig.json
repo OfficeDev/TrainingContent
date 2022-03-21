@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": ".",
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "jsx": "react",
     "noEmitOnError": true,
