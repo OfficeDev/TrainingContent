@@ -1,7 +1,7 @@
 {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
-  "version": "1.4",
+  "version": "1.0",
   "body": [
     {
       "id": "cardHeader",
@@ -10,9 +10,8 @@
         {
           "id": "planetName",
           "type": "TextBlock",
-          "weight": "Bolder",
-          "size": "Medium",
-          "text": "${name}"
+          "weight": "bolder",
+          "size": "medium"
         }
       ]
     },
@@ -23,8 +22,7 @@
         {
           "id": "planetSummary",
           "type": "TextBlock",
-          "wrap": true,
-          "text": "${summary}"
+          "wrap": true
         },
         {
           "id": "planetDetails",
@@ -32,38 +30,37 @@
           "columns": [
             {
               "type": "Column",
-              "width": 100,
+              "width": "100",
               "items": [
                 {
                   "id": "planetImage",
-                  "size": "Stretch",
-                  "type": "Image",
-                  "url": "${imageLink}"
+                  "size": "stretch",
+                  "type": "Image"
                 }
               ]
             },
             {
               "type": "Column",
-              "width": 250,
+              "width": "250",
               "items": [
                 {
                   "type": "FactSet",
                   "facts": [
                     {
-                      "title": "Order from the sun:",
-                      "value": "${id}"
+                      "id": "orderFromSun",
+                      "title": "Order from the sun:"
                     },
                     {
-                      "title": "Known satellites:",
-                      "value": "${numSatellites}"
+                      "id": "planetNumSatellites",
+                      "title": "Known satellites:"
                     },
                     {
-                      "title": "Solar orbit (*Earth years*):",
-                      "value": "${solarOrbitYears}"
+                      "id": "solarOrbitYears",
+                      "title": "Solar orbit (*Earth years*):"
                     },
                     {
-                      "title": "Average distance from the sun (*km*):",
-                      "value": "${solarOrbitAvgDistanceKm}"
+                      "id": "solarOrbitAvgDistanceKm",
+                      "title": "Average distance from the sun (*km*):"
                     }
                   ]
                 }
@@ -74,22 +71,17 @@
         {
           "id": "imageAttribution",
           "type": "TextBlock",
-          "size": "Medium",
+          "size": "medium",
           "isSubtle": true,
-          "wrap": true,
-          "text": "*Image attribution: ${imageAlt}"
+          "wrap": true
         }
       ]
-    },
+    }
+  ],
+  "actions": [
     {
-      "type": "ActionSet",
-      "actions": [
-        {
-          "type": "Action.OpenUrl",
-          "title": "Learn more on Wikipedia",
-          "url": "${wikiLink}"
-        }
-      ]
+      "type": "Action.OpenUrl",
+      "title": "Learn more on Wikipedia"
     }
   ]
 }

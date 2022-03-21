@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.10/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.10",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.11",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -33,33 +33,32 @@
       "canUpdateConfiguration": false,
       "commands": [
         {
-          "id": "planetMessagingMessageExtension",
-          "title": "Planet Messaging",
-          "description": "Lookup the details of a planet.",
-          "initialRun": true,
+          "id": "planetExpanderAction",
           "type": "action",
+          "title": "Planet Expander",
+          "description": "Lookup the details of a planet.",
           "context": [
             "compose",
             "message"
           ],
-          "fetchTask": true
+          "fetchTask": true,
+          "initialRun": false
         },
         {
-          "id": "planetLookupMessageExtension",
-          "title": "PlanetLookup",
-          "description": "Search for a planet",
+          "id": "planetExpanderSearch",
+          "type": "query",
+          "title": "Planet Lookup",
+          "description": "Search for a planet.",
           "context": [
             "compose"
           ],
-          "initialRun": false,
           "parameters": [
             {
               "name": "searchKeyword",
               "description": "Enter 'inner','outer' or the name of a specific planet",
               "title": "Planet"
             }
-          ],
-          "type": "query"
+          ]
         }
       ]
     }
