@@ -54,7 +54,6 @@
     "{{PUBLIC_HOSTNAME}}"
   ],
   "showLoadingIndicator": false,
-  "isFullScreen": false,
   "webApplicationInfo": {
     "id": "{{TAB_APP_ID}}",
     "resource": "{{TAB_APP_URI}}"

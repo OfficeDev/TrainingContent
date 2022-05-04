@@ -45,7 +45,6 @@ export const StandUpAgendaTab = () => {
   const [newTopicTitle, setNewTopicTitle] = useState<string>();
 
   useEffect(() => {
-    console.log('hook - inteams', inTeams);
     if (inTeams === true) {
       microsoftTeams.authentication.getAuthToken({
         successCallback: (token: string) => {
@@ -230,4 +229,5 @@ export const StandUpAgendaTab = () => {
       </RTProvider>
     </Provider>
   );
+
 };

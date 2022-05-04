@@ -72,6 +72,7 @@ express.set("port", port);
 http.createServer(express).listen(port, () => {
   log(`Server running on ${port}`);
 
+  // setup disk storage
   (async () => {
     await init({
       dir: 'db',

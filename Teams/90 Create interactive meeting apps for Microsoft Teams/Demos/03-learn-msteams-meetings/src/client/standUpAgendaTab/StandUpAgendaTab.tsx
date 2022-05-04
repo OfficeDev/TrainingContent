@@ -213,7 +213,6 @@ export const StandUpAgendaTab = () => {
     );
 
     let addTopicAction = { g1: { addTopic: { title: "Add stand-up topic" } } };
-    // TODO: getPreMeetingUX
 
     return (
       <Grid columns="repeat(4, 1fr)" styles={{ gap: "20px" }}>
@@ -258,7 +257,7 @@ export const StandUpAgendaTab = () => {
 
   const getSidepanelUX = () => {
     const filteredTopics = standupTopics.filter((topic) => {
-      return (setCurrentUserIsOrganizer)
+      return (currentUserIsOrganizer)
         ? (topic.approved === true)
         : ((topic.approved === true) && (topic.presenter.id === currentUserId));
     });
@@ -354,8 +353,8 @@ export const StandUpAgendaTab = () => {
     case microsoftTeams.FrameContexts.content:
       if (onlineMeeting.startDateTime) {
         mainContentElement = ((new Date(onlineMeeting.startDateTime as string)).getTime() < Date.now())
-          ? getPreMeetingUX()
-          : getMeetingStageUX();
+          ? getMeetingStageUX()
+          : getPreMeetingUX();
       }
       break;
     case microsoftTeams.FrameContexts.sidePanel:
@@ -375,4 +374,5 @@ export const StandUpAgendaTab = () => {
       </RTProvider>
     </Provider>
   );
+
 };
