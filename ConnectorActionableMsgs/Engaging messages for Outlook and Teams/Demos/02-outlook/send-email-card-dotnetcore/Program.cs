@@ -5,133 +5,130 @@ using Microsoft.Identity.Client;
 using Microsoft.Graph;
 using Microsoft.Extensions.Configuration;
 using Helpers;
-using System;
-
-namespace graphconsoleapp
+class Program
 {
-  class Program
+  static void Main(string[] args)
   {
-    static void Main(string[] args)
+    var config = LoadAppSettings();
+    if (config == null)
     {
-      var config = LoadAppSettings();
-      if (config == null)
-      {
-        Console.WriteLine("Invalid appsettings.json file.");
-        return;
-      }
-
-      var userName = ReadUsername();
-      var userPassword = ReadPassword();
-
-      var client = GetAuthenticatedGraphClient(config, userName, userPassword);
-
-      SendEmail(client, userName).Wait();
-      Console.WriteLine("\nEmail sent.");
+      Console.WriteLine("Invalid appsettings.json file.");
+      return;
     }
 
-    private static IConfigurationRoot LoadAppSettings()
+    var userName = ReadUsername();
+    var userPassword = ReadPassword();
+
+    if (userName == null) return;
+
+    var client = GetAuthenticatedGraphClient(config, userName, userPassword);
+
+    SendEmail(client, userName).Wait();
+    Console.WriteLine("\nEmail sent.");
+  }
+
+  private static IConfigurationRoot? LoadAppSettings()
+  {
+    try
     {
-      try
-      {
-        var config = new ConfigurationBuilder()
-                          .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                          .AddJsonFile("appsettings.json", false, true)
-                          .Build();
+      var config = new ConfigurationBuilder()
+                        .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", false, true)
+                        .Build();
 
-        if (string.IsNullOrEmpty(config["applicationId"]) ||
-            string.IsNullOrEmpty(config["tenantId"]))
-        {
-          return null;
-        }
-
-        return config;
-      }
-      catch (System.IO.FileNotFoundException)
+      if (string.IsNullOrEmpty(config["applicationId"]) ||
+          string.IsNullOrEmpty(config["tenantId"]))
       {
         return null;
       }
+
+      return config;
     }
-
-    private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config, string userName, SecureString userPassword)
+    catch (System.IO.FileNotFoundException)
     {
-      var clientId = config["applicationId"];
-      var authority = $"https://login.microsoftonline.com/{config["tenantId"]}/v2.0";
-
-      List<string> scopes = new List<string>();
-      scopes.Add("User.Read");
-      scopes.Add("Mail.Send");
-
-      var cca = PublicClientApplicationBuilder.Create(clientId)
-                                              .WithAuthority(authority)
-                                              .Build();
-      return MsalAuthenticationProvider.GetInstance(cca, scopes.ToArray(), userName, userPassword);
+      return null;
     }
+  }
 
-    private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config, string userName, SecureString userPassword)
-    {
-      var authenticationProvider = CreateAuthorizationProvider(config, userName, userPassword);
-      var graphClient = new GraphServiceClient(authenticationProvider);
-      return graphClient;
-    }
+  private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config, string userName, SecureString userPassword)
+  {
+    var clientId = config["applicationId"];
+    var authority = $"https://login.microsoftonline.com/{config["tenantId"]}/v2.0";
 
-    private static SecureString ReadPassword()
+    List<string> scopes = new List<string>();
+    scopes.Add("User.Read");
+    scopes.Add("Mail.Send");
+
+    var cca = PublicClientApplicationBuilder.Create(clientId)
+                                            .WithAuthority(authority)
+                                            .Build();
+    return MsalAuthenticationProvider.GetInstance(cca, scopes.ToArray(), userName, userPassword);
+  }
+
+  private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config, string userName, SecureString userPassword)
+  {
+    var authenticationProvider = CreateAuthorizationProvider(config, userName, userPassword);
+    var graphClient = new GraphServiceClient(authenticationProvider);
+    return graphClient;
+  }
+
+  private static SecureString ReadPassword()
+  {
+    Console.WriteLine("Enter your password");
+    SecureString password = new SecureString();
+    while (true)
     {
-      Console.WriteLine("Enter your password");
-      SecureString password = new SecureString();
-      while (true)
+      ConsoleKeyInfo c = Console.ReadKey(true);
+      if (c.Key == ConsoleKey.Enter)
       {
-        ConsoleKeyInfo c = Console.ReadKey(true);
-        if (c.Key == ConsoleKey.Enter)
-        {
-          break;
-        }
-        password.AppendChar(c.KeyChar);
-        Console.Write("*");
+        break;
       }
-      Console.WriteLine();
-      return password;
+      password.AppendChar(c.KeyChar);
+      Console.Write("*");
     }
+    Console.WriteLine();
+    return password;
+  }
 
-    private static string ReadUsername()
-    {
-      string username;
-      Console.WriteLine("Enter your username");
-      username = Console.ReadLine();
-      return username;
-    }
+  private static string? ReadUsername()
+  {
+    string? username;
+    Console.WriteLine("Enter your username");
+    username = Console.ReadLine();
+    return username;
+  }
 
-    private static async Task SendEmail(GraphServiceClient client, string email)
+  private static async Task SendEmail(GraphServiceClient client, string email)
+  {
+    // create email
+    Message emailMessage = new Message()
     {
-      // create email
-      Message emailMessage = new Message()
-      {
-        Subject = "Webinar followup feedback request",
-        ToRecipients = new List<Recipient>() {
+      Subject = "Webinar followup feedback request",
+      ToRecipients = new List<Recipient>() {
       new Recipient() {
         EmailAddress = new EmailAddress() { Address = email}
       }
     },
-        Body = new ItemBody()
-        {
-          ContentType = BodyType.Html,
-          Content = LoadCardMessageBody()
-        }
-      };
+      Body = new ItemBody()
+      {
+        ContentType = BodyType.Html,
+        Content = LoadCardMessageBody()
+      }
+    };
 
-      // send email
-      await client.Me.SendMail(emailMessage, true).Request().PostAsync();
-    }
+    // send email
+    await client.Me.SendMail(emailMessage, true).Request().PostAsync();
+  }
 
-    private static string LoadCardMessageBody()
-    {
-      // load message body
-      string messageBody = System.IO.File.ReadAllText(@"email-body.html");
+  private static string LoadCardMessageBody()
+  {
+    // load message body
+    string messageBody = System.IO.File.ReadAllText(@"email-body.html");
 
-      // load adaptive card
-      string cardJson = System.IO.File.ReadAllText(@"adaptive-card.json");
+    // load adaptive card
+    string cardJson = System.IO.File.ReadAllText(@"adaptive-card.json");
 
-      // merge card JSON into email message body
-      return string.Format(messageBody, cardJson);
-    }
+    // merge card JSON into email message body
+    return string.Format(messageBody, cardJson);
   }
 }
