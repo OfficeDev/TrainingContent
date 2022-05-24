@@ -9,12 +9,12 @@ namespace Helpers
 {
   public class MsalAuthenticationProvider : IAuthenticationProvider
   {
-    private static MsalAuthenticationProvider _singleton;
+    private static MsalAuthenticationProvider? _singleton;
     private IPublicClientApplication _clientApplication;
     private string[] _scopes;
     private string _username;
     private SecureString _password;
-    private string _userId;
+    private string? _userId;
 
     private MsalAuthenticationProvider(IPublicClientApplication clientApplication, string[] scopes, string username, SecureString password)
     {
