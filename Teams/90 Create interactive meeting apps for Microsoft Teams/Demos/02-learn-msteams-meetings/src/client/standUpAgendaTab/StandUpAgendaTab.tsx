@@ -46,7 +46,6 @@ export const StandUpAgendaTab = () => {
   const [currentUserIsOrganizer, setCurrentUserIsOrganizer] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log('hook - inteams', inTeams);
     if (inTeams === true) {
       microsoftTeams.authentication.getAuthToken({
         successCallback: (token: string) => {
@@ -214,7 +213,6 @@ export const StandUpAgendaTab = () => {
     );
 
     let addTopicAction = { g1: { addTopic: { title: "Add stand-up topic" } } };
-    // TODO: getPreMeetingUX
 
     return (
       <Grid columns="repeat(4, 1fr)" styles={{ gap: "20px" }}>
@@ -259,7 +257,7 @@ export const StandUpAgendaTab = () => {
 
   const getSidepanelUX = () => {
     const filteredTopics = standupTopics.filter((topic) => {
-      return (setCurrentUserIsOrganizer)
+      return (currentUserIsOrganizer)
         ? (topic.approved === true)
         : ((topic.approved === true) && (topic.presenter.id === currentUserId));
     });
@@ -304,7 +302,7 @@ export const StandUpAgendaTab = () => {
       break;
     default:
       mainContentElement = null;
-  }
+    }
 
   return (
     <Provider theme={theme}>
@@ -313,4 +311,5 @@ export const StandUpAgendaTab = () => {
       </RTProvider>
     </Provider>
   );
+
 };

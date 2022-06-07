@@ -1,10 +1,7 @@
 {
   "generator-teams": {
     "promptValues": {
-      "developer": "Contoso",
-      "unitTestsEnabled": false,
-      "lintingSupport": false,
-      "useAzureAppInsights": false
+      "developer": "Contoso"
     },
     "libraryName": "learnMsTeamsMeetingsApps",
     "generator-version": "3.5.0"
