@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Text, Button, Header } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, authentication, FrameContexts } from "@microsoft/teams-js";
 import jwtDecode from "jwt-decode";
 
 import { Grid, Box, Form, FormInput, FormButton, Card, Checkbox, Pill } from "@fluentui/react-northstar";
@@ -37,7 +37,7 @@ export const StandUpAgendaTab = () => {
   const [accessToken, setAccessToken] = useState<string>();
   const [meetingId, setMeetingId] = useState<string | undefined>();
   const [onlineMeeting, setOnlineMeeting] = useState<OnlineMeeting>({});
-  const [frameContext, setFrameContext] = useState<microsoftTeams.FrameContexts | null>();
+  const [frameContext, setFrameContext] = useState<FrameContexts | null>();
   const [showAddTopicForm, setShowAddTopicForm] = useState<boolean>(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const [currentUserName, setCurrentUserName] = useState<string>("");
@@ -47,22 +47,21 @@ export const StandUpAgendaTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.authentication.getAuthToken({
-        successCallback: (token: string) => {
-          const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
-          setCurrentUserId(decoded.oid);
-          setCurrentUserName(decoded!.name);
-          setAccessToken(token);
-          microsoftTeams.appInitialization.notifySuccess();
-        },
-        failureCallback: (message: string) => {
-          setError(message);
-          microsoftTeams.appInitialization.notifyFailure({
-            reason: microsoftTeams.appInitialization.FailedReason.AuthFailed,
-            message
-          });
-        },
-        resources: [process.env.TAB_APP_URI as string]
+      authentication.getAuthToken({
+        resources: [process.env.TAB_APP_URI as string],
+        silent: false
+      } as authentication.AuthTokenRequestParameters).then(token => {
+        const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
+        setCurrentUserId(decoded.oid);
+        setCurrentUserName(decoded!.name);
+        setAccessToken(token);
+        app.notifySuccess();
+      }).catch(message => {
+        setError(message);
+        app.notifyFailure({
+          reason: app.FailedReason.AuthFailed,
+          message
+        });
       });
     } else {
       setEntityId("Not in Microsoft Teams");
@@ -71,11 +70,11 @@ export const StandUpAgendaTab = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
 
       // set the meeting context
-      setMeetingId(context.meetingId);
-      setFrameContext(context.frameContext);
+      setMeetingId(context.meeting?.id);
+      setFrameContext(app.getFrameContext());
     }
   }, [context]);
 
@@ -214,12 +213,14 @@ export const StandUpAgendaTab = () => {
 
     let addTopicAction = { g1: { addTopic: { title: "Add stand-up topic" } } };
 
+    // TODO: getPreMeetingUX
+
     return (
       <Grid columns="repeat(4, 1fr)" styles={{ gap: "20px" }}>
         <Box styles={gridSpan}>
           <Flex fill={true} column>
             <List
-              title="Standup Meeting Topics"
+              label="Standup Meeting Topics"
               selectable={currentUserIsOrganizer}
               columns={{
                 presenter: { title: "Presenter" },
@@ -350,17 +351,17 @@ export const StandUpAgendaTab = () => {
    */
   let mainContentElement: JSX.Element | JSX.Element[] | null = null;
   switch (frameContext) {
-    case microsoftTeams.FrameContexts.content:
+    case FrameContexts.content:
       if (onlineMeeting.startDateTime) {
         mainContentElement = ((new Date(onlineMeeting.startDateTime as string)).getTime() < Date.now())
           ? getMeetingStageUX()
           : getPreMeetingUX();
       }
       break;
-    case microsoftTeams.FrameContexts.sidePanel:
+    case FrameContexts.sidePanel:
       mainContentElement = getSidepanelUX();
       break;
-    case microsoftTeams.FrameContexts.meetingStage:
+    case FrameContexts.meetingStage:
       mainContentElement = getMeetingStageUX();
       break;
     default:

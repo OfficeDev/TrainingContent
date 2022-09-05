@@ -38,10 +38,11 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 ## Version history
 
-| Version |       Date       |        Comments        |
-| ------- | ---------------- | ---------------------- |
-| 1.2     | May 4, 2022      | FY22Q4 content refresh |
-| 1.0     | January 20, 2022 | New module published   |
+| Version |       Date        |        Comments        |
+| ------- | ----------------- | ---------------------- |
+| 1.3     | September 5, 2022 | FY23Q1 content refresh |
+| 1.2     | May 4, 2022       | FY22Q4 content refresh |
+| 1.0     | January 20, 2022  | New module published   |
 
 ## Disclaimer
 
