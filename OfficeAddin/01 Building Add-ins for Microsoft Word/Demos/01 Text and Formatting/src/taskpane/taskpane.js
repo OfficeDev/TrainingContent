@@ -3,11 +3,6 @@
  * See LICENSE in the project root for license information.
  */
 
-// images references in the manifest
-import "../../assets/icon-16.png";
-import "../../assets/icon-32.png";
-import "../../assets/icon-80.png";
-
 /* global document, Office, Word */
 
 Office.onReady((info) => {
@@ -28,14 +23,14 @@ Office.onReady((info) => {
   }
 });
 
-function insertParagraph() {
-  Word.run(function (context) {
+async function insertParagraph() {
+  await Word.run(async (context) => {
 
-    var docBody = context.document.body;
+    const docBody = context.document.body;
     docBody.insertParagraph("Office has several versions, including Office 2016, Microsoft 365 Click-to-Run, and Office on the web.",
       "Start");
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -45,13 +40,13 @@ function insertParagraph() {
     });
 }
 
-function applyStyle() {
-  Word.run(function (context) {
+async function applyStyle() {
+  await Word.run(async (context) => {
 
-    var firstParagraph = context.document.body.paragraphs.getFirst();
+    const firstParagraph = context.document.body.paragraphs.getFirst();
     firstParagraph.styleBuiltIn = Word.Style.intenseReference;
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -61,13 +56,13 @@ function applyStyle() {
     });
 }
 
-function applyCustomStyle() {
-  Word.run(function (context) {
+async function applyCustomStyle() {
+  await Word.run(async (context) => {
 
-    var lastParagraph = context.document.body.paragraphs.getLast();
+    const lastParagraph = context.document.body.paragraphs.getLast();
     lastParagraph.style = "MyCustomStyle";
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -77,10 +72,10 @@ function applyCustomStyle() {
     });
 }
 
-function changeFont() {
-  Word.run(function (context) {
+async function changeFont() {
+  await Word.run(async (context) => {
 
-    var secondParagraph = context.document.body.paragraphs.getFirst().getNext();
+    const secondParagraph = context.document.body.paragraphs.getFirst().getNext();
     secondParagraph.font.set({
       name: "Courier New",
       bold: true,
