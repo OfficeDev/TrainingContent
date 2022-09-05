@@ -18,8 +18,7 @@
     "node_modules",
     "dist",
     "lib",
-    "lib-amd",
-    "server.js",
+    "lib-amd"
   ],
   "ts-node": { 
     "files": true 

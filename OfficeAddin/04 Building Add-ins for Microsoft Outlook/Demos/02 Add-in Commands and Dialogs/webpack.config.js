@@ -14,7 +14,6 @@ async function getHttpsOptions() {
 
 module.exports = async (env, options) => {
   const dev = options.mode === "development";
-  const buildType = dev ? "dev" : "prod";
   const config = {
     devtool: "source-map",
     entry: {
@@ -24,7 +23,6 @@ module.exports = async (env, options) => {
       dialog: "./src/settings/dialog.js"
     },
     output: {
-      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
       clean: true,
     },
     resolve: {
@@ -69,8 +67,16 @@ module.exports = async (env, options) => {
             to: "assets/[name][ext][query]",
           },
           {
+            from: "./src/taskpane/taskpane.css",
+            to: "taskpane.css",
+          },
+          {
+            from: "./src/settings/dialog.css",
+            to: "dialog.css",
+          },
+          {
             from: "manifest*.xml",
-            to: "[name]." + buildType + "[ext]",
+            to: "[name]" + "[ext]",
             transform(content) {
               if (dev) {
                 return content;
@@ -90,12 +96,6 @@ module.exports = async (env, options) => {
         filename: "dialog.html",
         template: "./src/settings/dialog.html",
         chunks: ["polyfill", "dialog"]
-      }),
-      new CopyWebpackPlugin({
-        patterns: [{
-          to: "dialog.css",
-          from: "./src/settings/dialog.css"
-        }]
       })
     ],
     devServer: {
