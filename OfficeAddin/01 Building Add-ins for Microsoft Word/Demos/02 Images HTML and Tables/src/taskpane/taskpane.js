@@ -3,11 +3,6 @@
  * See LICENSE in the project root for license information.
  */
 
-// images references in the manifest
-import "../../assets/icon-16.png";
-import "../../assets/icon-32.png";
-import "../../assets/icon-80.png";
-
 import { base64Image } from "./base64Image";
 
 /* global document, Office, Word */
@@ -36,14 +31,14 @@ Office.onReady((info) => {
   }
 });
 
-function insertParagraph() {
-  Word.run(function (context) {
+async function insertParagraph() {
+  await Word.run(async (context) => {
 
-    var docBody = context.document.body;
+    const docBody = context.document.body;
     docBody.insertParagraph("Office has several versions, including Office 2016, Microsoft 365 Click-to-Run, and Office on the web.",
       "Start");
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -53,13 +48,13 @@ function insertParagraph() {
     });
 }
 
-function applyStyle() {
-  Word.run(function (context) {
+async function applyStyle() {
+  await Word.run(async (context) => {
 
-    var firstParagraph = context.document.body.paragraphs.getFirst();
+    const firstParagraph = context.document.body.paragraphs.getFirst();
     firstParagraph.styleBuiltIn = Word.Style.intenseReference;
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -69,13 +64,13 @@ function applyStyle() {
     });
 }
 
-function applyCustomStyle() {
-  Word.run(function (context) {
+async function applyCustomStyle() {
+  await Word.run(async (context) => {
 
-    var lastParagraph = context.document.body.paragraphs.getLast();
+    const lastParagraph = context.document.body.paragraphs.getLast();
     lastParagraph.style = "MyCustomStyle";
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -85,10 +80,10 @@ function applyCustomStyle() {
     });
 }
 
-function changeFont() {
-  Word.run(function (context) {
+async function changeFont() {
+  await Word.run(async (context) => {
 
-    var secondParagraph = context.document.body.paragraphs.getFirst().getNext();
+    const secondParagraph = context.document.body.paragraphs.getFirst().getNext();
     secondParagraph.font.set({
       name: "Courier New",
       bold: true,
@@ -105,10 +100,10 @@ function changeFont() {
     });
 }
 
-function insertTextIntoRange() {
-  Word.run(function (context) {
-    var doc = context.document;
-    var originalRange = doc.getSelection();
+async function insertTextIntoRange() {
+  await Word.run(async (context) => {
+    const doc = context.document;
+    const originalRange = doc.getSelection();
     originalRange.insertText(" (C2R)", "End");
 
     originalRange.load("text");
@@ -126,14 +121,14 @@ function insertTextIntoRange() {
     });
 }
 
-function insertTextBeforeRange() {
-  Word.run(function (context) {
-    var doc = context.document;
-    var originalRange = doc.getSelection();
+async function insertTextBeforeRange() {
+  await Word.run(async (context) => {
+    const doc = context.document;
+    const originalRange = doc.getSelection();
     originalRange.insertText("Office 2019, ", "Before");
 
     originalRange.load("text");
-    return context.sync()
+    await context.sync()
       .then(function () {
         doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
       })
@@ -147,13 +142,13 @@ function insertTextBeforeRange() {
     });
 }
 
-function replaceText() {
-  Word.run(function (context) {
-    var doc = context.document;
-    var originalRange = doc.getSelection();
+async function replaceText() {
+  await Word.run(async (context) => {
+    const doc = context.document;
+    const originalRange = doc.getSelection();
     originalRange.insertText("many", "Replace");
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -163,11 +158,11 @@ function replaceText() {
     });
 }
 
-function insertImage() {
-  Word.run(function (context) {
+async function insertImage() {
+  await Word.run(async (context) => {
     context.document.body.insertInlinePictureFromBase64(base64Image, "End");
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -177,12 +172,12 @@ function insertImage() {
     });
 }
 
-function insertHTML() {
-  Word.run(function (context) {
-    var blankParagraph = context.document.body.paragraphs.getLast().insertParagraph("", "After");
+async function insertHTML() {
+  await Word.run(async (context) => {
+    const blankParagraph = context.document.body.paragraphs.getLast().insertParagraph("", "After");
     blankParagraph.insertHtml('<p style="font-family: verdana;">Inserted HTML.</p><p>Another paragraph</p>', "End");
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -192,18 +187,18 @@ function insertHTML() {
     });
 }
 
-function insertTable() {
-  Word.run(function (context) {
-    var secondParagraph = context.document.body.paragraphs.getFirst().getNext();
+async function insertTable() {
+  await Word.run(async (context) => {
+    const secondParagraph = context.document.body.paragraphs.getFirst().getNext();
 
-    var tableData = [
+    const tableData = [
       ["Name", "ID", "Birth City"],
       ["Bob", "434", "Chicago"],
       ["Sue", "719", "Havana"],
     ];
     secondParagraph.insertTable(3, 3, "After", tableData);
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
