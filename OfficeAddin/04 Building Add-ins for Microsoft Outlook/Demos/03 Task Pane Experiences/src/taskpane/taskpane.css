@@ -1,6 +1,9 @@
-html,
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
 
-body {
+ html, body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -25,13 +28,7 @@ footer {
   margin-top: 10px;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+p, h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
 }
@@ -142,14 +139,8 @@ ul {
   padding: 20px;
 }
 
-.ms-landing-page__footer--left:active,
-.ms-landing-page__footer--left:hover {
-  background: #005ca4;
-  cursor: pointer;
-}
-
 .ms-landing-page__footer--left:active {
-  background: #005ca4;
+  cursor: default;
 }
 
 .ms-landing-page__footer--left--disabled {

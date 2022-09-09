@@ -1,11 +1,16 @@
-var config;
-var btnEvent;
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ * See LICENSE in the project root for license information.
+ */
+
+let config;
+let btnEvent;
 
 // The initialize function must be run each time a new page is loaded.
 Office.initialize = function (reason) {
 };
 
-// Add any ui-less function here.
+// Add any UI-less function here.
 function showError(error) {
   Office.context.mailbox.item.notificationMessages.replaceAsync('github-error', {
     type: 'errorMessage',
@@ -14,7 +19,7 @@ function showError(error) {
   });
 }
 
-var settingsDialog;
+let settingsDialog;
 
 function insertDefaultGist(event) {
 
@@ -52,8 +57,8 @@ function insertDefaultGist(event) {
     btnEvent = event;
     // Not configured yet, display settings dialog with
     // warn=1 to display warning.
-    var url = new URI('../src/settings/dialog.html?warn=1').absoluteTo(window.location).toString();
-    var dialogOptions = { width: 20, height: 40, displayInIframe: true };
+    const url = new URI('../src/settings/dialog.html?warn=1').absoluteTo(window.location).toString();
+    const dialogOptions = { width: 20, height: 40, displayInIframe: true };
 
     Office.context.ui.displayDialogAsync(url, dialogOptions, function(result) {
       settingsDialog = result.value;
@@ -62,6 +67,9 @@ function insertDefaultGist(event) {
     });
   }
 }
+
+// Register the function.
+Office.actions.associate("insertDefaultGist", insertDefaultGist);
 
 function receiveMessage(message) {
   config = JSON.parse(message.message);
@@ -78,15 +86,3 @@ function dialogClosed(message) {
   btnEvent.completed();
   btnEvent = null;
 }
-
-function getGlobal() {
-  return (typeof self !== "undefined") ? self :
-    (typeof window !== "undefined") ? window :
-    (typeof global !== "undefined") ? global :
-    undefined;
-}
-
-var g = getGlobal();
-
-// The add-in command functions need to be available in global scope.
-g.insertDefaultGist = insertDefaultGist;
