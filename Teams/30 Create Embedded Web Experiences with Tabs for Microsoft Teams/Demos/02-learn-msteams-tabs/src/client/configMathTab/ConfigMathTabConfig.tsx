@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Provider, Flex, Header, Input, DropdownProps, Dropdown } from "@fluentui/react-northstar";
+import { Provider, Flex, Header, Input, Dropdown } from "@fluentui/react-northstar";
 import { useState, useEffect, useRef } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, pages } from "@microsoft/teams-js";
 
 /**
  * Implementation of ConfigMathTab configuration page
@@ -13,25 +13,26 @@ export const ConfigMathTabConfig = () => {
   const [mathOperator, setMathOperator] = useState<string>();
   const entityId = useRef("");
 
-  const onSaveHandler = (saveEvent: microsoftTeams.settings.SaveEvent) => {
+  const onSaveHandler = (saveEvent: pages.config.SaveEvent) => {
     const host = "https://" + window.location.host;
-    microsoftTeams.settings.setSettings({
+    pages.config.setConfig({
       contentUrl: host + "/configMathTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       websiteUrl: host + "/configMathTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       suggestedDisplayName: "ConfigMathTab",
       removeUrl: host + "/configMathTab/remove.html?theme={theme}",
       entityId: entityId.current
+    }).then(() => {
+      saveEvent.notifySuccess();
     });
-    saveEvent.notifySuccess();
   };
 
   useEffect(() => {
     if (context) {
-      setMathOperator(context.entityId.replace("MathPage", ""));
-      entityId.current = context.entityId;
-      microsoftTeams.settings.registerOnSaveHandler(onSaveHandler);
-      microsoftTeams.settings.setValidityState(true);
-      microsoftTeams.appInitialization.notifySuccess();
+      setMathOperator(context.page.id?.replace("MathPage", "") ?? "");
+      entityId.current = context.page.id;
+      pages.config.registerOnSaveHandler(onSaveHandler);
+      pages.config.setValidityState(true);
+      app.notifySuccess();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context]);

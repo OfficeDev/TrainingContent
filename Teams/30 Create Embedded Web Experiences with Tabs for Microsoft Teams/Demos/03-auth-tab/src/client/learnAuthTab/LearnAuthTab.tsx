@@ -3,9 +3,9 @@ import { Provider, Flex, Text, Button, Header, List } from "@fluentui/react-nort
 import { EmailIcon } from "@fluentui/react-icons-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, authentication } from "@microsoft/teams-js";
 import * as MicrosoftGraphClient from "@microsoft/microsoft-graph-client";
-import * as MicrosoftGraph from "microsoft-graph";
+import * as MicrosoftGraph from "@microsoft/microsoft-graph-types";
 
 /**
  * Implementation of the LearnAuthTab content page
@@ -18,7 +18,7 @@ export const LearnAuthTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.appInitialization.notifySuccess();
+      app.notifySuccess();
     } else {
       setEntityId("Not in Microsoft Teams");
     }
@@ -26,24 +26,43 @@ export const LearnAuthTab = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
     }
   }, [context]);
 
   const getAccessToken = async (promptConsent: boolean = false): Promise<string> => {
-    return new Promise<string>((resolve, reject) => {
-      microsoftTeams.authentication.authenticate({
+
+    try {
+      const accessToken = await authentication.authenticate({
         url: window.location.origin + "/auth-start.html",
         width: 600,
-        height: 535,
-        successCallback: (accessToken: string) => {
-          resolve(accessToken);
-        },
-        failureCallback: (reason) => {
-          reject(reason);
-        }
+        height: 535
       });
-    });
+      return Promise.resolve(accessToken);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+
+
+    // return new Promise<string>(async (resolve, reject) => {
+
+    // try {
+    //   const accessToken = await authentication.authenticate({
+    //     url: window.location.origin + "/auth-start.html",
+    //     width: 600,
+    //     height: 535
+    //   });
+    //   resolve(accessToken);
+    // } catch (error) {
+    //   reject(error);
+    // }
+    // .then((accessToken: string) => {
+    //   resolve(accessToken);
+    // })
+    // .catch((reason) => {
+    //   reject(reason);
+    // });
+    // });
   };
 
   const getMessages = async (promptConsent: boolean = false): Promise<void> => {
@@ -68,7 +87,6 @@ export const LearnAuthTab = () => {
         }
       });
   };
-
 
   const handleGetMyMessagesOnClick = async (event): Promise<void> => {
     await getMessages();
