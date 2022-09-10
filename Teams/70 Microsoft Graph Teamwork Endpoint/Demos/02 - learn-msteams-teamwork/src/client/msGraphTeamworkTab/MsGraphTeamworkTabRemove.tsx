@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Provider, Flex, Text, Header } from "@fluentui/react-northstar";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app } from "@microsoft/teams-js";
 
 /**
  * Implementation of MSGraph Teamwork remove page
@@ -13,7 +13,7 @@ export const MsGraphTeamworkTabRemove = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.appInitialization.notifySuccess();
+      app.notifySuccess();
     }
   }, [inTeams]);
 
