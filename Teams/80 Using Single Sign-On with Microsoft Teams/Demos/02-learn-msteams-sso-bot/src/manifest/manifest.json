@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.9",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.13",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "65796ed0-4bdf-11ec-87b4-f9765ad302fe",
+      "entityId": "4593ed20-313a-11ed-99c1-67a69b83b9cb",
       "name": "SSO Bot",
       "contentUrl": "https://{{PUBLIC_HOSTNAME}}/Bot/ssoBot.html",
       "scopes": [

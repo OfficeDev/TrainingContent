@@ -1,7 +1,6 @@
 import {
   ActivityTypes,
   BotFrameworkAdapter,
-  ConversationState,
   StatusCodes,
   tokenExchangeOperationName,
   TokenResponse,
