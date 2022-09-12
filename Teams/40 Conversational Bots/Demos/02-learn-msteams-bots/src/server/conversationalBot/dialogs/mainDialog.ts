@@ -99,6 +99,7 @@ export class MainDialog extends ComponentDialog {
         case "help": {
           return await stepContext.beginDialog("helpDialog");
         }
+        case "Mention me":
         case "mention": {
           return await stepContext.beginDialog("mentionUserDialog");
         }
