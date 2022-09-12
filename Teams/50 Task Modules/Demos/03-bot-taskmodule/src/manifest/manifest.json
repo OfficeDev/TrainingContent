@@ -1,11 +1,11 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.9",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.13",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Office Dev Training Content",
+    "name": "Contoso",
     "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
     "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "275e20cd-e01d-4130-a512-a56ddc08aae3",
+      "entityId": "78df90b0-7380-4a7f-b242-098eba7eee2c",
       "name": "YouTube Player 1",
       "contentUrl": "https://{{PUBLIC_HOSTNAME}}/youTubePlayer1Tab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
