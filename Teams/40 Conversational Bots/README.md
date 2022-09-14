@@ -41,7 +41,8 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 | Version |        Date        |            Comments            |
 | ------- | ------------------ | ------------------------------ |
-| 1.9     | March 3, 2022      | FY2022Q3 content refrsh        |
+| 1.10    | September 12, 2022 | FY2023Q1 content refresh       |
+| 1.9     | March 3, 2022      | FY2022Q3 content refresh       |
 | 1.8     | November 22, 2021  | FY2022Q2 content refresh       |
 | 1.7     | September 10, 2021 | FY2022Q1 content refresh       |
 | 1.6     | June 01, 2021      | Refresh slides to new template, update screencast link |
