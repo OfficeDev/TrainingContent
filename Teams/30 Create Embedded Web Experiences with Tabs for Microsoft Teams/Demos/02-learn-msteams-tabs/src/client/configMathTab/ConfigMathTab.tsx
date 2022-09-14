@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, Input, InputProps } from "@fluentui/react-northstar";
+import { Provider, Flex, Text, Button, Header, Input, InputProps } from "@fluentui/react-northstar"; 
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app } from "@microsoft/teams-js";
 
 export interface IConfigMathTabState {
   mathOperator?: string;
@@ -22,7 +22,7 @@ export const ConfigMathTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.appInitialization.notifySuccess();
+      app.notifySuccess();
     } else {
       setEntityId("Not in Microsoft Teams");
     }
@@ -30,10 +30,10 @@ export const ConfigMathTab = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
       setMathTabState(state => ({
         ...state,
-        mathOperator: context.entityId.replace("MathPage", "")
+        mathOperator: context.page.id?.replace("MathPage", "") ?? ""
       } as IConfigMathTabState));
     }
   }, [context]);
@@ -85,7 +85,7 @@ export const ConfigMathTab = () => {
       result: stringResult
     } as IConfigMathTabState));
   };
- 
+
   /**
    * The render() method to create the UI of the tab
    */
@@ -117,4 +117,5 @@ export const ConfigMathTab = () => {
         <Text content="(C) Copyright Contoso" size="smallest"></Text>
       </Flex>
     </Provider>
-  );};
+  );
+};

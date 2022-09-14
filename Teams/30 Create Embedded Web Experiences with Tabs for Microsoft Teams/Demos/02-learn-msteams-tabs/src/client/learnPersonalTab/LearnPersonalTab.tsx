@@ -6,7 +6,7 @@ import {
 } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app } from "@microsoft/teams-js";
 
 /**
  * Implementation of the LearnPersonalTab content page
@@ -20,7 +20,7 @@ export const LearnPersonalTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.appInitialization.notifySuccess();
+      app.notifySuccess();
     } else {
       setEntityId("Not in Microsoft Teams");
     }
@@ -28,7 +28,7 @@ export const LearnPersonalTab = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
     }
   }, [context]);
 
@@ -80,9 +80,8 @@ export const LearnPersonalTab = () => {
           <Button content="Add Todo" primary
             onClick={handleOnClick}></Button>
         </Flex>
-
         <Text content="(C) Copyright Contoso" size="smallest"></Text>
       </Flex>
     </Provider>
-  );
+  ); 
 };
