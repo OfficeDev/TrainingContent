@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Text, Button, Header, List } from "@fluentui/react-northstar";
 import { useState, useEffect, useCallback } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, authentication } from "@microsoft/teams-js";
 import jwtDecode from "jwt-decode";
 
 /**
@@ -20,21 +20,20 @@ export const SsoTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.authentication.getAuthToken({
-        successCallback: (token: string) => {
-          const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
-          setName(decoded!.name);
-          setSsoToken(token);
-          microsoftTeams.appInitialization.notifySuccess();
-        },
-        failureCallback: (message: string) => {
-          setError(message);
-          microsoftTeams.appInitialization.notifyFailure({
-            reason: microsoftTeams.appInitialization.FailedReason.AuthFailed,
-            message
-          });
-        },
-        resources: [process.env.TAB_APP_URI as string]
+      authentication.getAuthToken({
+        resources: [process.env.TAB_APP_URI as string],
+        silent: false
+      } as authentication.AuthTokenRequestParameters).then(token => {
+        const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
+        setName(decoded!.name);
+        setSsoToken(token);
+        app.notifySuccess();
+      }).catch(message => {
+        setError(message);
+        app.notifyFailure({
+          reason: app.FailedReason.AuthFailed,
+          message
+        });
       });
     } else {
       setEntityId("Not in Microsoft Teams");
@@ -43,7 +42,7 @@ export const SsoTab = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
     }
   }, [context]);
 

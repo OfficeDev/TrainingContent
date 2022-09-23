@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Header, Input } from "@fluentui/react-northstar";
 import { useState, useEffect, useRef } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, pages } from "@microsoft/teams-js";
 
 /**
  * Implementation of Stand-up Agenda configuration page
@@ -13,25 +13,26 @@ export const StandUpAgendaTabConfig = () => {
     const [text, setText] = useState<string>();
     const entityId = useRef("");
 
-    const onSaveHandler = (saveEvent: microsoftTeams.settings.SaveEvent) => {
+    const onSaveHandler = (saveEvent: pages.config.SaveEvent) => {
         const host = "https://" + window.location.host;
-        microsoftTeams.settings.setSettings({
+        pages.config.setConfig({
             contentUrl: host + "/standUpAgendaTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
             websiteUrl: host + "/standUpAgendaTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
             suggestedDisplayName: "Stand-up Agenda",
             removeUrl: host + "/standUpAgendaTab/remove.html?theme={theme}",
             entityId: entityId.current
+        }).then(() => {
+            saveEvent.notifySuccess();
         });
-        saveEvent.notifySuccess();
     };
 
     useEffect(() => {
         if (context) {
-            setText(context.entityId);
-            entityId.current = context.entityId;
-            microsoftTeams.settings.registerOnSaveHandler(onSaveHandler);
-            microsoftTeams.settings.setValidityState(true);
-            microsoftTeams.appInitialization.notifySuccess();
+            setText(context.page.id);
+            entityId.current = context.page.id;
+            pages.config.registerOnSaveHandler(onSaveHandler);
+            pages.config.setValidityState(true);
+            app.notifySuccess();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [context]);

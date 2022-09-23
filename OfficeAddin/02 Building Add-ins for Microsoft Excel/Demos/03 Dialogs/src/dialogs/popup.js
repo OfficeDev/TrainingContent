@@ -1,15 +1,11 @@
-(function () {
-  "use strict";
-  Office.onReady()
-    .then(function () {
+(async () => {
+  await Office.onReady();
 
-      document.getElementById("ok-button").onclick = sendStringToParentPage;
-
-    });
+  document.getElementById("ok-button").onclick = sendStringToParentPage;
 
   function sendStringToParentPage() {
-    var userName = document.getElementById("name-box").value;
+    const userName = document.getElementById("name-box").value;
     Office.context.ui.messageParent(userName);
   }
 
-}());
+})();

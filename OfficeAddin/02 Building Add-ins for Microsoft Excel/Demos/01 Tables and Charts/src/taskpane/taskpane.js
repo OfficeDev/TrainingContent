@@ -3,11 +3,6 @@
  * See LICENSE in the project root for license information.
  */
 
-// images references in the manifest
-import "../../assets/icon-16.png";
-import "../../assets/icon-32.png";
-import "../../assets/icon-80.png";
-
 /* global console, document, Excel, Office */
 
 Office.onReady((info) => {
@@ -28,11 +23,11 @@ Office.onReady((info) => {
   }
 });
 
-function createTable() {
-  Excel.run(function (context) {
+async function createTable() {
+  await Excel.run(async (context) => {
 
-    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-    var expensesTable = currentWorksheet.tables.add("A1:D1", true /*hasHeaders*/);
+    const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+    const expensesTable = currentWorksheet.tables.add("A1:D1", true /*hasHeaders*/);
     expensesTable.name = "ExpensesTable";
 
     expensesTable.getHeaderRowRange().values =
@@ -52,40 +47,40 @@ function createTable() {
     expensesTable.getRange().format.autofitColumns();
     expensesTable.getRange().format.autofitRows();
 
-    return context.sync();
+    await context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
-function filterTable() {
-  Excel.run(function (context) {
+async function filterTable() {
+  await Excel.run(async (context) => {
 
-    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-    var expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
-    var categoryFilter = expensesTable.columns.getItem('Category').filter;
+    const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+    const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
+    const categoryFilter = expensesTable.columns.getItem('Category').filter;
     categoryFilter.applyValuesFilter(['Education', 'Groceries']);
 
-    return context.sync();
+    await context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
-function sortTable() {
-  Excel.run(function (context) {
+async function sortTable() {
+  await Excel.run(async (context) =>{
 
-    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-    var expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
-    var sortFields = [
+    const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+    const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
+    const sortFields = [
       {
         key: 1,            // Merchant column
         ascending: false,
@@ -94,24 +89,24 @@ function sortTable() {
 
     expensesTable.sort.apply(sortFields);
 
-    return context.sync();
+    await context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }
 
-function createChart() {
-  Excel.run(function (context) {
+async function createChart() {
+  await Excel.run(async (context) => {
 
-    var currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
-    var expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
-    var dataRange = expensesTable.getDataBodyRange();
+    const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
+    const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
+    const dataRange = expensesTable.getDataBodyRange();
 
-    var chart = currentWorksheet.charts.add('ColumnClustered', dataRange, 'auto');
+    const chart = currentWorksheet.charts.add('ColumnClustered', dataRange, 'auto');
 
     chart.setPosition("A15", "F30");
     chart.title.text = "Expenses";
@@ -121,12 +116,12 @@ function createChart() {
     chart.dataLabels.format.font.color = "black";
     chart.series.getItemAt(0).name = 'Value in &euro;';
 
-    return context.sync();
+    await context.sync();
   })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
 }

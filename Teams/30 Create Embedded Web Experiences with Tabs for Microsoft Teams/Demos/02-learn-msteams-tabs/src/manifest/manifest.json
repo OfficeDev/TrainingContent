@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.9",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.13",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -34,7 +34,7 @@
   ],
   "staticTabs": [
     {
-      "entityId": "41bbb49c-21a9-43ed-acc3-e92730bd5481",
+      "entityId": "dd3132ba-bdbd-4ed4-beb9-41287c98b1a0",
       "name": "LearnPersonalTab",
       "contentUrl": "https://{{PUBLIC_HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [

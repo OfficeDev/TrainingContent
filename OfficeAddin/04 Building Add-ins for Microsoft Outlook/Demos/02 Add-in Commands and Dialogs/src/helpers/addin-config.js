@@ -1,5 +1,5 @@
 function getConfig() {
-  var config = {};
+  const config = {};
 
   config.gitHubUserName = Office.context.roamingSettings.get('gitHubUserName');
   config.defaultGistId = Office.context.roamingSettings.get('defaultGistId');
