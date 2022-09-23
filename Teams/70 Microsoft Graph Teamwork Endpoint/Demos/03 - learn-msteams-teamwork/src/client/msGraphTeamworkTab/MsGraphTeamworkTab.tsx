@@ -3,7 +3,7 @@ import { Provider, Flex, Text, Button, Header, Avatar, List } from "@fluentui/re
 import { WordIcon, ExcelIcon } from "@fluentui/react-icons-northstar";
 import { useState, useEffect, useCallback } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, authentication } from "@microsoft/teams-js";
 import jwtDecode from "jwt-decode";
 
 /**
@@ -22,32 +22,25 @@ export const MsGraphTeamworkTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.authentication.getAuthToken({
-        successCallback: (token: string) => {
-          const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
-          setName(decoded!.name);
-          setSsoToken(token);
-          microsoftTeams.appInitialization.notifySuccess();
-        },
-        failureCallback: (message: string) => {
-          setError(message);
-          microsoftTeams.appInitialization.notifyFailure({
-            reason: microsoftTeams.appInitialization.FailedReason.AuthFailed,
-            message
-          });
-        },
-        resources: [process.env.TAB_APP_URI as string]
+      authentication.getAuthToken({
+        resources: [process.env.TAB_APP_URI as string],
+        silent: false
+      } as authentication.AuthTokenRequestParameters).then(token => {
+        const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
+        setName(decoded!.name);
+        setSsoToken(token);
+        app.notifySuccess();
+      }).catch(message => {
+        setError(message);
+        app.notifyFailure({
+          reason: app.FailedReason.AuthFailed,
+          message
+        });
       });
     } else {
       setEntityId("Not in Microsoft Teams");
     }
   }, [inTeams]);
-
-  useEffect(() => {
-    if (context) {
-      setEntityId(context.entityId);
-    }
-  }, [context]);
 
   const exchangeSsoTokenForOboToken = useCallback(async () => {
     const response = await fetch(`/exchangeSsoTokenForOboToken/?ssoToken=${ssoToken}`);
@@ -113,10 +106,16 @@ export const MsGraphTeamworkTab = () => {
     getProfilePhoto();
   }, [getJoinedTeams, getProfilePhoto, msGraphOboToken]);
 
+  useEffect(() => {
+    if (context) {
+      setEntityId(context.page.id);
+    }
+  }, [context]);
+
   const sendActivityMessage = useCallback(async () => {
     if (!msGraphOboToken || !context) { return; }
 
-    const endpoint = `https://graph.microsoft.com/v1.0/teams/${context.groupId}/sendActivityNotification`;
+    const endpoint = `https://graph.microsoft.com/v1.0/teams/${context.team?.groupId}/sendActivityNotification`;
     const requestObject = {
       method: "POST",
       headers: {
@@ -126,7 +125,7 @@ export const MsGraphTeamworkTab = () => {
       body: JSON.stringify({
         topic: {
           source: "entityUrl",
-          value: `https://graph.microsoft.com/v1.0/teams/${context.groupId}`
+          value: `https://graph.microsoft.com/v1.0/teams/${context.team?.groupId}`
         },
         activityType: "userMention",
         previewText: {
@@ -138,8 +137,8 @@ export const MsGraphTeamworkTab = () => {
         },
         templateParameters: [
           { name: "tabName", value: "Word" },
-          { name: "teamName", value: `${context.teamName}` },
-          { name: "channelName", value: `${context.channelName}` }
+          { name: "teamName", value: `${context.team?.displayName}` },
+          { name: "channelName", value: `${context.channel?.displayName}` }
         ]
       })
     };
@@ -150,7 +149,7 @@ export const MsGraphTeamworkTab = () => {
   const handleWordOnClick = useCallback(async () => {
     if (!msGraphOboToken || !context) { return; }
 
-    const endpoint = `https://graph.microsoft.com/v1.0/teams/${context.groupId}/channels/${context.channelId}/tabs`;
+    const endpoint = `https://graph.microsoft.com/v1.0/teams/${context.team?.groupId}/channels/${context.channel?.id}/tabs`;
     const requestObject = {
       method: "POST",
       headers: {
@@ -161,8 +160,8 @@ export const MsGraphTeamworkTab = () => {
         displayName: "Word",
         "teamsApp@odata.bind": "https://graph.microsoft.com/v1.0/appCatalogs/teamsApps/com.microsoft.teamspace.tab.file.staticviewer.word",
         configuration: {
-          entityId: "CA2E9D19-3FE7-4E60-82DF-F73BD3B8D302",
-          contentUrl: "https://scdev.sharepoint.com/sites/Learn22Q1/Shared%20Documents/General/document.docx",
+          entityId: "97FAD612-4A44-44CD-86D9-6E5AE994C16F",
+          contentUrl: "https://scdev.sharepoint.com/sites/FY23Q1/Shared%20Documents/General/document.docx",
           removeUrl: null,
           websiteUrl: null
         }
@@ -170,14 +169,13 @@ export const MsGraphTeamworkTab = () => {
     };
 
     await fetch(endpoint, requestObject);
-
     await sendActivityMessage();
-  }, [context, msGraphOboToken, sendActivityMessage]);
+  }, [context, msGraphOboToken]);
 
   const handleExcelOnClick = useCallback(async () => {
     if (!msGraphOboToken || !context) { return; }
 
-    const endpoint = `https://graph.microsoft.com/v1.0/teams/${context.groupId}/channels/${context.channelId}/tabs`;
+    const endpoint = `https://graph.microsoft.com/v1.0/teams/${context.team?.groupId}/channels/${context.channel?.id}/tabs`;
     const requestObject = {
       method: "POST",
       headers: {
@@ -188,8 +186,8 @@ export const MsGraphTeamworkTab = () => {
         displayName: "Excel",
         "teamsApp@odata.bind": "https://graph.microsoft.com/v1.0/appCatalogs/teamsApps/com.microsoft.teamspace.tab.file.staticviewer.excel",
         configuration: {
-          entityId: "2A451F2C-5BC0-4EEF-B986-671705798A54",
-          contentUrl: "https://scdev.sharepoint.com/sites/Learn22Q1/Shared%20Documents/document.docx",
+          entityId: "8E23E6D5-9A10-4D22-8F92-F92150716B7B",
+          contentUrl: "https://scdev.sharepoint.com/sites/FY23Q1/Shared%20Documents/General/workbook.xlsx",
           removeUrl: null,
           websiteUrl: null
         }
@@ -198,6 +196,7 @@ export const MsGraphTeamworkTab = () => {
 
     await fetch(endpoint, requestObject);
   }, [context, msGraphOboToken]);
+
 
   /**
    * The render() method to create the UI of the tab
@@ -214,15 +213,12 @@ export const MsGraphTeamworkTab = () => {
           <div>
             <div>
               <Text content={`Hello ${name}`} />
+              {photo && <div><Avatar image={photo} size='largest' /></div>}
+              {joinedTeams && <div><h3>You belong to the following teams:</h3><List items={joinedTeams} /></div>}
+
+              <Button icon={<WordIcon />} content="Add Word tab" onClick={handleWordOnClick} />
+              <Button icon={<ExcelIcon />} content="Add Excel tab" onClick={handleExcelOnClick} />
             </div>
-
-            {photo && <div><Avatar image={photo} size='largest' /></div>}
-
-            {joinedTeams && <div><h3>You belong to the following teams:</h3><List items={joinedTeams} /></div>}
-
-            <Button icon={<WordIcon />} content="Add Word tab" onClick={handleWordOnClick} />
-            <Button icon={<ExcelIcon />} content="Add Excel tab" onClick={handleExcelOnClick} />
-
             {error && <div><Text content={`An SSO error occurred ${error}`} /></div>}
 
             <div>
@@ -233,7 +229,7 @@ export const MsGraphTeamworkTab = () => {
         <Flex.Item styles={{
           padding: ".8rem 0 .8rem .5rem"
         }}>
-          <Text size="smaller" content="(C) Copyright Office Developer" />
+          <Text size="smaller" content="(C) Copyright Contoso" />
         </Flex.Item>
       </Flex>
     </Provider>

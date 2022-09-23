@@ -1,7 +1,7 @@
-import {
-  StatePropertyAccessor,
-  TurnContext
-} from "botbuilder-core";
+import { 
+  StatePropertyAccessor, 
+  TurnContext 
+} from "botbuilder";
 import {
   DialogSet,
   DialogState,

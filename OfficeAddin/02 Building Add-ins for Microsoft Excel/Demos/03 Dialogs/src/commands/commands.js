@@ -28,45 +28,43 @@ function action(event) {
   event.completed();
 }
 
+async function toggleProtection(args) {
+  await Excel.run(async (context) => {
+
+    const sheet = context.workbook.worksheets.getActiveWorksheet();
+    sheet.load('protection/protected');
+
+    await context.sync();
+
+    if (sheet.protection.protected) {
+      sheet.protection.unprotect();
+    } else {
+      sheet.protection.protect();
+    }
+
+    await context.sync();
+  })
+  .catch(function (error) {
+    console.log("Error: " + error);
+    if (error instanceof OfficeExtension.Error) {
+      console.log("Debug info: " + JSON.stringify(error.debugInfo));
+    }
+  });
+  args.completed();
+}
+
 function getGlobal() {
   return typeof self !== "undefined"
     ? self
     : typeof window !== "undefined"
-      ? window
-      : typeof global !== "undefined"
-        ? global
-        : undefined;
+    ? window
+    : typeof global !== "undefined"
+    ? global
+    : undefined;
 }
 
 const g = getGlobal();
 
 // The add-in command functions need to be available in global scope
 g.action = action;
-
-function toggleProtection(args) {
-  Excel.run(function (context) {
-    var sheet = context.workbook.worksheets.getActiveWorksheet();
-    sheet.load('protection/protected');
-
-    return context.sync()
-      .then(
-        function () {
-          if (sheet.protection.protected) {
-            sheet.protection.unprotect();
-          } else {
-            sheet.protection.protect();
-          }
-        }
-      )
-      .then(context.sync);
-  })
-    .catch(function (error) {
-      console.log("Error: " + error);
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
-    });
-  args.completed();
-}
-
-g.toggleProtection = toggleProtection;
+Office.actions.associate("toggleProtection", toggleProtection);

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.9",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.13",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "Learn MSTeams Tabs",
-    "full": "Learn MSTeams Tabs"
+    "short": "Learn MSTeams Auth Tabs",
+    "full": "Learn MSTeams Auth Tabs"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -25,23 +25,14 @@
   "accentColor": "#D85028",
   "configurableTabs": [
     {
-      "configurationUrl": "https://{{PUBLIC_HOSTNAME}}/configMathTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "configurationUrl": "https://{{PUBLIC_HOSTNAME}}/learnAuthTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "canUpdateConfiguration": true,
       "scopes": [
         "team"
       ]
     }
   ],
-  "staticTabs": [
-    {
-      "entityId": "41bbb49c-21a9-43ed-acc3-e92730bd5481",
-      "name": "LearnPersonalTab",
-      "contentUrl": "https://{{PUBLIC_HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
-      "scopes": [
-        "personal"
-      ]
-    }
-  ],
+  "staticTabs": [],
   "bots": [],
   "connectors": [],
   "composeExtensions": [],

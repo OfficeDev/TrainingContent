@@ -40,6 +40,7 @@ This module has been recorded and is available in the Office Development YouTube
 
 | Version |        Date        |         Comments         |
 | ------- | ------------------ | ------------------------ |
+| 1.8     | September 10, 2022 | FY2023Q1 content refresh |
 | 1.7     | May 19, 2022       | FY2022Q4 content refresh |
 | 1.6     | March 3, 2022      | FY2022Q3 content refresh |
 | 1.5     | December 11, 2021  | FY2022Q2 content refresh |
@@ -51,6 +52,6 @@ This module has been recorded and is available in the Office Development YouTube
 
 ## Disclaimer
 
-**THIS CODE IS PROVIDED _AS IS_ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
+**THIS CODE IS PROVIDED _AS IS_ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT..**
 
 <img src="https://telemetry.sharepointpnp.com/TrainingContent/ConnectorActionableMsgs//Engaging%20messages%20for%20Outlook%20and%20Teams" />

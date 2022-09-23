@@ -14,21 +14,15 @@ async function getHttpsOptions() {
 
 module.exports = async (env, options) => {
   const dev = options.mode === "development";
-  const buildType = dev ? "dev" : "prod";
   const config = {
     devtool: "source-map",
     entry: {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       taskpane: "./src/taskpane/taskpane.js",
       commands: "./src/commands/commands.js",
-      fallbackauthdialog: "./src/helpers/fallbackauthdialog.js",
+      dialog: "./src/settings/dialog.js"
     },
     output: {
-      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
-      clean: true,
-    },
-    output: {
-      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
       clean: true,
     },
     resolve: {
@@ -73,8 +67,16 @@ module.exports = async (env, options) => {
             to: "assets/[name][ext][query]",
           },
           {
+            from: "./src/taskpane/taskpane.css",
+            to: "taskpane.css",
+          },
+          {
+            from: "./src/settings/dialog.css",
+            to: "dialog.css",
+          },
+          {
             from: "manifest*.xml",
-            to: "[name]." + buildType + "[ext]",
+            to: "[name]" + "[ext]",
             transform(content) {
               if (dev) {
                 return content;
@@ -94,7 +96,7 @@ module.exports = async (env, options) => {
         filename: "dialog.html",
         template: "./src/settings/dialog.html",
         chunks: ["polyfill", "dialog"]
-      }),
+      })
     ],
     devServer: {
       headers: {
