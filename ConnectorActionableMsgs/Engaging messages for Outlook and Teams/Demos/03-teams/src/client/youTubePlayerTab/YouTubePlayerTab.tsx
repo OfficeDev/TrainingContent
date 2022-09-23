@@ -1,15 +1,8 @@
 import * as React from "react";
-import {
-  Provider,
-  Flex,
-  Text,
-  Button,
-  Header,
-  Input
-} from "@fluentui/react-northstar";
+import { Provider, Flex, Text, Button, Header, Input } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, dialog, tasks } from "@microsoft/teams-js";
 
 /**
  * Implementation of the YouTube Player content page
@@ -22,7 +15,7 @@ export const YouTubePlayerTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.appInitialization.notifySuccess();
+      app.notifySuccess();
     } else {
       setEntityId("Not in Microsoft Teams");
     }
@@ -70,17 +63,19 @@ export const YouTubePlayerTab = () => {
       setYouTubeVideoId(result.youTubeVideoId);
     };
 
-    microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
+    tasks.startTask(taskModuleInfo, submitHandler);
   };
 
   const onShowVideo = (): void => {
     const taskModuleInfo = {
       title: "YouTube Player",
       url: appRoot() + `/youTubePlayerTab/player.html?vid=${youTubeVideoId}`,
-      width: 1000,
-      height: 700
+      size: {
+        width: 1000,
+        height: 700
+      }
     };
-    microsoftTeams.tasks.startTask(taskModuleInfo);
+    dialog.open(dialogInfo);
   };
 
   /**

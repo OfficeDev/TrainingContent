@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Text, Button, Header, Avatar, List } from "@fluentui/react-northstar";
 import { useState, useEffect, useCallback } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, authentication } from "@microsoft/teams-js";
 import jwtDecode from "jwt-decode";
 
 /**
@@ -14,7 +14,6 @@ export const MsGraphTeamworkTab = () => {
   const [entityId, setEntityId] = useState<string | undefined>();
   const [name, setName] = useState<string>();
   const [error, setError] = useState<string>();
-
   const [ssoToken, setSsoToken] = useState<string>();
   const [msGraphOboToken, setMsGraphOboToken] = useState<string>();
   const [photo, setPhoto] = useState<string>();
@@ -22,32 +21,25 @@ export const MsGraphTeamworkTab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.authentication.getAuthToken({
-        successCallback: (token: string) => {
-          const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
-          setName(decoded!.name);
-          setSsoToken(token);
-          microsoftTeams.appInitialization.notifySuccess();
-        },
-        failureCallback: (message: string) => {
-          setError(message);
-          microsoftTeams.appInitialization.notifyFailure({
-            reason: microsoftTeams.appInitialization.FailedReason.AuthFailed,
-            message
-          });
-        },
-        resources: [process.env.TAB_APP_URI as string]
+      authentication.getAuthToken({
+        resources: [process.env.TAB_APP_URI as string],
+        silent: false
+      } as authentication.AuthTokenRequestParameters).then(token => {
+        const decoded: { [key: string]: any; } = jwtDecode(token) as { [key: string]: any; };
+        setName(decoded!.name);
+        setSsoToken(token);
+        app.notifySuccess();
+      }).catch(message => {
+        setError(message);
+        app.notifyFailure({
+          reason: app.FailedReason.AuthFailed,
+          message
+        });
       });
     } else {
       setEntityId("Not in Microsoft Teams");
     }
   }, [inTeams]);
-
-  useEffect(() => {
-    if (context) {
-      setEntityId(context.entityId);
-    }
-  }, [context]);
 
   const exchangeSsoTokenForOboToken = useCallback(async () => {
     const response = await fetch(`/exchangeSsoTokenForOboToken/?ssoToken=${ssoToken}`);
@@ -113,6 +105,12 @@ export const MsGraphTeamworkTab = () => {
     getProfilePhoto();
   }, [getJoinedTeams, getProfilePhoto, msGraphOboToken]);
 
+  useEffect(() => {
+    if (context) {
+      setEntityId(context.page.id);
+    }
+  }, [context]);
+
   /**
    * The render() method to create the UI of the tab
    */
@@ -128,12 +126,9 @@ export const MsGraphTeamworkTab = () => {
           <div>
             <div>
               <Text content={`Hello ${name}`} />
+              {photo && <div><Avatar image={photo} size='largest' /></div>}
+              {joinedTeams && <div><h3>You belong to the following teams:</h3><List items={joinedTeams} /></div>}
             </div>
-
-            {photo && <div><Avatar image={photo} size='largest' /></div>}
-
-            {joinedTeams && <div><h3>You belong to the following teams:</h3><List items={joinedTeams} /></div>}
-
             {error && <div><Text content={`An SSO error occurred ${error}`} /></div>}
 
             <div>
@@ -144,7 +139,7 @@ export const MsGraphTeamworkTab = () => {
         <Flex.Item styles={{
           padding: ".8rem 0 .8rem .5rem"
         }}>
-          <Text size="smaller" content="(C) Copyright Office Developer" />
+          <Text size="smaller" content="(C) Copyright Contoso" />
         </Flex.Item>
       </Flex>
     </Provider>

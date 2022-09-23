@@ -13,6 +13,7 @@ export const StandupAgendaRouter = (options: any): express.Router => {
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
       try {
         const token = await validateToken(req);
+
         // get OBO token
         try {
           const cca = new ConfidentialClientApplication({
@@ -26,6 +27,7 @@ export const StandupAgendaRouter = (options: any): express.Router => {
             oboAssertion: token,
             scopes: ["OnlineMeetings.Read", "Chat.Read"]
           });
+
           // use OBO access token to call MS graph for meeting detail
           if (response && response.accessToken) {
             const authHeader: any = {
@@ -99,7 +101,6 @@ export const StandupAgendaRouter = (options: any): express.Router => {
       }
     });
 
-  // TODO: add API endpoints
 
   return router;
 };

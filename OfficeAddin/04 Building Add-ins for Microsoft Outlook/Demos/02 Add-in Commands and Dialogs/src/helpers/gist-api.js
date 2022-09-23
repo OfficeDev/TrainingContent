@@ -1,23 +1,23 @@
 function getUserGists(user, callback) {
-  var requestUrl = 'https://api.github.com/users/' + user + '/gists';
+  const requestUrl = 'https://api.github.com/users/' + user + '/gists';
 
   $.ajax({
     url: requestUrl,
     dataType: 'json'
-  }).done(function (gists) {
+  }).done(function(gists){
     callback(gists);
-  }).fail(function (error) {
+  }).fail(function(error){
     callback(null, error);
   });
 }
 
 function buildGistList(parent, gists, clickFunc) {
-  gists.forEach(function (gist) {
+  gists.forEach(function(gist) {
 
-    var listItem = $('<div/>')
+    const listItem = $('<div/>')
       .appendTo(parent);
 
-    var radioItem = $('<input>')
+    const radioItem = $('<input>')
       .addClass('ms-ListItem')
       .addClass('is-selectable')
       .attr('type', 'radio')
@@ -26,21 +26,21 @@ function buildGistList(parent, gists, clickFunc) {
       .val(gist.id)
       .appendTo(listItem);
 
-    var desc = $('<span/>')
+    const desc = $('<span/>')
       .addClass('ms-ListItem-primaryText')
       .text(gist.description)
       .appendTo(listItem);
 
-    var desc = $('<span/>')
+    const files = $('<span/>')
       .addClass('ms-ListItem-secondaryText')
       .text(' - ' + buildFileList(gist.files))
       .appendTo(listItem);
 
-    var updated = new Date(gist.updated_at);
+    const updatedAt = new Date(gist.updated_at);
 
-    var desc = $('<span/>')
+    const updated = $('<span/>')
       .addClass('ms-ListItem-tertiaryText')
-      .text(' - Last updated ' + updated.toLocaleString())
+      .text(' - Last updated ' + updatedAt.toLocaleString())
       .appendTo(listItem);
 
     listItem.on('click', clickFunc);
@@ -49,9 +49,9 @@ function buildGistList(parent, gists, clickFunc) {
 
 function buildFileList(files) {
 
-  var fileList = '';
+  let fileList = '';
 
-  for (var file in files) {
+  for (let file in files) {
     if (files.hasOwnProperty(file)) {
       if (fileList.length > 0) {
         fileList = fileList + ', ';
@@ -65,14 +65,14 @@ function buildFileList(files) {
 }
 
 function getGist(gistId, callback) {
-  var requestUrl = 'https://api.github.com/gists/' + gistId;
+  const requestUrl = 'https://api.github.com/gists/' + gistId;
 
   $.ajax({
     url: requestUrl,
     dataType: 'json'
-  }).done(function (gist) {
+  }).done(function(gist){
     callback(gist);
-  }).fail(function (error) {
+  }).fail(function(error){
     callback(null, error);
   });
 }
@@ -80,9 +80,9 @@ function getGist(gistId, callback) {
 function buildBodyContent(gist, callback) {
   // Find the first non-truncated file in the gist
   // and use it.
-  for (var filename in gist.files) {
+  for (let filename in gist.files) {
     if (gist.files.hasOwnProperty(filename)) {
-      var file = gist.files[filename];
+      const file = gist.files[filename];
       if (!file.truncated) {
         // We have a winner.
         switch (file.language) {
@@ -92,13 +92,13 @@ function buildBodyContent(gist, callback) {
             break;
           case 'Markdown':
             // Convert Markdown to HTML.
-            var converter = new showdown.Converter();
-            var html = converter.makeHtml(file.content);
+            const converter = new showdown.Converter();
+            const html = converter.makeHtml(file.content);
             callback(html);
             break;
           default:
             // Insert contents as a <code> block.
-            var codeBlock = '<pre><code>';
+            let codeBlock = '<pre><code>';
             codeBlock = codeBlock + file.content;
             codeBlock = codeBlock + '</code></pre>';
             callback(codeBlock);

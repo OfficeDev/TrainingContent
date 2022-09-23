@@ -2,7 +2,7 @@
 <html>
 
 <body>
-  <script src="https://statics.teams.cdn.office.net/sdk/v1.9.0/js/MicrosoftTeams.min.js"
+  <script src="https://res.cdn.office.net/teams-js/2.3.0/js/MicrosoftTeams.min.js"
     crossorigin="anonymous"></script>
   <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js" crossorigin="anonymous"></script>
   <script type="text/javascript">
@@ -22,8 +22,8 @@
       // add extra query parameters Azure AD login request
       //  include scope for OpenID connect and log-in hint by using the current Microsoft Teams logged-in user
       config.extraQueryParameters = "scope=open+profile";
-      if (msTeamsContext.upn) {
-        config.extraQueryParameters += "&login-hint=" + encodeURIComponent(msTeamsContext.userProfileName);
+      if (msTeamsContext.user?.userPrincipalName) {
+        config.extraQueryParameters += "&login-hint=" + encodeURIComponent(msTeamsContext.user?.userPrincipalName);
       }
       // check if consent required for new permission
       if (getUrlParameter('prompt') !== "") {
@@ -38,7 +38,7 @@
           }
           window.location.replace(urlNavigate);
         }
-      }
+      };
 
       // login
       let authContext = new AuthenticationContext(config);

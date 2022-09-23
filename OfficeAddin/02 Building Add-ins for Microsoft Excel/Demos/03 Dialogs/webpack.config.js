@@ -14,7 +14,6 @@ async function getHttpsOptions() {
 
 module.exports = async (env, options) => {
   const dev = options.mode === "development";
-  const buildType = dev ? "dev" : "prod";
   const config = {
     devtool: "source-map",
     entry: {
@@ -24,7 +23,6 @@ module.exports = async (env, options) => {
       popup: "./src/dialogs/popup.js"
     },
     output: {
-      devtoolModuleFilenameTemplate: "webpack:///[resource-path]?[loaders]",
       clean: true,
     },
     resolve: {
@@ -70,7 +68,7 @@ module.exports = async (env, options) => {
           },
           {
             from: "manifest*.xml",
-            to: "[name]." + buildType + "[ext]",
+            to: "[name]" + "[ext]",
             transform(content) {
               if (dev) {
                 return content;
@@ -90,7 +88,7 @@ module.exports = async (env, options) => {
         filename: "popup.html",
         template: "./src/dialogs/popup.html",
         chunks: ["polyfill", "popup"]
-      })
+      }),
     ],
     devServer: {
       headers: {
