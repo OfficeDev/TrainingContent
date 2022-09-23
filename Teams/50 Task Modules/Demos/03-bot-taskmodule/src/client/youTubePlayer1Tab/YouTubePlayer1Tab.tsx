@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Text, Button, Header, Input } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { app, dialog, tasks } from '@microsoft/teams-js';
 
 /**
  * Implementation of the YouTube Player 1 content page
@@ -15,7 +15,7 @@ export const YouTubePlayer1Tab = () => {
 
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.appInitialization.notifySuccess();
+      app.notifySuccess();
     } else {
       setEntityId("Not in Microsoft Teams");
     }
@@ -23,7 +23,7 @@ export const YouTubePlayer1Tab = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
     }
   }, [context]);
 
@@ -36,29 +36,33 @@ export const YouTubePlayer1Tab = () => {
   };
 
   const onShowVideo = (): void => {
-    const taskModuleInfo = {
+    const dialogInfo = {
       title: "YouTube Player",
       url: appRoot() + `/youTubePlayer1Tab/player.html?vid=${youTubeVideoId}`,
-      width: 1000,
-      height: 700
+      size: {
+        width: 1000,
+        height: 700
+      }
     };
-    microsoftTeams.tasks.startTask(taskModuleInfo);
+    dialog.open(dialogInfo);
   };
 
   const onChangeVideo = (): void => {
-    const taskModuleInfo = {
+    const dialogInfo = {
       title: "YouTube Video Selector",
       url: appRoot() + `/youTubePlayer1Tab/selector.html?theme={theme}&vid=${youTubeVideoId}`,
-      width: 350,
-      height: 150
+      size: {
+        width: 350,
+        height: 150
+      }
     };
 
-    const submitHandler = (err: string, result: string): void => {
-      console.log(`Submit handler - err: ${err}`);
-      setYouTubeVideoId(result);
+    const submitHandler: dialog.DialogSubmitHandler = (response) => {
+      console.log(`Submit handler - err: ${response.err}`);
+      setYouTubeVideoId(response.result?.toString());
     };
 
-    microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
+    dialog.open(dialogInfo, submitHandler);
   };
 
   const onChangeVideoAdaptiveCard = (): void => {
@@ -87,7 +91,7 @@ export const YouTubePlayer1Tab = () => {
       setYouTubeVideoId(result.youTubeVideoId);
     };
 
-    microsoftTeams.tasks.startTask(taskModuleInfo, submitHandler);
+    tasks.startTask(taskModuleInfo, submitHandler);
   };
 
   /**
@@ -109,8 +113,8 @@ export const YouTubePlayer1Tab = () => {
             </div>
             <div>
               <Button content="Change Video ID" onClick={() => onChangeVideo()}></Button>
-              <Button content="Change Video ID (AdaptiveCard)" onClick={() => onChangeVideoAdaptiveCard()}></Button>
               <Button content="Show Video" primary onClick={() => onShowVideo()}></Button>
+              <Button content="Change Video ID (AdaptiveCard)" onClick={() => onChangeVideoAdaptiveCard()}></Button>
             </div>
           </div>
         </Flex.Item>

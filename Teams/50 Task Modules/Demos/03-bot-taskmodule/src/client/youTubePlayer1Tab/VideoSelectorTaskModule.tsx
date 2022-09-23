@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Provider, Flex, Text, Button, Header, Input } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
-import { useTeams, getQueryVariable } from "msteams-react-base-component";
-import * as microsoftTeams from "@microsoft/teams-js";
+import { useTeams } from "msteams-react-base-component";
+import { app, dialog } from "@microsoft/teams-js";
 
 export const VideoSelectorTaskModule = () => {
 
@@ -10,9 +10,21 @@ export const VideoSelectorTaskModule = () => {
   const [entityId, setEntityId] = useState<string | undefined>();
   const [youTubeVideoId, setYouTubeVideoId] = useState<string | undefined>("VlEH4vtaxp4");
 
+  const getQueryVariable = (variable: string): string | undefined => {
+    const query = window.location.search.substring(1);
+    const vars = query.split("&");
+    for (const varPairs of vars) {
+      const pair = varPairs.split("=");
+      if (decodeURIComponent(pair[0]) === variable) {
+        return decodeURIComponent(pair[1]);
+      }
+    }
+    return undefined;
+  };
+
   useEffect(() => {
     if (inTeams === true) {
-      microsoftTeams.appInitialization.notifySuccess();
+      app.notifySuccess();
     } else {
       setEntityId("Not in Microsoft Teams");
     }
@@ -20,7 +32,7 @@ export const VideoSelectorTaskModule = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
       setYouTubeVideoId(getQueryVariable("vid"));
     }
   }, [context]);
@@ -30,7 +42,7 @@ export const VideoSelectorTaskModule = () => {
   };
 
   const handleOnClick = (): void => {
-    microsoftTeams.tasks.submitTask(youTubeVideoId, undefined);
+    dialog.submit(youTubeVideoId, undefined);
   };
 
   return (
@@ -44,5 +56,4 @@ export const VideoSelectorTaskModule = () => {
       </Flex>
     </Provider>
   );
-
 };
