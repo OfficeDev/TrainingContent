@@ -24,7 +24,8 @@
     {
       "type": "Action.Submit",
       "title": "Insert selected planet",
-      "data": {
+      "data":
+      {
         "submitLocation": "messagingExtensionFetchTask"
       }
     }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
   "manifestVersion": "1.13",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
@@ -29,7 +29,7 @@
   "connectors": [],
   "composeExtensions": [
     {
-      "botId": "{{MICROSOFT_APP_ID}}",
+      "botId": "{{APPLICATION_ID}}",
       "canUpdateConfiguration": false,
       "commands": [
         {
@@ -41,24 +41,19 @@
             "compose",
             "message"
           ],
-          "fetchTask": true,
-          "initialRun": false
+          "fetchTask": true
         },
         {
           "id": "planetExpanderSearch",
           "type": "query",
           "title": "Planet Lookup",
           "description": "Search for a planet.",
-          "context": [
-            "compose"
-          ],
-          "parameters": [
-            {
-              "name": "searchKeyword",
-              "description": "Enter 'inner','outer' or the name of a specific planet",
-              "title": "Planet"
-            }
-          ]
+          "context": ["compose"],
+          "parameters": [{
+            "name": "searchKeyword",
+            "description": "Enter 'inner','outer' or the name of a specific planet",
+            "title": "Planet"
+          }]
         }
       ]
     }

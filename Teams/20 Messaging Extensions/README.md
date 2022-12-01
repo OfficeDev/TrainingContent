@@ -32,15 +32,15 @@ This module has been recorded and is available in the **Microsoft 365 Developmen
 
 ## Contributors
 
-|        Roles         |                                       Author(s)                                       |
-| -------------------- | ------------------------------------------------------------------------------------- |
-| Lab / Slides / Demos | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
-| QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)        |
+|           Roles           |                                       Author(s)                                       |
+| ------------------------- | ------------------------------------------------------------------------------------- |
+| Lab / Slides / Demos / QA | Andrew Connell (Microsoft MVP, [Voitanos](//github.com/voitanos)) [@andrewconnell](//github.com/andrewconnell) |
 
 ## Version history
 
 | Version |        Date        |            Comments            |
 | ------- | ------------------ | ------------------------------ |
+| 1.11    | December 1, 2022   | FY2023Q2 content refresh       |
 | 1.10    | September 13, 2022 | FY2023Q1 content refresh       |
 | 1.9     | March 7, 2022      | FY2022Q3 content refresh       |
 | 1.8     | December 10, 2021  | FY2022Q2 content refresh       |
