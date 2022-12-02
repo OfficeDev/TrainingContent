@@ -21,8 +21,8 @@
             "always"
         ],
         "indent": [
-            "warn",
-            2,
+            "error",
+            4,
             {
                 "SwitchCase": 1
             }

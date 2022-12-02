@@ -1,11 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.9",
-  "id": "{{APPLICATION_ID}}",
-  "version": "{{VERSION}}",
-  "packageName": "{{PACKAGE_NAME}}",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.13",
+  "id": "8770777d-ebdd-4511-837f-e089a60c98a0",
+  "version": "1.0.0",
+  "packageName": "com.package.name",
   "developer": {
     "name": "Contoso",
+    "mpnId": "",
     "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
     "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
@@ -15,58 +16,61 @@
     "full": "Conversational Bot"
   },
   "description": {
-    "short": "TODO: add short description here",
-    "full": "TODO: add full description here"
+    "short": "",
+    "full": ""
   },
   "icons": {
     "outline": "icon-outline.png",
     "color": "icon-color.png"
   },
-  "accentColor": "#D85028",
+  "accentColor": "#FFFFFF",
   "configurableTabs": [],
-  "staticTabs": [],
-  "bots": [
+  "staticTabs": [
     {
-      "botId": "{{MICROSOFT_APP_ID}}",
-      "needsChannelSelector": true,
-      "isNotificationOnly": false,
+      "entityId": "conversations",
       "scopes": [
-        "team",
-        "personal",
-        "groupchat"
-      ],
-      "commandLists": [
-        {
-          "scopes": [
-            "team",
-            "personal"
-          ],
-          "commands": [
-            {
-              "title": "Help",
-              "description": "Shows help information"
-            },
-            {
-              "title": "Who am I?",
-              "description": "Shows information about your Teams user"
-            },
-            {
-              "title": "Mention me",
-              "description": "Let the bot @mention you"
-            }
-          ]
-        }
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "scopes": [
+        "personal"
       ]
     }
   ],
-  "connectors": [],
-  "composeExtensions": [],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
+  "bots": [
+    {
+      "botId": "d59edf8f-d457-4088-82a2-f803c33b7a4a",
+      "scopes": [
+        "personal",
+        "team"
+      ],
+      "commandLists": [
+        {
+          "commands": [
+            {
+              "title": "Mention Me",
+              "description": "Sends message with @mention of the sender"
+            }
+          ],
+          "scopes": [
+            "personal"
+          ]
+        }
+      ],
+      "isNotificationOnly": false,
+      "supportsCalling": false,
+      "supportsVideo": false,
+      "supportsFiles": false
+    }
   ],
   "validDomains": [
     "{{PUBLIC_HOSTNAME}}"
   ],
-  "showLoadingIndicator": false
+  "showLoadingIndicator": false,
+  "webApplicationInfo": {
+    "id": "d59edf8f-d457-4088-82a2-f803c33b7a4a",
+    "resource": ""
+  }
 }
