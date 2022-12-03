@@ -37,13 +37,13 @@ This module has been recorded and is available in the **Microsoft 365 Developmen
 | Roles                | Author(s)                                                                                                      |
 | -------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, [Voitanos](//github.com/voitanos)) [@andrewconnell](//github.com/andrewconnell) |
-| QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)                                 |
 | Sponsor / Support    | Andrew Clear (Microsoft) [@clearab](//github.com/clearab)                                                      |
 
 ## Version history
 
 | Version |        Date        |            Comments            |
 | ------- | ------------------ | ------------------------------ |
+| 1.12    | December 2, 2022   | FY2023Q1 content refresh       |
 | 1.11    | September 13, 2022 | FY2023Q1 content refresh       |
 | 1.10    | March 7, 2022      | FY2022Q3 content refresh       |
 | 1.9     | December 9, 2021   | FY2022Q2 content refresh       |

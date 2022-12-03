@@ -2,98 +2,99 @@ import * as React from "react";
 import { Provider, Flex, Text, Button, Header, Input } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import { app, dialog } from '@microsoft/teams-js';
+import { app, dialog } from "@microsoft/teams-js";
 
 /**
  * Implementation of the YouTube Player 1 content page
  */
 export const YouTubePlayer1Tab = () => {
 
-  const [{ inTeams, theme, context }] = useTeams();
-  const [entityId, setEntityId] = useState<string | undefined>();
-  const [youTubeVideoId, setYouTubeVideoId] = useState<string | undefined>("VlEH4vtaxp4");
+    const [{ inTeams, theme, context }] = useTeams();
+    const [entityId, setEntityId] = useState<string | undefined>();
+    const [youTubeVideoId, setYouTubeVideoId] = useState<string | undefined>("VlEH4vtaxp4");
 
-  useEffect(() => {
-    if (inTeams === true) {
-      app.notifySuccess();
-    } else {
-      setEntityId("Not in Microsoft Teams");
-    }
-  }, [inTeams]);
+    useEffect(() => {
+        if (inTeams === true) {
+            app.notifySuccess();
+        } else {
+            setEntityId("Not in Microsoft Teams");
+        }
+    }, [inTeams]);
 
-  useEffect(() => {
-    if (context) {
-      setEntityId(context.page.id);
-    }
-  }, [context]);
+    useEffect(() => {
+        if (context) {
+            setEntityId(context.page.id);
+        }
+    }, [context]);
 
-  const appRoot = (): string => {
-    if (typeof window === "undefined") {
-      return "https://{{HOSTNAME}}";
-    } else {
-      return window.location.protocol + "//" + window.location.host;
-    }
-  };
+    const onShowVideo = (): void => {
+      const dialogInfo = {
+        title: "YouTube Player",
+        url: appRoot() + `/youTubePlayer1Tab/player.html?vid=${youTubeVideoId}`,
+        size: {
+          width: 1000,
+          height: 700
+        }
+      };
+      dialog.open(dialogInfo);
+    };
 
-  const onShowVideo = (): void => {
-    const dialogInfo = {
-      title: "YouTube Player",
-      url: appRoot() + `/youTubePlayer1Tab/player.html?vid=${youTubeVideoId}`,
-      size: {
-        width: 1000,
-        height: 700
+    const onChangeVideo = (): void => {
+      const dialogInfo = {
+        title: "YouTube Video Selector",
+        url: appRoot() + `/youTubePlayer1Tab/selector.html?theme={theme}&vid=${youTubeVideoId}`,
+        size: {
+          width: 350,
+          height: 150
+        }
+      };
+
+      const submitHandler: dialog.DialogSubmitHandler = (response) => {
+        console.log(`Submit handler - err: ${response.err}`);
+        setYouTubeVideoId(response.result?.toString());
+      };
+
+      dialog.open(dialogInfo, submitHandler);
+    };
+
+    const appRoot = (): string => {
+      if (typeof window === "undefined") {
+        return "https://{{HOSTNAME}}";
+      } else {
+        return window.location.protocol + "//" + window.location.host;
       }
     };
-    dialog.open(dialogInfo);
-  };
 
-  const onChangeVideo = (): void => {
-    const dialogInfo = {
-      title: "YouTube Video Selector",
-      url: appRoot() + `/youTubePlayer1Tab/selector.html?theme={theme}&vid=${youTubeVideoId}`,
-      size: {
-        width: 350,
-        height: 150
-      }
-    };
-
-    const submitHandler: dialog.DialogSubmitHandler = (response) => {
-      console.log(`Submit handler - err: ${response.err}`);
-      setYouTubeVideoId(response.result?.toString());
-    };
-
-    dialog.open(dialogInfo, submitHandler);
-  };
-
-  /**
-   * The render() method to create the UI of the tab
-   */
-  return (
-    <Provider theme={theme}>
-      <Flex fill={true} column styles={{
-        padding: ".8rem 0 .8rem .5rem"
-      }}>
-        <Flex.Item>
-          <Header>Task Module Demo</Header>
-        </Flex.Item>
-        <Flex.Item>
-          <div>
-            <div>
-              <Text>YouTube Video ID:</Text>
-              <Input value={youTubeVideoId} disabled></Input>
-            </div>
-            <div>
-              <Button content="Change Video ID" onClick={() => onChangeVideo()}></Button>
-              <Button content="Show Video" primary onClick={() => onShowVideo()}></Button>
-            </div>
-          </div>
-        </Flex.Item>
-        <Flex.Item styles={{
+    /**
+     * The render() method to create the UI of the tab
+     */
+     return (
+      <Provider theme={theme}>
+        <Flex fill={true} column styles={{
           padding: ".8rem 0 .8rem .5rem"
         }}>
-          <Text content="(C) Copyright Contoso" size="smaller"></Text>
-        </Flex.Item>
-      </Flex>
-    </Provider>
-  );
+          <Flex.Item>
+            <Header>Task Module Demo</Header>
+          </Flex.Item>
+          <Flex.Item>
+            <div>
+              <div>
+                <Text>YouTube Video ID:</Text>
+                <Input value={youTubeVideoId} disabled></Input>
+              </div>
+              <div>
+                <Button content="Change Video ID" onClick={() => onChangeVideo()}></Button>
+                <Button content="Show Video" primary onClick={() => onShowVideo()}></Button>
+              </div>
+            </div>
+          </Flex.Item>
+          <Flex.Item styles={{
+            padding: ".8rem 0 .8rem .5rem"
+          }}>
+            <Text content="(C) Copyright Contoso" size="smaller"></Text>
+          </Flex.Item>
+        </Flex>
+      </Provider>
+    );
+
 };

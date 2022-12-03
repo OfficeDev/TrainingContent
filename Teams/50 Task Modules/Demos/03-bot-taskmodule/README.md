@@ -24,7 +24,7 @@ For further details see the [Yo Teams documentation](https://github.com/PnP/gene
 The application is built using the `build` Gulp task.
 
 ``` bash
-npm i -g gulp gulp-cli
+npm i -g gulp-cli
 gulp build
 ```
 
@@ -35,6 +35,10 @@ To create the Microsoft Teams Apps manifest, run the `manifest` Gulp task. This 
 ``` bash
 gulp manifest
 ```
+
+## Deploying the manifest
+
+Using the `yoteams-deploy` plugin, automatically added to the project, deployment of the manifest to the Teams App store can be done manually using `gulp tenant:deploy` or by passing the `--publish` flag to any of the `serve` tasks.
 
 ## Configuration
 
@@ -54,33 +58,20 @@ To debug the code you can append the argument `debug` to the `serve` command as 
 gulp serve --debug
 ```
 
-To step through code in Visual Studio Code you need to add the following snippet in the `./.vscode/launch.json` file. Once done, you can easily attach to the node process after running the `gulp serve --debug` command.
+## Useful links
 
-``` json
- {
-    "name": "Attach",
-    "port": 9229,
-    "request": "attach",
-    "skipFiles": [
-        "<node_internals>/**"
-    ],
-    "type": "pwa-node"
-}
-```
+* [Debugging with Visual Studio Code](https://github.com/pnp/generator-teams/blob/master/docs/docs/user-guide/vscode.md)
+* [Developing with ngrok](https://github.com/pnp/generator-teams/blob/master/docs/docs/concepts/ngrok.md)
+* [Developing with Github Codespaces](https://github.com/pnp/generator-teams/blob/master/docs/docs/user-guide/codespaces.md)
 
-### Using ngrok for local development and hosting
-
-In order to make development locally a great experience it is recommended to use [ngrok](https://ngrok.io), which allows you to publish the localhost on a public DNS, so that you can consume the bot and the other resources in Microsoft Teams.
-
-To use ngrok, it is recommended to use the `gulp ngrok-serve` command, which will read your ngrok settings from the `.env` file and automatically create a correct manifest file and finally start a local development server using the ngrok settings.
-
-### Additional build options
+## Additional build options
 
 You can use the following flags for the `serve`, `ngrok-serve` and build commands:
 
 * `--no-linting` or `-l` - skips the linting of Typescript during build to improve build times
-* `--debug` - builds in debug mode
+* `--debug` - builds in debug mode and significantly improves build time with support for hot reloading of client side components
 * `--env <filename>.env` - use an alternate set of environment files
+* `--publish` - automatically publish the application to the Teams App store
 
 ## Deployment
 
