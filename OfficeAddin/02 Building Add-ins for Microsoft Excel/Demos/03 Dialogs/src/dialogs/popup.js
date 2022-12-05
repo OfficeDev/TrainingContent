@@ -7,5 +7,4 @@
     const userName = document.getElementById("name-box").value;
     Office.context.ui.messageParent(userName);
   }
-
 })();

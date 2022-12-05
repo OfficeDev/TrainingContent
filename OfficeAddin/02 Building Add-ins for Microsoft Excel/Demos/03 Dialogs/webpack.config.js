@@ -9,7 +9,7 @@ const urlProd = "https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DE
 
 async function getHttpsOptions() {
   const httpsOptions = await devCerts.getHttpsServerOptions();
-  return { cacert: httpsOptions.ca, key: httpsOptions.key, cert: httpsOptions.cert };
+  return { ca: httpsOptions.ca, key: httpsOptions.key, cert: httpsOptions.cert };
 }
 
 module.exports = async (env, options) => {
@@ -20,7 +20,7 @@ module.exports = async (env, options) => {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       taskpane: "./src/taskpane/taskpane.js",
       commands: "./src/commands/commands.js",
-      popup: "./src/dialogs/popup.js"
+      commands: "./src/dialogs/popup.js",
     },
     output: {
       clean: true,
@@ -88,13 +88,16 @@ module.exports = async (env, options) => {
         filename: "popup.html",
         template: "./src/dialogs/popup.html",
         chunks: ["polyfill", "popup"]
-      }),
+      })
     ],
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      https: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
+      server: {
+        type: "https",
+        options: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
+      },
       port: process.env.npm_package_config_dev_server_port || 3000,
     },
   };
