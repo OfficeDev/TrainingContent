@@ -1,9 +1,9 @@
-(function () {
+(function(){
   'use strict';
 
   // The Office initialize function must be run each time a new page is loaded.
-  Office.initialize = function (reason) {
-    jQuery(document).ready(function () {
+  Office.initialize = function(reason){
+    jQuery(document).ready(function(){
       if (window.location.search) {
         // Check if warning should be displayed.
         const warn = getParameterByName('warn');
@@ -16,10 +16,10 @@
           const gistId = getParameterByName('defaultGistId');
 
           $('#github-user').val(user);
-          loadGists(user, function (success) {
+          loadGists(user, function(success){
             if (success) {
               $('.ms-ListItem').removeClass('is-selected');
-              $('input').filter(function () {
+              $('input').filter(function() {
                 return this.value === gistId;
               }).addClass('is-selected').attr('checked', 'checked');
               $('#settings-done').removeAttr('disabled');
@@ -30,7 +30,7 @@
 
       // When the GitHub username changes,
       // try to load gists.
-      $('#github-user').on('change', function () {
+      $('#github-user').on('change', function(){
         $('#gist-list').empty();
         const ghUser = $('#github-user').val();
         if (ghUser.length > 0) {
@@ -41,8 +41,8 @@
       // When the Done button is selected, send the
       // values back to the caller as a serialized
       // object.
-      $('#settings-done').on('click', function () {
-        var settings = {};
+      $('#settings-done').on('click', function() {
+        const settings = {};
 
         settings.gitHubUserName = $('#github-user').val();
 
@@ -59,7 +59,7 @@
   // Load gists for the user using the GitHub API
   // and build the list.
   function loadGists(user, callback) {
-    getUserGists(user, function (gists, error) {
+    getUserGists(user, function(gists, error){
       if (error) {
         $('.gist-list-container').hide();
         $('#error-text').text(JSON.stringify(error, null, 2));

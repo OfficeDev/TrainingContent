@@ -9,7 +9,7 @@ const urlProd = "https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DE
 
 async function getHttpsOptions() {
   const httpsOptions = await devCerts.getHttpsServerOptions();
-  return { cacert: httpsOptions.ca, key: httpsOptions.key, cert: httpsOptions.cert };
+  return { ca: httpsOptions.ca, key: httpsOptions.key, cert: httpsOptions.cert };
 }
 
 module.exports = async (env, options) => {
@@ -63,16 +63,16 @@ module.exports = async (env, options) => {
       new CopyWebpackPlugin({
         patterns: [
           {
-            from: "assets/*",
-            to: "assets/[name][ext][query]",
-          },
-          {
             from: "./src/taskpane/taskpane.css",
             to: "taskpane.css",
           },
           {
-            from: "./src/settings/dialog.css",
+            from: "./src/taskpane/dialog.css",
             to: "dialog.css",
+          },
+          {
+            from: "assets/*",
+            to: "assets/[name][ext][query]",
           },
           {
             from: "manifest*.xml",
@@ -102,7 +102,10 @@ module.exports = async (env, options) => {
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      https: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
+      server: {
+        type: "https",
+        options: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
+      },
       port: process.env.npm_package_config_dev_server_port || 3000,
     },
   };

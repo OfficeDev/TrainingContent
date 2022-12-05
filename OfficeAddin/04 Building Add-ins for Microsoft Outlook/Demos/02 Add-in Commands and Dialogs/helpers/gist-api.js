@@ -31,16 +31,16 @@ function buildGistList(parent, gists, clickFunc) {
       .text(gist.description)
       .appendTo(listItem);
 
-    const files = $('<span/>')
+    const desc = $('<span/>')
       .addClass('ms-ListItem-secondaryText')
       .text(' - ' + buildFileList(gist.files))
       .appendTo(listItem);
 
-    const updatedAt = new Date(gist.updated_at);
+    const updated = new Date(gist.updated_at);
 
-    const updated = $('<span/>')
+    const desc = $('<span/>')
       .addClass('ms-ListItem-tertiaryText')
-      .text(' - Last updated ' + updatedAt.toLocaleString())
+      .text(' - Last updated ' + updated.toLocaleString())
       .appendTo(listItem);
 
     listItem.on('click', clickFunc);

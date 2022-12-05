@@ -1,19 +1,12 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
- * See LICENSE in the project root for license information.
- */
-
-/* global document, Office */
-
-(function () {
+(function(){
   'use strict';
 
   let config;
   let settingsDialog;
 
-  Office.initialize = function (reason) {
+  Office.initialize = function(reason){
 
-    jQuery(document).ready(function () {
+    jQuery(document).ready(function(){
 
       config = getConfig();
 
@@ -28,18 +21,18 @@
 
       // When insert button is selected, build the content
       // and insert into the body.
-      $('#insert-button').on('click', function () {
+      $('#insert-button').on('click', function(){
         const gistId = $('.ms-ListItem.is-selected').val();
-        getGist(gistId, function (gist, error) {
+        getGist(gistId, function(gist, error) {
           if (gist) {
             buildBodyContent(gist, function (content, error) {
               if (content) {
                 Office.context.mailbox.item.body.setSelectedDataAsync(content,
-                  { coercionType: Office.CoercionType.Html }, function (result) {
+                  {coercionType: Office.CoercionType.Html}, function(result) {
                     if (result.status === Office.AsyncResultStatus.Failed) {
                       showError('Could not insert gist: ' + result.error.message);
                     }
-                  });
+                });
               } else {
                 showError('Could not create insertable content: ' + error);
               }
@@ -51,7 +44,7 @@
       });
 
       // When the settings icon is selected, open the settings dialog.
-      $('#settings-icon').on('click', function () {
+      $('#settings-icon').on('click', function(){
         // Display settings dialog.
         let url = new URI('../src/settings/dialog.html').absoluteTo(window.location).toString();
         if (config) {
@@ -62,7 +55,7 @@
 
         const dialogOptions = { width: 20, height: 40, displayInIframe: true };
 
-        Office.context.ui.displayDialogAsync(url, dialogOptions, function (result) {
+        Office.context.ui.displayDialogAsync(url, dialogOptions, function(result) {
           settingsDialog = result.value;
           settingsDialog.addEventHandler(Microsoft.Office.WebExtension.EventType.DialogMessageReceived, receiveMessage);
           settingsDialog.addEventHandler(Microsoft.Office.WebExtension.EventType.DialogEventReceived, dialogClosed);
@@ -76,7 +69,7 @@
     $('#not-configured').hide();
     $('#gist-list-container').show();
 
-    getUserGists(user, function (gists, error) {
+    getUserGists(user, function(gists, error) {
       if (error) {
 
       } else {
@@ -101,7 +94,7 @@
 
   function receiveMessage(message) {
     config = JSON.parse(message.message);
-    setConfig(config, function (result) {
+    setConfig(config, function(result) {
       settingsDialog.close();
       settingsDialog = null;
       loadGists(config.gitHubUserName);
