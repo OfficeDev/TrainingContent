@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Contoso"
+    },
+    "libraryName": "learnMsteamsTeamwork",
+    "generator-version": "4.0.1"
+  }
+}
