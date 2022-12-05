@@ -3,14 +3,9 @@
  * See LICENSE in the project root for license information.
  */
 
-// images references in the manifest
-import "../../assets/icon-16.png";
-import "../../assets/icon-32.png";
-import "../../assets/icon-80.png";
+/* global document, Office, Word */
 
 import { base64Image } from "./base64Image";
-
-/* global document, Office, Word */
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
@@ -114,11 +109,11 @@ async function insertTextIntoRange() {
     originalRange.insertText(" (C2R)", "End");
 
     originalRange.load("text");
-    return context.sync()
-      .then(function () {
-        doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
-      })
-      .then(context.sync);
+    await context.sync();
+
+    doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
+
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -135,11 +130,11 @@ async function insertTextBeforeRange() {
     originalRange.insertText("Office 2019, ", "Before");
 
     originalRange.load("text");
-    await context.sync()
-      .then(function () {
-        doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
-      })
-      .then(context.sync);
+    await context.sync();
+
+    doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
+
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -214,7 +209,6 @@ async function insertTable() {
       }
     });
 }
-
 
 async function createContentControl() {
   await Word.run(async (context) => {

@@ -3,9 +3,9 @@
  * See LICENSE in the project root for license information.
  */
 
-import { base64Image } from "./base64Image";
-
 /* global document, Office, Word */
+
+import { base64Image } from "./base64Image";
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
@@ -90,7 +90,7 @@ async function changeFont() {
       size: 18
     });
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -107,11 +107,11 @@ async function insertTextIntoRange() {
     originalRange.insertText(" (C2R)", "End");
 
     originalRange.load("text");
-    return context.sync()
-      .then(function () {
-        doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
-      })
-      .then(context.sync);
+    await context.sync();
+
+    doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
+
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -128,11 +128,11 @@ async function insertTextBeforeRange() {
     originalRange.insertText("Office 2019, ", "Before");
 
     originalRange.load("text");
-    await context.sync()
-      .then(function () {
-        doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
-      })
-      .then(context.sync);
+    await context.sync();
+
+    doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
+
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
