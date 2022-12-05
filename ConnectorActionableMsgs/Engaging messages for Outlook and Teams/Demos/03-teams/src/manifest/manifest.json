@@ -1,18 +1,18 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.8",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.13",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
   "developer": {
-    "name": "Office Dev Training Content",
-    "websiteUrl": "https://{{HOSTNAME}}",
-    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
-    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+    "name": "Contoso",
+    "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
+    "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "Adaptive Cards Task Module",
-    "full": "Adaptive Cards Task Module"
+    "short": "Adaptive Cards Task Modules",
+    "full": "Adaptive Cards Task Modules"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -26,9 +26,9 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "9f813bc0-b965-4e3f-9ee1-d7a5286b1eb6",
+      "entityId": "c7e99d46-9d1e-412f-8120-8f926d73e034",
       "name": "YouTube Player",
-      "contentUrl": "https://{{HOSTNAME}}/youTubePlayerTab/?name={loginHint}&tenant={tid}&theme={theme}",
+      "contentUrl": "https://{{PUBLIC_HOSTNAME}}/youTubePlayerTab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
         "personal"
       ]
@@ -42,7 +42,7 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "{{HOSTNAME}}"
+    "{{PUBLIC_HOSTNAME}}"
   ],
   "showLoadingIndicator": false
 }

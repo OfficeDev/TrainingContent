@@ -23,7 +23,7 @@ export const YouTubePlayerTab = () => {
 
   useEffect(() => {
     if (context) {
-      setEntityId(context.entityId);
+      setEntityId(context.page.id);
     }
   }, [context]);
 
@@ -67,7 +67,7 @@ export const YouTubePlayerTab = () => {
   };
 
   const onShowVideo = (): void => {
-    const taskModuleInfo = {
+    const dialogInfo = {
       title: "YouTube Player",
       url: appRoot() + `/youTubePlayerTab/player.html?vid=${youTubeVideoId}`,
       size: {
@@ -95,19 +95,19 @@ export const YouTubePlayerTab = () => {
               <Text>YouTube Video ID:</Text>
               <Input value={youTubeVideoId} disabled></Input>
             </div>
-
             <div>
-              <Button content="Change Video ID" onClick={() => onChangeVideo()}></Button>
-              <Button content="Show Video" primary onClick={() => onShowVideo()}></Button>
+              <Button content="Change Video ID" onClick={onChangeVideo}></Button>
+              <Button content="Show Video" primary onClick={onShowVideo}></Button>
             </div>
           </div>
         </Flex.Item>
         <Flex.Item styles={{
           padding: ".8rem 0 .8rem .5rem"
         }}>
-          <Text size="smaller" content="(C) Copyright Office Dev Training Content" />
+          <Text content="(C) Copyright Contoso" size="smaller"></Text>
         </Flex.Item>
       </Flex>
     </Provider>
   );
+
 };
