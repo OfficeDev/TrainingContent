@@ -1,9 +1,9 @@
 {
   "generator-teams": {
     "promptValues": {
-      "developer": "Office Dev Training Content"
+      "developer": "Contoso"
     },
     "libraryName": "youTubePlayer",
-    "generator-version": "3.0.3"
+    "generator-version": "4.0.1"
   }
 }
