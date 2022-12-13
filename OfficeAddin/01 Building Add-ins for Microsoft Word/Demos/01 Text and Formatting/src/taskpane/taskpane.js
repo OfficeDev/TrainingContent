@@ -82,7 +82,7 @@ async function changeFont() {
       size: 18
     });
 
-    return context.sync();
+    await context.sync();
   })
     .catch(function (error) {
       console.log("Error: " + error);
