@@ -76,7 +76,7 @@ async function filterTable() {
 }
 
 async function sortTable() {
-  await Excel.run(async (context) =>{
+  await Excel.run(async (context) => {
 
     const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
     const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
