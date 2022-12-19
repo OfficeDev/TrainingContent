@@ -20,6 +20,13 @@
             "error",
             "always"
         ],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
         "space-before-function-paren": "off",
         "space-in-parens": "off",
         "padded-blocks": "off",

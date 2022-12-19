@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Text, Button, Header, Input } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
-import { app, dialog, tasks } from '@microsoft/teams-js';
+import { app, dialog, tasks } from "@microsoft/teams-js";
 
 /**
  * Implementation of the YouTube Player 1 content page
@@ -26,14 +26,6 @@ export const YouTubePlayer1Tab = () => {
       setEntityId(context.page.id);
     }
   }, [context]);
-
-  const appRoot = (): string => {
-    if (typeof window === "undefined") {
-      return "https://{{HOSTNAME}}";
-    } else {
-      return window.location.protocol + "//" + window.location.host;
-    }
-  };
 
   const onShowVideo = (): void => {
     const dialogInfo = {
@@ -63,6 +55,14 @@ export const YouTubePlayer1Tab = () => {
     };
 
     dialog.open(dialogInfo, submitHandler);
+  };
+
+  const appRoot = (): string => {
+    if (typeof window === "undefined") {
+      return "https://{{HOSTNAME}}";
+    } else {
+      return window.location.protocol + "//" + window.location.host;
+    }
   };
 
   const onChangeVideoAdaptiveCard = (): void => {
@@ -126,4 +126,5 @@ export const YouTubePlayer1Tab = () => {
       </Flex>
     </Provider>
   );
+
 };
