@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "SSO Teams Bot",
-    "full": "SSO Teams Bot"
+    "short": "SSO Teams bot",
+    "full": "SSO Teams bot"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "4593ed20-313a-11ed-99c1-67a69b83b9cb",
+      "entityId": "115f5560-73c7-11ed-82ff-15653fabe6d8",
       "name": "SSO Bot",
       "contentUrl": "https://{{PUBLIC_HOSTNAME}}/Bot/ssoBot.html",
       "scopes": [
@@ -40,11 +40,14 @@
       "needsChannelSelector": true,
       "isNotificationOnly": false,
       "scopes": [
-        "personal"
+        "team",
+        "personal",
+        "groupchat"
       ],
       "commandLists": [
         {
           "scopes": [
+            "team",
             "personal"
           ],
           "commands": [
@@ -72,12 +75,12 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "token.botframework.com",
-    "{{PUBLIC_HOSTNAME}}"
+    "{{PUBLIC_HOSTNAME}}",
+    "token.botframework.com"
   ],
+  "showLoadingIndicator": false,
   "webApplicationInfo": {
     "id": "{{MICROSOFT_APP_ID}}",
     "resource": "api://botid-{{MICROSOFT_APP_ID}}"
-  },
-  "showLoadingIndicator": false
+  }
 }

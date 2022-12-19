@@ -1,8 +1,8 @@
 import { BotDeclaration } from "express-msteams-host";
 import * as debug from "debug";
 import {
-  ConversationState,
   UserState,
+  ConversationState,
   SigninStateVerificationQuery,
   TurnContext,
   MemoryStorage
@@ -30,20 +30,18 @@ export class SsoBot extends DialogBot {
 
     this.onMembersAdded(async (context, next) => {
       const membersAdded = context.activity.membersAdded;
-      if (membersAdded) {
+      if (membersAdded && membersAdded.length > 0) {
         for (let cnt = 0; cnt < membersAdded.length; cnt++) {
           if (membersAdded[cnt].id !== context.activity.recipient.id) {
             await context.sendActivity("Welcome to TeamsBot. Type anything to get logged in. Type 'logout' to sign-out.");
           }
         }
       }
-
       await next();
     });
 
-    this.onTokenResponseEvent(async (context, next) => {
+    this.onTokenResponseEvent(async (context) => {
       await this.dialog.run(context, this.dialogState);
-      await next();
     });
   }
 

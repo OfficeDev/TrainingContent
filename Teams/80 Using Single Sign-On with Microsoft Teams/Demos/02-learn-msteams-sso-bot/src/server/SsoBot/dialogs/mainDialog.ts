@@ -1,6 +1,6 @@
-import { 
-  StatePropertyAccessor, 
-  TurnContext 
+import {
+  TurnContext,
+  StatePropertyAccessor
 } from "botbuilder";
 import {
   DialogSet,
@@ -8,7 +8,7 @@ import {
   DialogTurnResult,
   DialogTurnStatus,
   WaterfallDialog,
-  WaterfallStepContext
+  WaterfallStepContext,
 } from "botbuilder-dialogs";
 import { LogoutDialog } from "./logoutDialog";
 import { SsoOauthPrompt } from "./ssoOauthPrompt";
@@ -66,7 +66,7 @@ export class MainDialog extends LogoutDialog {
     if (!tokenResponse?.token) {
       await stepContext.context.sendActivity("Login not successful, please try again.");
     } else {
-      const msGraphClient = new MsGraphHelper(tokenResponse?.token);
+     const msGraphClient = new MsGraphHelper(tokenResponse?.token);
 
       const user = await msGraphClient.getCurrentUser();
       await stepContext.context.sendActivity(`Thank you for signing in ${user.displayName as string} (${user.userPrincipalName as string})!`);
