@@ -35,23 +35,23 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 | Roles                | Author(s)                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------- |
 | Lab / Slides / Demos | Andrew Connell (Microsoft MVP, Voitanos) [@andrewconnell](//github.com/andrewconnell) |
-| QA                   | Paul Schaeflein (Microsoft MVP) [@paulschaelfein](//github.com/paulschaelfein)                                 |
 
 ## Version history
 
-| Version |        Date        |            Comments            |
-| ------- | ------------------ | ------------------------------ |
-| 1.10    | September 12, 2022 | FY2023Q1 content refresh       |
-| 1.9     | March 3, 2022      | FY2022Q3 content refresh       |
-| 1.8     | November 22, 2021  | FY2022Q2 content refresh       |
-| 1.7     | September 10, 2021 | FY2022Q1 content refresh       |
+| Version |        Date        |                        Comments                        |
+| ------- | ------------------ | ------------------------------------------------------ |
+| 1.11    | December 2, 2022   | FY2023Q1 content refresh                               |
+| 1.10    | September 12, 2022 | FY2023Q1 content refresh                               |
+| 1.9     | March 3, 2022      | FY2022Q3 content refresh                               |
+| 1.8     | November 22, 2021  | FY2022Q2 content refresh                               |
+| 1.7     | September 10, 2021 | FY2022Q1 content refresh                               |
 | 1.6     | June 01, 2021      | Refresh slides to new template, update screencast link |
-| 1.5     | May 10, 2021       | FY2021Q4 content refresh       |
-| 1.4     | March 7, 2021      | FY2021Q3 content refresh       |
-| 1.3     | December 9, 2020   | FY2021Q2 content refresh       |
-| 1.2     | September 10, 2020 | FY2021Q1 content refresh       |
-| 1.1     | May 8, 2020        | FY2020Q4 content refresh       |
-| 1.0     | February 12, 2020  | New module published           |
+| 1.5     | May 10, 2021       | FY2021Q4 content refresh                               |
+| 1.4     | March 7, 2021      | FY2021Q3 content refresh                               |
+| 1.3     | December 9, 2020   | FY2021Q2 content refresh                               |
+| 1.2     | September 10, 2020 | FY2021Q1 content refresh                               |
+| 1.1     | May 8, 2020        | FY2020Q4 content refresh                               |
+| 1.0     | February 12, 2020  | New module published                                   |
 
 ## Disclaimer
 

@@ -68,7 +68,7 @@ const config = [{
         path: path.join(__dirname, "/dist/web/scripts"),
         filename: "[name].js",
         libraryTarget: "umd",
-        library: "conversationBot",
+        library: "conversationalBot",
         publicPath: "/scripts/"
     },
     externals: {},

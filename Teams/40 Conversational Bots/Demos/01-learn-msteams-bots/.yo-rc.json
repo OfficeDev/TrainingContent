@@ -3,7 +3,7 @@
     "promptValues": {
       "developer": "Contoso"
     },
-    "libraryName": "conversationBot",
-    "generator-version": "3.5.0"
+    "libraryName": "conversationalBot",
+    "generator-version": "4.0.1"
   }
 }
