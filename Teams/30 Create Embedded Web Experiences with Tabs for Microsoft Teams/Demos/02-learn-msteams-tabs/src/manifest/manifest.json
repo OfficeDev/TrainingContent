@@ -34,7 +34,7 @@
   ],
   "staticTabs": [
     {
-      "entityId": "dd3132ba-bdbd-4ed4-beb9-41287c98b1a0",
+      "entityId": "9fde9e62-9399-469f-ae70-8c0ccca48b9f",
       "name": "LearnPersonalTab",
       "contentUrl": "https://{{PUBLIC_HOSTNAME}}/learnPersonalTab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [

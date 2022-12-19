@@ -3,7 +3,7 @@
     "promptValues": {
       "developer": "Contoso"
     },
-    "libraryName": "learnMsTeamsTabs",
-    "generator-version": "3.5.0"
+    "libraryName": "learnMsTeamsAuthTabs",
+    "generator-version": "4.0.1"
   }
 }

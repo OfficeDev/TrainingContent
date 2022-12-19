@@ -1,49 +1,47 @@
 <!DOCTYPE html>
 <html>
-
 <body>
-  <script src="https://res.cdn.office.net/teams-js/2.3.0/js/MicrosoftTeams.min.js"
-    crossorigin="anonymous"></script>
+  <script src="https://res.cdn.office.net/teams-js/2.5.0/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
   <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js" crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    microsoftTeams.initialize();
-    microsoftTeams.getContext(function (msTeamsContext) {
-
-      // ADAL.js configuration
-      let config = {
-        clientId: "{{REPLACE_AZUREAD_APP_ID}}",
-        redirectUri: window.location.origin + "/auth-end.html",
-        cacheLocation: "localStorage",
-        endpoints: {
-          "https://graph.microsoft.com": "https://graph.microsoft.com"
-        }
-      };
-
-      // add extra query parameters Azure AD login request
-      //  include scope for OpenID connect and log-in hint by using the current Microsoft Teams logged-in user
-      config.extraQueryParameters = "scope=open+profile";
-      if (msTeamsContext.user?.userPrincipalName) {
-        config.extraQueryParameters += "&login-hint=" + encodeURIComponent(msTeamsContext.user?.userPrincipalName);
-      }
-      // check if consent required for new permission
-      if (getUrlParameter('prompt') !== "") {
-        config.extraQueryParameters += "&prompt=" + getUrlParameter('prompt');
-      }
-
-      // override URL to Azure AD auth endpoint to include extra query parameters
-      config.displayCall = function (urlNavigate) {
-        if (urlNavigate) {
-          if (config.extraQueryParameters) {
-            urlNavigate += "&" + config.extraQueryParameters;
+  <script>
+    microsoftTeams.app.initialize().then(() => {
+      microsoftTeams.app.getContext(function (msTeamsContext) {
+        // ADAL.js configuration
+        let config = {
+          clientId: "{{REPLACE_AZUREAD_APP_ID}}",
+          redirectUri: window.location.origin + "/auth-end.html",
+          cacheLocation: "localStorage",
+          endpoints: {
+            "https://graph.microsoft.com": "https://graph.microsoft.com"
           }
-          window.location.replace(urlNavigate);
-        }
-      };
+        };
 
-      // login
-      let authContext = new AuthenticationContext(config);
-      authContext.clearCache();
-      authContext.login();
+        // add extra query parameters Azure AD login request
+        //  include scope for OpenID connect and log-in hint by using the current Microsoft Teams logged-in user
+        config.extraQueryParameters = "scope=open+profile";
+        if (msTeamsContext.upn) {
+          config.extraQueryParameters += "&login-hint=" + encodeURIComponent(msTeamsContext.userProfileName);
+        }
+        // check if consent required for new permission
+        if (getUrlParameter('prompt') !== "") {
+          config.extraQueryParameters += "&prompt=" + getUrlParameter('prompt');
+        }
+
+        // override URL to Azure AD auth endpoint to include extra query parameters
+        config.displayCall = function (urlNavigate) {
+          if (urlNavigate) {
+            if (config.extraQueryParameters) {
+              urlNavigate += "&" + config.extraQueryParameters;
+            }
+            window.location.replace(urlNavigate);
+          }
+        }
+
+        // login
+        let authContext = new AuthenticationContext(config);
+        authContext.clearCache();
+        authContext.login();
+      });
     });
 
     function getUrlParameter(name) {
@@ -54,5 +52,4 @@
     };
   </script>
 </body>
-
 </html>
