@@ -41,7 +41,7 @@ export const StandupAgendaRouter = (options: any): express.Router => {
               // base64 decode meeting ID & strip surrounding 0# #0
               const chatId = Buffer.from(req.params.meetingId, "base64").toString("ascii").replace(/^0#|#0$/g, "");
               // get chat details
-              const chat = await Axios.get<Chat>(`https://graph.microsoft.com/beta/chats/${chatId}`, authHeader);
+              const chat = await Axios.get<Chat>(`https://graph.microsoft.com/v1.0/chats/${chatId}`, authHeader);
               // get meeting detail (via chat detail)
               const onlineMeetings = await Axios.get(`https://graph.microsoft.com/v1.0/me/onlineMeetings?$filter=JoinWebUrl eq '${chat.data.onlineMeetingInfo?.joinWebUrl}'`, authHeader);
 
@@ -100,7 +100,6 @@ export const StandupAgendaRouter = (options: any): express.Router => {
         res.status(500).send(err);
       }
     });
-
 
   return router;
 };

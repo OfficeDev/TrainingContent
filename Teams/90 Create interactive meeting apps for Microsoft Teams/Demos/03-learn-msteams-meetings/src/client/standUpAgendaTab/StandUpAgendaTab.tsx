@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import { app, authentication, FrameContexts } from "@microsoft/teams-js";
 import jwtDecode from "jwt-decode";
-
 import { Grid, Box, Form, FormInput, FormButton, Card, Checkbox, Pill } from "@fluentui/react-northstar";
 import { Provider as RTProvider, themeNames, List, CommunicationOptions, TListInteraction, TToolbarInteraction } from "@fluentui/react-teams";
 import { TeamsTheme } from "@fluentui/react-teams/lib/cjs/themes";
@@ -33,7 +32,6 @@ export const StandUpAgendaTab = () => {
   const [entityId, setEntityId] = useState<string | undefined>();
   const [name, setName] = useState<string>();
   const [error, setError] = useState<string>();
-
   const [accessToken, setAccessToken] = useState<string>();
   const [meetingId, setMeetingId] = useState<string | undefined>();
   const [onlineMeeting, setOnlineMeeting] = useState<OnlineMeeting>({});
@@ -71,7 +69,6 @@ export const StandUpAgendaTab = () => {
   useEffect(() => {
     if (context) {
       setEntityId(context.page.id);
-
       // set the meeting context
       setMeetingId(context.meeting?.id);
       setFrameContext(app.getFrameContext());
@@ -191,28 +188,25 @@ export const StandUpAgendaTab = () => {
       </Provider>
     }
 
-    const rows = standupTopics.map(standupTopic => (
-      {
-        id: standupTopic.id,
-        topic: standupTopic.title,
-        presenter: standupTopic.presenter.name,
-        status: (standupTopic.approved) ? 'approved' : 'pending',
-        actions: {
-          toggleStatus: {
-            title: (standupTopic.approved) ? 'Reject' : 'Approve'
-          }
+    const rows = standupTopics.map(standupTopic => ({
+      id: standupTopic.id,
+      topic: standupTopic.title,
+      presenter: standupTopic.presenter.name,
+      status: (standupTopic.approved) ? 'approved' : 'pending',
+      actions: {
+        toggleStatus: {
+          title: (standupTopic.approved) ? 'Reject' : 'Approve'
         }
-      })
-    ).reduce((prevValue, currValue, index, array) => (
-      {
+      }
+    }))
+      .reduce((prevValue, currValue, index, array) => ({
         ...prevValue,
         [currValue.id]: currValue
       }),
-      {}
-    );
+        {}
+      );
 
     let addTopicAction = { g1: { addTopic: { title: "Add stand-up topic" } } };
-
     // TODO: getPreMeetingUX
 
     return (
@@ -253,10 +247,10 @@ export const StandUpAgendaTab = () => {
         </Box>
         {addTopicForm}
       </Grid>
-    )
+    );
   };
 
-  const getSidepanelUX = () => {
+  const getSidePanelUX = () => {
     const filteredTopics = standupTopics.filter((topic) => {
       return (currentUserIsOrganizer)
         ? (topic.approved === true)
@@ -344,11 +338,8 @@ export const StandUpAgendaTab = () => {
         }
       </Grid>
     );
-  }
+      }
 
-  /**
-   * The render() method to create the UI of the tab
-   */
   let mainContentElement: JSX.Element | JSX.Element[] | null = null;
   switch (frameContext) {
     case FrameContexts.content:
@@ -359,7 +350,7 @@ export const StandUpAgendaTab = () => {
       }
       break;
     case FrameContexts.sidePanel:
-      mainContentElement = getSidepanelUX();
+      mainContentElement = getSidePanelUX();
       break;
     case FrameContexts.meetingStage:
       mainContentElement = getMeetingStageUX();
