@@ -39,6 +39,7 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 | Version |        Date        |                Comments                |
 | ------- | ------------------ | -------------------------------------- |
+| 1.8     | February 14, 2022  | FY23Q3 content refesh                  |
 | 1.7     | December 5, 2022   | FY23Q2 content refesh                  |
 | 1.6     | September 12, 2022 | FY23Q1 content refesh                  |
 | 1.5     | March 3, 2022      | FY22Q3 content refresh                 |
