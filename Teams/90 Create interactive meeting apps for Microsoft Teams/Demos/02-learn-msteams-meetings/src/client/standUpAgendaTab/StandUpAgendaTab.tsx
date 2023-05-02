@@ -33,7 +33,6 @@ export const StandUpAgendaTab = () => {
   const [entityId, setEntityId] = useState<string | undefined>();
   const [name, setName] = useState<string>();
   const [error, setError] = useState<string>();
-
   const [accessToken, setAccessToken] = useState<string>();
   const [meetingId, setMeetingId] = useState<string | undefined>();
   const [onlineMeeting, setOnlineMeeting] = useState<OnlineMeeting>({});
@@ -71,7 +70,6 @@ export const StandUpAgendaTab = () => {
   useEffect(() => {
     if (context) {
       setEntityId(context.page.id);
-
       // set the meeting context
       setMeetingId(context.meeting?.id);
       setFrameContext(app.getFrameContext());
@@ -191,28 +189,25 @@ export const StandUpAgendaTab = () => {
       </Provider>
     }
 
-    const rows = standupTopics.map(standupTopic => (
-      {
-        id: standupTopic.id,
-        topic: standupTopic.title,
-        presenter: standupTopic.presenter.name,
-        status: (standupTopic.approved) ? 'approved' : 'pending',
-        actions: {
-          toggleStatus: {
-            title: (standupTopic.approved) ? 'Reject' : 'Approve'
-          }
+    const rows = standupTopics.map(standupTopic => ({
+      id: standupTopic.id,
+      topic: standupTopic.title,
+      presenter: standupTopic.presenter.name,
+      status: (standupTopic.approved) ? 'approved' : 'pending',
+      actions: {
+        toggleStatus: {
+          title: (standupTopic.approved) ? 'Reject' : 'Approve'
         }
-      })
-    ).reduce((prevValue, currValue, index, array) => (
-      {
+      }
+    }))
+      .reduce((prevValue, currValue, index, array) => ({
         ...prevValue,
         [currValue.id]: currValue
       }),
-      {}
-    );
+        {}
+      );
 
     let addTopicAction = { g1: { addTopic: { title: "Add stand-up topic" } } };
-
     // TODO: getPreMeetingUX
 
     return (
@@ -221,13 +216,13 @@ export const StandUpAgendaTab = () => {
           <Flex fill={true} column>
             <List
               label="Standup Meeting Topics"
-              selectable={currentUserIsOrganizer}
               columns={{
                 presenter: { title: "Presenter" },
                 topic: { title: "Topic" },
                 status: { title: "Status" }
               }}
               rows={rows}
+              selectable={currentUserIsOrganizer}
               onInteraction={async (interaction: TListInteraction) => {
                 if (interaction.target === "toolbar") {
                   const toolbarInteraction = interaction as TToolbarInteraction;
@@ -256,7 +251,7 @@ export const StandUpAgendaTab = () => {
     )
   };
 
-  const getSidepanelUX = () => {
+  const getSidePanelUX = () => {
     const filteredTopics = standupTopics.filter((topic) => {
       return (currentUserIsOrganizer)
         ? (topic.approved === true)
@@ -299,7 +294,7 @@ export const StandUpAgendaTab = () => {
       mainContentElement = getPreMeetingUX();
       break;
     case FrameContexts.sidePanel:
-      mainContentElement = getSidepanelUX();
+      mainContentElement = getSidePanelUX();
       break;
     default:
       mainContentElement = null;
@@ -312,5 +307,4 @@ export const StandUpAgendaTab = () => {
       </RTProvider>
     </Provider>
   );
-
 };

@@ -41,7 +41,7 @@ export const StandupAgendaRouter = (options: any): express.Router => {
               // base64 decode meeting ID & strip surrounding 0# #0
               const chatId = Buffer.from(req.params.meetingId, "base64").toString("ascii").replace(/^0#|#0$/g, "");
               // get chat details
-              const chat = await Axios.get<Chat>(`https://graph.microsoft.com/beta/chats/${chatId}`, authHeader);
+              const chat = await Axios.get<Chat>(`https://graph.microsoft.com/v1.0/chats/${chatId}`, authHeader);
               // get meeting detail (via chat detail)
               const onlineMeetings = await Axios.get(`https://graph.microsoft.com/v1.0/me/onlineMeetings?$filter=JoinWebUrl eq '${chat.data.onlineMeetingInfo?.joinWebUrl}'`, authHeader);
 
@@ -67,40 +67,39 @@ export const StandupAgendaRouter = (options: any): express.Router => {
       catch (err) { throw new Error(`token validation error: ${err.message}`) };
     });
 
-  router.get(
-    '/standup-topics/:meetingId',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      try {
-        const token = await validateToken(req);
+    router.get(
+      '/standup-topics/:meetingId',
+      async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+      const token = await validateToken(req);
 
-        const meetingId = req.params.meetingId;
-        const topics = await getItem(meetingId) || [];
+      const meetingId = req.params.meetingId;
+      const topics = await getItem(meetingId) || [];
 
-        res.type('application/json');
-        res.end(JSON.stringify(topics));
-      } catch (err) {
-        res.status(500).send(err);
-      }
-    });
+      res.type('application/json');
+      res.end(JSON.stringify(topics));
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  });
 
   router.post(
     '/standup-topics/:meetingId',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      try {
-        const token = await validateToken(req);
+  try {
+    const token = await validateToken(req);
 
-        const meetingId = req.params.meetingId;
-        const topics = req.body;
+    const meetingId = req.params.meetingId;
+    const topics = req.body;
 
-        await setItem(meetingId, topics);
+    await setItem(meetingId, topics);
 
-        res.type('application/json');
-        res.end(JSON.stringify(topics));
-      } catch (err) {
-        res.status(500).send(err);
-      }
-    });
-
+    res.type('application/json');
+    res.end(JSON.stringify(topics));
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
   return router;
 };

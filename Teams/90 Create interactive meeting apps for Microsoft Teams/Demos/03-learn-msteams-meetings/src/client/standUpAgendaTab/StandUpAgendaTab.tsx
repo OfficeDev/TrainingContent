@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import { app, authentication, FrameContexts } from "@microsoft/teams-js";
 import jwtDecode from "jwt-decode";
+
 import { Grid, Box, Form, FormInput, FormButton, Card, Checkbox, Pill } from "@fluentui/react-northstar";
 import { Provider as RTProvider, themeNames, List, CommunicationOptions, TListInteraction, TToolbarInteraction } from "@fluentui/react-teams";
 import { TeamsTheme } from "@fluentui/react-teams/lib/cjs/themes";
@@ -215,13 +216,13 @@ export const StandUpAgendaTab = () => {
           <Flex fill={true} column>
             <List
               label="Standup Meeting Topics"
-              selectable={currentUserIsOrganizer}
               columns={{
                 presenter: { title: "Presenter" },
                 topic: { title: "Topic" },
                 status: { title: "Status" }
               }}
               rows={rows}
+              selectable={currentUserIsOrganizer}
               onInteraction={async (interaction: TListInteraction) => {
                 if (interaction.target === "toolbar") {
                   const toolbarInteraction = interaction as TToolbarInteraction;
@@ -247,7 +248,7 @@ export const StandUpAgendaTab = () => {
         </Box>
         {addTopicForm}
       </Grid>
-    );
+    )
   };
 
   const getSidePanelUX = () => {
@@ -338,8 +339,11 @@ export const StandUpAgendaTab = () => {
         }
       </Grid>
     );
-      }
+  }
 
+  /**
+   * The render() method to create the UI of the tab
+   */
   let mainContentElement: JSX.Element | JSX.Element[] | null = null;
   switch (frameContext) {
     case FrameContexts.content:
@@ -366,5 +370,4 @@ export const StandUpAgendaTab = () => {
       </RTProvider>
     </Provider>
   );
-
 };

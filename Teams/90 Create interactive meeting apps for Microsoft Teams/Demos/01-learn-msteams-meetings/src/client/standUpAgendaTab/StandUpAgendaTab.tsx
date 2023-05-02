@@ -33,7 +33,6 @@ export const StandUpAgendaTab = () => {
   const [entityId, setEntityId] = useState<string | undefined>();
   const [name, setName] = useState<string>();
   const [error, setError] = useState<string>();
-
   const [accessToken, setAccessToken] = useState<string>();
   const [meetingId, setMeetingId] = useState<string | undefined>();
   const [onlineMeeting, setOnlineMeeting] = useState<OnlineMeeting>({});
@@ -70,7 +69,6 @@ export const StandUpAgendaTab = () => {
   useEffect(() => {
     if (context) {
       setEntityId(context.page.id);
-
       // set the meeting context
       setMeetingId(context.meeting?.id);
       setFrameContext(app.getFrameContext());
@@ -154,23 +152,20 @@ export const StandUpAgendaTab = () => {
       </Provider>
     }
 
-    const rows = standupTopics.map(standupTopic => (
-      {
-        id: standupTopic.id,
-        topic: standupTopic.title,
-        presenter: standupTopic.presenter.name,
-        status: (standupTopic.approved) ? 'approved' : 'pending'
-      })
-    ).reduce((prevValue, currValue, index, array) => (
-      {
+    const rows = standupTopics.map(standupTopic => ({
+      id: standupTopic.id,
+      topic: standupTopic.title,
+      presenter: standupTopic.presenter.name,
+      status: (standupTopic.approved) ? 'approved' : 'pending'
+    }))
+      .reduce((prevValue, currValue, index, array) => ({
         ...prevValue,
         [currValue.id]: currValue
       }),
-      {}
-    );
+        {}
+      );
 
     let addTopicAction = { g1: { addTopic: { title: "Add stand-up topic" } } };
-
     // TODO: getPreMeetingUX
 
     return (
@@ -229,5 +224,4 @@ export const StandUpAgendaTab = () => {
       </RTProvider>
     </Provider>
   );
-
 };
