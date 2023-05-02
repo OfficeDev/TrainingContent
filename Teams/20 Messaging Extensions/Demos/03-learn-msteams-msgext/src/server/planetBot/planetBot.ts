@@ -10,13 +10,13 @@ import {
 
 import * as Util from "util";
 import * as debug from "debug";
+
 import { find, sortBy } from "lodash";
 
 const TextEncoder = Util.TextEncoder;
 const log = debug("msteams");
 
 export class PlanetBot extends TeamsActivityHandler {
-
   protected handleTeamsMessagingExtensionFetchTask(context: TurnContext, action: MessagingExtensionAction): Promise<MessagingExtensionActionResponse> {
     // load planets & sort them by their order from the sun
     const planets: any = require("./planets.json");

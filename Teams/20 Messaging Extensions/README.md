@@ -2,29 +2,29 @@
 
 Learn how to interact with users in Microsoft Teams with messaging extensions.
 
-> This module is also published as a Microsoft Learn module: [Task-oriented interactions in Microsoft Teams with messaging extensions](https://docs.microsoft.com/learn/modules/msteams-messaging-extensions)
+> This module is also published as a Microsoft Learn module: [Task-oriented interactions in Microsoft Teams with messaging extensions](https://learn.microsoft.com/training/modules/msteams-messaging-extensions)
 
 ## Lab - Task-oriented interactions in Microsoft Teams with messaging extensions
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-1. [Exercise - Create action command messaging extensions](https://docs.microsoft.com/learn/modules/msteams-messaging-extensions/3-exercise-action-commands)
+1. [Exercise - Create action command messaging extensions](https://learn.microsoft.com/training/modules/msteams-messaging-extensions/3-exercise-action-commands)
 
    In this exercise, you'll create an action command messaging extension for a custom Microsoft Teams app. Action commands allow you present your users with a modal popup to collect or display information, then process their interaction and send information back to Teams.
 
-1. [Exercise - Create search command messaging extensions](https://docs.microsoft.com/learn/modules/msteams-messaging-extensions/5-exercise-search-commands)
+1. [Exercise - Create search command messaging extensions](https://learn.microsoft.com/training/modules/msteams-messaging-extensions/5-exercise-search-commands)
 
    In this exercise, you’ll learn how to execute a messaging extension search command from an existing message.
 
-1. [Exercise - Implement link unfurling messaging extensions](https://docs.microsoft.com/learn/modules/msteams-messaging-extensions/7-exercise-unfurl-links)
+1. [Exercise - Implement link unfurling messaging extensions](https://learn.microsoft.com/training/modules/msteams-messaging-extensions/7-exercise-unfurl-links)
 
    In this exercise, you’ll learn how to add link unfurling to your Microsoft Teams app and how to implement this type of messaging extension.
 
 ## Demos
 
-1. [Create action command messaging extensions](./Demos/01-msteams-msgext)
-1. [Create search command messaging extensions](./Demos/02-msteams-msgext)
-1. [Implement link unfurling messaging extensions](./Demos/03-msteams-msgext)
+1. [Create action command messaging extensions](./Demos/01-learn-msteams-msgext)
+1. [Create search command messaging extensions](./Demos/02-learn-msteams-msgext)
+1. [Implement link unfurling messaging extensions](./Demos/03-learn-msteams-msgext)
 
 ## Watch the module
 
@@ -40,6 +40,8 @@ This module has been recorded and is available in the **Microsoft 365 Developmen
 
 | Version |        Date        |            Comments            |
 | ------- | ------------------ | ------------------------------ |
+| 1.13    | Mary 2, 2023       | FY2023Q4 content refresh       |
+| 1.12    | February 14, 2023  | FY2023Q3 content refresh       |
 | 1.11    | December 1, 2022   | FY2023Q2 content refresh       |
 | 1.10    | September 13, 2022 | FY2023Q1 content refresh       |
 | 1.9     | March 7, 2022      | FY2022Q3 content refresh       |

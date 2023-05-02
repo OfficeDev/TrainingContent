@@ -4,9 +4,9 @@ This folder contains the demos for the Microsoft Teams module on **Task-oriented
 
 ## Demos
 
-1. [Create action command messaging extensions](./01-msteams-msgext)
-1. [Create search command messaging extensions](./02-msteams-msgext)
-1. [Implement link unfurling messaging extensions](./03-msteams-msgext)
+1. [Create action command messaging extensions](./01-learn-msteams-msgext)
+1. [Create search command messaging extensions](./02-learn-msteams-msgext)
+1. [Implement link unfurling messaging extensions](./03-learn-msteams-msgext)
 
 ## Running demonstrations
 
