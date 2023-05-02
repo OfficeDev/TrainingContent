@@ -9,7 +9,7 @@ import WelcomeCard from "./cards/welcomeCard";
 const log = debug("msteams");
 
 /**
- * Implementation for Conversational Bot
+ * Implementation for Conversational Bot Bot
  */
   @BotDeclaration(
       "/api/messages",
@@ -19,7 +19,7 @@ const log = debug("msteams");
       // eslint-disable-next-line no-undef
       process.env.MICROSOFT_APP_PASSWORD)
 
-export class ConversationalBot extends DialogBot {
+export class ConversationalBotBot extends DialogBot {
     constructor(conversationState: ConversationState, userState: UserState) {
         super(conversationState, userState, new MainDialog());
 

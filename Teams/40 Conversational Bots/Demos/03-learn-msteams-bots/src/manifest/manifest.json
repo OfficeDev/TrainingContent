@@ -1,12 +1,11 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.13",
-  "id": "8770777d-ebdd-4511-837f-e089a60c98a0",
-  "version": "1.0.0",
-  "packageName": "com.package.name",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.15",
+  "id": "{{APPLICATION_ID}}",
+  "version": "{{VERSION}}",
+  "packageName": "{{PACKAGE_NAME}}",
   "developer": {
     "name": "Contoso",
-    "mpnId": "",
     "websiteUrl": "https://{{PUBLIC_HOSTNAME}}",
     "privacyUrl": "https://{{PUBLIC_HOSTNAME}}/privacy.html",
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
@@ -16,61 +15,49 @@
     "full": "Conversational Bot"
   },
   "description": {
-    "short": "",
-    "full": ""
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
   },
   "icons": {
     "outline": "icon-outline.png",
     "color": "icon-color.png"
   },
-  "accentColor": "#FFFFFF",
+  "accentColor": "#D85028",
   "configurableTabs": [],
-  "staticTabs": [
-    {
-      "entityId": "conversations",
-      "scopes": [
-        "personal"
-      ]
-    },
-    {
-      "entityId": "about",
-      "scopes": [
-        "personal"
-      ]
-    }
-  ],
+  "staticTabs": [],
   "bots": [
     {
-      "botId": "d59edf8f-d457-4088-82a2-f803c33b7a4a",
+      "botId": "{{MICROSOFT_APP_ID}}",
+      "supportsFiles": false,
+      "isNotificationOnly": false,
       "scopes": [
-        "personal",
-        "team"
+        "team",
+        "personal"
       ],
       "commandLists": [
         {
+          "scopes": [
+            "team",
+            "personal"
+          ],
           "commands": [
             {
-              "title": "Mention Me",
+              "title": "Mention me",
               "description": "Sends message with @mention of the sender"
             }
-          ],
-          "scopes": [
-            "personal"
           ]
         }
-      ],
-      "isNotificationOnly": false,
-      "supportsCalling": false,
-      "supportsVideo": false,
-      "supportsFiles": false
+      ]
     }
+  ],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
   ],
   "validDomains": [
     "{{PUBLIC_HOSTNAME}}"
   ],
-  "showLoadingIndicator": false,
-  "webApplicationInfo": {
-    "id": "d59edf8f-d457-4088-82a2-f803c33b7a4a",
-    "resource": ""
-  }
+  "showLoadingIndicator": false
 }
