@@ -3,17 +3,16 @@
 <body>
   <script src="https://res.cdn.office.net/teams-js/2.5.0/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
   <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js" crossorigin="anonymous"></script>
-  <script>
+  <script type="text/javascript">
     microsoftTeams.app.initialize().then(() => {
       microsoftTeams.app.getContext(function (msTeamsContext) {
+
         // ADAL.js configuration
         let config = {
           clientId: "{{REPLACE_AZUREAD_APP_ID}}",
           redirectUri: window.location.origin + "/auth-end.html",
           cacheLocation: "localStorage",
-          endpoints: {
-            "https://graph.microsoft.com": "https://graph.microsoft.com"
-          }
+          endpoints: { "https://graph.microsoft.com": "https://graph.microsoft.com" }
         };
 
         // add extra query parameters Azure AD login request
