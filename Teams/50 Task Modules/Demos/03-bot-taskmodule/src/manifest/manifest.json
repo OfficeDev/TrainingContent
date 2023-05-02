@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.13",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.15",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "84e5df52-7e86-4335-b9ab-df75aa720894",
+      "entityId": "f12cccdd-e59d-4350-81fb-c8de2c2cfe48",
       "name": "YouTube Player 1",
       "contentUrl": "https://{{PUBLIC_HOSTNAME}}/youTubePlayer1Tab/?name={loginHint}&tenant={tid}&theme={theme}",
       "scopes": [
@@ -34,25 +34,27 @@
       ]
     }
   ],
-  "bots": [  {
-    "botId": "d59edf8f-d457-4088-82a2-f803c33b7a4a",
-    "scopes": [
-      "personal"
-    ],
-    "supportsFiles": false,
-    "isNotificationOnly": false,
-    "commandLists": [
-      {
-        "scopes": [ "personal" ],
-        "commands": [
-          {
-            "title": "MentionMe",
-            "description": "Sends message with @mention of the sender"
-          }
-        ]
-      }
-    ]
-  }],
+  "bots": [
+    {
+      "botId": "{{MICROSOFT_APP_ID}}",
+      "scopes": [
+        "personal"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false,
+      "commandLists": [
+        {
+          "scopes": [ "personal" ],
+          "commands": [
+            {
+              "title": "MentionMe",
+              "description": "Sends message with @mention of the sender"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "connectors": [],
   "composeExtensions": [],
   "permissions": [

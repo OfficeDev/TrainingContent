@@ -1,9 +1,14 @@
 import { BotDeclaration, } from "express-msteams-host";
 import {
   ActionTypes,
-  CardFactory, MemoryStorage, MessageFactory,
-  TeamsActivityHandler, TaskModuleTaskInfo,
-  TurnContext, TaskModuleRequest, TaskModuleResponse
+  CardFactory,
+  MemoryStorage,
+  MessageFactory,
+  TeamsActivityHandler,
+  TaskModuleTaskInfo,
+  TurnContext,
+  TaskModuleRequest,
+  TaskModuleResponse
 } from "botbuilder";
 import * as Util from "util";
 
@@ -73,43 +78,43 @@ export class LearningTeamsBot extends TeamsActivityHandler {
 
     switch (request.data.taskModule) {
       case "player":
-          response = ({
-            task: {
-              type: "continue",
-              value: {
-                title: "YouTube Player",
-                url: `https://${process.env.PUBLIC_HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.videoId}`,
-                width: 1000,
-                height: 700
-              } as TaskModuleTaskInfo
-            }
-          } as TaskModuleResponse);
-          break;
-        case "selector":
-          response = ({
-            task: {
-              type: "continue",
-              value: {
-                title: "YouTube Video Selector",
-                card: this.getSelectorAdaptiveCard(request.data.videoId),
-                width: 350,
-                height: 250
-              } as TaskModuleTaskInfo
-            }
-          } as TaskModuleResponse);
-          break;
-        default:
-          response = ({
-            task: {
-              type: "continue",
-              value: {
-                title: "YouTube Player",
-                url: `https://${process.env.PUBLIC_HOSTNAME}/youTubePlayer1Tab/player.html?vid=X8krAMdGvCQ&default=1`,
-                width: 1000,
-                height: 700
-              } as TaskModuleTaskInfo
-            }
-          } as TaskModuleResponse);
+        response = ({
+          task: {
+            type: "continue",
+            value: {
+              title: "YouTube Player",
+              url: `https://${process.env.PUBLIC_HOSTNAME}/youTubePlayer1Tab/player.html?vid=${request.data.videoId}`,
+              width: 1000,
+              height: 700
+            } as TaskModuleTaskInfo
+          }
+        } as TaskModuleResponse);
+        break;
+      case "selector":
+        response = ({
+          task: {
+            type: "continue",
+            value: {
+              title: "YouTube Video Selector",
+              card: this.getSelectorAdaptiveCard(request.data.videoId),
+              width: 350,
+              height: 250
+            } as TaskModuleTaskInfo
+          }
+        } as TaskModuleResponse);
+        break;
+      default:
+        response = ({
+          task: {
+            type: "continue",
+            value: {
+              title: "YouTube Player",
+              url: `https://${process.env.PUBLIC_HOSTNAME}/youTubePlayer1Tab/player.html?vid=X8krAMdGvCQ&default=1`,
+              width: 1000,
+              height: 700
+            } as TaskModuleTaskInfo
+          }
+        } as TaskModuleResponse);
         break;
     };
 
