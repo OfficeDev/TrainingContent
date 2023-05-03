@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.13",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.15",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://{{PUBLIC_HOSTNAME}}/tou.html"
   },
   "name": {
-    "short": "SSO Teams bot",
-    "full": "SSO Teams bot"
+    "short": "SSO Teams Bot",
+    "full": "SSO Teams Bot"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -24,30 +24,18 @@
   },
   "accentColor": "#D85028",
   "configurableTabs": [],
-  "staticTabs": [
-    {
-      "entityId": "115f5560-73c7-11ed-82ff-15653fabe6d8",
-      "name": "SSO Bot",
-      "contentUrl": "https://{{PUBLIC_HOSTNAME}}/Bot/ssoBot.html",
-      "scopes": [
-        "personal"
-      ]
-    }
-  ],
+  "staticTabs": [],
   "bots": [
     {
       "botId": "{{MICROSOFT_APP_ID}}",
       "needsChannelSelector": true,
       "isNotificationOnly": false,
       "scopes": [
-        "team",
-        "personal",
-        "groupchat"
+        "personal"
       ],
       "commandLists": [
         {
           "scopes": [
-            "team",
             "personal"
           ],
           "commands": [
@@ -75,12 +63,12 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "{{PUBLIC_HOSTNAME}}",
-    "token.botframework.com"
+    "token.botframework.com",
+    "{{PUBLIC_HOSTNAME}}"
   ],
-  "showLoadingIndicator": false,
   "webApplicationInfo": {
     "id": "{{MICROSOFT_APP_ID}}",
     "resource": "api://botid-{{MICROSOFT_APP_ID}}"
-  }
+  },
+  "showLoadingIndicator": false
 }
