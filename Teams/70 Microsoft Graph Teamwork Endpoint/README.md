@@ -2,21 +2,21 @@
 
 Learn how to use Microsoft Graph to interact with Microsoft Teams.
 
-> This module is also published as a Microsoft Learn module: [Microsoft Teams – Use the teamwork Microsoft Graph endpoint](https://docs.microsoft.com/learn/modules/msteams-teamwork-endpoint)
+> This module is also published as a Microsoft Learn module: [Microsoft Teams – Use the teamwork Microsoft Graph endpoint](https://learn.microsoft.com/training/modules/msteams-teamwork-endpoint)
 
 ## Lab - Microsoft Teams – Use the teamwork Microsoft Graph endpoint
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-1. [Exercise - Teamwork endpoint introduction](https://docs.microsoft.com/learn/modules/msteams-teamwork-endpoint/3-exercise-teamwork-endpoint-introduction)
+1. [Exercise - Teamwork endpoint introduction](https://learn.microsoft.com/training/modules/msteams-teamwork-endpoint/3-exercise-teamwork-endpoint-introduction)
 
    In this exercise, you’ll learn how to create a project using the Microsoft Teams Toolkit for Visual Studio and configure the custom Teams app with single sign-on to submit requests to Microsoft Graph.
 
-1. [Exercise - Configure a built-in tab with Microsoft Graph](https://docs.microsoft.com/learn/modules/msteams-teamwork-endpoint/5-exercise-configure-tab)
+1. [Exercise - Configure a built-in tab with Microsoft Graph](https://learn.microsoft.com/training/modules/msteams-teamwork-endpoint/5-exercise-configure-tab)
 
    In this exercise, you'll add a few built-in tabs to a channel in a Microsoft Teams team. Then, you'll use Microsoft Graph to programmatically configure the settings on this built-in tabs.
 
-1. [Exercise - Use Microsoft Graph to post to the activity feed](https://docs.microsoft.com/learn/modules/msteams-teamwork-endpoint/7-exercise-activity-feed)
+1. [Exercise - Use Microsoft Graph to post to the activity feed](https://learn.microsoft.com/training/modules/msteams-teamwork-endpoint/7-exercise-activity-feed)
 
    In this exercise, you'll learn how to use Microsoft Graph to submit notifications to the Microsoft Teams activity feed.
 
@@ -40,6 +40,8 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 | Version |        Date        |                Comments                |
 | ------- | ------------------ | -------------------------------------- |
+| 1.9     | May 3, 2023        | FY2023Q4 content refresh               |
+| 1.8     | February 14, 2023  | FY2023Q3 content refresh               |
 | 1.7     | December 5, 2022   | FY2023Q2 content refresh               |
 | 1.6     | September 12, 2022 | FY2023Q1 content refresh               |
 | 1.5     | March 7, 2022      | FY2022Q3 content refresh               |

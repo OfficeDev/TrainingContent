@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.13",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.15",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -32,15 +32,6 @@
       ]
     }
   ],
-  "activities": {
-    "activityTypes": [
-      {
-        "type": "userMention",
-        "description": "Personal Mention Activity",
-        "templateText": "{actor} added the {tabName} tab to the {teamName}'s | {channelName} channel"
-      }
-    ]
-  },
   "staticTabs": [],
   "bots": [],
   "connectors": [],
@@ -56,5 +47,14 @@
   "webApplicationInfo": {
     "id": "{{TAB_APP_ID}}",
     "resource": "{{TAB_APP_URI}}"
+  },
+  "activities": {
+    "activityTypes": [
+      {
+        "type": "userMention",
+        "description": "Personal Mention Activity",
+        "templateText": "{actor} added the {tabName} tab to the {teamName}'s | {channelName} channel"
+      }
+    ]
   }
 }
