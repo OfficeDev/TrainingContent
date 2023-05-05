@@ -51,12 +51,12 @@ async function createTable() {
 
     await context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 async function filterTable() {
@@ -66,15 +66,16 @@ async function filterTable() {
     const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
     const categoryFilter = expensesTable.columns.getItem('Category').filter;
     categoryFilter.applyValuesFilter(['Education', 'Groceries']);
+    //        Groceries and Education.
 
     await context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 async function sortTable() {
@@ -93,12 +94,12 @@ async function sortTable() {
 
     await context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 async function createChart() {
@@ -120,12 +121,12 @@ async function createChart() {
 
     await context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 async function freezeHeader() {
@@ -136,12 +137,12 @@ async function freezeHeader() {
 
     await context.sync();
   })
-  .catch(function (error) {
-    console.log("Error: " + error);
-    if (error instanceof OfficeExtension.Error) {
-      console.log("Debug info: " + JSON.stringify(error.debugInfo));
-    }
-  });
+    .catch(function (error) {
+      console.log("Error: " + error);
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
 }
 
 let dialog = null;
@@ -149,7 +150,7 @@ let dialog = null;
 function openDialog() {
   Office.context.ui.displayDialogAsync(
     'https://localhost:3000/popup.html',
-    {height: 45, width: 55},
+    { height: 45, width: 55 },
 
     function (result) {
       dialog = result.value;
