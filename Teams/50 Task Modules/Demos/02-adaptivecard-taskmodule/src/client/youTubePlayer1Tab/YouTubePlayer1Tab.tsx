@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, Input } from "@fluentui/react-northstar";
+import {
+  Provider,
+  Flex,
+  Text,
+  Button,
+  Header,
+  Input
+} from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import { app, dialog, tasks } from "@microsoft/teams-js";
@@ -12,6 +19,14 @@ export const YouTubePlayer1Tab = () => {
   const [{ inTeams, theme, context }] = useTeams();
   const [entityId, setEntityId] = useState<string | undefined>();
   const [youTubeVideoId, setYouTubeVideoId] = useState<string | undefined>("VlEH4vtaxp4");
+
+  const appRoot = (): string => {
+    if (typeof window === "undefined") {
+      return "https://{{HOSTNAME}}";
+    } else {
+      return window.location.protocol + "//" + window.location.host;
+    }
+  };
 
   useEffect(() => {
     if (inTeams === true) {
@@ -36,7 +51,7 @@ export const YouTubePlayer1Tab = () => {
         height: 700
       }
     };
-    dialog.open(dialogInfo);
+    dialog.url.open(dialogInfo);
   };
 
   const onChangeVideo = (): void => {
@@ -54,15 +69,7 @@ export const YouTubePlayer1Tab = () => {
       setYouTubeVideoId(response.result?.toString());
     };
 
-    dialog.open(dialogInfo, submitHandler);
-  };
-
-  const appRoot = (): string => {
-    if (typeof window === "undefined") {
-      return "https://{{HOSTNAME}}";
-    } else {
-      return window.location.protocol + "//" + window.location.host;
-    }
+    dialog.url.open(dialogInfo, submitHandler);
   };
 
   const onChangeVideoAdaptiveCard = (): void => {
@@ -91,6 +98,7 @@ export const YouTubePlayer1Tab = () => {
       setYouTubeVideoId(result.youTubeVideoId);
     };
 
+
     tasks.startTask(taskModuleInfo, submitHandler);
   };
 
@@ -113,8 +121,8 @@ export const YouTubePlayer1Tab = () => {
             </div>
             <div>
               <Button content="Change Video ID" onClick={() => onChangeVideo()}></Button>
-              <Button content="Show Video" primary onClick={() => onShowVideo()}></Button>
               <Button content="Change Video ID (AdaptiveCard)" onClick={() => onChangeVideoAdaptiveCard()}></Button>
+              <Button content="Show Video" primary onClick={() => onShowVideo()}></Button>
             </div>
           </div>
         </Flex.Item>
@@ -126,5 +134,4 @@ export const YouTubePlayer1Tab = () => {
       </Flex>
     </Provider>
   );
-
 };
