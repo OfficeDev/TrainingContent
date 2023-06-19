@@ -65,6 +65,7 @@ async function filterTable() {
     const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
     const categoryFilter = expensesTable.columns.getItem('Category').filter;
     categoryFilter.applyValuesFilter(['Education', 'Groceries']);
+    //        Groceries and Education.
 
     await context.sync();
   })

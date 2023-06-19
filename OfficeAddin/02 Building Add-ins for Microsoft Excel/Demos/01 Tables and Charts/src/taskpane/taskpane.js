@@ -18,6 +18,7 @@ Office.onReady((info) => {
     document.getElementById("sort-table").onclick = sortTable;
     document.getElementById("create-chart").onclick = createChart;
 
+
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
   }
@@ -64,6 +65,7 @@ async function filterTable() {
     const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
     const categoryFilter = expensesTable.columns.getItem('Category').filter;
     categoryFilter.applyValuesFilter(['Education', 'Groceries']);
+    //        Groceries and Education.
 
     await context.sync();
   })
