@@ -1,4 +1,4 @@
-# SSO Teams bot - Microsoft Teams App
+# SSO Teams Bot - Microsoft Teams App
 
 Generate a Microsoft Teams application.
 

@@ -8,7 +8,7 @@ import {
   DialogTurnResult,
   DialogTurnStatus,
   WaterfallDialog,
-  WaterfallStepContext,
+  WaterfallStepContext
 } from "botbuilder-dialogs";
 import { LogoutDialog } from "./logoutDialog";
 import { SsoOauthPrompt } from "./ssoOauthPrompt";
