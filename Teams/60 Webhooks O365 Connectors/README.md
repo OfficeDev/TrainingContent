@@ -2,21 +2,21 @@
 
 Learn how to collect user input with task modules in your Microsoft Teams app.
 
-> This module is also published as a Microsoft Learn module: [Connect web services to Microsoft Teams with webhooks and Office 365 Connectors](https://docs.microsoft.com/learn/modules/msteams-webhooks-connectors)
+> This module is also published as a Microsoft Learn module: [Connect web services to Microsoft Teams with webhooks and Office 365 Connectors](https://learn.microsoft.com/training/modules/msteams-webhooks-connectors)
 
 ## Lab - Connect web services to Microsoft Teams with webhooks and Office 365 Connectors
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-1. [Exercise - Create outgoing webhooks](https://docs.microsoft.com/learn/modules/msteams-webhooks-connectors/3-exercise-outgoing-webhooks)
+1. [Exercise - Create outgoing webhooks](https://learn.microsoft.com/training/modules/msteams-webhooks-connectors/3-exercise-outgoing-webhooks)
 
    In this exercise, you’ll learn how to create a web service and register it as an outgoing webhook in the Microsoft Teams client.
 
-1. [Exercise - Create incoming webhooks](https://docs.microsoft.com/learn/modules/msteams-webhooks-connectors/5-exercise-incoming-webhooks)
+1. [Exercise - Create incoming webhooks](https://learn.microsoft.com/training/modules/msteams-webhooks-connectors/5-exercise-incoming-webhooks)
 
    In this exercise, you’ll learn how to register an incoming webhook in a Microsoft Teams channel and post a message to it.
 
-1. [Exercise - Create and add Office 365 Connectors to teams](https://docs.microsoft.com/learn/modules/msteams-webhooks-connectors/7-exercise-o365-connectors)
+1. [Exercise - Create and add Office 365 Connectors to teams](https://learn.microsoft.com/training/modules/msteams-webhooks-connectors/7-exercise-o365-connectors)
 
    In this exercise, you’ll learn how to create an Office 365 Connector and add it to Microsoft Teams.
 
@@ -41,6 +41,7 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 | Version |        Date        |            Comments            |
 | ------- | ------------------ | ------------------------------ |
+| 1.10    | May 3, 2023        | FY2023Q4 content refresh       |
 | 1.9     | February 14, 2023  | FY2023Q3 content refresh       |
 | 1.8     | December 2, 2022   | FY2023Q2 content refresh       |
 | 1.7     | September 13, 2021 | FY2022Q1 content refresh       |
