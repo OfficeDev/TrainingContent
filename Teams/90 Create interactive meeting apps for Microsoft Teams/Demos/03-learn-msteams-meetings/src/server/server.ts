@@ -5,6 +5,7 @@ import * as morgan from "morgan";
 import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
 import * as compression from "compression";
+
 import { StandupAgendaRouter } from "./api/StandupAgendaRouter";
 import { init } from "node-persist";
 
@@ -66,7 +67,6 @@ express.use("/", Express.static(path.join(__dirname, "web/"), {
 
 // Set the port
 express.set("port", port);
-
 
 // Start the webserver
 http.createServer(express).listen(port, () => {
