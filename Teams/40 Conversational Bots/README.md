@@ -2,21 +2,21 @@
 
 Learn how to collect user input with task modules in your Microsoft Teams app.
 
-> This module is also published as a Microsoft Learn module: [Create interactive conversational bots for Microsoft Teams](https://docs.microsoft.com/learn/modules/msteams-conversation-bots)
+> This module is also published as a Microsoft Learn module: [Create interactive conversational bots for Microsoft Teams](https://learn.microsoft.com/training/modules/msteams-conversation-bots)
 
 ## Lab - Create interactive conversational bots for Microsoft Teams
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-1. [Exercise - Creating conversational bots for Microsoft Teams](https://docs.microsoft.com/learn/modules/msteams-conversation-bots/3-exercise-conversation-bots)
+1. [Exercise - Creating conversational bots for Microsoft Teams](https://learn.microsoft.com/training/modules/msteams-conversation-bots/3-exercise-conversation-bots)
 
    In this exercise, you’ll learn how to create and add a new bot to a Microsoft Teams app and interact with it from the Microsoft Teams client.
 
-1. [Exercise - Bots in Microsoft Teams channels and group chats](https://docs.microsoft.com/learn/modules/msteams-conversation-bots/5-exercise-using-adaptive-cards-deep-links)
+1. [Exercise - Bots in Microsoft Teams channels and group chats](https://learn.microsoft.com/training/modules/msteams-conversation-bots/5-exercise-using-adaptive-cards-deep-links)
 
    Conversation bots can do many things within the Microsoft Teams client. They can proactively send a message to a channel or group chat, listen for and act on Microsoft Teams specific events and even update their own messages.
 
-1. [Exercise - Proactive messages from bots](https://docs.microsoft.com/learn/modules/msteams-conversation-bots/7-exercise-using-task-modules-bots)
+1. [Exercise - Proactive messages from bots](https://learn.microsoft.com/training/modules/msteams-conversation-bots/7-exercise-using-task-modules-bots)
 
    In this exercise, you’ll update the existing Teams app to send a proactive message from your bot.
 
@@ -40,6 +40,7 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 | Version |        Date        |                        Comments                        |
 | ------- | ------------------ | ------------------------------------------------------ |
+| 1.13    | May 2, 2023        | FY2023Q4 content refresh                               |
 | 1.12    | February 14, 2023  | FY2023Q3 content refresh                               |
 | 1.11    | December 2, 2022   | FY2023Q2 content refresh                               |
 | 1.10    | September 12, 2022 | FY2023Q1 content refresh                               |

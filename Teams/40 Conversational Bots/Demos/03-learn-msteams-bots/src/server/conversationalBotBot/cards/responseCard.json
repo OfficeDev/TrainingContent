@@ -32,13 +32,13 @@
           "title": "Update card",
           "verb": "update",
           "data": {
-            "count":"${count}"
+            "count": "${count}"
           }
         },
         {
-          "type":"Action.Execute",
-          "title":"Create new thread in this channel",
-          "verb":"newconversation"
+          "type": "Action.Execute",
+          "title": "Create new thread in this channel",
+          "verb": "newconversation"
         },
         {
           "type": "Action.Execute",
