@@ -2,21 +2,21 @@
 
 Learn how to create custom tabs and add them to your Microsoft Teams app.
 
-> This module is also published as a Microsoft Learn module: [Create Embedded Web Experiences with Tabs for Microsoft Teams](https://docs.microsoft.com/learn/modules/embedded-web-experiences)
+> This module is also published as a Microsoft Learn module: [Create Embedded Web Experiences with Tabs for Microsoft Teams](https://learn.microsoft.com/training/modules/embedded-web-experiences)
 
 ## Lab - Create Embedded Web Experiences with Tabs for Microsoft Teams
 
 The lab for this module is available in multiple units within the associated Microsoft Learn module. Use the following links to jump to the specific unit. Each Microsoft Learn unit represents a different lab exercise & demo in the presentation.
 
-1. [Exercise - Create a custom Microsoft Teams personal tab](https://docs.microsoft.com/learn/modules/embedded-web-experiences/3-exercise-create-custom-teams-personal-tab)
+1. [Exercise - Create a custom Microsoft Teams personal tab](https://learn.microsoft.com/training/modules/embedded-web-experiences/3-exercise-create-custom-teams-personal-tab)
 
    In this exercise, you will create a new Microsoft Teams personal tab using the Microsoft Teams Yeoman Generator, Visual Studio Code and App Studio.
 
-1. [Exercise - Create a custom Microsoft Teams channel tab](https://docs.microsoft.com/learn/modules/embedded-web-experiences/5-exercise-create-custom-teams-channel-tab)
+1. [Exercise - Create a custom Microsoft Teams channel tab](https://learn.microsoft.com/training/modules/embedded-web-experiences/5-exercise-create-custom-teams-channel-tab)
 
    In this exercise, you will learn how to create a channel tab with a configuration page in a Microsoft Teams app
 
-1. [Exercise - Add authentication to custom Microsoft Teams channel tabs](https://docs.microsoft.com/learn/modules/embedded-web-experiences/7-exercise-implement-tab-authentication)
+1. [Exercise - Add authentication to custom Microsoft Teams channel tabs](https://learn.microsoft.com/training/modules/embedded-web-experiences/7-exercise-implement-tab-authentication)
 
    In this exercise, you'll create a custom channel tab that displays information about the current user, retrieved from Microsoft Graph.
 
@@ -41,6 +41,7 @@ This module has been recorded and is available in the **Microsoft 365 Developer*
 
 | Version |        Date        |                        Comments                        |
 | ------- | ------------------ | ------------------------------------------------------ |
+| 1.15    | May 2, 2023        | FY2023Q4 content refresh                               |
 | 1.14    | February 14, 2023  | FY2023Q3 content refresh                               |
 | 1.13    | November 30, 2022  | FY2023Q2 content refresh                               |
 | 1.12    | September 12, 2022 | FY2023Q1 content refresh                               |
