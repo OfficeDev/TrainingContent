@@ -128,13 +128,18 @@ async function insertTextBeforeRange() {
     const doc = context.document;
     const originalRange = doc.getSelection();
     originalRange.insertText("Office 2019, ", "Before");
+    //        selected range.
 
     originalRange.load("text");
     await context.sync();
 
     doc.body.insertParagraph("Current text of original range: " + originalRange.text, "End");
+    //        paragraph at the end of the document.
 
     await context.sync();
+    //        that it doesn't run until the insertParagraph has
+    //        been queued.
+    //        range text can be read and inserted.
   })
     .catch(function (error) {
       console.log("Error: " + error);
@@ -192,6 +197,7 @@ async function insertHTML() {
 async function insertTable() {
   await Word.run(async (context) => {
     const secondParagraph = context.document.body.paragraphs.getFirst().getNext();
+    //        that will proceed the table.
 
     const tableData = [
       ["Name", "ID", "Birth City"],
@@ -233,6 +239,7 @@ async function replaceContentInControl() {
   await Word.run(async (context) => {
     const serviceNameContentControl = context.document.contentControls.getByTag("serviceName").getFirst();
     serviceNameContentControl.insertText("Fabrikam Online Productivity Suite", "Replace");
+    //        content control.
 
     await context.sync();
   })
